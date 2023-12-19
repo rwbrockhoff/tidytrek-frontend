@@ -22,7 +22,7 @@ const LogInForm: React.FC<FormProps> = ({
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h1" textAlign="center">
-        TidyTrek
+        tidytrek
       </Header>
       <Form size="large">
         <Segment stacked>
