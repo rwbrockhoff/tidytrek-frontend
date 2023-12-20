@@ -37,6 +37,7 @@ const LogInForm: React.FC<FormProps> = ({
               icon="user"
               iconPosition="left"
               placeholder="Name"
+              name="name"
               type="Name"
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                 onFormChange(e)
@@ -49,6 +50,7 @@ const LogInForm: React.FC<FormProps> = ({
             type="email"
             iconPosition="left"
             placeholder="E-mail address"
+            name="email"
             onChange={onFormChange}
           />
           <Form.Input
@@ -57,6 +59,7 @@ const LogInForm: React.FC<FormProps> = ({
             iconPosition="left"
             placeholder="Password"
             type="password"
+            name="password"
             onChange={onFormChange}
           />
           {isRegisterForm && (
@@ -66,6 +69,7 @@ const LogInForm: React.FC<FormProps> = ({
               iconPosition="left"
               placeholder="Verify password"
               type="password"
+              name="confirmPassword"
               onChange={onFormChange}
             />
           )}

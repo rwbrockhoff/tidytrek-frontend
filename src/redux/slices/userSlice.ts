@@ -8,12 +8,16 @@ const initialState = {
   user: { user_id: "", name: "", email: "" },
 };
 
+export const getAuthStatus = createAsyncThunk("checkAuthStatus", async () => {
+  return await tidyTrekAPI.get("/auth/status");
+});
+
 export const registerUser = createAsyncThunk(
   "registerUser",
-  async (formData) => {
+  async (formData: { email: string; name: string; password: string }) => {
     const { name, email, password } = formData;
     //TO DO form validation
-    const response = await tidyTrekAPI.post("/register", {
+    const response = await tidyTrekAPI.post("/auth/register", {
       name,
       email,
       password,
@@ -22,15 +26,17 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const checkAuthStatus = createAsyncThunk("checkAuthStatus", async () => {
-  return await tidyTrekAPI.get("/auth/status");
-});
-
-export const signInUser = createAsyncThunk("signInUser", async (formData) => {
-  const { email, password } = formData;
-  const response = await tidyTrekAPI.post("/signin", { email, password });
-  return await response;
-});
+export const logInUser = createAsyncThunk(
+  "logInUser",
+  async (formData: { email: string; password: string }) => {
+    const { email, password } = formData;
+    const response = await tidyTrekAPI.post("/auth/login", {
+      email,
+      password,
+    });
+    return await response;
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -41,6 +47,19 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getAuthStatus.fulfilled, (state, action) => {
+      if (action.payload?.user) {
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
+      }
+    });
+    builder.addCase(getAuthStatus.rejected, (state, action) => {
+      const { payload } = action;
+      state.authError = true;
+      if (payload && payload?.authErrorMessage) {
+        state.authErrorMessage = payload.authErrorMessage;
+      }
+    });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       const { user } = action.payload.data;
       state.user = user;
@@ -52,12 +71,12 @@ export const authSlice = createSlice({
       if (payload && payload.authErrorMessage)
         state.authErrorMessage = payload.authErrorMessage;
     });
-    builder.addCase(signInUser.fulfilled, (state, action) => {
+    builder.addCase(logInUser.fulfilled, (state, action) => {
       const { user } = action.payload.data;
       state.user = user;
       state.isAuthenticated = true;
     });
-    builder.addCase(signInUser.rejected, (state, action) => {
+    builder.addCase(logInUser.rejected, (state, action) => {
       const { payload } = action;
       state.authError = true;
       if (payload && payload.authErrorMessage)
