@@ -1,0 +1,17 @@
+nav {
+  background: white;
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+menu:last-child {
+  text-decoration: none;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+li:hover {
+  text-decoration: underline;
+}

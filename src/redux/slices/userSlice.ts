@@ -1,12 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { tidyTrekAPI } from "../../api/tidytrekAPI";
 
-const initialState = {
+interface user {
+  userId: string;
+  name: string;
+  email: string;
+}
+interface initialState {
+  isAuthenticated: boolean;
+  authLoading: boolean;
+  authError: boolean;
+  authErrorMessage: string;
+  user: user;
+}
+const initialState: initialState = {
   isAuthenticated: false,
   authLoading: false,
   authError: false,
   authErrorMessage: "",
-  user: { user_id: "", name: "", email: "" },
+  user: { userId: "", name: "", email: "" },
 };
 
 export const getAuthStatus = createAsyncThunk("checkAuthStatus", async () => {
@@ -39,16 +51,16 @@ export const logInUser = createAsyncThunk(
   }
 );
 
+export const logOutUser = createAsyncThunk("logOutUser", async () => {
+  await tidyTrekAPI.post("/auth/logout");
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    signOutUser: () => {
-      return initialState;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAuthStatus.pending, (state, action) => {
+    builder.addCase(getAuthStatus.pending, (state) => {
       state.authLoading = true;
     });
     builder.addCase(getAuthStatus.fulfilled, (state, action) => {
@@ -56,13 +68,9 @@ export const authSlice = createSlice({
       state.authLoading = false;
       state.user = action.payload.data.user;
     });
-    builder.addCase(getAuthStatus.rejected, (state, action) => {
-      const { payload } = action;
+    builder.addCase(getAuthStatus.rejected, (state) => {
       state.authError = true;
       state.authLoading = false;
-      if (payload && payload?.authErrorMessage) {
-        state.authErrorMessage = payload.authErrorMessage;
-      }
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       const { user } = action.payload.data;
@@ -85,6 +93,9 @@ export const authSlice = createSlice({
       state.authError = true;
       if (payload && payload.authErrorMessage)
         state.authErrorMessage = payload.authErrorMessage;
+    });
+    builder.addCase(logOutUser.fulfilled, (state) => {
+      state = initialState;
     });
   },
 });

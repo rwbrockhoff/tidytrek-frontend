@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logInUser, registerUser } from "../../redux/slices/userSlice";
-import { RootState } from "../../redux/store";
+import { RootState, AppDispatch } from "../../redux/store";
 
 export interface AuthProps {
   isRegisterForm: boolean;
 }
 
 const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const isAuthenticated = useSelector(
