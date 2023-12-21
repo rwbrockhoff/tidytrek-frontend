@@ -1,5 +1,9 @@
 import axios from "axios";
 
 export const tidyTrekAPI = axios.create({
-  baseURL: "http://localhost:4001",
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://api.tidytrek.co"
+      : "http://localhost:4001",
+  withCredentials: true,
 });

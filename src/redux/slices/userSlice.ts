@@ -3,6 +3,7 @@ import { tidyTrekAPI } from "../../api/tidytrekAPI";
 
 const initialState = {
   isAuthenticated: false,
+  authLoading: false,
   authError: false,
   authErrorMessage: "",
   user: { user_id: "", name: "", email: "" },
@@ -47,15 +48,18 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getAuthStatus.pending, (state, action) => {
+      state.authLoading = true;
+    });
     builder.addCase(getAuthStatus.fulfilled, (state, action) => {
-      if (action.payload?.user) {
-        state.user = action.payload.user;
-        state.isAuthenticated = true;
-      }
+      state.isAuthenticated = action.payload?.data?.isAuthenticated || false;
+      state.authLoading = false;
+      state.user = action.payload.data.user;
     });
     builder.addCase(getAuthStatus.rejected, (state, action) => {
       const { payload } = action;
       state.authError = true;
+      state.authLoading = false;
       if (payload && payload?.authErrorMessage) {
         state.authErrorMessage = payload.authErrorMessage;
       }

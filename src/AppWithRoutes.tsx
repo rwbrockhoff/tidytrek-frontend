@@ -12,7 +12,7 @@ const AppWithRoutes = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
-
+  const isLoading = useSelector((state: RootState) => state.user.authLoading);
   const userRouter = createBrowserRouter([
     {
       path: "/",
@@ -29,7 +29,11 @@ const AppWithRoutes = () => {
     { path: "/register", element: <Authentication isRegisterForm={true} /> },
   ]);
 
-  return <RouterProvider router={isAuthenticated ? userRouter : guestRouter} />;
+  return isLoading ? (
+    <h3>Loading...</h3>
+  ) : (
+    <RouterProvider router={isAuthenticated ? userRouter : guestRouter} />
+  );
 };
 
 export default AppWithRoutes;

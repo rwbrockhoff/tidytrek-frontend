@@ -1,8 +1,7 @@
-import { useState } from "react";
 import LogInForm from "../../components/Authentication/LogInForm/LogInForm";
 import { Grid } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logInUser, registerUser } from "../../redux/slices/userSlice";
