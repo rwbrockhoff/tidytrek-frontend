@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 export const useFetching = (someFetchActionCreator: AppDispatch) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(someFetchActionCreator());
   }, []);

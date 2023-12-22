@@ -1,4 +1,4 @@
-/* :root {
+:root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -14,8 +14,17 @@
 html,
 body {
   margin: 0;
-} */
+}
 
 div {
   margin: 0 !important;
+}
+
+h1 {
+  margin: 0 !important;
+}
+
+.app-view-container {
+  background-color: #f0f0f0;
+  height: 100vh;
 }

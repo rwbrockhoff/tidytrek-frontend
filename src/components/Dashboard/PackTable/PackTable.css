@@ -1,0 +1,14 @@
+.table-container {
+  width: 80vw !important;
+  text-align: center;
+}
+
+.table-input {
+  width: fit-content !important;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}

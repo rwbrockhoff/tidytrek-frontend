@@ -4,21 +4,27 @@ import { RootState } from "./redux/store.ts";
 import { useSelector } from "react-redux";
 import { useFetching } from "./redux/hooks/customHooks.ts";
 import Dashboard from "./views/Dashboard/Dashboard.tsx";
-import Navigation from "./components/Navigation/Navigation.tsx";
+import Account from "./views/Account/Account.tsx";
 import { getAuthStatus } from "./redux/slices/userSlice.ts";
+import ViewLayout from "./ViewLayout.tsx";
 
 const AppWithRoutes = () => {
-  useFetching(getAuthStatus);
-
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+
+  useFetching(getAuthStatus);
+
   const isLoading = useSelector((state: RootState) => state.user.authLoading);
 
   const userRouter = createBrowserRouter([
     {
       path: "/",
-      element: <Dashboard />,
+      element: <ViewLayout />,
+      children: [
+        { path: "/", element: <Dashboard /> },
+        { path: "/account", element: <Account /> },
+      ],
     },
     { path: "/register", element: <Authentication isRegisterForm={true} /> },
   ]);
@@ -31,12 +37,12 @@ const AppWithRoutes = () => {
     { path: "/register", element: <Authentication isRegisterForm={true} /> },
   ]);
 
+  const availableRouter = isAuthenticated ? userRouter : guestRouter;
   return isLoading ? (
-    <h3>Loading...</h3>
+    <ViewLayout />
   ) : (
     <div style={{ height: "100vh" }}>
-      {isAuthenticated && <Navigation />}
-      <RouterProvider router={isAuthenticated ? userRouter : guestRouter} />
+      <RouterProvider router={availableRouter} />
     </div>
   );
 };

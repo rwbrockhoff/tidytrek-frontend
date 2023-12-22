@@ -1,11 +1,13 @@
-import { Grid } from "semantic-ui-react";
 import "./Dashboard.css";
+import PackTable from "../../components/Dashboard/PackTable/PackTable";
 
 const Dashboard: React.FC = () => {
   return (
-    <Grid className="dashboard-container">
+    <div className="dashboard-container">
       <h1>Dashboard</h1>
-    </Grid>
+
+      <PackTable />
+    </div>
   );
 };
 

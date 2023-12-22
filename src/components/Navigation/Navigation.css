@@ -3,13 +3,14 @@ nav {
   height: 15vh;
   display: flex;
   align-items: center;
-  padding: 0px 20px;
+  padding: 0px 50px;
 }
 
 menu:last-child {
   text-decoration: none;
   list-style-type: none;
   cursor: pointer;
+  margin-left: auto;
 }
 
 li:hover {
