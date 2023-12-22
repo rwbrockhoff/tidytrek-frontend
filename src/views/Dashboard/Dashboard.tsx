@@ -1,11 +1,12 @@
 import "./Dashboard.css";
 import PackTable from "../../components/Dashboard/PackTable/PackTable";
+import PackChart from "../../components/Dashboard/PackChart/PackChart";
 
 const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
-      <h1>Dashboard</h1>
-
+      <PackChart />
+      <PackTable />
       <PackTable />
     </div>
   );

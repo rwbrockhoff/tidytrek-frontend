@@ -5,7 +5,9 @@ const ViewLayout: React.FC = () => {
   return (
     <div className="app-view-container">
       <Navigation />
-      <Outlet />
+      <div className="view-component-container">
+        <Outlet />
+      </div>
     </div>
   );
 };
