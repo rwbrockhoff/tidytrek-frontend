@@ -77,22 +77,18 @@ export const authSlice = createSlice({
       state.user = user;
       state.isAuthenticated = true;
     });
-    builder.addCase(registerUser.rejected, (state, action) => {
-      const { payload } = action;
+    builder.addCase(registerUser.rejected, (state) => {
       state.authError = true;
-      if (payload && payload.authErrorMessage)
-        state.authErrorMessage = payload.authErrorMessage;
+      state.authErrorMessage = "Oops. We had trouble creating your account.";
     });
     builder.addCase(logInUser.fulfilled, (state, action) => {
       const { user } = action.payload.data;
       state.user = user;
       state.isAuthenticated = true;
     });
-    builder.addCase(logInUser.rejected, (state, action) => {
-      const { payload } = action;
+    builder.addCase(logInUser.rejected, (state) => {
       state.authError = true;
-      if (payload && payload.authErrorMessage)
-        state.authErrorMessage = payload.authErrorMessage;
+      state.authErrorMessage = "Oops. Wrong email or password.";
     });
     builder.addCase(logOutUser.fulfilled, (state) => {
       state = initialState;
@@ -100,5 +96,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { signOutUser } = authSlice.actions;
+// export const {} = authSlice.actions;
 export default authSlice.reducer;

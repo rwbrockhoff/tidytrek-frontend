@@ -106,15 +106,20 @@ const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
       formIsValid && dispatch(registerUser({ name, email, password }));
     } else {
       if (email && password) {
+        setFormError({ error: false, message: "" });
         dispatch(logInUser({ email, password }));
+      } else {
+        invalidForm("Please provide your email and password.");
       }
     }
   };
-
+  const { error, message } = formError;
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <LogInForm
         isRegisterForm={props.isRegisterForm}
+        formError={error}
+        formErrorMessage={message}
         onFormChange={handleFormChange}
         onSubmit={handleFormSubmit}
       />
