@@ -90,9 +90,7 @@ export const authSlice = createSlice({
       state.authError = true;
       state.authErrorMessage = "Oops. Wrong email or password.";
     });
-    builder.addCase(logOutUser.fulfilled, (state) => {
-      state = initialState;
-    });
+    builder.addCase(logOutUser.fulfilled, () => initialState);
   },
 });
 
