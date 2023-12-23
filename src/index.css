@@ -16,28 +16,24 @@ body {
   margin: 0;
 }
 
-div {
-  margin: 0 !important;
-}
-
 h1 {
-  margin: 0 !important;
+  margin: 0;
 }
 
 a {
   cursor: pointer;
 }
 
-.app-view-container {
+#app-view-container {
   background-color: #f0f0f0;
   height: 100vh;
 }
 
-.view-component-container {
+#view-component-container {
   width: 100vw;
   height: 88vh;
   overflow-y: auto;
-  padding-left: 10vw !important;
-  padding-right: 10vw !important;
-  padding-bottom: 10vh !important;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  padding-bottom: 10vh;
 }

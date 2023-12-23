@@ -91,7 +91,7 @@ const LogInForm: React.FC<FormProps> = ({
           </Button>
 
           {(authError || formError) && (
-            <Message color="red" className="message">
+            <Message color="red">
               <Icon name="hand point right outline" />
               {authErrorMessage ||
                 formErrorMessage ||

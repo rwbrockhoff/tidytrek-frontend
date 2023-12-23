@@ -1,10 +1,11 @@
 .table-container {
-  width: 80vw !important;
+  width: 80vw;
   text-align: center;
+  margin: 25px 0px;
 }
 
 .table-input {
-  width: fit-content !important;
+  width: fit-content;
 }
 
 .footer-container {

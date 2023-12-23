@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 
 const ViewLayout: React.FC = () => {
   return (
-    <div className="app-view-container">
+    <div id="app-view-container">
       <Navigation />
-      <div className="view-component-container">
+      <div id="view-component-container">
         <Outlet />
       </div>
     </div>
