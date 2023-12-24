@@ -1,5 +1,6 @@
 import "./Navigation.css";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { logOutUser } from "../../redux/slices/userSlice";
 import { AppDispatch } from "../../redux/store";
 import { Icon } from "semantic-ui-react";
@@ -13,10 +14,10 @@ const Navigation: React.FC = () => {
   return (
     <nav>
       <h1>
-        <a href="/">tidytrek</a>
+        <Link to="/">tidytrek</Link>
       </h1>
       <menu>
-        <a href="/account">Account</a>
+        <Link to="/account">account</Link>
         <li onClick={handleLogOut}>
           <Icon name="log out" />
           Log Out

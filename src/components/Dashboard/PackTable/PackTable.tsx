@@ -1,5 +1,6 @@
 import { Table, Input, Button, Icon } from "semantic-ui-react";
 import "./PackTable.css";
+import TableCell from "./TableCell/TableCell";
 
 const PackTable = () => {
   return (
@@ -8,7 +9,7 @@ const PackTable = () => {
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Item</Table.HeaderCell>
+            <Table.HeaderCell width={4}>Item</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell width={3}>Weight</Table.HeaderCell>
           </Table.Row>
@@ -16,21 +17,14 @@ const PackTable = () => {
 
         <Table.Body>
           <Table.Row>
-            <Table.Cell>
-              <Input className="table-input" />
-            </Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
+            <TableCell />
+            <TableCell />
+            <TableCell />
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
+            <TableCell />
+            <TableCell />
+            <TableCell />
           </Table.Row>
         </Table.Body>
       </Table>

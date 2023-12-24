@@ -4,10 +4,6 @@
   margin: 25px 0px;
 }
 
-.table-input {
-  width: fit-content;
-}
-
 .footer-container {
   display: flex;
   justify-content: flex-end;
