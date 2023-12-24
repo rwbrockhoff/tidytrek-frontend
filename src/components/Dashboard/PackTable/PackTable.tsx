@@ -1,11 +1,22 @@
-import { Table, Input, Button, Icon } from "semantic-ui-react";
+import { Table, Button, Icon } from "semantic-ui-react";
 import "./PackTable.css";
-import TableCell from "./TableCell/TableCell";
+import TableRow from "./TableRow/TableRow";
 
-const PackTable = () => {
+interface Category {
+  packCategoryName: string;
+  items: [];
+}
+
+interface PackTableProps {
+  category: Category;
+  key: number;
+}
+
+const PackTable = (props: PackTableProps) => {
+  const { packCategoryName, items } = props.category;
   return (
     <div className="table-container">
-      <h3>Category</h3>
+      <h3>{packCategoryName}</h3>
       <Table celled>
         <Table.Header>
           <Table.Row>
@@ -16,16 +27,9 @@ const PackTable = () => {
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <TableCell />
-            <TableCell />
-            <TableCell />
-          </Table.Row>
-          <Table.Row>
-            <TableCell />
-            <TableCell />
-            <TableCell />
-          </Table.Row>
+          {items.map((item, idx) => (
+            <TableRow item={item} key={item.packItemId || idx} />
+          ))}
         </Table.Body>
       </Table>
       <div className="footer-container">
