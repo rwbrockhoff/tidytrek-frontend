@@ -4,13 +4,19 @@ import "./TableCell.css";
 
 interface TableCellProps {
   value: string;
+  itemName: string;
 }
 
 const TableCell = (props: TableCellProps) => {
-  const { value } = props;
+  const { value, itemName, onChange, onToggleOff } = props;
   const [toggleInput, setToggleInput] = useState(false);
   const toggleToEdit = () => !toggleInput && setToggleInput(true);
-  const toggleToCell = () => toggleInput && setToggleInput(false);
+  const toggleToCell = () => {
+    if (toggleInput) {
+      setToggleInput(false);
+      onToggleOff();
+    }
+  };
 
   return (
     <Table.Cell
@@ -19,7 +25,12 @@ const TableCell = (props: TableCellProps) => {
       onClick={toggleToEdit}
     >
       {toggleInput ? (
-        <Input className="table-cell-input" value={value} />
+        <Input
+          className="table-cell-input"
+          value={value || ""}
+          name={itemName}
+          onChange={onChange}
+        />
       ) : (
         <p className="table-cell">{value}</p>
       )}

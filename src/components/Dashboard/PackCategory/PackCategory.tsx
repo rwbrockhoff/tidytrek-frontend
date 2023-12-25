@@ -1,5 +1,5 @@
 import { Table, Button, Icon } from "semantic-ui-react";
-import "./PackTable.css";
+import "./PackCategory.css";
 import TableRow from "./TableRow/TableRow";
 
 interface Category {
@@ -7,13 +7,14 @@ interface Category {
   items: [];
 }
 
-interface PackTableProps {
+interface PackCategoryProps {
   category: Category;
   key: number;
 }
 
-const PackTable = (props: PackTableProps) => {
+const PackCategory = (props: PackCategoryProps) => {
   const { packCategoryName, items } = props.category;
+
   return (
     <div className="table-container">
       <h3>{packCategoryName}</h3>
@@ -22,7 +23,7 @@ const PackTable = (props: PackTableProps) => {
           <Table.Row>
             <Table.HeaderCell width={4}>Item</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell width={3}>Weight</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Weight</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -42,4 +43,4 @@ const PackTable = (props: PackTableProps) => {
   );
 };
 
-export default PackTable;
+export default PackCategory;
