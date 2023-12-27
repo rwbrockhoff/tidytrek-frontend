@@ -7,6 +7,7 @@ import { editPackItem } from "../../../../redux/slices/packSlice";
 
 interface Item {
   packItemName: string;
+  packItemId: number;
   packItemDescription: string;
   packItemWeight: number;
 }
@@ -30,11 +31,10 @@ const TableRow = (props: TableRowProps) => {
     setPackItem({ packItemName, packItemDescription, packItemWeight });
   }, [props.item]);
 
-  const handleInput = (e) => {
-    e.preventDefault();
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPackItem((prevFormData) => ({
       ...prevFormData,
-      [e.target.name]: e.target.value,
+      [e?.target?.name]: e?.target?.value,
     }));
     if (!packItemChanged) {
       setPackItemChanged(true);

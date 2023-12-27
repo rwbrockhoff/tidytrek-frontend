@@ -4,12 +4,20 @@ import TableRow from "./TableRow/TableRow";
 
 interface Category {
   packCategoryName: string;
+  packCategoryId: number;
   items: [];
 }
 
 interface PackCategoryProps {
   category: Category;
   key: number;
+}
+
+interface PackItem {
+  packItemName: string;
+  packItemId: number;
+  packItemDescription: string;
+  packItemWeight: number;
 }
 
 const PackCategory = (props: PackCategoryProps) => {
@@ -28,8 +36,8 @@ const PackCategory = (props: PackCategoryProps) => {
         </Table.Header>
 
         <Table.Body>
-          {items.map((item, idx) => (
-            <TableRow item={item} key={item.packItemId || idx} />
+          {items.map((item: PackItem, idx) => (
+            <TableRow item={item} key={item?.packItemId || idx} />
           ))}
         </Table.Body>
       </Table>

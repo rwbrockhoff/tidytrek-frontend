@@ -3,8 +3,10 @@ import { useState } from "react";
 import "./TableCell.css";
 
 interface TableCellProps {
-  value: string;
+  value: string | number;
   itemName: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onToggleOff: () => void;
 }
 
 const TableCell = (props: TableCellProps) => {

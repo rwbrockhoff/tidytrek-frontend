@@ -6,15 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getPacks } from "../../redux/slices/packSlice";
 
+interface Category {
+  packCategoryName: string;
+  packCategoryId: number;
+  items: [];
+}
+
 const Dashboard: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const currentPackId = useSelector(
     (state: RootState) => state.packs.currentPackId
   );
   const packs = useSelector((state: RootState) => state.packs.packs);
-  const [currentPack = {}] = packs.filter(
-    (item) => item.packId === currentPackId
-  );
+  const [currentPack] = packs.filter((item) => item.packId === currentPackId);
 
   useEffect(() => {
     dispatch(getPacks());
@@ -24,12 +28,13 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       <PackChart />
-      {packCategories.map((category: object, idx: number) => (
-        <PackCategory
-          category={category}
-          key={category?.packCategoryId || idx}
-        />
-      ))}
+      {packCategories.length &&
+        packCategories.map((category, idx: number) => (
+          <PackCategory
+            category={category}
+            key={category?.packCategoryId || idx}
+          />
+        ))}
     </div>
   );
 };
