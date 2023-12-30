@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { tidyTrekAPI } from "../../api/tidytrekAPI";
 
 interface InitialState {
-  packs: Pack[];
-  currentPackId: number;
+  packList: [];
+  pack: object;
+  categories: [Category];
 }
 
 interface EditPackItemArguments {
@@ -11,21 +12,16 @@ interface EditPackItemArguments {
   packItem: object;
 }
 
-interface Pack {
-  packId: number;
-  categories: [Categories];
-}
-
-interface Categories {
-  items: [PackItem];
+interface Category {
+  packItems: [PackItem];
 }
 
 interface PackItem {
   packItemId: number;
-  packId: number;
+  packCategoryId: number;
 }
 
-export const getPacks = createAsyncThunk("getPacks", async () => {
+export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
   const response = await tidyTrekAPI.get("/packs");
   return await response;
 });
@@ -42,24 +38,10 @@ export const editPackItem = createAsyncThunk(
   }
 );
 
-const findAndReplacePackItem = (pack: Pack, newPackItem: PackItem) => {
-  const idToFind = newPackItem.packItemId;
-  for (const index in pack.categories) {
-    // change to for of loop for (const [val, index])
-    const foundIndex = pack.categories[index].items.findIndex(
-      (packItem) => packItem.packItemId === idToFind
-    );
-    if (foundIndex >= 0) {
-      pack.categories[index].items[foundIndex] = newPackItem;
-      return pack;
-    }
-  }
-  return pack;
-};
-
 const initialState: InitialState = {
-  packs: [],
-  currentPackId: 0,
+  packList: [],
+  pack: {},
+  categories: [],
 };
 
 export const packSlice = createSlice({
@@ -67,25 +49,27 @@ export const packSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getPacks.fulfilled, (state, action) => {
-      const { payload } = action;
-      state.packs = payload?.data || [];
-      if (payload?.data.length) {
-        state.currentPackId = payload.data[0].packId;
-      }
+    builder.addCase(getDefaultPack.fulfilled, (state, action) => {
+      const { packList = [], pack = {}, categories = [] } = action.payload.data;
+      state.packList = packList;
+      state.pack = pack;
+      state.categories = categories;
     });
-    builder.addCase(getPacks.rejected, () => {});
+    builder.addCase(getDefaultPack.rejected, () => {});
     builder.addCase(editPackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload.data) {
-        const packIndex = state.packs.findIndex(
-          (item) => item.packId === state.currentPackId
+        const categoryIndex = state.categories.findIndex(
+          (item: PackItem) =>
+            item.packCategoryId === payload.data.packCategoryId
         );
-        const newPack = findAndReplacePackItem(
-          state.packs[packIndex],
-          payload.data
+        const packItemIndex = state.categories.findIndex(
+          (item: PackItem) => item.packItemId === payload.data.packItemId
         );
-        state.packs[packIndex] = newPack;
+        if (categoryIndex && packItemIndex) {
+          state.categories[categoryIndex].packItems[packItemIndex] =
+            payload.data;
+        }
       }
     });
   },

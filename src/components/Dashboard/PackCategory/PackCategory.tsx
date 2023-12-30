@@ -5,7 +5,7 @@ import TableRow from "./TableRow/TableRow";
 interface Category {
   packCategoryName: string;
   packCategoryId: number;
-  items: [];
+  packItems: [PackItem];
 }
 
 interface PackCategoryProps {
@@ -21,7 +21,7 @@ interface PackItem {
 }
 
 const PackCategory = (props: PackCategoryProps) => {
-  const { packCategoryName, items } = props.category;
+  const { packCategoryName, packItems } = props.category;
 
   return (
     <div className="table-container">
@@ -36,7 +36,7 @@ const PackCategory = (props: PackCategoryProps) => {
         </Table.Header>
 
         <Table.Body>
-          {items.map((item: PackItem, idx) => (
+          {packItems.map((item: PackItem, idx) => (
             <TableRow item={item} key={item?.packItemId || idx} />
           ))}
         </Table.Body>
