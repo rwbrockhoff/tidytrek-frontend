@@ -1,4 +1,4 @@
-import { Table, Input } from "semantic-ui-react";
+import { Table, Input, Icon } from "semantic-ui-react";
 import { useState } from "react";
 import "./TableCell.css";
 
@@ -34,7 +34,7 @@ const TableCell = (props: TableCellProps) => {
           onChange={onChange}
         />
       ) : (
-        <p className="table-cell">{value}</p>
+        <p className="table-cell-text">{value}</p>
       )}
     </Table.Cell>
   );

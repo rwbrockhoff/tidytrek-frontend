@@ -26,7 +26,7 @@ const PackCategory = (props: PackCategoryProps) => {
   return (
     <div className="table-container">
       <h3>{packCategoryName}</h3>
-      <Table celled>
+      <Table celled striped color="olive">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={4}>Item</Table.HeaderCell>

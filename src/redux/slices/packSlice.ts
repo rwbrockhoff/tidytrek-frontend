@@ -38,6 +38,14 @@ export const editPackItem = createAsyncThunk(
   }
 );
 
+export const deletePackItem = createAsyncThunk(
+  "deletePackItem",
+  async (packItemId: number) => {
+    const response = await tidyTrekAPI.delete(`/packs/pack/item/${packItemId}`);
+    return await response;
+  }
+);
+
 const initialState: InitialState = {
   packList: [],
   pack: {},
@@ -72,6 +80,23 @@ export const packSlice = createSlice({
         }
       }
     });
+    builder.addCase(deletePackItem.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload.data) {
+        const { packItemId, packCategoryId } = payload.data.deletedItemIds;
+        const categoryIndex = state.categories.findIndex(
+          (item: PackItem) =>
+            item.packCategoryId === payload.data.packCategoryId
+        );
+        const packItemIndex = state.categories.findIndex(
+          (item: PackItem) => item.packItemId === payload.data.packItemId
+        );
+        if (categoryIndex && packItemIndex) {
+          state.categories[categoryIndex].packItems.splice(packItemIndex, 1);
+        }
+      }
+    });
+    builder.addCase(deletePackItem.rejected, () => {});
   },
 });
 

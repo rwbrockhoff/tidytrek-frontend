@@ -1,0 +1,9 @@
+.ui.table td.table-button {
+  position: absolute;
+  border: none;
+}
+
+td.table-button button {
+  background-color: transparent;
+  border: none;
+}
