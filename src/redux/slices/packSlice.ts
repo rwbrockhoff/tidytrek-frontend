@@ -2,37 +2,40 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { tidyTrekAPI } from "../../api/tidytrekAPI";
 
 interface InitialState {
-  packs: Pack[];
-  currentPackId: number;
+  packList: [];
+  pack: object;
+  categories: [Category] | [];
 }
 
-interface EditPackItemArguments {
-  packItemId: number;
-  packItem: object;
-}
-
-interface Pack {
-  packId: number;
-  categories: [Categories];
-}
-
-interface Categories {
-  items: [PackItem];
+interface Category {
+  packItems: [PackItem];
 }
 
 interface PackItem {
   packItemId: number;
-  packId: number;
+  packCategoryId: number;
 }
 
-export const getPacks = createAsyncThunk("getPacks", async () => {
+export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
   const response = await tidyTrekAPI.get("/packs");
   return await response;
 });
 
+export const addPackItem = createAsyncThunk(
+  "addPackItem",
+  async (packItem: { packId: number; packCategoryId: number }) => {
+    const { packId, packCategoryId } = packItem;
+    const response = await tidyTrekAPI.post("/packs/pack/item", {
+      packId,
+      packCategoryId,
+    });
+    return await response;
+  }
+);
+
 export const editPackItem = createAsyncThunk(
   "editPackItem",
-  async (data: EditPackItemArguments) => {
+  async (data: { packItemId: number; packItem: PackItem }) => {
     const { packItemId, packItem } = data;
     const response = await tidyTrekAPI.put(
       `/packs/pack/item/${packItemId}`,
@@ -42,24 +45,30 @@ export const editPackItem = createAsyncThunk(
   }
 );
 
-const findAndReplacePackItem = (pack: Pack, newPackItem: PackItem) => {
-  const idToFind = newPackItem.packItemId;
-  for (const index in pack.categories) {
-    // change to for of loop for (const [val, index])
-    const foundIndex = pack.categories[index].items.findIndex(
-      (packItem) => packItem.packItemId === idToFind
-    );
-    if (foundIndex >= 0) {
-      pack.categories[index].items[foundIndex] = newPackItem;
-      return pack;
-    }
+export const deletePackItem = createAsyncThunk(
+  "deletePackItem",
+  async (packItemId: number) => {
+    const response = await tidyTrekAPI.delete(`/packs/pack/item/${packItemId}`);
+    return await response;
   }
-  return pack;
+);
+
+const getCategoryIdx = (categories: [], categoryId: number) => {
+  return categories.findIndex(
+    (item: PackItem) => item.packCategoryId === categoryId
+  );
+};
+
+const getPackItemIdx = (category: Category, packItemId: number) => {
+  return category.packItems.findIndex(
+    (item: PackItem) => item.packItemId === packItemId
+  );
 };
 
 const initialState: InitialState = {
-  packs: [],
-  currentPackId: 0,
+  packList: [],
+  pack: {},
+  categories: [],
 };
 
 export const packSlice = createSlice({
@@ -67,27 +76,53 @@ export const packSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getPacks.fulfilled, (state, action) => {
+    builder.addCase(getDefaultPack.fulfilled, (state, action) => {
+      const { packList = [], pack = {}, categories = [] } = action.payload.data;
+      state.packList = packList;
+      state.pack = pack;
+      state.categories = categories;
+    });
+    builder.addCase(getDefaultPack.rejected, () => {});
+    builder.addCase(addPackItem.fulfilled, (state, action) => {
       const { payload } = action;
-      state.packs = payload?.data || [];
-      if (payload?.data.length) {
-        state.currentPackId = payload.data[0].packId;
+      if (payload.data) {
+        const { packItem } = payload.data || {};
+        const { packCategoryId } = packItem;
+        const categoryIdx = getCategoryIdx(state.categories, packCategoryId);
+        state.categories[categoryIdx].packItems.push(packItem);
       }
     });
-    builder.addCase(getPacks.rejected, () => {});
+    builder.addCase(addPackItem.rejected, () => {});
     builder.addCase(editPackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload.data) {
-        const packIndex = state.packs.findIndex(
-          (item) => item.packId === state.currentPackId
-        );
-        const newPack = findAndReplacePackItem(
-          state.packs[packIndex],
-          payload.data
-        );
-        state.packs[packIndex] = newPack;
+        const { categories } = state;
+        const { packItemId, packCategoryId } = payload.data;
+
+        const categoryIdx = getCategoryIdx(categories, packCategoryId);
+        const packItemIdx = getPackItemIdx(categories[categoryIdx], packItemId);
+
+        if (categoryIdx >= 0 && packItemIdx >= 0) {
+          state.categories[categoryIdx].packItems[packItemIdx] = payload.data;
+        }
       }
     });
+    builder.addCase(editPackItem.rejected, () => {});
+    builder.addCase(deletePackItem.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload.data) {
+        const { categories } = state;
+        const { packItemId, packCategoryId } = payload.data.deletedItemIds;
+
+        const categoryIdx = getCategoryIdx(categories, packCategoryId);
+        const packItemIdx = getPackItemIdx(categories[categoryIdx], packItemId);
+
+        if (categoryIdx >= 0 && packItemIdx >= 0) {
+          state.categories[categoryIdx].packItems.splice(packItemIdx, 1);
+        }
+      }
+    });
+    builder.addCase(deletePackItem.rejected, () => {});
   },
 });
 
