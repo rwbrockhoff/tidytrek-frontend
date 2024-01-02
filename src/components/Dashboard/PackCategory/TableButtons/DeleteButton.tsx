@@ -10,7 +10,7 @@ const DeleteButton: React.FC<ButtonProps> = (props: ButtonProps) => {
   return props.display ? (
     <Table.Cell className="table-button">
       <button onClick={props.onClick}>
-        <Icon name="grey trash" />
+        <Icon name="trash" />
       </button>
     </Table.Cell>
   ) : null;

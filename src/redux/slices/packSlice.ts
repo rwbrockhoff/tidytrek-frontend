@@ -4,12 +4,7 @@ import { tidyTrekAPI } from "../../api/tidytrekAPI";
 interface InitialState {
   packList: [];
   pack: object;
-  categories: [Category];
-}
-
-interface EditPackItemArguments {
-  packItemId: number;
-  packItem: object;
+  categories: [Category] | [];
 }
 
 interface Category {
@@ -26,9 +21,21 @@ export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
   return await response;
 });
 
+export const addPackItem = createAsyncThunk(
+  "addPackItem",
+  async (packItem: { packId: number; packCategoryId: number }) => {
+    const { packId, packCategoryId } = packItem;
+    const response = await tidyTrekAPI.post("/packs/pack/item", {
+      packId,
+      packCategoryId,
+    });
+    return await response;
+  }
+);
+
 export const editPackItem = createAsyncThunk(
   "editPackItem",
-  async (data: EditPackItemArguments) => {
+  async (data: { packItemId: number; packItem: PackItem }) => {
     const { packItemId, packItem } = data;
     const response = await tidyTrekAPI.put(
       `/packs/pack/item/${packItemId}`,
@@ -45,6 +52,18 @@ export const deletePackItem = createAsyncThunk(
     return await response;
   }
 );
+
+const getCategoryIdx = (categories: [], categoryId: number) => {
+  return categories.findIndex(
+    (item: PackItem) => item.packCategoryId === categoryId
+  );
+};
+
+const getPackItemIdx = (category: Category, packItemId: number) => {
+  return category.packItems.findIndex(
+    (item: PackItem) => item.packItemId === packItemId
+  );
+};
 
 const initialState: InitialState = {
   packList: [],
@@ -64,35 +83,42 @@ export const packSlice = createSlice({
       state.categories = categories;
     });
     builder.addCase(getDefaultPack.rejected, () => {});
+    builder.addCase(addPackItem.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload.data) {
+        const { packItem } = payload.data || {};
+        const { packCategoryId } = packItem;
+        const categoryIdx = getCategoryIdx(state.categories, packCategoryId);
+        state.categories[categoryIdx].packItems.push(packItem);
+      }
+    });
+    builder.addCase(addPackItem.rejected, () => {});
     builder.addCase(editPackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload.data) {
-        const categoryIndex = state.categories.findIndex(
-          (item: PackItem) =>
-            item.packCategoryId === payload.data.packCategoryId
-        );
-        const packItemIndex = state.categories.findIndex(
-          (item: PackItem) => item.packItemId === payload.data.packItemId
-        );
-        if (categoryIndex && packItemIndex) {
-          state.categories[categoryIndex].packItems[packItemIndex] =
-            payload.data;
+        const { categories } = state;
+        const { packItemId, packCategoryId } = payload.data;
+
+        const categoryIdx = getCategoryIdx(categories, packCategoryId);
+        const packItemIdx = getPackItemIdx(categories[categoryIdx], packItemId);
+
+        if (categoryIdx >= 0 && packItemIdx >= 0) {
+          state.categories[categoryIdx].packItems[packItemIdx] = payload.data;
         }
       }
     });
+    builder.addCase(editPackItem.rejected, () => {});
     builder.addCase(deletePackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload.data) {
+        const { categories } = state;
         const { packItemId, packCategoryId } = payload.data.deletedItemIds;
-        const categoryIndex = state.categories.findIndex(
-          (item: PackItem) =>
-            item.packCategoryId === payload.data.packCategoryId
-        );
-        const packItemIndex = state.categories.findIndex(
-          (item: PackItem) => item.packItemId === payload.data.packItemId
-        );
-        if (categoryIndex && packItemIndex) {
-          state.categories[categoryIndex].packItems.splice(packItemIndex, 1);
+
+        const categoryIdx = getCategoryIdx(categories, packCategoryId);
+        const packItemIdx = getPackItemIdx(categories[categoryIdx], packItemId);
+
+        if (categoryIdx >= 0 && packItemIdx >= 0) {
+          state.categories[categoryIdx].packItems.splice(packItemIdx, 1);
         }
       }
     });
