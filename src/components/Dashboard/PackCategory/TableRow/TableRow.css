@@ -1,11 +1,3 @@
 tr.table-row {
   position: relative;
 }
-
-.delete-button {
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  top: 10px;
-  left: calc(100% + 10px);
-}

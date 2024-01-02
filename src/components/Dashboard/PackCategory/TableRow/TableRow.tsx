@@ -8,6 +8,7 @@ import {
   editPackItem,
   deletePackItem,
 } from "../../../../redux/slices/packSlice";
+import PackWeightCell from "../PackWeightCell/PackWeightCell";
 import DeleteButton from "../TableButtons/DeleteButton";
 
 interface Item {
@@ -31,18 +32,25 @@ const TableRow = (props: TableRowProps) => {
     packItemName: "",
     packItemDescription: "",
     packItemWeight: 0,
+    packItemUnit: "oz",
   });
 
   useEffect(() => {
-    const { packItemName, packItemDescription, packItemWeight } = props.item;
+    const { packItemName, packItemDescription, packItemWeight, packItemUnit } =
+      props.item;
     setPackItem({
       packItemName,
       packItemDescription,
       packItemWeight,
+      packItemUnit,
     });
   }, [props.item]);
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setPackItem((prevFormData) => ({
       ...prevFormData,
       [e?.target?.name]: e?.target?.value,
@@ -65,7 +73,8 @@ const TableRow = (props: TableRowProps) => {
     packItemId && dispatch(deletePackItem(packItemId));
   };
 
-  const { packItemName, packItemDescription, packItemWeight } = packItem;
+  const { packItemName, packItemDescription, packItemWeight, packItemUnit } =
+    packItem;
   return (
     <>
       <Table.Row
@@ -79,19 +88,30 @@ const TableRow = (props: TableRowProps) => {
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemName"
+          placeholder="Name"
         />
         <TableCell
           value={packItemDescription}
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemDescription"
+          placeholder="Description"
         />
-        <TableCell
+        <PackWeightCell
+          weight={packItemWeight}
+          unit={packItemUnit}
+          onChange={handleInput}
+          onToggleOff={handleToggleOff}
+          itemName="packItemWeight"
+          showDropdown={true}
+        />
+        {/* <TableCell
           value={packItemWeight}
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemWeight"
-        />
+          showDropdown={true}
+        /> */}
         <DeleteButton display={toggleRow} onClick={handleDelete} />
       </Table.Row>
     </>

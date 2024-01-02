@@ -1,10 +1,11 @@
 import { Table, Input } from "semantic-ui-react";
 import { useState } from "react";
 import WeightDropdown from "../TableButtons/WeightDropdown";
-import "./TableCell.css";
+import "../TableCell/TableCell.css";
 
-interface TableCellProps {
-  value: string | number;
+interface PackWeightCellProps {
+  weight: string | number;
+  unit: string;
   itemName: string;
   placeholder?: string;
   showDropdown?: boolean;
@@ -16,9 +17,16 @@ interface TableCellProps {
   onToggleOff: () => void;
 }
 
-const TableCell = (props: TableCellProps) => {
-  const { value, itemName, placeholder, showDropdown, onChange, onToggleOff } =
-    props;
+const PackWeightCell = (props: PackWeightCellProps) => {
+  const {
+    weight,
+    unit,
+    itemName,
+    placeholder,
+    showDropdown,
+    onChange,
+    onToggleOff,
+  } = props;
   const [toggleInput, setToggleInput] = useState(false);
   const toggleToEdit = () => !toggleInput && setToggleInput(true);
   const toggleToCell = () => {
@@ -37,17 +45,17 @@ const TableCell = (props: TableCellProps) => {
       {toggleInput ? (
         <Input
           className="table-cell-input"
-          value={value || ""}
+          value={weight || ""}
           name={itemName}
           placeholder={placeholder}
           onChange={onChange}
         />
       ) : (
-        <p className="table-cell-text">{value || placeholder}</p>
+        <p className="table-cell-text">{weight || placeholder}</p>
       )}
-      {showDropdown && <WeightDropdown onChange={onChange} />}
+      {showDropdown && <WeightDropdown unit={unit} onChange={onChange} />}
     </Table.Cell>
   );
 };
 
-export default TableCell;
+export default PackWeightCell;
