@@ -22,7 +22,8 @@ const initialState: initialState = {
 };
 
 export const getAuthStatus = createAsyncThunk("checkAuthStatus", async () => {
-  return await tidyTrekAPI.get("/auth/status");
+  const { data } = (await tidyTrekAPI.get("/auth/status")) || {};
+  return data;
 });
 
 export const registerUser = createAsyncThunk(
@@ -30,12 +31,12 @@ export const registerUser = createAsyncThunk(
   async (formData: { email: string; name: string; password: string }) => {
     const { name, email, password } = formData;
     //TO DO form validation
-    const response = await tidyTrekAPI.post("/auth/register", {
+    const { data } = await tidyTrekAPI.post("/auth/register", {
       name,
       email,
       password,
     });
-    return await response;
+    return await data;
   }
 );
 
@@ -43,11 +44,11 @@ export const logInUser = createAsyncThunk(
   "logInUser",
   async (formData: { email: string; password: string }) => {
     const { email, password } = formData;
-    const response = await tidyTrekAPI.post("/auth/login", {
+    const { data } = await tidyTrekAPI.post("/auth/login", {
       email,
       password,
     });
-    return await response;
+    return await data;
   }
 );
 
@@ -64,27 +65,31 @@ export const authSlice = createSlice({
       state.authLoading = true;
     });
     builder.addCase(getAuthStatus.fulfilled, (state, action) => {
-      state.isAuthenticated = action.payload?.data?.isAuthenticated || false;
+      state.isAuthenticated = action.payload?.isAuthenticated || false;
       state.authLoading = false;
-      state.user = action.payload.data.user;
+      state.user = action.payload.user;
     });
     builder.addCase(getAuthStatus.rejected, (state) => {
       state.authError = true;
       state.authLoading = false;
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
-      const { user } = action.payload.data;
-      state.user = user;
-      state.isAuthenticated = true;
+      if (action.payload) {
+        const { user } = action.payload;
+        state.user = user;
+        state.isAuthenticated = true;
+      }
     });
     builder.addCase(registerUser.rejected, (state) => {
       state.authError = true;
       state.authErrorMessage = "Oops. We had trouble creating your account.";
     });
     builder.addCase(logInUser.fulfilled, (state, action) => {
-      const { user } = action.payload.data;
-      state.user = user;
-      state.isAuthenticated = true;
+      if (action.payload) {
+        const { user } = action.payload;
+        state.user = user;
+        state.isAuthenticated = true;
+      }
     });
     builder.addCase(logInUser.rejected, (state) => {
       state.authError = true;
