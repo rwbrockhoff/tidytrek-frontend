@@ -1,5 +1,4 @@
 .ui.table td.table-button {
-  position: absolute;
   border: none;
   bottom: 10px;
 }
@@ -8,5 +7,4 @@ td.table-button button {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding-right: 50px;
 }

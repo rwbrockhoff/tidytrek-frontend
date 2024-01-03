@@ -10,12 +10,16 @@ import {
 } from "../../../../redux/slices/packSlice";
 import PackWeightCell from "../PackWeightCell/PackWeightCell";
 import DeleteButton from "../TableButtons/DeleteButton";
+import QuantityButton from "../TableButtons/QuantityButton";
+import PropertyButtons from "../TableButtons/PropertyButtons";
 
 interface Item {
   packItemName: string;
   packItemId: number;
   packItemDescription: string;
   packItemWeight: number;
+  packItemUnit: string;
+  packItemQuantity: number;
 }
 
 interface TableRowProps {
@@ -33,16 +37,23 @@ const TableRow = (props: TableRowProps) => {
     packItemDescription: "",
     packItemWeight: 0,
     packItemUnit: "oz",
+    packItemQuantity: 1,
   });
 
   useEffect(() => {
-    const { packItemName, packItemDescription, packItemWeight, packItemUnit } =
-      props.item;
+    const {
+      packItemName,
+      packItemDescription,
+      packItemWeight,
+      packItemUnit,
+      packItemQuantity,
+    } = props.item;
     setPackItem({
       packItemName,
       packItemDescription,
       packItemWeight,
       packItemUnit,
+      packItemQuantity,
     });
   }, [props.item]);
 
@@ -73,8 +84,13 @@ const TableRow = (props: TableRowProps) => {
     packItemId && dispatch(deletePackItem(packItemId));
   };
 
-  const { packItemName, packItemDescription, packItemWeight, packItemUnit } =
-    packItem;
+  const {
+    packItemName,
+    packItemDescription,
+    packItemWeight,
+    packItemUnit,
+    packItemQuantity,
+  } = packItem;
   return (
     <>
       <Table.Row
@@ -89,6 +105,7 @@ const TableRow = (props: TableRowProps) => {
           onToggleOff={handleToggleOff}
           itemName="packItemName"
           placeholder="Name"
+          size={4}
         />
         <TableCell
           value={packItemDescription}
@@ -96,23 +113,25 @@ const TableRow = (props: TableRowProps) => {
           onToggleOff={handleToggleOff}
           itemName="packItemDescription"
           placeholder="Description"
+          size={6}
+        />
+        <PropertyButtons size={2} onClick={() => console.log("PROP BUTTONS")} />
+        <QuantityButton
+          quantity={packItemQuantity}
+          size={1}
+          onClick={handleInput}
         />
         <PackWeightCell
           weight={packItemWeight}
           unit={packItemUnit}
+          placeholder={0}
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemWeight"
           showDropdown={true}
+          size={2}
         />
-        {/* <TableCell
-          value={packItemWeight}
-          onChange={handleInput}
-          onToggleOff={handleToggleOff}
-          itemName="packItemWeight"
-          showDropdown={true}
-        /> */}
-        <DeleteButton display={toggleRow} onClick={handleDelete} />
+        <DeleteButton display={toggleRow} size={1} onClick={handleDelete} />
       </Table.Row>
     </>
   );

@@ -1,13 +1,12 @@
 import { Table, Input } from "semantic-ui-react";
 import { useState } from "react";
-import WeightDropdown from "../TableButtons/WeightDropdown";
 import "./TableCell.css";
 
 interface TableCellProps {
   value: string | number;
   itemName: string;
   placeholder?: string;
-  showDropdown?: boolean;
+  size: number;
   onChange: (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -17,8 +16,7 @@ interface TableCellProps {
 }
 
 const TableCell = (props: TableCellProps) => {
-  const { value, itemName, placeholder, showDropdown, onChange, onToggleOff } =
-    props;
+  const { value, itemName, placeholder, size, onChange, onToggleOff } = props;
   const [toggleInput, setToggleInput] = useState(false);
   const toggleToEdit = () => !toggleInput && setToggleInput(true);
   const toggleToCell = () => {
@@ -30,8 +28,9 @@ const TableCell = (props: TableCellProps) => {
 
   return (
     <Table.Cell
-      onMouseOver={toggleToEdit}
-      onMouseLeave={toggleToCell}
+      colSpan={size}
+      // onMouseOver={toggleToEdit}
+      onBlur={toggleToCell}
       onClick={toggleToEdit}
     >
       {toggleInput ? (
@@ -45,7 +44,6 @@ const TableCell = (props: TableCellProps) => {
       ) : (
         <p className="table-cell-text">{value || placeholder}</p>
       )}
-      {showDropdown && <WeightDropdown onChange={onChange} />}
     </Table.Cell>
   );
 };

@@ -1,0 +1,21 @@
+.pack-weight-cell-container {
+  max-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weight-table-cell-input {
+  max-width: 70px;
+  height: 35px;
+  text-align: right !important;
+}
+
+.weight-table-cell-text {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  margin: 0;
+  margin-right: 20px;
+}

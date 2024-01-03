@@ -22,6 +22,8 @@ interface PackItem {
   packItemId: number;
   packItemDescription: string;
   packItemWeight: number;
+  packItemUnit: string;
+  packItemQuantity: number;
 }
 
 const PackCategory = (props: PackCategoryProps) => {
@@ -35,13 +37,19 @@ const PackCategory = (props: PackCategoryProps) => {
 
   return (
     <div className="table-container">
-      <h3>{packCategoryName}</h3>
-      <Table celled striped color="olive">
+      <Table fixed striped columns="16" color="olive">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width={4}>Item</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Weight</Table.HeaderCell>
+            <Table.HeaderCell colSpan="12">
+              <h3>{packCategoryName}</h3>
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="center" colSpan="1">
+              Qty
+            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="center" colSpan="2">
+              Weight
+            </Table.HeaderCell>
+            <Table.HeaderCell colSpan="1"></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -54,6 +62,7 @@ const PackCategory = (props: PackCategoryProps) => {
       <div className="footer-container">
         <Button
           color="blue"
+          size="small"
           className="add-item-table-button"
           onClick={handleAddItem}
         >
