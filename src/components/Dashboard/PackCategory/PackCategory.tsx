@@ -3,9 +3,16 @@ import { Category, PackItem } from "../../../redux/packs/packTypes";
 import "./PackCategory.css";
 import TableRow from "./TableRow/TableRow";
 import CategoryNameCell from "./CategoryNameCell/CategoryNameCell";
+import DeleteButton from "./TableButtons/DeleteButton";
+import PackModal from "../PackModal/PackModal";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { addPackItem, editPackCategory } from "../../../redux/packs/packThunks";
+import {
+  addPackItem,
+  deletePackCategory,
+  editPackCategory,
+} from "../../../redux/packs/packThunks";
 
 interface PackCategoryProps {
   category: Category;
@@ -15,6 +22,8 @@ interface PackCategoryProps {
 const PackCategory = (props: PackCategoryProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { packCategoryName, packItems } = props.category;
+  const [toggleRow, setToggleRow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleAddItem = () => {
     const { packId, packCategoryId } = props.category;
@@ -26,10 +35,23 @@ const PackCategory = (props: PackCategoryProps) => {
     dispatch(editPackCategory({ packCategoryId, packCategoryName }));
   };
 
+  const handleToggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleDeleteCategory = () => {
+    const { packCategoryId } = props.category;
+    dispatch(deletePackCategory(packCategoryId));
+    setShowModal(false);
+  };
+
   return (
     <div className="table-container">
       <Table fixed striped compact columns="16" color="olive">
-        <Table.Header>
+        <Table.Header
+          onMouseOver={() => setToggleRow(true)}
+          onMouseLeave={() => setToggleRow(false)}
+        >
           <Table.Row>
             <CategoryNameCell
               size={12}
@@ -43,7 +65,13 @@ const PackCategory = (props: PackCategoryProps) => {
             <Table.HeaderCell textAlign="center" colSpan="2">
               Weight
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan="1"></Table.HeaderCell>
+
+            <DeleteButton
+              header
+              size={1}
+              display={toggleRow}
+              onClick={handleToggleModal}
+            />
           </Table.Row>
         </Table.Header>
 
@@ -66,6 +94,11 @@ const PackCategory = (props: PackCategoryProps) => {
           Add Item
         </Button>
       </div>
+      <PackModal
+        open={showModal}
+        onClose={handleToggleModal}
+        onClickDelete={handleDeleteCategory}
+      />
     </div>
   );
 };

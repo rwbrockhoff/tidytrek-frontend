@@ -39,6 +39,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
         value={packCategoryName || "Category"}
         name={"packCategoryName"}
         onChange={handleInput}
+        // Show input background when user interacts
         transparent={!toggleInput}
         style={{
           fontSize: "1.5em",
