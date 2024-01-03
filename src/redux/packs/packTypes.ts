@@ -1,7 +1,15 @@
 export interface InitialState {
   packList: [];
-  pack: object;
+  pack: Pack;
   categories: [Category] | [];
+}
+
+export interface Pack {
+  packId: number;
+  userId: number;
+  packIndex: number;
+  packName: string;
+  packDescription: string;
 }
 
 export interface Category {

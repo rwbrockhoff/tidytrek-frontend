@@ -40,6 +40,14 @@ export const deletePackItem = createAsyncThunk(
   }
 );
 
+export const addPackCategory = createAsyncThunk(
+  "addPackCategory",
+  async (packId: number) => {
+    const { data } = await tidyTrekAPI.post(`/packs/pack/${packId}/category`);
+    return await data;
+  }
+);
+
 export const editPackCategory = createAsyncThunk(
   "editPackCategory",
   async (categoryInfo: {

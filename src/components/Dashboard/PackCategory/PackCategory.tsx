@@ -57,6 +57,8 @@ const PackCategory = (props: PackCategoryProps) => {
         <Button
           color="blue"
           size="small"
+          compact
+          basic
           className="add-item-table-button"
           onClick={handleAddItem}
         >

@@ -1,16 +1,11 @@
 import "./Dashboard.css";
 import PackCategory from "../../components/Dashboard/PackCategory/PackCategory";
 import PackChart from "../../components/Dashboard/PackChart/PackChart";
+import AddCategoryButton from "../../components/Dashboard/AddCategoryButton/AddCategoryButton";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getDefaultPack } from "../../redux/packs/packThunks";
-
-interface Category {
-  packCategoryName: string;
-  packCategoryId: number;
-  items: [];
-}
+import { getDefaultPack, addPackCategory } from "../../redux/packs/packThunks";
 
 const Dashboard: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -18,10 +13,15 @@ const Dashboard: React.FC = () => {
   const packCategories = useSelector(
     (state: RootState) => state.packs.categories
   );
+  const packId = useSelector((state: RootState) => state.packs.pack.packId);
 
   useEffect(() => {
     dispatch(getDefaultPack());
   }, [dispatch]);
+
+  const handleAddPackCategory = () => {
+    dispatch(addPackCategory(packId));
+  };
 
   return (
     <div className="dashboard-container">
@@ -33,6 +33,7 @@ const Dashboard: React.FC = () => {
             key={category?.packCategoryId || idx}
           />
         ))}
+      <AddCategoryButton onClick={handleAddPackCategory} />
     </div>
   );
 };

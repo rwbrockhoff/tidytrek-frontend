@@ -6,6 +6,7 @@ import {
   addPackItem,
   editPackItem,
   deletePackItem,
+  addPackCategory,
   editPackCategory,
 } from "./packThunks";
 
@@ -67,6 +68,14 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(deletePackItem.rejected, () => {});
+    builder.addCase(addPackCategory.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { packCategory } = payload;
+        state.categories.push(packCategory);
+      }
+    });
+    builder.addCase(addPackCategory.rejected, () => {});
     builder.addCase(editPackCategory.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload) {
