@@ -20,11 +20,20 @@ interface Item {
   packItemWeight: number;
   packItemUnit: string;
   packItemQuantity: number;
+  wornWeight: boolean;
+  consumable: boolean;
+  favorite: boolean;
 }
 
 interface TableRowProps {
   item: Item;
   key: number;
+}
+
+interface PackItemPropUpdate {
+  consumable?: boolean;
+  wornWeight?: boolean;
+  favorite?: boolean;
 }
 
 const TableRow = (props: TableRowProps) => {
@@ -38,22 +47,14 @@ const TableRow = (props: TableRowProps) => {
     packItemWeight: 0,
     packItemUnit: "oz",
     packItemQuantity: 1,
+    wornWeight: false,
+    consumable: false,
+    favorite: false,
   });
 
   useEffect(() => {
-    const {
-      packItemName,
-      packItemDescription,
-      packItemWeight,
-      packItemUnit,
-      packItemQuantity,
-    } = props.item;
     setPackItem({
-      packItemName,
-      packItemDescription,
-      packItemWeight,
-      packItemUnit,
-      packItemQuantity,
+      ...props.item,
     });
   }, [props.item]);
 
@@ -69,6 +70,16 @@ const TableRow = (props: TableRowProps) => {
     if (!packItemChanged) {
       setPackItemChanged(true);
     }
+  };
+
+  const handlePropButtons = (packItemPropUpdate: PackItemPropUpdate) => {
+    const { packItemId } = props.item;
+    dispatch(
+      editPackItem({
+        packItemId,
+        packItem: { ...packItem, ...packItemPropUpdate },
+      })
+    );
   };
 
   const handleToggleOff = () => {
@@ -90,6 +101,9 @@ const TableRow = (props: TableRowProps) => {
     packItemWeight,
     packItemUnit,
     packItemQuantity,
+    wornWeight,
+    consumable,
+    favorite,
   } = packItem;
   return (
     <>
@@ -115,11 +129,19 @@ const TableRow = (props: TableRowProps) => {
           placeholder="Description"
           size={6}
         />
-        <PropertyButtons size={2} onClick={() => console.log("PROP BUTTONS")} />
+        <PropertyButtons
+          wornWeight={wornWeight}
+          consumable={consumable}
+          favorite={favorite}
+          onClick={handlePropButtons}
+          display={toggleRow}
+          size={2}
+        />
         <QuantityButton
           quantity={packItemQuantity}
+          onChange={handleInput}
+          onToggleOff={handleToggleOff}
           size={1}
-          onClick={handleInput}
         />
         <PackWeightCell
           weight={packItemWeight}

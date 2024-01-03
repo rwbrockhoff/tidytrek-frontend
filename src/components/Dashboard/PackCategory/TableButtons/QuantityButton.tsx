@@ -1,17 +1,26 @@
-import { Table } from "semantic-ui-react";
+import { Table, Input } from "semantic-ui-react";
 import "./TableButtons.css";
 
 interface ButtonProps {
   quantity: number;
   size: number;
-  onClick: () => void;
+  onChange: () => void;
+  onToggleOff: () => void;
 }
 
 const QuantityButton: React.FC<ButtonProps> = (props: ButtonProps) => {
-  const { quantity, size } = props;
+  const { quantity, size, onChange, onToggleOff } = props;
   return (
     <Table.Cell className="table-button" textAlign="center" colSpan={size}>
-      <p>{quantity || 0}</p>
+      <Input
+        fluid
+        name="packItemQuantity"
+        value={quantity}
+        type="number"
+        step={1}
+        onChange={onChange}
+        onBlur={onToggleOff}
+      />
     </Table.Cell>
   );
 };

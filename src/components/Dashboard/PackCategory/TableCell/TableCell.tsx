@@ -29,21 +29,20 @@ const TableCell = (props: TableCellProps) => {
   return (
     <Table.Cell
       colSpan={size}
-      // onMouseOver={toggleToEdit}
+      onMouseOver={toggleToEdit}
+      onMouseLeave={toggleToCell}
       onBlur={toggleToCell}
       onClick={toggleToEdit}
     >
-      {toggleInput ? (
-        <Input
-          className="table-cell-input"
-          value={value || ""}
-          name={itemName}
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-      ) : (
-        <p className="table-cell-text">{value || placeholder}</p>
-      )}
+      <Input
+        className="table-cell-input"
+        value={value || ""}
+        name={itemName}
+        placeholder={placeholder}
+        onChange={onChange}
+        transparent={!toggleInput}
+        style={{ paddingLeft: !toggleInput ? "14px" : "0px" }}
+      />
     </Table.Cell>
   );
 };
