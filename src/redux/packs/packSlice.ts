@@ -1,70 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { tidyTrekAPI } from "../../api/tidytrekAPI";
-
-interface InitialState {
-  packList: [];
-  pack: object;
-  categories: [Category] | [];
-}
-
-interface Category {
-  packItems: [PackItem];
-}
-
-interface PackItem {
-  packItemId: number;
-  packCategoryId: number;
-}
-
-export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
-  const { data } = (await tidyTrekAPI.get("/packs")) || {};
-  return data;
-});
-
-export const addPackItem = createAsyncThunk(
-  "addPackItem",
-  async (packItem: { packId: number; packCategoryId: number }) => {
-    const { packId, packCategoryId } = packItem;
-    const { data } =
-      (await tidyTrekAPI.post("/packs/pack/item", {
-        packId,
-        packCategoryId,
-      })) || {};
-    return await data;
-  }
-);
-
-export const editPackItem = createAsyncThunk(
-  "editPackItem",
-  async (packInfo: { packItemId: number; packItem: PackItem }) => {
-    const { packItemId, packItem } = packInfo;
-    const { data } = await tidyTrekAPI.put(
-      `/packs/pack/item/${packItemId}`,
-      packItem
-    );
-    return await data;
-  }
-);
-
-export const deletePackItem = createAsyncThunk(
-  "deletePackItem",
-  async (packItemId: number) => {
-    const { data } = await tidyTrekAPI.delete(`/packs/pack/item/${packItemId}`);
-    return await data;
-  }
-);
-
-const getCategoryIdx = (categories: [], categoryId: number) => {
-  return categories.findIndex(
-    (item: PackItem) => item.packCategoryId === categoryId
-  );
-};
-
-const getPackItemIdx = (category: Category, packItemId: number) => {
-  return category.packItems.findIndex(
-    (item: PackItem) => item.packItemId === packItemId
-  );
-};
+import { createSlice } from "@reduxjs/toolkit";
+import { InitialState } from "./packTypes";
+import { getCategoryIdx, getPackItemIdx } from "./packUtils";
+import {
+  getDefaultPack,
+  addPackItem,
+  editPackItem,
+  deletePackItem,
+  editPackCategory,
+} from "./packThunks";
 
 const initialState: InitialState = {
   packList: [],
@@ -124,8 +67,27 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(deletePackItem.rejected, () => {});
+    builder.addCase(editPackCategory.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { packCategory } = payload;
+        const { categories } = state;
+        const categoryIdx = getCategoryIdx(
+          categories,
+          packCategory.packCategoryId
+        );
+        if (categoryIdx >= 0) {
+          // editPackCategory does NOT return packItems (unchanged)
+          // keep existing packItems property in redux
+          state.categories[categoryIdx] = {
+            ...state.categories[categoryIdx],
+            ...packCategory,
+          };
+        }
+      }
+    });
+    builder.addCase(editPackCategory.rejected, () => {});
   },
 });
 
-// export const {} = packSlice.actions;
 export default packSlice.reducer;

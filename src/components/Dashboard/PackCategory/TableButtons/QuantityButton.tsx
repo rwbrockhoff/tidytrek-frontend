@@ -4,7 +4,7 @@ import "./TableButtons.css";
 interface ButtonProps {
   quantity: number;
   size: number;
-  onChange: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onToggleOff: () => void;
 }
 

@@ -4,29 +4,18 @@ import "./TableRow.css";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../redux/store";
+import { PackItem } from "../../../../redux/packs/packTypes";
 import {
   editPackItem,
   deletePackItem,
-} from "../../../../redux/slices/packSlice";
+} from "../../../../redux/packs/packThunks";
 import PackWeightCell from "../PackWeightCell/PackWeightCell";
 import DeleteButton from "../TableButtons/DeleteButton";
 import QuantityButton from "../TableButtons/QuantityButton";
 import PropertyButtons from "../TableButtons/PropertyButtons";
 
-interface Item {
-  packItemName: string;
-  packItemId: number;
-  packItemDescription: string;
-  packItemWeight: number;
-  packItemUnit: string;
-  packItemQuantity: number;
-  wornWeight: boolean;
-  consumable: boolean;
-  favorite: boolean;
-}
-
 interface TableRowProps {
-  item: Item;
+  item: PackItem;
   key: number;
 }
 
@@ -43,6 +32,8 @@ const TableRow = (props: TableRowProps) => {
   const [packItemChanged, setPackItemChanged] = useState(false);
   const [packItem, setPackItem] = useState({
     packItemName: "",
+    packItemId: 0,
+    packCategoryId: 0,
     packItemDescription: "",
     packItemWeight: 0,
     packItemUnit: "oz",

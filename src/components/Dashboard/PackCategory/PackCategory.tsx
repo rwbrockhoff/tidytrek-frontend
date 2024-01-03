@@ -1,29 +1,15 @@
 import { Table, Button, Icon } from "semantic-ui-react";
+import { Category, PackItem } from "../../../redux/packs/packTypes";
 import "./PackCategory.css";
 import TableRow from "./TableRow/TableRow";
+import CategoryNameCell from "./CategoryNameCell/CategoryNameCell";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
-import { addPackItem } from "../../../redux/slices/packSlice";
-
-interface Category {
-  packCategoryName: string;
-  packCategoryId: number;
-  packId: number;
-  packItems: [PackItem];
-}
+import { addPackItem, editPackCategory } from "../../../redux/packs/packThunks";
 
 interface PackCategoryProps {
   category: Category;
   key: number;
-}
-
-interface PackItem {
-  packItemName: string;
-  packItemId: number;
-  packItemDescription: string;
-  packItemWeight: number;
-  packItemUnit: string;
-  packItemQuantity: number;
 }
 
 const PackCategory = (props: PackCategoryProps) => {
@@ -35,14 +21,22 @@ const PackCategory = (props: PackCategoryProps) => {
     dispatch(addPackItem({ packId, packCategoryId }));
   };
 
+  const handleEditCategory = (packCategoryName: string) => {
+    const { packCategoryId } = props.category;
+    dispatch(editPackCategory({ packCategoryId, packCategoryName }));
+  };
+
   return (
     <div className="table-container">
-      <Table fixed striped columns="16" color="olive">
+      <Table fixed striped compact columns="16" color="olive">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan="12">
-              <h3>{packCategoryName}</h3>
-            </Table.HeaderCell>
+            <CategoryNameCell
+              size={12}
+              categoryName={packCategoryName}
+              onToggleOff={handleEditCategory}
+            />
+
             <Table.HeaderCell textAlign="center" colSpan="1">
               Qty
             </Table.HeaderCell>

@@ -4,7 +4,7 @@ import PackChart from "../../components/Dashboard/PackChart/PackChart";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getDefaultPack } from "../../redux/slices/packSlice";
+import { getDefaultPack } from "../../redux/packs/packThunks";
 
 interface Category {
   packCategoryName: string;
