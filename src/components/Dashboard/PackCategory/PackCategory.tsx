@@ -12,6 +12,7 @@ import {
   addPackItem,
   deletePackCategory,
   editPackCategory,
+  deleteCategoryAndItems,
 } from "../../../redux/packs/packThunks";
 
 interface PackCategoryProps {
@@ -37,6 +38,12 @@ const PackCategory = (props: PackCategoryProps) => {
 
   const handleToggleModal = () => {
     setShowModal(!showModal);
+  };
+
+  const handleDeleteCategoryAndItems = () => {
+    const { packCategoryId } = props.category;
+    dispatch(deleteCategoryAndItems(packCategoryId));
+    setShowModal(false);
   };
 
   const handleDeleteCategory = () => {
@@ -97,7 +104,8 @@ const PackCategory = (props: PackCategoryProps) => {
       <PackModal
         open={showModal}
         onClose={handleToggleModal}
-        onClickDelete={handleDeleteCategory}
+        onClickMoveItems={handleDeleteCategory}
+        onClickDelete={handleDeleteCategoryAndItems}
       />
     </div>
   );

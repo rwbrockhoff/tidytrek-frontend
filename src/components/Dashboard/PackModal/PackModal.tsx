@@ -12,10 +12,11 @@ interface PackModalProps {
   open: boolean;
   onClose: () => void;
   onClickDelete: () => void;
+  onClickMoveItems: () => void;
 }
 
 const PackModal = (props: PackModalProps) => {
-  const { open, onClose, onClickDelete } = props;
+  const { open, onClose, onClickDelete, onClickMoveItems } = props;
   return (
     <Modal size="mini" closeIcon open={open} onClose={onClose}>
       <ModalHeader>Are you sure?</ModalHeader>
@@ -27,7 +28,9 @@ const PackModal = (props: PackModalProps) => {
           <Icon name="trash alternate outline" />
           Delete
         </Button>
-        <Button positive>Move to Gear Closet</Button>
+        <Button positive onClick={onClickMoveItems}>
+          Move to Gear Closet
+        </Button>
       </ModalActions>
     </Modal>
   );

@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       <PackChart />
-      {packCategories.length &&
+      {packCategories.length >= 0 &&
         packCategories.map((category, idx: number) => (
           <PackCategory
             category={category}
