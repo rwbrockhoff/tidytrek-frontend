@@ -41,7 +41,9 @@ const TableCell = (props: TableCellProps) => {
         placeholder={placeholder}
         onChange={onChange}
         transparent={!toggleInput}
-        style={{ paddingLeft: !toggleInput ? "14px" : "0px" }}
+        style={{
+          paddingLeft: !toggleInput ? "14px" : "0px",
+        }}
       />
     </Table.Cell>
   );

@@ -1,4 +1,5 @@
 import { Table, Input } from "semantic-ui-react";
+import { useState } from "react";
 import "./TableButtons.css";
 
 interface ButtonProps {
@@ -10,16 +11,34 @@ interface ButtonProps {
 
 const QuantityButton: React.FC<ButtonProps> = (props: ButtonProps) => {
   const { quantity, size, onChange, onToggleOff } = props;
+
+  const [toggleInput, setToggleInput] = useState(false);
+  const toggleToEdit = () => !toggleInput && setToggleInput(true);
+  const toggleToCell = () => {
+    if (toggleInput) {
+      setToggleInput(false);
+      onToggleOff();
+    }
+  };
+
   return (
-    <Table.Cell className="table-button" textAlign="center" colSpan={size}>
+    <Table.Cell
+      className="table-button"
+      textAlign="center"
+      colSpan={size}
+      onMouseOver={toggleToEdit}
+      onMouseLeave={toggleToCell}
+      onBlur={toggleToCell}
+      onClick={toggleToEdit}
+    >
       <Input
         fluid
         name="packItemQuantity"
         value={quantity}
         type="number"
         step={1}
+        // transparent={!toggleInput}
         onChange={onChange}
-        onBlur={onToggleOff}
       />
     </Table.Cell>
   );

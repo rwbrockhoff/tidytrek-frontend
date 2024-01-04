@@ -141,7 +141,6 @@ const TableRow = (props: TableRowProps) => {
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemWeight"
-          showDropdown={true}
           size={2}
         />
         <DeleteButton display={toggleRow} size={1} onClick={handleDelete} />
