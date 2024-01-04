@@ -10,9 +10,9 @@ import {
   deletePackItem,
 } from "../../../../redux/packs/packThunks";
 import PackWeightCell from "../PackWeightCell/PackWeightCell";
-import DeleteButton from "../TableButtons/DeleteButton";
-import QuantityButton from "../TableButtons/QuantityButton";
-import PropertyButtons from "../TableButtons/PropertyButtons";
+import DeleteButton from "../TableButtonCells/DeleteButton";
+import QuantityButton from "../TableButtonCells/QuantityButton";
+import PropertyButtons from "../TableButtonCells/PropertyButtons";
 
 interface TableRowProps {
   item: PackItem;

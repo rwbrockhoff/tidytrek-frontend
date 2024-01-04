@@ -1,6 +1,6 @@
 import { Table, Input } from "semantic-ui-react";
 import { useState } from "react";
-import WeightDropdown from "../TableButtons/WeightDropdown";
+import WeightDropdown from "../TableButtonCells/WeightDropdown";
 import "../TableCell/TableCell.css";
 import "./PackWeightCell.css";
 

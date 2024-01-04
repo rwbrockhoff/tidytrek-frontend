@@ -3,8 +3,8 @@ import { Category, PackItem } from "../../../redux/packs/packTypes";
 import "./PackCategory.css";
 import TableRow from "./TableRow/TableRow";
 import CategoryNameCell from "./CategoryNameCell/CategoryNameCell";
-import DeleteButton from "./TableButtons/DeleteButton";
-import PackModal from "../PackModal/PackModal";
+import DeleteButton from "./TableButtonCells/DeleteButton";
+import DeleteModal from "./DeleteModal/DeleteModal";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
@@ -101,7 +101,7 @@ const PackCategory = (props: PackCategoryProps) => {
           Add Item
         </Button>
       </div>
-      <PackModal
+      <DeleteModal
         open={showModal}
         onClose={handleToggleModal}
         onClickMoveItems={handleDeleteCategory}

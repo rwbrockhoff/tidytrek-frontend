@@ -6,16 +6,16 @@ import {
   Button,
   Icon,
 } from "semantic-ui-react";
-import "./PackModal.css";
+import "./DeleteModal.css";
 
-interface PackModalProps {
+interface DeleteModalProps {
   open: boolean;
   onClose: () => void;
   onClickDelete: () => void;
   onClickMoveItems: () => void;
 }
 
-const PackModal = (props: PackModalProps) => {
+const DeleteModal = (props: DeleteModalProps) => {
   const { open, onClose, onClickDelete, onClickMoveItems } = props;
   return (
     <Modal size="mini" closeIcon open={open} onClose={onClose}>
@@ -36,4 +36,4 @@ const PackModal = (props: PackModalProps) => {
   );
 };
 
-export default PackModal;
+export default DeleteModal;
