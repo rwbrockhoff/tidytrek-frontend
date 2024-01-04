@@ -10,6 +10,9 @@ export interface Pack {
   packIndex: number;
   packName: string;
   packDescription: string;
+  packLocationTag: string;
+  packDurationTag: string;
+  packSeasonTag: string;
 }
 
 export interface Category {

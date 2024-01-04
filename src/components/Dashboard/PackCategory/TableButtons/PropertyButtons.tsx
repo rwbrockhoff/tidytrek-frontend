@@ -1,5 +1,11 @@
-import { Table, Icon } from "semantic-ui-react";
+import { Table, Popup, Icon } from "semantic-ui-react";
 import "./PropertyButton.css";
+
+interface PropertyButtonOptions {
+  consumable?: boolean;
+  wornWeight?: boolean;
+  favorite?: boolean;
+}
 
 interface ButtonProps {
   size: number;
@@ -7,7 +13,7 @@ interface ButtonProps {
   consumable: boolean;
   favorite: boolean;
   display: boolean;
-  onClick: ({}) => void;
+  onClick: (property: PropertyButtonOptions) => void;
 }
 
 const PropertyButtons: React.FC<ButtonProps> = (props: ButtonProps) => {
@@ -25,17 +31,31 @@ const PropertyButtons: React.FC<ButtonProps> = (props: ButtonProps) => {
         onClick={() => onClick({ favorite: !favorite })}
       />
 
-      <Icon
-        name="food"
-        color={consumable ? "olive" : "grey"}
-        style={{ opacity: display || consumable ? 100 : 0 }}
-        onClick={() => onClick({ consumable: !consumable })}
+      <Popup
+        content="Consumable items like food or fuel."
+        mouseEnterDelay={700}
+        on="hover"
+        trigger={
+          <Icon
+            name="food"
+            color={consumable ? "olive" : "grey"}
+            style={{ opacity: display || consumable ? 100 : 0 }}
+            onClick={() => onClick({ consumable: !consumable })}
+          />
+        }
       />
 
-      <i
-        className={`fa-solid fa-shirt ${wornWeight && "worn-weight-item"}`}
-        style={{ opacity: display || wornWeight ? 100 : 0 }}
-        onClick={() => onClick({ wornWeight: !wornWeight })}
+      <Popup
+        content="Worn weight like shorts or trail runners."
+        mouseEnterDelay={700}
+        on="hover"
+        trigger={
+          <i
+            className={`fa-solid fa-shirt ${wornWeight && "worn-weight-item"}`}
+            style={{ opacity: display || wornWeight ? 100 : 0 }}
+            onClick={() => onClick({ wornWeight: !wornWeight })}
+          />
+        }
       />
     </Table.Cell>
   );

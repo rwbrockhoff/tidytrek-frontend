@@ -1,0 +1,18 @@
+div.pack-info-container {
+  width: 100%;
+  display: inline-flex;
+  padding-top: 5vh;
+}
+
+div.pack-info-left-panel,
+div.pack-info-right-panel {
+  width: 50%;
+}
+
+div.pack-info-left-panel .ui.header > .icon {
+  font-size: 0.6em;
+  margin-left: 15px;
+  vertical-align: text-top;
+  height: 0.6em;
+  cursor: pointer;
+}

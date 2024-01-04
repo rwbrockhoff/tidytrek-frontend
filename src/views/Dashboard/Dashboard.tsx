@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+import PackInfo from "../../components/Dashboard/PackInfo/PackInfo";
 import PackCategory from "../../components/Dashboard/PackCategory/PackCategory";
 import PackChart from "../../components/Dashboard/PackChart/PackChart";
 import AddCategoryButton from "../../components/Dashboard/PackCategory/AddCategoryButton/AddCategoryButton";
@@ -25,6 +26,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
+      <PackInfo />
       <PackChart />
       {packCategories.length >= 0 &&
         packCategories.map((category, idx: number) => (

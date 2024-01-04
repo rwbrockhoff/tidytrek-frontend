@@ -110,7 +110,7 @@ const TableRow = (props: TableRowProps) => {
           onToggleOff={handleToggleOff}
           itemName="packItemName"
           placeholder="Name"
-          size={4}
+          size={3}
         />
         <TableCell
           value={packItemDescription}
@@ -126,7 +126,7 @@ const TableRow = (props: TableRowProps) => {
           favorite={favorite}
           onClick={handlePropButtons}
           display={toggleRow}
-          size={2}
+          size={3}
         />
         <QuantityButton
           quantity={packItemQuantity}
