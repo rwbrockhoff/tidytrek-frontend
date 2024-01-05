@@ -1,11 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { tidyTrekAPI } from "../../api/tidytrekAPI";
-import { PackItem } from "./packTypes";
+import { PackItem, Pack } from "./packTypes";
 
 export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
   const { data } = (await tidyTrekAPI.get("/packs")) || {};
   return await data;
 });
+
+export const editPack = createAsyncThunk(
+  "editPack",
+  async (packInfo: { packId: number; modifiedPack: Pack }) => {
+    const { packId, modifiedPack } = packInfo;
+    const { data } =
+      (await tidyTrekAPI.put(`/packs/${packId}`, { packId, modifiedPack })) ||
+      {};
+    return await data;
+  }
+);
 
 export const addPackItem = createAsyncThunk(
   "addPackItem",

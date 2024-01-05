@@ -3,6 +3,7 @@ import { InitialState } from "./packTypes";
 import { getCategoryIdx, getPackItemIdx } from "./packUtils";
 import {
   getDefaultPack,
+  editPack,
   addPackItem,
   editPackItem,
   deletePackItem,
@@ -30,6 +31,14 @@ export const packSlice = createSlice({
       state.categories = categories;
     });
     builder.addCase(getDefaultPack.rejected, () => {});
+    builder.addCase(editPack.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload?.updatedPack) {
+        const { updatedPack } = payload;
+        state.pack = updatedPack;
+      }
+    });
+    builder.addCase(editPack.rejected, () => {});
     builder.addCase(addPackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload) {

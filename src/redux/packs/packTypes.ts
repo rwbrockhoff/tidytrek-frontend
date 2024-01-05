@@ -13,6 +13,12 @@ export interface Pack {
   packLocationTag: string;
   packDurationTag: string;
   packSeasonTag: string;
+  packMilesTag: string;
+  packPublic: boolean;
+  packUrlName: string;
+  packUrl: string;
+  packAffiliate: boolean;
+  packAffiliateDescription: string;
 }
 
 export interface Category {
