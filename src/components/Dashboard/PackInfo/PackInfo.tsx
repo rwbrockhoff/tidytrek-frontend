@@ -19,6 +19,8 @@ const PackInfo = () => {
     packDurationTag,
     packSeasonTag,
     packMilesTag,
+    packUrl,
+    packUrlName,
   } = currentPack;
   return (
     <div className="pack-info-container">
@@ -37,6 +39,16 @@ const PackInfo = () => {
             />
           )}
         </Header>
+
+        {packUrl && (
+          <p>
+            <a href={packUrl} target="_blank" className="pack-link">
+              <Icon name="linkify" />
+              {packUrlName || packUrl || "Pack Link"}
+            </a>
+          </p>
+        )}
+
         <p>{packDescription}</p>
         <div className="pack-info-tag-container">
           {packLocationTag && (
@@ -59,7 +71,10 @@ const PackInfo = () => {
           )}
           {packMilesTag && (
             <Label color="teal">
-              <Icon name="time" />
+              <i
+                className="fa-solid fa-person-hiking"
+                style={{ paddingRight: "5px" }}
+              />
               {packMilesTag}
             </Label>
           )}

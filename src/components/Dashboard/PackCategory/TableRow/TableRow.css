@@ -2,3 +2,7 @@ tr.table-row {
   position: relative;
   border: none;
 }
+
+.ui.compact.table td {
+  padding: 0.2em 0.2em;
+}

@@ -54,7 +54,7 @@ const PackCategory = (props: PackCategoryProps) => {
 
   return (
     <div className="table-container">
-      <Table fixed striped compact columns="16" color="olive">
+      <Table fixed striped compact columns="16" color="olive" size="small">
         <Table.Header
           onMouseOver={() => setToggleRow(true)}
           onMouseLeave={() => setToggleRow(false)}
@@ -91,7 +91,7 @@ const PackCategory = (props: PackCategoryProps) => {
       <div className="footer-container">
         <Button
           color="blue"
-          size="small"
+          size="mini"
           compact
           basic
           className="add-item-table-button"

@@ -36,6 +36,7 @@ export interface PackItem {
   packItemWeight: number;
   packItemUnit: string;
   packItemQuantity: number;
+  packItemUrl: string;
   wornWeight: boolean;
   consumable: boolean;
   favorite: boolean;

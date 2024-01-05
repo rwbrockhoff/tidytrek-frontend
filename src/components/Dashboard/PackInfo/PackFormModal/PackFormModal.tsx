@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../redux/store";
 import { editPack } from "../../../../redux/packs/packThunks";
 import { Pack } from "../../../../redux/packs/packTypes";
+import "./PackFormModal.css";
 
 interface PackFormModalProps {
   pack: Pack;
@@ -100,7 +101,9 @@ const PackFormModal = (props: PackFormModalProps) => {
 
   return (
     <Modal size="small" closeIcon open={open} onClose={onClose}>
-      <ModalHeader>Editing {packName ?? pack.packName ?? "Pack"}</ModalHeader>
+      <ModalHeader className="pack-form-modal-header">
+        {packName ?? pack.packName ?? "Pack"}
+      </ModalHeader>
       <ModalContent>
         <Form>
           <FormField
@@ -114,7 +117,7 @@ const PackFormModal = (props: PackFormModalProps) => {
               checked={packPublic}
               onClick={() => handleCheckBox({ packPublic: !packPublic })}
             />
-            <label style={{ paddingLeft: "20px" }}>
+            <label className="public-toggle-label">
               <Icon name="binoculars" /> Public
             </label>
           </FormField>
@@ -182,7 +185,7 @@ const PackFormModal = (props: PackFormModalProps) => {
                   className="fa-solid fa-person-hiking"
                   style={{ paddingRight: "5px" }}
                 />
-                Miles With Pack
+                Distance With Pack
               </label>
               <Input
                 name="packMilesTag"

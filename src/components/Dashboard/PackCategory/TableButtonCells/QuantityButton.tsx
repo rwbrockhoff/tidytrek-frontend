@@ -37,8 +37,9 @@ const QuantityButton: React.FC<ButtonProps> = (props: ButtonProps) => {
         value={quantity}
         type="number"
         step={1}
-        // transparent={!toggleInput}
+        transparent={!toggleInput}
         onChange={onChange}
+        style={{ paddingLeft: toggleInput ? "0px" : "12px" }}
       />
     </Table.Cell>
   );

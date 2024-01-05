@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.table-button input {
+  height: 30px;
+}
+
 input[type="number"] {
   /* -webkit-appearance: none; */
   /* caret-color: red; */

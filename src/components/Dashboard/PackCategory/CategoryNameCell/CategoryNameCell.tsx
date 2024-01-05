@@ -1,5 +1,7 @@
 import { Table, Input } from "semantic-ui-react";
 import { useState } from "react";
+import "../TableCell/TableCell.css";
+import "./CategoryNameCell.css";
 
 interface CategoryNameCellProps {
   size: number;
@@ -35,16 +37,16 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
       onClick={toggleToEdit}
     >
       <Input
-        className="table-cell-input"
+        className="table-cell-input header-title"
         value={packCategoryName || "Category"}
         name={"packCategoryName"}
         onChange={handleInput}
         // Show input background when user interacts
         transparent={!toggleInput}
         style={{
-          fontSize: "1.5em",
+          fontSize: "1.2em",
           width: "fit-content",
-          paddingLeft: !toggleInput ? "21px" : "0px",
+          paddingLeft: !toggleInput ? "15px" : "0px",
         }}
       />
     </Table.HeaderCell>

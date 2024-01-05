@@ -1,7 +1,7 @@
 div.pack-info-container {
   width: 100%;
   display: inline-flex;
-  padding-top: 5vh;
+  padding-top: 2vh;
 }
 
 div.pack-info-left-panel,
@@ -14,5 +14,10 @@ div.pack-info-left-panel .ui.header > .icon {
   margin-left: 15px;
   vertical-align: text-top;
   height: 0.6em;
+  cursor: pointer;
+}
+
+a.pack-link {
+  color: #2185d0;
   cursor: pointer;
 }

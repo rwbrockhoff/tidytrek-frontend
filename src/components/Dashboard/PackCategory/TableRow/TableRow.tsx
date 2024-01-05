@@ -9,6 +9,7 @@ import {
   editPackItem,
   deletePackItem,
 } from "../../../../redux/packs/packThunks";
+import ItemNameCell from "../ItemNameCell/ItemNameCell";
 import PackWeightCell from "../PackWeightCell/PackWeightCell";
 import DeleteButton from "../TableButtonCells/DeleteButton";
 import QuantityButton from "../TableButtonCells/QuantityButton";
@@ -38,6 +39,7 @@ const TableRow = (props: TableRowProps) => {
     packItemWeight: 0,
     packItemUnit: "oz",
     packItemQuantity: 1,
+    packItemUrl: "",
     wornWeight: false,
     consumable: false,
     favorite: false,
@@ -92,6 +94,7 @@ const TableRow = (props: TableRowProps) => {
     packItemWeight,
     packItemUnit,
     packItemQuantity,
+    packItemUrl,
     wornWeight,
     consumable,
     favorite,
@@ -104,8 +107,10 @@ const TableRow = (props: TableRowProps) => {
         onMouseOver={() => setToggleRow(true)}
         onMouseLeave={() => setToggleRow(false)}
       >
-        <TableCell
+        <ItemNameCell
           value={packItemName}
+          packItemUrl={packItemUrl}
+          displayIcon={toggleRow}
           onChange={handleInput}
           onToggleOff={handleToggleOff}
           itemName="packItemName"
