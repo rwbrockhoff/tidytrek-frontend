@@ -56,7 +56,7 @@ const PackCategory = (props: PackCategoryProps) => {
   };
 
   const convertedCategoryWeight = weightConverter(packItems, "lb");
-
+  const itemQuantity = packItems[0] ? packItems.length : 0;
   return (
     <div className="table-container">
       <Table fixed striped compact columns="16" color="olive" size="small">
@@ -91,22 +91,24 @@ const PackCategory = (props: PackCategoryProps) => {
           </Table.Row>
         </Table.Header>
 
-        <Droppable droppableId={`${props.category.packCategoryId}`}>
-          {(provided) => (
-            <>
-              <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                {packItems.map((item: PackItem, idx) => (
-                  <TableRow
-                    item={item}
-                    key={`${item.packCategoryId}${item.packItemId}`}
-                    index={idx}
-                  />
-                ))}
-                {provided.placeholder}
-              </tbody>
-            </>
-          )}
-        </Droppable>
+        {packItems[0] && (
+          <Droppable droppableId={`${props.category.packCategoryId}`}>
+            {(provided) => (
+              <>
+                <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                  {packItems.map((item: PackItem, idx) => (
+                    <TableRow
+                      item={item}
+                      key={`${item.packCategoryId}${item.packItemId}`}
+                      index={idx}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </tbody>
+              </>
+            )}
+          </Droppable>
+        )}
         <Table.Footer>
           <Table.Row className="footer-container">
             <Table.Cell colSpan={12}>
@@ -122,7 +124,7 @@ const PackCategory = (props: PackCategoryProps) => {
                 Add Item
               </Button>
             </Table.Cell>
-            <Table.Cell colSpan={2}>{packItems.length} Items</Table.Cell>
+            <Table.Cell colSpan={2}>{itemQuantity} Items</Table.Cell>
             <Table.Cell colSpan={2}>
               {`${convertedCategoryWeight} lbs`}
             </Table.Cell>

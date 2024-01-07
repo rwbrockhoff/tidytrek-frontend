@@ -1,5 +1,5 @@
 export default function weightConverter(itemList, outputUnit) {
-  if (itemList.length >= 0) {
+  if (itemList[0]) {
     return itemList
       .map((item) => {
         const { packItemWeight, packItemUnit } = item;
@@ -19,9 +19,9 @@ export default function weightConverter(itemList, outputUnit) {
           return convertToGrams(itemWeight, packItemUnit);
         } else return itemWeight;
       })
-      .reduce((weight: number, sum: number) => (sum += weight))
+      .reduce((weight: number, sum: number = 0) => (sum += weight))
       .toFixed(2);
-  } else return;
+  } else return 0;
 }
 
 function convertToOunces(weight, unit) {

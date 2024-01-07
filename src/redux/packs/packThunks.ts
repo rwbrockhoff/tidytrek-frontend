@@ -143,7 +143,7 @@ export const deleteCategoryAndItems = createAsyncThunk(
   "deleteCategoryAndItems",
   async (categoryId: number) => {
     const { data } = await tidyTrekAPI.delete(
-      `/packs/categories-items/${categoryId}`
+      `/packs/categories/items/${categoryId}`
     );
     return await data;
   }
