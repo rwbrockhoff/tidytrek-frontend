@@ -1,4 +1,4 @@
-import { PackItem, Category } from "./packTypes";
+import { PackItem, Category, PackListItem } from "./packTypes";
 
 export const getCategoryIdx = (categories: [], categoryId: number) => {
   return categories.findIndex(
@@ -10,4 +10,8 @@ export const getPackItemIdx = (category: Category, packItemId: number) => {
   return category.packItems.findIndex(
     (item: PackItem) => item.packItemId === packItemId
   );
+};
+
+export const getPackIdx = (packList, packId: number) => {
+  return packList.findIndex((pack: PackListItem) => pack.packId === packId);
 };

@@ -4,7 +4,7 @@ import { Header, Divider, Icon } from "semantic-ui-react";
 import { PackListItem } from "../../../redux/packs/packTypes";
 import { RootState, AppDispatch } from "../../../redux/store";
 import { useDispatch } from "react-redux";
-import { addNewPack } from "../../../redux/packs/packThunks";
+import { addNewPack, getPack } from "../../../redux/packs/packThunks";
 
 const PackList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -13,13 +13,22 @@ const PackList: React.FC = () => {
   const handleClick = () => {
     dispatch(addNewPack());
   };
+
+  const handleGetPack = (packId: number) => {
+    dispatch(getPack(packId));
+  };
+
   return (
     <div className="pack-list-container">
       <Header as="h3" className="pack-title">
         Packs
       </Header>
       {packList.map((pack: PackListItem) => {
-        return <p key={pack.packId}>{pack.packName}</p>;
+        return (
+          <p key={pack.packId} onClick={() => handleGetPack(pack.packId)}>
+            {pack.packName}
+          </p>
+        );
       })}
       <Divider />
       <p onClick={handleClick}>

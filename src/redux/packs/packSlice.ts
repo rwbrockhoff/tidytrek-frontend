@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { InitialState } from "./packTypes";
-import { getCategoryIdx, getPackItemIdx } from "./packUtils";
+import { getCategoryIdx, getPackItemIdx, getPackIdx } from "./packUtils";
 import {
   getDefaultPack,
   editPack,
@@ -13,6 +13,7 @@ import {
   deletePackCategory,
   deleteCategoryAndItems,
   addNewPack,
+  getPack,
 } from "./packThunks";
 
 const initialState: InitialState = {
@@ -33,10 +34,19 @@ export const packSlice = createSlice({
       state.categories = categories;
     });
     builder.addCase(getDefaultPack.rejected, () => {});
+    builder.addCase(getPack.fulfilled, (state, action) => {
+      const { payload } = action;
+      const { pack, categories } = payload;
+      state.pack = pack;
+      state.categories = categories;
+    });
     builder.addCase(editPack.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload?.updatedPack) {
         const { updatedPack } = payload;
+        const { packId, packName } = updatedPack;
+        const packIndex = getPackIdx(state.packList, packId);
+        state.packList[packIndex].packName = packName;
         state.pack = updatedPack;
       }
     });
