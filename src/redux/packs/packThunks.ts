@@ -28,6 +28,22 @@ export const editPack = createAsyncThunk(
   }
 );
 
+export const deletePack = createAsyncThunk(
+  "deletePack",
+  async (packId: number) => {
+    const { data } = await tidyTrekAPI.delete(`/packs/${packId}`);
+    return await data;
+  }
+);
+
+export const deletePackAndItems = createAsyncThunk(
+  "deletePackAndItems",
+  async (packId: number) => {
+    const { data } = await tidyTrekAPI.delete(`/packs/items/${packId}`);
+    return await data;
+  }
+);
+
 export const addPackItem = createAsyncThunk(
   "addPackItem",
   async (packItem: { packId: number; packCategoryId: number }) => {

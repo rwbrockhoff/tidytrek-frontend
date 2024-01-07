@@ -16,19 +16,21 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../redux/store";
-import { editPack } from "../../../../redux/packs/packThunks";
+import { editPack, deletePack } from "../../../../redux/packs/packThunks";
 import { Pack } from "../../../../redux/packs/packTypes";
 import "./PackFormModal.css";
+import PackTagProperties from "./PackTagProperties/PackTagProperties";
 
 interface PackFormModalProps {
   pack: Pack;
   open: boolean;
   onClose: () => void;
+  onClickDelete: () => void;
 }
 
 const PackFormModal = (props: PackFormModalProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { pack, open, onClose } = props;
+  const { pack, open, onClose, onClickDelete } = props;
   const [packChanged, setPackChanged] = useState(false);
   const [modifiedPack, setModifiedPack] = useState({
     packName: "",
@@ -85,6 +87,11 @@ const PackFormModal = (props: PackFormModalProps) => {
     }
   };
 
+  const handleDeletePack = () => {
+    const { packId } = props.pack;
+    dispatch(deletePack(packId));
+  };
+
   const {
     packPublic,
     packName,
@@ -139,62 +146,14 @@ const PackFormModal = (props: PackFormModalProps) => {
               placeholder="Pack Description"
             />
           </FormField>
-          <FormGroup widths={"equal"}>
-            <FormField>
-              <label>
-                <Icon name="location arrow" />
-                Location
-              </label>
-              <Input
-                name="packLocationTag"
-                value={packLocationTag ?? ""}
-                onChange={handleFormChange}
-                placeholder="Location"
-              />
-            </FormField>
-            <FormField>
-              <label>
-                <Icon name="sun" />
-                Season
-              </label>
-              <Input
-                name="packSeasonTag"
-                value={packSeasonTag ?? ""}
-                onChange={handleFormChange}
-                placeholder="Season"
-              />
-            </FormField>
-          </FormGroup>
 
-          <FormGroup widths={"equal"}>
-            <FormField>
-              <label>
-                <Icon name="time" />
-                Trip Duration
-              </label>
-              <Input
-                name="packDurationTag"
-                value={packDurationTag ?? ""}
-                onChange={handleFormChange}
-                placeholder="Trip Duration"
-              />
-            </FormField>
-            <FormField>
-              <label>
-                <i
-                  className="fa-solid fa-person-hiking"
-                  style={{ paddingRight: "5px" }}
-                />
-                Distance With Pack
-              </label>
-              <Input
-                name="packMilesTag"
-                value={packMilesTag ?? ""}
-                onChange={handleFormChange}
-                placeholder="Location"
-              />
-            </FormField>
-          </FormGroup>
+          <PackTagProperties
+            packLocationTag={packLocationTag}
+            packDurationTag={packDurationTag}
+            packSeasonTag={packSeasonTag}
+            packMilesTag={packMilesTag}
+            handleFormChange={handleFormChange}
+          />
 
           <FormGroup>
             <FormField width={6}>
@@ -219,6 +178,7 @@ const PackFormModal = (props: PackFormModalProps) => {
               />
             </FormField>
           </FormGroup>
+
           <Divider />
 
           <FormField>
@@ -244,6 +204,9 @@ const PackFormModal = (props: PackFormModalProps) => {
         </Form>
       </ModalContent>
       <ModalActions>
+        <Button color="red" floated="left" basic onClick={onClickDelete}>
+          <Icon name="trash" /> Delete Pack
+        </Button>
         <Button color="blue" onClick={handleSubmitPack}>
           <Icon name="save outline" /> Save Pack
         </Button>

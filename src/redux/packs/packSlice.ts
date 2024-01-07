@@ -3,7 +3,10 @@ import { InitialState } from "./packTypes";
 import { getCategoryIdx, getPackItemIdx, getPackIdx } from "./packUtils";
 import {
   getDefaultPack,
+  getPack,
+  addNewPack,
   editPack,
+  deletePack,
   addPackItem,
   editPackItem,
   movePackItem,
@@ -12,8 +15,7 @@ import {
   editPackCategory,
   deletePackCategory,
   deleteCategoryAndItems,
-  addNewPack,
-  getPack,
+  deletePackAndItems,
 } from "./packThunks";
 
 const initialState: InitialState = {
@@ -40,6 +42,15 @@ export const packSlice = createSlice({
       state.pack = pack;
       state.categories = categories;
     });
+    builder.addCase(addNewPack.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { pack, categories } = payload;
+        state.pack = pack;
+        state.categories = categories;
+        state.packList.push({ packName: pack.packName, packId: pack.packId });
+      }
+    });
     builder.addCase(editPack.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload?.updatedPack) {
@@ -51,14 +62,23 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(editPack.rejected, () => {});
-    builder.addCase(addNewPack.fulfilled, (state, action) => {
+    builder.addCase(deletePack.fulfilled, (state, action) => {
       const { payload } = action;
-      if (payload) {
-        const { pack, categories } = payload;
-        state.pack = pack;
-        state.categories = categories;
-        state.packList.push({ packName: pack.packName, packId: pack.packId });
-      }
+      const { deletedPackId } = payload;
+      const { packList } = state;
+      const packIdx = getPackIdx(packList, deletedPackId);
+      packList.splice(packIdx, 1);
+      state.pack = {};
+      state.categories = [];
+    });
+    builder.addCase(deletePackAndItems.fulfilled, (state, action) => {
+      const { payload } = action;
+      const { deletedPackId } = payload;
+      const { packList } = state;
+      const packIdx = getPackIdx(packList, deletedPackId);
+      packList.splice(packIdx, 1);
+      state.pack = {};
+      state.categories = [];
     });
     builder.addCase(addPackItem.fulfilled, (state, action) => {
       const { payload } = action;

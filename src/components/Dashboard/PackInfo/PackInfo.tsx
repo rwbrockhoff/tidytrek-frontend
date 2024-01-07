@@ -1,16 +1,45 @@
 import { Header, Label, Icon } from "semantic-ui-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../redux/store";
+import {
+  deletePack,
+  deletePackAndItems,
+  getDefaultPack,
+} from "../../../redux/packs/packThunks";
 import PackFormModal from "./PackFormModal/PackFormModal";
+import DeleteModal from "../PackCategory/DeleteModal/DeleteModal";
 import "./PackInfo.css";
 
 const PackInfo = () => {
+  const dispatch: AppDispatch = useDispatch();
   const currentPack = useSelector((state: RootState) => state.packs.pack);
   const [showIcon, setShowIcon] = useState(false);
   const [showPackModal, setShowPackModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleToggleModal = () => setShowPackModal(!showPackModal);
+
+  const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+
+  const handleShowDeleteModal = () => {
+    setShowPackModal(false);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeletePack = async () => {
+    const { packId } = currentPack;
+    await dispatch(deletePack(packId));
+    await dispatch(getDefaultPack());
+    setShowDeleteModal(false);
+  };
+
+  const handleDeletePackAndItems = async () => {
+    const { packId } = currentPack;
+    await dispatch(deletePackAndItems(packId));
+    await dispatch(getDefaultPack());
+    setShowDeleteModal(false);
+  };
 
   const {
     packName,
@@ -85,7 +114,14 @@ const PackInfo = () => {
       <PackFormModal
         open={showPackModal}
         onClose={handleToggleModal}
+        onClickDelete={handleShowDeleteModal}
         pack={currentPack}
+      />
+      <DeleteModal
+        open={showDeleteModal}
+        onClose={handleToggleDeleteModal}
+        onClickDelete={handleDeletePackAndItems}
+        onClickMoveItems={handleDeletePack}
       />
     </div>
   );
