@@ -4,11 +4,21 @@
   margin: 20px 0px;
 }
 
-.footer-container {
-  display: flex;
-  padding-left: 20px;
+.ui.table tfoot {
+  background-color: #f0f0f0;
+  font-size: 0.9em;
+  color: grey;
+}
+
+.ui.table {
+  border: none;
 }
 
 .table-container h3 {
   padding-left: 25px;
+}
+
+.add-item-table-button {
+  margin-top: 5px !important;
+  margin-left: 10px !important;
 }

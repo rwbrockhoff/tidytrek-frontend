@@ -126,7 +126,7 @@ const TableRow = (props: TableRowProps) => {
             onToggleOff={handleToggleOff}
             itemName="packItemName"
             placeholder="Name"
-            size={3}
+            size={4}
           />
           <TableCell
             value={packItemDescription}
@@ -134,7 +134,7 @@ const TableRow = (props: TableRowProps) => {
             onToggleOff={handleToggleOff}
             itemName="packItemDescription"
             placeholder="Description"
-            size={6}
+            size={5}
           />
           <PropertyButtons
             wornWeight={wornWeight}

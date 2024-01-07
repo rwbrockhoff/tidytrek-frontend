@@ -15,6 +15,7 @@ import {
   deleteCategoryAndItems,
 } from "../../../redux/packs/packThunks";
 import { Droppable } from "react-beautiful-dnd";
+import weightConverter from "../../../utils/weightConverter";
 
 interface PackCategoryProps {
   category: Category;
@@ -54,6 +55,8 @@ const PackCategory = (props: PackCategoryProps) => {
     setShowModal(false);
   };
 
+  const convertedCategoryWeight = weightConverter(packItems, "lb");
+
   return (
     <div className="table-container">
       <Table fixed striped compact columns="16" color="olive" size="small">
@@ -71,7 +74,11 @@ const PackCategory = (props: PackCategoryProps) => {
             <Table.HeaderCell textAlign="center" colSpan="1">
               Qty
             </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center" colSpan="2">
+            <Table.HeaderCell
+              textAlign="center"
+              colSpan="2"
+              style={{ paddingLeft: "50px" }}
+            >
               Weight
             </Table.HeaderCell>
 
@@ -100,20 +107,29 @@ const PackCategory = (props: PackCategoryProps) => {
             </>
           )}
         </Droppable>
+        <Table.Footer>
+          <Table.Row className="footer-container">
+            <Table.Cell colSpan={12}>
+              <Button
+                size="mini"
+                floated="left"
+                compact
+                basic
+                className="add-item-table-button"
+                onClick={handleAddItem}
+              >
+                <Icon name="add" />
+                Add Item
+              </Button>
+            </Table.Cell>
+            <Table.Cell colSpan={2}>{packItems.length} Items</Table.Cell>
+            <Table.Cell colSpan={2}>
+              {`${convertedCategoryWeight} lbs`}
+            </Table.Cell>
+          </Table.Row>
+        </Table.Footer>
       </Table>
-      <div className="footer-container">
-        <Button
-          color="blue"
-          size="mini"
-          compact
-          basic
-          className="add-item-table-button"
-          onClick={handleAddItem}
-        >
-          <Icon name="add" />
-          Add Item
-        </Button>
-      </div>
+
       <DeleteModal
         open={showModal}
         onClose={handleToggleModal}

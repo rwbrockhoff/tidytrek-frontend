@@ -75,7 +75,6 @@ export const packSlice = createSlice({
           prevPackCategoryId,
           prevPackItemIndex,
         } = payload;
-
         const prevCategoryIdx = getCategoryIdx(
           categories,
           Number(prevPackCategoryId)
