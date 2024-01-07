@@ -1,4 +1,3 @@
-import { Table } from "semantic-ui-react";
 import TableCell from "../TableCell/TableCell";
 import "./TableRow.css";
 import { useState, useEffect } from "react";
@@ -95,7 +94,6 @@ const TableRow = (props: TableRowProps) => {
     packItemName,
     packItemDescription,
     packItemId,
-    packCategoryId,
     packItemWeight,
     packItemUnit,
     packItemQuantity,

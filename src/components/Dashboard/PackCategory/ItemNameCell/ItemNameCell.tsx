@@ -46,6 +46,15 @@ const ItemNameCell = (props: ItemNameCellProps) => {
       onBlur={toggleToCell}
       onClick={toggleToEdit}
     >
+      {displayIcon && (
+        <div
+          className="grip-icon"
+          onMouseOver={toggleToEdit}
+          onMouseLeave={toggleToCell}
+        >
+          <i className="fa-solid fa-grip-vertical" />
+        </div>
+      )}
       <Input
         className="item-name-input"
         value={value || ""}
@@ -66,6 +75,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
         trigger={
           <Icon
             name="linkify"
+            className="url-link-icon"
             color={packItemUrl ? "blue" : "grey"}
             style={{ opacity: displayIcon || packItemUrl ? 100 : 0 }}
           />
