@@ -12,6 +12,7 @@ import {
   editPackCategory,
   deletePackCategory,
   deleteCategoryAndItems,
+  addNewPack,
 } from "./packThunks";
 
 const initialState: InitialState = {
@@ -40,6 +41,15 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(editPack.rejected, () => {});
+    builder.addCase(addNewPack.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { pack, categories } = payload;
+        state.pack = pack;
+        state.categories = categories;
+        state.packList.push({ packName: pack.packName, packId: pack.packId });
+      }
+    });
     builder.addCase(addPackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload) {

@@ -1,10 +1,10 @@
-import Navigation from "./components/Navigation/Navigation";
+import Sidebar from "./components/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 
 const ViewLayout: React.FC = () => {
   return (
     <div id="app-view-container">
-      <Navigation />
+      <Sidebar />
       <div id="view-component-container">
         <Outlet />
       </div>

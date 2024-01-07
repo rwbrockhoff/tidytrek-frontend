@@ -41,3 +41,8 @@ export interface PackItem {
   consumable: boolean;
   favorite: boolean;
 }
+
+export interface PackListItem {
+  packName: string;
+  packId: number;
+}

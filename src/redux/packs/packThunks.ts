@@ -7,6 +7,11 @@ export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
   return await data;
 });
 
+export const addNewPack = createAsyncThunk("addNewPack", async () => {
+  const { data } = (await tidyTrekAPI.post("/packs")) || {};
+  return await data;
+});
+
 export const editPack = createAsyncThunk(
   "editPack",
   async (packInfo: { packId: number; modifiedPack: Pack }) => {
