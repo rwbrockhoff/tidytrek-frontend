@@ -9,13 +9,18 @@ import { addNewPack, getPack } from "../../../redux/packs/packThunks";
 const PackList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const packList = useSelector((state: RootState) => state.packs.packList);
+  const currentPackId = useSelector(
+    (state: RootState) => state.packs.pack.packId
+  );
 
   const handleClick = () => {
     dispatch(addNewPack());
   };
 
   const handleGetPack = (packId: number) => {
-    dispatch(getPack(packId));
+    if (packId !== currentPackId) {
+      dispatch(getPack(packId));
+    }
   };
 
   return (
