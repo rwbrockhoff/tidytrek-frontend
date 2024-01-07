@@ -14,10 +14,13 @@ import PackWeightCell from "../PackWeightCell/PackWeightCell";
 import DeleteButton from "../TableButtonCells/DeleteButton";
 import QuantityButton from "../TableButtonCells/QuantityButton";
 import PropertyButtons from "../TableButtonCells/PropertyButtons";
+import { Draggable } from "react-beautiful-dnd";
+import React from "react";
 
 interface TableRowProps {
   item: PackItem;
-  key: number;
+  key: string;
+  index: number;
 }
 
 interface PackItemPropUpdate {
@@ -91,6 +94,8 @@ const TableRow = (props: TableRowProps) => {
   const {
     packItemName,
     packItemDescription,
+    packItemId,
+    packCategoryId,
     packItemWeight,
     packItemUnit,
     packItemQuantity,
@@ -99,58 +104,65 @@ const TableRow = (props: TableRowProps) => {
     consumable,
     favorite,
   } = packItem;
+
+  const dropId = `${packItemId}`;
+
   return (
-    <>
-      <Table.Row
-        verticalAlign="middle"
-        className="table-row"
-        onMouseOver={() => setToggleRow(true)}
-        onMouseLeave={() => setToggleRow(false)}
-      >
-        <ItemNameCell
-          value={packItemName}
-          packItemUrl={packItemUrl}
-          displayIcon={toggleRow}
-          onChange={handleInput}
-          onToggleOff={handleToggleOff}
-          itemName="packItemName"
-          placeholder="Name"
-          size={3}
-        />
-        <TableCell
-          value={packItemDescription}
-          onChange={handleInput}
-          onToggleOff={handleToggleOff}
-          itemName="packItemDescription"
-          placeholder="Description"
-          size={6}
-        />
-        <PropertyButtons
-          wornWeight={wornWeight}
-          consumable={consumable}
-          favorite={favorite}
-          onClick={handlePropButtons}
-          display={toggleRow}
-          size={3}
-        />
-        <QuantityButton
-          quantity={packItemQuantity}
-          onChange={handleInput}
-          onToggleOff={handleToggleOff}
-          size={1}
-        />
-        <PackWeightCell
-          weight={packItemWeight}
-          unit={packItemUnit}
-          placeholder={0}
-          onChange={handleInput}
-          onToggleOff={handleToggleOff}
-          itemName="packItemWeight"
-          size={2}
-        />
-        <DeleteButton display={toggleRow} size={1} onClick={handleDelete} />
-      </Table.Row>
-    </>
+    <Draggable key={dropId} draggableId={dropId} index={props.index}>
+      {(provided) => (
+        <tr
+          className="table-row"
+          onMouseOver={() => setToggleRow(true)}
+          onMouseLeave={() => setToggleRow(false)}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <ItemNameCell
+            value={packItemName}
+            packItemUrl={packItemUrl}
+            displayIcon={toggleRow}
+            onChange={handleInput}
+            onToggleOff={handleToggleOff}
+            itemName="packItemName"
+            placeholder="Name"
+            size={3}
+          />
+          <TableCell
+            value={packItemDescription}
+            onChange={handleInput}
+            onToggleOff={handleToggleOff}
+            itemName="packItemDescription"
+            placeholder="Description"
+            size={6}
+          />
+          <PropertyButtons
+            wornWeight={wornWeight}
+            consumable={consumable}
+            favorite={favorite}
+            onClick={handlePropButtons}
+            display={toggleRow}
+            size={3}
+          />
+          <QuantityButton
+            quantity={packItemQuantity}
+            onChange={handleInput}
+            onToggleOff={handleToggleOff}
+            size={1}
+          />
+          <PackWeightCell
+            weight={packItemWeight}
+            unit={packItemUnit}
+            placeholder={0}
+            onChange={handleInput}
+            onToggleOff={handleToggleOff}
+            itemName="packItemWeight"
+            size={2}
+          />
+          <DeleteButton display={toggleRow} size={1} onClick={handleDelete} />
+        </tr>
+      )}
+    </Draggable>
   );
 };
 

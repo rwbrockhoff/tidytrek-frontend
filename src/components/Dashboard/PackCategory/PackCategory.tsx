@@ -14,9 +14,11 @@ import {
   editPackCategory,
   deleteCategoryAndItems,
 } from "../../../redux/packs/packThunks";
+import { Droppable } from "react-beautiful-dnd";
 
 interface PackCategoryProps {
   category: Category;
+  index: number;
   key: number;
 }
 
@@ -82,11 +84,22 @@ const PackCategory = (props: PackCategoryProps) => {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
-          {packItems.map((item: PackItem, idx) => (
-            <TableRow item={item} key={item?.packItemId || idx} />
-          ))}
-        </Table.Body>
+        <Droppable droppableId={`${props.category.packCategoryId}`}>
+          {(provided) => (
+            <>
+              <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                {packItems.map((item: PackItem, idx) => (
+                  <TableRow
+                    item={item}
+                    key={`${item.packCategoryId}${item.packItemId}`}
+                    index={idx}
+                  />
+                ))}
+                {provided.placeholder}
+              </tbody>
+            </>
+          )}
+        </Droppable>
       </Table>
       <div className="footer-container">
         <Button

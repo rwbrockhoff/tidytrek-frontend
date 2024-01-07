@@ -43,6 +43,33 @@ export const editPackItem = createAsyncThunk(
   }
 );
 
+export const movePackItem = createAsyncThunk(
+  "movePackItem",
+  async (packInfo: {
+    packItemId: number;
+    packCategoryId: number;
+    packItemIndex: number;
+    prevPackCategoryId: number;
+    prevPackItemIndex: number;
+  }) => {
+    const {
+      packItemId,
+      packCategoryId,
+      packItemIndex,
+      prevPackCategoryId,
+      prevPackItemIndex,
+    } = packInfo;
+    const { data } =
+      (await tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, {
+        packCategoryId,
+        packItemIndex,
+        prevPackCategoryId,
+        prevPackItemIndex,
+      })) || {};
+    return await data;
+  }
+);
+
 export const deletePackItem = createAsyncThunk(
   "deletePackItem",
   async (packItemId: number) => {

@@ -6,7 +6,12 @@ import AddCategoryButton from "../../components/Dashboard/PackCategory/AddCatego
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getDefaultPack, addPackCategory } from "../../redux/packs/packThunks";
+import {
+  getDefaultPack,
+  addPackCategory,
+  movePackItem,
+} from "../../redux/packs/packThunks";
+import { DragDropContext } from "react-beautiful-dnd";
 
 const Dashboard: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -24,17 +29,42 @@ const Dashboard: React.FC = () => {
     dispatch(addPackCategory(packId));
   };
 
+  const onDragEnd = (result) => {
+    const { draggableId, destination, source } = result;
+    if (!destination) {
+      return;
+    }
+    const sameIndex = destination.index === source.index;
+    const sameCategory = destination.droppableId === source.droppableId;
+
+    if (sameIndex && sameCategory) return;
+
+    dispatch(
+      movePackItem({
+        packItemId: draggableId,
+        packCategoryId: destination.droppableId,
+        packItemIndex: destination.index,
+        prevPackCategoryId: source.droppableId,
+        prevPackItemIndex: source.index,
+      })
+    );
+  };
+
   return (
     <div className="dashboard-container">
       <PackInfo />
       <PackChart />
-      {packCategories.length >= 0 &&
-        packCategories.map((category, idx: number) => (
-          <PackCategory
-            category={category}
-            key={category?.packCategoryId || idx}
-          />
-        ))}
+      <DragDropContext onDragEnd={onDragEnd}>
+        {packCategories.length >= 0 &&
+          packCategories.map((category, idx: number) => (
+            <PackCategory
+              category={category}
+              index={idx}
+              key={category?.packCategoryId || idx}
+            />
+          ))}
+      </DragDropContext>
+
       <AddCategoryButton onClick={handleAddPackCategory} />
     </div>
   );

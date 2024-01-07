@@ -6,6 +6,7 @@ import {
   editPack,
   addPackItem,
   editPackItem,
+  movePackItem,
   deletePackItem,
   addPackCategory,
   editPackCategory,
@@ -64,6 +65,37 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(editPackItem.rejected, () => {});
+    builder.addCase(movePackItem.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { categories } = state;
+        const {
+          packCategoryId,
+          packItemIndex,
+          prevPackCategoryId,
+          prevPackItemIndex,
+        } = payload;
+
+        const prevCategoryIdx = getCategoryIdx(
+          categories,
+          Number(prevPackCategoryId)
+        );
+        const [packItemToMove] = categories[prevCategoryIdx].packItems.splice(
+          prevPackItemIndex,
+          1
+        );
+        let newCategoryIdx;
+        if (prevPackCategoryId !== packCategoryId) {
+          newCategoryIdx = getCategoryIdx(categories, Number(packCategoryId));
+        } else newCategoryIdx = prevCategoryIdx;
+
+        state.categories[newCategoryIdx].packItems.splice(
+          packItemIndex,
+          0,
+          packItemToMove
+        );
+      }
+    });
     builder.addCase(deletePackItem.fulfilled, (state, action) => {
       const { payload } = action;
       if (payload) {
