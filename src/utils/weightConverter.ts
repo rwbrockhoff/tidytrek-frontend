@@ -1,7 +1,12 @@
-export default function weightConverter(itemList, outputUnit) {
+import { PackItem } from '../redux/packs/packTypes';
+
+export default function weightConverter(
+  itemList: [PackItem],
+  outputUnit: string,
+) {
   if (itemList[0]) {
     return itemList
-      .map((item) => {
+      .map((item: { packItemWeight: number; packItemUnit: string }) => {
         const { packItemWeight, packItemUnit } = item;
         // Ensure we always return number type for reducer
         const itemWeight = Number(packItemWeight);
@@ -9,13 +14,13 @@ export default function weightConverter(itemList, outputUnit) {
         if (packItemUnit === outputUnit || itemWeight === 0) {
           return itemWeight;
         }
-        if (outputUnit === "oz") {
+        if (outputUnit === 'oz') {
           return convertToOunces(itemWeight, packItemUnit);
-        } else if (outputUnit === "lb") {
+        } else if (outputUnit === 'lb') {
           return convertToPounds(itemWeight, packItemUnit);
-        } else if (outputUnit === "kg") {
+        } else if (outputUnit === 'kg') {
           return convertToKilograms(itemWeight, packItemUnit);
-        } else if (outputUnit === "g") {
+        } else if (outputUnit === 'g') {
           return convertToGrams(itemWeight, packItemUnit);
         } else return itemWeight;
       })
@@ -24,52 +29,52 @@ export default function weightConverter(itemList, outputUnit) {
   } else return 0;
 }
 
-function convertToOunces(weight, unit) {
+function convertToOunces(weight: number, unit: string) {
   switch (unit) {
-    case "oz":
+    case 'oz':
       return weight / 16;
-    case "kg":
+    case 'kg':
       return weight * 2.20462;
-    case "g":
+    case 'g':
       return weight * 0.00220462;
     default:
       return weight;
   }
 }
 
-function convertToPounds(weight, unit) {
+function convertToPounds(weight: number, unit: string) {
   switch (unit) {
-    case "oz":
+    case 'oz':
       return weight / 16;
-    case "kg":
+    case 'kg':
       return weight * 2.20462;
-    case "g":
+    case 'g':
       return weight * 0.00220462;
     default:
       return weight;
   }
 }
 
-function convertToKilograms(weight, unit) {
+function convertToKilograms(weight: number, unit: string) {
   switch (unit) {
-    case "oz":
+    case 'oz':
       return weight / 16;
-    case "kg":
+    case 'kg':
       return weight * 2.20462;
-    case "g":
+    case 'g':
       return weight * 0.00220462;
     default:
       return weight;
   }
 }
 
-function convertToGrams(weight, unit) {
+function convertToGrams(weight: number, unit: string) {
   switch (unit) {
-    case "oz":
+    case 'oz':
       return weight / 16;
-    case "kg":
+    case 'kg':
       return weight * 2.20462;
-    case "g":
+    case 'g':
       return weight * 0.00220462;
     default:
       return weight;

@@ -12,14 +12,14 @@ import {
   TextArea,
   FormGroup,
   Divider,
-} from "semantic-ui-react";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../redux/store";
-import { editPack, deletePack } from "../../../../redux/packs/packThunks";
-import { Pack } from "../../../../redux/packs/packTypes";
-import "./PackFormModal.css";
-import PackTagProperties from "./PackTagProperties/PackTagProperties";
+} from 'semantic-ui-react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../redux/store';
+import { editPack } from '../../../../redux/packs/packThunks';
+import { Pack } from '../../../../redux/packs/packTypes';
+import './PackFormModal.css';
+import PackTagProperties from './PackTagProperties/PackTagProperties';
 
 interface PackFormModalProps {
   pack: Pack;
@@ -33,20 +33,20 @@ const PackFormModal = (props: PackFormModalProps) => {
   const { pack, open, onClose, onClickDelete } = props;
   const [packChanged, setPackChanged] = useState(false);
   const [modifiedPack, setModifiedPack] = useState({
-    packName: "",
-    packDescription: "",
+    packName: '',
+    packDescription: '',
     packId: 0,
     userId: 0,
     packIndex: 0,
-    packLocationTag: "",
-    packSeasonTag: "",
-    packDurationTag: "",
-    packMilesTag: "",
+    packLocationTag: '',
+    packSeasonTag: '',
+    packDurationTag: '',
+    packMilesTag: '',
     packPublic: false,
-    packUrlName: "",
-    packUrl: "",
+    packUrlName: '',
+    packUrl: '',
     packAffiliate: false,
-    packAffiliateDescription: "",
+    packAffiliateDescription: '',
   });
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const PackFormModal = (props: PackFormModalProps) => {
   const handleFormChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setModifiedPack((prevFormData) => ({
       ...prevFormData,
@@ -69,7 +69,10 @@ const PackFormModal = (props: PackFormModalProps) => {
     }
   };
 
-  const handleCheckBox = (updatedCheckbox) => {
+  const handleCheckBox = (updatedCheckbox: {
+    packAffiliate?: boolean;
+    packPublic?: boolean;
+  }) => {
     setModifiedPack((prevFormData) => ({
       ...prevFormData,
       ...updatedCheckbox,
@@ -85,11 +88,6 @@ const PackFormModal = (props: PackFormModalProps) => {
       dispatch(editPack({ packId, modifiedPack }));
       onClose();
     }
-  };
-
-  const handleDeletePack = () => {
-    const { packId } = props.pack;
-    dispatch(deletePack(packId));
   };
 
   const {
@@ -109,14 +107,14 @@ const PackFormModal = (props: PackFormModalProps) => {
   return (
     <Modal size="small" closeIcon open={open} onClose={onClose}>
       <ModalHeader className="pack-form-modal-header">
-        {packName ?? pack.packName ?? "Pack"}
+        {packName ?? pack.packName ?? 'Pack'}
       </ModalHeader>
       <ModalContent>
         <Form>
           <FormField
             style={{
-              display: "flex",
-              justifyContent: "flex-end",
+              display: 'flex',
+              justifyContent: 'flex-end',
             }}
           >
             <Checkbox
@@ -132,7 +130,7 @@ const PackFormModal = (props: PackFormModalProps) => {
             <label>Pack Name</label>
             <Input
               name="packName"
-              value={packName ?? ""}
+              value={packName ?? ''}
               onChange={handleFormChange}
               placeholder="Pack Name"
             />
@@ -141,7 +139,7 @@ const PackFormModal = (props: PackFormModalProps) => {
             <label>Pack Description</label>
             <TextArea
               name="packDescription"
-              value={packDescription ?? ""}
+              value={packDescription ?? ''}
               onChange={handleFormChange}
               placeholder="Pack Description"
             />
@@ -160,7 +158,7 @@ const PackFormModal = (props: PackFormModalProps) => {
               <label>Link Name</label>
               <Input
                 name="packUrlName"
-                value={packUrlName ?? ""}
+                value={packUrlName ?? ''}
                 onChange={handleFormChange}
                 placeholder="Gear Loadout Video"
               />
@@ -172,7 +170,7 @@ const PackFormModal = (props: PackFormModalProps) => {
               </label>
               <Input
                 name="packUrl"
-                value={packUrl ?? ""}
+                value={packUrl ?? ''}
                 onChange={handleFormChange}
                 placeholder="Blogpost, Youtube Video, etc."
               />
@@ -195,7 +193,7 @@ const PackFormModal = (props: PackFormModalProps) => {
               <label>Custom Affiliate Message</label>
               <TextArea
                 name="packAffiliateDescription"
-                value={packAffiliateDescription ?? ""}
+                value={packAffiliateDescription ?? ''}
                 onChange={handleFormChange}
                 placeholder="You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support me at no extra cost to you!"
               />

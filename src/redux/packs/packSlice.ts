@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { InitialState } from './packTypes';
 import { getCategoryIdx, getPackItemIdx, getPackIdx } from './packUtils';
-
 import {
   getDefaultPack,
   getPack,
