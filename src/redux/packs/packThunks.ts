@@ -1,81 +1,81 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { tidyTrekAPI } from "../../api/tidytrekAPI";
-import { PackItem, Pack } from "./packTypes";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { tidyTrekAPI } from '../../api/tidytrekAPI';
+import { PackItem, Pack } from './packTypes';
 
-export const getDefaultPack = createAsyncThunk("getDefaultPack", async () => {
-  const { data } = (await tidyTrekAPI.get("/packs")) || {};
+export const getDefaultPack = createAsyncThunk('getDefaultPack', async () => {
+  const { data } = (await tidyTrekAPI.get('/packs')) || {};
   return await data;
 });
 
-export const getPack = createAsyncThunk("getPack", async (packId: number) => {
+export const getPack = createAsyncThunk('getPack', async (packId: number) => {
   const { data } = (await tidyTrekAPI.get(`/packs/${packId}`)) || {};
   return await data;
 });
 
-export const addNewPack = createAsyncThunk("addNewPack", async () => {
-  const { data } = (await tidyTrekAPI.post("/packs")) || {};
+export const addNewPack = createAsyncThunk('addNewPack', async () => {
+  const { data } = (await tidyTrekAPI.post('/packs')) || {};
   return await data;
 });
 
 export const editPack = createAsyncThunk(
-  "editPack",
+  'editPack',
   async (packInfo: { packId: number; modifiedPack: Pack }) => {
     const { packId, modifiedPack } = packInfo;
     const { data } =
       (await tidyTrekAPI.put(`/packs/${packId}`, { packId, modifiedPack })) ||
       {};
     return await data;
-  }
+  },
 );
 
 export const deletePack = createAsyncThunk(
-  "deletePack",
+  'deletePack',
   async (packId: number) => {
     const { data } = await tidyTrekAPI.delete(`/packs/${packId}`);
     return await data;
-  }
+  },
 );
 
 export const deletePackAndItems = createAsyncThunk(
-  "deletePackAndItems",
+  'deletePackAndItems',
   async (packId: number) => {
     const { data } = await tidyTrekAPI.delete(`/packs/items/${packId}`);
     return await data;
-  }
+  },
 );
 
 export const addPackItem = createAsyncThunk(
-  "addPackItem",
+  'addPackItem',
   async (packItem: { packId: number; packCategoryId: number }) => {
     const { packId, packCategoryId } = packItem;
     const { data } =
-      (await tidyTrekAPI.post("/packs/pack-items", {
+      (await tidyTrekAPI.post('/packs/pack-items', {
         packId,
         packCategoryId,
       })) || {};
     return await data;
-  }
+  },
 );
 
 export const editPackItem = createAsyncThunk(
-  "editPackItem",
+  'editPackItem',
   async (packInfo: { packItemId: number; packItem: PackItem }) => {
     const { packItemId, packItem } = packInfo;
     const { data } = await tidyTrekAPI.put(
       `/packs/pack-items/${packItemId}`,
-      packItem
+      packItem,
     );
     return await data;
-  }
+  },
 );
 
 export const movePackItem = createAsyncThunk(
-  "movePackItem",
+  'movePackItem',
   async (packInfo: {
-    packItemId: number;
-    packCategoryId: number;
+    packItemId: string;
+    packCategoryId: string;
     packItemIndex: number;
-    prevPackCategoryId: number;
+    prevPackCategoryId: string;
     prevPackItemIndex: number;
   }) => {
     const {
@@ -93,29 +93,29 @@ export const movePackItem = createAsyncThunk(
         prevPackItemIndex,
       })) || {};
     return await data;
-  }
+  },
 );
 
 export const deletePackItem = createAsyncThunk(
-  "deletePackItem",
+  'deletePackItem',
   async (packItemId: number) => {
     const { data } = await tidyTrekAPI.delete(
-      `/packs/pack-items/${packItemId}`
+      `/packs/pack-items/${packItemId}`,
     );
     return await data;
-  }
+  },
 );
 
 export const addPackCategory = createAsyncThunk(
-  "addPackCategory",
+  'addPackCategory',
   async (packId: number) => {
     const { data } = await tidyTrekAPI.post(`/packs/categories/${packId}`);
     return await data;
-  }
+  },
 );
 
 export const editPackCategory = createAsyncThunk(
-  "editPackCategory",
+  'editPackCategory',
   async (categoryInfo: {
     packCategoryId: number;
     packCategoryName: string;
@@ -123,28 +123,28 @@ export const editPackCategory = createAsyncThunk(
     const { packCategoryId, packCategoryName } = categoryInfo;
     const { data } = await tidyTrekAPI.put(
       `/packs/categories/${packCategoryId}`,
-      { packCategoryName }
+      { packCategoryName },
     );
     return await data;
-  }
+  },
 );
 
 export const deletePackCategory = createAsyncThunk(
-  "deletePackCategory",
+  'deletePackCategory',
   async (categoryId: number) => {
     const { data } = await tidyTrekAPI.delete(
-      `/packs/categories/${categoryId}`
+      `/packs/categories/${categoryId}`,
     );
     return await data;
-  }
+  },
 );
 
 export const deleteCategoryAndItems = createAsyncThunk(
-  "deleteCategoryAndItems",
+  'deleteCategoryAndItems',
   async (categoryId: number) => {
     const { data } = await tidyTrekAPI.delete(
-      `/packs/categories/items/${categoryId}`
+      `/packs/categories/items/${categoryId}`,
     );
     return await data;
-  }
+  },
 );
