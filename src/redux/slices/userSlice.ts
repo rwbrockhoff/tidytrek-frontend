@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { tidyTrekAPI } from "../../api/tidytrekAPI";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { tidyTrekAPI } from '../../api/tidytrekAPI';
 
 interface user {
   userId: string;
@@ -13,51 +13,51 @@ interface initialState {
   authErrorMessage: string;
   user: user;
 }
-const initialState: initialState = {
+export const initialState: initialState = {
   isAuthenticated: false,
   authLoading: false,
   authError: false,
-  authErrorMessage: "",
-  user: { userId: "", name: "", email: "" },
+  authErrorMessage: '',
+  user: { userId: '', name: '', email: '' },
 };
 
-export const getAuthStatus = createAsyncThunk("checkAuthStatus", async () => {
-  const { data } = (await tidyTrekAPI.get("/auth/status")) || {};
+export const getAuthStatus = createAsyncThunk('checkAuthStatus', async () => {
+  const { data } = (await tidyTrekAPI.get('/auth/status')) || {};
   return data;
 });
 
 export const registerUser = createAsyncThunk(
-  "registerUser",
+  'registerUser',
   async (formData: { email: string; name: string; password: string }) => {
     const { name, email, password } = formData;
     //TO DO form validation
-    const { data } = await tidyTrekAPI.post("/auth/register", {
+    const { data } = await tidyTrekAPI.post('/auth/register', {
       name,
       email,
       password,
     });
     return await data;
-  }
+  },
 );
 
 export const logInUser = createAsyncThunk(
-  "logInUser",
+  'logInUser',
   async (formData: { email: string; password: string }) => {
     const { email, password } = formData;
-    const { data } = await tidyTrekAPI.post("/auth/login", {
+    const { data } = await tidyTrekAPI.post('/auth/login', {
       email,
       password,
     });
     return await data;
-  }
+  },
 );
 
-export const logOutUser = createAsyncThunk("logOutUser", async () => {
-  await tidyTrekAPI.post("/auth/logout");
+export const logOutUser = createAsyncThunk('logOutUser', async () => {
+  await tidyTrekAPI.post('/auth/logout');
 });
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -82,7 +82,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(registerUser.rejected, (state) => {
       state.authError = true;
-      state.authErrorMessage = "Oops. We had trouble creating your account.";
+      state.authErrorMessage = 'Oops. We had trouble creating your account.';
     });
     builder.addCase(logInUser.fulfilled, (state, action) => {
       if (action.payload) {
@@ -93,7 +93,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(logInUser.rejected, (state) => {
       state.authError = true;
-      state.authErrorMessage = "Oops. Wrong email or password.";
+      state.authErrorMessage = 'Oops. Wrong email or password.';
     });
     builder.addCase(logOutUser.fulfilled, () => initialState);
   },

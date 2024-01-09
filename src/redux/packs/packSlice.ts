@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { InitialState } from "./packTypes";
-import { getCategoryIdx, getPackItemIdx, getPackIdx } from "./packUtils";
+import { createSlice } from '@reduxjs/toolkit';
+import { InitialState } from './packTypes';
+import { getCategoryIdx, getPackItemIdx, getPackIdx } from './packUtils';
+
 import {
   getDefaultPack,
   getPack,
@@ -16,7 +17,7 @@ import {
   deletePackCategory,
   deleteCategoryAndItems,
   deletePackAndItems,
-} from "./packThunks";
+} from './packThunks';
 
 const initialState: InitialState = {
   packList: [],
@@ -25,7 +26,7 @@ const initialState: InitialState = {
 };
 
 export const packSlice = createSlice({
-  name: "packs",
+  name: 'packs',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -117,11 +118,11 @@ export const packSlice = createSlice({
         } = payload;
         const prevCategoryIdx = getCategoryIdx(
           categories,
-          Number(prevPackCategoryId)
+          Number(prevPackCategoryId),
         );
         const [packItemToMove] = categories[prevCategoryIdx].packItems.splice(
           prevPackItemIndex,
-          1
+          1,
         );
         let newCategoryIdx;
         if (prevPackCategoryId !== packCategoryId) {
@@ -131,7 +132,7 @@ export const packSlice = createSlice({
         state.categories[newCategoryIdx].packItems.splice(
           packItemIndex,
           0,
-          packItemToMove
+          packItemToMove,
         );
       }
     });
@@ -165,7 +166,7 @@ export const packSlice = createSlice({
         const { categories } = state;
         const categoryIdx = getCategoryIdx(
           categories,
-          packCategory.packCategoryId
+          packCategory.packCategoryId,
         );
         if (categoryIdx >= 0) {
           // editPackCategory does NOT return packItems (unchanged)
