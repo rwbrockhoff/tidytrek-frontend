@@ -7,6 +7,7 @@ import {
   deletePackAndItems,
   getDefaultPack,
 } from "../../../redux/packs/packThunks";
+import PackChart from "../PackChart/PackChart";
 import PackFormModal from "./PackFormModal/PackFormModal";
 import DeleteModal from "../PackCategory/DeleteModal/DeleteModal";
 import "./PackInfo.css";
@@ -110,7 +111,9 @@ const PackInfo = () => {
         </div>
       </div>
       {/* Right Hand Panel */}
-      <div className="pack-info-right-panel"></div>
+      <div className="pack-info-right-panel">
+        <PackChart />
+      </div>
       <PackFormModal
         open={showPackModal}
         onClose={handleToggleModal}

@@ -1,7 +1,11 @@
 div.pack-info-container {
   width: 100%;
   display: inline-flex;
+  align-items: center;
   padding-top: 2vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-bottom: 5vh;
 }
 
 div.pack-info-left-panel,
@@ -15,6 +19,12 @@ div.pack-info-left-panel .ui.header > .icon {
   vertical-align: text-top;
   height: 0.6em;
   cursor: pointer;
+}
+
+div.pack-info-right-panel {
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }
 
 a.pack-link {
