@@ -1,22 +1,17 @@
 import { Table, Input } from "semantic-ui-react";
 import { useState } from "react";
-import "./TableCell.css";
+import "./TableButtons.css";
 
-interface TableCellProps {
-  value: string | number;
-  itemName: string;
-  placeholder?: string;
+interface ButtonProps {
+  quantity: number;
   size: number;
-  onChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onToggleOff: () => void;
 }
 
-const TableCell = (props: TableCellProps) => {
-  const { value, itemName, placeholder, size, onChange, onToggleOff } = props;
+const QuantityButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+  const { quantity, size, onChange, onToggleOff } = props;
+
   const [toggleInput, setToggleInput] = useState(false);
   const toggleToEdit = () => !toggleInput && setToggleInput(true);
   const toggleToCell = () => {
@@ -28,6 +23,8 @@ const TableCell = (props: TableCellProps) => {
 
   return (
     <Table.Cell
+      className="table-button"
+      textAlign="center"
       colSpan={size}
       onMouseOver={toggleToEdit}
       onMouseLeave={toggleToCell}
@@ -35,18 +32,17 @@ const TableCell = (props: TableCellProps) => {
       onClick={toggleToEdit}
     >
       <Input
-        className="table-cell-input"
-        value={value || ""}
-        name={itemName}
-        placeholder={placeholder}
-        onChange={onChange}
+        fluid
+        name="packItemQuantity"
+        value={quantity}
+        type="number"
+        step={1}
         transparent={!toggleInput}
-        style={{
-          paddingLeft: !toggleInput ? "13px" : "0px",
-        }}
+        onChange={onChange}
+        style={{ paddingLeft: toggleInput ? "0px" : "12px" }}
       />
     </Table.Cell>
   );
 };
 
-export default TableCell;
+export default QuantityButton;

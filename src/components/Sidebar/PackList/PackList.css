@@ -1,0 +1,15 @@
+h3.ui.header.pack-title {
+  color: white;
+}
+
+div.pack-list-container {
+  margin-top: 50px;
+}
+
+div.pack-list-container p {
+  cursor: pointer;
+}
+
+div.pack-list-container p:hover {
+  opacity: 0.8;
+}

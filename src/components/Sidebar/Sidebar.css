@@ -1,0 +1,22 @@
+nav {
+  background: #514f59;
+  color: white;
+  height: 100vh;
+  width: 20vw;
+  padding: 5vh 50px;
+}
+
+nav a {
+  color: white;
+}
+
+menu:last-child {
+  text-decoration: none;
+  list-style-type: none;
+  cursor: pointer;
+  /* margin-left: auto; */
+}
+
+li:hover {
+  text-decoration: underline;
+}

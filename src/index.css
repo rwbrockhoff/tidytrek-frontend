@@ -27,13 +27,15 @@ a {
 #app-view-container {
   background-color: #f0f0f0;
   height: 100vh;
+  display: flex;
 }
 
 #view-component-container {
-  width: 100vw;
-  height: 88vh;
+  width: 80vw;
+  height: 100vh;
   overflow-y: auto;
-  padding-left: 10vw;
-  padding-right: 10vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
   padding-bottom: 10vh;
+  padding-top: 5vh;
 }

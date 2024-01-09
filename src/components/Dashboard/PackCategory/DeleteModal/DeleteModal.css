@@ -1,0 +1,6 @@
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.ui.modal {
+  left: 40vw;
+}

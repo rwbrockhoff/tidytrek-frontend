@@ -1,11 +1,8 @@
 tr.table-row {
   position: relative;
+  border: none;
 }
 
-.delete-button {
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  top: 10px;
-  left: calc(100% + 10px);
+.ui.compact.table td {
+  padding: 0.2em 0.2em;
 }
