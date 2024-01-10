@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   Button,
   Form,
@@ -7,10 +7,10 @@ import {
   Icon,
   Message,
   Segment,
-} from "semantic-ui-react";
-import "./LogInForm.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+} from 'semantic-ui-react';
+import './LogInForm.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 interface FormProps {
   isRegisterForm: boolean;
@@ -29,7 +29,7 @@ const LogInForm: React.FC<FormProps> = ({
 }) => {
   const authError = useSelector((state: RootState) => state.user.authError);
   const authErrorMessage = useSelector(
-    (state: RootState) => state.user.authErrorMessage
+    (state: RootState) => state.user.authErrorMessage,
   );
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
@@ -40,8 +40,8 @@ const LogInForm: React.FC<FormProps> = ({
         <Segment stacked>
           <Header as="h2" color="teal" textAlign="center">
             {isRegisterForm
-              ? "Register your account"
-              : "Log-in to your account"}
+              ? 'Register your account'
+              : 'Log-in to your account'}
           </Header>
           {isRegisterForm && (
             <Form.Input
@@ -50,6 +50,7 @@ const LogInForm: React.FC<FormProps> = ({
               iconPosition="left"
               placeholder="Name"
               name="name"
+              data-testid="name-input"
               type="Name"
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                 onFormChange(e)
@@ -63,6 +64,7 @@ const LogInForm: React.FC<FormProps> = ({
             iconPosition="left"
             placeholder="E-mail address"
             name="email"
+            data-testid="email-input"
             onChange={onFormChange}
           />
           <Form.Input
@@ -72,6 +74,7 @@ const LogInForm: React.FC<FormProps> = ({
             placeholder="Password"
             type="password"
             name="password"
+            data-testid="password-input"
             onChange={onFormChange}
           />
           {isRegisterForm && (
@@ -82,20 +85,21 @@ const LogInForm: React.FC<FormProps> = ({
               placeholder="Verify password"
               type="password"
               name="confirmPassword"
+              data-testid="verify-password-input"
               onChange={onFormChange}
             />
           )}
 
           <Button color="teal" fluid size="large" onClick={onSubmit}>
-            {isRegisterForm ? "Register" : "Login"}
+            {isRegisterForm ? 'Register' : 'Login'}
           </Button>
 
           {(authError || formError) && (
-            <Message color="red">
+            <Message color="red" data-testid="error-message">
               <Icon name="hand point right outline" />
               {authErrorMessage ||
                 formErrorMessage ||
-                "Oops! There was an error."}
+                'Oops! There was an error.'}
             </Message>
           )}
         </Segment>
@@ -103,11 +107,11 @@ const LogInForm: React.FC<FormProps> = ({
 
       {isRegisterForm ? (
         <Message>
-          Already have an account? <Link to={"/"}>Log In</Link>
+          Already have an account? <Link to={'/'}>Log In</Link>
         </Message>
       ) : (
         <Message>
-          New here? <Link to={"/register"}>Sign Up</Link>
+          New here? <Link to={'/register'}>Sign Up</Link>
         </Message>
       )}
     </Grid.Column>

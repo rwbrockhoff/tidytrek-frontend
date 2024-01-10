@@ -1,19 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { tidyTrekAPI } from '../../api/tidytrekAPI';
 
-interface user {
+interface User {
   userId: string;
   name: string;
   email: string;
 }
-interface initialState {
+export interface InitialState {
   isAuthenticated: boolean;
   authLoading: boolean;
   authError: boolean;
   authErrorMessage: string;
-  user: user;
+  user: User;
 }
-export const initialState: initialState = {
+export const initialState: InitialState = {
   isAuthenticated: false,
   authLoading: false,
   authError: false,
@@ -30,7 +30,6 @@ export const registerUser = createAsyncThunk(
   'registerUser',
   async (formData: { email: string; name: string; password: string }) => {
     const { name, email, password } = formData;
-    //TO DO form validation
     const { data } = await tidyTrekAPI.post('/auth/register', {
       name,
       email,
@@ -56,8 +55,8 @@ export const logOutUser = createAsyncThunk('logOutUser', async () => {
   await tidyTrekAPI.post('/auth/logout');
 });
 
-export const authSlice = createSlice({
-  name: 'auth',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -100,4 +99,4 @@ export const authSlice = createSlice({
 });
 
 // export const {} = authSlice.actions;
-export default authSlice.reducer;
+export default userSlice.reducer;
