@@ -1,11 +1,11 @@
 import { PackItem } from '../redux/packs/packTypes';
 
 export default function weightConverter(
-  itemList: [PackItem],
+  itemList: PackItem[],
   outputUnit: string,
 ) {
   if (itemList[0]) {
-    return itemList
+    const newItem = itemList
       .map((item: { packItemWeight: number; packItemUnit: string }) => {
         const { packItemWeight, packItemUnit } = item;
         // Ensure we always return number type for reducer
@@ -26,17 +26,18 @@ export default function weightConverter(
       })
       .reduce((weight: number, sum: number = 0) => (sum += weight))
       .toFixed(2);
+    return Number(newItem);
   } else return 0;
 }
 
 function convertToOunces(weight: number, unit: string) {
   switch (unit) {
-    case 'oz':
-      return weight / 16;
+    case 'lb':
+      return weight * 16;
     case 'kg':
-      return weight * 2.20462;
+      return weight * 0.0283495;
     case 'g':
-      return weight * 0.00220462;
+      return weight * 28.3495;
     default:
       return weight;
   }
@@ -58,11 +59,11 @@ function convertToPounds(weight: number, unit: string) {
 function convertToKilograms(weight: number, unit: string) {
   switch (unit) {
     case 'oz':
-      return weight / 16;
-    case 'kg':
-      return weight * 2.20462;
+      return weight * 0.0283495;
+    case 'lb':
+      return weight * 0.453592;
     case 'g':
-      return weight * 0.00220462;
+      return weight / 1000;
     default:
       return weight;
   }
@@ -71,11 +72,11 @@ function convertToKilograms(weight: number, unit: string) {
 function convertToGrams(weight: number, unit: string) {
   switch (unit) {
     case 'oz':
-      return weight / 16;
+      return weight * 28.3495;
+    case 'lb':
+      return weight * 453.592;
     case 'kg':
-      return weight * 2.20462;
-    case 'g':
-      return weight * 0.00220462;
+      return weight * 1000;
     default:
       return weight;
   }
