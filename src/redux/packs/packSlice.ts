@@ -6,6 +6,7 @@ import {
   getPack,
   addNewPack,
   editPack,
+  movePack,
   deletePack,
   addPackItem,
   editPackItem,
@@ -62,6 +63,15 @@ export const packSlice = createSlice({
       }
     });
     builder.addCase(editPack.rejected, () => {});
+    builder.addCase(movePack.fulfilled, (state, action) => {
+      const { payload } = action;
+      if (payload) {
+        const { packId, newIndex } = payload;
+        const currentIdx = getPackIdx(state.packList, packId);
+        let item = state.packList.splice(currentIdx, 1);
+        state.packList.splice(newIndex, 0, ...item);
+      }
+    });
     builder.addCase(deletePack.fulfilled, (state, action) => {
       const { payload } = action;
       const { deletedPackId } = payload;
@@ -115,17 +125,14 @@ export const packSlice = createSlice({
           prevPackCategoryId,
           prevPackItemIndex,
         } = payload;
-        const prevCategoryIdx = getCategoryIdx(
-          categories,
-          Number(prevPackCategoryId),
-        );
+        const prevCategoryIdx = getCategoryIdx(categories, prevPackCategoryId);
         const [packItemToMove] = categories[prevCategoryIdx].packItems.splice(
           prevPackItemIndex,
           1,
         );
         let newCategoryIdx;
         if (prevPackCategoryId !== packCategoryId) {
-          newCategoryIdx = getCategoryIdx(categories, Number(packCategoryId));
+          newCategoryIdx = getCategoryIdx(categories, packCategoryId);
         } else newCategoryIdx = prevCategoryIdx;
 
         state.categories[newCategoryIdx].packItems.splice(

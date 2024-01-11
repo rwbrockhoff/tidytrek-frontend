@@ -1,16 +1,18 @@
-import "./PackList.css";
-import { useSelector } from "react-redux";
-import { Header, Divider, Icon } from "semantic-ui-react";
-import { PackListItem } from "../../../redux/packs/packTypes";
-import { RootState, AppDispatch } from "../../../redux/store";
-import { useDispatch } from "react-redux";
-import { addNewPack, getPack } from "../../../redux/packs/packThunks";
+import './PackList.css';
+import { useSelector } from 'react-redux';
+import { Header, Divider, Icon } from 'semantic-ui-react';
+import { PackListItem as PackListItemType } from '../../../redux/packs/packTypes';
+import { RootState, AppDispatch } from '../../../redux/store';
+import { useDispatch } from 'react-redux';
+import { addNewPack, getPack, movePack } from '../../../redux/packs/packThunks';
+import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
+import PackListItem from './PackListItem/PackListItem';
 
 const PackList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const packList = useSelector((state: RootState) => state.packs.packList);
   const currentPackId = useSelector(
-    (state: RootState) => state.packs.pack.packId
+    (state: RootState) => state.packs.pack.packId,
   );
 
   const handleClick = () => {
@@ -23,18 +25,41 @@ const PackList: React.FC = () => {
     }
   };
 
+  const onDragEnd = (result: DropResult) => {
+    const { draggableId, destination, source } = result;
+    if (!destination) return;
+    const sameIndex = destination.index === source.index;
+    if (sameIndex) return;
+
+    dispatch(movePack({ packId: draggableId, newIndex: destination.index }));
+  };
+
   return (
     <div className="pack-list-container">
       <Header as="h3" className="pack-title">
         Packs
       </Header>
-      {packList.map((pack: PackListItem) => {
-        return (
-          <p key={pack.packId} onClick={() => handleGetPack(pack.packId)}>
-            {pack.packName}
-          </p>
-        );
-      })}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={'sidebar-pack-list'}>
+          {(provided) => (
+            <>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {packList.map((pack: PackListItemType, index: number) => {
+                  return (
+                    <PackListItem
+                      index={index}
+                      key={pack.packId}
+                      pack={pack}
+                      onClick={handleGetPack}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            </>
+          )}
+        </Droppable>
+      </DragDropContext>
       <Divider />
       <p onClick={handleClick}>
         <Icon name="add" />
