@@ -68,7 +68,7 @@ export const packSlice = createSlice({
       if (payload) {
         const { packId, newIndex } = payload;
         const currentIdx = getPackIdx(state.packList, packId);
-        let item = state.packList.splice(currentIdx, 1);
+        const item = state.packList.splice(currentIdx, 1);
         state.packList.splice(newIndex, 0, ...item);
       }
     });

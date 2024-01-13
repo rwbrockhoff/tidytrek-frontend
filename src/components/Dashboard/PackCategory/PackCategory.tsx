@@ -1,21 +1,21 @@
-import { Table, Button, Icon } from "semantic-ui-react";
-import { Category, PackItem } from "../../../redux/packs/packTypes";
-import "./PackCategory.css";
-import TableRow from "./TableRow/TableRow";
-import CategoryNameCell from "./CategoryNameCell/CategoryNameCell";
-import DeleteButton from "./TableButtonCells/DeleteButton";
-import DeleteModal from "./DeleteModal/DeleteModal";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../redux/store";
+import { Table, Button, Icon } from 'semantic-ui-react';
+import { Category, PackItem } from '../../../redux/packs/packTypes';
+import './PackCategory.css';
+import TableRow from './TableRow/TableRow';
+import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
+import DeleteButton from './TableButtonCells/DeleteButton';
+import DeleteModal from './DeleteModal/DeleteModal';
+import { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../redux/store';
 import {
   addPackItem,
   deletePackCategory,
   editPackCategory,
   deleteCategoryAndItems,
-} from "../../../redux/packs/packThunks";
-import { Droppable } from "react-beautiful-dnd";
-import weightConverter from "../../../utils/weightConverter";
+} from '../../../redux/packs/packThunks';
+import { Droppable } from 'react-beautiful-dnd';
+import weightConverter from '../../../utils/weightConverter';
 
 interface PackCategoryProps {
   category: Category;
@@ -23,7 +23,7 @@ interface PackCategoryProps {
   key: number;
 }
 
-const PackCategory = (props: PackCategoryProps) => {
+const PackCategory: FC<PackCategoryProps> = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const { packCategoryName, packItems } = props.category;
   const [toggleRow, setToggleRow] = useState(false);
@@ -55,7 +55,7 @@ const PackCategory = (props: PackCategoryProps) => {
     setShowModal(false);
   };
 
-  const convertedCategoryWeight = weightConverter(packItems, "lb");
+  const convertedCategoryWeight = weightConverter(packItems, 'lb');
   const itemQuantity = packItems[0] ? packItems.length : 0;
   return (
     <div className="table-container">
@@ -78,7 +78,7 @@ const PackCategory = (props: PackCategoryProps) => {
             <Table.HeaderCell
               textAlign="center"
               colSpan="2"
-              style={{ paddingLeft: "50px" }}
+              style={{ paddingLeft: '50px' }}
             >
               Weight
             </Table.HeaderCell>

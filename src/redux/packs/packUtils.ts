@@ -1,8 +1,8 @@
 import { PackItem, Category, PackListItem } from './packTypes';
 
-export const getCategoryIdx = (categories: [], categoryId: number) => {
+export const getCategoryIdx = (categories: Category[], categoryId: number) => {
   return categories.findIndex(
-    (item: PackItem) => item.packCategoryId === Number(categoryId),
+    (item: Category) => item.packCategoryId === Number(categoryId),
   );
 };
 
