@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { InitialState } from './packTypes';
+import { InitialState, Pack } from './packTypes';
 import { getCategoryIdx, getPackItemIdx, getPackIdx } from './packUtils';
 import {
   getDefaultPack,
@@ -21,7 +21,7 @@ import {
 
 const initialState: InitialState = {
   packList: [],
-  pack: {},
+  pack: {} as Pack,
   categories: [],
 };
 
@@ -78,7 +78,7 @@ export const packSlice = createSlice({
       const { packList } = state;
       const packIdx = getPackIdx(packList, deletedPackId);
       packList.splice(packIdx, 1);
-      state.pack = {};
+      state.pack = {} as Pack;
       state.categories = [];
     });
     builder.addCase(deletePackAndItems.fulfilled, (state, action) => {
@@ -87,7 +87,7 @@ export const packSlice = createSlice({
       const { packList } = state;
       const packIdx = getPackIdx(packList, deletedPackId);
       packList.splice(packIdx, 1);
-      state.pack = {};
+      state.pack = {} as Pack;
       state.categories = [];
     });
     builder.addCase(addPackItem.fulfilled, (state, action) => {

@@ -1,5 +1,6 @@
 import './PackList.css';
 import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Header, Divider, Icon } from 'semantic-ui-react';
 import { PackListItem as PackListItemType } from '../../../redux/packs/packTypes';
 import { RootState, AppDispatch } from '../../../redux/store';
@@ -10,6 +11,8 @@ import PackListItem from './PackListItem/PackListItem';
 
 const PackList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const packList = useSelector((state: RootState) => state.packs.packList);
   const currentPackId = useSelector(
     (state: RootState) => state.packs.pack.packId,
@@ -19,10 +22,10 @@ const PackList: React.FC = () => {
     dispatch(addNewPack());
   };
 
-  const handleGetPack = (packId: number) => {
-    if (packId !== currentPackId) {
-      dispatch(getPack(packId));
-    }
+  const handleGetPack = async (packId: number) => {
+    const { pathname } = location;
+    if (packId !== currentPackId) await dispatch(getPack(packId));
+    if (pathname !== '/') navigate(`/packs/${packId}`);
   };
 
   const onDragEnd = (result: DropResult) => {

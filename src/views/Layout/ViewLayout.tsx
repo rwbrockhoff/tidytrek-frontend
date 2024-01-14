@@ -1,7 +1,7 @@
-import Sidebar from "./components/Sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
+import Sidebar from '../../components/Sidebar/Sidebar';
+import { Outlet } from 'react-router-dom';
 
-const ViewLayout: React.FC = () => {
+const ViewLayout = () => {
   return (
     <div id="app-view-container">
       <Sidebar />
