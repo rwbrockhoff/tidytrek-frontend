@@ -10,6 +10,11 @@ export const userRoutes = [
     children: [{ path: '/', index: true, element: <Dashboard /> }],
   },
   {
+    path: '/packs/:packId',
+    element: <ViewLayout />,
+    children: [{ path: '/packs/:packId', element: <Dashboard /> }],
+  },
+  {
     path: '/account',
     element: <ViewLayout />,
     children: [{ path: '/account', element: <Account /> }],

@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/store.ts';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAuthStatus } from '../../redux/slices/userSlice.ts';
-import ViewLayout from './ViewLayout.tsx';
+import { Loader } from 'semantic-ui-react';
 import { useEffect, useRef } from 'react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
 
@@ -26,8 +26,8 @@ const AppWithRoutes = () => {
     isAuthenticated ? userRoutes : guestRoutes,
   );
 
-  return isLoading && !appInit.current ? (
-    <ViewLayout />
+  return isLoading || !appInit.current ? (
+    <Loader active={true} content="Loading..." />
   ) : (
     <div style={{ height: '100vh' }}>
       <RouterProvider router={appRouter} />

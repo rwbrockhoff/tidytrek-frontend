@@ -4,6 +4,7 @@ import { getCategoryIdx, getPackItemIdx, getPackIdx } from './packUtils';
 import {
   getDefaultPack,
   getPack,
+  getPackList,
   addNewPack,
   editPack,
   movePack,
@@ -31,17 +32,22 @@ export const packSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getDefaultPack.fulfilled, (state, action) => {
-      const { packList = [], pack = {}, categories = [] } = action.payload;
-      state.packList = packList;
+      const { pack = {}, categories = [] } = action.payload;
       state.pack = pack;
       state.categories = categories;
     });
     builder.addCase(getDefaultPack.rejected, () => {});
+    builder.addCase(getPackList.fulfilled, (state, action) => {
+      const { packList } = action.payload;
+      if (packList) state.packList = packList;
+    });
+    builder.addCase(getPackList.rejected, () => {});
     builder.addCase(getPack.fulfilled, (state, action) => {
-      const { payload } = action;
-      const { pack, categories } = payload;
-      state.pack = pack;
-      state.categories = categories;
+      const { pack, categories } = action.payload;
+      if (pack && categories) {
+        state.pack = pack;
+        state.categories = categories;
+      }
     });
     builder.addCase(addNewPack.fulfilled, (state, action) => {
       const { payload } = action;

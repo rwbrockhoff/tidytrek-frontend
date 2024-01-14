@@ -12,6 +12,11 @@ export const getPack = createAsyncThunk('getPack', async (packId: number) => {
   return await data;
 });
 
+export const getPackList = createAsyncThunk('getPackList', async () => {
+  const { data } = (await tidyTrekAPI.get('/packs/pack-list')) || {};
+  return await data;
+});
+
 export const addNewPack = createAsyncThunk('addNewPack', async () => {
   const { data } = (await tidyTrekAPI.post('/packs')) || {};
   return await data;

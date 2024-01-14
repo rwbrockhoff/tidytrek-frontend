@@ -5,9 +5,15 @@ import { Header, Divider, Icon } from 'semantic-ui-react';
 import { PackListItem as PackListItemType } from '../../../redux/packs/packTypes';
 import { RootState, AppDispatch } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
-import { addNewPack, getPack, movePack } from '../../../redux/packs/packThunks';
+import {
+  addNewPack,
+  getPack,
+  movePack,
+  getPackList,
+} from '../../../redux/packs/packThunks';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import PackListItem from './PackListItem/PackListItem';
+import { useEffect } from 'react';
 
 const PackList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,6 +27,10 @@ const PackList: React.FC = () => {
   const handleClick = () => {
     dispatch(addNewPack());
   };
+
+  useEffect(() => {
+    dispatch(getPackList());
+  }, [dispatch]);
 
   const handleGetPack = async (packId: number) => {
     const { pathname } = location;
