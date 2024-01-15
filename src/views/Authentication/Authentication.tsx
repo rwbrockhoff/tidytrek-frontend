@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   useLoginMutation,
   useRegisterMutation,
-} from '../../redux/slices/userApiSlice';
+} from '../../redux/user/userApiSlice';
 
 type AuthProps = {
   isRegisterForm: boolean;

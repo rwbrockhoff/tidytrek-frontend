@@ -1,16 +1,16 @@
-import { Header, Label, Icon } from "semantic-ui-react";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../../redux/store";
+import { Header, Label, Icon } from 'semantic-ui-react';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../redux/store';
 import {
   deletePack,
   deletePackAndItems,
   getDefaultPack,
-} from "../../../redux/packs/packThunks";
-import PackChart from "../PackChart/PackChart";
-import PackFormModal from "./PackFormModal/PackFormModal";
-import DeleteModal from "../PackCategory/DeleteModal/DeleteModal";
-import "./PackInfo.css";
+} from '../../../redux/packs/packThunks';
+import PackChart from '../PackChart/PackChart';
+import PackFormModal from './PackFormModal/PackFormModal';
+import DeleteModal from '../PackCategory/DeleteModal/DeleteModal';
+import './PackInfo.css';
 
 const PackInfo = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -74,7 +74,7 @@ const PackInfo = () => {
           <p>
             <a href={packUrl} target="_blank" className="pack-link">
               <Icon name="linkify" />
-              {packUrlName || packUrl || "Pack Link"}
+              {packUrlName || packUrl || 'Pack Link'}
             </a>
           </p>
         )}
@@ -103,7 +103,7 @@ const PackInfo = () => {
             <Label color="teal">
               <i
                 className="fa-solid fa-person-hiking"
-                style={{ paddingRight: "5px" }}
+                style={{ paddingRight: '5px' }}
               />
               {packMilesTag}
             </Label>

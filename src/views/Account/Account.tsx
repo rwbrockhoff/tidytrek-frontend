@@ -1,4 +1,4 @@
-import { useGetAuthStatusQuery } from '../../redux/slices/userApiSlice';
+import { useGetAuthStatusQuery } from '../../redux/user/userApiSlice';
 import { Header, Icon } from 'semantic-ui-react';
 import './Account.css';
 

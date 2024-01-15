@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
-import { useGetAuthStatusQuery } from '../../redux/slices/userApiSlice.ts';
+import { useGetAuthStatusQuery } from '../../redux/user/userApiSlice.ts';
 
 const AppWithRoutes = () => {
   const { data, isLoading } = useGetAuthStatusQuery();

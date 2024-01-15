@@ -1,5 +1,5 @@
 import './Sidebar.css';
-import { useLogoutMutation } from '../../redux/slices/userApiSlice';
+import { useLogoutMutation } from '../../redux/user/userApiSlice';
 import { Link } from 'react-router-dom';
 import { Divider, Icon } from 'semantic-ui-react';
 import PackList from './PackList/PackList';

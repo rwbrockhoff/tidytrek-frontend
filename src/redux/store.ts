@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import packSlice from './packs/packSlice';
-import { userApi } from './slices/userApiSlice';
+import { userApi } from './user/userApiSlice';
 
 export const createStore = () => {
   return configureStore({
