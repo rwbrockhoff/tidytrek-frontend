@@ -1,10 +1,11 @@
-import { render } from '../../../tests/test-utils';
-import { screen } from '../../../tests/utilities';
+import { wrappedRender } from '../../../tests/test-utils';
+import { screen } from '@testing-library/react';
 import LogInForm from './LogInForm';
 
 const RegisterFormWithProps = (
   <LogInForm
     isRegisterForm={true}
+    isLoading={false}
     formError={false}
     formErrorMessage={''}
     onFormChange={() => console.log('Form Change')}
@@ -15,6 +16,7 @@ const RegisterFormWithProps = (
 const LogInFormWithProps = (
   <LogInForm
     isRegisterForm={false}
+    isLoading={false}
     formError={false}
     formErrorMessage={''}
     onFormChange={() => console.log('Form Change')}
@@ -24,11 +26,11 @@ const LogInFormWithProps = (
 
 describe('LogInForm', () => {
   it('Should render component', () => {
-    render(RegisterFormWithProps);
+    wrappedRender(RegisterFormWithProps);
   });
 
   it('Should show register form ui', () => {
-    render(RegisterFormWithProps);
+    wrappedRender(RegisterFormWithProps);
     const registerButton = screen.getByRole('button', { name: /register/i });
     const nameInput = screen.getByTestId('name-input');
     const verifyPasswordInput = screen.getByTestId('verify-password-input');
@@ -39,7 +41,7 @@ describe('LogInForm', () => {
   });
 
   it.todo('Should require valid email', async () => {
-    const { user } = render(RegisterFormWithProps);
+    const { user } = wrappedRender(RegisterFormWithProps);
     const registerButton = screen.getByRole('button', { name: /register/i });
 
     const nameInput = screen.getByTestId('name-input');
@@ -55,7 +57,7 @@ describe('LogInForm', () => {
   });
 
   it('Should show log in ui', () => {
-    render(LogInFormWithProps);
+    wrappedRender(LogInFormWithProps);
     const loginButton = screen.getByRole('button', { name: /login/i });
     expect(loginButton).toHaveTextContent(/login/i);
   });
