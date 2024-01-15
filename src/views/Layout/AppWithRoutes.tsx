@@ -1,34 +1,20 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AppDispatch, RootState } from '../../redux/store.ts';
-import { useSelector, useDispatch } from 'react-redux';
-import { getAuthStatus } from '../../redux/slices/userSlice.ts';
 import { Loader } from 'semantic-ui-react';
-import { useEffect, useRef } from 'react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
+import { useGetAuthStatusQuery } from '../../redux/slices/userApiSlice.ts';
 
 const AppWithRoutes = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const appInit = useRef(false);
-
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated,
-  );
-  const isLoading = useSelector((state: RootState) => state.user.authLoading);
-
-  useEffect(() => {
-    if (!appInit || !isAuthenticated) {
-      dispatch(getAuthStatus());
-      appInit.current = true;
-    }
-  }, [dispatch, isAuthenticated]);
+  const { data, isLoading } = useGetAuthStatusQuery();
 
   const appRouter = createBrowserRouter(
-    isAuthenticated ? userRoutes : guestRoutes,
+    data?.isAuthenticated ? userRoutes : guestRoutes,
   );
 
-  return isLoading || !appInit.current ? (
-    <Loader active={true} content="Loading..." />
-  ) : (
+  if (isLoading) {
+    return <Loader content="Loading..." />;
+  }
+
+  return (
     <div style={{ height: '100vh' }}>
       <RouterProvider router={appRouter} />
     </div>

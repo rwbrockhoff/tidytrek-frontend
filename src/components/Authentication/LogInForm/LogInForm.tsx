@@ -9,28 +9,24 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import './LogInForm.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
 
-interface FormProps {
+type FormProps = {
   isRegisterForm: boolean;
+  isLoading: boolean;
   formError: boolean;
   formErrorMessage: string;
   onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-}
+};
 
-const LogInForm: React.FC<FormProps> = ({
+const LogInForm = ({
   isRegisterForm,
+  isLoading,
   formError,
   formErrorMessage,
   onFormChange,
   onSubmit,
-}) => {
-  const authError = useSelector((state: RootState) => state.user.authError);
-  const authErrorMessage = useSelector(
-    (state: RootState) => state.user.authErrorMessage,
-  );
+}: FormProps) => {
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h1" textAlign="center">
@@ -90,16 +86,20 @@ const LogInForm: React.FC<FormProps> = ({
             />
           )}
 
-          <Button color="blue" fluid size="large" onClick={onSubmit}>
+          <Button
+            color="blue"
+            fluid
+            size="large"
+            disabled={isLoading}
+            onClick={onSubmit}
+          >
             {isRegisterForm ? 'Register' : 'Login'}
           </Button>
 
-          {(authError || formError) && (
+          {formError && (
             <Message color="red" data-testid="error-message">
               <Icon name="hand point right outline" />
-              {authErrorMessage ||
-                formErrorMessage ||
-                'Oops! There was an error.'}
+              {formErrorMessage || 'Oops! There was an error.'}
             </Message>
           )}
         </Segment>

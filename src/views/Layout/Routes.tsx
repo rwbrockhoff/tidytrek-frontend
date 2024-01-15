@@ -2,6 +2,7 @@ import ViewLayout from './ViewLayout';
 import Authentication from '../Authentication/Authentication';
 import Dashboard from '../Dashboard/Dashboard';
 import Account from '../Account/Account';
+import { Navigate } from 'react-router-dom';
 
 export const userRoutes = [
   {
@@ -19,7 +20,8 @@ export const userRoutes = [
     element: <ViewLayout />,
     children: [{ path: '/account', element: <Account /> }],
   },
-  { path: '/register', element: <Authentication isRegisterForm={true} /> },
+  { path: '/register', element: <Navigate to="/" /> },
+  { path: '/login', element: <Navigate to="/" /> },
 ];
 
 export const guestRoutes = [

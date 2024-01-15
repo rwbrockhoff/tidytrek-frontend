@@ -1,37 +1,28 @@
-import LogInForm from "../../components/Authentication/LogInForm/LogInForm";
-import { Grid } from "semantic-ui-react";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { logInUser, registerUser } from "../../redux/slices/userSlice";
-import { RootState, AppDispatch } from "../../redux/store";
+import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
+import { Grid } from 'semantic-ui-react';
+import { useState } from 'react';
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from '../../redux/slices/userApiSlice';
 
-export interface AuthProps {
+type AuthProps = {
   isRegisterForm: boolean;
-}
+};
 
-const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
-
-  useEffect(() => {
-    isAuthenticated && navigate("/");
-  }, [isAuthenticated, navigate]);
+const Authentication = (props: AuthProps) => {
+  const [login, { isLoading: isLoadingLogin }] = useLoginMutation();
+  const [register, { isLoading: isLoadingRegister }] = useRegisterMutation();
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
   const [formError, setFormError] = useState({
     error: false,
-    message: "",
+    message: '',
   });
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +33,7 @@ const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
   };
 
   const validEmail = (email: string) => {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
   };
 
   const validPassword = (password: string) => {
@@ -60,7 +51,7 @@ const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
   };
 
   const invalidForm = (
-    message: string = "Please make sure to fill out form properly."
+    message: string = 'Please make sure to fill out form properly.',
   ) => {
     setFormError((prevState) => ({
       ...prevState,
@@ -73,24 +64,24 @@ const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
     const { name, email, password, confirmPassword } = formData;
     //validate name when registering
     if (!name) {
-      invalidForm("Please type in your name.");
+      invalidForm('Please type in your name.');
       return false;
     }
     //validate email
     else if (!email || !validEmail(email)) {
-      invalidForm("Please include a valid email address.");
+      invalidForm('Please include a valid email address.');
       return false;
     } else if (!password) {
-      invalidForm("Please type in your password.");
+      invalidForm('Please type in your password.');
       return false;
     }
     //validate passwords match when registering
     else if (password !== confirmPassword) {
-      invalidForm("Passwords need to match.");
+      invalidForm('Passwords need to match.');
       return false;
     } else if (!validPassword(password)) {
       invalidForm(
-        "Password should have at least 8 characters, contain one uppercase, and one number."
+        'Password should have at least 8 characters, contain one uppercase, and one number.',
       );
       return false;
     } else {
@@ -99,25 +90,25 @@ const Authentication: React.FC<AuthProps> = (props: AuthProps) => {
   };
 
   const handleFormSubmit = () => {
-    const { isRegisterForm } = props;
     const { name, email, password } = formData;
-    if (isRegisterForm) {
+    if (props.isRegisterForm) {
       const formIsValid = validateFormData();
-      formIsValid && dispatch(registerUser({ name, email, password }));
+      formIsValid && register({ name, email, password });
     } else {
-      if (email && password) {
-        setFormError({ error: false, message: "" });
-        dispatch(logInUser({ email, password }));
-      } else {
-        invalidForm("Please provide your email and password.");
+      if (email && password) login({ email, password });
+      else {
+        invalidForm('Please provide your email and password.');
       }
     }
   };
+
   const { error, message } = formError;
+
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+    <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
       <LogInForm
         isRegisterForm={props.isRegisterForm}
+        isLoading={isLoadingLogin || isLoadingRegister}
         formError={error}
         formErrorMessage={message}
         onFormChange={handleFormChange}
