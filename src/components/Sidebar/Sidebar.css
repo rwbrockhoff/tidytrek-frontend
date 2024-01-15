@@ -6,17 +6,25 @@ nav {
   padding: 5vh 50px;
 }
 
+menu {
+  padding-inline-start: 0;
+}
+
 nav a {
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+menu.nav-menu a:visited {
   color: white;
 }
 
-menu:last-child {
-  text-decoration: none;
-  list-style-type: none;
+nav li {
   cursor: pointer;
-  /* margin-left: auto; */
+  list-style: none;
+  margin: 15px 0px;
 }
 
 li:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }

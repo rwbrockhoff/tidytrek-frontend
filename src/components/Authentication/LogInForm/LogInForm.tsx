@@ -38,7 +38,7 @@ const LogInForm: React.FC<FormProps> = ({
       </Header>
       <Form size="large">
         <Segment stacked>
-          <Header as="h2" color="teal" textAlign="center">
+          <Header as="h2" color="blue" textAlign="center">
             {isRegisterForm
               ? 'Register your account'
               : 'Log-in to your account'}
@@ -90,7 +90,7 @@ const LogInForm: React.FC<FormProps> = ({
             />
           )}
 
-          <Button color="teal" fluid size="large" onClick={onSubmit}>
+          <Button color="blue" fluid size="large" onClick={onSubmit}>
             {isRegisterForm ? 'Register' : 'Login'}
           </Button>
 
