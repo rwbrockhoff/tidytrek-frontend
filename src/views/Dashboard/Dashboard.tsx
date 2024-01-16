@@ -4,16 +4,19 @@ import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import AddCategoryButton from '../../components/Dashboard/PackCategory/AddCategoryButton/AddCategoryButton';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/store';
 import {
   getDefaultPack,
+  getPack,
   addPackCategory,
   movePackItem,
 } from '../../redux/packs/packThunks';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { packId: paramPackId } = useParams();
 
   const packCategories = useSelector(
     (state: RootState) => state.packs.categories,
@@ -21,8 +24,12 @@ const Dashboard: React.FC = () => {
   const packId = useSelector((state: RootState) => state.packs.pack.packId);
 
   useEffect(() => {
-    dispatch(getDefaultPack());
-  }, [dispatch]);
+    if (paramPackId !== undefined) {
+      dispatch(getPack(Number(paramPackId)));
+    } else {
+      dispatch(getDefaultPack());
+    }
+  }, [dispatch, paramPackId]);
 
   const handleAddPackCategory = () => {
     dispatch(addPackCategory(packId));

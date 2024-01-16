@@ -1,17 +1,19 @@
 import { PackItem, Category, PackListItem } from './packTypes';
 
-export const getCategoryIdx = (categories: [], categoryId: number) => {
+export const getCategoryIdx = (categories: Category[], categoryId: number) => {
   return categories.findIndex(
-    (item: PackItem) => item.packCategoryId === categoryId,
+    (item: Category) => item.packCategoryId === Number(categoryId),
   );
 };
 
 export const getPackItemIdx = (category: Category, packItemId: number) => {
   return category.packItems.findIndex(
-    (item: PackItem) => item.packItemId === packItemId,
+    (item: PackItem) => item.packItemId === Number(packItemId),
   );
 };
 
-export const getPackIdx = (packList, packId: number) => {
-  return packList.findIndex((pack: PackListItem) => pack.packId === packId);
+export const getPackIdx = (packList: PackListItem[], packId: number) => {
+  return packList.findIndex(
+    (pack: PackListItem) => pack.packId === Number(packId),
+  );
 };

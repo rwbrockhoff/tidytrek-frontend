@@ -1,25 +1,25 @@
-import "./Sidebar.css";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { logOutUser } from "../../redux/slices/userSlice";
-import { AppDispatch } from "../../redux/store";
-import { Divider, Icon } from "semantic-ui-react";
-import PackList from "./PackList/PackList";
+import './Sidebar.css';
+import { useLogoutMutation } from '../../redux/user/userApiSlice';
+import { Link } from 'react-router-dom';
+import { Divider, Icon } from 'semantic-ui-react';
+import PackList from './PackList/PackList';
 
-const Navigation: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+const Navigation = () => {
+  const [logout] = useLogoutMutation();
 
-  const handleLogOut = () => {
-    dispatch(logOutUser());
-  };
   return (
     <nav>
       <h1>
         <Link to="/">tidytrek</Link>
       </h1>
-      <menu>
-        <Link to="/account">account</Link>
-        <li onClick={handleLogOut}>
+      <menu className="nav-menu">
+        <li>
+          <Link to="/account">
+            <Icon name="user outline" />
+            Account
+          </Link>
+        </li>
+        <li onClick={logout}>
           <Icon name="log out" />
           Log Out
         </li>

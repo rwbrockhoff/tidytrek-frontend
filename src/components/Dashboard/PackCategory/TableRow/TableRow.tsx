@@ -1,20 +1,20 @@
-import TableCell from "../TableCell/TableCell";
-import "./TableRow.css";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../redux/store";
-import { PackItem } from "../../../../redux/packs/packTypes";
+import TableCell from '../TableCell/TableCell';
+import './TableRow.css';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../redux/store';
+import { PackItem } from '../../../../redux/packs/packTypes';
 import {
   editPackItem,
   deletePackItem,
-} from "../../../../redux/packs/packThunks";
-import ItemNameCell from "../ItemNameCell/ItemNameCell";
-import PackWeightCell from "../PackWeightCell/PackWeightCell";
-import DeleteButton from "../TableButtonCells/DeleteButton";
-import QuantityButton from "../TableButtonCells/QuantityButton";
-import PropertyButtons from "../TableButtonCells/PropertyButtons";
-import { Draggable } from "react-beautiful-dnd";
-import React from "react";
+} from '../../../../redux/packs/packThunks';
+import ItemNameCell from '../ItemNameCell/ItemNameCell';
+import PackWeightCell from '../PackWeightCell/PackWeightCell';
+import DeleteButton from '../TableButtonCells/DeleteButton';
+import QuantityButton from '../TableButtonCells/QuantityButton';
+import PropertyButtons from '../TableButtonCells/PropertyButtons';
+import { Draggable } from 'react-beautiful-dnd';
+import React from 'react';
 
 interface TableRowProps {
   item: PackItem;
@@ -34,14 +34,14 @@ const TableRow = (props: TableRowProps) => {
   const [toggleRow, setToggleRow] = useState(false);
   const [packItemChanged, setPackItemChanged] = useState(false);
   const [packItem, setPackItem] = useState({
-    packItemName: "",
+    packItemName: '',
     packItemId: 0,
     packCategoryId: 0,
-    packItemDescription: "",
+    packItemDescription: '',
     packItemWeight: 0,
-    packItemUnit: "oz",
+    packItemUnit: 'oz',
     packItemQuantity: 1,
-    packItemUrl: "",
+    packItemUrl: '',
     wornWeight: false,
     consumable: false,
     favorite: false,
@@ -56,7 +56,7 @@ const TableRow = (props: TableRowProps) => {
   const handleInput = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setPackItem((prevFormData) => ({
       ...prevFormData,
@@ -73,7 +73,7 @@ const TableRow = (props: TableRowProps) => {
       editPackItem({
         packItemId,
         packItem: { ...packItem, ...packItemPropUpdate },
-      })
+      }),
     );
   };
 

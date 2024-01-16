@@ -1,7 +1,7 @@
 export interface InitialState {
-  packList: [];
+  packList: PackListItem[];
   pack: Pack;
-  categories: [Category] | [];
+  categories: Category[];
 }
 
 export interface Pack {
