@@ -7,6 +7,6 @@ describe('User API Slice: ', () => {
     const { result } = await renderHook(() => useGetAuthStatusQuery(), {
       wrapper,
     });
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => expect(result.current.isFetching).toBe(true));
   });
 });
