@@ -30,7 +30,7 @@ const LogInForm = ({
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h1" textAlign="center">
-        tidytrek
+        tidytrek app
       </Header>
       <Form size="large">
         <Segment stacked>
