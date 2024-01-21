@@ -39,3 +39,28 @@ a {
   padding-bottom: 10vh;
   padding-top: 5vh;
 }
+
+/* Changes to Semantic UI */
+.ui.form .field.field input:-webkit-autofill,
+.ui.form .field.field input:-webkit-autofill:focus,
+.ui.form .field.field input:autofill,
+.ui.form .field.field input:autofill:focus {
+  /* box-shadow: 0 0 0 100px rgb(240, 240, 240) inset; */
+  -webkit-text-fill-color: black;
+  border: 1px solid rgb(240, 240, 240);
+}
+
+.ui.mini.modal {
+  left: calc(40vw + 180px);
+}
+
+.ui.small.modal {
+  left: calc(20vw + 360px);
+}
+
+.ui.modal > i.close.icon {
+  top: 10px;
+  right: 10px;
+}
+
+/* Changes to Semantic UI */

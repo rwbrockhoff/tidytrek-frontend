@@ -5,14 +5,21 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '../../redux/user/userApiSlice';
+import { useFormErrorInfo } from './useFormErrorInfo';
 
 type AuthProps = {
   isRegisterForm: boolean;
 };
 
 const Authentication = (props: AuthProps) => {
-  const [login, { isLoading: isLoadingLogin }] = useLoginMutation();
-  const [register, { isLoading: isLoadingRegister }] = useRegisterMutation();
+  const [login, loginData] = useLoginMutation();
+  const [register, registerData] = useRegisterMutation();
+
+  const loginStatus = { isError: loginData.isError, error: loginData.error };
+  const registerStatus = {
+    isError: registerData.isError,
+    error: registerData.error,
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -102,7 +109,14 @@ const Authentication = (props: AuthProps) => {
     }
   };
 
-  const { error, message } = formError;
+  const { error, message } = useFormErrorInfo({
+    formError,
+    registerStatus,
+    loginStatus,
+  });
+
+  const { isLoading: isLoadingLogin } = loginData;
+  const { isLoading: isLoadingRegister } = registerData;
 
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
