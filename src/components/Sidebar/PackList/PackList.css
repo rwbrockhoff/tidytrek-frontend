@@ -15,6 +15,7 @@ div.pack-list-container p {
 div.pack-list-container i.fa-grip-vertical {
   opacity: 0;
   margin-right: 10px;
+  cursor: grab;
 }
 
 div.pack-list-container p:hover {

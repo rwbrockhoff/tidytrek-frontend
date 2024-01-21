@@ -23,6 +23,7 @@ const Authentication = (props: AuthProps) => {
 
   const [formData, setFormData] = useState({
     name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -97,10 +98,10 @@ const Authentication = (props: AuthProps) => {
   };
 
   const handleFormSubmit = () => {
-    const { name, email, password } = formData;
+    const { name, username, email, password } = formData;
     if (props.isRegisterForm) {
       const formIsValid = validateFormData();
-      formIsValid && register({ name, email, password });
+      formIsValid && register({ name, username, email, password });
     } else {
       if (email && password) login({ email, password });
       else {

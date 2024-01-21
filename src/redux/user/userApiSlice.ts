@@ -4,6 +4,7 @@ type User = {
   userId: string;
   name: string;
   email: string;
+  username: string;
 };
 type InitialState = {
   isAuthenticated: boolean;
@@ -36,10 +37,10 @@ export const userApi = createApi({
       invalidatesTags: ['Auth'],
     }),
     register: builder.mutation({
-      query: ({ name, email, password }) => ({
+      query: ({ name, username, email, password }) => ({
         url: '/auth/register',
         method: 'POST',
-        body: { name, email, password },
+        body: { name, username, email, password },
       }),
       invalidatesTags: ['Auth'],
     }),

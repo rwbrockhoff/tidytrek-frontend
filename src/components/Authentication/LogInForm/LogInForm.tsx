@@ -40,18 +40,32 @@ const LogInForm = ({
               : 'Log-in to your account'}
           </Header>
           {isRegisterForm && (
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Name"
-              name="name"
-              data-testid="name-input"
-              type="Name"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                onFormChange(e)
-              }
-            />
+            <>
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Name"
+                name="name"
+                data-testid="name-input"
+                type="name"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                  onFormChange(e)
+                }
+              />
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Username (optional)"
+                name="username"
+                data-testid="name-input"
+                type="name"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                  onFormChange(e)
+                }
+              />
+            </>
           )}
           <Form.Input
             fluid

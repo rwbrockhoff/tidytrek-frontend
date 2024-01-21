@@ -13,6 +13,7 @@ const Account = () => {
       </Header>
       <p>Name: {user?.name || 'A Tidy Hiker'}</p>
       <p>Email: {user?.email || 'No email here. Too busy hiking.'}</p>
+      <p>Username: {user?.username || 'No trail name yet? Take your time.'}</p>
     </div>
   );
 };
