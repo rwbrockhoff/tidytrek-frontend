@@ -56,7 +56,11 @@ const PackList: React.FC = () => {
         <Droppable droppableId={'sidebar-pack-list'}>
           {(provided) => (
             <>
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="pack-list-item"
+              >
                 {packList.map((pack: PackListItemType, index: number) => {
                   return (
                     <PackListItem
@@ -74,7 +78,7 @@ const PackList: React.FC = () => {
         </Droppable>
       </DragDropContext>
       <Divider />
-      <p onClick={handleClick}>
+      <p onClick={handleClick} className="add-new-pack-button">
         <Icon name="add" />
         Create New Pack
       </p>

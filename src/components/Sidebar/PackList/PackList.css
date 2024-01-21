@@ -8,8 +8,22 @@ div.pack-list-container {
 
 div.pack-list-container p {
   cursor: pointer;
+  margin: 10px 0px;
+  margin-left: -20px;
+}
+
+div.pack-list-container i.fa-grip-vertical {
+  opacity: 0;
+  margin-right: 10px;
 }
 
 div.pack-list-container p:hover {
   opacity: 0.8;
+  i {
+    opacity: 0.4;
+  }
 }
+
+/* div.pack-list-container > p.add-new-pack-button {
+  margin-left: 0px;
+} */

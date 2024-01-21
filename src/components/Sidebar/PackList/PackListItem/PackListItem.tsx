@@ -12,15 +12,18 @@ const PackListItem = (props: PackListItemProps) => {
   return (
     <Draggable key={pack.packId} draggableId={`${pack.packId}`} index={index}>
       {(provided) => (
-        <p
+        <div
           key={pack.packId}
           onClick={() => onClick(pack.packId)}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {pack.packName}
-        </p>
+          <p>
+            <i className="fa-solid fa-grip-vertical" />
+            {pack.packName}
+          </p>
+        </div>
       )}
     </Draggable>
   );
