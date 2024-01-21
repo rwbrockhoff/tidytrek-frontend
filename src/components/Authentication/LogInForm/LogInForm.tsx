@@ -116,18 +116,18 @@ const LogInForm = ({
               {formErrorMessage || 'Oops! There was an error.'}
             </Message>
           )}
+          {isRegisterForm ? (
+            <p style={{ marginTop: '25px' }}>
+              Already have an account? <Link to={'/'}>Log In</Link>
+            </p>
+          ) : (
+            <p style={{ marginTop: '25px' }}>
+              New here? <Link to={'/register'}>Sign Up</Link> |{' '}
+              <Link to={'/reset-password'}>Forgot Your Password</Link>
+            </p>
+          )}
         </Segment>
       </Form>
-
-      {isRegisterForm ? (
-        <Message>
-          Already have an account? <Link to={'/'}>Log In</Link>
-        </Message>
-      ) : (
-        <Message>
-          New here? <Link to={'/register'}>Sign Up</Link>
-        </Message>
-      )}
     </Grid.Column>
   );
 };

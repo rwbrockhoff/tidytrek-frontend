@@ -6,6 +6,7 @@ type User = {
   email: string;
   username: string;
 };
+
 type InitialState = {
   isAuthenticated: boolean;
   user: User;
@@ -48,6 +49,13 @@ export const userApi = createApi({
       query: () => ({ url: '/auth/logout', method: 'POST' }),
       invalidatesTags: ['Auth'],
     }),
+    resetPassword: builder.mutation({
+      query: (email: string) => ({
+        url: '/auth/reset-password',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
   }),
 });
 
@@ -56,4 +64,5 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
 } = userApi;
