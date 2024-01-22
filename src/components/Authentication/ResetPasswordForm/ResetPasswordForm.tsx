@@ -9,7 +9,14 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+type FormData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 type ResetPasswordFormProps = {
+  formData: FormData;
   hasResetToken: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -22,6 +29,7 @@ type ResetPasswordFormProps = {
 
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
   const {
+    formData,
     hasResetToken,
     isLoading,
     isSuccess,
@@ -31,7 +39,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
     onResetRequest,
     onResetConfirm,
   } = props;
-
+  const { email, password, confirmPassword } = formData;
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h1" textAlign="center">
@@ -52,6 +60,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
               placeholder="E-mail address"
               name="email"
               data-testid="email-input"
+              value={email}
               onChange={onFormChange}
             />
           )}
@@ -66,6 +75,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                 type="password"
                 name="password"
                 data-testid="password-input"
+                value={password}
                 onChange={onFormChange}
               />
 
@@ -77,6 +87,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                 type="password"
                 name="confirmPassword"
                 data-testid="verify-password-input"
+                value={confirmPassword}
                 onChange={onFormChange}
               />
             </>

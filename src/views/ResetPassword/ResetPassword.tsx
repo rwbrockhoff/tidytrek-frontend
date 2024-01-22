@@ -53,8 +53,19 @@ const ResetPassword = () => {
 
   const handleConfirmPasswordReset = () => {
     const { password, confirmPassword } = formData;
-    if (password !== confirmPassword) return; // todo
-    if (!validPassword(password)) return; // todo
+    if (password !== confirmPassword) {
+      return setFormError({
+        error: true,
+        message: "Passwords didn't match. Try again.",
+      });
+    }
+    if (!validPassword(password)) {
+      return setFormError({
+        error: true,
+        message:
+          'Password should have at least 8 characters, contain one uppercase, and one number.',
+      });
+    }
     confirmResetPassword({ password, confirmPassword, resetToken });
   };
 
@@ -71,6 +82,7 @@ const ResetPassword = () => {
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
       <ResetPasswordForm
+        formData={formData}
         hasResetToken={resetToken ? true : false}
         isLoading={isLoadingRequest || isLoadingConfirmPass}
         isSuccess={isSuccessRequest || isSuccessConfirmPass}

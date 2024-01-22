@@ -122,7 +122,7 @@ const LogInForm = ({
             </p>
           ) : (
             <p style={{ marginTop: '25px' }}>
-              New here? <Link to={'/register'}>Sign Up</Link> |{' '}
+              <Link to={'/register'}>Sign Up</Link> |{' '}
               <Link to={'/reset-password'}>Forgot Your Password</Link>
             </p>
           )}
