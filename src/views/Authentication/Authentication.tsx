@@ -44,11 +44,7 @@ const Authentication = (props: AuthProps) => {
   const invalidForm = (
     message: string = 'Please make sure to fill out form properly.',
   ) => {
-    setFormError((prevState) => ({
-      ...prevState,
-      error: true,
-      message,
-    }));
+    setFormError({ error: true, message });
   };
 
   const validateFormData = () => {

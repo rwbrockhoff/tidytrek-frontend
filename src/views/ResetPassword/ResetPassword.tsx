@@ -47,7 +47,7 @@ const ResetPassword = () => {
   const handleResetPasswordRequest = () => {
     if (validEmail(formData.email)) {
       resetPassword(formData.email);
-      setFormData((prevState) => ({ ...prevState, email: '' })); // todo
+      setFormData((prevState) => ({ ...prevState, email: '' }));
     } else setFormError({ error: true, message: 'Invalid email format.' });
   };
 
@@ -67,6 +67,11 @@ const ResetPassword = () => {
       });
     }
     confirmResetPassword({ password, confirmPassword, resetToken });
+    setFormData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
   };
 
   const { error, message } = useFormErrorInfo(
