@@ -21,8 +21,7 @@ export const userRoutes = [
     element: <ViewLayout />,
     children: [{ path: '/account', element: <Account /> }],
   },
-  { path: '/register', element: <Navigate to="/" /> },
-  { path: '/login', element: <Navigate to="/" /> },
+  { path: '/*', index: true, element: <Navigate to="/" /> },
 ];
 
 export const guestRoutes = [
@@ -33,6 +32,10 @@ export const guestRoutes = [
   { path: '/register', element: <Authentication isRegisterForm={true} /> },
   {
     path: '/reset-password',
+    element: <ResetPassword />,
+  },
+  {
+    path: '/reset-password/:resetToken',
     element: <ResetPassword />,
   },
   {

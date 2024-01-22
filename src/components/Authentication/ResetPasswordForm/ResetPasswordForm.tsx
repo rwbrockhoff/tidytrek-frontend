@@ -10,23 +10,28 @@ import {
 import { Link } from 'react-router-dom';
 
 type ResetPasswordFormProps = {
+  hasResetToken: boolean;
   isLoading: boolean;
   isSuccess: boolean;
   formError: boolean;
   formErrorMessage: string;
   onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: () => void;
+  onResetRequest: () => void;
+  onResetConfirm: () => void;
 };
 
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
   const {
+    hasResetToken,
     isLoading,
     isSuccess,
     formError,
     formErrorMessage,
     onFormChange,
-    onSubmit,
+    onResetRequest,
+    onResetConfirm,
   } = props;
+
   return (
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h1" textAlign="center">
@@ -38,25 +43,53 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             Reset Password
           </Header>
 
-          <Form.Input
-            fluid
-            icon="at"
-            type="email"
-            iconPosition="left"
-            placeholder="E-mail address"
-            name="email"
-            data-testid="email-input"
-            onChange={onFormChange}
-          />
+          {!hasResetToken && (
+            <Form.Input
+              fluid
+              icon="at"
+              type="email"
+              iconPosition="left"
+              placeholder="E-mail address"
+              name="email"
+              data-testid="email-input"
+              onChange={onFormChange}
+            />
+          )}
+
+          {hasResetToken && (
+            <>
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+                name="password"
+                data-testid="password-input"
+                onChange={onFormChange}
+              />
+
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Verify password"
+                type="password"
+                name="confirmPassword"
+                data-testid="verify-password-input"
+                onChange={onFormChange}
+              />
+            </>
+          )}
 
           <Button
             color="blue"
             fluid
             size="large"
             disabled={isLoading}
-            onClick={onSubmit}
+            onClick={hasResetToken ? onResetConfirm : onResetRequest}
           >
-            Reset Password
+            {hasResetToken ? 'Confirm New Password' : 'Reset Password'}
           </Button>
 
           {formError && (

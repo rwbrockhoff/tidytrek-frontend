@@ -2,12 +2,6 @@ import { useMemo } from 'react';
 import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { type SerializedError } from '@reduxjs/toolkit';
 
-type FormErrorInfoProps = {
-  formError: FormError;
-  registerStatus: MutationData;
-  loginStatus: MutationData;
-};
-
 type FormError = {
   error: boolean;
   message: string;
@@ -36,25 +30,25 @@ const createMessage = (message: string | undefined) => {
 };
 
 // Combines error handling for form UI, login, register
-export const useFormErrorInfo = ({
-  formError,
-  loginStatus,
-  registerStatus,
-}: FormErrorInfoProps): FormError => {
+export const useFormErrorInfo = (
+  formError: FormError,
+  secondMutation: MutationData,
+  firstMutation: MutationData,
+): FormError => {
   return useMemo(() => {
     const errorInfo: FormError = { error: false, message: '' };
-    if (hasErrorProps(loginStatus)) {
+    if (hasErrorProps(secondMutation)) {
       errorInfo.error = true;
-      const errorMessage = loginStatus.error.data?.error;
+      const errorMessage = secondMutation.error.data?.error;
       errorInfo.message = createMessage(errorMessage);
-    } else if (hasErrorProps(registerStatus)) {
+    } else if (hasErrorProps(firstMutation)) {
       errorInfo.error = true;
-      const errorMessage = registerStatus.error.data?.error;
+      const errorMessage = firstMutation.error.data?.error;
       errorInfo.message = createMessage(errorMessage);
     } else if (formError.error) {
       return formError;
     } else return errorInfo;
 
     return errorInfo;
-  }, [formError, loginStatus, registerStatus]);
+  }, [formError, secondMutation, firstMutation]);
 };

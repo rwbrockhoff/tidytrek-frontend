@@ -49,12 +49,20 @@ export const userApi = createApi({
       query: () => ({ url: '/auth/logout', method: 'POST' }),
       invalidatesTags: ['Auth'],
     }),
-    resetPassword: builder.mutation({
+    requestResetPassword: builder.mutation({
       query: (email: string) => ({
-        url: '/auth/reset-password',
+        url: '/auth/reset-password/request',
         method: 'POST',
         body: { email },
       }),
+    }),
+    confirmResetPassword: builder.mutation({
+      query: ({ password, confirmPassword, resetToken }) => ({
+        url: '/auth/reset-password/confirm',
+        method: 'POST',
+        body: { password, confirmPassword, resetToken },
+      }),
+      invalidatesTags: ['Auth'],
     }),
   }),
 });
@@ -64,5 +72,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
-  useResetPasswordMutation,
+  useRequestResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 } = userApi;

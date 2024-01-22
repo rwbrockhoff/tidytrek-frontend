@@ -5,6 +5,7 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '../../redux/user/userApiSlice';
+import { validEmail, validPassword } from './authHelper';
 import { useFormErrorInfo } from './useFormErrorInfo';
 
 type AuthProps = {
@@ -38,24 +39,6 @@ const Authentication = (props: AuthProps) => {
       ...prevFormData,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const validEmail = (email: string) => {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
-  };
-
-  const validPassword = (password: string) => {
-    if (password.length < 8) {
-      return false;
-    } else if (password.search(/[a-z]/) < 0) {
-      return false;
-    } else if (password.search(/[A-Z]/) < 0) {
-      return false;
-    } else if (password.search(/[0-9]/) < 0) {
-      return false;
-    } else {
-      return true;
-    }
   };
 
   const invalidForm = (
@@ -110,11 +93,11 @@ const Authentication = (props: AuthProps) => {
     }
   };
 
-  const { error, message } = useFormErrorInfo({
+  const { error, message } = useFormErrorInfo(
     formError,
     registerStatus,
     loginStatus,
-  });
+  );
 
   const { isLoading: isLoadingLogin } = loginData;
   const { isLoading: isLoadingRegister } = registerData;
