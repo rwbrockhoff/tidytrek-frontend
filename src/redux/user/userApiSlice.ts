@@ -4,7 +4,9 @@ type User = {
   userId: string;
   name: string;
   email: string;
+  username: string;
 };
+
 type InitialState = {
   isAuthenticated: boolean;
   user: User;
@@ -36,15 +38,30 @@ export const userApi = createApi({
       invalidatesTags: ['Auth'],
     }),
     register: builder.mutation({
-      query: ({ name, email, password }) => ({
+      query: ({ name, username, email, password }) => ({
         url: '/auth/register',
         method: 'POST',
-        body: { name, email, password },
+        body: { name, username, email, password },
       }),
       invalidatesTags: ['Auth'],
     }),
     logout: builder.mutation({
       query: () => ({ url: '/auth/logout', method: 'POST' }),
+      invalidatesTags: ['Auth'],
+    }),
+    requestResetPassword: builder.mutation({
+      query: (email: string) => ({
+        url: '/auth/reset-password/request',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+    confirmResetPassword: builder.mutation({
+      query: ({ password, confirmPassword, resetToken }) => ({
+        url: '/auth/reset-password/confirm',
+        method: 'POST',
+        body: { password, confirmPassword, resetToken },
+      }),
       invalidatesTags: ['Auth'],
     }),
   }),
@@ -55,4 +72,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
+  useRequestResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 } = userApi;

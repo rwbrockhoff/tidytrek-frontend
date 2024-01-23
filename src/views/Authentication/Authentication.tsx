@@ -5,24 +5,38 @@ import {
   useLoginMutation,
   useRegisterMutation,
 } from '../../redux/user/userApiSlice';
+import { useValidateForm } from './useValidateForm';
+import { useFormErrorInfo } from './useFormErrorInfo';
 
 type AuthProps = {
   isRegisterForm: boolean;
 };
 
-const Authentication = (props: AuthProps) => {
-  const [login, { isLoading: isLoadingLogin }] = useLoginMutation();
-  const [register, { isLoading: isLoadingRegister }] = useRegisterMutation();
+type FormData = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
-  const [formData, setFormData] = useState({
+const Authentication = (props: AuthProps) => {
+  const [login, loginData] = useLoginMutation();
+  const [register, registerData] = useRegisterMutation();
+  const { formError, invalidForm, validateFormData } = useValidateForm();
+
+  const loginStatus = { isError: loginData.isError, error: loginData.error };
+  const registerStatus = {
+    isError: registerData.isError,
+    error: registerData.error,
+  };
+
+  const [formData, setFormData] = useState<FormData>({
     name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
-  });
-  const [formError, setFormError] = useState({
-    error: false,
-    message: '',
   });
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,68 +46,11 @@ const Authentication = (props: AuthProps) => {
     }));
   };
 
-  const validEmail = (email: string) => {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
-  };
-
-  const validPassword = (password: string) => {
-    if (password.length < 8) {
-      return false;
-    } else if (password.search(/[a-z]/) < 0) {
-      return false;
-    } else if (password.search(/[A-Z]/) < 0) {
-      return false;
-    } else if (password.search(/[0-9]/) < 0) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  const invalidForm = (
-    message: string = 'Please make sure to fill out form properly.',
-  ) => {
-    setFormError((prevState) => ({
-      ...prevState,
-      error: true,
-      message,
-    }));
-  };
-
-  const validateFormData = () => {
-    const { name, email, password, confirmPassword } = formData;
-    //validate name when registering
-    if (!name) {
-      invalidForm('Please type in your name.');
-      return false;
-    }
-    //validate email
-    else if (!email || !validEmail(email)) {
-      invalidForm('Please include a valid email address.');
-      return false;
-    } else if (!password) {
-      invalidForm('Please type in your password.');
-      return false;
-    }
-    //validate passwords match when registering
-    else if (password !== confirmPassword) {
-      invalidForm('Passwords need to match.');
-      return false;
-    } else if (!validPassword(password)) {
-      invalidForm(
-        'Password should have at least 8 characters, contain one uppercase, and one number.',
-      );
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   const handleFormSubmit = () => {
-    const { name, email, password } = formData;
+    const { name, username, email, password } = formData;
     if (props.isRegisterForm) {
-      const formIsValid = validateFormData();
-      formIsValid && register({ name, email, password });
+      const formIsValid = validateFormData(formData);
+      formIsValid && register({ name, username, email, password });
     } else {
       if (email && password) login({ email, password });
       else {
@@ -102,7 +59,14 @@ const Authentication = (props: AuthProps) => {
     }
   };
 
-  const { error, message } = formError;
+  const { error, message } = useFormErrorInfo(
+    formError,
+    registerStatus,
+    loginStatus,
+  );
+
+  const { isLoading: isLoadingLogin } = loginData;
+  const { isLoading: isLoadingRegister } = registerData;
 
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">

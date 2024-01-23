@@ -16,17 +16,17 @@ import PropertyButtons from '../TableButtonCells/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import React from 'react';
 
-interface TableRowProps {
+type TableRowProps = {
   item: PackItem;
   key: string;
   index: number;
-}
+};
 
-interface PackItemPropUpdate {
+type PackItemPropUpdate = {
   consumable?: boolean;
   wornWeight?: boolean;
   favorite?: boolean;
-}
+};
 
 const TableRow = (props: TableRowProps) => {
   const dispatch: AppDispatch = useDispatch();

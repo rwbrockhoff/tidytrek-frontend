@@ -15,7 +15,10 @@ import {
   deleteCategoryAndItems,
 } from '../../../redux/packs/packThunks';
 import { Droppable } from 'react-beautiful-dnd';
-import weightConverter from '../../../utils/weightConverter';
+import {
+  weightConverter,
+  quantityConverter,
+} from '../../../utils/weightConverter';
 
 interface PackCategoryProps {
   category: Category;
@@ -56,7 +59,7 @@ const PackCategory: FC<PackCategoryProps> = (props) => {
   };
 
   const convertedCategoryWeight = weightConverter(packItems, 'lb');
-  const itemQuantity = packItems[0] ? packItems.length : 0;
+  const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
   return (
     <div className="table-container">
       <Table fixed striped compact columns="16" color="olive" size="small">

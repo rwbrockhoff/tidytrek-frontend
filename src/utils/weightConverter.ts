@@ -1,34 +1,37 @@
 import { PackItem } from '../redux/packs/packTypes';
 
-export default function weightConverter(
-  itemList: PackItem[],
-  outputUnit: string,
-) {
+export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
   if (itemList[0]) {
     const newItem = itemList
-      .map((item: { packItemWeight: number; packItemUnit: string }) => {
-        const { packItemWeight, packItemUnit } = item;
-        // Ensure we always return number type for reducer
-        const itemWeight = Number(packItemWeight);
+      .map(
+        (item: {
+          packItemWeight: number;
+          packItemUnit: string;
+          packItemQuantity: number;
+        }) => {
+          const { packItemWeight, packItemUnit, packItemQuantity } = item;
+          // Ensure we always return number type for reducer
+          const itemWeight = Number(packItemWeight) * packItemQuantity;
 
-        if (packItemUnit === outputUnit || itemWeight === 0) {
-          return itemWeight;
-        }
-        if (outputUnit === 'oz') {
-          return convertToOunces(itemWeight, packItemUnit);
-        } else if (outputUnit === 'lb') {
-          return convertToPounds(itemWeight, packItemUnit);
-        } else if (outputUnit === 'kg') {
-          return convertToKilograms(itemWeight, packItemUnit);
-        } else if (outputUnit === 'g') {
-          return convertToGrams(itemWeight, packItemUnit);
-        } else return itemWeight;
-      })
+          if (packItemUnit === outputUnit || itemWeight === 0) {
+            return itemWeight;
+          }
+          if (outputUnit === 'oz') {
+            return convertToOunces(itemWeight, packItemUnit);
+          } else if (outputUnit === 'lb') {
+            return convertToPounds(itemWeight, packItemUnit);
+          } else if (outputUnit === 'kg') {
+            return convertToKilograms(itemWeight, packItemUnit);
+          } else if (outputUnit === 'g') {
+            return convertToGrams(itemWeight, packItemUnit);
+          } else return itemWeight;
+        },
+      )
       .reduce((weight: number, sum: number = 0) => (sum += weight))
       .toFixed(2);
     return Number(newItem);
   } else return 0;
-}
+};
 
 function convertToOunces(weight: number, unit: string) {
   switch (unit) {
@@ -81,3 +84,7 @@ function convertToGrams(weight: number, unit: string) {
       return weight;
   }
 }
+
+export const quantityConverter = (items: PackItem[]) => {
+  return items.reduce((acc, item) => (acc += item.packItemQuantity), 0);
+};

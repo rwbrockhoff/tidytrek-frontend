@@ -1,5 +1,6 @@
 import ViewLayout from './ViewLayout';
 import Authentication from '../Authentication/Authentication';
+import ResetPassword from '../ResetPassword/ResetPassword';
 import Dashboard from '../Dashboard/Dashboard';
 import Account from '../Account/Account';
 import { Navigate } from 'react-router-dom';
@@ -20,8 +21,7 @@ export const userRoutes = [
     element: <ViewLayout />,
     children: [{ path: '/account', element: <Account /> }],
   },
-  { path: '/register', element: <Navigate to="/" /> },
-  { path: '/login', element: <Navigate to="/" /> },
+  { path: '/*', index: true, element: <Navigate to="/" /> },
 ];
 
 export const guestRoutes = [
@@ -30,6 +30,14 @@ export const guestRoutes = [
     element: <Authentication isRegisterForm={false} />,
   },
   { path: '/register', element: <Authentication isRegisterForm={true} /> },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
+  },
+  {
+    path: '/reset-password/:resetToken',
+    element: <ResetPassword />,
+  },
   {
     path: '/*',
     index: true,

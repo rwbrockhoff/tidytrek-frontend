@@ -72,7 +72,12 @@ const PackInfo = () => {
 
         {packUrl && (
           <p>
-            <a href={packUrl} target="_blank" className="pack-link">
+            <a
+              href={`https://${packUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pack-link"
+            >
               <Icon name="linkify" />
               {packUrlName || packUrl || 'Pack Link'}
             </a>

@@ -5,8 +5,8 @@ import {
   ModalActions,
   Button,
   Icon,
-} from "semantic-ui-react";
-import "./DeleteModal.css";
+} from 'semantic-ui-react';
+import './DeleteModal.css';
 
 interface DeleteModalProps {
   open: boolean;

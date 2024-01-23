@@ -1,12 +1,11 @@
 import './PackChart.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import weightConverter from '../../../utils/weightConverter';
+import { weightConverter } from '../../../utils/weightConverter';
 
-const PackChart: React.FC = memo(() => {
+const PackChart = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
   ChartJS.overrides.doughnut.plugins.legend.display = false;
   ChartJS.defaults.plugins.tooltip.displayColors = false;
@@ -48,6 +47,6 @@ const PackChart: React.FC = memo(() => {
       <Doughnut data={chartData} />
     </div>
   );
-});
+};
 
 export default PackChart;
