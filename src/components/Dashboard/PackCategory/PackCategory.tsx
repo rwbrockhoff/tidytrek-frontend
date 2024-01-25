@@ -1,5 +1,5 @@
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { Category, PackItem } from '../../../redux/packs/packTypes';
+import { type Category, type PackItem } from '../../../redux/packs/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
@@ -13,6 +13,8 @@ import {
 	deletePackCategory,
 	editPackCategory,
 	deleteCategoryAndItems,
+	editPackItem,
+	deletePackItem,
 } from '../../../redux/packs/packThunks';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
@@ -53,6 +55,15 @@ const PackCategory = (props: PackCategoryProps) => {
 		const { packCategoryId } = props.category;
 		dispatch(deletePackCategory(packCategoryId));
 		setShowModal(false);
+	};
+
+	const handleToggleOff = (packItem: PackItem) => {
+		const { packItemId } = packItem;
+		dispatch(editPackItem({ packItemId, packItem }));
+	};
+
+	const handleDelete = (packItemId: number) => {
+		packItemId && dispatch(deletePackItem(packItemId));
 	};
 
 	const convertedCategoryWeight = weightConverter(packItems, 'lb');
@@ -100,6 +111,8 @@ const PackCategory = (props: PackCategoryProps) => {
 											item={item}
 											key={`${item.packCategoryId}${item.packItemId}`}
 											index={idx}
+											handleToggleOff={handleToggleOff}
+											handleDelete={handleDelete}
 										/>
 									))}
 									{provided.placeholder}

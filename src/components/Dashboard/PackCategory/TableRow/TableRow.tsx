@@ -1,167 +1,112 @@
 import TableCell from '../TableCell/TableCell';
 import './TableRow.css';
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../../redux/store';
-import { PackItem } from '../../../../redux/packs/packTypes';
+import { useState } from 'react';
 import {
-  editPackItem,
-  deletePackItem,
-} from '../../../../redux/packs/packThunks';
+	type PackItem,
+	type PackButtonSwitches,
+} from '../../../../redux/packs/packTypes';
 import ItemNameCell from '../ItemNameCell/ItemNameCell';
 import PackWeightCell from '../PackWeightCell/PackWeightCell';
 import DeleteButton from '../TableButtonCells/DeleteButton';
 import QuantityButton from '../TableButtonCells/QuantityButton';
 import PropertyButtons from '../TableButtonCells/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
-import React from 'react';
+import { useTableRowInput } from './useTableRowInput';
 
 type TableRowProps = {
-  item: PackItem;
-  key: string;
-  index: number;
-};
-
-type PackItemPropUpdate = {
-  consumable?: boolean;
-  wornWeight?: boolean;
-  favorite?: boolean;
+	item: PackItem;
+	key: string;
+	index: number;
+	handleToggleOff: (packItem: PackItem) => void;
+	handleDelete: (packItemId: number) => void;
 };
 
 const TableRow = (props: TableRowProps) => {
-  const dispatch: AppDispatch = useDispatch();
+	const { handleToggleOff, handleDelete } = props;
+	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
+	const [toggleRow, setToggleRow] = useState(false);
 
-  const [toggleRow, setToggleRow] = useState(false);
-  const [packItemChanged, setPackItemChanged] = useState(false);
-  const [packItem, setPackItem] = useState({
-    packItemName: '',
-    packItemId: 0,
-    packCategoryId: 0,
-    packItemDescription: '',
-    packItemWeight: 0,
-    packItemUnit: 'oz',
-    packItemQuantity: 1,
-    packItemUrl: '',
-    wornWeight: false,
-    consumable: false,
-    favorite: false,
-  });
+	const {
+		packItemName,
+		packItemDescription,
+		packItemId,
+		packItemWeight,
+		packItemUnit,
+		packItemQuantity,
+		packItemUrl,
+		wornWeight,
+		consumable,
+		favorite,
+	} = packItem;
 
-  useEffect(() => {
-    setPackItem({
-      ...props.item,
-    });
-  }, [props.item]);
+	const handleToggle = () => packItemChanged && handleToggleOff(packItem);
 
-  const handleInput = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setPackItem((prevFormData) => ({
-      ...prevFormData,
-      [e?.target?.name]: e?.target?.value,
-    }));
-    if (!packItemChanged) {
-      setPackItemChanged(true);
-    }
-  };
+	const handleButton = (property: PackButtonSwitches) =>
+		handleToggleOff({ ...packItem, ...property });
 
-  const handlePropButtons = (packItemPropUpdate: PackItemPropUpdate) => {
-    const { packItemId } = props.item;
-    dispatch(
-      editPackItem({
-        packItemId,
-        packItem: { ...packItem, ...packItemPropUpdate },
-      }),
-    );
-  };
+	const dropId = `${packItemId}`;
 
-  const handleToggleOff = () => {
-    if (packItemChanged) {
-      const { packItemId } = props.item;
-      dispatch(editPackItem({ packItemId, packItem }));
-      setPackItemChanged(false);
-    }
-  };
-
-  const handleDelete = () => {
-    const { packItemId } = props.item;
-    packItemId && dispatch(deletePackItem(packItemId));
-  };
-
-  const {
-    packItemName,
-    packItemDescription,
-    packItemId,
-    packItemWeight,
-    packItemUnit,
-    packItemQuantity,
-    packItemUrl,
-    wornWeight,
-    consumable,
-    favorite,
-  } = packItem;
-
-  const dropId = `${packItemId}`;
-
-  return (
-    <Draggable key={dropId} draggableId={dropId} index={props.index}>
-      {(provided) => (
-        <tr
-          className="table-row"
-          onMouseOver={() => setToggleRow(true)}
-          onMouseLeave={() => setToggleRow(false)}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <ItemNameCell
-            value={packItemName}
-            packItemUrl={packItemUrl}
-            displayIcon={toggleRow}
-            onChange={handleInput}
-            onToggleOff={handleToggleOff}
-            itemName="packItemName"
-            placeholder="Name"
-            size={4}
-          />
-          <TableCell
-            value={packItemDescription}
-            onChange={handleInput}
-            onToggleOff={handleToggleOff}
-            itemName="packItemDescription"
-            placeholder="Description"
-            size={5}
-          />
-          <PropertyButtons
-            wornWeight={wornWeight}
-            consumable={consumable}
-            favorite={favorite}
-            onClick={handlePropButtons}
-            display={toggleRow}
-            size={3}
-          />
-          <QuantityButton
-            quantity={packItemQuantity}
-            onChange={handleInput}
-            onToggleOff={handleToggleOff}
-            size={1}
-          />
-          <PackWeightCell
-            weight={packItemWeight}
-            unit={packItemUnit}
-            placeholder={0}
-            onChange={handleInput}
-            onToggleOff={handleToggleOff}
-            itemName="packItemWeight"
-            size={2}
-          />
-          <DeleteButton display={toggleRow} size={1} onClick={handleDelete} />
-        </tr>
-      )}
-    </Draggable>
-  );
+	return (
+		<Draggable key={dropId} draggableId={dropId} index={props.index}>
+			{(provided) => (
+				<tr
+					className="table-row"
+					onMouseOver={() => setToggleRow(true)}
+					onMouseLeave={() => setToggleRow(false)}
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}>
+					<ItemNameCell
+						value={packItemName}
+						packItemUrl={packItemUrl}
+						displayIcon={toggleRow}
+						onChange={handleInput}
+						onToggleOff={handleToggle}
+						itemName="packItemName"
+						placeholder="Name"
+						size={4}
+					/>
+					<TableCell
+						value={packItemDescription}
+						onChange={handleInput}
+						onToggleOff={handleToggle}
+						itemName="packItemDescription"
+						placeholder="Description"
+						size={5}
+					/>
+					<PropertyButtons
+						wornWeight={wornWeight}
+						consumable={consumable}
+						favorite={favorite}
+						onClick={handleButton}
+						// (buttonProps) => handleButtonProps(packItem, buttonProps)
+						display={toggleRow}
+						size={3}
+					/>
+					<QuantityButton
+						quantity={packItemQuantity}
+						onChange={handleInput}
+						onToggleOff={handleToggle}
+						size={1}
+					/>
+					<PackWeightCell
+						weight={packItemWeight}
+						unit={packItemUnit}
+						placeholder={0}
+						onChange={handleInput}
+						onToggleOff={handleToggle}
+						itemName="packItemWeight"
+						size={2}
+					/>
+					<DeleteButton
+						display={toggleRow}
+						size={1}
+						onClick={() => handleDelete(packItemId)}
+					/>
+				</tr>
+			)}
+		</Draggable>
+	);
 };
 
 export default TableRow;

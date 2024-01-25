@@ -1,5 +1,5 @@
 import { Header } from 'semantic-ui-react';
-import { type PackItem, type Pack } from '../../redux/packs/packTypes';
+import './GearCloset.css';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
 import { useGetGearClosetQuery } from '../../redux/closet/closetApiSlice';
 
@@ -12,7 +12,7 @@ const GearCloset = () => {
 
 	return (
 		<div>
-			<Header as="h1" textAlign="center">
+			<Header as="h1" textAlign="center" className="gear-closet-header">
 				Gear Closet
 			</Header>
 			<GearClosetList gearClosetList={gearClosetList} availablePacks={availablePacks} />

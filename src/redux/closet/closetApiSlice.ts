@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PackItem, Pack } from '../packs/packTypes';
 
 type InitialState = {
-	gearClosetList: object[];
-	availablePacks: object[];
+	gearClosetList: PackItem[];
+	availablePacks: Pack[];
 };
 
 const baseURL =
