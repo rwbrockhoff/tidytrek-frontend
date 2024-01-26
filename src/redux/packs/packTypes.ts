@@ -13,7 +13,7 @@ export interface Pack {
 	packLocationTag: string;
 	packDurationTag: string;
 	packSeasonTag: string;
-	packMilesTag: string;
+	packDistanceTag: string;
 	packPublic: boolean;
 	packUrlName: string;
 	packUrl: string;

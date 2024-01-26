@@ -1,138 +1,136 @@
 import { Header, Label, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../../redux/store';
 import {
-  deletePack,
-  deletePackAndItems,
-  getDefaultPack,
-} from '../../../redux/packs/packThunks';
+	useDeletePackMutation,
+	useDeletePackAndItemsMutation,
+} from '../../../redux/newPacks/newPacksApiSlice';
 import PackChart from '../PackChart/PackChart';
 import PackFormModal from './PackFormModal/PackFormModal';
 import DeleteModal from '../PackCategory/DeleteModal/DeleteModal';
 import './PackInfo.css';
+import { useNavigate } from 'react-router-dom';
+import { type Category, type Pack } from '../../../redux/packs/packTypes';
 
-const PackInfo = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const currentPack = useSelector((state: RootState) => state.packs.pack);
-  const [showIcon, setShowIcon] = useState(false);
-  const [showPackModal, setShowPackModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+type PackInfoProps = {
+	currentPack: Pack;
+	packCategories: Category[];
+};
 
-  const handleToggleModal = () => setShowPackModal(!showPackModal);
+const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
+	const navigate = useNavigate();
+	const [deletePack] = useDeletePackMutation();
+	const [deletePackAndItems] = useDeletePackAndItemsMutation();
 
-  const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+	const [showIcon, setShowIcon] = useState(false);
+	const [showPackModal, setShowPackModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleShowDeleteModal = () => {
-    setShowPackModal(false);
-    setShowDeleteModal(true);
-  };
+	const handleToggleModal = () => setShowPackModal(!showPackModal);
 
-  const handleDeletePack = async () => {
-    const { packId } = currentPack;
-    await dispatch(deletePack(packId));
-    await dispatch(getDefaultPack());
-    setShowDeleteModal(false);
-  };
+	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
 
-  const handleDeletePackAndItems = async () => {
-    const { packId } = currentPack;
-    await dispatch(deletePackAndItems(packId));
-    await dispatch(getDefaultPack());
-    setShowDeleteModal(false);
-  };
+	const handleShowDeleteModal = () => {
+		setShowPackModal(false);
+		setShowDeleteModal(true);
+	};
 
-  const {
-    packName,
-    packDescription,
-    packLocationTag,
-    packDurationTag,
-    packSeasonTag,
-    packMilesTag,
-    packUrl,
-    packUrlName,
-  } = currentPack;
-  return (
-    <div className="pack-info-container">
-      <div
-        className="pack-info-left-panel"
-        onMouseOver={() => setShowIcon(true)}
-        onMouseLeave={() => setShowIcon(false)}
-      >
-        <Header as="h1">
-          {packName}
-          {showIcon && (
-            <Icon
-              name="pencil alternate"
-              color="grey"
-              onClick={handleToggleModal}
-            />
-          )}
-        </Header>
+	const handleDeletePack = () => {
+		const { packId } = currentPack;
+		deletePack(packId);
+		navigate('/');
+		setShowDeleteModal(false);
+	};
 
-        {packUrl && (
-          <p>
-            <a
-              href={`https://${packUrl}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pack-link"
-            >
-              <Icon name="linkify" />
-              {packUrlName || packUrl || 'Pack Link'}
-            </a>
-          </p>
-        )}
+	const handleDeletePackAndItems = () => {
+		const { packId } = currentPack;
+		deletePackAndItems(packId);
+		navigate('/');
+		setShowDeleteModal(false);
+	};
 
-        <p>{packDescription}</p>
-        <div className="pack-info-tag-container">
-          {packLocationTag && (
-            <Label color="olive">
-              <Icon name="location arrow" />
-              {packLocationTag}
-            </Label>
-          )}
-          {packSeasonTag && (
-            <Label color="yellow">
-              <Icon name="sun" />
-              {packSeasonTag}
-            </Label>
-          )}
-          {packDurationTag && (
-            <Label color="blue">
-              <Icon name="time" />
-              {packDurationTag}
-            </Label>
-          )}
-          {packMilesTag && (
-            <Label color="teal">
-              <i
-                className="fa-solid fa-person-hiking"
-                style={{ paddingRight: '5px' }}
-              />
-              {packMilesTag}
-            </Label>
-          )}
-        </div>
-      </div>
-      {/* Right Hand Panel */}
-      <div className="pack-info-right-panel">
-        <PackChart />
-      </div>
-      <PackFormModal
-        open={showPackModal}
-        onClose={handleToggleModal}
-        onClickDelete={handleShowDeleteModal}
-        pack={currentPack}
-      />
-      <DeleteModal
-        open={showDeleteModal}
-        onClose={handleToggleDeleteModal}
-        onClickDelete={handleDeletePackAndItems}
-        onClickMoveItems={handleDeletePack}
-      />
-    </div>
-  );
+	const {
+		packName,
+		packDescription,
+		packLocationTag,
+		packDurationTag,
+		packSeasonTag,
+		packDistanceTag,
+		packUrl,
+		packUrlName,
+	} = currentPack;
+
+	return (
+		<div className="pack-info-container">
+			<div
+				className="pack-info-left-panel"
+				onMouseOver={() => setShowIcon(true)}
+				onMouseLeave={() => setShowIcon(false)}>
+				<Header as="h1">
+					{packName}
+					{showIcon && (
+						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
+					)}
+				</Header>
+
+				{packUrl && (
+					<p>
+						<a
+							href={`https://${packUrl}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="pack-link">
+							<Icon name="linkify" />
+							{packUrlName || packUrl || 'Pack Link'}
+						</a>
+					</p>
+				)}
+
+				<p>{packDescription}</p>
+				<div className="pack-info-tag-container">
+					{packLocationTag && (
+						<Label color="olive">
+							<Icon name="location arrow" />
+							{packLocationTag}
+						</Label>
+					)}
+					{packSeasonTag && (
+						<Label color="yellow">
+							<Icon name="sun" />
+							{packSeasonTag}
+						</Label>
+					)}
+					{packDurationTag && (
+						<Label color="blue">
+							<Icon name="time" />
+							{packDurationTag}
+						</Label>
+					)}
+					{packDistanceTag && (
+						<Label color="teal">
+							<i className="fa-solid fa-person-hiking" style={{ paddingRight: '5px' }} />
+							{packDistanceTag}
+						</Label>
+					)}
+				</div>
+			</div>
+			{/* Right Hand Panel */}
+			<div className="pack-info-right-panel">
+				<PackChart categories={packCategories} />
+			</div>
+			<PackFormModal
+				open={showPackModal}
+				onClose={handleToggleModal}
+				onClickDelete={handleShowDeleteModal}
+				pack={currentPack}
+			/>
+			<DeleteModal
+				open={showDeleteModal}
+				onClose={handleToggleDeleteModal}
+				onClickDelete={handleDeletePackAndItems}
+				onClickMoveItems={handleDeletePack}
+			/>
+		</div>
+	);
 };
 
 export default PackInfo;

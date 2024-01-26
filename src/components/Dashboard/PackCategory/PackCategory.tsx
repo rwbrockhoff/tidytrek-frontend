@@ -6,16 +6,14 @@ import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
 import DeleteButton from './TableButtonCells/DeleteButton';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../redux/store';
 import {
-	addPackItem,
-	deletePackCategory,
-	editPackCategory,
-	deleteCategoryAndItems,
-	editPackItem,
-	deletePackItem,
-} from '../../../redux/packs/packThunks';
+	useAddPackItemMutation,
+	useEditPackItemMutation,
+	useEditPackCategoryMutation,
+	useDeletePackItemMutation,
+	useDeletePackCategoryMutation,
+	useDeletePackCategoryAndItemsMutation,
+} from '../../../redux/newPacks/newPacksApiSlice';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 
@@ -26,19 +24,25 @@ type PackCategoryProps = {
 };
 
 const PackCategory = (props: PackCategoryProps) => {
-	const dispatch: AppDispatch = useDispatch();
+	const [addPackItem] = useAddPackItemMutation();
+	const [editPackItem] = useEditPackItemMutation();
+	const [editPackCategory] = useEditPackCategoryMutation();
+	const [deletePackItem] = useDeletePackItemMutation();
+	const [deleteCategory] = useDeletePackCategoryMutation();
+	const [deleteCategoryAndItems] = useDeletePackCategoryAndItemsMutation();
+
 	const { packCategoryName, packItems } = props.category;
 	const [toggleRow, setToggleRow] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
 	const handleAddItem = () => {
 		const { packId, packCategoryId } = props.category;
-		dispatch(addPackItem({ packId, packCategoryId }));
+		addPackItem({ packId, packCategoryId });
 	};
 
 	const handleEditCategory = (packCategoryName: string) => {
 		const { packCategoryId } = props.category;
-		dispatch(editPackCategory({ packCategoryId, packCategoryName }));
+		editPackCategory({ packCategoryId, packCategoryName });
 	};
 
 	const handleToggleModal = () => {
@@ -47,23 +51,23 @@ const PackCategory = (props: PackCategoryProps) => {
 
 	const handleDeleteCategoryAndItems = () => {
 		const { packCategoryId } = props.category;
-		dispatch(deleteCategoryAndItems(packCategoryId));
+		deleteCategoryAndItems(packCategoryId);
 		setShowModal(false);
 	};
 
 	const handleDeleteCategory = () => {
 		const { packCategoryId } = props.category;
-		dispatch(deletePackCategory(packCategoryId));
+		deleteCategory(packCategoryId);
 		setShowModal(false);
 	};
 
 	const handleToggleOff = (packItem: PackItem) => {
 		const { packItemId } = packItem;
-		dispatch(editPackItem({ packItemId, packItem }));
+		editPackItem({ packItemId, packItem });
 	};
 
 	const handleDelete = (packItemId: number) => {
-		packItemId && dispatch(deletePackItem(packItemId));
+		packItemId && deletePackItem(packItemId);
 	};
 
 	const convertedCategoryWeight = weightConverter(packItems, 'lb');

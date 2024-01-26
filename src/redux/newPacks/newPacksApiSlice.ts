@@ -1,12 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type InitialState, type Pack, type PackItem } from '../packs/packTypes';
 
-// const initialState: InitialState = {
-// 	packList: [],
-// 	pack: {} as Pack,
-// 	categories: [],
-// };
-
 const baseURL =
 	process.env.NODE_ENV === 'production'
 		? 'https://api.tidytrek.co'
@@ -25,19 +19,22 @@ export const newPacksApi = createApi({
 			providesTags: ['Pack'],
 		}),
 		getPack: builder.query<InitialState, number>({
-			query: (packId) => `/packs/${packId}`,
+			query: (packId: number) => {
+				if (packId) return { url: `/packs/${packId}` };
+				else return { url: `/packs` };
+			},
 			providesTags: ['Pack'],
 		}),
 		getPackList: builder.query<InitialState, void>({
 			query: () => '/packs/pack-list',
 			providesTags: ['Packlist'],
 		}),
-		addNewPack: builder.mutation({
+		addNewPack: builder.mutation<InitialState, void>({
 			query: () => ({
 				url: '/packs',
 				method: 'POST',
 			}),
-			invalidatesTags: ['Pack'],
+			invalidatesTags: ['Packlist'],
 		}),
 		editPack: builder.mutation({
 			query: (packInfo: { packId: number; modifiedPack: Pack }) => {
@@ -51,29 +48,29 @@ export const newPacksApi = createApi({
 			invalidatesTags: ['Pack'],
 		}),
 		movePack: builder.mutation({
-			query: (packInfo: { packId: string; newIndex: number }) => {
-				const { packId, newIndex } = packInfo;
+			query: (packInfo: { packId: string; newIndex: number; prevIndex: number }) => {
+				const { packId, newIndex, prevIndex } = packInfo;
 				return {
 					url: `/packs/index/${packId}`,
 					method: 'PUT',
-					body: { newIndex },
+					body: { newIndex, prevIndex },
 				};
 			},
-			invalidatesTags: ['Pack'],
+			invalidatesTags: ['Packlist'],
 		}),
 		deletePack: builder.mutation({
 			query: (packId: number) => ({
 				url: `/packs/${packId}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['Pack'],
+			invalidatesTags: ['Pack', 'Packlist'],
 		}),
 		deletePackAndItems: builder.mutation({
 			query: (packId: number) => ({
 				url: `/packs/items/${packId}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['Pack'],
+			invalidatesTags: ['Pack', 'Packlist'],
 		}),
 		addPackItem: builder.mutation({
 			query: (packItem: { packId: number; packCategoryId: number }) => {
@@ -92,7 +89,7 @@ export const newPacksApi = createApi({
 				return {
 					url: `/packs/pack-items/${packItemId}`,
 					method: 'PUT',
-					body: { packItem },
+					body: packItem,
 				};
 			},
 			invalidatesTags: ['Pack'],
