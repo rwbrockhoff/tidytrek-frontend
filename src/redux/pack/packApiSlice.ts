@@ -117,6 +117,13 @@ export const packApi = createApi({
 			},
 			invalidatesTags: ['Pack'],
 		}),
+		moveItemToCloset: builder.mutation({
+			query: (packItemId: number) => ({
+				url: `/packs/pack-items/closet/${packItemId}`,
+				method: 'PUT',
+			}),
+			invalidatesTags: ['Pack'],
+		}),
 		deletePackItem: builder.mutation({
 			query: (packItemId: number) => ({
 				url: `/packs/pack-items/${packItemId}`,
@@ -173,6 +180,7 @@ export const {
 	useAddPackItemMutation,
 	useEditPackItemMutation,
 	useMovePackItemMutation,
+	useMoveItemToClosetMutation,
 	useDeletePackItemMutation,
 	useAddPackCategoryMutation,
 	useEditPackCategoryMutation,

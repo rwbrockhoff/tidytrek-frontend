@@ -6,7 +6,7 @@ import {
 } from '../../../redux/pack/packApiSlice';
 import PackChart from '../PackChart/PackChart';
 import PackFormModal from './PackFormModal/PackFormModal';
-import DeleteModal from '../PackCategory/DeleteModal/DeleteModal';
+import { DeleteModal } from '../PackCategory/Modals/Modals';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
@@ -142,7 +142,7 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 				open={showDeleteModal}
 				onClose={handleToggleDeleteModal}
 				onClickDelete={handleDeletePackAndItems}
-				onClickMoveItems={handleDeletePack}
+				onClickMove={handleDeletePack}
 			/>
 		</div>
 	);

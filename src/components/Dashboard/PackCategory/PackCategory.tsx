@@ -1,21 +1,22 @@
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import { type Category, type PackItem } from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
-import CategoryNameCell from './TableCells/CategoryNameCell/CategoryNameCell';
-import DeleteButton from './TableButtons/DeleteButton';
-import DeleteModal from './DeleteModal/DeleteModal';
+import TableHeader from './TableHeader/TableHeader';
+import { DeleteModal, DeleteItemModal } from './Modals/Modals';
 import { useState } from 'react';
 import {
 	useAddPackItemMutation,
 	useEditPackItemMutation,
 	useEditPackCategoryMutation,
+	useMoveItemToClosetMutation,
 	useDeletePackItemMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
 } from '../../../redux/pack/packApiSlice';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
+import TableFooter from './TableFooter/TableFooter';
 
 type PackCategoryProps = {
 	category: Category;
@@ -28,14 +29,22 @@ const PackCategory = (props: PackCategoryProps) => {
 
 	const [editPackItem] = useEditPackItemMutation();
 	const [editPackCategory] = useEditPackCategoryMutation();
+	const [movePackItem] = useMoveItemToClosetMutation();
 
 	const [deletePackItem] = useDeletePackItemMutation();
 	const [deleteCategory] = useDeletePackCategoryMutation();
 	const [deleteCategoryAndItems] = useDeletePackCategoryAndItemsMutation();
 
 	const { packCategoryName, packItems } = props.category;
-	const [toggleRow, setToggleRow] = useState(false);
-	const [showModal, setShowModal] = useState(false);
+
+	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
+	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
+	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
+
+	const handleToggleCategoryModal = () =>
+		setShowDeleteCategoryModal(!showDeleteCategoryModal);
+
+	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
 
 	const handleAddItem = () => {
 		const { packId, packCategoryId } = props.category;
@@ -47,20 +56,26 @@ const PackCategory = (props: PackCategoryProps) => {
 		editPackCategory({ packCategoryId, packCategoryName });
 	};
 
-	const handleToggleModal = () => {
-		setShowModal(!showModal);
-	};
-
 	const handleDeleteCategoryAndItems = () => {
 		const { packCategoryId } = props.category;
 		deleteCategoryAndItems(packCategoryId);
-		setShowModal(false);
+		setShowDeleteCategoryModal(false);
 	};
 
 	const handleDeleteCategory = () => {
 		const { packCategoryId } = props.category;
 		deleteCategory(packCategoryId);
-		setShowModal(false);
+		setShowDeleteCategoryModal(false);
+	};
+
+	const handleMoveItem = () => {
+		if (packItemToChange) movePackItem(packItemToChange);
+		setShowDeleteItemModal(false);
+	};
+
+	const handleDeleteItem = () => {
+		if (packItemToChange) deletePackItem(packItemToChange);
+		setShowDeleteItemModal(false);
 	};
 
 	const handleOnSave = (packItem: PackItem) => {
@@ -68,8 +83,9 @@ const PackCategory = (props: PackCategoryProps) => {
 		editPackItem({ packItemId, packItem });
 	};
 
-	const handleDelete = (packItemId: number) => {
-		packItemId && deletePackItem(packItemId);
+	const handleDeleteItemPrompt = (packItemId: number) => {
+		setPackItemToChange(packItemId);
+		setShowDeleteItemModal(true);
 	};
 
 	const convertedCategoryWeight = weightConverter(packItems, 'lb');
@@ -77,36 +93,11 @@ const PackCategory = (props: PackCategoryProps) => {
 	return (
 		<div className="table-container">
 			<Table fixed striped compact columns="16" color="olive" size="small">
-				<Table.Header
-					className="category-table-header"
-					onMouseOver={() => setToggleRow(true)}
-					onMouseLeave={() => setToggleRow(false)}>
-					<Table.Row>
-						<CategoryNameCell
-							size={12}
-							categoryName={packCategoryName}
-							onToggleOff={handleEditCategory}
-						/>
-
-						<Table.HeaderCell textAlign="center" colSpan="1">
-							Qty
-						</Table.HeaderCell>
-						<Table.HeaderCell
-							textAlign="center"
-							colSpan="2"
-							style={{ paddingLeft: '50px' }}>
-							Weight
-						</Table.HeaderCell>
-
-						<DeleteButton
-							header
-							size={1}
-							display={toggleRow}
-							onClickToggle={handleToggleModal}
-							onClickDelete={handleToggleModal}
-						/>
-					</Table.Row>
-				</Table.Header>
+				<TableHeader
+					headerName={packCategoryName}
+					handleEditCategory={handleEditCategory}
+					handleDeleteCategory={handleToggleCategoryModal}
+				/>
 
 				{packItems[0] && (
 					<Droppable droppableId={`${props.category.packCategoryId}`}>
@@ -120,7 +111,7 @@ const PackCategory = (props: PackCategoryProps) => {
 											index={idx}
 											gearClosetItem={false}
 											handleOnSave={handleOnSave}
-											handleDelete={handleDelete}
+											handleDelete={handleDeleteItemPrompt}
 										/>
 									))}
 									{provided.placeholder}
@@ -129,31 +120,27 @@ const PackCategory = (props: PackCategoryProps) => {
 						)}
 					</Droppable>
 				)}
-				<Table.Footer>
-					<Table.Row className="footer-container">
-						<Table.Cell colSpan={12}>
-							<Button
-								size="mini"
-								floated="left"
-								compact
-								basic
-								className="add-item-table-button"
-								onClick={handleAddItem}>
-								<Icon name="add" />
-								Add Item
-							</Button>
-						</Table.Cell>
-						<Table.Cell colSpan={2}>{itemQuantity} Items</Table.Cell>
-						<Table.Cell colSpan={2}>{`${convertedCategoryWeight} lbs`}</Table.Cell>
-					</Table.Row>
-				</Table.Footer>
+
+				<TableFooter
+					itemQuantity={itemQuantity}
+					weight={convertedCategoryWeight}
+					handleAddItem={handleAddItem}
+				/>
 			</Table>
 
 			<DeleteModal
-				open={showModal}
-				onClose={handleToggleModal}
-				onClickMoveItems={handleDeleteCategory}
+				open={showDeleteCategoryModal}
+				onClickMove={handleDeleteCategory}
 				onClickDelete={handleDeleteCategoryAndItems}
+				onClose={handleToggleCategoryModal}
+			/>
+
+			<DeleteItemModal
+				id={packItemToChange}
+				open={showDeleteItemModal}
+				onClose={handleToggleItemModal}
+				onClickMove={handleMoveItem}
+				onClickDelete={handleDeleteItem}
 			/>
 		</div>
 	);
