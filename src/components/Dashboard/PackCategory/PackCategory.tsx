@@ -2,7 +2,7 @@ import { Table, Button, Icon } from 'semantic-ui-react';
 import { type Category, type PackItem } from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
-import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
+import CategoryNameCell from './TableCells/CategoryNameCell/CategoryNameCell';
 import DeleteButton from './TableButtons/DeleteButton';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { useState } from 'react';
@@ -25,8 +25,10 @@ type PackCategoryProps = {
 
 const PackCategory = (props: PackCategoryProps) => {
 	const [addPackItem] = useAddPackItemMutation();
+
 	const [editPackItem] = useEditPackItemMutation();
 	const [editPackCategory] = useEditPackCategoryMutation();
+
 	const [deletePackItem] = useDeletePackItemMutation();
 	const [deleteCategory] = useDeletePackCategoryMutation();
 	const [deleteCategoryAndItems] = useDeletePackCategoryAndItemsMutation();

@@ -26,7 +26,7 @@ const GearClosetList = (props: GearClosetList) => {
 
 	const { gearClosetList, availablePacks } = props;
 
-	const handleToggleOff = (packItem: PackItem) => editItem(packItem);
+	const handleOnSave = (packItem: PackItem) => editItem(packItem);
 
 	const handleDelete = (packItemId: number) => deleteItem(packItemId);
 
@@ -77,7 +77,7 @@ const GearClosetList = (props: GearClosetList) => {
 									index={index}
 									gearClosetItem={true}
 									availablePacks={availablePacks}
-									handleToggleOff={handleToggleOff}
+									handleOnSave={handleOnSave}
 									handleDelete={handleDelete}
 									handleMoveItemToPack={handleMoveItemToPack}
 								/>

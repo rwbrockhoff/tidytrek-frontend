@@ -1,4 +1,4 @@
-import TableCell from '../TableCell/TableCell';
+import TableCell from '../TableCells/TableCell/TableCell';
 import './TableRow.css';
 import { useState } from 'react';
 import {
@@ -6,13 +6,14 @@ import {
 	type PackButtonSwitches,
 	type AvailablePack,
 } from '../../../../types/packTypes';
-import ItemNameCell from '../ItemNameCell/ItemNameCell';
+import ItemNameCell from '../TableCells/ItemNameCell/ItemNameCell';
 import PackWeightCell from '../TableCells/PackWeightCell/PackWeightCell';
 import DeleteButton from '../TableButtons/DeleteButton';
 import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
+import MoveItemButton from '../../../GearCloset/GearClosetList/MoveItemButton';
 import MoveClosetItemButtons from '../../../GearCloset/MoveClosetItemButtons/MoveClosetItemButtons';
 
 type TableRowProps = {
@@ -115,11 +116,15 @@ const TableRow = (props: TableRowProps) => {
 
 						<DeleteButton
 							display={toggleRow}
-							size={gearClosetItem ? 2 : 1}
-							moveItemEnabled={gearClosetItem}
-							onClickToggle={() => setToggleGearButtons(!toggleGearButtons)}
 							onClickDelete={() => handleDelete(packItemId)}
 						/>
+
+						{gearClosetItem && (
+							<MoveItemButton
+								display={toggleRow}
+								onToggle={() => setToggleGearButtons(!toggleGearButtons)}
+							/>
+						)}
 					</tr>
 					{toggleGearButtons && (
 						<MoveClosetItemButtons
