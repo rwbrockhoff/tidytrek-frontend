@@ -27,10 +27,10 @@ const PackList = () => {
 		if (addPackResult.isSuccess && addPackResult.data) {
 			if ('pack' in addPackResult.data) {
 				const { packId } = addPackResult.data.pack;
-				navigate(`/packs/${packId}`);
+				if (paramPackId && Number(paramPackId) !== packId) navigate(`/packs/${packId}`);
 			}
 		}
-	}, [addPackResult, navigate]);
+	}, [addPackResult, paramPackId, navigate]);
 
 	const packList = packListData?.packList || [];
 	const currentPackId = packData?.pack.packId;

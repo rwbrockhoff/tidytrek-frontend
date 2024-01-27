@@ -29,9 +29,8 @@ const Dashboard = () => {
 
 	const onDragEnd = (result: DropResult) => {
 		const { draggableId, destination, source } = result;
-		if (!destination) {
-			return;
-		}
+		if (!destination) return;
+
 		const sameIndex = destination.index === source.index;
 		const sameCategory = destination.droppableId === source.droppableId;
 

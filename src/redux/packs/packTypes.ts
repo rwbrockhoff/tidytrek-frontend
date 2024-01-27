@@ -53,7 +53,11 @@ export type PackButtonSwitches = {
 	favorite?: boolean;
 };
 
+export type AvailablePack = {
+	availableCategories: Category[];
+} & Pack;
+
 export type GearClosetList = {
-	availablePacks: Pack[] | [];
+	availablePacks: AvailablePack[] | [];
 	gearClosetList: PackItem[] | [];
 };

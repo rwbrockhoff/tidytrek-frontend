@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { newPacksApi } from '../newPacks/newPacksApiSlice';
 import { PackItem, Pack } from '../packs/packTypes';
 
 type InitialState = {
@@ -6,32 +6,72 @@ type InitialState = {
 	availablePacks: Pack[];
 };
 
-const baseURL =
-	process.env.NODE_ENV === 'production'
-		? 'https://api.tidytrek.co'
-		: 'http://localhost:4001';
-
-export const closetApi = createApi({
-	reducerPath: 'closetApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: baseURL,
-		credentials: 'include',
-	}),
-	tagTypes: ['Closet'],
+export const closetApi = newPacksApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getGearCloset: builder.query<InitialState, void>({
-			query: () => '/closet/',
+			query: () => '/closet',
 			providesTags: ['Closet'],
 		}),
-		// login: builder.mutation({
-		// 	query: ({ email, password }) => ({
-		// 		url: '/auth/login',
-		// 		method: 'POST',
-		// 		body: { email, password },
-		// 	}),
-		// 	invalidatesTags: ['Closet'],
-		// }),
+		addGearClosetItem: builder.mutation<InitialState, void>({
+			query: () => ({ url: '/closet/items', method: 'POST' }),
+			invalidatesTags: ['Closet'],
+		}),
+		editGearClosetItem: builder.mutation({
+			query: (packItem: PackItem) => {
+				const { packItemId } = packItem;
+				return {
+					url: `/closet/items/${packItemId}`,
+					method: 'PUT',
+					body: packItem,
+				};
+			},
+			invalidatesTags: ['Closet'],
+		}),
+		moveGearClosetItem: builder.mutation({
+			query: (packInfo: {
+				packItemId: string;
+				packItemIndex: number;
+				prevPackItemIndex: number;
+			}) => {
+				const { packItemId, packItemIndex, prevPackItemIndex } = packInfo;
+				return {
+					url: `/closet/items/index/${packItemId}`,
+					method: 'PUT',
+					body: { newIndex: packItemIndex, previousIndex: prevPackItemIndex },
+				};
+			},
+			invalidatesTags: ['Closet'],
+		}),
+		moveItemToPack: builder.mutation({
+			query: (packInfo: {
+				packItemId: number;
+				packId: number;
+				packCategoryId: number;
+			}) => {
+				const { packItemId, packId, packCategoryId } = packInfo;
+				return {
+					url: `/closet/packs/${packItemId}`,
+					method: 'PUT',
+					body: { packId, packCategoryId },
+				};
+			},
+			invalidatesTags: ['Closet', 'Pack'],
+		}),
+		deleteGearClosetItem: builder.mutation({
+			query: (packItemId: number) => ({
+				url: `/closet/items/${packItemId}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['Closet'],
+		}),
 	}),
 });
 
-export const { useGetGearClosetQuery } = closetApi;
+export const {
+	useGetGearClosetQuery,
+	useAddGearClosetItemMutation,
+	useEditGearClosetItemMutation,
+	useMoveGearClosetItemMutation,
+	useMoveItemToPackMutation,
+	useDeleteGearClosetItemMutation,
+} = closetApi;

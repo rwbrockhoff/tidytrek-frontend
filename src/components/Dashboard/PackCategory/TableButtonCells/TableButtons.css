@@ -1,14 +1,14 @@
 .table-button button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
 }
 
 .table-button input {
-  height: 30px;
+	height: 30px;
 }
 
-input[type="number"] {
-  /* -webkit-appearance: none; */
-  /* caret-color: red; */
+input[type='number'] {
+	/* -webkit-appearance: none; */
+	/* caret-color: red; */
 }

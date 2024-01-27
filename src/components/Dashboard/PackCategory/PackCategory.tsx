@@ -100,7 +100,8 @@ const PackCategory = (props: PackCategoryProps) => {
 							header
 							size={1}
 							display={toggleRow}
-							onClick={handleToggleModal}
+							onClickToggle={handleToggleModal}
+							onClickDelete={handleToggleModal}
 						/>
 					</Table.Row>
 				</Table.Header>
@@ -115,6 +116,7 @@ const PackCategory = (props: PackCategoryProps) => {
 											item={item}
 											key={`${item.packCategoryId}${item.packItemId}`}
 											index={idx}
+											gearClosetItem={false}
 											handleToggleOff={handleToggleOff}
 											handleDelete={handleDelete}
 										/>
