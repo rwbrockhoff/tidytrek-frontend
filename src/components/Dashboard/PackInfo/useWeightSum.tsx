@@ -1,4 +1,4 @@
-import { Category } from '../../../redux/packs/packTypes';
+import { Category } from '../../../types/packTypes';
 import { weightConverter } from '../../../utils/weightConverter';
 import { useMemo } from 'react';
 

@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { type InitialState, type Pack, type PackItem } from '../packs/packTypes';
+import { type InitialState, type Pack, type PackItem } from '../../types/packTypes';
 
 const baseURL =
 	process.env.NODE_ENV === 'production'
 		? 'https://api.tidytrek.co'
 		: 'http://localhost:4001';
 
-export const newPacksApi = createApi({
-	reducerPath: 'newPacksApi',
+export const packApi = createApi({
+	reducerPath: 'packApi',
 	baseQuery: fetchBaseQuery({
 		baseUrl: baseURL,
 		credentials: 'include',
@@ -178,4 +178,4 @@ export const {
 	useEditPackCategoryMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
-} = newPacksApi;
+} = packApi;

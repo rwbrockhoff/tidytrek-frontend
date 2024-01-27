@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { InitialState, Pack } from './packTypes';
+import { InitialState, Pack } from '../../types/packTypes';
 import { getCategoryIdx, getPackItemIdx, getPackIdx } from './packUtils';
 import {
 	getDefaultPack,

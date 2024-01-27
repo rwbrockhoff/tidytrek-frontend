@@ -1,5 +1,5 @@
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { type GearClosetList, type PackItem } from '../../../redux/packs/packTypes';
+import { type GearClosetList, type PackItem } from '../../../types/packTypes';
 import { type DropResult } from 'react-beautiful-dnd';
 import {
 	useAddGearClosetItemMutation,

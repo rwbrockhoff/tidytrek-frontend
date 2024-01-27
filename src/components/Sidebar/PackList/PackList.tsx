@@ -1,13 +1,13 @@
 import './PackList.css';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Header, Divider, Icon } from 'semantic-ui-react';
-import { PackListItem as PackListItemType } from '../../../redux/packs/packTypes';
+import { PackListItem as PackListItemType } from '../../../types/packTypes';
 import {
 	useGetPackListQuery,
 	useGetPackQuery,
 	useAddNewPackMutation,
 	useMovePackMutation,
-} from '../../../redux/newPacks/newPacksApiSlice';
+} from '../../../redux/pack/packApiSlice';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import PackListItem from './PackListItem/PackListItem';
 import { useEffect } from 'react';
@@ -24,10 +24,14 @@ const PackList = () => {
 	const [movePack] = useMovePackMutation();
 
 	useEffect(() => {
+		// subscribe to new pack created event, redirect to new pack
 		if (addPackResult.isSuccess && addPackResult.data) {
 			if ('pack' in addPackResult.data) {
 				const { packId } = addPackResult.data.pack;
-				if (paramPackId && Number(paramPackId) !== packId) navigate(`/packs/${packId}`);
+				if (paramPackId && Number(paramPackId) !== packId) {
+					addPackResult.reset();
+					navigate(`/packs/${packId}`);
+				}
 			}
 		}
 	}, [addPackResult, paramPackId, navigate]);

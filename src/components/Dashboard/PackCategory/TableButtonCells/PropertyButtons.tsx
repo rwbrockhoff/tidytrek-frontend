@@ -1,5 +1,5 @@
 import { Table, Popup, Icon } from 'semantic-ui-react';
-import { type PackButtonSwitches } from '../../../../redux/packs/packTypes';
+import { type PackButtonSwitches } from '../../../../types/packTypes';
 import './PropertyButton.css';
 
 type ButtonProps = {

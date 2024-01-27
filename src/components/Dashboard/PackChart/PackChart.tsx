@@ -1,7 +1,7 @@
 import './PackChart.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { Category } from '../../../redux/packs/packTypes';
+import { Category } from '../../../types/packTypes';
 
 type PackChartProps = {
 	categories: Category[];

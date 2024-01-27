@@ -1,5 +1,5 @@
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { type Category, type PackItem } from '../../../redux/packs/packTypes';
+import { type Category, type PackItem } from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
@@ -13,7 +13,7 @@ import {
 	useDeletePackItemMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
-} from '../../../redux/newPacks/newPacksApiSlice';
+} from '../../../redux/pack/packApiSlice';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 

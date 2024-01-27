@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { type PackItem } from '../../../../redux/packs/packTypes';
+import { type PackItem } from '../../../../types/packTypes';
 
 export const useTableRowInput = (item: PackItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);

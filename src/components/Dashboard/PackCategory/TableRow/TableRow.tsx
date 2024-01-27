@@ -5,7 +5,7 @@ import {
 	type PackItem,
 	type PackButtonSwitches,
 	type AvailablePack,
-} from '../../../../redux/packs/packTypes';
+} from '../../../../types/packTypes';
 import ItemNameCell from '../ItemNameCell/ItemNameCell';
 import PackWeightCell from '../PackWeightCell/PackWeightCell';
 import DeleteButton from '../TableButtonCells/DeleteButton';

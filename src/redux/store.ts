@@ -1,22 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import packSlice from './packs/packSlice';
 import { userApi } from './user/userApiSlice';
-import { newPacksApi } from './newPacks/newPacksApiSlice';
-import { closetApi } from './closet/closetApiSlice';
+import { packApi } from './pack/packApiSlice';
 
 export const createStore = () => {
 	return configureStore({
 		reducer: {
 			[userApi.reducerPath]: userApi.reducer,
-			[newPacksApi.reducerPath]: newPacksApi.reducer,
-			[closetApi.reducerPath]: closetApi.reducer,
-			packs: packSlice,
+			[packApi.reducerPath]: packApi.reducer,
 		},
 		middleware: (getDefaultMiddleware) =>
-			getDefaultMiddleware()
-				.concat(userApi.middleware)
-				.concat(closetApi.middleware)
-				.concat(newPacksApi.middleware),
+			getDefaultMiddleware().concat(userApi.middleware).concat(packApi.middleware),
 	});
 };
 

@@ -1,5 +1,5 @@
 import { Dropdown, Table, Button, Icon, DropdownProps } from 'semantic-ui-react';
-import { type AvailablePack } from '../../../redux/packs/packTypes';
+import { type AvailablePack } from '../../../types/packTypes';
 import { type PackInfo } from '../GearClosetList/GearClosetList';
 import { useState } from 'react';
 import { SyntheticEvent } from 'react';

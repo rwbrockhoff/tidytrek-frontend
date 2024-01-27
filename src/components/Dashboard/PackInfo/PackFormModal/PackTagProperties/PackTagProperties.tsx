@@ -1,6 +1,6 @@
 import { FormGroup, FormField, Input, Icon } from 'semantic-ui-react';
 
-interface PackTagPropertiesProps {
+type PackTagPropertiesProps = {
 	packLocationTag: string;
 	packSeasonTag: string;
 	packDurationTag: string;
@@ -8,7 +8,7 @@ interface PackTagPropertiesProps {
 	handleFormChange: (
 		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
 	) => void;
-}
+};
 
 const PackTagProperties = (props: PackTagPropertiesProps) => {
 	const {

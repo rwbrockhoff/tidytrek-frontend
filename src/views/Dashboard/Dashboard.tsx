@@ -7,9 +7,9 @@ import {
 	useGetPackQuery,
 	useAddPackCategoryMutation,
 	useMovePackItemMutation,
-} from '../../redux/newPacks/newPacksApiSlice';
+} from '../../redux/pack/packApiSlice';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { type Pack } from '../../redux/packs/packTypes';
+import { type Pack } from '../../types/packTypes';
 
 const Dashboard = () => {
 	const [addCategory] = useAddPackCategoryMutation();

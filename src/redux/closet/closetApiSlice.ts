@@ -1,12 +1,12 @@
-import { newPacksApi } from '../newPacks/newPacksApiSlice';
-import { PackItem, AvailablePack } from '../packs/packTypes';
+import { packApi } from '../pack/packApiSlice';
+import { PackItem, AvailablePack } from '../../types/packTypes';
 
 type InitialState = {
 	gearClosetList: PackItem[];
 	availablePacks: AvailablePack[];
 };
 
-export const closetApi = newPacksApi.injectEndpoints({
+export const closetApi = packApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getGearCloset: builder.query<InitialState, void>({
 			query: () => '/closet',

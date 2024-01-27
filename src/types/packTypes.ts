@@ -1,10 +1,10 @@
-export interface InitialState {
+export type InitialState = {
 	packList: PackListItem[];
 	pack: Pack;
 	categories: Category[];
-}
+};
 
-export interface Pack {
+export type Pack = {
 	packId: number;
 	userId: number;
 	packIndex: number;
@@ -19,16 +19,16 @@ export interface Pack {
 	packUrl: string;
 	packAffiliate: boolean;
 	packAffiliateDescription: string;
-}
+};
 
-export interface Category {
+export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
 	packId: number;
 	packItems: [PackItem];
-}
+};
 
-export interface PackItem {
+export type PackItem = {
 	packItemId: number;
 	packCategoryId: number;
 	packItemName: string;
@@ -40,12 +40,12 @@ export interface PackItem {
 	wornWeight: boolean;
 	consumable: boolean;
 	favorite: boolean;
-}
+};
 
-export interface PackListItem {
+export type PackListItem = {
 	packName: string;
 	packId: number;
-}
+};
 
 export type PackButtonSwitches = {
 	consumable?: boolean;

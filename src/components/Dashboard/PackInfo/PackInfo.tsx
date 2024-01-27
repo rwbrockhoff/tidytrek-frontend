@@ -3,13 +3,13 @@ import { useState } from 'react';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
-} from '../../../redux/newPacks/newPacksApiSlice';
+} from '../../../redux/pack/packApiSlice';
 import PackChart from '../PackChart/PackChart';
 import PackFormModal from './PackFormModal/PackFormModal';
 import DeleteModal from '../PackCategory/DeleteModal/DeleteModal';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
-import { type Category, type Pack } from '../../../redux/packs/packTypes';
+import { type Category, type Pack } from '../../../types/packTypes';
 import CampGraphic from '../../../assets/camping.svg';
 import { useWeightSum } from './useWeightSum';
 
@@ -28,7 +28,6 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const handleToggleModal = () => setShowPackModal(!showPackModal);
-
 	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
 
 	const handleShowDeleteModal = () => {
