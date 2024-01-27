@@ -1,11 +1,11 @@
 import './PackChart.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { weightConverter } from '../../../utils/weightConverter';
 import { Category } from '../../../redux/packs/packTypes';
 
 type PackChartProps = {
 	categories: Category[];
+	categoryWeights: number[];
 };
 
 const PackChart = (props: PackChartProps) => {
@@ -17,10 +17,6 @@ const PackChart = (props: PackChartProps) => {
 		return (label += ' lbs');
 	};
 
-	const categoryWeights = props.categories.map((category) => {
-		return weightConverter(category.packItems, 'lb');
-	});
-
 	const categoryLabels = props.categories.map((category) => {
 		return category.packCategoryName;
 	});
@@ -29,7 +25,7 @@ const PackChart = (props: PackChartProps) => {
 		labels: categoryLabels,
 		datasets: [
 			{
-				data: categoryWeights,
+				data: props.categoryWeights,
 				backgroundColor: [
 					'#338866',
 					'#78B87A',

@@ -18,17 +18,13 @@ export type PackInfo = {
 };
 
 const GearClosetList = (props: GearClosetList) => {
-	const [addItem] = useAddGearClosetItemMutation();
+	const [addItem, { isLoading: isLoadingAddButton }] = useAddGearClosetItemMutation();
 	const [moveGearClosetItem] = useMoveGearClosetItemMutation();
 	const [moveToPack] = useMoveItemToPackMutation();
 	const [deleteItem] = useDeleteGearClosetItemMutation();
 	const [editItem] = useEditGearClosetItemMutation();
 
 	const { gearClosetList, availablePacks } = props;
-
-	const handleAddGearClosetItem = () => {
-		addItem();
-	};
 
 	const handleToggleOff = (packItem: PackItem) => editItem(packItem);
 
@@ -100,7 +96,8 @@ const GearClosetList = (props: GearClosetList) => {
 							compact
 							basic
 							className="add-item-table-button"
-							onClick={handleAddGearClosetItem}>
+							disabled={isLoadingAddButton}
+							onClick={() => addItem()}>
 							<Icon name="add" />
 							Add Item
 						</Button>

@@ -1,4 +1,4 @@
-import { Header, Label, Icon } from 'semantic-ui-react';
+import { Header, Label, Icon, Image } from 'semantic-ui-react';
 import { useState } from 'react';
 import {
 	useDeletePackMutation,
@@ -10,6 +10,8 @@ import DeleteModal from '../PackCategory/DeleteModal/DeleteModal';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../redux/packs/packTypes';
+import CampGraphic from '../../../assets/camping.svg';
+import { useWeightSum } from './useWeightSum';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -58,6 +60,8 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 		packUrl,
 		packUrlName,
 	} = currentPack;
+
+	const { categoryWeights, packHasWeight } = useWeightSum(packCategories);
 
 	return (
 		<div className="pack-info-container">
@@ -114,9 +118,21 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 				</div>
 			</div>
 			{/* Right Hand Panel */}
-			<div className="pack-info-right-panel">
-				<PackChart categories={packCategories} />
-			</div>
+
+			{packHasWeight ? (
+				<div className="pack-info-right-panel-graphic">
+					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
+				</div>
+			) : (
+				<div className="pack-info-right-panel-graphic">
+					<Image src={CampGraphic} />
+					<p>
+						<Icon name="hand point down outline" />
+						Add items below to get started
+					</p>
+				</div>
+			)}
+
 			<PackFormModal
 				open={showPackModal}
 				onClose={handleToggleModal}

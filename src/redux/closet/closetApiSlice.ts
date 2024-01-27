@@ -1,9 +1,9 @@
 import { newPacksApi } from '../newPacks/newPacksApiSlice';
-import { PackItem, Pack } from '../packs/packTypes';
+import { PackItem, AvailablePack } from '../packs/packTypes';
 
 type InitialState = {
 	gearClosetList: PackItem[];
-	availablePacks: Pack[];
+	availablePacks: AvailablePack[];
 };
 
 export const closetApi = newPacksApi.injectEndpoints({
@@ -13,7 +13,10 @@ export const closetApi = newPacksApi.injectEndpoints({
 			providesTags: ['Closet'],
 		}),
 		addGearClosetItem: builder.mutation<InitialState, void>({
-			query: () => ({ url: '/closet/items', method: 'POST' }),
+			query: () => ({
+				url: '/closet/items',
+				method: 'POST',
+			}),
 			invalidatesTags: ['Closet'],
 		}),
 		editGearClosetItem: builder.mutation({
