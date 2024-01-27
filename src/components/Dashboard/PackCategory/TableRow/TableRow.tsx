@@ -7,10 +7,10 @@ import {
 	type AvailablePack,
 } from '../../../../types/packTypes';
 import ItemNameCell from '../ItemNameCell/ItemNameCell';
-import PackWeightCell from '../PackWeightCell/PackWeightCell';
-import DeleteButton from '../TableButtonCells/DeleteButton';
-import QuantityButton from '../TableButtonCells/QuantityButton';
-import PropertyButtons from '../TableButtonCells/PropertyButtons';
+import PackWeightCell from '../TableCells/PackWeightCell/PackWeightCell';
+import DeleteButton from '../TableButtons/DeleteButton';
+import QuantityButton from '../TableButtons/QuantityButton';
+import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
 import MoveClosetItemButtons from '../../../GearCloset/MoveClosetItemButtons/MoveClosetItemButtons';
@@ -20,7 +20,7 @@ type TableRowProps = {
 	key: string;
 	index: number;
 	gearClosetItem: boolean;
-	handleToggleOff: (packItem: PackItem) => void;
+	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
 	availablePacks?: AvailablePack[];
 	handleMoveItemToPack?: (packInfo: {
@@ -31,12 +31,14 @@ type TableRowProps = {
 };
 
 const TableRow = (props: TableRowProps) => {
-	const { gearClosetItem, handleMoveItemToPack, handleToggleOff, handleDelete } = props;
+	const { gearClosetItem, handleMoveItemToPack, handleOnSave, handleDelete } = props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
 	const [toggleRow, setToggleRow] = useState(false);
-	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 
+	//--Gear Closet--//
+	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 	const availablePacks = props?.availablePacks || [];
+	//--Gear Closet--//
 
 	const {
 		packItemName,
@@ -51,10 +53,10 @@ const TableRow = (props: TableRowProps) => {
 		favorite,
 	} = packItem;
 
-	const handleToggle = () => packItemChanged && handleToggleOff(packItem);
+	const handleToggle = () => packItemChanged && handleOnSave(packItem);
 
 	const handleButton = (property: PackButtonSwitches) =>
-		handleToggleOff({ ...packItem, ...property });
+		handleOnSave({ ...packItem, ...property });
 
 	const dropId = `${packItemId}`;
 
@@ -92,7 +94,6 @@ const TableRow = (props: TableRowProps) => {
 							consumable={consumable}
 							favorite={favorite}
 							onClick={handleButton}
-							// (buttonProps) => handleButtonProps(packItem, buttonProps)
 							display={toggleRow}
 							size={3}
 						/>

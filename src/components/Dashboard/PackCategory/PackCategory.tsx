@@ -3,7 +3,7 @@ import { type Category, type PackItem } from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import CategoryNameCell from './CategoryNameCell/CategoryNameCell';
-import DeleteButton from './TableButtonCells/DeleteButton';
+import DeleteButton from './TableButtons/DeleteButton';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { useState } from 'react';
 import {
@@ -61,7 +61,7 @@ const PackCategory = (props: PackCategoryProps) => {
 		setShowModal(false);
 	};
 
-	const handleToggleOff = (packItem: PackItem) => {
+	const handleOnSave = (packItem: PackItem) => {
 		const { packItemId } = packItem;
 		editPackItem({ packItemId, packItem });
 	};
@@ -117,7 +117,7 @@ const PackCategory = (props: PackCategoryProps) => {
 											key={`${item.packCategoryId}${item.packItemId}`}
 											index={idx}
 											gearClosetItem={false}
-											handleToggleOff={handleToggleOff}
+											handleOnSave={handleOnSave}
 											handleDelete={handleDelete}
 										/>
 									))}
