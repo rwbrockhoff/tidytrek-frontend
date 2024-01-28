@@ -11,6 +11,7 @@ import {
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import PackListItem from './PackListItem/PackListItem';
 import { useEffect } from 'react';
+import { encode } from '../../../utils/generateDisplayId';
 
 const PackList = () => {
 	const location = useLocation();
@@ -18,7 +19,7 @@ const PackList = () => {
 	const { packId: paramPackId } = useParams();
 
 	const { data: packListData } = useGetPackListQuery();
-	const { data: packData } = useGetPackQuery(Number(paramPackId));
+	const { data: packData } = useGetPackQuery(paramPackId);
 
 	const [addPack, addPackResult] = useAddNewPackMutation();
 	const [movePack] = useMovePackMutation();
@@ -26,11 +27,12 @@ const PackList = () => {
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
 		if (addPackResult.isSuccess && addPackResult.data) {
-			if ('pack' in addPackResult.data) {
+			if ('pack' in addPackResult.data && paramPackId) {
 				const { packId } = addPackResult.data.pack;
-				if (paramPackId && Number(paramPackId) !== packId) {
+				const encodedId = encode(packId);
+				if (paramPackId !== encodedId) {
 					addPackResult.reset();
-					navigate(`/packs/${packId}`);
+					navigate(`/packs/${encodedId}`);
 				}
 			}
 		}
@@ -42,8 +44,9 @@ const PackList = () => {
 	const handleGetPack = async (packId: number) => {
 		const { pathname } = location;
 		if (currentPackId === undefined) navigate('/');
-		if (packId !== currentPackId) navigate(`/packs/${packId}`);
-		if (pathname !== '/') navigate(`/packs/${packId}`);
+		const encodedId = encode(packId);
+		if (packId !== currentPackId) navigate(`/packs/${encodedId}`);
+		if (pathname !== '/') navigate(`/packs/${encodedId}`);
 	};
 
 	const handleAddPack = () => {

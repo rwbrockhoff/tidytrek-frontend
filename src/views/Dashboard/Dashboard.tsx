@@ -16,8 +16,7 @@ const Dashboard = () => {
 	const [movePackItem] = useMovePackItemMutation();
 
 	const { packId: paramPackId } = useParams();
-
-	const { data } = useGetPackQuery(Number(paramPackId));
+	const { data } = useGetPackQuery(paramPackId);
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);

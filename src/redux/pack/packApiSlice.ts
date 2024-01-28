@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { type InitialState, type Pack, type PackItem } from '../../types/packTypes';
+import { decode } from '../../utils/generateDisplayId';
 
 const baseURL =
 	process.env.NODE_ENV === 'production'
@@ -18,10 +19,12 @@ export const packApi = createApi({
 			query: () => '/packs',
 			providesTags: ['Pack'],
 		}),
-		getPack: builder.query<InitialState, number>({
-			query: (packId: number) => {
-				if (packId) return { url: `/packs/${packId}` };
-				else return { url: `/packs` };
+		getPack: builder.query<InitialState, string | undefined>({
+			query: (packId: string) => {
+				if (packId) {
+					const decodedId = decode(packId);
+					return { url: `/packs/${decodedId}` };
+				} else return { url: `/packs` };
 			},
 			providesTags: ['Pack'],
 		}),
