@@ -18,8 +18,8 @@ export const packApi = createApi({
 			query: () => '/packs',
 			providesTags: ['Pack'],
 		}),
-		getPack: builder.query<InitialState, string>({
-			query: (packId: string) => {
+		getPack: builder.query<InitialState, number>({
+			query: (packId: number) => {
 				if (packId) return { url: `/packs/${packId}` };
 				else return { url: `/packs` };
 			},
@@ -37,7 +37,7 @@ export const packApi = createApi({
 			invalidatesTags: ['Packlist'],
 		}),
 		editPack: builder.mutation({
-			query: (packInfo: { packId: string; modifiedPack: Pack }) => {
+			query: (packInfo: { packId: number; modifiedPack: Pack }) => {
 				const { packId, modifiedPack } = packInfo;
 				return {
 					url: `/packs/${packId}`,
@@ -59,21 +59,21 @@ export const packApi = createApi({
 			invalidatesTags: ['Packlist'],
 		}),
 		deletePack: builder.mutation({
-			query: (packId: string) => ({
+			query: (packId: number) => ({
 				url: `/packs/${packId}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['Pack', 'Packlist', 'Closet'],
 		}),
 		deletePackAndItems: builder.mutation({
-			query: (packId: string) => ({
+			query: (packId: number) => ({
 				url: `/packs/items/${packId}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['Pack', 'Packlist', 'Closet'],
 		}),
 		addPackItem: builder.mutation({
-			query: (packItem: { packId: string; packCategoryId: number }) => {
+			query: (packItem: { packId: number; packCategoryId: number }) => {
 				const { packId, packCategoryId } = packItem;
 				return {
 					url: `/packs/pack-items`,
@@ -132,7 +132,7 @@ export const packApi = createApi({
 			invalidatesTags: ['Pack'],
 		}),
 		addPackCategory: builder.mutation({
-			query: (packId: string) => {
+			query: (packId: number) => {
 				return {
 					url: `/packs/categories/${packId}`,
 					method: 'POST',

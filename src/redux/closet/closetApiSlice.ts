@@ -48,7 +48,7 @@ export const closetApi = packApi.injectEndpoints({
 		moveItemToPack: builder.mutation({
 			query: (packInfo: {
 				packItemId: number;
-				packId: string;
+				packId: number;
 				packCategoryId: number;
 			}) => {
 				const { packItemId, packId, packCategoryId } = packInfo;

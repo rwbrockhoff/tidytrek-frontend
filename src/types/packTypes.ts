@@ -5,7 +5,7 @@ export type InitialState = {
 };
 
 export type Pack = {
-	packId: string;
+	packId: number;
 	userId: number;
 	packIndex: number;
 	packName: string;
@@ -24,7 +24,7 @@ export type Pack = {
 export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
-	packId: string;
+	packId: number;
 	packItems: [PackItem];
 };
 
@@ -44,7 +44,7 @@ export type PackItem = {
 
 export type PackListItem = {
 	packName: string;
-	packId: string;
+	packId: number;
 };
 
 export type PackButtonSwitches = {

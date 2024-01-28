@@ -15,10 +15,10 @@ import { useEffect } from 'react';
 const PackList = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { packId: paramPackId = '' } = useParams();
+	const { packId: paramPackId } = useParams();
 
 	const { data: packListData } = useGetPackListQuery();
-	const { data: packData } = useGetPackQuery(paramPackId);
+	const { data: packData } = useGetPackQuery(Number(paramPackId));
 
 	const [addPack, addPackResult] = useAddNewPackMutation();
 	const [movePack] = useMovePackMutation();
@@ -28,7 +28,7 @@ const PackList = () => {
 		if (addPackResult.isSuccess && addPackResult.data) {
 			if ('pack' in addPackResult.data) {
 				const { packId } = addPackResult.data.pack;
-				if (paramPackId && paramPackId !== packId) {
+				if (paramPackId && Number(paramPackId) !== packId) {
 					addPackResult.reset();
 					navigate(`/packs/${packId}`);
 				}
@@ -39,7 +39,7 @@ const PackList = () => {
 	const packList = packListData?.packList || [];
 	const currentPackId = packData?.pack.packId;
 
-	const handleGetPack = async (packId: string) => {
+	const handleGetPack = async (packId: number) => {
 		const { pathname } = location;
 		if (currentPackId === undefined) navigate('/');
 		if (packId !== currentPackId) navigate(`/packs/${packId}`);
