@@ -4,7 +4,7 @@ import { PackListItem as ListItem } from '../../../../types/packTypes';
 type PackListItemProps = {
 	index: number;
 	pack: ListItem;
-	onClick: (packId: number) => void;
+	onClick: (packId: string) => void;
 };
 
 const PackListItem = ({ index, pack, onClick }: PackListItemProps) => {

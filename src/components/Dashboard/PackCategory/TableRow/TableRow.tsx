@@ -26,7 +26,7 @@ type TableRowProps = {
 	availablePacks?: AvailablePack[];
 	handleMoveItemToPack?: (packInfo: {
 		packItemId: number;
-		packId: number;
+		packId: string;
 		packCategoryId: number;
 	}) => void;
 };

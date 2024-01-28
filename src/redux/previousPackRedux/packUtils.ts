@@ -12,6 +12,6 @@ export const getPackItemIdx = (category: Category, packItemId: number) => {
 	);
 };
 
-export const getPackIdx = (packList: PackListItem[], packId: number) => {
-	return packList.findIndex((pack: PackListItem) => pack.packId === Number(packId));
+export const getPackIdx = (packList: PackListItem[], packId: string) => {
+	return packList.findIndex((pack: PackListItem) => pack.packId === packId);
 };

@@ -34,7 +34,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 	const [modifiedPack, setModifiedPack] = useState({
 		packName: '',
 		packDescription: '',
-		packId: 0,
+		packId: '',
 		userId: 0,
 		packIndex: 0,
 		packLocationTag: '',

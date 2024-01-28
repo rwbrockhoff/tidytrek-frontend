@@ -12,7 +12,7 @@ type MoveClosetItemButtonsProps = {
 
 const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 	const { packItemId, availablePacks, moveItemToPack } = props;
-	const [packId, setPackId] = useState<number | null>();
+	const [packId, setPackId] = useState<string | null>();
 	const [categoryId, setCategoryId] = useState<number | null>();
 
 	const packList = availablePacks.map((item) => ({
@@ -37,7 +37,7 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 		_event: SyntheticEvent<HTMLElement, Event>,
 		data: DropdownProps,
 	) => {
-		if (data.value && typeof data.value === 'number') {
+		if (data.value && typeof data.value === 'string') {
 			setPackId(data.value);
 			setCategoryId(null);
 		}

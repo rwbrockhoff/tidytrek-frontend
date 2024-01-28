@@ -13,7 +13,7 @@ import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
 export type PackInfo = {
 	packItemId: number;
-	packId: number;
+	packId: string;
 	packCategoryId: number;
 };
 
