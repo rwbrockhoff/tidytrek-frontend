@@ -1,79 +1,67 @@
 import './Dashboard.css';
 import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
-import AddCategoryButton from '../../components/Dashboard/PackCategory/AddCategoryButton/AddCategoryButton';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import AddCategoryButton from '../../components/Dashboard/PackCategory/TableButtons/AddCategoryButton/AddCategoryButton';
 import { useParams } from 'react-router-dom';
-import { AppDispatch, RootState } from '../../redux/store';
 import {
-  getDefaultPack,
-  getPack,
-  addPackCategory,
-  movePackItem,
-} from '../../redux/packs/packThunks';
+	useGetPackQuery,
+	useAddPackCategoryMutation,
+	useMovePackItemMutation,
+} from '../../redux/pack/packApiSlice';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { type Pack } from '../../types/packTypes';
 
 const Dashboard = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { packId: paramPackId } = useParams();
+	const [addCategory] = useAddPackCategoryMutation();
+	const [movePackItem] = useMovePackItemMutation();
 
-  const packCategories = useSelector(
-    (state: RootState) => state.packs.categories,
-  );
-  const packId = useSelector((state: RootState) => state.packs.pack.packId);
+	const { packId: paramPackId } = useParams();
+	const { data } = useGetPackQuery(paramPackId);
 
-  useEffect(() => {
-    if (paramPackId !== undefined) {
-      dispatch(getPack(Number(paramPackId)));
-    } else {
-      dispatch(getDefaultPack());
-    }
-  }, [dispatch, paramPackId]);
+	const packCategories = data?.categories || [];
+	const currentPack = data?.pack || ({} as Pack);
+	const packId = data?.pack.packId;
 
-  const handleAddPackCategory = () => {
-    dispatch(addPackCategory(packId));
-  };
+	const handleAddPackCategory = () => {
+		packId && addCategory(packId);
+	};
 
-  const onDragEnd = (result: DropResult) => {
-    const { draggableId, destination, source } = result;
-    if (!destination) {
-      return;
-    }
-    const sameIndex = destination.index === source.index;
-    const sameCategory = destination.droppableId === source.droppableId;
+	const onDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source } = result;
+		if (!destination) return;
 
-    if (sameIndex && sameCategory) return;
+		const sameIndex = destination.index === source.index;
+		const sameCategory = destination.droppableId === source.droppableId;
 
-    dispatch(
-      movePackItem({
-        packItemId: draggableId,
-        packCategoryId: destination.droppableId,
-        packItemIndex: destination.index,
-        prevPackCategoryId: source.droppableId,
-        prevPackItemIndex: source.index,
-      }),
-    );
-  };
+		if (sameIndex && sameCategory) return;
 
-  return (
-    <div className="dashboard-container">
-      <PackInfo />
+		movePackItem({
+			packItemId: draggableId,
+			packCategoryId: destination.droppableId,
+			packItemIndex: destination.index,
+			prevPackCategoryId: source.droppableId,
+			prevPackItemIndex: source.index,
+		});
+	};
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        {packCategories.length >= 0 &&
-          packCategories.map((category, idx: number) => (
-            <PackCategory
-              category={category}
-              index={idx}
-              key={category?.packCategoryId || idx}
-            />
-          ))}
-      </DragDropContext>
+	return (
+		<div className="dashboard-container">
+			<PackInfo currentPack={currentPack} packCategories={packCategories} />
 
-      <AddCategoryButton onClick={handleAddPackCategory} />
-    </div>
-  );
+			<DragDropContext onDragEnd={onDragEnd}>
+				{packCategories.length >= 0 &&
+					packCategories.map((category, idx: number) => (
+						<PackCategory
+							category={category}
+							index={idx}
+							key={category?.packCategoryId || idx}
+						/>
+					))}
+			</DragDropContext>
+
+			<AddCategoryButton onClick={handleAddPackCategory} />
+		</div>
+	);
 };
 
 export default Dashboard;

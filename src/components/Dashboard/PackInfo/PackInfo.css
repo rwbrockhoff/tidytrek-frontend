@@ -1,33 +1,48 @@
 div.pack-info-container {
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  padding-top: 2vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  padding-bottom: 5vh;
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+	padding-top: 2vh;
+	padding-left: 2vw;
+	padding-right: 2vw;
+	padding-bottom: 5vh;
 }
 
 div.pack-info-left-panel,
-div.pack-info-right-panel {
-  width: 50%;
+div.pack-info-right-panel-graphic,
+div.pack-info-right-panel-chart {
+	width: 50%;
 }
 
 div.pack-info-left-panel .ui.header > .icon {
-  font-size: 0.6em;
-  margin-left: 15px;
-  vertical-align: text-top;
-  height: 0.6em;
-  cursor: pointer;
+	font-size: 0.6em;
+	margin-left: 15px;
+	vertical-align: text-top;
+	height: 0.6em;
+	cursor: pointer;
 }
 
-div.pack-info-right-panel {
-  display: flex;
-  align-items: center;
-  justify-content: end;
+div.pack-info-right-panel-chart {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+div.pack-info-right-panel-graphic {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+	img {
+		width: 250px;
+		margin-right: 50px;
+	}
+	p {
+		margin-right: 50px;
+	}
 }
 
 a.pack-link {
-  color: #2185d0;
-  cursor: pointer;
+	color: #2185d0;
+	cursor: pointer;
 }
