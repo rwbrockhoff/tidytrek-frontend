@@ -1,10 +1,12 @@
-import { Base64 } from 'js-base64';
+import Hashids from 'hashids';
+
+const hashids = new Hashids('tidytrekpack', 6);
 
 export const encode = (packId: number) => {
-	return Base64.encodeURI(`p${packId}`);
+	return hashids.encode(packId);
 };
 
 export const decode = (displayId: string) => {
-	const rawId = Base64.decode(displayId);
-	return Number(rawId.slice(1));
+	const decodedId = hashids.decode(displayId);
+	return decodedId[0];
 };
