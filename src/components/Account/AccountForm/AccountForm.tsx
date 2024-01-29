@@ -1,18 +1,35 @@
 import { SegmentGroup, Segment, Button, Icon, Header } from 'semantic-ui-react';
 import { type User } from '../../../redux/user/userApiSlice';
+import { type ReactInput } from '../../../types/generalTypes';
 import PasswordForm from '../PasswordForm/PasswordForm';
+import { setFormInput } from '../../../shared/formHelpers';
 import { useState } from 'react';
 import './AccountForm.css';
 
 type AccountFormProps = {
 	user: User | undefined;
-	editAccount: () => void;
+	changePassword: () => void;
 	deleteAccount: () => void;
 };
 
-const AccountForm = ({ user, deleteAccount }: AccountFormProps) => {
+export type PasswordInfo = {
+	currentPassword: string;
+	newPassword: string;
+	confirmNewPassword: string;
+};
+
+const AccountForm = ({ user, changePassword, deleteAccount }: AccountFormProps) => {
 	const [displayPasswordForm, setTogglePasswordForm] = useState(false);
+
+	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>({
+		currentPassword: '',
+		newPassword: '',
+		confirmNewPassword: '',
+	});
 	const handleTogglePasswordForm = () => setTogglePasswordForm(!displayPasswordForm);
+
+	const handleOnChange = (e: ReactInput) =>
+		setFormInput<PasswordInfo>(e, setPasswordInfo);
 
 	return (
 		<SegmentGroup className="account-segment-group">
@@ -31,7 +48,9 @@ const AccountForm = ({ user, deleteAccount }: AccountFormProps) => {
 			<PasswordForm
 				displayForm={displayPasswordForm}
 				toggleForm={handleTogglePasswordForm}
-				savePassword={handleTogglePasswordForm}
+				passwordInfo={passwordInfo}
+				onChange={handleOnChange}
+				changePassword={changePassword}
 			/>
 			<Segment stacked>
 				<Header as="h4">Delete Your Account</Header>

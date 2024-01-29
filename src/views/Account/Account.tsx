@@ -16,11 +16,11 @@ const Account = () => {
 	const [deleteAccount] = useDeleteAccountMutation();
 	const user = data?.user;
 
-	const [toggleModal, setToggleModal] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
-	const handleToggleModal = () => setToggleModal(!toggleModal);
+	const handleToggleModal = () => setShowModal(!showModal);
 
-	const handleEditAccount = () => {
+	const handleChangePassword = () => {
 		// do something
 	};
 
@@ -36,12 +36,12 @@ const Account = () => {
 			</Header>
 			<AccountForm
 				user={user}
-				editAccount={handleEditAccount}
+				changePassword={handleChangePassword}
 				deleteAccount={handleToggleModal}
 			/>
 			<DeleteModal
 				simple
-				open={toggleModal}
+				open={showModal}
 				header="Delete Your Account"
 				message={deleteMessage}
 				onClose={handleToggleModal}

@@ -9,14 +9,21 @@ import {
 	Divider,
 	Message,
 } from 'semantic-ui-react';
+import { type PasswordInfo } from '../AccountForm/AccountForm';
+import { ReactInput } from '../../../types/generalTypes';
 
 type PasswordFormProps = {
 	displayForm: boolean;
 	toggleForm: () => void;
-	savePassword: () => void;
+	passwordInfo: PasswordInfo;
+	onChange: (e: ReactInput) => void;
+	changePassword: () => void;
 };
 
-const PasswordForm = ({ displayForm, toggleForm, savePassword }: PasswordFormProps) => {
+const PasswordForm = (props: PasswordFormProps) => {
+	const { displayForm, toggleForm, passwordInfo, onChange, changePassword } = props;
+	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
+
 	return (
 		<Segment stacked>
 			<Header as="h4">Update Your Password</Header>
@@ -37,22 +44,32 @@ const PasswordForm = ({ displayForm, toggleForm, savePassword }: PasswordFormPro
 								name="currentPassword"
 								placeholder="Current Password"
 								type="password"
+								value={currentPassword}
+								onChange={onChange}
 							/>
-						</FormField>
-						<FormField width={6}>
-							<label>Current Password</label>
-							<Input name="newPassword" placeholder="New Password" type="password" />
 						</FormField>
 						<FormField width={6}>
 							<label>Current Password</label>
 							<Input
-								name="confirmPassword"
+								name="newPassword"
+								placeholder="New Password"
+								type="password"
+								value={newPassword}
+								onChange={onChange}
+							/>
+						</FormField>
+						<FormField width={6}>
+							<label>Current Password</label>
+							<Input
+								name="confirmNewPassword"
 								placeholder="Confirm New Password"
 								type="password"
+								value={confirmNewPassword}
+								onChange={onChange}
 							/>
 						</FormField>
 						<Button onClick={toggleForm}>Cancel</Button>
-						<Button color="blue" onClick={savePassword}>
+						<Button color="blue" onClick={changePassword}>
 							Save Password
 						</Button>
 					</Form>
