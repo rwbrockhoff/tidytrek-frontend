@@ -67,7 +67,7 @@ export const userApi = createApi({
 		confirmResetPassword: builder.mutation({
 			query: ({ password, confirmPassword, resetToken }) => ({
 				url: '/auth/reset-password/confirm',
-				method: 'POST',
+				method: 'PUT',
 				body: { password, confirmPassword, resetToken },
 			}),
 			invalidatesTags: ['Auth'],
