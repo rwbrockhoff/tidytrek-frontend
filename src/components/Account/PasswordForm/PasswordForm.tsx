@@ -48,7 +48,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 				<>
 					<Divider />
 					<Form>
-						<FormField width={6}>
+						<FormField width={8}>
 							<label>Current Password</label>
 							<Input
 								name="currentPassword"
@@ -58,7 +58,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={6}>
+						<FormField width={8}>
 							<label>New Password</label>
 							<Input
 								name="newPassword"
@@ -68,7 +68,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={6}>
+						<FormField width={8}>
 							<label>Confirm</label>
 							<Input
 								name="confirmNewPassword"
@@ -78,10 +78,12 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<Button onClick={clearForm}>Cancel</Button>
-						<Button color="blue" onClick={() => changePassword(passwordInfo)}>
-							Save Password
-						</Button>
+						<div className="form-button-container">
+							<Button onClick={clearForm}>Cancel</Button>
+							<Button color="blue" onClick={() => changePassword(passwordInfo)}>
+								Save Password
+							</Button>
+						</div>
 					</Form>
 					{error.error && (
 						<Message warning data-testid="account-change-password-message">

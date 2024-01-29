@@ -49,6 +49,8 @@ const Account = () => {
 	const handleError = (message: string) =>
 		setFormError({ error: true, message: message });
 
+	const handleClearFormError = () => setFormError({ error: false, message: '' });
+
 	const handleDeleteAccount = () => {
 		deleteAccount();
 	};
@@ -64,6 +66,7 @@ const Account = () => {
 			<AccountForm
 				user={user}
 				error={error}
+				clearFormError={handleClearFormError}
 				changePassword={handleChangePassword}
 				deleteAccount={handleToggleModal}
 			/>

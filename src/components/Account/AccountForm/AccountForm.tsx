@@ -10,6 +10,7 @@ type AccountFormProps = {
 	user: User | undefined;
 	error: FormError;
 	changePassword: (passwordInfo: PasswordInfo) => void;
+	clearFormError: () => void;
 	deleteAccount: () => void;
 };
 
@@ -28,6 +29,7 @@ const initialState = {
 const AccountForm = ({
 	user,
 	error,
+	clearFormError,
 	changePassword,
 	deleteAccount,
 }: AccountFormProps) => {
@@ -42,6 +44,7 @@ const AccountForm = ({
 	const handleClearForm = () => {
 		setPasswordInfo(initialState);
 		handleTogglePasswordForm();
+		clearFormError();
 	};
 
 	return (
