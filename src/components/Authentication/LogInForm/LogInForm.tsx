@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
 import './LogInForm.css';
+import { ReactInput } from '../../../types/generalTypes';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
 	formError: boolean;
 	formErrorMessage: string;
-	onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onFormChange: (e: ReactInput) => void;
 	onSubmit: () => void;
 };
 
@@ -39,9 +40,7 @@ const LogInForm = ({
 								name="name"
 								data-testid="name-input"
 								type="name"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-									onFormChange(e)
-								}
+								onChange={onFormChange}
 							/>
 							<Form.Input
 								fluid
@@ -51,9 +50,7 @@ const LogInForm = ({
 								name="username"
 								data-testid="username-input"
 								type="name"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-									onFormChange(e)
-								}
+								onChange={onFormChange}
 							/>
 						</>
 					)}

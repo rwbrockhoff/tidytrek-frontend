@@ -1,9 +1,11 @@
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
 import { Grid } from 'semantic-ui-react';
 import { useState } from 'react';
+import { setFormInput } from '../../shared/formHelpers';
 import { useLoginMutation, useRegisterMutation } from '../../redux/user/userApiSlice';
 import { useValidateForm } from './useValidateForm';
 import { useFormErrorInfo } from './useFormErrorInfo';
+import { ReactInput } from '../../types/generalTypes';
 
 type AuthProps = {
 	isRegisterForm: boolean;
@@ -36,12 +38,7 @@ const Authentication = (props: AuthProps) => {
 		confirmPassword: '',
 	});
 
-	const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[e.target.name]: e.target.value,
-		}));
-	};
+	const handleFormChange = (e: ReactInput) => setFormInput<FormData>(e, setFormData);
 
 	const handleFormSubmit = () => {
 		const { name, username, email, password } = formData;

@@ -2,6 +2,7 @@ import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
 import './CategoryNameCell.css';
+import { ReactInput } from '../../../../../types/generalTypes';
 
 type CategoryNameCellProps = {
 	size: number;
@@ -25,9 +26,8 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		}
 	};
 
-	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPackCategoryName(e.target.value);
-	};
+	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
+
 	return (
 		<Table.HeaderCell
 			colSpan={size}
