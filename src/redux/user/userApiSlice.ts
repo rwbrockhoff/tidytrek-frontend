@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-type User = {
+export type User = {
 	userId: string;
 	name: string;
 	email: string;
@@ -64,7 +64,7 @@ export const userApi = createApi({
 			}),
 			invalidatesTags: ['Auth'],
 		}),
-		deleteAccount: builder.mutation({
+		deleteAccount: builder.mutation<InitialState, void>({
 			query: () => ({ url: '/auth/account', method: 'DELETE' }),
 			invalidatesTags: ['Auth'],
 		}),

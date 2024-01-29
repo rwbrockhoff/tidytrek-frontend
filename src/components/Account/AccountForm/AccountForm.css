@@ -1,0 +1,6 @@
+.account-segment-group {
+	width: 50vw;
+	.ui.segment {
+		padding: 35px 25px;
+	}
+}
