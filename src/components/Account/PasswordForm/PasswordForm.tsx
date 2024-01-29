@@ -16,14 +16,22 @@ type PasswordFormProps = {
 	displayForm: boolean;
 	error: FormError;
 	toggleForm: () => void;
+	clearForm: () => void;
 	passwordInfo: PasswordInfo;
 	onChange: (e: ReactInput) => void;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 };
 
 const PasswordForm = (props: PasswordFormProps) => {
-	const { displayForm, error, toggleForm, passwordInfo, onChange, changePassword } =
-		props;
+	const {
+		displayForm,
+		error,
+		toggleForm,
+		clearForm,
+		passwordInfo,
+		onChange,
+		changePassword,
+	} = props;
 	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
 
 	return (
@@ -70,7 +78,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<Button onClick={toggleForm}>Cancel</Button>
+						<Button onClick={clearForm}>Cancel</Button>
 						<Button color="blue" onClick={() => changePassword(passwordInfo)}>
 							Save Password
 						</Button>

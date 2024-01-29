@@ -19,6 +19,12 @@ export type PasswordInfo = {
 	confirmNewPassword: string;
 };
 
+const initialState = {
+	currentPassword: '',
+	newPassword: '',
+	confirmNewPassword: '',
+};
+
 const AccountForm = ({
 	user,
 	error,
@@ -27,15 +33,16 @@ const AccountForm = ({
 }: AccountFormProps) => {
 	const [displayPasswordForm, setTogglePasswordForm] = useState(false);
 
-	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>({
-		currentPassword: '',
-		newPassword: '',
-		confirmNewPassword: '',
-	});
+	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>(initialState);
 	const handleTogglePasswordForm = () => setTogglePasswordForm(!displayPasswordForm);
 
 	const handleOnChange = (e: ReactInput) =>
 		setFormInput<PasswordInfo>(e, setPasswordInfo);
+
+	const handleClearForm = () => {
+		setPasswordInfo(initialState);
+		handleTogglePasswordForm();
+	};
 
 	return (
 		<SegmentGroup className="account-segment-group">
@@ -54,6 +61,7 @@ const AccountForm = ({
 			<PasswordForm
 				displayForm={displayPasswordForm}
 				toggleForm={handleTogglePasswordForm}
+				clearForm={handleClearForm}
 				passwordInfo={passwordInfo}
 				error={error}
 				onChange={handleOnChange}
