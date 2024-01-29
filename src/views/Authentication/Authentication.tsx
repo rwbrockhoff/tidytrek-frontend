@@ -53,7 +53,7 @@ const Authentication = (props: AuthProps) => {
 		}
 	};
 
-	const { error, message } = useFormErrorInfo(formError, registerStatus, loginStatus);
+	const error = useFormErrorInfo(formError, [registerStatus, loginStatus]);
 
 	const { isLoading: isLoadingLogin } = loginData;
 	const { isLoading: isLoadingRegister } = registerData;
@@ -64,7 +64,6 @@ const Authentication = (props: AuthProps) => {
 				isRegisterForm={props.isRegisterForm}
 				isLoading={isLoadingLogin || isLoadingRegister}
 				formError={error}
-				formErrorMessage={message}
 				onFormChange={handleFormChange}
 				onSubmit={handleFormSubmit}
 			/>

@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
 import './LogInForm.css';
-import { ReactInput } from '../../../types/generalTypes';
+import { FormError, ReactInput } from '../../../types/generalTypes';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
-	formError: boolean;
-	formErrorMessage: string;
+	formError: FormError;
 	onFormChange: (e: ReactInput) => void;
 	onSubmit: () => void;
 };
@@ -16,7 +15,6 @@ const LogInForm = ({
 	isRegisterForm,
 	isLoading,
 	formError,
-	formErrorMessage,
 	onFormChange,
 	onSubmit,
 }: FormProps) => {
@@ -91,10 +89,10 @@ const LogInForm = ({
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 
-					{formError && (
+					{formError.error && (
 						<Message color="red" data-testid="error-message">
 							<Icon name="hand point right outline" />
-							{formErrorMessage || 'Oops! There was an error.'}
+							{formError.message || 'Oops! There was an error.'}
 						</Message>
 					)}
 					{isRegisterForm ? (

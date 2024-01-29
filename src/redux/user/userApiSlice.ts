@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { PasswordInfo } from '../../components/Account/AccountForm/AccountForm';
 
 export type User = {
 	userId: string;
@@ -49,6 +50,13 @@ export const userApi = createApi({
 			query: () => ({ url: '/auth/logout', method: 'POST' }),
 			invalidatesTags: ['Auth'],
 		}),
+		changePassword: builder.mutation({
+			query: (passwordInfo: PasswordInfo) => ({
+				url: '/auth/password',
+				method: 'PUT',
+				body: passwordInfo,
+			}),
+		}),
 		requestResetPassword: builder.mutation({
 			query: (email: string) => ({
 				url: '/auth/reset-password/request',
@@ -76,6 +84,7 @@ export const {
 	useLoginMutation,
 	useRegisterMutation,
 	useLogoutMutation,
+	useChangePasswordMutation,
 	useRequestResetPasswordMutation,
 	useConfirmResetPasswordMutation,
 	useDeleteAccountMutation,

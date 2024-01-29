@@ -1,6 +1,6 @@
 import { SegmentGroup, Segment, Button, Icon, Header } from 'semantic-ui-react';
 import { type User } from '../../../redux/user/userApiSlice';
-import { type ReactInput } from '../../../types/generalTypes';
+import { FormError, type ReactInput } from '../../../types/generalTypes';
 import PasswordForm from '../PasswordForm/PasswordForm';
 import { setFormInput } from '../../../shared/formHelpers';
 import { useState } from 'react';
@@ -8,7 +8,8 @@ import './AccountForm.css';
 
 type AccountFormProps = {
 	user: User | undefined;
-	changePassword: () => void;
+	error: FormError;
+	changePassword: (passwordInfo: PasswordInfo) => void;
 	deleteAccount: () => void;
 };
 
@@ -18,7 +19,12 @@ export type PasswordInfo = {
 	confirmNewPassword: string;
 };
 
-const AccountForm = ({ user, changePassword, deleteAccount }: AccountFormProps) => {
+const AccountForm = ({
+	user,
+	error,
+	changePassword,
+	deleteAccount,
+}: AccountFormProps) => {
 	const [displayPasswordForm, setTogglePasswordForm] = useState(false);
 
 	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>({
@@ -49,6 +55,7 @@ const AccountForm = ({ user, changePassword, deleteAccount }: AccountFormProps) 
 				displayForm={displayPasswordForm}
 				toggleForm={handleTogglePasswordForm}
 				passwordInfo={passwordInfo}
+				error={error}
 				onChange={handleOnChange}
 				changePassword={changePassword}
 			/>

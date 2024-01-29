@@ -10,18 +10,20 @@ import {
 	Message,
 } from 'semantic-ui-react';
 import { type PasswordInfo } from '../AccountForm/AccountForm';
-import { ReactInput } from '../../../types/generalTypes';
+import { FormError, ReactInput } from '../../../types/generalTypes';
 
 type PasswordFormProps = {
 	displayForm: boolean;
+	error: FormError;
 	toggleForm: () => void;
 	passwordInfo: PasswordInfo;
 	onChange: (e: ReactInput) => void;
-	changePassword: () => void;
+	changePassword: (passwordInfo: PasswordInfo) => void;
 };
 
 const PasswordForm = (props: PasswordFormProps) => {
-	const { displayForm, toggleForm, passwordInfo, onChange, changePassword } = props;
+	const { displayForm, error, toggleForm, passwordInfo, onChange, changePassword } =
+		props;
 	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
 
 	return (
@@ -49,7 +51,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 							/>
 						</FormField>
 						<FormField width={6}>
-							<label>Current Password</label>
+							<label>New Password</label>
 							<Input
 								name="newPassword"
 								placeholder="New Password"
@@ -59,7 +61,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 							/>
 						</FormField>
 						<FormField width={6}>
-							<label>Current Password</label>
+							<label>Confirm</label>
 							<Input
 								name="confirmNewPassword"
 								placeholder="Confirm New Password"
@@ -69,14 +71,16 @@ const PasswordForm = (props: PasswordFormProps) => {
 							/>
 						</FormField>
 						<Button onClick={toggleForm}>Cancel</Button>
-						<Button color="blue" onClick={changePassword}>
+						<Button color="blue" onClick={() => changePassword(passwordInfo)}>
 							Save Password
 						</Button>
 					</Form>
-					<Message warning data-testid="account-change-password-message">
-						<Icon name="hand point right outline" />
-						{'Oops! There was an error.'}
-					</Message>
+					{error.error && (
+						<Message warning data-testid="account-change-password-message">
+							<Icon name="hand point right outline" />
+							{error.message || 'Oops! There was an error.'}
+						</Message>
+					)}
 				</>
 			)}
 		</Segment>
