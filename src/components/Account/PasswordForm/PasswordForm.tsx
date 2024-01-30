@@ -7,18 +7,17 @@ import {
 	Icon,
 	Header,
 	Divider,
-	Message,
 } from 'semantic-ui-react';
 import { type PasswordInfo } from '../AccountForm/AccountForm';
-import { FormError, ReactInput } from '../../../types/generalTypes';
+import { type ReactInput } from '../../../types/generalTypes';
+import Message from '../../../shared/ui/Message';
+import { useContext } from 'react';
+import { ChangePassContext } from '../../../views/Account/Account';
 
 type PasswordFormProps = {
 	displayForm: boolean;
-	error: FormError;
-	success: boolean;
-	loading: boolean;
 	toggleForm: () => void;
-	clearForm: () => void;
+	resetFormError: () => void;
 	passwordInfo: PasswordInfo;
 	onChange: (e: ReactInput) => void;
 	changePassword: (passwordInfo: PasswordInfo) => void;
@@ -27,16 +26,15 @@ type PasswordFormProps = {
 const PasswordForm = (props: PasswordFormProps) => {
 	const {
 		displayForm,
-		error,
-		success,
-		loading,
 		toggleForm,
-		clearForm,
+		resetFormError,
 		passwordInfo,
 		onChange,
 		changePassword,
 	} = props;
 	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
+
+	const { isLoading, isSuccess, error } = useContext(ChangePassContext);
 
 	return (
 		<Segment stacked>
@@ -83,29 +81,22 @@ const PasswordForm = (props: PasswordFormProps) => {
 							/>
 						</FormField>
 						<div className="form-button-container">
-							<Button onClick={clearForm}>{success ? 'Close' : 'Cancel'}</Button>
+							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 							<Button
 								color="blue"
-								disabled={loading}
+								disabled={isLoading}
 								onClick={() => changePassword(passwordInfo)}>
 								Save Password
 							</Button>
 						</div>
 					</Form>
 
-					{error.error && (
-						<Message warning data-testid="account-change-password-message">
-							<Icon name="hand point right outline" />
-							{error.message || 'Oops! There was an error.'}
-						</Message>
-					)}
-
-					{success && (
-						<Message success data-testid="account-change-password-success">
-							<Icon name="thumbs up outline" />
-							{'Password updated!'}
-						</Message>
-					)}
+					<Message
+						loading={isLoading}
+						error={error}
+						success={isSuccess}
+						successMessage="Your password has been updated!"
+					/>
 				</>
 			)}
 		</Segment>

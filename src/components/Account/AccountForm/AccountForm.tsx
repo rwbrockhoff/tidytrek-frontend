@@ -1,6 +1,6 @@
 import { SegmentGroup, Segment, Button, Icon, Header } from 'semantic-ui-react';
 import { type User } from '../../../redux/user/userApiSlice';
-import { FormError, type ReactInput } from '../../../types/generalTypes';
+import { type ReactInput } from '../../../types/generalTypes';
 import PasswordForm from '../PasswordForm/PasswordForm';
 import { setFormInput } from '../../../shared/formHelpers';
 import { useState } from 'react';
@@ -8,11 +8,9 @@ import './AccountForm.css';
 
 type AccountFormProps = {
 	user: User | undefined;
-	error: FormError;
 	success: boolean;
-	loading: boolean;
 	changePassword: (passwordInfo: PasswordInfo) => void;
-	clearFormError: () => void;
+	resetFormError: () => void;
 	deleteAccount: () => void;
 };
 
@@ -30,10 +28,8 @@ const initialState = {
 
 const AccountForm = ({
 	user,
-	error,
 	success,
-	loading,
-	clearFormError,
+	resetFormError,
 	changePassword,
 	deleteAccount,
 }: AccountFormProps) => {
@@ -42,13 +38,15 @@ const AccountForm = ({
 	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>(initialState);
 	const handleTogglePasswordForm = () => setTogglePasswordForm(!displayPasswordForm);
 
+	if (success && passwordInfo !== initialState) setPasswordInfo(initialState);
+
 	const handleOnChange = (e: ReactInput) =>
 		setFormInput<PasswordInfo>(e, setPasswordInfo);
 
-	const handleClearForm = () => {
+	const handleResetForm = () => {
 		setPasswordInfo(initialState);
 		handleTogglePasswordForm();
-		clearFormError();
+		resetFormError();
 	};
 
 	return (
@@ -68,11 +66,8 @@ const AccountForm = ({
 			<PasswordForm
 				displayForm={displayPasswordForm}
 				toggleForm={handleTogglePasswordForm}
-				clearForm={handleClearForm}
+				resetFormError={handleResetForm}
 				passwordInfo={passwordInfo}
-				error={error}
-				success={success}
-				loading={loading}
 				onChange={handleOnChange}
 				changePassword={changePassword}
 			/>

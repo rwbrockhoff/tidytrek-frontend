@@ -3,7 +3,7 @@ import {
 	useChangePasswordMutation,
 	useDeleteAccountMutation,
 } from '../../redux/user/userApiSlice';
-import { useState, useEffect } from 'react';
+import { useState, createContext } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
 import AccountForm, {
 	PasswordInfo,
@@ -11,42 +11,30 @@ import AccountForm, {
 import { DeleteModal } from '../../components/Dashboard/PackCategory/Modals/Modals';
 import './Account.css';
 import { validPassword, passwordRequirements } from '../Authentication/authHelper';
-import { useFormErrorInfo } from '../Authentication/useFormErrorInfo';
-import { FormError } from '../../types/generalTypes';
+import { useFormInfo } from '../Authentication/useFormInfo';
 
 const deleteMessage =
 	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";
+
+export const ChangePassContext = createContext({
+	isLoading: false,
+	isSuccess: false,
+	error: { error: false, message: '' },
+});
 
 const Account = () => {
 	const { data } = useGetAuthStatusQuery();
 	const [deleteAccount] = useDeleteAccountMutation();
 	const [changePassword, changePassData] = useChangePasswordMutation();
 
-	const changePassStatus = {
-		isError: changePassData.isError,
-		error: changePassData.error,
-	};
+	const { isLoading, isSuccess, isError, error: passError } = changePassData;
 
-	const { isLoading, isSuccess } = changePassData;
-
+	const changePassStatus = { isError, error: passError };
 	const user = data?.user;
 
 	const [showModal, setShowModal] = useState(false);
-	const [formError, setFormError] = useState<FormError>({
-		error: false,
-		message: '',
-	});
 
-	useEffect(() => {
-		const { isSuccess, isError } = changePassData;
-		if ((isSuccess || isError) && formError.error) {
-			setFormError({ error: false, message: '' });
-		}
-	}, [changePassData, formError.error]);
-
-	const handleToggleModal = () => {
-		setShowModal(!showModal);
-	};
+	const handleToggleModal = () => setShowModal(!showModal);
 
 	const handleChangePassword = (passwordInfo: PasswordInfo) => {
 		const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
@@ -57,21 +45,15 @@ const Account = () => {
 		if (currentPassword) changePassword(passwordInfo);
 	};
 
-	const handleError = (message: string) => {
+	const handleError = (message: string) =>
 		setFormError({ error: true, message: message });
-		if (changePassData.isError) changePassData.reset();
-	};
 
-	const handleClearFormError = () => {
+	const handleResetFormError = () => {
 		setFormError({ error: false, message: '' });
 		changePassData.reset();
 	};
 
-	const handleDeleteAccount = () => {
-		deleteAccount();
-	};
-
-	const error = useFormErrorInfo(formError, [changePassStatus]);
+	const [error, setFormError] = useFormInfo([changePassStatus], isLoading);
 
 	return (
 		<div className="account-container">
@@ -79,22 +61,22 @@ const Account = () => {
 				<Icon name="user outline" />
 				Account Info
 			</Header>
-			<AccountForm
-				user={user}
-				error={error}
-				success={isSuccess}
-				loading={isLoading}
-				clearFormError={handleClearFormError}
-				changePassword={handleChangePassword}
-				deleteAccount={handleToggleModal}
-			/>
+			<ChangePassContext.Provider value={{ isSuccess, isLoading, error }}>
+				<AccountForm
+					user={user}
+					success={isSuccess}
+					resetFormError={handleResetFormError}
+					changePassword={handleChangePassword}
+					deleteAccount={handleToggleModal}
+				/>
+			</ChangePassContext.Provider>
 			<DeleteModal
 				simple
 				open={showModal}
 				header="Delete Your Account"
 				message={deleteMessage}
 				onClose={handleToggleModal}
-				onClickDelete={handleDeleteAccount}
+				onClickDelete={deleteAccount}
 			/>
 		</div>
 	);
