@@ -15,6 +15,8 @@ import { FormError, ReactInput } from '../../../types/generalTypes';
 type PasswordFormProps = {
 	displayForm: boolean;
 	error: FormError;
+	success: boolean;
+	loading: boolean;
 	toggleForm: () => void;
 	clearForm: () => void;
 	passwordInfo: PasswordInfo;
@@ -26,6 +28,8 @@ const PasswordForm = (props: PasswordFormProps) => {
 	const {
 		displayForm,
 		error,
+		success,
+		loading,
 		toggleForm,
 		clearForm,
 		passwordInfo,
@@ -79,16 +83,27 @@ const PasswordForm = (props: PasswordFormProps) => {
 							/>
 						</FormField>
 						<div className="form-button-container">
-							<Button onClick={clearForm}>Cancel</Button>
-							<Button color="blue" onClick={() => changePassword(passwordInfo)}>
+							<Button onClick={clearForm}>{success ? 'Close' : 'Cancel'}</Button>
+							<Button
+								color="blue"
+								disabled={loading}
+								onClick={() => changePassword(passwordInfo)}>
 								Save Password
 							</Button>
 						</div>
 					</Form>
+
 					{error.error && (
 						<Message warning data-testid="account-change-password-message">
 							<Icon name="hand point right outline" />
 							{error.message || 'Oops! There was an error.'}
+						</Message>
+					)}
+
+					{success && (
+						<Message success data-testid="account-change-password-success">
+							<Icon name="thumbs up outline" />
+							{'Password updated!'}
 						</Message>
 					)}
 				</>

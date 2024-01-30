@@ -26,14 +26,12 @@ const createMessage = (message: string | undefined) => {
 };
 
 // Combines error handling for form UI, login, register
-
 export const useFormErrorInfo = (
 	formError: FormError,
 	mutations: MutationData[],
 ): FormError => {
 	return useMemo(() => {
 		const errorInfo: FormError = { error: false, message: '' };
-		if (formError.error) return formError; // UI errors
 
 		for (const mutation of mutations) {
 			if (hasErrorProps(mutation)) {
@@ -43,6 +41,8 @@ export const useFormErrorInfo = (
 				return errorInfo;
 			}
 		}
+
+		if (formError.error) return formError; // UI errors
 
 		return errorInfo;
 	}, [formError, mutations]);

@@ -3,7 +3,7 @@ import {
 	useChangePasswordMutation,
 	useDeleteAccountMutation,
 } from '../../redux/user/userApiSlice';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
 import AccountForm, {
 	PasswordInfo,
@@ -27,6 +27,8 @@ const Account = () => {
 		error: changePassData.error,
 	};
 
+	const { isLoading, isSuccess } = changePassData;
+
 	const user = data?.user;
 
 	const [showModal, setShowModal] = useState(false);
@@ -35,7 +37,16 @@ const Account = () => {
 		message: '',
 	});
 
-	const handleToggleModal = () => setShowModal(!showModal);
+	useEffect(() => {
+		const { isSuccess, isError } = changePassData;
+		if ((isSuccess || isError) && formError.error) {
+			setFormError({ error: false, message: '' });
+		}
+	}, [changePassData, formError.error]);
+
+	const handleToggleModal = () => {
+		setShowModal(!showModal);
+	};
 
 	const handleChangePassword = (passwordInfo: PasswordInfo) => {
 		const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
@@ -46,10 +57,15 @@ const Account = () => {
 		if (currentPassword) changePassword(passwordInfo);
 	};
 
-	const handleError = (message: string) =>
+	const handleError = (message: string) => {
 		setFormError({ error: true, message: message });
+		if (changePassData.isError) changePassData.reset();
+	};
 
-	const handleClearFormError = () => setFormError({ error: false, message: '' });
+	const handleClearFormError = () => {
+		setFormError({ error: false, message: '' });
+		changePassData.reset();
+	};
 
 	const handleDeleteAccount = () => {
 		deleteAccount();
@@ -66,6 +82,8 @@ const Account = () => {
 			<AccountForm
 				user={user}
 				error={error}
+				success={isSuccess}
+				loading={isLoading}
 				clearFormError={handleClearFormError}
 				changePassword={handleChangePassword}
 				deleteAccount={handleToggleModal}

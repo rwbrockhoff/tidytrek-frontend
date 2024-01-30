@@ -9,6 +9,8 @@ import './AccountForm.css';
 type AccountFormProps = {
 	user: User | undefined;
 	error: FormError;
+	success: boolean;
+	loading: boolean;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 	clearFormError: () => void;
 	deleteAccount: () => void;
@@ -29,6 +31,8 @@ const initialState = {
 const AccountForm = ({
 	user,
 	error,
+	success,
+	loading,
 	clearFormError,
 	changePassword,
 	deleteAccount,
@@ -67,6 +71,8 @@ const AccountForm = ({
 				clearForm={handleClearForm}
 				passwordInfo={passwordInfo}
 				error={error}
+				success={success}
+				loading={loading}
 				onChange={handleOnChange}
 				changePassword={changePassword}
 			/>
