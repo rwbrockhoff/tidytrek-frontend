@@ -1,24 +1,23 @@
-import { Header, Label, Icon, Image } from 'semantic-ui-react';
+import { Header, Label, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
 } from '../../../redux/pack/packApiSlice';
-import PackChart from '../PackChart/PackChart';
+import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../PackCategory/Modals/Modals';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
-import CampGraphic from '../../../assets/camping.svg';
-import { useWeightSum } from './useWeightSum';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
+	fetching: boolean;
 };
 
-const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
+const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 	const navigate = useNavigate();
 	const [deletePack] = useDeletePackMutation();
 	const [deletePackAndItems] = useDeletePackAndItemsMutation();
@@ -59,8 +58,6 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 		packUrl,
 		packUrlName,
 	} = currentPack;
-
-	const { categoryWeights, packHasWeight } = useWeightSum(packCategories);
 
 	return (
 		<div className="pack-info-container">
@@ -118,19 +115,7 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 			</div>
 			{/* Right Hand Panel */}
 
-			{packHasWeight ? (
-				<div className="pack-info-right-panel-graphic">
-					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</div>
-			) : (
-				<div className="pack-info-right-panel-graphic">
-					<Image src={CampGraphic} />
-					<p>
-						<Icon name="hand point down outline" />
-						Add items below to get started
-					</p>
-				</div>
-			)}
+			<PackGraphic fetching={fetching} packCategories={packCategories} />
 
 			<PackFormModal
 				open={showPackModal}

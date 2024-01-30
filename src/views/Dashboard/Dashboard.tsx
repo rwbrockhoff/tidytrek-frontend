@@ -16,7 +16,7 @@ const Dashboard = () => {
 	const [movePackItem] = useMovePackItemMutation();
 
 	const { packId: paramPackId } = useParams();
-	const { data } = useGetPackQuery(paramPackId);
+	const { data, isFetching } = useGetPackQuery(paramPackId);
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
@@ -46,7 +46,11 @@ const Dashboard = () => {
 
 	return (
 		<div className="dashboard-container">
-			<PackInfo currentPack={currentPack} packCategories={packCategories} />
+			<PackInfo
+				currentPack={currentPack}
+				packCategories={packCategories}
+				fetching={isFetching}
+			/>
 
 			<DragDropContext onDragEnd={onDragEnd}>
 				{packCategories.length >= 0 &&
