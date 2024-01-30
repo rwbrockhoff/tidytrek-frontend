@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
 import './LogInForm.css';
 import { FormError, ReactInput } from '../../../types/generalTypes';
+import DisplayWrapper from '../../../shared/ui/DisplayWrapper';
 
 type FormProps = {
 	isRegisterForm: boolean;
@@ -89,22 +90,25 @@ const LogInForm = ({
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 
-					{formError.error && (
+					<DisplayWrapper display={formError.error}>
 						<Message color="red" data-testid="error-message">
 							<Icon name="hand point right outline" />
 							{formError.message || 'Oops! There was an error.'}
 						</Message>
-					)}
-					{isRegisterForm ? (
+					</DisplayWrapper>
+
+					<DisplayWrapper display={isRegisterForm}>
 						<p style={{ marginTop: '25px' }}>
 							Already have an account? <Link to={'/'}>Log In</Link>
 						</p>
-					) : (
+					</DisplayWrapper>
+
+					<DisplayWrapper display={!isRegisterForm}>
 						<p style={{ marginTop: '25px' }}>
 							<Link to={'/register'}>Sign Up</Link> |{' '}
 							<Link to={'/reset-password'}>Forgot Your Password</Link>
 						</p>
-					)}
+					</DisplayWrapper>
 				</Segment>
 			</Form>
 		</Grid.Column>
