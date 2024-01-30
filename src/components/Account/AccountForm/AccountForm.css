@@ -12,4 +12,8 @@
 		display: flex;
 		justify-content: flex-end;
 	}
+	.reset-password-link {
+		margin-top: 10px;
+		margin-bottom: 25px;
+	}
 }

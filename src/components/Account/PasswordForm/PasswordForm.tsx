@@ -8,6 +8,7 @@ import {
 	Header,
 	Divider,
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { type PasswordInfo } from '../AccountForm/AccountForm';
 import { type ReactInput } from '../../../types/generalTypes';
 import Message from '../../../shared/ui/Message';
@@ -80,6 +81,9 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
+						<Link to="/reset-password">
+							<p className="reset-password-link">Reset Your Password</p>
+						</Link>
 						<div className="form-button-container">
 							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 							<Button

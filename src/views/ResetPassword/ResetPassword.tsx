@@ -70,11 +70,10 @@ const ResetPassword = () => {
 		});
 	};
 
-	const { error, message } = useFormErrorInfo(
-		formError,
+	const { error, message } = useFormErrorInfo(formError, [
 		requestPassStatus,
 		confirmPassStatus,
-	);
+	]);
 
 	const { isLoading: isLoadingRequest, isSuccess: isSuccessRequest } = requestPassData;
 	const { isLoading: isLoadingConfirmPass, isSuccess: isSuccessConfirmPass } =
