@@ -35,7 +35,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 	} = props;
 	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
 
-	const { isLoading, isSuccess, error } = useContext(ChangePassContext);
+	const { isPending, isSuccess, error } = useContext(ChangePassContext);
 
 	return (
 		<Segment stacked>
@@ -88,7 +88,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 							<Button
 								color="blue"
-								disabled={isLoading}
+								disabled={isPending}
 								onClick={() => changePassword(passwordInfo)}>
 								Save Password
 							</Button>
@@ -96,7 +96,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 					</Form>
 
 					<Message
-						loading={isLoading}
+						loading={isPending}
 						error={error}
 						success={isSuccess}
 						successMessage="Your password has been updated!"

@@ -4,28 +4,41 @@ import { useParams } from 'react-router-dom';
 import {
 	useRequestResetPasswordMutation,
 	useConfirmResetPasswordMutation,
-} from '../../redux/user/userApiSlice';
+} from '../../store/userQueries';
 import ResetPasswordForm from '../../components/Authentication/ResetPasswordForm/ResetPasswordForm';
 import { validEmail, validPassword } from '../Authentication/authHelper';
-import { useFormErrorInfo } from '../Authentication/useFormErrorInfo';
+import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';
+import {
+	useCombinePendingStatus,
+	type MutationPending,
+} from '../Authentication/useCombinePendingStatus';
+import {
+	useCombineSuccess,
+	type MutationSuccess,
+} from '../Authentication/useComineSuccess';
 import { setFormInput } from '../../shared/formHelpers';
 import { ReactInput } from '../../types/generalTypes';
 
 const ResetPassword = () => {
 	const { resetToken } = useParams();
 
-	const [resetPassword, requestPassData] = useRequestResetPasswordMutation();
+	const requestPassData = useRequestResetPasswordMutation();
+	const confirmPassData = useConfirmResetPasswordMutation();
 
-	const [confirmResetPassword, confirmPassData] = useConfirmResetPasswordMutation();
+	const [formError, setFormError] = useCombineErrors([
+		requestPassData as MutationError,
+		confirmPassData as MutationError,
+	]);
 
-	const requestPassStatus = {
-		isError: requestPassData.isError,
-		error: requestPassData.error,
-	};
-	const confirmPassStatus = {
-		isError: confirmPassData.isError,
-		error: confirmPassData.error,
-	};
+	const isPending = useCombinePendingStatus([
+		requestPassData as MutationPending,
+		confirmPassData as MutationPending,
+	]);
+
+	const isSuccess = useCombineSuccess([
+		requestPassData as MutationSuccess,
+		confirmPassData as MutationSuccess,
+	]);
 
 	const [formData, setFormData] = useState({
 		email: '',
@@ -33,16 +46,11 @@ const ResetPassword = () => {
 		confirmPassword: '',
 	});
 
-	const [formError, setFormError] = useState({
-		error: false,
-		message: '',
-	});
-
 	const handleFormChange = (e: ReactInput) => setFormInput(e, setFormData);
 
 	const handleResetPasswordRequest = () => {
 		if (validEmail(formData.email)) {
-			resetPassword(formData.email);
+			requestPassData.mutate(formData.email);
 			setFormData((prevState) => ({ ...prevState, email: '' }));
 		} else setFormError({ error: true, message: 'Invalid email format.' });
 	};
@@ -62,31 +70,25 @@ const ResetPassword = () => {
 					'Password should have at least 8 characters, contain one uppercase, and one number.',
 			});
 		}
-		confirmResetPassword({ password, confirmPassword, resetToken });
-		setFormData({
-			email: '',
-			password: '',
-			confirmPassword: '',
-		});
+		if (resetToken) {
+			confirmPassData.mutate({ password, confirmPassword, resetToken });
+			setFormData({
+				email: '',
+				password: '',
+				confirmPassword: '',
+			});
+		}
 	};
 
-	const { error, message } = useFormErrorInfo(formError, [
-		requestPassStatus,
-		confirmPassStatus,
-	]);
-
-	const { isLoading: isLoadingRequest, isSuccess: isSuccessRequest } = requestPassData;
-	const { isLoading: isLoadingConfirmPass, isSuccess: isSuccessConfirmPass } =
-		confirmPassData;
 	return (
 		<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
 			<ResetPasswordForm
 				formData={formData}
 				hasResetToken={resetToken ? true : false}
-				isLoading={isLoadingRequest || isLoadingConfirmPass}
-				isSuccess={isSuccessRequest || isSuccessConfirmPass}
-				formError={error}
-				formErrorMessage={message}
+				isLoading={isPending}
+				isSuccess={isSuccess}
+				formError={formError.error}
+				formErrorMessage={formError.message}
 				onFormChange={handleFormChange}
 				onResetRequest={handleResetPasswordRequest}
 				onResetConfirm={handleConfirmPasswordReset}

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { validPassword, validEmail, passwordRequirements } from './authHelper';
+import { FormError } from '../../types/generalTypes';
 
 type FormData = {
 	name: string;
@@ -8,12 +8,7 @@ type FormData = {
 	confirmPassword: string;
 };
 
-export const useValidateForm = () => {
-	const [formError, setFormError] = useState({
-		error: false,
-		message: '',
-	});
-
+export const useValidateForm = (setFormError: (error: FormError) => void) => {
 	const invalidForm = (
 		message: string = 'Please make sure to fill out form properly.',
 	) => {
@@ -47,5 +42,5 @@ export const useValidateForm = () => {
 		}
 	};
 
-	return { formError, invalidForm, validateFormData };
+	return { invalidForm, validateFormData };
 };

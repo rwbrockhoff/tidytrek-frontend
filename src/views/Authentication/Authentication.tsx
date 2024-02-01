@@ -2,10 +2,11 @@ import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
 import { Grid } from 'semantic-ui-react';
 import { useState } from 'react';
 import { setFormInput } from '../../shared/formHelpers';
-import { useLoginMutation, useRegisterMutation } from '../../redux/user/userApiSlice';
 import { useValidateForm } from './useValidateForm';
-import { useFormErrorInfo } from './useFormErrorInfo';
+import { useCombineErrors, type MutationError } from './useCombineErrors';
+import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
 import { ReactInput } from '../../types/generalTypes';
+import { useLoginMutation, useRegisterMutation } from '../../store/userQueries';
 
 type AuthProps = {
 	isRegisterForm: boolean;
@@ -20,15 +21,22 @@ type FormData = {
 };
 
 const Authentication = (props: AuthProps) => {
-	const [login, loginData] = useLoginMutation();
-	const [register, registerData] = useRegisterMutation();
-	const { formError, invalidForm, validateFormData } = useValidateForm();
+	const loginData = useLoginMutation();
+	const registerData = useRegisterMutation();
+	const { mutate: loginUser } = loginData;
+	const { mutate: registerUser } = registerData;
 
-	const loginStatus = { isError: loginData.isError, error: loginData.error };
-	const registerStatus = {
-		isError: registerData.isError,
-		error: registerData.error,
-	};
+	const [formError, setFormError] = useCombineErrors([
+		loginData as MutationError,
+		registerData as MutationError,
+	]);
+
+	const isPending = useCombinePendingStatus([
+		loginData as MutationPending,
+		registerData as MutationPending,
+	]);
+
+	const { invalidForm, validateFormData } = useValidateForm(setFormError);
 
 	const [formData, setFormData] = useState<FormData>({
 		name: '',
@@ -44,26 +52,21 @@ const Authentication = (props: AuthProps) => {
 		const { name, username, email, password } = formData;
 		if (props.isRegisterForm) {
 			const formIsValid = validateFormData(formData);
-			formIsValid && register({ name, username, email, password });
+			formIsValid && registerUser({ name, username, email, password });
 		} else {
-			if (email && password) login({ email, password });
+			if (email && password) loginUser({ email, password });
 			else {
 				invalidForm('Please provide your email and password.');
 			}
 		}
 	};
 
-	const error = useFormErrorInfo(formError, [registerStatus, loginStatus]);
-
-	const { isLoading: isLoadingLogin } = loginData;
-	const { isLoading: isLoadingRegister } = registerData;
-
 	return (
 		<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
 			<LogInForm
 				isRegisterForm={props.isRegisterForm}
-				isLoading={isLoadingLogin || isLoadingRegister}
-				formError={error}
+				isLoading={isPending}
+				formError={formError}
 				onFormChange={handleFormChange}
 				onSubmit={handleFormSubmit}
 			/>

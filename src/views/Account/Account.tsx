@@ -1,8 +1,8 @@
 import {
-	useGetAuthStatusQuery,
 	useChangePasswordMutation,
+	useGetAuthStatusQuery,
 	useDeleteAccountMutation,
-} from '../../redux/user/userApiSlice';
+} from '../../store/userQueries';
 import { useState, createContext } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
 import AccountForm, {
@@ -11,26 +11,24 @@ import AccountForm, {
 import { DeleteModal } from '../../components/Dashboard/PackCategory/Modals/Modals';
 import './Account.css';
 import { validPassword, passwordRequirements } from '../Authentication/authHelper';
-import { useFormInfo } from '../Authentication/useFormInfo';
+import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';
 
 const deleteMessage =
 	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";
 
 export const ChangePassContext = createContext({
-	isLoading: false,
+	isPending: false,
 	isSuccess: false,
 	error: { error: false, message: '' },
 });
 
 const Account = () => {
 	const { data } = useGetAuthStatusQuery();
-	const [deleteAccount] = useDeleteAccountMutation();
-	const [changePassword, changePassData] = useChangePasswordMutation();
+	const { mutate: deleteAccount } = useDeleteAccountMutation();
+	const changePassData = useChangePasswordMutation();
+	const { mutate: changePassword, isSuccess, isPending } = changePassData;
 
-	const { isLoading, isSuccess, isError, error: passError } = changePassData;
-
-	const changePassStatus = { isError, error: passError };
-	const user = data?.user;
+	const user = data?.data.user;
 
 	const [showModal, setShowModal] = useState(false);
 
@@ -50,10 +48,10 @@ const Account = () => {
 
 	const handleResetFormError = () => {
 		setFormError({ error: false, message: '' });
-		changePassData.reset();
+		// changePassData.reset();
 	};
 
-	const [error, setFormError] = useFormInfo([changePassStatus], isLoading);
+	const [error, setFormError] = useCombineErrors([changePassData as MutationError]);
 
 	return (
 		<div className="account-container">
@@ -61,7 +59,7 @@ const Account = () => {
 				<Icon name="user outline" />
 				Account Info
 			</Header>
-			<ChangePassContext.Provider value={{ isSuccess, isLoading, error }}>
+			<ChangePassContext.Provider value={{ isSuccess, isPending, error }}>
 				<AccountForm
 					user={user}
 					success={isSuccess}
