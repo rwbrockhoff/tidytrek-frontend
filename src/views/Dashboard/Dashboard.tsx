@@ -7,16 +7,16 @@ import {
 	useGetPackQuery,
 	useAddPackCategoryMutation,
 	useMovePackItemMutation,
-} from '../../redux/pack/packApiSlice';
+} from '../../queries/packQueries';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { type Pack } from '../../types/packTypes';
+import { Category, type Pack } from '../../types/packTypes';
 
 const Dashboard = () => {
-	const [addCategory] = useAddPackCategoryMutation();
-	const [movePackItem] = useMovePackItemMutation();
+	const { mutate: addCategory } = useAddPackCategoryMutation();
+	const { mutate: movePackItem } = useMovePackItemMutation();
 
 	const { packId: paramPackId } = useParams();
-	const { data, isFetching } = useGetPackQuery(paramPackId);
+	const { data, isPending } = useGetPackQuery(paramPackId);
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
@@ -49,12 +49,12 @@ const Dashboard = () => {
 			<PackInfo
 				currentPack={currentPack}
 				packCategories={packCategories}
-				fetching={isFetching}
+				fetching={isPending}
 			/>
 
 			<DragDropContext onDragEnd={onDragEnd}>
 				{packCategories.length >= 0 &&
-					packCategories.map((category, idx: number) => (
+					packCategories.map((category: Category, idx: number) => (
 						<PackCategory
 							category={category}
 							index={idx}

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
-} from '../../../redux/pack/packApiSlice';
+} from '../../../queries/packQueries';
 import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../PackCategory/Modals/Modals';
@@ -19,8 +19,8 @@ type PackInfoProps = {
 
 const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 	const navigate = useNavigate();
-	const [deletePack] = useDeletePackMutation();
-	const [deletePackAndItems] = useDeletePackAndItemsMutation();
+	const { mutate: deletePack } = useDeletePackMutation();
+	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
 	const [showIcon, setShowIcon] = useState(false);
 	const [showPackModal, setShowPackModal] = useState(false);

@@ -7,7 +7,7 @@ import {
 	useGetPackQuery,
 	useAddNewPackMutation,
 	useMovePackMutation,
-} from '../../../redux/pack/packApiSlice';
+} from '../../../queries/packQueries';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import PackListItem from './PackListItem/PackListItem';
 import { useEffect } from 'react';
@@ -21,22 +21,24 @@ const PackList = () => {
 	const { data: packListData } = useGetPackListQuery();
 	const { data: packData } = useGetPackQuery(paramPackId);
 
-	const [addPack, addPackResult] = useAddNewPackMutation();
-	const [movePack] = useMovePackMutation();
+	const { mutate: movePack } = useMovePackMutation();
+
+	const addNewPackData = useAddNewPackMutation();
+	const { mutate: addPack } = addNewPackData;
 
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
-		if (addPackResult.isSuccess && addPackResult.data) {
-			if ('pack' in addPackResult.data && paramPackId) {
-				const { packId } = addPackResult.data.pack;
+		if (addNewPackData.isSuccess && addNewPackData.data) {
+			if ('pack' in addNewPackData.data && paramPackId) {
+				const { packId } = addNewPackData.data.pack;
 				const encodedId = encode(packId);
 				if (paramPackId !== encodedId) {
-					addPackResult.reset();
+					addNewPackData.reset();
 					navigate(`/packs/${encodedId}`);
 				}
 			}
 		}
-	}, [addPackResult, paramPackId, navigate]);
+	}, [addNewPackData, paramPackId, navigate]);
 
 	const packList = packListData?.packList || [];
 	const currentPackId = packData?.pack.packId;

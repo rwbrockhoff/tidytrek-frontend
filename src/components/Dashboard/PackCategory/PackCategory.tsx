@@ -6,14 +6,14 @@ import TableHeader from './TableHeader/TableHeader';
 import { DeleteModal, DeleteItemModal } from './Modals/Modals';
 import { useState } from 'react';
 import {
-	useAddPackItemMutation,
+	useAddNewPackItemMutation,
 	useEditPackItemMutation,
 	useEditPackCategoryMutation,
 	useMoveItemToClosetMutation,
 	useDeletePackItemMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
-} from '../../../redux/pack/packApiSlice';
+} from '../../../queries/packQueries';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import TableFooter from './TableFooter/TableFooter';
@@ -25,15 +25,15 @@ type PackCategoryProps = {
 };
 
 const PackCategory = (props: PackCategoryProps) => {
-	const [addPackItem] = useAddPackItemMutation();
+	const { mutate: addPackItem } = useAddNewPackItemMutation();
+	const { mutate: editPackItem } = useEditPackItemMutation();
 
-	const [editPackItem] = useEditPackItemMutation();
-	const [editPackCategory] = useEditPackCategoryMutation();
-	const [movePackItem] = useMoveItemToClosetMutation();
+	const { mutate: editPackCategory } = useEditPackCategoryMutation();
+	const { mutate: movePackItem } = useMoveItemToClosetMutation();
 
-	const [deletePackItem] = useDeletePackItemMutation();
-	const [deleteCategory] = useDeletePackCategoryMutation();
-	const [deleteCategoryAndItems] = useDeletePackCategoryAndItemsMutation();
+	const { mutate: deletePackItem } = useDeletePackItemMutation();
+	const { mutate: deleteCategory } = useDeletePackCategoryMutation();
+	const { mutate: deleteCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
 
 	const { packCategoryName, packItems } = props.category;
 
