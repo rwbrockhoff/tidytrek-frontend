@@ -2,7 +2,7 @@ import {
 	useChangePasswordMutation,
 	useGetAuthStatusQuery,
 	useDeleteAccountMutation,
-} from '../../store/userQueries';
+} from '../../queries/userQueries';
 import { useState, createContext } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
 import AccountForm, {

@@ -1,5 +1,5 @@
 import './Sidebar.css';
-import { useLogoutMutation } from '../../store/userQueries';
+import { useLogoutMutation } from '../../queries/userQueries';
 import { Link } from 'react-router-dom';
 import { Divider, Icon } from 'semantic-ui-react';
 import PackList from './PackList/PackList';

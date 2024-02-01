@@ -6,7 +6,7 @@ import { useValidateForm } from './useValidateForm';
 import { useCombineErrors, type MutationError } from './useCombineErrors';
 import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
 import { ReactInput } from '../../types/generalTypes';
-import { useLoginMutation, useRegisterMutation } from '../../store/userQueries';
+import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
 
 type AuthProps = {
 	isRegisterForm: boolean;

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import {
 	useRequestResetPasswordMutation,
 	useConfirmResetPasswordMutation,
-} from '../../store/userQueries';
+} from '../../queries/userQueries';
 import ResetPasswordForm from '../../components/Authentication/ResetPasswordForm/ResetPasswordForm';
 import { validEmail, validPassword } from '../Authentication/authHelper';
 import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';

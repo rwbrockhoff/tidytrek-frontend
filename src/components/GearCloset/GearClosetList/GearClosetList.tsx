@@ -3,11 +3,11 @@ import { type GearClosetList, type PackItem } from '../../../types/packTypes';
 import { type DropResult } from 'react-beautiful-dnd';
 import {
 	useAddGearClosetItemMutation,
-	useDeleteGearClosetItemMutation,
 	useEditGearClosetItemMutation,
 	useMoveGearClosetItemMutation,
 	useMoveItemToPackMutation,
-} from '../../../redux/closet/closetApiSlice';
+	useDeleteGearClosetItemMutation,
+} from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
@@ -18,11 +18,11 @@ export type PackInfo = {
 };
 
 const GearClosetList = (props: GearClosetList) => {
-	const [addItem, { isLoading: isLoadingAddButton }] = useAddGearClosetItemMutation();
-	const [moveGearClosetItem] = useMoveGearClosetItemMutation();
-	const [moveToPack] = useMoveItemToPackMutation();
-	const [deleteItem] = useDeleteGearClosetItemMutation();
-	const [editItem] = useEditGearClosetItemMutation();
+	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
+	const { mutate: editItem } = useEditGearClosetItemMutation();
+	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
+	const { mutate: moveToPack } = useMoveItemToPackMutation();
+	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
 
 	const { gearClosetList, availablePacks } = props;
 
@@ -30,9 +30,7 @@ const GearClosetList = (props: GearClosetList) => {
 
 	const handleDelete = (packItemId: number) => deleteItem(packItemId);
 
-	const handleMoveItemToPack = (packInfo: PackInfo) => {
-		moveToPack(packInfo);
-	};
+	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
 	const onDragEnd = (result: DropResult) => {
 		const { draggableId, destination, source } = result;
@@ -96,7 +94,7 @@ const GearClosetList = (props: GearClosetList) => {
 							compact
 							basic
 							className="add-item-table-button"
-							disabled={isLoadingAddButton}
+							disabled={isPendingAddItem}
 							onClick={() => addItem()}>
 							<Icon name="add" />
 							Add Item

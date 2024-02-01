@@ -1,11 +1,11 @@
 import { Header } from 'semantic-ui-react';
 import './GearCloset.css';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
-import { useGetGearClosetQuery } from '../../redux/closet/closetApiSlice';
+import { useGetGearClosetQuery } from '../../queries/closetQueries';
 
 const GearCloset = () => {
-	const { data } = useGetGearClosetQuery();
-	const { gearClosetList, availablePacks } = data || {
+	const { data: response } = useGetGearClosetQuery();
+	const { gearClosetList, availablePacks } = response?.data || {
 		gearClosetList: [],
 		availablePacks: [],
 	};

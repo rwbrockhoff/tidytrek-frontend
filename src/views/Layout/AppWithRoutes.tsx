@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
-import { useGetAuthStatusQuery } from '../../store/userQueries.ts';
+import { useGetAuthStatusQuery } from '../../queries/userQueries.ts';
 
 const AppWithRoutes = () => {
 	const { isLoading, data: response } = useGetAuthStatusQuery();
