@@ -4,8 +4,8 @@ import GearClosetList from '../../components/GearCloset/GearClosetList/GearClose
 import { useGetGearClosetQuery } from '../../queries/closetQueries';
 
 const GearCloset = () => {
-	const { data: response } = useGetGearClosetQuery();
-	const { gearClosetList, availablePacks } = response?.data || {
+	const { data } = useGetGearClosetQuery();
+	const { gearClosetList, availablePacks } = data || {
 		gearClosetList: [],
 		availablePacks: [],
 	};

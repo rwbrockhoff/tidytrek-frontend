@@ -29,7 +29,6 @@ export const useGetPackListQuery = () =>
 export const useAddNewPackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Packlist'],
 		mutationFn: () => tidyTrekAPI.post('/packs').then((res) => res.data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['Packlist'] });
@@ -40,7 +39,6 @@ export const useAddNewPackMutation = () => {
 export const useEditPackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packInfo: { packId: number; modifiedPack: Pack }) => {
 			const { packId, modifiedPack } = packInfo;
 			return tidyTrekAPI.put(`/packs/${packId}`, { modifiedPack });
@@ -55,7 +53,6 @@ export const useEditPackMutation = () => {
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Packlist'],
 		mutationFn: (packInfo: { packId: string; newIndex: number; prevIndex: number }) => {
 			const { packId, newIndex, prevIndex } = packInfo;
 			return tidyTrekAPI.put(`/packs/index/${packId}`, { newIndex, prevIndex });
@@ -69,7 +66,6 @@ export const useMovePackMutation = () => {
 export const useDeletePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/${packId}`),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['Pack'] });
@@ -82,7 +78,6 @@ export const useDeletePackMutation = () => {
 export const useDeletePackAndItemsMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/items/${packId}`),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['Pack'] });
@@ -95,7 +90,6 @@ export const useDeletePackAndItemsMutation = () => {
 export const useAddNewPackItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packItem: { packId: number; packCategoryId: number }) => {
 			const { packId, packCategoryId } = packItem;
 			return tidyTrekAPI.post('/packs/pack-items', { packId, packCategoryId });
@@ -109,7 +103,6 @@ export const useAddNewPackItemMutation = () => {
 export const useEditPackItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packInfo: { packItemId: number; packItem: PackItem }) => {
 			const { packItemId, packItem } = packInfo;
 			return tidyTrekAPI.put(`/packs/pack-items/${packItemId}`, packItem);
@@ -123,7 +116,6 @@ export const useEditPackItemMutation = () => {
 export const useMovePackItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packInfo: {
 			packItemId: string;
 			packCategoryId: string;
@@ -154,7 +146,6 @@ export const useMovePackItemMutation = () => {
 export const useMoveItemToClosetMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packItemId: number) =>
 			tidyTrekAPI.put(`/packs/pack-items/closet/${packItemId}`),
 		onSuccess: () => {
@@ -166,7 +157,6 @@ export const useMoveItemToClosetMutation = () => {
 export const useDeletePackItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packItemId: number) =>
 			tidyTrekAPI.delete(`/packs/pack-items/${packItemId}`),
 		onSuccess: () => {
@@ -178,7 +168,6 @@ export const useDeletePackItemMutation = () => {
 export const useAddPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (packId: number) => tidyTrekAPI.post(`/packs/categories/${packId}`),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['Pack'] });
@@ -190,7 +179,6 @@ export const useAddPackCategoryMutation = () => {
 export const useEditPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (categoryInfo: { packCategoryId: number; packCategoryName: string }) => {
 			const { packCategoryId, packCategoryName } = categoryInfo;
 			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, { packCategoryName });
@@ -205,7 +193,6 @@ export const useEditPackCategoryMutation = () => {
 export const useDeletePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (categoryId: number) =>
 			tidyTrekAPI.delete(`/packs/categories/${categoryId}`),
 		onSuccess: () => {
@@ -218,7 +205,6 @@ export const useDeletePackCategoryMutation = () => {
 export const useDeletePackCategoryAndItemsMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['Pack'],
 		mutationFn: (categoryId: number) =>
 			tidyTrekAPI.delete(`/packs/categories/items/${categoryId}`),
 		onSuccess: () => {
