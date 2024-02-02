@@ -55,11 +55,11 @@ a {
 }
 
 .ui.mini.modal {
-	left: calc(40vw + 180px);
+	left: calc(50% - 38px);
 }
 
 .ui.small.modal {
-	left: calc(20vw + 360px);
+	left: 37.5%;
 }
 
 .ui.modal > i.close.icon {
