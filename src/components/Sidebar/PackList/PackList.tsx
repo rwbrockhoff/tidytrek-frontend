@@ -16,11 +16,11 @@ import { encode } from '../../../utils/generateDisplayId';
 const PackList = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { packId: paramPackId } = useParams();
 
-	const { data: packListData } = useGetPackListQuery();
+	const { packId: paramPackId } = useParams();
 	const { data: packData } = useGetPackQuery(paramPackId);
 
+	const { data: packListData } = useGetPackListQuery();
 	const { mutate: movePack } = useMovePackMutation();
 
 	const addNewPackData = useAddNewPackMutation();

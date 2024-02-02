@@ -18,7 +18,7 @@ export const useGetDefaultPackQuery = () =>
 
 export const useGetPackQuery = (packId: string | undefined) =>
 	useQuery<InitialState>({
-		queryKey: ['Pack'],
+		queryKey: ['Pack', packId],
 		queryFn: () => {
 			if (packId) {
 				const decodedId = decode(packId);
