@@ -1,6 +1,6 @@
 .pack-chart-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 250px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 30vh;
 }
