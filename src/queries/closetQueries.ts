@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { type PackItem, type AvailablePack } from '../types/packTypes';
+import { closetKeys, packKeys } from './queryKeys';
 
 type InitialState = {
 	gearClosetList: PackItem[];
@@ -9,7 +10,7 @@ type InitialState = {
 
 export const useGetGearClosetQuery = () =>
 	useQuery<InitialState>({
-		queryKey: ['Closet'],
+		queryKey: closetKeys.all,
 		queryFn: () => tidyTrekAPI.get('/closet/').then((res) => res.data),
 	});
 
@@ -18,7 +19,7 @@ export const useAddGearClosetItemMutation = () => {
 	return useMutation({
 		mutationFn: () => tidyTrekAPI.post('/closet/items'),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['Closet'] });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
@@ -29,7 +30,7 @@ export const useEditGearClosetItemMutation = () => {
 		mutationFn: (packItem: PackItem) =>
 			tidyTrekAPI.put(`/closet/items/${packItem.packItemId}`, packItem),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['Closet'] });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
@@ -51,10 +52,10 @@ export const useMoveGearClosetItemMutation = () => {
 		onMutate: async (packInfo) => {
 			const { packItemIndex, prevPackItemIndex } = packInfo;
 
-			await queryClient.cancelQueries({ queryKey: ['Closet'] });
-			const prevClosetList = queryClient.getQueryData(['Closet']);
+			await queryClient.cancelQueries({ queryKey: closetKeys.all });
+			const prevClosetList = queryClient.getQueryData(closetKeys.all);
 
-			queryClient.setQueryData(['Closet'], (old: any) => {
+			queryClient.setQueryData(closetKeys.all, (old: any) => {
 				const { gearClosetList } = old;
 				const [item] = gearClosetList.splice(prevPackItemIndex, 1);
 				gearClosetList.splice(packItemIndex, 0, item);
@@ -63,13 +64,13 @@ export const useMoveGearClosetItemMutation = () => {
 			return { prevClosetList };
 		},
 		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(['Closet'], context?.prevClosetList);
+			queryClient.setQueryData(closetKeys.all, context?.prevClosetList);
 		},
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ['Closet'] });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['Closet'] });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
@@ -89,8 +90,8 @@ export const useMoveItemToPackMutation = () => {
 			});
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['Closet'] });
-			queryClient.invalidateQueries({ queryKey: ['Pack'] });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
+			queryClient.invalidateQueries({ queryKey: packKeys.all });
 		},
 	});
 };
@@ -99,6 +100,6 @@ export const useDeleteGearClosetItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packItemId: number) => tidyTrekAPI.delete(`/closet/items/${packItemId}`),
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['Closet'] }),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: closetKeys.all }),
 	});
 };
