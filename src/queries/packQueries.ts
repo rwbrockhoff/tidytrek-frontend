@@ -13,12 +13,12 @@ import { getCategoryIdx } from '../utils/packUtils';
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({
 		queryKey: ['Pack'],
-		queryFn: () => tidyTrekAPI.get('/packs'),
+		queryFn: () => tidyTrekAPI.get('/packs').then((res) => res.data),
 	});
 
 export const useGetPackQuery = (packId: string | undefined) =>
 	useQuery<InitialState>({
-		queryKey: ['Pack', packId],
+		queryKey: ['Pack', packId ? decode(packId) : null],
 		queryFn: () => {
 			if (packId) {
 				const decodedId = decode(packId);
@@ -158,12 +158,17 @@ export const useMovePackItemMutation = () => {
 			return tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, packInfo);
 		},
 		onMutate: async (packInfo) => {
-			const { packCategoryId, prevPackCategoryId, packItemIndex, prevPackItemIndex } =
-				packInfo;
-			await queryClient.cancelQueries({ queryKey: ['Pack'] });
-			const prevPack = queryClient.getQueryData(['Pack']);
+			const {
+				packId,
+				packCategoryId,
+				prevPackCategoryId,
+				packItemIndex,
+				prevPackItemIndex,
+			} = packInfo;
+			await queryClient.cancelQueries({ queryKey: ['Pack', packId] });
+			const prevPack = queryClient.getQueryData(['Pack', packId]);
 
-			queryClient.setQueryData(['Pack'], (old: InitialState) => {
+			queryClient.setQueryData(['Pack', packId], (old: any) => {
 				const { categories } = old;
 				const prevIndex = getCategoryIdx(categories, prevPackCategoryId);
 				const [item] = categories[prevIndex].packItems.splice(prevPackItemIndex, 1);

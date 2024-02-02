@@ -1,16 +1,85 @@
 import './Sidebar.css';
 import { useLogoutMutation } from '../../queries/userQueries';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
+import {
+	useGetPackListQuery,
+	useGetPackQuery,
+	useAddNewPackMutation,
+	useMovePackMutation,
+} from '../../queries/packQueries';
 import { Divider, Icon } from 'semantic-ui-react';
-import PackList from './PackList/PackList';
+import { encode } from '../../utils/generateDisplayId';
+import PackList from './PackList/Packlist';
+import { DropResult } from 'react-beautiful-dnd';
 
-const Navigation = () => {
+const Sidebar = () => {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { packId: paramPackId } = useParams();
+
+	const { data: packData } = useGetPackQuery(paramPackId);
+	const { data: packListData } = useGetPackListQuery();
+
+	const { mutate: movePack } = useMovePackMutation();
+	const addNewPackData = useAddNewPackMutation();
+	const { mutate: addPack } = addNewPackData;
 	const { mutate: logout } = useLogoutMutation();
+
+	const packList = packListData?.packList || [];
+	const currentPackId = packData?.pack.packId;
+	const defaultPackId = packListData?.packList[0].packId;
+	const encodedId = defaultPackId ? encode(defaultPackId) : '';
+
+	useEffect(() => {
+		// subscribe to new pack created event, redirect to new pack
+		if (addNewPackData.isSuccess && addNewPackData.data) {
+			if ('pack' in addNewPackData.data && paramPackId) {
+				const { packId } = addNewPackData.data.pack;
+				const encodedId = encode(packId);
+				if (paramPackId !== encodedId) {
+					addNewPackData.reset();
+					navigate(`/packs/${encodedId}`);
+				}
+			}
+		}
+	}, [addNewPackData, paramPackId, navigate]);
+
+	useEffect(() => {
+		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
+			const encodedId = encode(currentPackId);
+			navigate(`/packs/${encodedId}`);
+		}
+	}, [currentPackId]);
+
+	const handleGetPack = async (packId: number) => {
+		const { pathname } = location;
+		if (currentPackId === undefined) navigate('/');
+		const encodedId = encode(packId);
+		if (packId !== currentPackId) navigate(`/packs/${encodedId}`);
+		if (pathname !== '/') navigate(`/packs/${encodedId}`);
+	};
+
+	const handleAddPack = () => {
+		addPack();
+	};
+
+	const handleOnDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source } = result;
+		if (!destination) return;
+		const sameIndex = destination.index === source.index;
+		if (sameIndex) return;
+		movePack({
+			packId: draggableId,
+			newIndex: destination.index,
+			prevIndex: source.index,
+		});
+	};
 
 	return (
 		<nav>
 			<h1>
-				<Link to="/">tidytrek</Link>
+				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
 			</h1>
 			<menu className="nav-menu">
 				<li>
@@ -31,9 +100,14 @@ const Navigation = () => {
 				</li>
 			</menu>
 			<Divider />
-			<PackList />
+			<PackList
+				packList={packList}
+				getPack={handleGetPack}
+				addPack={handleAddPack}
+				onDragEnd={handleOnDragEnd}
+			/>
 		</nav>
 	);
 };
 
-export default Navigation;
+export default Sidebar;

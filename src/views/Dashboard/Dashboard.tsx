@@ -20,7 +20,7 @@ const Dashboard = () => {
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
-	const packId = data?.pack.packId;
+	const packId = data?.pack.packId || null;
 
 	const handleAddPackCategory = () => {
 		packId && addCategory(packId);
@@ -36,6 +36,7 @@ const Dashboard = () => {
 		if (sameIndex && sameCategory) return;
 
 		movePackItem({
+			packId: paramPackId ? packId : null,
 			packItemId: draggableId,
 			packCategoryId: destination.droppableId,
 			packItemIndex: destination.index,

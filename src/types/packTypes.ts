@@ -63,6 +63,7 @@ export type GearClosetList = {
 };
 
 export type MovePackItemProps = {
+	packId: number | null;
 	packItemId: string;
 	packCategoryId: string;
 	packItemIndex: number;
