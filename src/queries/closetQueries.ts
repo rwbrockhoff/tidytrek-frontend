@@ -48,6 +48,26 @@ export const useMoveGearClosetItemMutation = () => {
 				previousIndex: prevPackItemIndex,
 			});
 		},
+		onMutate: async (packInfo) => {
+			const { packItemIndex, prevPackItemIndex } = packInfo;
+
+			await queryClient.cancelQueries({ queryKey: ['Closet'] });
+			const prevClosetList = queryClient.getQueryData(['Closet']);
+
+			queryClient.setQueryData(['Closet'], (old: any) => {
+				const { gearClosetList } = old;
+				const [item] = gearClosetList.splice(prevPackItemIndex, 1);
+				gearClosetList.splice(packItemIndex, 0, item);
+				return old;
+			});
+			return { prevClosetList };
+		},
+		onError: (_err, _packInfo, context) => {
+			queryClient.setQueryData(['Closet'], context?.prevClosetList);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ['Closet'] });
+		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['Closet'] });
 		},

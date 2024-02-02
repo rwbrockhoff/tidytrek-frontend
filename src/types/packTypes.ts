@@ -61,3 +61,11 @@ export type GearClosetList = {
 	availablePacks: AvailablePack[] | [];
 	gearClosetList: PackItem[] | [];
 };
+
+export type MovePackItemProps = {
+	packItemId: string;
+	packCategoryId: string;
+	packItemIndex: number;
+	prevPackCategoryId: string;
+	prevPackItemIndex: number;
+};
