@@ -46,6 +46,7 @@ const Sidebar = () => {
 	}, [addNewPackData, paramPackId, navigate]);
 
 	useEffect(() => {
+		// subscribe to "/" loading default pack, navigate w/ packId for query cache
 		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
 			const encodedId = encode(currentPackId);
 			navigate(`/packs/${encodedId}`);
@@ -62,6 +63,11 @@ const Sidebar = () => {
 
 	const handleAddPack = () => {
 		addPack();
+	};
+
+	const handleLogout = () => {
+		logout();
+		navigate('/');
 	};
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -94,7 +100,7 @@ const Sidebar = () => {
 						Gear Closet
 					</Link>
 				</li>
-				<li onClick={() => logout()}>
+				<li onClick={handleLogout}>
 					<Icon name="log out" />
 					Log Out
 				</li>
