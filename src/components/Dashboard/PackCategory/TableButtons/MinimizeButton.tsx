@@ -3,15 +3,16 @@ import './TableButtons.css';
 
 type MinimizeButtonProps = {
 	display: boolean;
+	isMinimized: boolean;
 	minimize: () => void;
 };
-const MinimizeButton = ({ display, minimize }: MinimizeButtonProps) => {
+const MinimizeButton = ({ display, isMinimized, minimize }: MinimizeButtonProps) => {
 	return (
 		<button
 			className="table-button"
 			onClick={minimize}
 			style={{ opacity: display ? 100 : 0 }}>
-			<Icon name="minus" color="grey" />
+			<Icon name={isMinimized ? 'plus' : 'minus'} color="grey" />
 		</button>
 	);
 };

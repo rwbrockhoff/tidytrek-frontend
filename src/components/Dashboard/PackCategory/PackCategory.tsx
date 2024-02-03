@@ -40,6 +40,7 @@ const PackCategory = (props: PackCategoryProps) => {
 	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
 	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
 	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
+	const [isMinimized, setMinimized] = useState(false);
 
 	const handleToggleCategoryModal = () =>
 		setShowDeleteCategoryModal(!showDeleteCategoryModal);
@@ -50,6 +51,8 @@ const PackCategory = (props: PackCategoryProps) => {
 		const { packId, packCategoryId } = props.category;
 		addPackItem({ packId, packCategoryId });
 	};
+
+	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
 	const handleEditCategory = (packCategoryName: string) => {
 		const { packCategoryId } = props.category;
@@ -90,16 +93,19 @@ const PackCategory = (props: PackCategoryProps) => {
 
 	const convertedCategoryWeight = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
+	const showCategoryItems = packItems[0] && !isMinimized;
 	return (
 		<div className="table-container">
 			<Table fixed striped compact columns="16" color="olive" size="small">
 				<TableHeader
 					headerName={packCategoryName}
-					handleEditCategory={handleEditCategory}
-					handleDeleteCategory={handleToggleCategoryModal}
+					isMinimized={isMinimized}
+					minimizeCategory={handleMinimizeCategory}
+					editCategory={handleEditCategory}
+					deleteCategory={handleToggleCategoryModal}
 				/>
 
-				{packItems[0] && (
+				{showCategoryItems && (
 					<Droppable droppableId={`${props.category.packCategoryId}`}>
 						{(provided) => (
 							<>
@@ -120,11 +126,13 @@ const PackCategory = (props: PackCategoryProps) => {
 					</Droppable>
 				)}
 
-				<TableFooter
-					itemQuantity={itemQuantity}
-					weight={convertedCategoryWeight}
-					handleAddItem={handleAddItem}
-				/>
+				{!isMinimized && (
+					<TableFooter
+						itemQuantity={itemQuantity}
+						weight={convertedCategoryWeight}
+						handleAddItem={handleAddItem}
+					/>
+				)}
 			</Table>
 
 			<DeleteModal

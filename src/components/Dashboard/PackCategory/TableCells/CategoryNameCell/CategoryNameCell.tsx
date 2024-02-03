@@ -6,12 +6,13 @@ import { ReactInput } from '../../../../../types/generalTypes';
 
 type CategoryNameCellProps = {
 	size: number;
+	disabled: boolean;
 	categoryName: string;
 	onToggleOff: (packCategoryName: string) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const { size, onToggleOff, categoryName } = props;
+	const { size, disabled, onToggleOff, categoryName } = props;
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
 
@@ -31,10 +32,10 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 	return (
 		<Table.HeaderCell
 			colSpan={size}
-			onMouseOver={toggleToEdit}
-			onMouseLeave={toggleToCell}
-			onBlur={toggleToCell}
-			onClick={toggleToEdit}>
+			onMouseOver={!disabled ? toggleToEdit : undefined}
+			onMouseLeave={!disabled ? toggleToCell : undefined}
+			onBlur={!disabled ? toggleToCell : undefined}
+			onClick={!disabled ? toggleToEdit : undefined}>
 			<Input
 				className="table-cell-input header-title"
 				value={packCategoryName || 'Category'}
