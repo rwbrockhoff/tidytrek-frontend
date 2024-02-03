@@ -13,14 +13,14 @@ import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
-import MoveItemButton from '../../../GearCloset/GearClosetList/MoveItemButton';
+import ActionButtons from '../TableButtons/ActionButtons';
+import MoveItemButton from '../TableButtons/MoveItemButton';
 import MoveClosetItemButtons from '../../../GearCloset/MoveClosetItemButtons/MoveClosetItemButtons';
 
 type TableRowProps = {
 	item: PackItem;
 	key: string;
 	index: number;
-	gearClosetItem: boolean;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
 	availablePacks?: AvailablePack[];
@@ -32,14 +32,12 @@ type TableRowProps = {
 };
 
 const TableRow = (props: TableRowProps) => {
-	const { gearClosetItem, handleMoveItemToPack, handleOnSave, handleDelete } = props;
+	const { handleMoveItemToPack, handleOnSave, handleDelete } = props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
 	const [toggleRow, setToggleRow] = useState(false);
 
-	//--Gear Closet--//
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 	const availablePacks = props?.availablePacks || [];
-	//--Gear Closet--//
 
 	const {
 		packItemName,
@@ -88,7 +86,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemDescription"
 							placeholder="Description"
-							size={gearClosetItem ? 4 : 5}
+							size={5}
 						/>
 						<PropertyButtons
 							wornWeight={wornWeight}
@@ -114,18 +112,18 @@ const TableRow = (props: TableRowProps) => {
 							size={2}
 						/>
 
-						<DeleteButton
-							display={toggleRow}
-							onClickDelete={() => handleDelete(packItemId)}
-						/>
-
-						{gearClosetItem && (
+						<ActionButtons size={1}>
 							<MoveItemButton
 								display={toggleRow}
 								onToggle={() => setToggleGearButtons(!toggleGearButtons)}
 							/>
-						)}
+							<DeleteButton
+								display={toggleRow}
+								onClickDelete={() => handleDelete(packItemId)}
+							/>
+						</ActionButtons>
 					</tr>
+
 					{toggleGearButtons && (
 						<MoveClosetItemButtons
 							packItemId={packItemId}

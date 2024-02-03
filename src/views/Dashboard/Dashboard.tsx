@@ -1,7 +1,7 @@
 import './Dashboard.css';
 import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
-import AddCategoryButton from '../../components/Dashboard/PackCategory/TableButtons/AddCategoryButton/AddCategoryButton';
+import AddCategoryButton from '../../components/Dashboard/PackCategory/TableButtons/AddCategoryButton';
 import { useParams } from 'react-router-dom';
 import {
 	useGetPackQuery,

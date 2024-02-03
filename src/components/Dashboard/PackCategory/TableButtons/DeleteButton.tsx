@@ -1,5 +1,4 @@
-import { Table, Icon } from 'semantic-ui-react';
-import './DeleteButton.css';
+import { Icon } from 'semantic-ui-react';
 
 type ButtonProps = {
 	display: boolean;
@@ -7,14 +6,14 @@ type ButtonProps = {
 	onClickDelete: () => void;
 };
 
-const DeleteButton = ({ display, header, onClickDelete }: ButtonProps) => {
-	const DeleteButtonCell = header ? Table.HeaderCell : Table.Cell;
+const DeleteButton = ({ display, onClickDelete }: ButtonProps) => {
 	return (
-		<DeleteButtonCell className="delete-button" textAlign="center">
-			<button onClick={onClickDelete} style={{ opacity: display ? 100 : 0 }}>
-				<Icon name="trash" color="grey" />
-			</button>
-		</DeleteButtonCell>
+		<button
+			className="table-button"
+			onClick={onClickDelete}
+			style={{ opacity: display ? 100 : 0 }}>
+			<Icon name="trash" color="grey" />
+		</button>
 	);
 };
 

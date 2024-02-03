@@ -73,7 +73,6 @@ const GearClosetList = (props: GearClosetList) => {
 									item={item}
 									key={`${item.packItemId}`}
 									index={index}
-									gearClosetItem={true}
 									availablePacks={availablePacks}
 									handleOnSave={handleOnSave}
 									handleDelete={handleDelete}

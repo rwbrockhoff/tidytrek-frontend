@@ -109,7 +109,6 @@ const PackCategory = (props: PackCategoryProps) => {
 											item={item}
 											key={`${item.packCategoryId}${item.packItemId}`}
 											index={idx}
-											gearClosetItem={false}
 											handleOnSave={handleOnSave}
 											handleDelete={handleDeleteItemPrompt}
 										/>

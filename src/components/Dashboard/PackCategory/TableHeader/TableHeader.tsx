@@ -1,5 +1,7 @@
 import { Table } from 'semantic-ui-react';
 import CategoryNameCell from '../TableCells/CategoryNameCell/CategoryNameCell';
+import ActionButtons from '../TableButtons/ActionButtons';
+import MinimizeButton from '../TableButtons/MinimizeButton';
 import DeleteButton from '../TableButtons/DeleteButton';
 import { useState } from 'react';
 
@@ -31,8 +33,13 @@ const TableHeader = (props: TableHeaderProps) => {
 				<Table.HeaderCell textAlign="center" colSpan="2" style={{ paddingLeft: '50px' }}>
 					Weight
 				</Table.HeaderCell>
-
-				<DeleteButton header display={toggleRow} onClickDelete={handleDeleteCategory} />
+				<ActionButtons header size={1}>
+					<MinimizeButton
+						display={toggleRow}
+						minimize={() => console.log('Minimizing...')}
+					/>
+					<DeleteButton display={toggleRow} onClickDelete={handleDeleteCategory} />
+				</ActionButtons>
 			</Table.Row>
 		</Table.Header>
 	);
