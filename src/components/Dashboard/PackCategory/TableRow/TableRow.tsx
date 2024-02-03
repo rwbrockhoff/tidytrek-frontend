@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
 	type PackItem,
 	type PackButtonSwitches,
-	type AvailablePack,
+	type PackListItem,
 } from '../../../../types/packTypes';
 import ItemNameCell from '../TableCells/ItemNameCell/ItemNameCell';
 import PackWeightCell from '../TableCells/PackWeightCell/PackWeightCell';
@@ -23,8 +23,8 @@ type TableRowProps = {
 	index: number;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
-	availablePacks?: AvailablePack[];
-	handleMoveItemToPack?: (packInfo: {
+	packList: PackListItem[];
+	handleMoveItemToPack: (packInfo: {
 		packItemId: number;
 		packId: number;
 		packCategoryId: number;
@@ -37,7 +37,7 @@ const TableRow = (props: TableRowProps) => {
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
-	const availablePacks = props?.availablePacks || [];
+	const availablePacks = props?.packList || [];
 
 	const {
 		packItemName,

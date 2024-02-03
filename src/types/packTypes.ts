@@ -45,21 +45,20 @@ export type PackItem = {
 export type PackListItem = {
 	packName: string;
 	packId: number;
+	packIndex: number;
+	packCategories: Category[];
+};
+
+export type PackInfo = {
+	packItemId: number;
+	packId: number;
+	packCategoryId: number;
 };
 
 export type PackButtonSwitches = {
 	consumable?: boolean;
 	wornWeight?: boolean;
 	favorite?: boolean;
-};
-
-export type AvailablePack = {
-	availableCategories: Category[];
-} & Pack;
-
-export type GearClosetList = {
-	availablePacks: AvailablePack[] | [];
-	gearClosetList: PackItem[] | [];
 };
 
 export type MovePackItemProps = {

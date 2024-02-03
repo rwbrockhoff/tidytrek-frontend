@@ -1,12 +1,12 @@
 import { Dropdown, Table, Button, Icon, DropdownProps } from 'semantic-ui-react';
-import { type AvailablePack } from '../../../types/packTypes';
-import { type PackInfo } from '../GearClosetList/GearClosetList';
+import { type PackListItem } from '../../../types/packTypes';
+import { type PackInfo } from '../../../types/packTypes';
 import { useState } from 'react';
 import { SyntheticEvent } from 'react';
 
 type MoveClosetItemButtonsProps = {
 	packItemId: number;
-	availablePacks: AvailablePack[];
+	availablePacks: PackListItem[];
 	moveItemToPack?: (packInfo: PackInfo) => void;
 };
 
@@ -23,7 +23,7 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 
 	const [currentPack] = availablePacks.filter((item) => item.packId === packId);
 
-	const availableCategories = currentPack?.availableCategories || [];
+	const availableCategories = currentPack?.packCategories || [];
 
 	const categoryList = availableCategories[0]
 		? availableCategories.map((item) => ({

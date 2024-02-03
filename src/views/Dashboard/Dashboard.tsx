@@ -5,6 +5,7 @@ import AddCategoryButton from '../../components/Dashboard/PackCategory/TableButt
 import { useParams } from 'react-router-dom';
 import {
 	useGetPackQuery,
+	useGetPackListQuery,
 	useAddPackCategoryMutation,
 	useMovePackItemMutation,
 } from '../../queries/packQueries';
@@ -17,6 +18,8 @@ const Dashboard = () => {
 
 	const { packId: paramPackId } = useParams();
 	const { data, isPending } = useGetPackQuery(paramPackId);
+	const { data: packListData } = useGetPackListQuery();
+	const { packList } = packListData || { packList: [] };
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
@@ -58,6 +61,7 @@ const Dashboard = () => {
 					packCategories.map((category: Category, idx: number) => (
 						<PackCategory
 							category={category}
+							packList={packList}
 							index={idx}
 							key={category?.packCategoryId || idx}
 						/>

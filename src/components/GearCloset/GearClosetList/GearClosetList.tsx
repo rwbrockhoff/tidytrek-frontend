@@ -1,5 +1,9 @@
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { type GearClosetList, type PackItem } from '../../../types/packTypes';
+import {
+	type PackListItem,
+	type PackItem,
+	type PackInfo,
+} from '../../../types/packTypes';
 import { type DropResult } from 'react-beautiful-dnd';
 import {
 	useAddGearClosetItemMutation,
@@ -11,20 +15,17 @@ import {
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
-export type PackInfo = {
-	packItemId: number;
-	packId: number;
-	packCategoryId: number;
+export type GearClosetListProps = {
+	packList: PackListItem[] | [];
+	gearClosetList: PackItem[] | [];
 };
 
-const GearClosetList = (props: GearClosetList) => {
+const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 	const { mutate: moveToPack } = useMoveItemToPackMutation();
 	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
-
-	const { gearClosetList, availablePacks } = props;
 
 	const handleOnSave = (packItem: PackItem) => editItem(packItem);
 
@@ -73,10 +74,10 @@ const GearClosetList = (props: GearClosetList) => {
 									item={item}
 									key={`${item.packItemId}`}
 									index={index}
-									availablePacks={availablePacks}
+									packList={packList}
+									handleMoveItemToPack={handleMoveItemToPack}
 									handleOnSave={handleOnSave}
 									handleDelete={handleDelete}
-									handleMoveItemToPack={handleMoveItemToPack}
 								/>
 							))}
 							{provided.placeholder}
