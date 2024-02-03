@@ -28,7 +28,7 @@ const PackGraphic = (props: PackGraphicProps) => {
 		return (
 			<>
 				<div className="pack-info-center-panel">
-					<List className="chart-display-list" animated={false}>
+					<List className="chart-display-list">
 						{displayList.map((category) => {
 							return (
 								<ListItem key={category.categoryId} className="chart-display-list-item">

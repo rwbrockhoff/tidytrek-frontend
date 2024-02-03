@@ -57,6 +57,7 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 		packDistanceTag,
 		packUrl,
 		packUrlName,
+		packPublic,
 	} = currentPack;
 
 	return (
@@ -71,6 +72,16 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Header>
+
+				{packPublic ? (
+					<p style={{ opacity: 0.4 }}>
+						<Icon name="binoculars" /> Public
+					</p>
+				) : (
+					<p style={{ opacity: 0.4 }}>
+						<Icon name="hide" /> Private
+					</p>
+				)}
 
 				{packUrl && (
 					<p>
