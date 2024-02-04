@@ -34,8 +34,8 @@ a {
 	width: 80vw;
 	height: 100vh;
 	overflow-y: auto;
-	padding-left: 5vw;
-	padding-right: 5vw;
+	padding-left: 4vw;
+	padding-right: 4vw;
 	padding-bottom: 10vh;
 	padding-top: 5vh;
 }
@@ -55,16 +55,23 @@ a {
 }
 
 .ui.mini.modal {
-	left: calc(40vw + 180px);
+	left: calc(50% - 38px);
+	.close {
+		color: grey;
+	}
 }
 
 .ui.small.modal {
-	left: calc(20vw + 360px);
+	left: 37.5%;
 }
 
 .ui.modal > i.close.icon {
 	top: 10px;
 	right: 10px;
+}
+
+.ui.list > .item > i.icon {
+	margin: 0px 5px;
 }
 
 /* Changes to Semantic UI */

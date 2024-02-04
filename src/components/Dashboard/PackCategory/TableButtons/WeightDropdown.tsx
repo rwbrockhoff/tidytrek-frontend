@@ -1,4 +1,4 @@
-import './WeightDropdown.css';
+import './TableButtons.css';
 
 type WeightDropdownProps = {
 	unit: string;

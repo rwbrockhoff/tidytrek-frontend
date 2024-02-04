@@ -1,77 +1,84 @@
 import { Table } from 'semantic-ui-react';
-import { type Category, type PackItem } from '../../../types/packTypes';
+import {
+	type PackListItem,
+	type Category,
+	type PackItem,
+	type PackInfo,
+} from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
-import { DeleteModal, DeleteItemModal } from './Modals/Modals';
+import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
 import { useState } from 'react';
 import {
-	useAddPackItemMutation,
+	useAddNewPackItemMutation,
 	useEditPackItemMutation,
 	useEditPackCategoryMutation,
 	useMoveItemToClosetMutation,
 	useDeletePackItemMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
-} from '../../../redux/pack/packApiSlice';
+} from '../../../queries/packQueries';
+import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
 import { Droppable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import TableFooter from './TableFooter/TableFooter';
 
 type PackCategoryProps = {
 	category: Category;
+	packList: PackListItem[];
 	index: number;
 	key: number;
 };
 
-const PackCategory = (props: PackCategoryProps) => {
-	const [addPackItem] = useAddPackItemMutation();
+const PackCategory = ({ category, packList }: PackCategoryProps) => {
+	const { packCategoryName, packCategoryId, packId, packItems } = category;
 
-	const [editPackItem] = useEditPackItemMutation();
-	const [editPackCategory] = useEditPackCategoryMutation();
-	const [movePackItem] = useMoveItemToClosetMutation();
+	const { mutate: addPackItem } = useAddNewPackItemMutation();
+	const { mutate: editPackItem } = useEditPackItemMutation();
+	const { mutate: movePackItem } = useMoveItemToClosetMutation();
+	const { mutate: moveToPack } = useMoveItemToPackMutation();
 
-	const [deletePackItem] = useDeletePackItemMutation();
-	const [deleteCategory] = useDeletePackCategoryMutation();
-	const [deleteCategoryAndItems] = useDeletePackCategoryAndItemsMutation();
+	const { mutate: deletePackItem } = useDeletePackItemMutation();
 
-	const { packCategoryName, packItems } = props.category;
+	const { mutate: editPackCategory } = useEditPackCategoryMutation();
+	const { mutate: deleteCategory } = useDeletePackCategoryMutation();
+	const { mutate: deleteCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
 
 	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
 	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
 	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
+	const [isMinimized, setMinimized] = useState(false);
 
 	const handleToggleCategoryModal = () =>
 		setShowDeleteCategoryModal(!showDeleteCategoryModal);
 
-	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
-
-	const handleAddItem = () => {
-		const { packId, packCategoryId } = props.category;
-		addPackItem({ packId, packCategoryId });
-	};
+	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
 	const handleEditCategory = (packCategoryName: string) => {
-		const { packCategoryId } = props.category;
 		editPackCategory({ packCategoryId, packCategoryName });
 	};
 
 	const handleDeleteCategoryAndItems = () => {
-		const { packCategoryId } = props.category;
 		deleteCategoryAndItems(packCategoryId);
 		setShowDeleteCategoryModal(false);
 	};
 
 	const handleDeleteCategory = () => {
-		const { packCategoryId } = props.category;
 		deleteCategory(packCategoryId);
 		setShowDeleteCategoryModal(false);
 	};
+
+	const handleAddItem = () => addPackItem({ packId, packCategoryId });
+
+	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
 
 	const handleMoveItem = () => {
 		if (packItemToChange) movePackItem(packItemToChange);
 		setShowDeleteItemModal(false);
 	};
+
+	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
 	const handleDeleteItem = () => {
 		if (packItemToChange) deletePackItem(packItemToChange);
@@ -88,19 +95,22 @@ const PackCategory = (props: PackCategoryProps) => {
 		setShowDeleteItemModal(true);
 	};
 
-	const convertedCategoryWeight = weightConverter(packItems, 'lb');
+	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
+	const showCategoryItems = packItems[0] && !isMinimized;
 	return (
 		<div className="table-container">
 			<Table fixed striped compact columns="16" color="olive" size="small">
 				<TableHeader
 					headerName={packCategoryName}
-					handleEditCategory={handleEditCategory}
-					handleDeleteCategory={handleToggleCategoryModal}
+					isMinimized={isMinimized}
+					minimizeCategory={handleMinimizeCategory}
+					editCategory={handleEditCategory}
+					deleteCategory={handleToggleCategoryModal}
 				/>
 
-				{packItems[0] && (
-					<Droppable droppableId={`${props.category.packCategoryId}`}>
+				{showCategoryItems && (
+					<Droppable droppableId={`${category.packCategoryId}`}>
 						{(provided) => (
 							<>
 								<tbody ref={provided.innerRef} {...provided.droppableProps}>
@@ -109,7 +119,8 @@ const PackCategory = (props: PackCategoryProps) => {
 											item={item}
 											key={`${item.packCategoryId}${item.packItemId}`}
 											index={idx}
-											gearClosetItem={false}
+											packList={packList}
+											handleMoveItemToPack={handleMoveItemToPack}
 											handleOnSave={handleOnSave}
 											handleDelete={handleDeleteItemPrompt}
 										/>
@@ -121,11 +132,13 @@ const PackCategory = (props: PackCategoryProps) => {
 					</Droppable>
 				)}
 
-				<TableFooter
-					itemQuantity={itemQuantity}
-					weight={convertedCategoryWeight}
-					handleAddItem={handleAddItem}
-				/>
+				{!isMinimized && (
+					<TableFooter
+						itemQuantity={itemQuantity}
+						weight={convertedCategoryWeight}
+						handleAddItem={handleAddItem}
+					/>
+				)}
 			</Table>
 
 			<DeleteModal

@@ -8,7 +8,21 @@
 	height: 30px;
 }
 
-input[type='number'] {
-	/* -webkit-appearance: none; */
-	/* caret-color: red; */
+button.table-button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	margin: 0px 0px;
+	padding: 5px;
+	:hover {
+		color: black !important;
+	}
+}
+
+select.weight-unit-select {
+	background-color: transparent;
+	color: #000000af;
+	border-radius: 5px;
+	border: none;
+	outline: none;
 }

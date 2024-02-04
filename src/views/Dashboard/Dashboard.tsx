@@ -1,26 +1,29 @@
 import './Dashboard.css';
 import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
-import AddCategoryButton from '../../components/Dashboard/PackCategory/TableButtons/AddCategoryButton/AddCategoryButton';
+import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
 import {
 	useGetPackQuery,
+	useGetPackListQuery,
 	useAddPackCategoryMutation,
 	useMovePackItemMutation,
-} from '../../redux/pack/packApiSlice';
+} from '../../queries/packQueries';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { type Pack } from '../../types/packTypes';
+import { Category, type Pack } from '../../types/packTypes';
 
 const Dashboard = () => {
-	const [addCategory] = useAddPackCategoryMutation();
-	const [movePackItem] = useMovePackItemMutation();
+	const { mutate: addCategory } = useAddPackCategoryMutation();
+	const { mutate: movePackItem } = useMovePackItemMutation();
 
 	const { packId: paramPackId } = useParams();
-	const { data } = useGetPackQuery(paramPackId);
+	const { data, isPending } = useGetPackQuery(paramPackId);
+	const { data: packListData } = useGetPackListQuery();
+	const { packList } = packListData || { packList: [] };
 
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
-	const packId = data?.pack.packId;
+	const packId = data?.pack.packId || null;
 
 	const handleAddPackCategory = () => {
 		packId && addCategory(packId);
@@ -36,6 +39,7 @@ const Dashboard = () => {
 		if (sameIndex && sameCategory) return;
 
 		movePackItem({
+			packId: paramPackId ? packId : null,
 			packItemId: draggableId,
 			packCategoryId: destination.droppableId,
 			packItemIndex: destination.index,
@@ -46,13 +50,18 @@ const Dashboard = () => {
 
 	return (
 		<div className="dashboard-container">
-			<PackInfo currentPack={currentPack} packCategories={packCategories} />
+			<PackInfo
+				currentPack={currentPack}
+				packCategories={packCategories}
+				fetching={isPending}
+			/>
 
 			<DragDropContext onDragEnd={onDragEnd}>
 				{packCategories.length >= 0 &&
-					packCategories.map((category, idx: number) => (
+					packCategories.map((category: Category, idx: number) => (
 						<PackCategory
 							category={category}
+							packList={packList}
 							index={idx}
 							key={category?.packCategoryId || idx}
 						/>

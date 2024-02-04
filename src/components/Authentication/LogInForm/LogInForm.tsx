@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
 import './LogInForm.css';
+import { FormError, ReactInput } from '../../../types/generalTypes';
+import DisplayWrapper from '../../../shared/ui/DisplayWrapper';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
-	formError: boolean;
-	formErrorMessage: string;
-	onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	formError: FormError;
+	onFormChange: (e: ReactInput) => void;
 	onSubmit: () => void;
 };
 
@@ -15,7 +16,6 @@ const LogInForm = ({
 	isRegisterForm,
 	isLoading,
 	formError,
-	formErrorMessage,
 	onFormChange,
 	onSubmit,
 }: FormProps) => {
@@ -39,9 +39,7 @@ const LogInForm = ({
 								name="name"
 								data-testid="name-input"
 								type="name"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-									onFormChange(e)
-								}
+								onChange={onFormChange}
 							/>
 							<Form.Input
 								fluid
@@ -51,9 +49,7 @@ const LogInForm = ({
 								name="username"
 								data-testid="username-input"
 								type="name"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-									onFormChange(e)
-								}
+								onChange={onFormChange}
 							/>
 						</>
 					)}
@@ -94,22 +90,25 @@ const LogInForm = ({
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 
-					{formError && (
+					<DisplayWrapper display={formError.error}>
 						<Message color="red" data-testid="error-message">
 							<Icon name="hand point right outline" />
-							{formErrorMessage || 'Oops! There was an error.'}
+							{formError.message || 'Oops! There was an error.'}
 						</Message>
-					)}
-					{isRegisterForm ? (
+					</DisplayWrapper>
+
+					<DisplayWrapper display={isRegisterForm}>
 						<p style={{ marginTop: '25px' }}>
 							Already have an account? <Link to={'/'}>Log In</Link>
 						</p>
-					) : (
+					</DisplayWrapper>
+
+					<DisplayWrapper display={!isRegisterForm}>
 						<p style={{ marginTop: '25px' }}>
 							<Link to={'/register'}>Sign Up</Link> |{' '}
 							<Link to={'/reset-password'}>Forgot Your Password</Link>
 						</p>
-					)}
+					</DisplayWrapper>
 				</Segment>
 			</Form>
 		</Grid.Column>

@@ -14,7 +14,7 @@ import {
 	Divider,
 } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
-import { useEditPackMutation } from '../../../../redux/pack/packApiSlice';
+import { useEditPackMutation } from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
 import './PackFormModal.css';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
@@ -27,7 +27,7 @@ type PackFormModalProps = {
 };
 
 const PackFormModal = (props: PackFormModalProps) => {
-	const [editPack] = useEditPackMutation();
+	const { mutate: editPack } = useEditPackMutation();
 
 	const { pack, open, onClose, onClickDelete } = props;
 	const [packChanged, setPackChanged] = useState(false);

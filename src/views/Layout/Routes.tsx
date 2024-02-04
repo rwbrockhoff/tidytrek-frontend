@@ -27,6 +27,10 @@ export const userRoutes = [
 		element: <ViewLayout />,
 		children: [{ path: '/account', element: <Account /> }],
 	},
+	{
+		path: '/reset-password',
+		element: <ResetPassword />,
+	},
 	{ path: '/*', index: true, element: <Navigate to="/" /> },
 ];
 

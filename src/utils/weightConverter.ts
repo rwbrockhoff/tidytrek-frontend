@@ -1,36 +1,42 @@
-import { PackItem } from '../types/packTypes';
+import { type PackItem } from '../types/packTypes';
 
 export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 	if (itemList[0]) {
-		const newItem = itemList
-			.map(
-				(item: {
-					packItemWeight: number;
-					packItemUnit: string;
-					packItemQuantity: number;
-				}) => {
-					const { packItemWeight, packItemUnit, packItemQuantity } = item;
-					// Ensure we always return number type for reducer
-					const itemWeight = Number(packItemWeight) * packItemQuantity;
+		let totalConsumableWeight = 0;
+		let totalWornWeight = 0;
 
-					if (packItemUnit === outputUnit || itemWeight === 0) {
-						return itemWeight;
-					}
-					if (outputUnit === 'oz') {
-						return convertToOunces(itemWeight, packItemUnit);
-					} else if (outputUnit === 'lb') {
-						return convertToPounds(itemWeight, packItemUnit);
-					} else if (outputUnit === 'kg') {
-						return convertToKilograms(itemWeight, packItemUnit);
-					} else if (outputUnit === 'g') {
-						return convertToGrams(itemWeight, packItemUnit);
-					} else return itemWeight;
-				},
-			)
+		const totalWeight = itemList
+			.map((item: PackItem) => {
+				const { packItemWeight, packItemUnit, packItemQuantity, wornWeight, consumable } =
+					item;
+				let convertedWeight = 0;
+
+				// Ensure we always return number type for reducer
+				const itemWeight = Number(packItemWeight) * packItemQuantity;
+
+				if (packItemUnit === outputUnit || itemWeight === 0) {
+					return itemWeight;
+				}
+				if (outputUnit === 'oz') {
+					convertedWeight = convertToOunces(itemWeight, packItemUnit);
+				} else if (outputUnit === 'lb') {
+					convertedWeight = convertToPounds(itemWeight, packItemUnit);
+				} else if (outputUnit === 'kg') {
+					convertedWeight = convertToKilograms(itemWeight, packItemUnit);
+				} else if (outputUnit === 'g') {
+					convertedWeight = convertToGrams(itemWeight, packItemUnit);
+				} else convertedWeight = itemWeight;
+
+				if (wornWeight) totalWornWeight += convertedWeight;
+				if (consumable) totalConsumableWeight += convertedWeight;
+
+				return convertedWeight;
+			})
 			.reduce((weight: number, sum: number = 0) => (sum += weight))
 			.toFixed(2);
-		return Number(newItem);
-	} else return 0;
+
+		return { totalWeight: Number(totalWeight), totalWornWeight, totalConsumableWeight };
+	} else return { totalWeight: 0, totalWornWeight: 0, totalConsumableWeight: 0 };
 };
 
 function convertToOunces(weight: number, unit: string) {

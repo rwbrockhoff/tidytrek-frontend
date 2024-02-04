@@ -2,15 +2,17 @@ import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
 import './CategoryNameCell.css';
+import { ReactInput } from '../../../../../types/generalTypes';
 
 type CategoryNameCellProps = {
 	size: number;
+	disabled: boolean;
 	categoryName: string;
 	onToggleOff: (packCategoryName: string) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const { size, onToggleOff, categoryName } = props;
+	const { size, disabled, onToggleOff, categoryName } = props;
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
 
@@ -25,16 +27,15 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		}
 	};
 
-	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPackCategoryName(e.target.value);
-	};
+	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
+
 	return (
 		<Table.HeaderCell
 			colSpan={size}
-			onMouseOver={toggleToEdit}
-			onMouseLeave={toggleToCell}
-			onBlur={toggleToCell}
-			onClick={toggleToEdit}>
+			onMouseOver={!disabled ? toggleToEdit : undefined}
+			onMouseLeave={!disabled ? toggleToCell : undefined}
+			onBlur={!disabled ? toggleToCell : undefined}
+			onClick={!disabled ? toggleToEdit : undefined}>
 			<Input
 				className="table-cell-input header-title"
 				value={packCategoryName || 'Category'}

@@ -45,6 +45,14 @@ export type PackItem = {
 export type PackListItem = {
 	packName: string;
 	packId: number;
+	packIndex: number;
+	packCategories: Category[];
+};
+
+export type PackInfo = {
+	packItemId: number;
+	packId: number;
+	packCategoryId: number;
 };
 
 export type PackButtonSwitches = {
@@ -53,11 +61,11 @@ export type PackButtonSwitches = {
 	favorite?: boolean;
 };
 
-export type AvailablePack = {
-	availableCategories: Category[];
-} & Pack;
-
-export type GearClosetList = {
-	availablePacks: AvailablePack[] | [];
-	gearClosetList: PackItem[] | [];
+export type MovePackItemProps = {
+	packId: number | null;
+	packItemId: string;
+	packCategoryId: string;
+	packItemIndex: number;
+	prevPackCategoryId: string;
+	prevPackItemIndex: number;
 };

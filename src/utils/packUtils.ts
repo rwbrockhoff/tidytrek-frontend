@@ -1,6 +1,6 @@
-import { PackItem, Category, PackListItem } from '../../types/packTypes';
+import { PackItem, Category, PackListItem } from '../types/packTypes';
 
-export const getCategoryIdx = (categories: Category[], categoryId: number) => {
+export const getCategoryIdx = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
 		(item: Category) => item.packCategoryId === Number(categoryId),
 	);

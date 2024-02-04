@@ -1,27 +1,26 @@
-import { Header, Label, Icon, Image } from 'semantic-ui-react';
+import { Header, Label, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
-} from '../../../redux/pack/packApiSlice';
-import PackChart from '../PackChart/PackChart';
+} from '../../../queries/packQueries';
+import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
-import { DeleteModal } from '../PackCategory/Modals/Modals';
+import { DeleteModal } from '../../../shared/ui/Modals';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
-import CampGraphic from '../../../assets/camping.svg';
-import { useWeightSum } from './useWeightSum';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
+	fetching: boolean;
 };
 
-const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
+const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 	const navigate = useNavigate();
-	const [deletePack] = useDeletePackMutation();
-	const [deletePackAndItems] = useDeletePackAndItemsMutation();
+	const { mutate: deletePack } = useDeletePackMutation();
+	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
 	const [showIcon, setShowIcon] = useState(false);
 	const [showPackModal, setShowPackModal] = useState(false);
@@ -58,9 +57,8 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 		packDistanceTag,
 		packUrl,
 		packUrlName,
+		packPublic,
 	} = currentPack;
-
-	const { categoryWeights, packHasWeight } = useWeightSum(packCategories);
 
 	return (
 		<div className="pack-info-container">
@@ -74,6 +72,16 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Header>
+
+				{packPublic ? (
+					<p style={{ opacity: 0.4 }}>
+						<Icon name="binoculars" /> Public
+					</p>
+				) : (
+					<p style={{ opacity: 0.4 }}>
+						<Icon name="hide" /> Private
+					</p>
+				)}
 
 				{packUrl && (
 					<p>
@@ -118,19 +126,7 @@ const PackInfo = ({ currentPack, packCategories }: PackInfoProps) => {
 			</div>
 			{/* Right Hand Panel */}
 
-			{packHasWeight ? (
-				<div className="pack-info-right-panel-graphic">
-					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</div>
-			) : (
-				<div className="pack-info-right-panel-graphic">
-					<Image src={CampGraphic} />
-					<p>
-						<Icon name="hand point down outline" />
-						Add items below to get started
-					</p>
-				</div>
-			)}
+			<PackGraphic fetching={fetching} packCategories={packCategories} />
 
 			<PackFormModal
 				open={showPackModal}

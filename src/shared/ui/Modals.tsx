@@ -11,7 +11,10 @@ type DeleteModalProps = {
 	open: boolean;
 	onClose: () => void;
 	onClickDelete: () => void;
-	onClickMove: () => void;
+	simple?: boolean;
+	header?: string;
+	message?: string;
+	onClickMove?: () => void;
 };
 
 type DeleteItemModalProps = {
@@ -24,24 +27,29 @@ type DeleteItemModalProps = {
 
 export const DeleteModal = ({
 	open,
+	simple,
+	header,
+	message,
 	onClose,
 	onClickDelete,
 	onClickMove,
 }: DeleteModalProps) => {
 	return (
 		<Modal size="mini" closeIcon open={open} onClose={onClose}>
-			<ModalHeader>Are you sure?</ModalHeader>
+			<ModalHeader>{header ? header : 'Are you sure?'}</ModalHeader>
 			<ModalContent>
-				<p>Do you want to delete or move your items?</p>
+				<p>{message ? message : 'Do you want to delete or move your items?'}</p>
 			</ModalContent>
 			<ModalActions>
 				<Button negative onClick={onClickDelete}>
 					<Icon name="trash alternate outline" />
 					Delete
 				</Button>
-				<Button positive onClick={onClickMove}>
-					Move to Gear Closet
-				</Button>
+				{!simple && (
+					<Button positive onClick={onClickMove}>
+						Move to Gear Closet
+					</Button>
+				)}
 			</ModalActions>
 		</Modal>
 	);

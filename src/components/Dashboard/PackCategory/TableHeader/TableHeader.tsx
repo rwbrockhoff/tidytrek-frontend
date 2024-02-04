@@ -1,38 +1,57 @@
 import { Table } from 'semantic-ui-react';
 import CategoryNameCell from '../TableCells/CategoryNameCell/CategoryNameCell';
-import DeleteButton from '../TableButtons/DeleteButton';
+import {
+	ActionButtons,
+	MinimizeButton,
+	DeleteButton,
+} from '../TableButtons/TableButtons';
 import { useState } from 'react';
 
 type TableHeaderProps = {
 	headerName: string;
-	handleEditCategory: (packCategoryName: string) => void;
-	handleDeleteCategory: () => void;
+	isMinimized: boolean;
+	minimizeCategory: () => void;
+	editCategory: (packCategoryName: string) => void;
+	deleteCategory: () => void;
 };
 
 const TableHeader = (props: TableHeaderProps) => {
-	const { headerName, handleEditCategory, handleDeleteCategory } = props;
+	const { headerName, isMinimized, minimizeCategory, editCategory, deleteCategory } =
+		props;
 	const [toggleRow, setToggleRow] = useState(false);
 
 	return (
 		<Table.Header
-			className="category-table-header"
 			onMouseOver={() => setToggleRow(true)}
 			onMouseLeave={() => setToggleRow(false)}>
-			<Table.Row>
+			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
 				<CategoryNameCell
-					size={12}
+					size={isMinimized ? 15 : 12}
+					disabled={isMinimized}
 					categoryName={headerName}
-					onToggleOff={handleEditCategory}
+					onToggleOff={editCategory}
 				/>
-
-				<Table.HeaderCell textAlign="center" colSpan="1">
-					Qty
-				</Table.HeaderCell>
-				<Table.HeaderCell textAlign="center" colSpan="2" style={{ paddingLeft: '50px' }}>
-					Weight
-				</Table.HeaderCell>
-
-				<DeleteButton header display={toggleRow} onClickDelete={handleDeleteCategory} />
+				{!isMinimized && (
+					<>
+						<Table.HeaderCell textAlign="center" colSpan="1">
+							Qty
+						</Table.HeaderCell>
+						<Table.HeaderCell
+							textAlign="center"
+							colSpan="2"
+							style={{ paddingLeft: '50px' }}>
+							Weight
+						</Table.HeaderCell>
+					</>
+				)}
+				<ActionButtons header size={1}>
+					<MinimizeButton
+						display={toggleRow}
+						isMinimized={isMinimized}
+						minimize={minimizeCategory}
+					/>
+					<DeleteButton display={toggleRow} onClickDelete={deleteCategory} />
+				</ActionButtons>
 			</Table.Row>
 		</Table.Header>
 	);

@@ -1,15 +1,16 @@
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import './TableButtons.css';
+import { ReactInput } from '../../../../types/generalTypes';
 
 type ButtonProps = {
 	quantity: number;
 	size: number;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (e: ReactInput) => void;
 	onToggleOff: () => void;
 };
 
-const QuantityButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+const QuantityButton = (props: ButtonProps) => {
 	const { quantity, size, onChange, onToggleOff } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
