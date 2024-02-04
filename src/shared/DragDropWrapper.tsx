@@ -29,7 +29,7 @@ export const Drag = ({ index, draggableId, children }: DragProps) => {
 };
 
 type DropProps = {
-	droppableId: number | null;
+	droppableId: number | string | null;
 	children: React.ReactNode;
 };
 
