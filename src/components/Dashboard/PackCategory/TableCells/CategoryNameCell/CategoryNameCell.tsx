@@ -1,4 +1,5 @@
 import { Table, Input } from 'semantic-ui-react';
+import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
 import './CategoryNameCell.css';
@@ -31,11 +32,14 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	return (
 		<Table.HeaderCell
+			className="table-header-cell"
 			colSpan={size}
 			onMouseOver={!disabled ? toggleToEdit : undefined}
 			onMouseLeave={!disabled ? toggleToCell : undefined}
 			onBlur={!disabled ? toggleToCell : undefined}
 			onClick={!disabled ? toggleToEdit : undefined}>
+			<GripButton display={toggleInput} />
+
 			<Input
 				className="table-cell-input header-title"
 				value={packCategoryName || 'Category'}

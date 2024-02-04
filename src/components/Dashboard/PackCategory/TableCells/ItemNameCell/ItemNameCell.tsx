@@ -1,6 +1,7 @@
 import { Table, Input, Popup, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import './ItemNameCell.css';
+import { GripButton } from '../../TableButtons/TableButtons';
 
 type ItemNameCellProps = {
 	value: string | number;
@@ -43,11 +44,8 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			{displayIcon && (
-				<div className="grip-icon" onMouseOver={toggleToEdit} onMouseLeave={toggleToCell}>
-					<i className="fa-solid fa-grip-vertical" />
-				</div>
-			)}
+			<GripButton display={displayIcon} />
+
 			<Input
 				className="item-name-input"
 				value={value || ''}

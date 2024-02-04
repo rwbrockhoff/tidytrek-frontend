@@ -84,3 +84,13 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 		</div>
 	);
 };
+
+export const GripButton = ({ display }: { display: boolean }) => {
+	if (display) {
+		return (
+			<div className="grip-icon">
+				<i className="fa-solid fa-grip-vertical" />
+			</div>
+		);
+	} else return null;
+};
