@@ -8,13 +8,15 @@ import {
 } from '../../../../types/packTypes';
 import ItemNameCell from '../TableCells/ItemNameCell/ItemNameCell';
 import PackWeightCell from '../TableCells/PackWeightCell/PackWeightCell';
-import DeleteButton from '../TableButtons/DeleteButton';
+import {
+	ActionButtons,
+	DeleteButton,
+	MoveItemButton,
+} from '../TableButtons/TableButtons';
 import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
-import ActionButtons from '../TableButtons/ActionButtons';
-import MoveItemButton from '../TableButtons/MoveItemButton';
 import MoveClosetItemButtons from '../../../GearCloset/MoveClosetItemButtons/MoveClosetItemButtons';
 
 type TableRowProps = {

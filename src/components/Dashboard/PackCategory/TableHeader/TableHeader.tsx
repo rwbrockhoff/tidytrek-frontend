@@ -1,8 +1,10 @@
 import { Table } from 'semantic-ui-react';
 import CategoryNameCell from '../TableCells/CategoryNameCell/CategoryNameCell';
-import ActionButtons from '../TableButtons/ActionButtons';
-import MinimizeButton from '../TableButtons/MinimizeButton';
-import DeleteButton from '../TableButtons/DeleteButton';
+import {
+	ActionButtons,
+	MinimizeButton,
+	DeleteButton,
+} from '../TableButtons/TableButtons';
 import { useState } from 'react';
 
 type TableHeaderProps = {
