@@ -22,7 +22,6 @@ const TableHeader = (props: TableHeaderProps) => {
 
 	return (
 		<Table.Header
-			className="category-table-header"
 			onMouseOver={() => setToggleRow(true)}
 			onMouseLeave={() => setToggleRow(false)}>
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
