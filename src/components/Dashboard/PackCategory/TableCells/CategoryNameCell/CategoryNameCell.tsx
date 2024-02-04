@@ -16,6 +16,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const { size, disabled, onToggleOff, categoryName } = props;
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
+	const [showGrip, setShowGrip] = useState(false);
 
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
 
@@ -28,17 +29,27 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		}
 	};
 
+	const handleOnMouseOver = () => {
+		if (!disabled) toggleToEdit();
+		setShowGrip(true);
+	};
+
+	const handleOnMouseLeave = () => {
+		if (!disabled) toggleToCell();
+		setShowGrip(false);
+	};
+
 	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
 
 	return (
 		<Table.HeaderCell
 			className="table-header-cell"
 			colSpan={size}
-			onMouseOver={!disabled ? toggleToEdit : undefined}
-			onMouseLeave={!disabled ? toggleToCell : undefined}
+			onMouseOver={handleOnMouseOver}
+			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}
 			onClick={!disabled ? toggleToEdit : undefined}>
-			<GripButton display={toggleInput} />
+			<GripButton display={showGrip} />
 
 			<Input
 				className="table-cell-input header-title"
