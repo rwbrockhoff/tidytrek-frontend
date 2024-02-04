@@ -1,6 +1,4 @@
 import { useMemo, useState } from 'react';
-import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { type SerializedError } from '@reduxjs/toolkit';
 import { FormError } from '../../types/generalTypes';
 
 // isError comes from mutation, error prop comes from our API
@@ -9,7 +7,7 @@ type ServerResponse = { isError: boolean; error: { data: { error: string } } };
 
 type MutationResponse = {
 	isError: boolean;
-	error: FetchBaseQueryError | SerializedError | undefined;
+	error: FormError | undefined;
 };
 
 type MutationData = MutationResponse | ServerResponse;

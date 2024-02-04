@@ -10,7 +10,7 @@ import {
 } from '../../queries/packQueries';
 import { Divider, Icon } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
-import PackList from './PackList/Packlist';
+import PackList from './PackList/PackList';
 import { DropResult } from 'react-beautiful-dnd';
 
 const Sidebar = () => {

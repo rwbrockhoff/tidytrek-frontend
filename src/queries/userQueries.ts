@@ -1,13 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { PasswordInfo } from '../components/Account/AccountForm/AccountForm';
-import { AxiosResponse } from 'axios';
+import { type User } from '../types/userTypes';
+import { type PasswordInfo } from '../types/generalTypes';
+
+type InitialState = {
+	isAuthenticated: boolean;
+	user: User;
+};
 
 export const useGetAuthStatusQuery = () =>
-	useQuery<AxiosResponse>({
+	useQuery<InitialState>({
 		queryKey: userKeys.all,
-		queryFn: () => tidyTrekAPI.get('/auth/status'),
+		queryFn: () => tidyTrekAPI.get('/auth/status').then((res) => res.data),
 	});
 
 export const useLoginMutation = () => {

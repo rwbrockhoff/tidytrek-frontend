@@ -5,9 +5,8 @@ import {
 } from '../../queries/userQueries';
 import { useState, createContext } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
-import AccountForm, {
-	PasswordInfo,
-} from '../../components/Account/AccountForm/AccountForm';
+import { type PasswordInfo } from '../../types/generalTypes';
+import AccountForm from '../../components/Account/AccountForm/AccountForm';
 import { DeleteModal } from '../../components/Dashboard/PackCategory/Modals/Modals';
 import './Account.css';
 import { validPassword, passwordRequirements } from '../Authentication/authHelper';
@@ -28,7 +27,7 @@ const Account = () => {
 	const changePassData = useChangePasswordMutation();
 	const { mutate: changePassword, isSuccess, isPending } = changePassData;
 
-	const user = data?.data.user;
+	const user = data?.user;
 
 	const [showModal, setShowModal] = useState(false);
 

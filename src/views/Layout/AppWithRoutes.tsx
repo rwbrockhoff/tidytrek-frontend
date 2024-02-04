@@ -7,7 +7,7 @@ const AppWithRoutes = () => {
 	const { isLoading, data: response } = useGetAuthStatusQuery();
 
 	const appRouter = createBrowserRouter(
-		response?.data?.isAuthenticated ? userRoutes : guestRoutes,
+		response?.isAuthenticated ? userRoutes : guestRoutes,
 	);
 
 	if (isLoading) {

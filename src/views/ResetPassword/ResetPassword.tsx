@@ -15,7 +15,7 @@ import {
 import {
 	useCombineSuccess,
 	type MutationSuccess,
-} from '../Authentication/useComineSuccess';
+} from '../Authentication/useCombineSuccess';
 import { setFormInput } from '../../shared/formHelpers';
 import { ReactInput } from '../../types/generalTypes';
 

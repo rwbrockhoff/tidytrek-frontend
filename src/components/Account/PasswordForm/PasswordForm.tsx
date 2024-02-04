@@ -9,7 +9,7 @@ import {
 	Divider,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { type PasswordInfo } from '../AccountForm/AccountForm';
+import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
 import Message from '../../../shared/ui/Message';
 import { useContext } from 'react';

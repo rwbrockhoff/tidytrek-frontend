@@ -1,5 +1,6 @@
 import { SegmentGroup, Segment, Button, Icon, Header } from 'semantic-ui-react';
-import { type User } from '../../../redux/user/userApiSlice';
+import { type User } from '../../../types/userTypes';
+import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
 import PasswordForm from '../PasswordForm/PasswordForm';
 import { setFormInput } from '../../../shared/formHelpers';
@@ -12,12 +13,6 @@ type AccountFormProps = {
 	changePassword: (passwordInfo: PasswordInfo) => void;
 	resetFormError: () => void;
 	deleteAccount: () => void;
-};
-
-export type PasswordInfo = {
-	currentPassword: string;
-	newPassword: string;
-	confirmNewPassword: string;
 };
 
 const initialState = {
