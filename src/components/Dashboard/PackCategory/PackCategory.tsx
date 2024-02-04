@@ -8,7 +8,7 @@ import {
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
-import { DeleteModal, DeleteItemModal } from './Modals/Modals';
+import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
 import { useState } from 'react';
 import {
 	useAddNewPackItemMutation,

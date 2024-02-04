@@ -6,7 +6,7 @@ import {
 } from '../../../queries/packQueries';
 import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
-import { DeleteModal } from '../PackCategory/Modals/Modals';
+import { DeleteModal } from '../../../shared/ui/Modals';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';

@@ -7,7 +7,7 @@ import { useState, createContext } from 'react';
 import { Icon, Header } from 'semantic-ui-react';
 import { type PasswordInfo } from '../../types/generalTypes';
 import AccountForm from '../../components/Account/AccountForm/AccountForm';
-import { DeleteModal } from '../../components/Dashboard/PackCategory/Modals/Modals';
+import { DeleteModal } from '../../shared/ui/Modals';
 import './Account.css';
 import { validPassword, passwordRequirements } from '../Authentication/authHelper';
 import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';
