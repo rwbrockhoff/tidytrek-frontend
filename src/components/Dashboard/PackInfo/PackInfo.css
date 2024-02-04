@@ -27,13 +27,37 @@ div.pack-info-center-panel {
 
 	div.chart-display-list {
 		width: fit-content;
-	}
 
+		div.item.chart-display-list-item {
+			font-size: 0.9em;
+			display: flex;
+			align-items: baseline;
+			p {
+				margin-right: 5px;
+			}
+			div.ui.label {
+				margin-left: auto;
+			}
+		}
+	}
+}
+
+div.chart-display-popup-list {
 	div.item.chart-display-list-item {
 		font-size: 0.9em;
 		display: flex;
-		align-items: center;
+		align-items: baseline;
+		p {
+			margin-right: 10px;
+			text-align: left;
+			i {
+				margin-right: 10px;
+			}
 
+			.fa-solid.fa-shirt {
+				color: #2185d0;
+			}
+		}
 		div.ui.label {
 			margin-left: auto;
 		}

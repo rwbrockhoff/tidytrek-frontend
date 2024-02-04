@@ -95,7 +95,7 @@ const PackCategory = ({ category, packList }: PackCategoryProps) => {
 		setShowDeleteItemModal(true);
 	};
 
-	const convertedCategoryWeight = weightConverter(packItems, 'lb');
+	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
 	const showCategoryItems = packItems[0] && !isMinimized;
 	return (
