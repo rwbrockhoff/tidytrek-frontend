@@ -1,17 +1,9 @@
 import { Category } from '../../../types/packTypes';
-import PackChart from '../PackChart/PackChart';
-import {
-	Image,
-	Icon,
-	List,
-	ListItem,
-	Label,
-	Divider,
-	Popup,
-	PopupContent,
-} from 'semantic-ui-react';
+import PackChart from './PackChart/PackChart';
+import { Image, Icon, List, ListItem, Label, Divider } from 'semantic-ui-react';
 import CampGraphic from '../../../assets/camping.svg';
 import { useCategoryInfo } from './useCategoryInfo';
+import WeightPopup from './WeightPopup';
 
 type PackGraphicProps = {
 	fetching: boolean;
@@ -42,49 +34,13 @@ const PackGraphic = (props: PackGraphicProps) => {
 								</ListItem>
 							);
 						})}
-						<Divider />
-						<Popup
-							mouseEnterDelay={700}
-							on="hover"
-							trigger={
-								<ListItem
-									className="chart-display-list-item"
-									style={{ cursor: 'pointer' }}>
-									<Icon name="info circle" style={{ marginRight: 5, opacity: 0.2 }} />{' '}
-									Total Weight: <Label>{totalWeight} lbs</Label>
-								</ListItem>
-							}>
-							<PopupContent>
-								<List className="chart-display-popup-list" relaxed>
-									<ListItem className="chart-display-list-item">
-										<p>
-											<Icon color="teal" name="balance scale" />
-											Base Weight:
-										</p>
-										<Label>{descriptivePackWeight.baseWeight}</Label>
-									</ListItem>
 
-									<ListItem className="chart-display-list-item">
-										<p>
-											<Icon name="food" color="olive" />
-											Consumables:
-										</p>
-										<Label>{descriptivePackWeight.consumables}</Label>
-									</ListItem>
-									<ListItem className="chart-display-list-item">
-										<p>
-											<i className={`fa-solid fa-shirt`} />
-											Worn Weight:
-										</p>
-										<Label>{descriptivePackWeight.wornWeight}</Label>
-									</ListItem>
-									<Divider />
-									<ListItem className="chart-display-list-item">
-										<p>Total Weight: </p> <Label>{totalWeight} lbs</Label>
-									</ListItem>
-								</List>
-							</PopupContent>
-						</Popup>
+						<Divider />
+
+						<WeightPopup
+							totalWeight={totalWeight}
+							descriptivePackWeight={descriptivePackWeight}
+						/>
 					</List>
 				</div>
 				<div className="pack-info-right-panel-chart">
