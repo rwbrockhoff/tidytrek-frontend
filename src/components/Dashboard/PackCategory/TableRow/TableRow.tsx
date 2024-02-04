@@ -17,7 +17,7 @@ import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
-import MoveClosetItemButtons from '../../../GearCloset/MoveClosetItemButtons/MoveClosetItemButtons';
+import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
 
 type TableRowProps = {
 	item: PackItem;
@@ -127,7 +127,7 @@ const TableRow = (props: TableRowProps) => {
 					</tr>
 
 					{toggleGearButtons && (
-						<MoveClosetItemButtons
+						<MoveItemDropdown
 							packItemId={packItemId}
 							availablePacks={availablePacks}
 							moveItemToPack={handleMoveItemToPack}

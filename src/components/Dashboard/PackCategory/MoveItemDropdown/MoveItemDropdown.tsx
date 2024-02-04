@@ -1,16 +1,16 @@
 import { Dropdown, Table, Button, Icon, DropdownProps } from 'semantic-ui-react';
-import { type PackListItem } from '../../../types/packTypes';
-import { type PackInfo } from '../../../types/packTypes';
+import { type PackListItem } from '../../../../types/packTypes';
+import { type PackInfo } from '../../../../types/packTypes';
 import { useState } from 'react';
 import { SyntheticEvent } from 'react';
 
-type MoveClosetItemButtonsProps = {
+type MoveItemDropdownProps = {
 	packItemId: number;
 	availablePacks: PackListItem[];
-	moveItemToPack?: (packInfo: PackInfo) => void;
+	moveItemToPack: (packInfo: PackInfo) => void;
 };
 
-const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
+const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const { packItemId, availablePacks, moveItemToPack } = props;
 	const [packId, setPackId] = useState<number | null>();
 	const [categoryId, setCategoryId] = useState<number | null>();
@@ -52,12 +52,11 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 
 	const handleMoveItemToPack = () => {
 		if (packId && categoryId) {
-			moveItemToPack &&
-				moveItemToPack({
-					packItemId,
-					packId: currentPack.packId,
-					packCategoryId: categoryId,
-				});
+			moveItemToPack({
+				packItemId,
+				packId: currentPack.packId,
+				packCategoryId: categoryId,
+			});
 		}
 	};
 
@@ -65,7 +64,7 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 	const packAndCategorySelected = packId && categoryId ? true : false;
 
 	return (
-		<tr>
+		<tr style={{ paddingTop: '25px !important' }}>
 			<Table.Cell colSpan="8" />
 			<Table.Cell colSpan="3" collapsing>
 				<Dropdown
@@ -92,7 +91,7 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 					onChange={handleCategorySelect}
 				/>
 			</Table.Cell>
-			<Table.Cell colSpan="2" textAlign="right">
+			<Table.Cell colSpan="2" textAlign="left">
 				<Button
 					size="small"
 					disabled={!packAndCategorySelected}
@@ -106,4 +105,4 @@ const MoveClosetItemButtons = (props: MoveClosetItemButtonsProps) => {
 	);
 };
 
-export default MoveClosetItemButtons;
+export default MoveItemDropdown;
