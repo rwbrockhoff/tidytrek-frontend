@@ -47,7 +47,7 @@ export const Drop = ({ droppableId, children }: DropProps) => {
 };
 
 type DropTableBodyProps = {
-	droppableId: number | null;
+	droppableId: number | string | null;
 	children: React.ReactNode;
 };
 

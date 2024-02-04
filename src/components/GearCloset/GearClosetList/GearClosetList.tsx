@@ -13,7 +13,7 @@ import {
 	useDeleteGearClosetItemMutation,
 } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
-import { Droppable, DragDropContext } from 'react-beautiful-dnd';
+import { DropTableBody, DragDropContext } from '../../../shared/DragDropWrapper';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -65,26 +65,23 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 					<Table.HeaderCell colSpan="2"></Table.HeaderCell>
 				</Table.Row>
 			</Table.Header>
+
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId={`gear-closet`}>
-					{(provided) => (
-						<tbody ref={provided.innerRef} {...provided.droppableProps}>
-							{gearClosetList.map((item: PackItem, index) => (
-								<TableRow
-									item={item}
-									key={`${item.packItemId}`}
-									index={index}
-									packList={packList}
-									handleMoveItemToPack={handleMoveItemToPack}
-									handleOnSave={handleOnSave}
-									handleDelete={handleDelete}
-								/>
-							))}
-							{provided.placeholder}
-						</tbody>
-					)}
-				</Droppable>
+				<DropTableBody droppableId={`gear-closet`}>
+					{gearClosetList.map((item: PackItem, index) => (
+						<TableRow
+							item={item}
+							key={`${item.packItemId}`}
+							index={index}
+							packList={packList}
+							handleMoveItemToPack={handleMoveItemToPack}
+							handleOnSave={handleOnSave}
+							handleDelete={handleDelete}
+						/>
+					))}
+				</DropTableBody>
 			</DragDropContext>
+
 			<Table.Footer>
 				<Table.Row className="footer-container">
 					<Table.Cell colSpan={16}>
