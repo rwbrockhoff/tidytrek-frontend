@@ -1,4 +1,4 @@
-/* .ui.input.header-title {
-  font-weight: bold ;
-  border: 2px dotted green;
-} */
+.ui.fixed.table th.table-header-cell {
+	position: relative;
+	overflow: visible;
+}

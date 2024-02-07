@@ -1,7 +1,7 @@
 import './PackList.css';
 import { Header, Divider, Icon } from 'semantic-ui-react';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { Drop, Drag, DragDropContext } from '../../../shared/DragDropWrapper';
 import { type DropResult } from 'react-beautiful-dnd';
 import PackListItem from './PackListItem/PackListItem';
 
@@ -19,28 +19,15 @@ const PackList = ({ packList, getPack, addPack, onDragEnd }: PackListProps) => {
 				Packs
 			</Header>
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId={'sidebar-pack-list'}>
-					{(provided) => (
-						<>
-							<div
-								ref={provided.innerRef}
-								{...provided.droppableProps}
-								className="pack-list-item">
-								{packList.map((pack: PackListItemType, index: number) => {
-									return (
-										<PackListItem
-											index={index}
-											key={pack.packId}
-											pack={pack}
-											onClick={getPack}
-										/>
-									);
-								})}
-								{provided.placeholder}
-							</div>
-						</>
-					)}
-				</Droppable>
+				<Drop droppableId={'sidebar-pack-list'}>
+					{packList.map((pack: PackListItemType, index: number) => {
+						return (
+							<Drag key={pack.packId} draggableId={pack.packId} index={index}>
+								<PackListItem pack={pack} onClick={getPack} />
+							</Drag>
+						);
+					})}
+				</Drop>
 			</DragDropContext>
 			<Divider />
 			<p onClick={addPack} className="add-new-pack-button">

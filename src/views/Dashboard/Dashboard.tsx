@@ -8,13 +8,15 @@ import {
 	useGetPackListQuery,
 	useAddPackCategoryMutation,
 	useMovePackItemMutation,
+	useMovePackCategoryMutation,
 } from '../../queries/packQueries';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { Drop, DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 import { Category, type Pack } from '../../types/packTypes';
 
 const Dashboard = () => {
 	const { mutate: addCategory } = useAddPackCategoryMutation();
 	const { mutate: movePackItem } = useMovePackItemMutation();
+	const { mutate: movePackCategory } = useMovePackCategoryMutation();
 
 	const { packId: paramPackId } = useParams();
 	const { data, isPending } = useGetPackQuery(paramPackId);
@@ -29,7 +31,7 @@ const Dashboard = () => {
 		packId && addCategory(packId);
 	};
 
-	const onDragEnd = (result: DropResult) => {
+	const onDragItemEnd = (result: DropResult) => {
 		const { draggableId, destination, source } = result;
 		if (!destination) return;
 
@@ -48,6 +50,21 @@ const Dashboard = () => {
 		});
 	};
 
+	const onDragCategoryEnd = (result: DropResult) => {
+		const { draggableId, destination, source } = result;
+		if (!destination) return;
+
+		const sameIndex = destination.index === source.index;
+		if (sameIndex) return;
+
+		movePackCategory({
+			packId: destination.droppableId,
+			packCategoryId: draggableId,
+			prevIndex: source.index,
+			newIndex: destination.index,
+		});
+	};
+
 	return (
 		<div className="dashboard-container">
 			<PackInfo
@@ -56,16 +73,19 @@ const Dashboard = () => {
 				fetching={isPending}
 			/>
 
-			<DragDropContext onDragEnd={onDragEnd}>
-				{packCategories.length >= 0 &&
-					packCategories.map((category: Category, idx: number) => (
-						<PackCategory
-							category={category}
-							packList={packList}
-							index={idx}
-							key={category?.packCategoryId || idx}
-						/>
-					))}
+			<DragDropContext onDragEnd={onDragCategoryEnd}>
+				<Drop droppableId={packId}>
+					{packCategories.length >= 0 &&
+						packCategories.map((category: Category, idx: number) => (
+							<PackCategory
+								category={category}
+								packList={packList}
+								onDragItem={onDragItemEnd}
+								index={idx}
+								key={category?.packCategoryId || idx}
+							/>
+						))}
+				</Drop>
 			</DragDropContext>
 
 			<AddCategoryButton onClick={handleAddPackCategory} />

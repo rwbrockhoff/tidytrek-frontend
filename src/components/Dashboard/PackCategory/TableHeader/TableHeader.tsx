@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 type TableHeaderProps = {
 	headerName: string;
+	dragProps: object;
 	isMinimized: boolean;
 	minimizeCategory: () => void;
 	editCategory: (packCategoryName: string) => void;
@@ -16,12 +17,19 @@ type TableHeaderProps = {
 };
 
 const TableHeader = (props: TableHeaderProps) => {
-	const { headerName, isMinimized, minimizeCategory, editCategory, deleteCategory } =
-		props;
+	const {
+		dragProps,
+		headerName,
+		isMinimized,
+		minimizeCategory,
+		editCategory,
+		deleteCategory,
+	} = props;
 	const [toggleRow, setToggleRow] = useState(false);
 
 	return (
 		<Table.Header
+			{...dragProps}
 			onMouseOver={() => setToggleRow(true)}
 			onMouseLeave={() => setToggleRow(false)}>
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
@@ -31,6 +39,7 @@ const TableHeader = (props: TableHeaderProps) => {
 					categoryName={headerName}
 					onToggleOff={editCategory}
 				/>
+
 				{!isMinimized && (
 					<>
 						<Table.HeaderCell textAlign="center" colSpan="1">

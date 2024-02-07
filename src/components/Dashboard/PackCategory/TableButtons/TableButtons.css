@@ -26,3 +26,15 @@ select.weight-unit-select {
 	border: none;
 	outline: none;
 }
+
+div.grip-icon i {
+	position: absolute;
+	left: -60px;
+	opacity: 0.2;
+	width: 60px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 15px;
+}
