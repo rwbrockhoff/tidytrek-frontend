@@ -3,6 +3,7 @@ import './GearCloset.css';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
 import { useGetGearClosetQuery } from '../../queries/closetQueries';
 import { useGetPackListQuery } from '../../queries/packQueries';
+import { UserViewContext } from '../Dashboard/useUserContext';
 
 const GearCloset = () => {
 	const { data } = useGetGearClosetQuery();
@@ -11,13 +12,15 @@ const GearCloset = () => {
 	const { packList } = packListData || { packList: [] };
 
 	return (
-		<div>
-			<Header as="h1" textAlign="center" className="gear-closet-header">
-				Gear Closet
-			</Header>
+		<UserViewContext.Provider value={true}>
+			<div>
+				<Header as="h1" textAlign="center" className="gear-closet-header">
+					Gear Closet
+				</Header>
 
-			<GearClosetList gearClosetList={gearClosetList} packList={packList} />
-		</div>
+				<GearClosetList gearClosetList={gearClosetList} packList={packList} />
+			</div>
+		</UserViewContext.Provider>
 	);
 };
 
