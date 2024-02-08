@@ -14,6 +14,7 @@ import {
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { Drop, DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 import { Category, type Pack } from '../../types/packTypes';
+import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
 
 type DashboardProps = { userView: boolean };
 
@@ -73,7 +74,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 			newIndex: destination.index,
 		});
 	};
-
+	const { packAffiliate, packAffiliateDescription } = currentPack;
 	return (
 		<UserViewContext.Provider value={userView}>
 			<div className="dashboard-container">
@@ -101,14 +102,10 @@ const Dashboard = ({ userView }: DashboardProps) => {
 				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
 
 				{!userView && (
-					<a href="https://tidytrek.co" className="logo-link">
-						<div className="tidytrek-tag">
-							<p className="logo-text">tidytrek</p>
-							<p>
-								<i className="fa-solid fa-person-hiking" /> Made in Colorado
-							</p>
-						</div>
-					</a>
+					<DashboardFooter
+						affiliate={packAffiliate}
+						description={packAffiliateDescription}
+					/>
 				)}
 			</div>
 		</UserViewContext.Provider>

@@ -3,24 +3,3 @@
 	align-items: center;
 	flex-direction: column;
 }
-
-a.logo-link {
-	color: black;
-}
-
-div.tidytrek-tag {
-	display: flex;
-	opacity: 0.5;
-	margin-top: 5vh;
-
-	.logo-text {
-		font-weight: 900;
-	}
-	i {
-		margin-left: 15px;
-		margin-right: 15px;
-	}
-	:hover {
-		opacity: 0.8;
-	}
-}

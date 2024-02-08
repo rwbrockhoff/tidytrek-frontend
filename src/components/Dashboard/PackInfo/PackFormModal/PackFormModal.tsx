@@ -191,7 +191,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 								name="packAffiliateDescription"
 								value={packAffiliateDescription ?? ''}
 								onChange={handleFormChange}
-								placeholder="You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support me at no extra cost to you!"
+								placeholder="You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support the creator of this pack at no extra cost to you!"
 							/>
 						</FormField>
 					)}
