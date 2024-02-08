@@ -4,6 +4,7 @@ import { useState } from 'react';
 import '../TableCell/TableCell.css';
 import './CategoryNameCell.css';
 import { ReactInput } from '../../../../../types/generalTypes';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type CategoryNameCellProps = {
 	size: number;
@@ -13,6 +14,8 @@ type CategoryNameCellProps = {
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
+	const userView = useUserContext();
+
 	const { size, disabled, onToggleOff, categoryName } = props;
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
@@ -30,17 +33,18 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 	};
 
 	const handleOnMouseOver = () => {
-		if (!disabled) toggleToEdit();
+		if (!disabled && userView) toggleToEdit();
 		setShowGrip(true);
 	};
 
 	const handleOnMouseLeave = () => {
-		if (!disabled) toggleToCell();
+		if (!disabled && userView) toggleToCell();
 		setShowGrip(false);
 	};
 
 	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
 
+	const display = !toggleInput || !userView;
 	return (
 		<Table.HeaderCell
 			className="table-header-cell"
@@ -49,19 +53,20 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}
 			onClick={!disabled ? toggleToEdit : undefined}>
-			<GripButton display={showGrip} />
+			<GripButton display={showGrip && userView} />
 
 			<Input
 				className="table-cell-input header-title"
 				value={packCategoryName || 'Category'}
 				name={'packCategoryName'}
 				onChange={handleInput}
+				disabled={!userView}
 				// Show input background when user interacts
-				transparent={!toggleInput}
+				transparent={display}
 				style={{
 					fontSize: '1.2em',
 					width: 'fit-content',
-					paddingLeft: !toggleInput ? '15px' : '0px',
+					paddingLeft: display ? '15px' : '0px',
 				}}
 			/>
 		</Table.HeaderCell>

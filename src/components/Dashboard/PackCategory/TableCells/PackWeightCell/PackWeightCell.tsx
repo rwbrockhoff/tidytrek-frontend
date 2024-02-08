@@ -3,6 +3,7 @@ import { useState } from 'react';
 import WeightDropdown from '../../TableButtons/WeightDropdown';
 import '../TableCell/TableCell.css';
 import './PackWeightCell.css';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type PackWeightCellProps = {
 	weight: string | number;
@@ -17,6 +18,7 @@ type PackWeightCellProps = {
 };
 
 const PackWeightCell = (props: PackWeightCellProps) => {
+	const userView = useUserContext();
 	const { weight, unit, itemName, placeholder, size, onChange, onToggleOff } = props;
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
@@ -29,7 +31,7 @@ const PackWeightCell = (props: PackWeightCellProps) => {
 
 	return (
 		<Table.Cell
-			textAlign="right"
+			textAlign={userView ? 'right' : 'center'}
 			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}

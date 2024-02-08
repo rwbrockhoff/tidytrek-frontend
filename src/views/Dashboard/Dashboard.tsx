@@ -3,6 +3,7 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
+import { UserViewContext } from './useUserContext';
 import {
 	useGetPackQuery,
 	useGetPackListQuery,
@@ -10,17 +11,25 @@ import {
 	useMovePackItemMutation,
 	useMovePackCategoryMutation,
 } from '../../queries/packQueries';
+import { useViewPackQuery } from '../../queries/guestQueries';
 import { Drop, DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 import { Category, type Pack } from '../../types/packTypes';
 
-const Dashboard = () => {
+type DashboardProps = { userView: boolean };
+
+const Dashboard = ({ userView }: DashboardProps) => {
 	const { mutate: addCategory } = useAddPackCategoryMutation();
 	const { mutate: movePackItem } = useMovePackItemMutation();
 	const { mutate: movePackCategory } = useMovePackCategoryMutation();
 
 	const { packId: paramPackId } = useParams();
-	const { data, isPending } = useGetPackQuery(paramPackId);
-	const { data: packListData } = useGetPackListQuery();
+	const { data, isPending } = userView
+		? useGetPackQuery(paramPackId)
+		: useViewPackQuery(paramPackId);
+
+	const { data: packListData } = userView
+		? useGetPackListQuery()
+		: { data: { packList: [] } };
 	const { packList } = packListData || { packList: [] };
 
 	const packCategories = data?.categories || [];
@@ -66,30 +75,32 @@ const Dashboard = () => {
 	};
 
 	return (
-		<div className="dashboard-container">
-			<PackInfo
-				currentPack={currentPack}
-				packCategories={packCategories}
-				fetching={isPending}
-			/>
+		<UserViewContext.Provider value={userView}>
+			<div className="dashboard-container">
+				<PackInfo
+					currentPack={currentPack}
+					packCategories={packCategories}
+					fetching={isPending}
+				/>
 
-			<DragDropContext onDragEnd={onDragCategoryEnd}>
-				<Drop droppableId={packId}>
-					{packCategories.length >= 0 &&
-						packCategories.map((category: Category, idx: number) => (
-							<PackCategory
-								category={category}
-								packList={packList}
-								onDragItem={onDragItemEnd}
-								index={idx}
-								key={category?.packCategoryId || idx}
-							/>
-						))}
-				</Drop>
-			</DragDropContext>
+				<DragDropContext onDragEnd={onDragCategoryEnd}>
+					<Drop droppableId={packId}>
+						{packCategories.length >= 0 &&
+							packCategories.map((category: Category, idx: number) => (
+								<PackCategory
+									category={category}
+									packList={packList}
+									onDragItem={onDragItemEnd}
+									index={idx}
+									key={category?.packCategoryId || idx}
+								/>
+							))}
+					</Drop>
+				</DragDropContext>
 
-			<AddCategoryButton onClick={handleAddPackCategory} />
-		</div>
+				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+			</div>
+		</UserViewContext.Provider>
 	);
 };
 

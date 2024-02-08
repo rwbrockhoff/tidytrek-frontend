@@ -27,6 +27,7 @@ import {
 } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
+import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 
 type PackCategoryProps = {
@@ -38,6 +39,8 @@ type PackCategoryProps = {
 };
 
 const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryProps) => {
+	const userView = useUserContext();
+
 	const { packCategoryName, packCategoryId, packId, packItems } = category;
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
@@ -106,6 +109,7 @@ const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryPro
 	const showCategoryItems = packItems[0] && !isMinimized;
 	return (
 		<Draggable
+			isDragDisabled={!userView}
 			key={category.packCategoryId}
 			draggableId={`${category.packCategoryId}`}
 			index={index}>

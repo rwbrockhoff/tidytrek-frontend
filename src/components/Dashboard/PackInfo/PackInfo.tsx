@@ -1,5 +1,6 @@
 import { Header, Label, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
+import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
@@ -10,6 +11,7 @@ import { DeleteModal } from '../../../shared/ui/Modals';
 import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
+import PackPublicTag from './PackPublicTag';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -18,6 +20,8 @@ type PackInfoProps = {
 };
 
 const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
+	const userView = useUserContext();
+
 	const navigate = useNavigate();
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
@@ -68,20 +72,12 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 				onMouseLeave={() => setShowIcon(false)}>
 				<Header as="h1">
 					{packName}
-					{showIcon && (
+					{showIcon && userView && (
 						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Header>
 
-				{packPublic ? (
-					<p style={{ opacity: 0.4 }}>
-						<Icon name="binoculars" /> Public
-					</p>
-				) : (
-					<p style={{ opacity: 0.4 }}>
-						<Icon name="hide" /> Private
-					</p>
-				)}
+				<PackPublicTag packPublic={packPublic} />
 
 				{packUrl && (
 					<p>

@@ -18,6 +18,7 @@ import PropertyButtons from '../TableButtons/PropertyButtons';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
+import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type TableRowProps = {
 	item: PackItem;
@@ -34,6 +35,8 @@ type TableRowProps = {
 };
 
 const TableRow = (props: TableRowProps) => {
+	const userView = useUserContext();
+
 	const { handleMoveItemToPack, handleOnSave, handleDelete } = props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
 	const [toggleRow, setToggleRow] = useState(false);
@@ -62,7 +65,11 @@ const TableRow = (props: TableRowProps) => {
 	const dropId = `${packItemId}`;
 
 	return (
-		<Draggable key={dropId} draggableId={dropId} index={props.index}>
+		<Draggable
+			key={dropId}
+			draggableId={dropId}
+			index={props.index}
+			isDragDisabled={!userView}>
 			{(provided) => (
 				<>
 					<tr
@@ -80,7 +87,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={4}
+							size={userView ? 4 : 5}
 						/>
 						<TableCell
 							value={packItemDescription}
@@ -114,19 +121,21 @@ const TableRow = (props: TableRowProps) => {
 							size={2}
 						/>
 
-						<ActionButtons size={1}>
-							<MoveItemButton
-								display={toggleRow}
-								onToggle={() => setToggleGearButtons(!toggleGearButtons)}
-							/>
-							<DeleteButton
-								display={toggleRow}
-								onClickDelete={() => handleDelete(packItemId)}
-							/>
-						</ActionButtons>
+						{userView && (
+							<ActionButtons size={1}>
+								<MoveItemButton
+									display={toggleRow}
+									onToggle={() => setToggleGearButtons(!toggleGearButtons)}
+								/>
+								<DeleteButton
+									display={toggleRow}
+									onClickDelete={() => handleDelete(packItemId)}
+								/>
+							</ActionButtons>
+						)}
 					</tr>
 
-					{toggleGearButtons && (
+					{toggleGearButtons && userView && (
 						<MoveItemDropdown
 							packItemId={packItemId}
 							availablePacks={availablePacks}

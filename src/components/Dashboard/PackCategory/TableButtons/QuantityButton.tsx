@@ -2,6 +2,7 @@ import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import './TableButtons.css';
 import { ReactInput } from '../../../../types/generalTypes';
+import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type ButtonProps = {
 	quantity: number;
@@ -11,6 +12,7 @@ type ButtonProps = {
 };
 
 const QuantityButton = (props: ButtonProps) => {
+	const userView = useUserContext();
 	const { quantity, size, onChange, onToggleOff } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
@@ -27,6 +29,7 @@ const QuantityButton = (props: ButtonProps) => {
 			className="table-button"
 			textAlign="center"
 			colSpan={size}
+			disabled={!userView}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

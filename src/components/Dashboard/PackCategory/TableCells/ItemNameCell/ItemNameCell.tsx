@@ -2,6 +2,7 @@ import { Table, Input, Popup, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import './ItemNameCell.css';
 import { GripButton } from '../../TableButtons/TableButtons';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type ItemNameCellProps = {
 	value: string | number;
@@ -17,6 +18,8 @@ type ItemNameCellProps = {
 };
 
 const ItemNameCell = (props: ItemNameCellProps) => {
+	const userView = useUserContext();
+
 	const {
 		value,
 		itemName,
@@ -35,16 +38,17 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 			onToggleOff();
 		}
 	};
-
+	const display = !toggleInput || !userView;
 	return (
 		<Table.Cell
 			colSpan={size}
 			className="item-name-cell"
+			disabled={!userView}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<GripButton display={displayIcon} />
+			<GripButton display={displayIcon && userView} />
 
 			<Input
 				className="item-name-input"
@@ -52,38 +56,35 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 				name={itemName}
 				placeholder={placeholder}
 				onChange={onChange}
-				transparent={!toggleInput}
+				transparent={display}
 				fluid
 				style={{
-					paddingLeft: !toggleInput ? '13px' : '0px',
+					paddingLeft: display ? '13px' : '0px',
 					paddingRight: '35px',
 				}}
 			/>
-			<Popup
-				on="click"
-				pinned
-				className="url-popup-container"
-				trigger={
-					<Icon
-						name="linkify"
-						className="url-link-icon"
-						color={packItemUrl ? 'blue' : 'grey'}
-						style={{ opacity: displayIcon || packItemUrl ? 100 : 0 }}
+			{userView && (
+				<Popup
+					on="click"
+					pinned
+					className="url-popup-container"
+					trigger={
+						<Icon
+							name="linkify"
+							className="url-link-icon"
+							color={packItemUrl ? 'blue' : 'grey'}
+							style={{ opacity: displayIcon || packItemUrl ? 100 : 0 }}
+						/>
+					}>
+					<Input
+						name="packItemUrl"
+						value={packItemUrl ?? ''}
+						onChange={onChange}
+						placeholder="Item link"
+						className="url-save-input"
 					/>
-				}>
-				<Input
-					name="packItemUrl"
-					value={packItemUrl ?? ''}
-					onChange={onChange}
-					placeholder="Item link"
-					className="url-save-input"
-				/>
-				{/* <Button color="blue" className="url-save-button">
-          Save
-        </Button> */}
-
-				{/* <Icon name="trash" /> */}
-			</Popup>
+				</Popup>
+			)}
 		</Table.Cell>
 	);
 };

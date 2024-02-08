@@ -1,6 +1,7 @@
 import { Table, Popup, Icon } from 'semantic-ui-react';
 import { type PackButtonSwitches } from '../../../../types/packTypes';
 import './PropertyButton.css';
+import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type ButtonProps = {
 	size: number;
@@ -11,15 +12,29 @@ type ButtonProps = {
 	onClick: (property: PackButtonSwitches) => void;
 };
 
+type ButtonTypes = {
+	wornWeight?: boolean;
+	consumable?: boolean;
+	favorite?: boolean;
+};
+
 const PropertyButtons = (props: ButtonProps) => {
+	const userView = useUserContext();
 	const { size, wornWeight, consumable, favorite, display, onClick } = props;
+
+	const handleOnClick = (buttonToChange: ButtonTypes) => {
+		if (userView) onClick(buttonToChange);
+	};
+
+	const showOnHover = display && userView;
+
 	return (
 		<Table.Cell className="property-table-button" textAlign="center" colSpan={size}>
 			<Icon
 				name="favorite"
 				color={favorite ? 'yellow' : 'grey'}
-				style={{ opacity: display || favorite ? 100 : 0 }}
-				onClick={() => onClick({ favorite: !favorite })}
+				style={{ opacity: showOnHover || favorite ? 100 : 0 }}
+				onClick={() => handleOnClick({ favorite: !favorite })}
 			/>
 
 			<Popup
@@ -30,8 +45,8 @@ const PropertyButtons = (props: ButtonProps) => {
 					<Icon
 						name="food"
 						color={consumable ? 'olive' : 'grey'}
-						style={{ opacity: display || consumable ? 100 : 0 }}
-						onClick={() => onClick({ consumable: !consumable })}
+						style={{ opacity: showOnHover || consumable ? 100 : 0 }}
+						onClick={() => handleOnClick({ consumable: !consumable })}
 					/>
 				}
 			/>
@@ -43,8 +58,8 @@ const PropertyButtons = (props: ButtonProps) => {
 				trigger={
 					<i
 						className={`fa-solid fa-shirt ${wornWeight && 'worn-weight-item'}`}
-						style={{ opacity: display || wornWeight ? 100 : 0 }}
-						onClick={() => onClick({ wornWeight: !wornWeight })}
+						style={{ opacity: showOnHover || wornWeight ? 100 : 0 }}
+						onClick={() => handleOnClick({ wornWeight: !wornWeight })}
 					/>
 				}
 			/>

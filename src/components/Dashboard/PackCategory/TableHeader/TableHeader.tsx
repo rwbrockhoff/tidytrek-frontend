@@ -6,6 +6,7 @@ import {
 	DeleteButton,
 } from '../TableButtons/TableButtons';
 import { useState } from 'react';
+import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type TableHeaderProps = {
 	headerName: string;
@@ -17,6 +18,7 @@ type TableHeaderProps = {
 };
 
 const TableHeader = (props: TableHeaderProps) => {
+	const userView = useUserContext();
 	const {
 		dragProps,
 		headerName,
@@ -27,6 +29,8 @@ const TableHeader = (props: TableHeaderProps) => {
 	} = props;
 	const [toggleRow, setToggleRow] = useState(false);
 
+	const minSpanSize = isMinimized ? 15 : 12;
+	const spanSize = userView ? minSpanSize : 13;
 	return (
 		<Table.Header
 			{...dragProps}
@@ -34,7 +38,7 @@ const TableHeader = (props: TableHeaderProps) => {
 			onMouseLeave={() => setToggleRow(false)}>
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
 				<CategoryNameCell
-					size={isMinimized ? 15 : 12}
+					size={spanSize}
 					disabled={isMinimized}
 					categoryName={headerName}
 					onToggleOff={editCategory}
@@ -42,7 +46,7 @@ const TableHeader = (props: TableHeaderProps) => {
 
 				{!isMinimized && (
 					<>
-						<Table.HeaderCell textAlign="center" colSpan="1">
+						<Table.HeaderCell textAlign="left" colSpan="1">
 							Qty
 						</Table.HeaderCell>
 						<Table.HeaderCell
@@ -53,14 +57,16 @@ const TableHeader = (props: TableHeaderProps) => {
 						</Table.HeaderCell>
 					</>
 				)}
-				<ActionButtons header size={1}>
-					<MinimizeButton
-						display={toggleRow}
-						isMinimized={isMinimized}
-						minimize={minimizeCategory}
-					/>
-					<DeleteButton display={toggleRow} onClickDelete={deleteCategory} />
-				</ActionButtons>
+				{userView && (
+					<ActionButtons header size={1}>
+						<MinimizeButton
+							display={toggleRow}
+							isMinimized={isMinimized}
+							minimize={minimizeCategory}
+						/>
+						<DeleteButton display={toggleRow} onClickDelete={deleteCategory} />
+					</ActionButtons>
+				)}
 			</Table.Row>
 		</Table.Header>
 	);
