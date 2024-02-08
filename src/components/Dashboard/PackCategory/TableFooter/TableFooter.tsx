@@ -12,7 +12,7 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 	return (
 		<Table.Footer>
 			<Table.Row className="footer-container">
-				<Table.Cell colSpan={userView ? 12 : 13}>
+				<Table.Cell colSpan={userView ? 11 : 12}>
 					{userView && (
 						<Button
 							size="mini"
@@ -26,8 +26,14 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 						</Button>
 					)}
 				</Table.Cell>
-				<Table.Cell colSpan={2}>{itemQuantity} Items</Table.Cell>
-				<Table.Cell colSpan={userView ? 2 : 1}>{`${weight} lbs`}</Table.Cell>
+				<Table.Cell textAlign="center" colSpan={2} style={{ paddingLeft: '50px' }}>
+					{itemQuantity} Items
+				</Table.Cell>
+				<Table.Cell
+					textAlign="center"
+					colSpan={2}
+					style={{ paddingLeft: userView ? '25px' : 0 }}>{`${weight} lbs`}</Table.Cell>
+				{userView && <Table.Cell colSpan={1}></Table.Cell>}
 			</Table.Row>
 		</Table.Footer>
 	);

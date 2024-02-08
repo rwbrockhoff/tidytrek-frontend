@@ -29,8 +29,8 @@ const TableHeader = (props: TableHeaderProps) => {
 	} = props;
 	const [toggleRow, setToggleRow] = useState(false);
 
-	const minSpanSize = isMinimized ? 15 : 12;
-	const spanSize = userView ? minSpanSize : 13;
+	const minSpanSize = isMinimized ? 15 : 11;
+	const spanSize = userView ? minSpanSize : 12;
 	return (
 		<Table.Header
 			{...dragProps}
@@ -46,13 +46,17 @@ const TableHeader = (props: TableHeaderProps) => {
 
 				{!isMinimized && (
 					<>
-						<Table.HeaderCell textAlign="left" colSpan="1">
-							Qty
-						</Table.HeaderCell>
 						<Table.HeaderCell
 							textAlign="center"
 							colSpan="2"
 							style={{ paddingLeft: '50px' }}>
+							Qty
+						</Table.HeaderCell>
+
+						<Table.HeaderCell
+							textAlign="center"
+							colSpan="2"
+							style={{ paddingLeft: userView ? '25px' : 0 }}>
 							Weight
 						</Table.HeaderCell>
 					</>
