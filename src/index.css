@@ -40,6 +40,16 @@ a {
 	padding-top: 5vh;
 }
 
+#guest-view-container {
+	width: 100vw;
+	height: 100vh;
+	overflow-y: auto;
+	padding-left: 10vw;
+	padding-right: 10vw;
+	padding-bottom: 10vh;
+	padding-top: 5vh;
+}
+
 /* Changes to Semantic UI */
 .ui.form .field.field input:-webkit-autofill,
 .ui.form .field.field input:-webkit-autofill:focus,
