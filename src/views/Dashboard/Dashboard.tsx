@@ -99,6 +99,17 @@ const Dashboard = ({ userView }: DashboardProps) => {
 				</DragDropContext>
 
 				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+
+				{!userView && (
+					<a href="https://tidytrek.co" className="logo-link">
+						<div className="tidytrek-tag">
+							<p className="logo-text">tidytrek</p>
+							<p>
+								<i className="fa-solid fa-person-hiking" /> Made in Colorado
+							</p>
+						</div>
+					</a>
+				)}
 			</div>
 		</UserViewContext.Provider>
 	);
