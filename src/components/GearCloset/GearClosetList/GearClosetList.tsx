@@ -53,16 +53,23 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 		<Table fixed striped columns="16" color="blue" size="small">
 			<Table.Header>
 				<Table.Row>
-					<Table.HeaderCell colSpan="4">Item</Table.HeaderCell>
-					<Table.HeaderCell colSpan="6">Description</Table.HeaderCell>
-					<Table.HeaderCell colSpan="2" textAlign="right">
+					<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>
+						Item
+					</Table.HeaderCell>
+					<Table.HeaderCell colSpan="7" style={{ paddingLeft: '25px' }}>
+						Description
+					</Table.HeaderCell>
+					<Table.HeaderCell
+						colSpan="2"
+						textAlign="center"
+						style={{ paddingLeft: '90px' }}>
 						Quantity
 					</Table.HeaderCell>
 					<Table.HeaderCell colSpan="2" textAlign="center">
 						Weight
 					</Table.HeaderCell>
 
-					<Table.HeaderCell colSpan="2"></Table.HeaderCell>
+					<Table.HeaderCell colSpan="1"></Table.HeaderCell>
 				</Table.Row>
 			</Table.Header>
 
