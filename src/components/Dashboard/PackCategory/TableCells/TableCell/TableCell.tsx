@@ -32,22 +32,25 @@ const TableCell = (props: TableCellProps) => {
 	return (
 		<Table.Cell
 			colSpan={size}
-			disabled={!userView}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<Input
-				className="table-cell-input"
-				value={value || ''}
-				name={itemName}
-				placeholder={placeholder}
-				onChange={onChange}
-				transparent={display}
-				style={{
-					paddingLeft: display ? '13px' : '0px',
-				}}
-			/>
+			{userView ? (
+				<Input
+					className="table-cell-input"
+					value={value || ''}
+					name={itemName}
+					placeholder={placeholder}
+					onChange={onChange}
+					transparent={display}
+					style={{
+						paddingLeft: display ? '13px' : '0px',
+					}}
+				/>
+			) : (
+				<p>{value}</p>
+			)}
 		</Table.Cell>
 	);
 };

@@ -1,4 +1,4 @@
-import { Table, Input } from 'semantic-ui-react';
+import { Table, Input, Header } from 'semantic-ui-react';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
@@ -55,20 +55,24 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 			onClick={!disabled ? toggleToEdit : undefined}>
 			<GripButton display={showGrip && userView} />
 
-			<Input
-				className="table-cell-input header-title"
-				value={packCategoryName || 'Category'}
-				name={'packCategoryName'}
-				onChange={handleInput}
-				disabled={!userView}
-				// Show input background when user interacts
-				transparent={display}
-				style={{
-					fontSize: '1.2em',
-					width: 'fit-content',
-					paddingLeft: display ? '15px' : '0px',
-				}}
-			/>
+			{userView ? (
+				<Input
+					className="table-cell-input header-title"
+					value={packCategoryName || 'Category'}
+					name={'packCategoryName'}
+					onChange={handleInput}
+					disabled={!userView}
+					// Show input background when user interacts
+					transparent={display}
+					style={{
+						fontSize: '1.2em',
+						width: 'fit-content',
+						paddingLeft: display ? '15px' : '0px',
+					}}
+				/>
+			) : (
+				<Header className="header-title">{packCategoryName}</Header>
+			)}
 		</Table.HeaderCell>
 	);
 };
