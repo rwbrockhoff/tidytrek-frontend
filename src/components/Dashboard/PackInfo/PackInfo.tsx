@@ -9,9 +9,9 @@ import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../../../shared/ui/Modals';
 import './PackInfo.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
-import PackPublicTag from './PackPublicTag';
+import ShareSettings from './ShareSettings/ShareSettings';
 import Link from '../../../shared/ui/Link';
 
 type PackInfoProps = {
@@ -22,6 +22,7 @@ type PackInfoProps = {
 
 const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 	const userView = useUserContext();
+	const { packId: paramPackId } = useParams();
 
 	const navigate = useNavigate();
 	const { mutate: deletePack } = useDeletePackMutation();
@@ -78,7 +79,7 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 					)}
 				</Header>
 
-				<PackPublicTag packPublic={packPublic} />
+				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 
 				{packUrl && (
 					<Link

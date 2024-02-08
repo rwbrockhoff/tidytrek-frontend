@@ -64,12 +64,14 @@ div.chart-display-popup-list {
 	}
 }
 
-div.pack-info-left-panel .ui.header > .icon {
-	font-size: 0.6em;
-	margin-left: 15px;
-	vertical-align: text-top;
-	height: 0.6em;
-	cursor: pointer;
+div.pack-info-left-panel .ui.header {
+	i.icon {
+		font-size: 0.6em;
+		margin-left: 15px;
+		vertical-align: text-top;
+		height: 0.6em;
+		cursor: pointer;
+	}
 }
 
 div.pack-info-right-panel-chart {
