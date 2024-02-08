@@ -3,9 +3,10 @@ import { useState } from 'react';
 import './ItemNameCell.css';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
+import Link from '../../../../../shared/ui/Link';
 
 type ItemNameCellProps = {
-	value: string | number;
+	value: string;
 	itemName: string;
 	placeholder?: string;
 	size: number;
@@ -43,26 +44,30 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 		<Table.Cell
 			colSpan={size}
 			className="item-name-cell"
-			disabled={!userView}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
 			<GripButton display={displayIcon && userView} />
 
-			<Input
-				className="item-name-input"
-				value={value || ''}
-				name={itemName}
-				placeholder={placeholder}
-				onChange={onChange}
-				transparent={display}
-				fluid
-				style={{
-					paddingLeft: display ? '13px' : '0px',
-					paddingRight: '35px',
-				}}
-			/>
+			{userView ? (
+				<Input
+					className="item-name-input"
+					value={value || ''}
+					name={itemName}
+					placeholder={placeholder}
+					onChange={onChange}
+					transparent={display}
+					fluid
+					style={{
+						paddingLeft: display ? '13px' : '0px',
+						paddingRight: '35px',
+					}}
+				/>
+			) : (
+				<Link url={packItemUrl} text={value} className="item-name-text" showIcon />
+			)}
+
 			{userView && (
 				<Popup
 					on="click"

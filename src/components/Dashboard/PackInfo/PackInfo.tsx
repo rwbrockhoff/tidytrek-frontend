@@ -12,6 +12,7 @@ import './PackInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
 import PackPublicTag from './PackPublicTag';
+import Link from '../../../shared/ui/Link';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -80,16 +81,12 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 				<PackPublicTag packPublic={packPublic} />
 
 				{packUrl && (
-					<p>
-						<a
-							href={`https://${packUrl}`}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="pack-link">
-							<Icon name="linkify" />
-							{packUrlName || packUrl || 'Pack Link'}
-						</a>
-					</p>
+					<Link
+						url={packUrl}
+						text={packUrlName || packUrl || 'Pack Link'}
+						className="pack-link"
+						showIcon
+					/>
 				)}
 
 				<p>{packDescription}</p>

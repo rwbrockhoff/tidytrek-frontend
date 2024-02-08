@@ -89,7 +89,6 @@ div.pack-info-right-panel-graphic {
 	}
 }
 
-a.pack-link {
-	color: #2185d0;
-	cursor: pointer;
+p.pack-link {
+	margin-bottom: 10px;
 }

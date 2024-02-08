@@ -37,3 +37,7 @@
 .ui.fixed.table td:first-child {
 	overflow: visible;
 }
+
+p.item-name-text {
+	margin-left: 20px;
+}
