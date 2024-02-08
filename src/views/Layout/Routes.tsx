@@ -24,6 +24,11 @@ export const userRoutes = [
 		children: [{ path: '/gear-closet', element: <GearCloset /> }],
 	},
 	{
+		path: '/pk/:packId',
+		element: <GuestPackLayout />,
+		children: [{ path: '/pk/:packId', element: <Dashboard userView={false} /> }],
+	},
+	{
 		path: '/account',
 		element: <ViewLayout />,
 		children: [{ path: '/account', element: <Account /> }],
