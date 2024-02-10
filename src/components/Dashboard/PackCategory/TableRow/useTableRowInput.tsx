@@ -3,9 +3,10 @@ import { type PackItem } from '../../../../types/packTypes';
 
 export const useTableRowInput = (item: PackItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
-	const [packItem, setPackItem] = useState({
+	const [packItem, setPackItem] = useState<PackItem>({
 		packItemName: '',
 		packItemId: 0,
+		packItemIndex: 0,
 		packCategoryId: 0,
 		packItemDescription: '',
 		packItemWeight: 0,

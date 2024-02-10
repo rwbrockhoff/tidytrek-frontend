@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type PackItem } from '../types/packTypes';
+import { PackInfo, type PackItem } from '../types/packTypes';
 import { closetKeys, packKeys } from './queryKeys';
 
 type InitialState = {
@@ -60,16 +60,9 @@ export const useMoveGearClosetItemMutation = () => {
 export const useMoveItemToPackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packInfo: {
-			packItemId: number;
-			packId: number;
-			packCategoryId: number;
-		}) => {
-			const { packItemId, packId, packCategoryId } = packInfo;
-			return tidyTrekAPI.put(`/closet/packs/${packItemId}`, {
-				packId,
-				packCategoryId,
-			});
+		mutationFn: (packInfo: PackInfo) => {
+			const { packItemId } = packInfo;
+			return tidyTrekAPI.put(`/closet/packs/${packItemId}`, packInfo);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });

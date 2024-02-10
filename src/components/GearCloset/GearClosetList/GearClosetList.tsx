@@ -14,7 +14,7 @@ import {
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { getIdx } from '../../../shared/DragDropKit';
+import { getIdx, sensors } from '../../../shared/DragDropKit';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -49,7 +49,7 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 	const sortedGearItemIds = gearClosetList.map((item: PackItem) => item.packItemId);
 
 	return (
-		<DndContext onDragEnd={handleOnDragEnd}>
+		<DndContext onDragEnd={handleOnDragEnd} sensors={sensors()}>
 			<Table fixed striped columns="16" color="blue" size="small">
 				<Table.Header>
 					<Table.Row>

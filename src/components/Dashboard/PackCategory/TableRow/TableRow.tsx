@@ -33,13 +33,15 @@ type TableRowProps = {
 		packItemId: number;
 		packId: number;
 		packCategoryId: number;
+		packItemIndex: number;
 	}) => void;
 };
 
 const TableRow = (props: TableRowProps) => {
 	const userView = useUserContext();
-	const { handleMoveItemToPack, handleOnSave, handleDelete, index, packList } = props;
-	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
+	const { handleMoveItemToPack, handleOnSave, handleDelete, item, index, packList } =
+		props;
+	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
@@ -146,7 +148,7 @@ const TableRow = (props: TableRowProps) => {
 
 			{toggleGearButtons && userView && (
 				<MoveItemDropdown
-					packItemId={packItemId}
+					packItem={item}
 					availablePacks={availablePacks}
 					moveItemToPack={handleMoveItemToPack}
 				/>
