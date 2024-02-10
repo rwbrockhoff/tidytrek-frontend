@@ -260,27 +260,6 @@ export const useMovePackCategoryMutation = () => {
 				newIndex,
 			});
 		},
-		onMutate: async (categoryInfo) => {
-			const { packId, prevIndex, newIndex } = categoryInfo;
-
-			await queryClient.cancelQueries({ queryKey: packKeys.all });
-			const prevPack = queryClient.getQueryData(packKeys.packId(packId));
-
-			queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
-				const { categories } = old;
-				const [category] = categories.splice(prevIndex, 1);
-				categories.splice(newIndex, 0, category);
-				return old;
-			});
-			return { prevPack };
-		},
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(packKeys.all, context?.prevPack);
-		},
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
-			queryClient.invalidateQueries({ queryKey: packListKeys.all });
-		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });

@@ -25,6 +25,7 @@ import {
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import {
 	sensors,
+	DragItemOverlay,
 	DragOverlay,
 	isTask,
 	getIdx,
@@ -36,6 +37,7 @@ type DashboardProps = { userView: boolean };
 
 const Dashboard = ({ userView }: DashboardProps) => {
 	const [activeItem, setActiveItem] = useState<Active | null>(null);
+	const [activeCategory, setActiveCategory] = useState<Active | null>(null);
 
 	const { mutate: addCategory } = useAddPackCategoryMutation();
 	const { mutate: movePackItem } = useMovePackItemMutation();
@@ -80,11 +82,14 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	};
 
 	const handleOnDragStart = ({ active }: DragStartEvent) => {
-		isTask(active) && setActiveItem(active);
+		if (isTask(active)) setActiveItem(active);
+		else setActiveCategory(active);
 	};
 
 	const handleOnDragEnd = (result: DragEndEvent) => {
 		setActiveItem(null);
+		setActiveCategory(null);
+
 		const { active, over } = result;
 		if (isTask(active)) return handleOnDragItemEnd(result);
 
@@ -111,34 +116,40 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 		const isActiveATask = isTask(active);
 		const isOverATask = isTask(over);
-		if (!isActiveATask) return;
+		if (isActiveATask) {
+			const newCategoryId = isOverATask
+				? over.data.current?.packCategoryId
+				: over.data.current?.category.packCategoryId;
+			const currentCategoryId = active.data.current?.packCategoryId;
 
-		const newCategoryId = isOverATask
-			? over.data.current?.packCategoryId
-			: over.data.current?.category.packCategoryId;
-		const currentCategoryId = active.data.current?.packCategoryId;
+			if (currentCategoryId === newCategoryId && !isOverATask) return;
 
-		if (currentCategoryId === newCategoryId && !isOverATask) return;
+			const currentCategoryIndex = getCategoryIdx(packCategories, currentCategoryId);
+			const newCategoryIndex = getCategoryIdx(packCategories, newCategoryId);
 
-		const currentCategoryIndex = getCategoryIdx(packCategories, currentCategoryId);
-		const newCategoryIndex = getCategoryIdx(packCategories, newCategoryId);
+			const packItemIndex = getIdx(active);
+			const newIndex = isOverATask ? getIdx(over) : 0;
 
-		const packItemIndex = getIdx(active);
-		const newIndex = isOverATask ? getIdx(over) : 0;
+			if (currentCategoryId !== newCategoryId || packItemIndex !== newIndex) {
+				const newId = Number(newCategoryId);
+				const modifiedItem = { ...active.data.current?.packItem };
+				modifiedItem['packCategoryId'] = newId;
 
-		if (currentCategoryId !== newCategoryId || packItemIndex !== newIndex) {
-			const newId = Number(newCategoryId);
-			const modifiedItem = { ...active.data.current?.packItem };
-			modifiedItem['packCategoryId'] = newId;
-
-			packCategories[currentCategoryIndex].packItems.splice(packItemIndex, 1);
-			packCategories[newCategoryIndex].packItems.splice(newIndex, 0, modifiedItem);
+				packCategories[currentCategoryIndex].packItems.splice(packItemIndex, 1);
+				packCategories[newCategoryIndex].packItems.splice(newIndex, 0, modifiedItem);
+			}
+		} else {
+			const prevIndex = getIdx(active);
+			const newIndex = getIdx(over);
+			if (prevIndex === newIndex) return;
+			const [category] = packCategories.splice(prevIndex, 1);
+			packCategories.splice(newIndex, 0, category);
 		}
 	};
 
 	const { packAffiliate, packAffiliateDescription } = currentPack;
-
 	const sortedIds = sortedCategoryIds(packCategories);
+
 	return (
 		<DndContext
 			onDragStart={handleOnDragStart}
@@ -167,7 +178,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 								/>
 							))}
 
-						<DragOverlay activeItem={activeItem} />
+						<DragItemOverlay active={activeItem} />
+						<DragOverlay active={activeCategory} />
 					</SortableContext>
 
 					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}

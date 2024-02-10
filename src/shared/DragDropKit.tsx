@@ -1,6 +1,6 @@
 import { Category, PackItem, PackListItem } from '../types/packTypes';
 import { Table } from 'semantic-ui-react';
-import { useMemo } from 'react';
+import PackCategory from '../components/Dashboard/PackCategory/PackCategory';
 import TableRow from '../components/Dashboard/PackCategory/TableRow/TableRow';
 import {
 	type Active,
@@ -22,6 +22,7 @@ const emptyFn = () => undefined;
 export const sensors = () =>
 	useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
 
+//--Utility Functions for Drag/Drop Events--//
 export const isTask = (item: Active | Over) =>
 	item.data.current?.type === dragTypes.packItem;
 
@@ -59,32 +60,54 @@ export const createSortablePackItem = (props: SortableItemProps) => {
 
 export const createSortablePackCategory = ({
 	category,
+	packList,
 	index,
 }: {
 	category: Category;
+	packList: PackListItem[];
 	index: number | undefined;
 }) => {
 	return {
 		id: category.packCategoryId,
-		data: { type: dragTypes.packCategory, index, category },
+		transition: {
+			duration: 250,
+			easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+		},
+		data: {
+			type: dragTypes.packCategory,
+			index,
+			category,
+			renderDragOverlay: () => {
+				return (
+					<PackCategory
+						category={category}
+						packList={packList}
+						index={index}
+						key={category?.packCategoryId || index}
+					/>
+				);
+			},
+		},
 	};
 };
 
-export const DragOverlay = ({ activeItem }: { activeItem: Active | null }) => {
-	if (activeItem) {
+export const DragItemOverlay = ({ active }: { active: Active | null }) => {
+	if (active) {
 		return (
 			<Overlay>
 				<Table fixed striped compact columns="16" size="small">
-					<tbody>{activeItem?.data.current?.renderDragOverlay?.(activeItem)}</tbody>
+					<tbody>{active?.data.current?.renderDragOverlay?.(active)}</tbody>
 				</Table>
 			</Overlay>
 		);
 	} else return null;
 };
 
-export const sortedCategoryIds = (packCategories: Category[]) => {
-	return useMemo(
-		() => packCategories.map((category) => category.packCategoryId),
-		[packCategories],
-	);
+export const DragOverlay = ({ active }: { active: Active | null }) => {
+	if (active) {
+		return <Overlay>{active?.data.current?.renderDragOverlay?.(active)}</Overlay>;
+	} else return null;
 };
+
+export const sortedCategoryIds = (packCategories: Category[]) =>
+	packCategories.map((category) => category.packCategoryId);

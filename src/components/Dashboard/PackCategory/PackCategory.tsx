@@ -39,11 +39,16 @@ type PackCategoryProps = {
 };
 
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
-	const sortableCategory = createSortablePackCategory({ category, index });
-	const { setNodeRef, attributes, listeners, transform, transition } =
+	const sortableCategory = createSortablePackCategory({ category, packList, index });
+	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
 		useSortable(sortableCategory);
 
-	const style = { transition, transform: CSS.Translate.toString(transform), zIndex: 5 };
+	const style = {
+		transition,
+		transform: CSS.Translate.toString(transform),
+		zIndex: 5,
+		opacity: isDragging ? 0 : 1,
+	};
 
 	const userView = useUserContext();
 
