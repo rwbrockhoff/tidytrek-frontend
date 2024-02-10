@@ -25,6 +25,8 @@ export const sensors = () =>
 export const isTask = (item: Active | Over) =>
 	item.data.current?.type === dragTypes.packItem;
 
+export const getIdx = (item: Active | Over) => item.data.current?.index;
+
 type SortableItemProps = {
 	packItem: PackItem;
 	packList: PackListItem[];

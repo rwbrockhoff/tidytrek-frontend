@@ -49,6 +49,7 @@ const TableRow = (props: TableRowProps) => {
 		packItemName,
 		packItemDescription,
 		packItemId,
+		packCategoryId,
 		packItemWeight,
 		packItemUnit,
 		packItemQuantity,
@@ -67,12 +68,14 @@ const TableRow = (props: TableRowProps) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
 		useSortable(sortablePackItem);
 
+	const isGearClosetItem = packCategoryId === null;
+
 	const style = {
 		transition,
 		transform: CSS.Translate.toString(transform),
 		zIndex: 5,
 		backgroundColor: 'white',
-		opacity: isDragging ? 0 : 1,
+		opacity: isDragging && !isGearClosetItem ? 0 : 1,
 	};
 
 	return (
