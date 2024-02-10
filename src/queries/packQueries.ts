@@ -9,7 +9,7 @@ import {
 } from '../types/packTypes';
 import { packKeys, packListKeys, closetKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
-import { getCategoryIdx } from '../utils/packUtils';
+// import { getCategoryIdx } from '../utils/packUtils';
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({
@@ -160,35 +160,35 @@ export const useMovePackItemMutation = () => {
 			const { packItemId } = packInfo;
 			return tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, packInfo);
 		},
-		onMutate: async (packInfo) => {
-			const {
-				packId,
-				packCategoryId,
-				prevPackCategoryId,
-				packItemIndex,
-				prevPackItemIndex,
-			} = packInfo;
-			await queryClient.cancelQueries({ queryKey: packKeys.packId(packId) });
-			const prevPack = queryClient.getQueryData(packKeys.packId(packId));
+		// onMutate: async (packInfo) => {
+		// 	const {
+		// 		packId,
+		// 		packCategoryId,
+		// 		prevPackCategoryId,
+		// 		packItemIndex,
+		// 		prevPackItemIndex,
+		// 	} = packInfo;
+		// 	await queryClient.cancelQueries({ queryKey: packKeys.packId(packId) });
+		// 	const prevPack = queryClient.getQueryData(packKeys.packId(packId));
 
-			queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
-				const { categories } = old;
-				const prevIndex = getCategoryIdx(categories, prevPackCategoryId);
-				const [item] = categories[prevIndex].packItems.splice(prevPackItemIndex, 1);
+		// 	queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
+		// 		const { categories } = old;
+		// 		const prevIndex = getCategoryIdx(categories, prevPackCategoryId);
+		// 		const [item] = categories[prevIndex].packItems.splice(prevPackItemIndex, 1);
 
-				const sameCategory = prevPackCategoryId === packCategoryId;
-				const newIndex = sameCategory
-					? prevIndex
-					: getCategoryIdx(categories, packCategoryId);
-				categories[newIndex].packItems.splice(packItemIndex, 0, item);
+		// 		const sameCategory = prevPackCategoryId === packCategoryId;
+		// 		const newIndex = sameCategory
+		// 			? prevIndex
+		// 			: getCategoryIdx(categories, packCategoryId);
+		// 		categories[newIndex].packItems.splice(packItemIndex, 0, item);
 
-				return old;
-			});
-			return { prevPack };
-		},
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(packKeys.all, context?.prevPack);
-		},
+		// 		return old;
+		// 	});
+		// 	return { prevPack };
+		// },
+		// onError: (_err, _packInfo, context) => {
+		// 	queryClient.setQueryData(packKeys.all, context?.prevPack);
+		// },
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 		},
@@ -249,8 +249,8 @@ export const useMovePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (categoryInfo: {
-			packId: string;
-			packCategoryId: string;
+			packId: number;
+			packCategoryId: number;
 			newIndex: number;
 			prevIndex: number;
 		}) => {
@@ -262,12 +262,11 @@ export const useMovePackCategoryMutation = () => {
 		},
 		onMutate: async (categoryInfo) => {
 			const { packId, prevIndex, newIndex } = categoryInfo;
-			const packIdNum = Number(packId);
 
 			await queryClient.cancelQueries({ queryKey: packKeys.all });
-			const prevPack = queryClient.getQueryData(packKeys.packId(packIdNum));
+			const prevPack = queryClient.getQueryData(packKeys.packId(packId));
 
-			queryClient.setQueryData(packKeys.packId(packIdNum), (old: any) => {
+			queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
 				const { categories } = old;
 				const [category] = categories.splice(prevIndex, 1);
 				categories.splice(newIndex, 0, category);

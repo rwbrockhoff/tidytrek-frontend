@@ -20,25 +20,31 @@ import {
 	useDeletePackCategoryAndItemsMutation,
 } from '../../../queries/packQueries';
 import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
-import {
-	DragDropContext,
-	DropResult,
-	DropTableBody,
-} from '../../../shared/DragDropWrapper';
-import { Draggable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
+import { createSortablePackCategory } from '../../../shared/DragDropKit';
+import {
+	useSortable,
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type PackCategoryProps = {
 	category: Category;
 	packList: PackListItem[];
-	onDragItem: (result: DropResult) => void;
-	index: number;
-	key: number;
+	index?: number;
+	key?: number;
 };
 
-const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryProps) => {
+const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
+	const sortableCategory = createSortablePackCategory({ category, index });
+	const { setNodeRef, attributes, listeners, transform, transition } =
+		useSortable(sortableCategory);
+
+	const style = { transition, transform: CSS.Translate.toString(transform), zIndex: 5 };
+
 	const userView = useUserContext();
 
 	const { packCategoryName, packCategoryId, packId, packItems } = category;
@@ -107,70 +113,68 @@ const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryPro
 	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
 	const showCategoryItems = packItems[0] && !isMinimized;
+
+	const sortedPackIds = packItems[0] ? packItems.map((item) => item.packItemId) : [];
 	return (
-		<Draggable
-			isDragDisabled={!userView}
-			key={category.packCategoryId}
-			draggableId={`${category.packCategoryId}`}
-			index={index}>
-			{(provided) => (
-				<div
-					className="table-container"
-					ref={provided.innerRef}
-					{...provided.draggableProps}>
-					<Table fixed striped compact columns="16" color="olive" size="small">
-						<TableHeader
-							dragProps={{ ...provided.dragHandleProps }}
-							headerName={packCategoryName}
-							isMinimized={isMinimized}
-							minimizeCategory={handleMinimizeCategory}
-							editCategory={handleEditCategory}
-							deleteCategory={handleToggleCategoryModal}
-						/>
+		<div
+			className="table-container"
+			ref={setNodeRef}
+			style={style}
+			{...attributes}
+			{...listeners}>
+			<Table fixed striped compact columns="16" color="olive" size="small">
+				<TableHeader
+					headerName={packCategoryName}
+					isMinimized={isMinimized}
+					minimizeCategory={handleMinimizeCategory}
+					editCategory={handleEditCategory}
+					deleteCategory={handleToggleCategoryModal}
+				/>
 
-						<DragDropContext onDragEnd={onDragItem}>
-							<DropTableBody droppableId={packCategoryId}>
-								{showCategoryItems &&
-									packItems.map((item: PackItem, idx) => (
-										<TableRow
-											item={item}
-											key={`${item.packCategoryId}${item.packItemId}`}
-											index={idx}
-											packList={packList}
-											handleMoveItemToPack={handleMoveItemToPack}
-											handleOnSave={handleOnSave}
-											handleDelete={handleDeleteItemPrompt}
-										/>
-									))}
-							</DropTableBody>
-						</DragDropContext>
+				<tbody>
+					<SortableContext
+						items={sortedPackIds}
+						strategy={verticalListSortingStrategy}
+						disabled={!userView}>
+						{showCategoryItems &&
+							packItems.map((item: PackItem, idx) => (
+								<TableRow
+									item={item}
+									key={item.packItemId}
+									index={idx}
+									packList={packList}
+									handleMoveItemToPack={handleMoveItemToPack}
+									handleOnSave={handleOnSave}
+									handleDelete={handleDeleteItemPrompt}
+								/>
+							))}
+					</SortableContext>
+				</tbody>
 
-						{!isMinimized && (
-							<TableFooter
-								itemQuantity={itemQuantity}
-								weight={convertedCategoryWeight}
-								handleAddItem={handleAddItem}
-							/>
-						)}
-					</Table>
-
-					<DeleteModal
-						open={showDeleteCategoryModal}
-						onClickMove={handleDeleteCategory}
-						onClickDelete={handleDeleteCategoryAndItems}
-						onClose={handleToggleCategoryModal}
+				{!isMinimized && (
+					<TableFooter
+						itemQuantity={itemQuantity}
+						weight={convertedCategoryWeight}
+						handleAddItem={handleAddItem}
 					/>
+				)}
+			</Table>
 
-					<DeleteItemModal
-						id={packItemToChange}
-						open={showDeleteItemModal}
-						onClose={handleToggleItemModal}
-						onClickMove={handleMoveItem}
-						onClickDelete={handleDeleteItem}
-					/>
-				</div>
-			)}
-		</Draggable>
+			<DeleteModal
+				open={showDeleteCategoryModal}
+				onClickMove={handleDeleteCategory}
+				onClickDelete={handleDeleteCategoryAndItems}
+				onClose={handleToggleCategoryModal}
+			/>
+
+			<DeleteItemModal
+				id={packItemToChange}
+				open={showDeleteItemModal}
+				onClose={handleToggleItemModal}
+				onClickMove={handleMoveItem}
+				onClickDelete={handleDeleteItem}
+			/>
+		</div>
 	);
 };
 

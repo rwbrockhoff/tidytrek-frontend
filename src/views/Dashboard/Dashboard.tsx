@@ -3,6 +3,7 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { UserViewContext } from './useUserContext';
 import {
 	useGetPackQuery,
@@ -12,13 +13,29 @@ import {
 	useMovePackCategoryMutation,
 } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
-import { Drop, DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
-import { Category, type Pack } from '../../types/packTypes';
+import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
+import {
+	type DragStartEvent,
+	type DragEndEvent,
+	type DragOverEvent,
+	type Active,
+	DndContext,
+} from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+	sensors,
+	DragOverlay,
+	isTask,
+	sortedCategoryIds,
+} from '../../shared/DragDropKit';
+import { getCategoryIdx } from '../../utils/packUtils';
 
 type DashboardProps = { userView: boolean };
 
 const Dashboard = ({ userView }: DashboardProps) => {
+	const [activeItem, setActiveItem] = useState<Active | null>(null);
+
 	const { mutate: addCategory } = useAddPackCategoryMutation();
 	const { mutate: movePackItem } = useMovePackItemMutation();
 	const { mutate: movePackCategory } = useMovePackCategoryMutation();
@@ -33,7 +50,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		: { data: { packList: [] } };
 	const { packList } = packListData || { packList: [] };
 
-	const packCategories = data?.categories || [];
+	let packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
 	const packId = data?.pack.packId || null;
 
@@ -41,74 +58,127 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		packId && addCategory(packId);
 	};
 
-	const onDragItemEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
+	const handleOnDragItemEnd = (result: DragEndEvent) => {
+		const { active, over } = result;
+		if (!over || !active) return;
 
-		const sameIndex = destination.index === source.index;
-		const sameCategory = destination.droppableId === source.droppableId;
+		const isOverATask = isTask(over);
+		const packItemId = Number(active.id);
 
-		if (sameIndex && sameCategory) return;
+		const prevPackItemIndex = active.data.current?.packItem.packItemIndex;
+		const packCategoryId = isOverATask ? over.data.current?.packCategoryId : over.id;
+		const packItemIndex = isOverATask ? over.data.current?.index : 0;
 
 		movePackItem({
-			packId: paramPackId ? packId : null,
-			packItemId: draggableId,
-			packCategoryId: destination.droppableId,
-			packItemIndex: destination.index,
-			prevPackCategoryId: source.droppableId,
-			prevPackItemIndex: source.index,
+			packId: currentPack.packId,
+			packItemId,
+			packCategoryId,
+			packItemIndex,
+			prevPackItemIndex,
 		});
 	};
 
-	const onDragCategoryEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
+	const handleOnDragStart = ({ active }: DragStartEvent) => {
+		isTask(active) && setActiveItem(active);
+	};
 
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
+	const handleOnDragEnd = (result: DragEndEvent) => {
+		setActiveItem(null);
+		const { active, over } = result;
+		if (isTask(active)) return handleOnDragItemEnd(result);
+
+		if (!over) return;
+		if (active.id === over.id) return;
+
+		const prevIndex = active.data.current?.index;
+		const newIndex = over.data.current?.index;
+		const packCategoryId = Number(active.id);
 
 		movePackCategory({
-			packId: destination.droppableId,
-			packCategoryId: draggableId,
-			prevIndex: source.index,
-			newIndex: destination.index,
+			packId: currentPack.packId,
+			packCategoryId,
+			prevIndex,
+			newIndex,
 		});
 	};
-	const { packAffiliate, packAffiliateDescription } = currentPack;
-	return (
-		<UserViewContext.Provider value={userView}>
-			<div className="dashboard-container">
-				<PackInfo
-					currentPack={currentPack}
-					packCategories={packCategories}
-					fetching={isPending}
-				/>
 
-				<DragDropContext onDragEnd={onDragCategoryEnd}>
-					<Drop droppableId={packId}>
+	const handleOnDragOver = (result: DragOverEvent) => {
+		const { active, over } = result;
+
+		if (!over) return;
+		if (active.id === over.id) return;
+
+		const isActiveATask = isTask(active);
+		const isOverATask = isTask(over);
+		if (!isActiveATask) return;
+
+		const newCategoryId = isOverATask
+			? over.data.current?.packCategoryId
+			: over.data.current?.category.packCategoryId;
+		const currentCategoryId = active.data.current?.packCategoryId;
+
+		if (currentCategoryId === newCategoryId && !isOverATask) return;
+
+		const currentCategoryIndex = getCategoryIdx(packCategories, currentCategoryId);
+		const newCategoryIndex = getCategoryIdx(packCategories, newCategoryId);
+
+		const packItemIndex = active.data.current?.index;
+		const newIndex = isOverATask ? over.data.current?.index : 0;
+
+		if (currentCategoryId !== newCategoryId || packItemIndex !== newIndex) {
+			const newId = Number(newCategoryId);
+			const modifiedItem = { ...active.data.current?.packItem };
+			modifiedItem['packCategoryId'] = newId;
+
+			packCategories[currentCategoryIndex].packItems.splice(packItemIndex, 1);
+			packCategories[newCategoryIndex].packItems.splice(newIndex, 0, modifiedItem);
+		}
+	};
+
+	const { packAffiliate, packAffiliateDescription } = currentPack;
+
+	const sortedIds = sortedCategoryIds(packCategories);
+	return (
+		<DndContext
+			onDragStart={handleOnDragStart}
+			onDragOver={handleOnDragOver}
+			onDragEnd={handleOnDragEnd}
+			sensors={sensors()}>
+			<UserViewContext.Provider value={userView}>
+				<div className="dashboard-container">
+					<PackInfo
+						currentPack={currentPack}
+						packCategories={packCategories}
+						fetching={isPending}
+					/>
+
+					<SortableContext
+						disabled={!userView}
+						items={sortedIds}
+						strategy={verticalListSortingStrategy}>
 						{packCategories.length >= 0 &&
 							packCategories.map((category: Category, idx: number) => (
 								<PackCategory
 									category={category}
 									packList={packList}
-									onDragItem={onDragItemEnd}
 									index={idx}
 									key={category?.packCategoryId || idx}
 								/>
 							))}
-					</Drop>
-				</DragDropContext>
 
-				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+						<DragOverlay activeItem={activeItem} />
+					</SortableContext>
 
-				{!userView && (
-					<DashboardFooter
-						affiliate={packAffiliate}
-						description={packAffiliateDescription}
-					/>
-				)}
-			</div>
-		</UserViewContext.Provider>
+					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+					{!userView && (
+						<DashboardFooter
+							affiliate={packAffiliate}
+							description={packAffiliateDescription}
+						/>
+					)}
+				</div>
+			</UserViewContext.Provider>
+		</DndContext>
 	);
 };
 
