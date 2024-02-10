@@ -8,6 +8,7 @@ import {
 	useSensor,
 	useSensors,
 	PointerSensor,
+	TouchSensor,
 	DragOverlay as Overlay,
 } from '@dnd-kit/core';
 
@@ -20,7 +21,10 @@ export const dragTypes = {
 const emptyFn = () => undefined;
 
 export const sensors = () =>
-	useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
+	useSensors(
+		useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
+		useSensor(TouchSensor),
+	);
 
 //--Utility Functions for Drag/Drop Events--//
 export const isTask = (item: Active | Over) =>
