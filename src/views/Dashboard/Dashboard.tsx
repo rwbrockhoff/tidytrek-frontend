@@ -155,7 +155,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 			onDragStart={handleOnDragStart}
 			onDragOver={handleOnDragOver}
 			onDragEnd={handleOnDragEnd}
-			sensors={sensors()}>
+			sensors={sensors()}
+			autoScroll={{ layoutShiftCompensation: false }}>
 			<UserViewContext.Provider value={userView}>
 				<div className="dashboard-container">
 					<PackInfo
