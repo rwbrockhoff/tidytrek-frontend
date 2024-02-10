@@ -1,34 +1,39 @@
 import './PackList.css';
 import { Header, Divider, Icon } from 'semantic-ui-react';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
-import { Drop, Drag, DragDropContext } from '../../../shared/DragDropWrapper';
-import { type DropResult } from 'react-beautiful-dnd';
+import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { sensors } from '../../../shared/DragDropKit';
 import PackListItem from './PackListItem/PackListItem';
 
 type PackListProps = {
 	packList: PackListItemType[];
 	getPack: (packId: number) => Promise<void>;
 	addPack: () => void;
-	onDragEnd: (result: DropResult) => void;
+	onDragEnd: (result: DragEndEvent) => void;
 };
 
 const PackList = ({ packList, getPack, addPack, onDragEnd }: PackListProps) => {
+	const sortedPackIds = packList.map((item: PackListItemType) => item.packId);
 	return (
 		<div className="pack-list-container">
 			<Header as="h3" className="pack-title">
 				Packs
 			</Header>
-			<DragDropContext onDragEnd={onDragEnd}>
-				<Drop droppableId={'sidebar-pack-list'}>
+			<DndContext onDragEnd={onDragEnd} sensors={sensors()}>
+				<SortableContext items={sortedPackIds} strategy={verticalListSortingStrategy}>
 					{packList.map((pack: PackListItemType, index: number) => {
 						return (
-							<Drag key={pack.packId} draggableId={pack.packId} index={index}>
-								<PackListItem pack={pack} onClick={getPack} />
-							</Drag>
+							<PackListItem
+								key={pack.packId || index}
+								index={index}
+								pack={pack}
+								onClick={getPack}
+							/>
 						);
 					})}
-				</Drop>
-			</DragDropContext>
+				</SortableContext>
+			</DndContext>
 			<Divider />
 			<p onClick={addPack} className="add-new-pack-button">
 				<Icon name="add" />

@@ -14,6 +14,7 @@ import {
 export const dragTypes = {
 	packItem: 'PackItem',
 	packCategory: 'PackCategory',
+	packListItem: 'PackListItem',
 };
 
 const emptyFn = () => undefined;

@@ -64,12 +64,12 @@ export const useEditPackMutation = () => {
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packInfo: { packId: string; newIndex: number; prevIndex: number }) => {
+		mutationFn: (packInfo: { packId: number; newIndex: number; prevIndex: number }) => {
 			const { packId, newIndex, prevIndex } = packInfo;
 			return tidyTrekAPI.put(`/packs/index/${packId}`, { newIndex, prevIndex });
 		},
 		onMutate: async (packInfo: {
-			packId: string;
+			packId: number;
 			newIndex: number;
 			prevIndex: number;
 		}) => {
