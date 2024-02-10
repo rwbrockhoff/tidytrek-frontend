@@ -27,6 +27,7 @@ import {
 	sensors,
 	DragOverlay,
 	isTask,
+	getIdx,
 	sortedCategoryIds,
 } from '../../shared/DragDropKit';
 import { getCategoryIdx } from '../../utils/packUtils';
@@ -67,7 +68,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 		const prevPackItemIndex = active.data.current?.packItem.packItemIndex;
 		const packCategoryId = isOverATask ? over.data.current?.packCategoryId : over.id;
-		const packItemIndex = isOverATask ? over.data.current?.index : 0;
+		const packItemIndex = isOverATask ? getIdx(over) : 0;
 
 		movePackItem({
 			packId: currentPack.packId,
@@ -90,8 +91,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		if (!over) return;
 		if (active.id === over.id) return;
 
-		const prevIndex = active.data.current?.index;
-		const newIndex = over.data.current?.index;
+		const prevIndex = getIdx(active);
+		const newIndex = getIdx(over);
 		const packCategoryId = Number(active.id);
 
 		movePackCategory({
@@ -122,8 +123,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		const currentCategoryIndex = getCategoryIdx(packCategories, currentCategoryId);
 		const newCategoryIndex = getCategoryIdx(packCategories, newCategoryId);
 
-		const packItemIndex = active.data.current?.index;
-		const newIndex = isOverATask ? over.data.current?.index : 0;
+		const packItemIndex = getIdx(active);
+		const newIndex = isOverATask ? getIdx(over) : 0;
 
 		if (currentCategoryId !== newCategoryId || packItemIndex !== newIndex) {
 			const newId = Number(newCategoryId);
