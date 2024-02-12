@@ -23,12 +23,14 @@ import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
+import { DropTableBody } from '../../../shared/DragDropWrapper';
+import { Draggable } from '@hello-pangea/dnd';
 
 type PackCategoryProps = {
 	category: Category;
 	packList: PackListItem[];
-	index?: number;
-	key?: number;
+	index: number;
+	key: number;
 };
 
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
@@ -102,55 +104,66 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const showCategoryItems = packItems[0] && !isMinimized;
 
 	return (
-		<div className="table-container">
-			<Table fixed striped compact columns="16" color="olive" size="small">
-				<TableHeader
-					headerName={packCategoryName}
-					isMinimized={isMinimized}
-					minimizeCategory={handleMinimizeCategory}
-					editCategory={handleEditCategory}
-					deleteCategory={handleToggleCategoryModal}
-				/>
+		<Draggable
+			key={category.packCategoryId}
+			draggableId={`${category.packCategoryId}`}
+			index={index}>
+			{(provided) => (
+				<div
+					className="table-container"
+					ref={provided.innerRef}
+					{...provided.draggableProps}>
+					<Table fixed striped compact columns="16" color="olive" size="small">
+						<TableHeader
+							dragProps={{ ...provided.dragHandleProps }}
+							headerName={packCategoryName}
+							isMinimized={isMinimized}
+							minimizeCategory={handleMinimizeCategory}
+							editCategory={handleEditCategory}
+							deleteCategory={handleToggleCategoryModal}
+						/>
 
-				<tbody>
-					{showCategoryItems &&
-						packItems.map((item: PackItem, idx) => (
-							<TableRow
-								item={item}
-								key={item.packItemId}
-								index={idx}
-								packList={packList}
-								handleMoveItemToPack={handleMoveItemToPack}
-								handleOnSave={handleOnSave}
-								handleDelete={handleDeleteItemPrompt}
+						<DropTableBody droppableId={packCategoryId} type="item">
+							{showCategoryItems &&
+								packItems.map((item: PackItem, idx) => (
+									<TableRow
+										item={item}
+										key={item.packItemId}
+										index={idx}
+										packList={packList}
+										handleMoveItemToPack={handleMoveItemToPack}
+										handleOnSave={handleOnSave}
+										handleDelete={handleDeleteItemPrompt}
+									/>
+								))}
+						</DropTableBody>
+
+						{!isMinimized && (
+							<TableFooter
+								itemQuantity={itemQuantity}
+								weight={convertedCategoryWeight}
+								handleAddItem={handleAddItem}
 							/>
-						))}
-				</tbody>
+						)}
+					</Table>
 
-				{!isMinimized && (
-					<TableFooter
-						itemQuantity={itemQuantity}
-						weight={convertedCategoryWeight}
-						handleAddItem={handleAddItem}
+					<DeleteModal
+						open={showDeleteCategoryModal}
+						onClickMove={handleDeleteCategory}
+						onClickDelete={handleDeleteCategoryAndItems}
+						onClose={handleToggleCategoryModal}
 					/>
-				)}
-			</Table>
 
-			<DeleteModal
-				open={showDeleteCategoryModal}
-				onClickMove={handleDeleteCategory}
-				onClickDelete={handleDeleteCategoryAndItems}
-				onClose={handleToggleCategoryModal}
-			/>
-
-			<DeleteItemModal
-				id={packItemToChange}
-				open={showDeleteItemModal}
-				onClose={handleToggleItemModal}
-				onClickMove={handleMoveItem}
-				onClickDelete={handleDeleteItem}
-			/>
-		</div>
+					<DeleteItemModal
+						id={packItemToChange}
+						open={showDeleteItemModal}
+						onClose={handleToggleItemModal}
+						onClickMove={handleMoveItem}
+						onClickDelete={handleDeleteItem}
+					/>
+				</div>
+			)}
+		</Draggable>
 	);
 };
 

@@ -65,8 +65,9 @@ export type PackButtonSwitches = {
 
 export type MovePackItemProps = {
 	packId: number | null;
-	packItemId: string | number;
+	packItemId: string;
 	packCategoryId: string;
 	packItemIndex: number;
+	prevPackCategoryId: string;
 	prevPackItemIndex: number;
 };

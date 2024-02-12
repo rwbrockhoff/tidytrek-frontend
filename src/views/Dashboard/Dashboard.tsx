@@ -14,7 +14,7 @@ import {
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
-import { getCategoryIdx } from '../../utils/packUtils';
+import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
 
 type DashboardProps = { userView: boolean };
 
@@ -41,23 +41,33 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		packId && addCategory(packId);
 	};
 
-	const handleOnDragItemEnd = (result: any) => {
-		// movePackItem({
-		// 	packId: currentPack.packId,
-		// 	packItemId,
-		// 	packCategoryId,
-		// 	packItemIndex,
-		// 	prevPackItemIndex,
-		// });
-	};
+	const handleOnDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source, type } = result;
 
-	const handleOnDragEnd = (result: any) => {
-		// movePackCategory({
-		// 	packId: currentPack.packId,
-		// 	packCategoryId,
-		// 	prevIndex,
-		// 	newIndex,
-		// });
+		if (!destination) return;
+		const sameIndex = destination.index === source.index;
+		if (sameIndex) return;
+
+		if (type === 'category') {
+			movePackCategory({
+				packId: currentPack.packId,
+				packCategoryId: draggableId,
+				prevIndex: source.index,
+				newIndex: destination.index,
+			});
+		} else {
+			const sameCategory = destination.droppableId === source.droppableId;
+			if (sameIndex && sameCategory) return;
+
+			movePackItem({
+				packId: paramPackId ? packId : null,
+				packItemId: draggableId,
+				packCategoryId: destination.droppableId,
+				packItemIndex: destination.index,
+				prevPackCategoryId: source.droppableId,
+				prevPackItemIndex: source.index,
+			});
+		}
 	};
 
 	const { packAffiliate, packAffiliateDescription } = currentPack;
@@ -71,15 +81,19 @@ const Dashboard = ({ userView }: DashboardProps) => {
 					fetching={isPending}
 				/>
 
-				{packCategories.length >= 0 &&
-					packCategories.map((category: Category, idx: number) => (
-						<PackCategory
-							category={category}
-							packList={packList}
-							index={idx}
-							key={category?.packCategoryId || idx}
-						/>
-					))}
+				<DragDropContext onDragEnd={handleOnDragEnd}>
+					<Drop droppableId={'dashboard-drop-window'} type="category">
+						{packCategories.length >= 0 &&
+							packCategories.map((category: Category, idx: number) => (
+								<PackCategory
+									category={category}
+									packList={packList}
+									index={idx}
+									key={category?.packCategoryId || idx}
+								/>
+							))}
+					</Drop>
+				</DragDropContext>
 
 				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
 				{!userView && (

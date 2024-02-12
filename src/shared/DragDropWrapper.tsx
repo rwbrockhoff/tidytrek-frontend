@@ -30,12 +30,13 @@ export const Drag = ({ index, draggableId, children }: DragProps) => {
 
 type DropProps = {
 	droppableId: number | string | null;
+	type: string | undefined;
 	children: React.ReactNode;
 };
 
-export const Drop = ({ droppableId, children }: DropProps) => {
+export const Drop = ({ droppableId, type, children }: DropProps) => {
 	return (
-		<Droppable droppableId={`${droppableId}`}>
+		<Droppable droppableId={`${droppableId}`} type={type}>
 			{(provided) => (
 				<div ref={provided.innerRef} {...provided.droppableProps}>
 					{children}
@@ -48,12 +49,13 @@ export const Drop = ({ droppableId, children }: DropProps) => {
 
 type DropTableBodyProps = {
 	droppableId: number | string | null;
+	type: string | undefined;
 	children: React.ReactNode;
 };
 
-export const DropTableBody = ({ droppableId, children }: DropTableBodyProps) => {
+export const DropTableBody = ({ droppableId, type, children }: DropTableBodyProps) => {
 	return (
-		<Droppable droppableId={`${droppableId}`}>
+		<Droppable droppableId={`${droppableId}`} type={type}>
 			{(provided) => (
 				<tbody ref={provided.innerRef} {...provided.droppableProps}>
 					{children}
