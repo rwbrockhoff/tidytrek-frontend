@@ -18,9 +18,6 @@ import PropertyButtons from '../TableButtons/PropertyButtons';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { createSortablePackItem } from '../../../../shared/DragDropKit';
 
 type TableRowProps = {
 	item: PackItem;
@@ -66,27 +63,11 @@ const TableRow = (props: TableRowProps) => {
 	const handleButton = (property: PackButtonSwitches) =>
 		handleOnSave({ ...packItem, ...property });
 
-	const sortablePackItem = createSortablePackItem({ packItem, packList, index });
-	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
-		useSortable(sortablePackItem);
-
 	const isGearClosetItem = packCategoryId === null;
-
-	const style = {
-		transition,
-		transform: CSS.Translate.toString(transform),
-		zIndex: 5,
-		backgroundColor: 'white',
-		opacity: isDragging && !isGearClosetItem ? 0 : 1,
-	};
 
 	return (
 		<>
 			<tr
-				ref={setNodeRef}
-				{...attributes}
-				{...listeners}
-				style={style}
 				className="table-row"
 				onMouseOver={() => setToggleRow(true)}
 				onMouseLeave={() => setToggleRow(false)}>

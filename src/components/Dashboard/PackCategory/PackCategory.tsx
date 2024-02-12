@@ -23,13 +23,6 @@ import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
-import { createSortablePackCategory } from '../../../shared/DragDropKit';
-import {
-	useSortable,
-	SortableContext,
-	verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 
 type PackCategoryProps = {
 	category: Category;
@@ -39,17 +32,6 @@ type PackCategoryProps = {
 };
 
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
-	const sortableCategory = createSortablePackCategory({ category, packList, index });
-	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
-		useSortable(sortableCategory);
-
-	const style = {
-		transition,
-		transform: CSS.Translate.toString(transform),
-		zIndex: 5,
-		opacity: isDragging ? 0 : 1,
-	};
-
 	const userView = useUserContext();
 
 	const { packCategoryName, packCategoryId, packId, packItems } = category;
@@ -119,14 +101,8 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
 	const showCategoryItems = packItems[0] && !isMinimized;
 
-	const sortedPackIds = packItems[0] ? packItems.map((item) => item.packItemId) : [];
 	return (
-		<div
-			className="table-container"
-			ref={setNodeRef}
-			style={style}
-			{...attributes}
-			{...listeners}>
+		<div className="table-container">
 			<Table fixed striped compact columns="16" color="olive" size="small">
 				<TableHeader
 					headerName={packCategoryName}
@@ -137,23 +113,18 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 				/>
 
 				<tbody>
-					<SortableContext
-						items={sortedPackIds}
-						strategy={verticalListSortingStrategy}
-						disabled={!userView}>
-						{showCategoryItems &&
-							packItems.map((item: PackItem, idx) => (
-								<TableRow
-									item={item}
-									key={item.packItemId}
-									index={idx}
-									packList={packList}
-									handleMoveItemToPack={handleMoveItemToPack}
-									handleOnSave={handleOnSave}
-									handleDelete={handleDeleteItemPrompt}
-								/>
-							))}
-					</SortableContext>
+					{showCategoryItems &&
+						packItems.map((item: PackItem, idx) => (
+							<TableRow
+								item={item}
+								key={item.packItemId}
+								index={idx}
+								packList={packList}
+								handleMoveItemToPack={handleMoveItemToPack}
+								handleOnSave={handleOnSave}
+								handleDelete={handleDeleteItemPrompt}
+							/>
+						))}
 				</tbody>
 
 				{!isMinimized && (

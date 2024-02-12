@@ -11,7 +11,6 @@ import {
 import { Divider, Icon } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
-import { DragEndEvent } from '@dnd-kit/core';
 
 const Sidebar = () => {
 	const location = useLocation();
@@ -70,17 +69,8 @@ const Sidebar = () => {
 		navigate('/');
 	};
 
-	const handleOnDragEnd = (result: DragEndEvent) => {
-		const { active, over } = result;
-		if (!over || !active) return;
-
-		const packId = Number(active.id);
-		const prevIndex = active.data.current?.index;
-		const newIndex = over?.data.current?.index;
-
-		if (prevIndex === newIndex) return;
-
-		movePack({ packId, newIndex, prevIndex });
+	const handleOnDragEnd = (result: any) => {
+		// movePack({ packId, newIndex, prevIndex });
 	};
 
 	return (

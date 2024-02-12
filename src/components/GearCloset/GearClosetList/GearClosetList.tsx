@@ -12,9 +12,6 @@ import {
 	useDeleteGearClosetItemMutation,
 } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
-import { DndContext, type DragEndEvent } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { getIdx, sensors } from '../../../shared/DragDropKit';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -34,82 +31,68 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 
 	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
-	const handleOnDragEnd = (result: DragEndEvent) => {
-		const { active, over } = result;
-		if (!active || !over) return;
-
-		const packItemId = Number(active.id);
-		const prevPackItemIndex = getIdx(active);
-		const packItemIndex = getIdx(over);
-		if (prevPackItemIndex === packItemIndex) return;
-
-		moveGearClosetItem({ packItemId, packItemIndex, prevPackItemIndex });
+	const handleOnDragEnd = (result: any) => {
+		// moveGearClosetItem({ packItemId, packItemIndex, prevPackItemIndex });
 	};
 
 	const sortedGearItemIds = gearClosetList.map((item: PackItem) => item.packItemId);
 
 	return (
-		<DndContext onDragEnd={handleOnDragEnd} sensors={sensors()}>
-			<Table fixed striped columns="16" color="blue" size="small">
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>
-							Item
-						</Table.HeaderCell>
-						<Table.HeaderCell colSpan="7" style={{ paddingLeft: '25px' }}>
-							Description
-						</Table.HeaderCell>
-						<Table.HeaderCell
-							colSpan="2"
-							textAlign="center"
-							style={{ paddingLeft: '90px' }}>
-							Quantity
-						</Table.HeaderCell>
-						<Table.HeaderCell colSpan="2" textAlign="center">
-							Weight
-						</Table.HeaderCell>
+		<Table fixed striped columns="16" color="blue" size="small">
+			<Table.Header>
+				<Table.Row>
+					<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>
+						Item
+					</Table.HeaderCell>
+					<Table.HeaderCell colSpan="7" style={{ paddingLeft: '25px' }}>
+						Description
+					</Table.HeaderCell>
+					<Table.HeaderCell
+						colSpan="2"
+						textAlign="center"
+						style={{ paddingLeft: '90px' }}>
+						Quantity
+					</Table.HeaderCell>
+					<Table.HeaderCell colSpan="2" textAlign="center">
+						Weight
+					</Table.HeaderCell>
 
-						<Table.HeaderCell colSpan="1"></Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
+					<Table.HeaderCell colSpan="1"></Table.HeaderCell>
+				</Table.Row>
+			</Table.Header>
 
-				<tbody>
-					<SortableContext
-						items={sortedGearItemIds}
-						strategy={verticalListSortingStrategy}>
-						{gearClosetList.map((item: PackItem, index) => (
-							<TableRow
-								item={item}
-								key={item.packItemId}
-								index={index}
-								packList={packList}
-								handleMoveItemToPack={handleMoveItemToPack}
-								handleOnSave={handleOnSave}
-								handleDelete={handleDelete}
-							/>
-						))}
-					</SortableContext>
-				</tbody>
+			<tbody>
+				{gearClosetList.map((item: PackItem, index) => (
+					<TableRow
+						item={item}
+						key={item.packItemId}
+						index={index}
+						packList={packList}
+						handleMoveItemToPack={handleMoveItemToPack}
+						handleOnSave={handleOnSave}
+						handleDelete={handleDelete}
+					/>
+				))}
+			</tbody>
 
-				<Table.Footer>
-					<Table.Row className="footer-container">
-						<Table.Cell colSpan={16}>
-							<Button
-								size="mini"
-								floated="left"
-								compact
-								basic
-								className="add-item-table-button"
-								disabled={isPendingAddItem}
-								onClick={() => addItem()}>
-								<Icon name="add" />
-								Add Item
-							</Button>
-						</Table.Cell>
-					</Table.Row>
-				</Table.Footer>
-			</Table>
-		</DndContext>
+			<Table.Footer>
+				<Table.Row className="footer-container">
+					<Table.Cell colSpan={16}>
+						<Button
+							size="mini"
+							floated="left"
+							compact
+							basic
+							className="add-item-table-button"
+							disabled={isPendingAddItem}
+							onClick={() => addItem()}>
+							<Icon name="add" />
+							Add Item
+						</Button>
+					</Table.Cell>
+				</Table.Row>
+			</Table.Footer>
+		</Table>
 	);
 };
 
