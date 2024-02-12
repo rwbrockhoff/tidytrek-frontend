@@ -46,9 +46,9 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 		if (!destination) return;
 		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
 
 		if (type === 'category') {
+			if (sameIndex) return;
 			movePackCategory({
 				packId: currentPack.packId,
 				packCategoryId: draggableId,

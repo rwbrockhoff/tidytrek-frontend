@@ -38,7 +38,7 @@ export const useMoveGearClosetItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packInfo: {
-			packItemId: number;
+			packItemId: string;
 			packItemIndex: number;
 			prevPackItemIndex: number;
 		}) => {
@@ -47,6 +47,23 @@ export const useMoveGearClosetItemMutation = () => {
 				newIndex: packItemIndex,
 				previousIndex: prevPackItemIndex,
 			});
+		},
+		onMutate: async (packInfo) => {
+			const { packItemIndex, prevPackItemIndex } = packInfo;
+
+			await queryClient.cancelQueries({ queryKey: closetKeys.all });
+			const prevClosetList = queryClient.getQueryData(closetKeys.all);
+
+			queryClient.setQueryData(closetKeys.all, (old: any) => {
+				const { gearClosetList } = old;
+				const [item] = gearClosetList.splice(prevPackItemIndex, 1);
+				gearClosetList.splice(packItemIndex, 0, item);
+				return old;
+			});
+			return { prevClosetList };
+		},
+		onError: (_err, _packInfo, context) => {
+			queryClient.setQueryData(closetKeys.all, context?.prevClosetList);
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });

@@ -18,7 +18,7 @@ import PropertyButtons from '../TableButtons/PropertyButtons';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
-import { Draggable } from '@hello-pangea/dnd';
+import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
 	item: PackItem;
@@ -37,8 +37,7 @@ type TableRowProps = {
 
 const TableRow = (props: TableRowProps) => {
 	const userView = useUserContext();
-	const { handleMoveItemToPack, handleOnSave, handleDelete, item, index, packList } =
-		props;
+	const { handleMoveItemToPack, handleOnSave, handleDelete, item, index } = props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
 	const [toggleRow, setToggleRow] = useState(false);
 
@@ -49,7 +48,6 @@ const TableRow = (props: TableRowProps) => {
 		packItemName,
 		packItemDescription,
 		packItemId,
-		packCategoryId,
 		packItemWeight,
 		packItemUnit,
 		packItemQuantity,
@@ -64,12 +62,10 @@ const TableRow = (props: TableRowProps) => {
 	const handleButton = (property: PackButtonSwitches) =>
 		handleOnSave({ ...packItem, ...property });
 
-	const isGearClosetItem = packCategoryId === null;
-
 	const dropId = `${packItemId}`;
 
 	return (
-		<Draggable key={dropId} draggableId={dropId} index={index}>
+		<Draggable key={dropId} draggableId={dropId} index={index} isDragDisabled={!userView}>
 			{(provided) => (
 				<>
 					<tr

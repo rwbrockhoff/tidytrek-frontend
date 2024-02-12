@@ -1,0 +1,4 @@
+tbody.pack-item-table-container {
+	flex-grow: 1 !important;
+	min-height: 40px;
+}

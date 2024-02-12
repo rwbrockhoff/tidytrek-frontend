@@ -7,11 +7,11 @@ import {
 import {
 	useAddGearClosetItemMutation,
 	useEditGearClosetItemMutation,
-	useMoveGearClosetItemMutation,
 	useMoveItemToPackMutation,
 	useDeleteGearClosetItemMutation,
 } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
+import { DropTableBody } from '../../../shared/DragDropWrapper';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -21,7 +21,6 @@ export type GearClosetListProps = {
 const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
-	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 	const { mutate: moveToPack } = useMoveItemToPackMutation();
 	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
 
@@ -30,12 +29,6 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 	const handleDelete = (packItemId: number) => deleteItem(packItemId);
 
 	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
-
-	const handleOnDragEnd = (result: any) => {
-		// moveGearClosetItem({ packItemId, packItemIndex, prevPackItemIndex });
-	};
-
-	const sortedGearItemIds = gearClosetList.map((item: PackItem) => item.packItemId);
 
 	return (
 		<Table fixed striped columns="16" color="blue" size="small">
@@ -61,7 +54,7 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 				</Table.Row>
 			</Table.Header>
 
-			<tbody>
+			<DropTableBody droppableId={`gear-closet`} type="closet-item">
 				{gearClosetList.map((item: PackItem, index) => (
 					<TableRow
 						item={item}
@@ -73,7 +66,7 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 						handleDelete={handleDelete}
 					/>
 				))}
-			</tbody>
+			</DropTableBody>
 
 			<Table.Footer>
 				<Table.Row className="footer-container">

@@ -3,7 +3,8 @@ import {
 	Droppable,
 	DragDropContext as Context,
 	type DropResult as Result,
-} from '@hello-pangea/dnd';
+} from 'react-beautiful-dnd';
+import './DragDropWrapper.css';
 
 export type DropResult = Result;
 

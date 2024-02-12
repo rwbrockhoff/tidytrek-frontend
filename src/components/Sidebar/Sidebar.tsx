@@ -11,6 +11,7 @@ import {
 import { Divider, Icon } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
+import { DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 
 const Sidebar = () => {
 	const location = useLocation();
@@ -69,8 +70,16 @@ const Sidebar = () => {
 		navigate('/');
 	};
 
-	const handleOnDragEnd = (result: any) => {
-		// movePack({ packId, newIndex, prevIndex });
+	const handleOnDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source } = result;
+		if (!destination) return;
+		const sameIndex = destination.index === source.index;
+		if (sameIndex) return;
+		movePack({
+			packId: draggableId,
+			newIndex: destination.index,
+			prevIndex: source.index,
+		});
 	};
 
 	return (
@@ -97,12 +106,9 @@ const Sidebar = () => {
 				</li>
 			</menu>
 			<Divider />
-			<PackList
-				packList={packList}
-				getPack={handleGetPack}
-				addPack={handleAddPack}
-				onDragEnd={handleOnDragEnd}
-			/>
+			<DragDropContext onDragEnd={handleOnDragEnd}>
+				<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
+			</DragDropContext>
 		</nav>
 	);
 };

@@ -24,7 +24,7 @@ import { weightConverter, quantityConverter } from '../../../utils/weightConvert
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
-import { Draggable } from '@hello-pangea/dnd';
+import { Draggable } from 'react-beautiful-dnd';
 
 type PackCategoryProps = {
 	category: Category;
@@ -107,6 +107,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 		<Draggable
 			key={category.packCategoryId}
 			draggableId={`${category.packCategoryId}`}
+			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
 				<div

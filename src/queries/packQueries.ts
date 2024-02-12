@@ -64,12 +64,12 @@ export const useEditPackMutation = () => {
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packInfo: { packId: number; newIndex: number; prevIndex: number }) => {
+		mutationFn: (packInfo: { packId: string; newIndex: number; prevIndex: number }) => {
 			const { packId, newIndex, prevIndex } = packInfo;
 			return tidyTrekAPI.put(`/packs/index/${packId}`, { newIndex, prevIndex });
 		},
 		onMutate: async (packInfo: {
-			packId: number;
+			packId: string;
 			newIndex: number;
 			prevIndex: number;
 		}) => {
@@ -270,17 +270,9 @@ export const useMovePackCategoryMutation = () => {
 			queryClient.setQueryData(packKeys.packId(packIdNum), (old: any) => {
 				const { categories } = old;
 
-				const replacingCategory = categories[newIndex];
 				const [category] = categories.splice(prevIndex, 1);
-
-				const { packCategoryIndex: newCatIndex } = replacingCategory;
-				const { packCategoryIndex: prevCatIndex } = category;
-
-				replacingCategory.packCategoryIndex = prevCatIndex;
-				category.packCategoryIndex = newCatIndex;
-
 				categories.splice(newIndex, 0, category);
-				console.log('OLD : ', old.categories);
+
 				return old;
 			});
 			return { prevPack };
