@@ -4,7 +4,6 @@ import {
 	DragDropContext as Context,
 	type DropResult as Result,
 } from 'react-beautiful-dnd';
-import './DragDropWrapper.css';
 
 export type DropResult = Result;
 
@@ -57,9 +56,23 @@ type DropTableBodyProps = {
 export const DropTableBody = ({ droppableId, type, children }: DropTableBodyProps) => {
 	return (
 		<Droppable droppableId={`${droppableId}`} type={type}>
-			{(provided) => (
-				<tbody ref={provided.innerRef} {...provided.droppableProps}>
-					{children}
+			{(provided, { isDraggingOver }) => (
+				<tbody
+					ref={provided.innerRef}
+					style={{ height: 10 }}
+					{...provided.droppableProps}>
+					{children ? (
+						children
+					) : (
+						<tr
+							className="empty-table-row"
+							style={{
+								backgroundColor: isDraggingOver && !children ? 'white' : '#f0f0f0',
+							}}>
+							<td colSpan={16}></td>
+						</tr>
+					)}
+
 					{provided.placeholder}
 				</tbody>
 			)}
@@ -68,10 +81,19 @@ export const DropTableBody = ({ droppableId, type, children }: DropTableBodyProp
 };
 
 type DragDropContext = {
+	onDragStart?: () => void;
 	onDragEnd: (result: Result) => void;
 	children: React.ReactNode;
 };
 
-export const DragDropContext = ({ children, onDragEnd }: DragDropContext) => {
-	return <Context onDragEnd={onDragEnd}>{children}</Context>;
+export const DragDropContext = ({
+	children,
+	onDragEnd,
+	onDragStart,
+}: DragDropContext) => {
+	return (
+		<Context onDragStart={onDragStart} onDragEnd={onDragEnd}>
+			{children}
+		</Context>
+	);
 };
