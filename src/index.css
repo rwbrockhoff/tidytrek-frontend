@@ -39,6 +39,7 @@ a {
 	padding-bottom: 10vh;
 	padding-top: 5vh;
 	transition: all 500ms ease;
+	transition-property: margin-left, width;
 }
 
 #guest-view-container {

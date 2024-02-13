@@ -89,6 +89,9 @@ div.pack-info-right-panel-graphic {
 	img {
 		height: 100%;
 	}
+	p {
+		margin-right: 30px;
+	}
 }
 
 p.pack-link {
