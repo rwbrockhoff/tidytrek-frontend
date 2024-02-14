@@ -36,7 +36,8 @@ type PackCategoryProps = {
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
-	const { packCategoryName, packCategoryId, packId, packItems } = category;
+	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
+		category;
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
 	const { mutate: editPackItem } = useEditPackItemMutation();
@@ -114,10 +115,17 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 					className="table-container"
 					ref={provided.innerRef}
 					{...provided.draggableProps}>
-					<Table fixed striped compact columns="16" color="olive" size="small">
+					<Table
+						fixed
+						striped
+						compact
+						columns="16"
+						size="small"
+						style={{ borderTop: `0.3em solid ${packCategoryColor}` }}>
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
-							headerName={packCategoryName}
+							categoryName={packCategoryName}
+							themeColor={packCategoryColor}
 							isMinimized={isMinimized}
 							minimizeCategory={handleMinimizeCategory}
 							editCategory={handleEditCategory}

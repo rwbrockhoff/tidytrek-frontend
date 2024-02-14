@@ -21,19 +21,16 @@ const PackChart = (props: PackChartProps) => {
 		return category.packCategoryName;
 	});
 
+	const categoryColors = props.categories.map((category) => {
+		return category.packCategoryColor;
+	});
+
 	const chartData = {
 		labels: categoryLabels,
 		datasets: [
 			{
 				data: props.categoryWeights,
-				backgroundColor: [
-					'#338866',
-					'#78B87A',
-					'#5F84A2',
-					'#7BB8C0',
-					'#A7B5FE',
-					'#F36F3B',
-				],
+				backgroundColor: categoryColors,
 				borderWidth: 2,
 			},
 		],

@@ -25,6 +25,7 @@ export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
 	packId: number;
+	packCategoryColor: string;
 	packItems: [PackItem];
 };
 

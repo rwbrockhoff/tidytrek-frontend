@@ -3,11 +3,11 @@ import {
 	Form,
 	Input,
 	FormField,
-	Button,
 	Icon,
 	Header,
 	Divider,
 } from 'semantic-ui-react';
+import { Button } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
 import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
@@ -87,7 +87,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 						<div className="form-button-container">
 							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 							<Button
-								color="blue"
+								$themeColor="primary"
 								disabled={isPending}
 								onClick={() => changePassword(passwordInfo)}>
 								Save Password

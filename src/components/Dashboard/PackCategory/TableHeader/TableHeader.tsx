@@ -9,7 +9,8 @@ import { useState } from 'react';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type TableHeaderProps = {
-	headerName: string;
+	categoryName: string;
+	themeColor: string;
 	isMinimized: boolean;
 	dragProps: object;
 	minimizeCategory: () => void;
@@ -20,7 +21,8 @@ type TableHeaderProps = {
 const TableHeader = (props: TableHeaderProps) => {
 	const userView = useUserContext();
 	const {
-		headerName,
+		categoryName,
+		themeColor,
 		isMinimized,
 		dragProps,
 		minimizeCategory,
@@ -38,9 +40,10 @@ const TableHeader = (props: TableHeaderProps) => {
 			onMouseLeave={() => setToggleRow(false)}>
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
 				<CategoryNameCell
+					categoryName={categoryName}
+					themeColor={themeColor}
 					size={spanSize}
 					disabled={isMinimized}
-					categoryName={headerName}
 					onToggleOff={editCategory}
 				/>
 

@@ -1,4 +1,5 @@
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import { Table, Button } from '../../../shared/ui/SemanticUI';
 import {
 	type PackListItem,
 	type PackItem,
@@ -31,7 +32,7 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
 	return (
-		<Table fixed striped columns="16" color="blue" size="small">
+		<Table $themeColor="primary" fixed striped columns="16" size="small">
 			<Table.Header>
 				<Table.Row>
 					<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>

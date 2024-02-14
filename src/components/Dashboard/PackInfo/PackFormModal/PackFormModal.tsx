@@ -1,18 +1,16 @@
 import {
 	Modal,
-	ModalHeader,
 	ModalContent,
 	ModalActions,
-	Button,
 	Form,
 	FormField,
-	Checkbox,
 	Input,
 	Icon,
 	TextArea,
 	FormGroup,
 	Divider,
 } from 'semantic-ui-react';
+import { Button, ModalHeader, Checkbox } from '../../../../shared/ui/SemanticUI';
 import { useState, useEffect } from 'react';
 import { useEditPackMutation } from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
@@ -103,7 +101,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 
 	return (
 		<Modal size="small" closeIcon open={open} onClose={onClose}>
-			<ModalHeader className="pack-form-modal-header">
+			<ModalHeader $themeColor="primary">
 				{packName ?? pack.packName ?? 'Pack'}
 			</ModalHeader>
 			<ModalContent>
@@ -114,10 +112,12 @@ const PackFormModal = (props: PackFormModalProps) => {
 							justifyContent: 'flex-end',
 						}}>
 						<Checkbox
+							$themeColor="primary"
 							toggle
 							checked={packPublic}
 							onClick={() => handleCheckBox({ packPublic: !packPublic })}
 						/>
+
 						<label className="public-toggle-label">
 							<Icon name="binoculars" /> Public
 						</label>
@@ -177,6 +177,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 
 					<FormField>
 						<Checkbox
+							$themeColor="primary"
 							toggle
 							name="packAffiliate"
 							checked={packAffiliate ?? false}
@@ -201,7 +202,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 				<Button color="red" floated="left" basic onClick={onClickDelete}>
 					<Icon name="trash" /> Delete Pack
 				</Button>
-				<Button color="blue" onClick={handleSubmitPack}>
+				<Button $themeColor="primary" onClick={handleSubmitPack}>
 					<Icon name="save outline" /> Save Pack
 				</Button>
 			</ModalActions>

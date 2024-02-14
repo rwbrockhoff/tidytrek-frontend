@@ -1,4 +1,5 @@
 import { Table, Input, Header } from 'semantic-ui-react';
+import ThemeButton from '../../TableButtons/ThemeButton/ThemeButton';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
@@ -7,16 +8,18 @@ import { ReactInput } from '../../../../../types/generalTypes';
 import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type CategoryNameCellProps = {
+	categoryName: string;
+	themeColor: string;
 	size: number;
 	disabled: boolean;
-	categoryName: string;
 	onToggleOff: (packCategoryName: string) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
 
-	const { size, disabled, onToggleOff, categoryName } = props;
+	const { size, disabled, onToggleOff, categoryName, themeColor } = props;
+
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
 	const [showGrip, setShowGrip] = useState(false);
@@ -26,7 +29,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const toggleToCell = () => {
 		if (toggleInput) {
 			setToggleInput(false);
-			if (props.categoryName !== packCategoryName) {
+			if (categoryName !== packCategoryName) {
 				onToggleOff(packCategoryName);
 			}
 		}
@@ -56,20 +59,24 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 			<GripButton display={showGrip && userView} />
 
 			{userView ? (
-				<Input
-					className="table-cell-input header-title"
-					value={packCategoryName || 'Category'}
-					name={'packCategoryName'}
-					onChange={handleInput}
-					disabled={!userView}
-					// Show input background when user interacts
-					transparent={display}
-					style={{
-						fontSize: '1.2em',
-						width: 'fit-content',
-						paddingLeft: display ? '15px' : '0px',
-					}}
-				/>
+				<>
+					<Input
+						className="table-cell-input header-title"
+						value={packCategoryName || 'Category'}
+						name={'packCategoryName'}
+						onChange={handleInput}
+						disabled={!userView}
+						// Show input background when user interacts
+						transparent={display}
+						style={{
+							fontSize: '1.2em',
+							width: 'fit-content',
+							paddingLeft: display ? '0px' : '0px',
+						}}>
+						<ThemeButton color={themeColor} />
+						<input />
+					</Input>
+				</>
 			) : (
 				<Header className="header-title">{packCategoryName}</Header>
 			)}
