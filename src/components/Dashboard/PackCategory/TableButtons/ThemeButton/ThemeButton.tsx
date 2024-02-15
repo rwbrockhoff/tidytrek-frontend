@@ -21,8 +21,7 @@ const ThemeButton = ({ color }: { color: string }) => {
 export default ThemeButton;
 
 const Container = styled.div`
-	margin-left: 5px;
-	margin-right: 10px;
+	margin: 0px 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

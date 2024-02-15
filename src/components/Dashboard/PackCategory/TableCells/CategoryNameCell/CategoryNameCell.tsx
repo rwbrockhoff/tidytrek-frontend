@@ -1,9 +1,12 @@
-import { Table, Input, Header } from 'semantic-ui-react';
+import {
+	Table as SemTable,
+	Input as SemInput,
+	Header as SemHeader,
+} from 'semantic-ui-react';
 import ThemeButton from '../../TableButtons/ThemeButton/ThemeButton';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
-import '../TableCell/TableCell.css';
-import './CategoryNameCell.css';
+import styled, { css } from 'styled-components';
 import { ReactInput } from '../../../../../types/generalTypes';
 import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
@@ -47,9 +50,10 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
 
-	const display = !toggleInput || !userView;
+	const displayInput = !toggleInput || !userView;
+
 	return (
-		<Table.HeaderCell
+		<HeaderCell
 			className="table-header-cell"
 			colSpan={size}
 			onMouseOver={handleOnMouseOver}
@@ -59,29 +63,52 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 			<GripButton display={showGrip && userView} />
 
 			{userView ? (
-				<>
-					<Input
-						className="table-cell-input header-title"
-						value={packCategoryName || 'Category'}
-						name={'packCategoryName'}
-						onChange={handleInput}
-						disabled={!userView}
-						// Show input background when user interacts
-						transparent={display}
-						style={{
-							fontSize: '1.2em',
-							width: 'fit-content',
-							paddingLeft: display ? '0px' : '0px',
-						}}>
-						<ThemeButton color={categoryColor} />
-						<input />
-					</Input>
-				</>
+				<Input
+					value={packCategoryName || 'Category'}
+					name="packCategoryName"
+					onChange={handleInput}
+					disabled={!userView}
+					// Show input background when user interacts
+					$displayInput={displayInput}>
+					<ThemeButton color={categoryColor} />
+					<input />
+				</Input>
 			) : (
-				<Header className="header-title">{packCategoryName}</Header>
+				<Header>{packCategoryName}</Header>
 			)}
-		</Table.HeaderCell>
+		</HeaderCell>
 	);
 };
 
 export default CategoryNameCell;
+
+const HeaderCell = styled(SemTable.HeaderCell)`
+	position: relative;
+	overflow: visible;
+`;
+
+const Input = styled(SemInput)`
+	&&& {
+		font-size: 1.2em;
+		width: fit-content;
+		height: 30px;
+		input {
+			padding-left: 0.5em;
+		}
+		${(props) =>
+			props.$displayInput &&
+			css`
+				input {
+					border-color: transparent;
+					background-color: transparent;
+					box-shadow: none;
+					border-radius: 0;
+				}
+			`};
+	}
+`;
+
+const Header = styled(SemHeader)`
+	margin-left: 15px;
+	opacity: 0.8;
+`;
