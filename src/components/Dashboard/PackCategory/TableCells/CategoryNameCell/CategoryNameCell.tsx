@@ -7,7 +7,8 @@ import ThemeButton from '../../TableButtons/ThemeButton/ThemeButton';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { ReactInput } from '../../../../../types/generalTypes';
+import { type ReactInput } from '../../../../../types/generalTypes';
+import { type CategoryChanges } from '../../PackCategory';
 import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type CategoryNameCellProps = {
@@ -15,13 +16,13 @@ type CategoryNameCellProps = {
 	categoryColor: string;
 	size: number;
 	disabled: boolean;
-	onToggleOff: (packCategoryName: string) => void;
+	editCategory: (categoryChanges: CategoryChanges) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
 
-	const { size, disabled, onToggleOff, categoryName, categoryColor } = props;
+	const { size, disabled, editCategory, categoryName, categoryColor } = props;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
@@ -33,7 +34,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		if (toggleInput) {
 			setToggleInput(false);
 			if (categoryName !== packCategoryName) {
-				onToggleOff(packCategoryName);
+				editCategory({ packCategoryName });
 			}
 		}
 	};
@@ -70,7 +71,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 					disabled={!userView}
 					// Show input background when user interacts
 					$displayInput={displayInput}>
-					<ThemeButton color={categoryColor} />
+					<ThemeButton color={categoryColor} onClick={editCategory} />
 					<input />
 				</Input>
 			) : (

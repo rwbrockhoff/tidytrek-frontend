@@ -234,9 +234,12 @@ export const useAddPackCategoryMutation = () => {
 export const useEditPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (categoryInfo: { packCategoryId: number; packCategoryName: string }) => {
-			const { packCategoryId, packCategoryName } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, { packCategoryName });
+		mutationFn: (categoryInfo: {
+			packCategoryId: number;
+			categoryChanges: { packCategoryName?: string; packCategoryColor?: string };
+		}) => {
+			const { packCategoryId, categoryChanges } = categoryInfo;
+			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryChanges);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });

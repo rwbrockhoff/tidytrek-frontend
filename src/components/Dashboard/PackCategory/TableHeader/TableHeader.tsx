@@ -5,6 +5,7 @@ import {
 	MinimizeButton,
 	DeleteButton,
 } from '../TableButtons/TableButtons';
+import { type CategoryChanges } from '../PackCategory';
 import { useState } from 'react';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
@@ -14,7 +15,7 @@ type TableHeaderProps = {
 	isMinimized: boolean;
 	dragProps: object;
 	minimizeCategory: () => void;
-	editCategory: (packCategoryName: string) => void;
+	editCategory: (categoryChanges: CategoryChanges) => void;
 	deleteCategory: () => void;
 };
 
@@ -44,7 +45,7 @@ const TableHeader = (props: TableHeaderProps) => {
 					categoryColor={categoryColor}
 					size={spanSize}
 					disabled={isMinimized}
-					onToggleOff={editCategory}
+					editCategory={editCategory}
 				/>
 
 				{!isMinimized && (

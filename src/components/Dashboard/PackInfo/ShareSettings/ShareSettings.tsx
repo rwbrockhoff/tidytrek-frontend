@@ -1,12 +1,5 @@
-import {
-	Icon,
-	Popup,
-	PopupContent,
-	Header,
-	Divider,
-	Input,
-	Button,
-} from 'semantic-ui-react';
+import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
+import { Button } from '../../../../shared/ui/SemanticUI';
 import { useState } from 'react';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 import './ShareSettings.css';
@@ -50,10 +43,10 @@ const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 						<div className="share-settings-popup-container">
 							<Input size="mini" value={packLink} />
 							<Button
+								$themeColor="primary"
 								size="mini"
 								attached="right"
 								toggle
-								active={linkCopied}
 								onClick={handleCopyToClipboard}>
 								{linkCopied ? (
 									<>

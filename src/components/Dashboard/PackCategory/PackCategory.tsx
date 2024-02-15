@@ -33,6 +33,11 @@ type PackCategoryProps = {
 	key: number;
 };
 
+export type CategoryChanges = {
+	packCategoryName?: string;
+	packCategoryColor?: string;
+};
+
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
@@ -60,8 +65,8 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
-	const handleEditCategory = (packCategoryName: string) => {
-		editPackCategory({ packCategoryId, packCategoryName });
+	const handleEditCategory = (categoryChanges: CategoryChanges) => {
+		editPackCategory({ packCategoryId, categoryChanges });
 	};
 
 	const handleDeleteCategoryAndItems = () => {
