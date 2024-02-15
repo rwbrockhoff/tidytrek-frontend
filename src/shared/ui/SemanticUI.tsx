@@ -1,5 +1,6 @@
 import {
 	Button as SemanticButton,
+	Icon as SemanticIcon,
 	ModalHeader as SemanticModalHeader,
 	Checkbox as SemanticCheckbox,
 	Table as SemanticTable,
@@ -13,6 +14,16 @@ export const Button = styled(SemanticButton)`
 			css`
 				background-color: ${props.theme[props.$themeColor]};
 				color: white;
+			`};
+	}
+`;
+
+export const Icon = styled(SemanticIcon)`
+	&&& {
+		${(props) =>
+			props.$themeColor &&
+			css`
+				color: ${props.theme[props.$themeColor]};
 			`};
 	}
 `;
