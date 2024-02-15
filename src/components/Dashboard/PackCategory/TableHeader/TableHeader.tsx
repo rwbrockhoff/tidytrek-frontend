@@ -10,7 +10,7 @@ import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type TableHeaderProps = {
 	categoryName: string;
-	themeColor: string;
+	categoryColor: string;
 	isMinimized: boolean;
 	dragProps: object;
 	minimizeCategory: () => void;
@@ -22,7 +22,7 @@ const TableHeader = (props: TableHeaderProps) => {
 	const userView = useUserContext();
 	const {
 		categoryName,
-		themeColor,
+		categoryColor,
 		isMinimized,
 		dragProps,
 		minimizeCategory,
@@ -41,7 +41,7 @@ const TableHeader = (props: TableHeaderProps) => {
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
 				<CategoryNameCell
 					categoryName={categoryName}
-					themeColor={themeColor}
+					categoryColor={categoryColor}
 					size={spanSize}
 					disabled={isMinimized}
 					onToggleOff={editCategory}

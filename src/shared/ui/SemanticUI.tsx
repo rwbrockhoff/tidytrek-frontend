@@ -22,7 +22,7 @@ export const Table = styled(SemanticTable)`
 		${(props) =>
 			props.$themeColor &&
 			css`
-				border-top: 0.2em solid ${props.theme[props.$themeColor]};
+				border-top: 0.3em solid ${props.theme[props.$themeColor]};
 			`};
 	}
 `;

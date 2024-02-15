@@ -1,4 +1,4 @@
-import { Table } from 'semantic-ui-react';
+import { Table } from '../../../shared/ui/SemanticUI';
 import {
 	type PackListItem,
 	type Category,
@@ -116,16 +116,16 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 					ref={provided.innerRef}
 					{...provided.draggableProps}>
 					<Table
+						$themeColor={packCategoryColor}
 						fixed
 						striped
 						compact
 						columns="16"
-						size="small"
-						style={{ borderTop: `0.3em solid ${packCategoryColor}` }}>
+						size="small">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
 							categoryName={packCategoryName}
-							themeColor={packCategoryColor}
+							categoryColor={packCategoryColor}
 							isMinimized={isMinimized}
 							minimizeCategory={handleMinimizeCategory}
 							editCategory={handleEditCategory}

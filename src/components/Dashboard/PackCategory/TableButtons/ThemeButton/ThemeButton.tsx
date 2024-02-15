@@ -1,5 +1,6 @@
-import { Button as SemanticButton, Popup, PopupContent } from 'semantic-ui-react';
-import styled, { css } from 'styled-components';
+import { Popup, PopupContent } from 'semantic-ui-react';
+import { Button } from '../../../../../shared/ui/SemanticUI';
+import styled from 'styled-components';
 
 const ThemeButton = ({ color }: { color: string }) => {
 	return (
@@ -7,7 +8,7 @@ const ThemeButton = ({ color }: { color: string }) => {
 			on="click"
 			trigger={
 				<Container>
-					<Button $backgroundColor={color} circular />
+					<CircleButton $themeColor={color} circular />
 				</Container>
 			}>
 			<PopupContent>
@@ -27,15 +28,10 @@ const Container = styled.div`
 	justify-content: center;
 `;
 
-const Button = styled(SemanticButton)<{ $backgroundColor?: string }>`
+const CircleButton = styled(Button)`
 	&&& {
 		padding: 0px;
 		width: 15px;
 		heigh: 15px;
-		${(props) =>
-			props.$backgroundColor &&
-			css`
-				background-color: ${props.$backgroundColor};
-			`};
 	}
 `;

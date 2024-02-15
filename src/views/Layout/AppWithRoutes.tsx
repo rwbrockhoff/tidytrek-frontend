@@ -24,9 +24,9 @@ const AppWithRoutes = () => {
 
 export default AppWithRoutes;
 
-interface UserTheme {
+type UserTheme = {
 	[key: string]: string | undefined;
-}
+};
 
 const generateTheme = (settings: Settings | undefined) => {
 	let userTheme: UserTheme = {};

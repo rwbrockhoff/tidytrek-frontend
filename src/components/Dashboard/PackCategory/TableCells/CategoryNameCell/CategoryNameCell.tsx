@@ -9,7 +9,7 @@ import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type CategoryNameCellProps = {
 	categoryName: string;
-	themeColor: string;
+	categoryColor: string;
 	size: number;
 	disabled: boolean;
 	onToggleOff: (packCategoryName: string) => void;
@@ -18,7 +18,7 @@ type CategoryNameCellProps = {
 const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
 
-	const { size, disabled, onToggleOff, categoryName, themeColor } = props;
+	const { size, disabled, onToggleOff, categoryName, categoryColor } = props;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
@@ -73,7 +73,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 							width: 'fit-content',
 							paddingLeft: display ? '0px' : '0px',
 						}}>
-						<ThemeButton color={themeColor} />
+						<ThemeButton color={categoryColor} />
 						<input />
 					</Input>
 				</>
