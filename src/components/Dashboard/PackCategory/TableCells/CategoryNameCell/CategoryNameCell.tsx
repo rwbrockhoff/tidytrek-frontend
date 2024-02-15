@@ -84,8 +84,10 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 export default CategoryNameCell;
 
 const HeaderCell = styled(SemTable.HeaderCell)`
-	position: relative;
-	overflow: visible;
+	&&&& {
+		position: relative;
+		overflow: visible;
+	}
 `;
 
 const Input = styled(SemInput)`

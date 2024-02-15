@@ -1,4 +1,4 @@
-import { Popup, PopupContent } from 'semantic-ui-react';
+import { Popup as SemPopup, PopupContent } from 'semantic-ui-react';
 import { Button } from '../../../../../shared/ui/SemanticUI';
 import styled, { useTheme } from 'styled-components';
 import { CategoryChanges } from '../../PackCategory';
@@ -58,5 +58,11 @@ const PopupContainer = styled.div`
 		button {
 			margin: 10px;
 		}
+	}
+`;
+
+const Popup = styled(SemPopup)`
+	&&&& {
+		margin-left: -12px;
 	}
 `;
