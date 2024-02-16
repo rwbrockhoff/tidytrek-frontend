@@ -30,7 +30,6 @@ type PackCategoryProps = {
 	category: Category;
 	packList: PackListItem[];
 	index: number;
-	key: number;
 };
 
 export type CategoryChanges = {

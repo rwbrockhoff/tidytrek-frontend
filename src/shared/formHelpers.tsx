@@ -1,4 +1,10 @@
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
+export type CheckboxEvent = React.FormEvent<HTMLInputElement>;
+export type FormInput = {};
+
+export const isInputEvent = (e: InputEvent | CheckboxEvent): e is InputEvent => {
+	return e.type === 'change' || false;
+};
 
 export function setFormInput<T>(
 	e: InputEvent,

@@ -49,10 +49,12 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		const { draggableId, destination, source, type } = result;
 
 		if (!destination) return;
+
 		const sameIndex = destination.index === source.index;
 
 		if (type === 'category') {
 			if (sameIndex) return;
+
 			movePackCategory({
 				packId: currentPack.packId,
 				packCategoryId: draggableId,
@@ -63,9 +65,10 @@ const Dashboard = ({ userView }: DashboardProps) => {
 			const sameCategory = destination.droppableId === source.droppableId;
 			if (sameIndex && sameCategory) return;
 
+			const dragId = draggableId.replace(/\D/g, '');
 			movePackItem({
 				packId: paramPackId ? packId : null,
-				packItemId: draggableId,
+				packItemId: dragId,
 				packCategoryId: destination.droppableId,
 				packItemIndex: destination.index,
 				prevPackCategoryId: source.droppableId,

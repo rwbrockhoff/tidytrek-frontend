@@ -5,22 +5,11 @@ import { setFormInput } from '../../shared/formHelpers';
 import { useValidateForm } from './useValidateForm';
 import { useCombineErrors, type MutationError } from './useCombineErrors';
 import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
-import { ReactInput } from '../../types/generalTypes';
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
+import { type RegisterUser } from '../../types/userTypes';
+import { CheckboxEvent, InputEvent, isInputEvent } from '../../shared/formHelpers';
 
-type AuthProps = {
-	isRegisterForm: boolean;
-};
-
-type FormData = {
-	name: string;
-	username: string;
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
-
-const Authentication = (props: AuthProps) => {
+const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const loginData = useLoginMutation();
 	const registerData = useRegisterMutation();
 	const { mutate: loginUser } = loginData;
@@ -38,22 +27,29 @@ const Authentication = (props: AuthProps) => {
 
 	const { invalidForm, validateFormData } = useValidateForm(setFormError);
 
-	const [formData, setFormData] = useState<FormData>({
-		name: '',
+	const [formData, setFormData] = useState<RegisterUser>({
+		firstName: '',
+		lastName: '',
 		username: '',
 		email: '',
 		password: '',
 		confirmPassword: '',
+		agreeToTerms: false,
 	});
 
-	const handleFormChange = (e: ReactInput) => setFormInput<FormData>(e, setFormData);
+	const handleFormChange = (e: InputEvent | CheckboxEvent) => {
+		if (isInputEvent(e)) setFormInput<RegisterUser>(e, setFormData);
+		else {
+			setFormData((prev) => ({ ...prev, agreeToTerms: !prev.agreeToTerms }));
+		}
+	};
 
 	const handleFormSubmit = () => {
-		const { name, username, email, password } = formData;
-		if (props.isRegisterForm) {
+		if (isRegisterForm) {
 			const formIsValid = validateFormData(formData);
-			formIsValid && registerUser({ name, username, email, password });
+			formIsValid && registerUser(formData);
 		} else {
+			const { email, password } = formData;
 			if (email && password) loginUser({ email, password });
 			else {
 				invalidForm('Please provide your email and password.');
@@ -64,7 +60,7 @@ const Authentication = (props: AuthProps) => {
 	return (
 		<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
 			<LogInForm
-				isRegisterForm={props.isRegisterForm}
+				isRegisterForm={isRegisterForm}
 				isLoading={isPending}
 				formError={formError}
 				onFormChange={handleFormChange}

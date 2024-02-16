@@ -50,15 +50,15 @@ export const Drop = ({ droppableId, type, children }: DropProps) => {
 type DropTableBodyProps = {
 	droppableId: number | string | null;
 	type: string | undefined;
-	disabled?: boolean;
 	children: React.ReactNode;
+	disabled?: boolean;
 };
 
 export const DropTableBody = ({
 	droppableId,
 	type,
+	disabled,
 	children,
-	disabled = false,
 }: DropTableBodyProps) => {
 	return (
 		<Droppable droppableId={`${droppableId}`} type={type} isDropDisabled={disabled}>

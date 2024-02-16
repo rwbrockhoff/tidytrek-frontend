@@ -46,9 +46,10 @@ const GearCloset = () => {
 		const sameCategory = destination.droppableId === source.droppableId;
 
 		if (sameIndex && sameCategory) return;
+		const dragId = draggableId.replace(/\D/g, '');
 
 		moveGearClosetItem({
-			packItemId: draggableId,
+			packItemId: dragId,
 			packItemIndex: destination.index,
 			prevPackItemIndex: source.index,
 		});

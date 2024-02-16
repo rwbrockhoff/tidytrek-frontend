@@ -22,11 +22,11 @@ import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
 	item: PackItem;
-	packList: PackListItem[];
 	index: number;
 	disabled?: boolean;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
+	packList: PackListItem[];
 	handleMoveItemToPack: (packInfo: {
 		packItemId: number;
 		packId: number;
@@ -63,7 +63,7 @@ const TableRow = (props: TableRowProps) => {
 	const handleButton = (property: PackButtonSwitches) =>
 		handleOnSave({ ...packItem, ...property });
 
-	const dropId = `${packItemId}`;
+	const dropId = `item${packItemId}`;
 
 	return (
 		<Draggable

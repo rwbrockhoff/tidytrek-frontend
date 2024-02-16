@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type User } from '../types/userTypes';
+import { RegisterUser, type User } from '../types/userTypes';
 import { type Settings } from '../types/settingsTypes';
 import { type PasswordInfo } from '../types/generalTypes';
 
@@ -31,12 +31,8 @@ export const useLoginMutation = () => {
 export const useRegisterMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (registerData: {
-			name: string;
-			username: string;
-			email: string;
-			password: string;
-		}) => tidyTrekAPI.post('/auth/register', registerData),
+		mutationFn: (registerData: RegisterUser) =>
+			tidyTrekAPI.post('/auth/register', registerData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
