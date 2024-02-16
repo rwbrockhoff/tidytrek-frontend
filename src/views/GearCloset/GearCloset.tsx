@@ -2,10 +2,14 @@ import { Header as SemHeader } from 'semantic-ui-react';
 import { Input } from '../../shared/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { type PackItem, type PackInfo } from '../../types/packTypes';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
 import {
 	useGetGearClosetQuery,
 	useMoveGearClosetItemMutation,
+	useEditGearClosetItemMutation,
+	useMoveItemToPackMutation,
+	useDeleteGearClosetItemMutation,
 } from '../../queries/closetQueries';
 import { useGetPackListQuery } from '../../queries/packQueries';
 import { UserViewContext } from '../Dashboard/useUserContext';
@@ -21,9 +25,18 @@ const GearCloset = () => {
 	const { data: packListData } = useGetPackListQuery();
 	const { packList } = packListData || { packList: [] };
 
+	const { mutate: editItem } = useEditGearClosetItemMutation();
+	const { mutate: moveToPack } = useMoveItemToPackMutation();
+	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 
 	const handleInputChange = (e: InputEvent) => setSearchInput(e.target.value);
+
+	const handleOnSave = (packItem: PackItem) => editItem(packItem);
+
+	const handleDelete = (packItemId: number) => deleteItem(packItemId);
+
+	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
 	const handleOnDragEnd = (result: DropResult) => {
 		const { draggableId, destination, source } = result;
@@ -72,6 +85,9 @@ const GearCloset = () => {
 						packList={packList}
 						isEmptyList={isEmptyList}
 						dragDisabled={dragDisabled}
+						onMove={handleMoveItemToPack}
+						onSave={handleOnSave}
+						onDelete={handleDelete}
 					/>
 				</DragDropContext>
 			</div>

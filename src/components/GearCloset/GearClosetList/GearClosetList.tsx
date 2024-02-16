@@ -1,16 +1,7 @@
 import { Icon } from 'semantic-ui-react';
 import { Table, Button } from '../../../shared/ui/SemanticUI';
-import {
-	type PackListItem,
-	type PackItem,
-	type PackInfo,
-} from '../../../types/packTypes';
-import {
-	useAddGearClosetItemMutation,
-	useEditGearClosetItemMutation,
-	useMoveItemToPackMutation,
-	useDeleteGearClosetItemMutation,
-} from '../../../queries/closetQueries';
+import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
+import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 
@@ -19,6 +10,9 @@ export type GearClosetListProps = {
 	gearClosetList: PackItem[] | [];
 	dragDisabled: boolean;
 	isEmptyList: boolean;
+	onSave: (packItem: PackItem) => void;
+	onDelete: (packItemId: number) => void;
+	onMove: (packInfo: PackInfo) => void;
 };
 
 const GearClosetList = ({
@@ -26,17 +20,11 @@ const GearClosetList = ({
 	packList,
 	dragDisabled,
 	isEmptyList,
+	onSave,
+	onMove,
+	onDelete,
 }: GearClosetListProps) => {
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
-	const { mutate: editItem } = useEditGearClosetItemMutation();
-	const { mutate: moveToPack } = useMoveItemToPackMutation();
-	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
-
-	const handleOnSave = (packItem: PackItem) => editItem(packItem);
-
-	const handleDelete = (packItemId: number) => deleteItem(packItemId);
-
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 
 	return (
 		<Table $themeColor="primary" fixed striped columns="16" size="small">
@@ -74,9 +62,9 @@ const GearClosetList = ({
 							disabled={dragDisabled}
 							key={item.packItemId}
 							index={index}
-							handleMoveItemToPack={handleMoveItemToPack}
-							handleOnSave={handleOnSave}
-							handleDelete={handleDelete}
+							handleMoveItemToPack={onMove}
+							handleOnSave={onSave}
+							handleDelete={onDelete}
 						/>
 					))}
 				</DropTableBody>
