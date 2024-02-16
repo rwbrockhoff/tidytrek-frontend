@@ -1,4 +1,4 @@
-import { Header, Label, Icon } from 'semantic-ui-react';
+import { Header, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import {
@@ -12,6 +12,7 @@ import './PackInfo.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
+import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
 
 type PackInfoProps = {
@@ -54,17 +55,7 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 		setShowDeleteModal(false);
 	};
 
-	const {
-		packName,
-		packDescription,
-		packLocationTag,
-		packDurationTag,
-		packSeasonTag,
-		packDistanceTag,
-		packUrl,
-		packUrlName,
-		packPublic,
-	} = currentPack;
+	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	return (
 		<div className="pack-info-container">
@@ -91,33 +82,10 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 				)}
 
 				<p>{packDescription}</p>
-				<div className="pack-info-tag-container">
-					{packLocationTag && (
-						<Label color="olive">
-							<Icon name="location arrow" />
-							{packLocationTag}
-						</Label>
-					)}
-					{packSeasonTag && (
-						<Label color="yellow">
-							<Icon name="sun" />
-							{packSeasonTag}
-						</Label>
-					)}
-					{packDurationTag && (
-						<Label color="blue">
-							<Icon name="time" />
-							{packDurationTag}
-						</Label>
-					)}
-					{packDistanceTag && (
-						<Label color="teal">
-							<i className="fa-solid fa-person-hiking" style={{ paddingRight: '5px' }} />
-							{packDistanceTag}
-						</Label>
-					)}
-				</div>
+
+				<PackLabels pack={currentPack} />
 			</div>
+
 			{/* Right Hand Panel */}
 
 			<PackGraphic fetching={fetching} packCategories={packCategories} />
