@@ -15,6 +15,8 @@ import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
 import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
+import { ThemeProvider } from 'styled-components';
+import { getThemeAsGuest } from '../Layout/themeUtils';
 
 type DashboardProps = { userView: boolean };
 
@@ -27,6 +29,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const { data, isPending } = userView
 		? useGetPackQuery(paramPackId)
 		: useViewPackQuery(paramPackId);
+
+	const theme = getThemeAsGuest(data);
 
 	const { data: packListData } = userView
 		? useGetPackListQuery()
@@ -74,35 +78,37 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 	return (
 		<UserViewContext.Provider value={userView}>
-			<div className="dashboard-container">
-				<PackInfo
-					currentPack={currentPack}
-					packCategories={packCategories}
-					fetching={isPending}
-				/>
-
-				<DragDropContext onDragEnd={handleOnDragEnd}>
-					<Drop droppableId={'dashboard-drop-window'} type="category">
-						{packCategories.length >= 0 &&
-							packCategories.map((category: Category, idx: number) => (
-								<PackCategory
-									category={category}
-									packList={packList}
-									index={idx}
-									key={category?.packCategoryId || idx}
-								/>
-							))}
-					</Drop>
-				</DragDropContext>
-
-				{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
-				{!userView && (
-					<DashboardFooter
-						affiliate={packAffiliate}
-						description={packAffiliateDescription}
+			<ThemeProvider theme={theme}>
+				<div className="dashboard-container">
+					<PackInfo
+						currentPack={currentPack}
+						packCategories={packCategories}
+						fetching={isPending}
 					/>
-				)}
-			</div>
+
+					<DragDropContext onDragEnd={handleOnDragEnd}>
+						<Drop droppableId={'dashboard-drop-window'} type="category">
+							{packCategories.length >= 0 &&
+								packCategories.map((category: Category, idx: number) => (
+									<PackCategory
+										category={category}
+										packList={packList}
+										index={idx}
+										key={category?.packCategoryId || idx}
+									/>
+								))}
+						</Drop>
+					</DragDropContext>
+
+					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+					{!userView && (
+						<DashboardFooter
+							affiliate={packAffiliate}
+							description={packAffiliateDescription}
+						/>
+					)}
+				</div>
+			</ThemeProvider>
 		</UserViewContext.Provider>
 	);
 };

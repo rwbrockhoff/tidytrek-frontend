@@ -2,7 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { guestKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
-import { type InitialState } from '../types/packTypes';
+import { type Pack, type Category } from '../types/packTypes';
+import { type Settings } from '../types/settingsTypes';
+
+export type InitialState = { pack: Pack; categories: Category[]; settings: Settings };
 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;

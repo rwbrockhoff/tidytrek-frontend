@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type User, type Settings } from '../types/userTypes';
+import { type User } from '../types/userTypes';
+import { type Settings } from '../types/settingsTypes';
 import { type PasswordInfo } from '../types/generalTypes';
 
 type InitialState = {
