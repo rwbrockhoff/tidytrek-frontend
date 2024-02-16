@@ -22,11 +22,11 @@ import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
 	item: PackItem;
-	key?: number;
+	packList: PackListItem[];
 	index: number;
+	disabled?: boolean;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
-	packList: PackListItem[];
 	handleMoveItemToPack: (packInfo: {
 		packItemId: number;
 		packId: number;
@@ -37,7 +37,8 @@ type TableRowProps = {
 
 const TableRow = (props: TableRowProps) => {
 	const userView = useUserContext();
-	const { handleMoveItemToPack, handleOnSave, handleDelete, item, index } = props;
+	const { item, index, disabled, handleMoveItemToPack, handleOnSave, handleDelete } =
+		props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
 	const [toggleRow, setToggleRow] = useState(false);
 
@@ -65,7 +66,11 @@ const TableRow = (props: TableRowProps) => {
 	const dropId = `${packItemId}`;
 
 	return (
-		<Draggable key={dropId} draggableId={dropId} index={index} isDragDisabled={!userView}>
+		<Draggable
+			key={dropId}
+			draggableId={dropId}
+			index={index}
+			isDragDisabled={!userView || disabled}>
 			{(provided) => (
 				<>
 					<tr

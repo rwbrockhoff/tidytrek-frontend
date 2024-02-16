@@ -17,9 +17,16 @@ import { DropTableBody } from '../../../shared/DragDropWrapper';
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
 	gearClosetList: PackItem[] | [];
+	dragDisabled: boolean;
+	isEmptyList: boolean;
 };
 
-const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
+const GearClosetList = ({
+	gearClosetList,
+	packList,
+	dragDisabled,
+	isEmptyList,
+}: GearClosetListProps) => {
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
 	const { mutate: moveToPack } = useMoveItemToPackMutation();
@@ -55,19 +62,27 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 				</Table.Row>
 			</Table.Header>
 
-			<DropTableBody droppableId={`gear-closet`} type="closet-item">
-				{gearClosetList.map((item: PackItem, index) => (
-					<TableRow
-						item={item}
-						key={item.packItemId}
-						index={index}
-						packList={packList}
-						handleMoveItemToPack={handleMoveItemToPack}
-						handleOnSave={handleOnSave}
-						handleDelete={handleDelete}
-					/>
-				))}
-			</DropTableBody>
+			{!isEmptyList ? (
+				<DropTableBody
+					droppableId={`gear-closet`}
+					type="closet-item"
+					disabled={dragDisabled}>
+					{gearClosetList.map((item: PackItem, index) => (
+						<TableRow
+							item={item}
+							packList={packList}
+							disabled={dragDisabled}
+							key={item.packItemId}
+							index={index}
+							handleMoveItemToPack={handleMoveItemToPack}
+							handleOnSave={handleOnSave}
+							handleDelete={handleDelete}
+						/>
+					))}
+				</DropTableBody>
+			) : (
+				<NotFoundMessage />
+			)}
 
 			<Table.Footer>
 				<Table.Row className="footer-container">
@@ -91,3 +106,15 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 };
 
 export default GearClosetList;
+
+const NotFoundMessage = () => {
+	return (
+		<Table.Body>
+			<Table.Row>
+				<Table.Cell colSpan="16" textAlign="center" style={{ opacity: 0.4 }}>
+					<Icon name="search" /> No Items Found.
+				</Table.Cell>
+			</Table.Row>
+		</Table.Body>
+	);
+};

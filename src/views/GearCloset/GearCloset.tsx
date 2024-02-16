@@ -1,5 +1,7 @@
-import { Header } from 'semantic-ui-react';
-import './GearCloset.css';
+import { Header as SemHeader } from 'semantic-ui-react';
+import { Input } from '../../shared/ui/SemanticUI';
+import { useState } from 'react';
+import styled from 'styled-components';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
 import {
 	useGetGearClosetQuery,
@@ -9,14 +11,19 @@ import { useGetPackListQuery } from '../../queries/packQueries';
 import { UserViewContext } from '../Dashboard/useUserContext';
 import { type DropResult } from 'react-beautiful-dnd';
 import { DragDropContext } from '../../shared/DragDropWrapper';
+import { type InputEvent } from '../../shared/formHelpers';
+import { searchMatch } from '../../shared/formHelpers';
 
 const GearCloset = () => {
+	const [searchInput, setSearchInput] = useState('');
 	const { data } = useGetGearClosetQuery();
 	const { gearClosetList } = data || { gearClosetList: [] };
 	const { data: packListData } = useGetPackListQuery();
 	const { packList } = packListData || { packList: [] };
 
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
+
+	const handleInputChange = (e: InputEvent) => setSearchInput(e.target.value);
 
 	const handleOnDragEnd = (result: DropResult) => {
 		const { draggableId, destination, source } = result;
@@ -34,15 +41,38 @@ const GearCloset = () => {
 		});
 	};
 
+	const filteredClosetList = gearClosetList.filter((item) =>
+		searchMatch(searchInput, item.packItemName, 'i'),
+	);
+
+	const dragDisabled = searchInput.length ? true : false;
+	const isEmptyList = !filteredClosetList.length && searchInput.length ? true : false;
+
 	return (
 		<UserViewContext.Provider value={true}>
 			<div>
-				<Header as="h1" textAlign="center" className="gear-closet-header">
+				<Header as="h1" className="gear-closet-header">
 					Gear Closet
 				</Header>
 
+				<SearchContainer>
+					<Input
+						fluid
+						icon="search"
+						placeholder="Search..."
+						name="searchInput"
+						value={searchInput}
+						onChange={handleInputChange}
+					/>
+				</SearchContainer>
+
 				<DragDropContext onDragEnd={handleOnDragEnd}>
-					<GearClosetList gearClosetList={gearClosetList} packList={packList} />
+					<GearClosetList
+						gearClosetList={filteredClosetList}
+						packList={packList}
+						isEmptyList={isEmptyList}
+						dragDisabled={dragDisabled}
+					/>
 				</DragDropContext>
 			</div>
 		</UserViewContext.Provider>
@@ -50,3 +80,20 @@ const GearCloset = () => {
 };
 
 export default GearCloset;
+
+const Header = styled(SemHeader)`
+	&&& {
+		margin-top: 25px;
+		margin-bottom: 25px;
+		text-align: center;
+	}
+`;
+
+const SearchContainer = styled.div`
+	&&& {
+		width: 20vw;
+		margin-bottom: 50px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+`;

@@ -19,7 +19,13 @@ export const Button = styled(SemButton)`
 	}
 `;
 
-export const Input = styled(SemInput)``;
+export const Input = styled(SemInput)`
+	&&& {
+		input:focus {
+			border-color: ${(props) => props.theme.primary};
+		}
+	}
+`;
 
 export const Icon = styled(SemIcon)`
 	&&& {
