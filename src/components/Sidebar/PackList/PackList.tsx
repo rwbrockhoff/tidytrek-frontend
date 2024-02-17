@@ -20,7 +20,7 @@ const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 			<Drop droppableId={'sidebar-pack-list'} type="packlist-item">
 				{packList.map((pack: PackListItemType, index: number) => {
 					return (
-						<Drag key={pack.packId} draggableId={`${pack.packId}`} index={index}>
+						<Drag key={pack.packId} draggableId={pack.packId} index={index}>
 							<PackListItem pack={pack} onClick={getPack} />
 						</Drag>
 					);

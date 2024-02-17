@@ -3,5 +3,5 @@ import { wrappedRender } from '../../tests/test-utils';
 import Sidebar from './Sidebar';
 
 it.skip('Should render the Sidebar component', () => {
-	wrappedRender(<Sidebar />);
+	wrappedRender(<Sidebar showSidebar={true} />);
 });
