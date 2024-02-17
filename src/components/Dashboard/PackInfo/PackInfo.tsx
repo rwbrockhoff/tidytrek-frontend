@@ -1,5 +1,6 @@
-import { Header, Label, Icon } from 'semantic-ui-react';
+import { Header, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
+import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
@@ -8,8 +9,11 @@ import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../../../shared/ui/Modals';
 import './PackInfo.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
+import ShareSettings from './ShareSettings/ShareSettings';
+import PackLabels from './PackLabels/PackLabels';
+import Link from '../../../shared/ui/Link';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -18,6 +22,9 @@ type PackInfoProps = {
 };
 
 const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
+	const userView = useUserContext();
+	const { packId: paramPackId } = useParams();
+
 	const navigate = useNavigate();
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
@@ -48,17 +55,7 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 		setShowDeleteModal(false);
 	};
 
-	const {
-		packName,
-		packDescription,
-		packLocationTag,
-		packDurationTag,
-		packSeasonTag,
-		packDistanceTag,
-		packUrl,
-		packUrlName,
-		packPublic,
-	} = currentPack;
+	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	return (
 		<div className="pack-info-container">
@@ -68,62 +65,27 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 				onMouseLeave={() => setShowIcon(false)}>
 				<Header as="h1">
 					{packName}
-					{showIcon && (
+					{showIcon && userView && (
 						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Header>
 
-				{packPublic ? (
-					<p style={{ opacity: 0.4 }}>
-						<Icon name="binoculars" /> Public
-					</p>
-				) : (
-					<p style={{ opacity: 0.4 }}>
-						<Icon name="hide" /> Private
-					</p>
-				)}
+				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 
 				{packUrl && (
-					<p>
-						<a
-							href={`https://${packUrl}`}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="pack-link">
-							<Icon name="linkify" />
-							{packUrlName || packUrl || 'Pack Link'}
-						</a>
-					</p>
+					<Link
+						url={packUrl}
+						text={packUrlName || packUrl || 'Pack Link'}
+						className="pack-link"
+						showIcon
+					/>
 				)}
 
 				<p>{packDescription}</p>
-				<div className="pack-info-tag-container">
-					{packLocationTag && (
-						<Label color="olive">
-							<Icon name="location arrow" />
-							{packLocationTag}
-						</Label>
-					)}
-					{packSeasonTag && (
-						<Label color="yellow">
-							<Icon name="sun" />
-							{packSeasonTag}
-						</Label>
-					)}
-					{packDurationTag && (
-						<Label color="blue">
-							<Icon name="time" />
-							{packDurationTag}
-						</Label>
-					)}
-					{packDistanceTag && (
-						<Label color="teal">
-							<i className="fa-solid fa-person-hiking" style={{ paddingRight: '5px' }} />
-							{packDistanceTag}
-						</Label>
-					)}
-				</div>
+
+				<PackLabels pack={currentPack} />
 			</div>
+
 			{/* Right Hand Panel */}
 
 			<PackGraphic fetching={fetching} packCategories={packCategories} />

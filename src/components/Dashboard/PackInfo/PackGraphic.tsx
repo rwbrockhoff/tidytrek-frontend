@@ -1,6 +1,7 @@
 import { Category } from '../../../types/packTypes';
 import PackChart from './PackChart/PackChart';
-import { Image, Icon, List, ListItem, Label, Divider } from 'semantic-ui-react';
+import { Image, List, ListItem, Label, Divider } from 'semantic-ui-react';
+import { Icon } from '../../../shared/ui/SemanticUI';
 import CampGraphic from '../../../assets/camping.svg';
 import { useCategoryInfo } from './useCategoryInfo';
 import WeightPopup from './WeightPopup';
@@ -28,7 +29,7 @@ const PackGraphic = (props: PackGraphicProps) => {
 						{chartCategoryInfo.map((category) => {
 							return (
 								<ListItem key={category.categoryId} className="chart-display-list-item">
-									<Icon name="circle" style={{ color: category.chartColor || 'grey' }} />
+									<Icon name="circle" $themeColor={category.chartColor} />
 									<p>{category.categoryName}: </p>
 									<Label>{category.totalWeight} lbs</Label>
 								</ListItem>

@@ -1,4 +1,4 @@
-import { Table } from 'semantic-ui-react';
+import { Table } from '../../../shared/ui/SemanticUI';
 import {
 	type PackListItem,
 	type Category,
@@ -20,25 +20,28 @@ import {
 	useDeletePackCategoryAndItemsMutation,
 } from '../../../queries/packQueries';
 import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
-import {
-	DragDropContext,
-	DropResult,
-	DropTableBody,
-} from '../../../shared/DragDropWrapper';
-import { Draggable } from 'react-beautiful-dnd';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
+import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
+import { DropTableBody } from '../../../shared/DragDropWrapper';
+import { Draggable } from 'react-beautiful-dnd';
 
 type PackCategoryProps = {
 	category: Category;
 	packList: PackListItem[];
-	onDragItem: (result: DropResult) => void;
 	index: number;
-	key: number;
 };
 
-const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryProps) => {
-	const { packCategoryName, packCategoryId, packId, packItems } = category;
+export type CategoryChanges = {
+	packCategoryName?: string;
+	packCategoryColor?: string;
+};
+
+const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
+	const userView = useUserContext();
+
+	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
+		category;
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
 	const { mutate: editPackItem } = useEditPackItemMutation();
@@ -61,8 +64,8 @@ const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryPro
 
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
-	const handleEditCategory = (packCategoryName: string) => {
-		editPackCategory({ packCategoryId, packCategoryName });
+	const handleEditCategory = (categoryChanges: CategoryChanges) => {
+		editPackCategory({ packCategoryId, categoryChanges });
 	};
 
 	const handleDeleteCategoryAndItems = () => {
@@ -104,42 +107,49 @@ const PackCategory = ({ category, packList, index, onDragItem }: PackCategoryPro
 	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
 	const showCategoryItems = packItems[0] && !isMinimized;
+
 	return (
 		<Draggable
 			key={category.packCategoryId}
 			draggableId={`${category.packCategoryId}`}
+			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
 				<div
 					className="table-container"
 					ref={provided.innerRef}
 					{...provided.draggableProps}>
-					<Table fixed striped compact columns="16" color="olive" size="small">
+					<Table
+						$themeColor={packCategoryColor}
+						fixed
+						striped
+						compact
+						columns="16"
+						size="small">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
-							headerName={packCategoryName}
+							categoryName={packCategoryName}
+							categoryColor={packCategoryColor}
 							isMinimized={isMinimized}
 							minimizeCategory={handleMinimizeCategory}
 							editCategory={handleEditCategory}
 							deleteCategory={handleToggleCategoryModal}
 						/>
 
-						<DragDropContext onDragEnd={onDragItem}>
-							<DropTableBody droppableId={packCategoryId}>
-								{showCategoryItems &&
-									packItems.map((item: PackItem, idx) => (
-										<TableRow
-											item={item}
-											key={`${item.packCategoryId}${item.packItemId}`}
-											index={idx}
-											packList={packList}
-											handleMoveItemToPack={handleMoveItemToPack}
-											handleOnSave={handleOnSave}
-											handleDelete={handleDeleteItemPrompt}
-										/>
-									))}
-							</DropTableBody>
-						</DragDropContext>
+						<DropTableBody droppableId={packCategoryId} type="item">
+							{showCategoryItems &&
+								packItems.map((item: PackItem, idx) => (
+									<TableRow
+										item={item}
+										key={item.packItemId}
+										index={idx}
+										packList={packList}
+										handleMoveItemToPack={handleMoveItemToPack}
+										handleOnSave={handleOnSave}
+										handleDelete={handleDeleteItemPrompt}
+									/>
+								))}
+						</DropTableBody>
 
 						{!isMinimized && (
 							<TableFooter

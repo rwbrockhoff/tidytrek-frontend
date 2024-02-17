@@ -234,9 +234,12 @@ export const useAddPackCategoryMutation = () => {
 export const useEditPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (categoryInfo: { packCategoryId: number; packCategoryName: string }) => {
-			const { packCategoryId, packCategoryName } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, { packCategoryName });
+		mutationFn: (categoryInfo: {
+			packCategoryId: number;
+			categoryChanges: { packCategoryName?: string; packCategoryColor?: string };
+		}) => {
+			const { packCategoryId, categoryChanges } = categoryInfo;
+			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryChanges);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -247,12 +250,15 @@ export const useEditPackCategoryMutation = () => {
 
 export const useMovePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
+
 	return useMutation({
+		// mutationKey: packKeys.packId(packId),
 		mutationFn: (categoryInfo: {
-			packId: string;
+			packId: number;
 			packCategoryId: string;
 			newIndex: number;
 			prevIndex: number;
+			paramPackId: string | undefined;
 		}) => {
 			const { packCategoryId, prevIndex, newIndex } = categoryInfo;
 			return tidyTrekAPI.put(`/packs/categories/index/${packCategoryId}`, {
@@ -261,18 +267,33 @@ export const useMovePackCategoryMutation = () => {
 			});
 		},
 		onMutate: async (categoryInfo) => {
-			const { packId, prevIndex, newIndex } = categoryInfo;
+			const { paramPackId, packId, prevIndex, newIndex } = categoryInfo;
 			const packIdNum = Number(packId);
 
 			await queryClient.cancelQueries({ queryKey: packKeys.all });
 			const prevPack = queryClient.getQueryData(packKeys.packId(packIdNum));
 
-			queryClient.setQueryData(packKeys.packId(packIdNum), (old: any) => {
-				const { categories } = old;
-				const [category] = categories.splice(prevIndex, 1);
-				categories.splice(newIndex, 0, category);
-				return old;
+			// set cache id based on param
+			const cacheId = paramPackId ? packIdNum : null;
+
+			queryClient.setQueryData(packKeys.packId(cacheId), (old: any) => {
+				if (old) {
+					// previously cached, able to modify cached pack
+					const { categories, pack } = old;
+					const [category] = categories.splice(prevIndex, 1);
+					categories.splice(newIndex, 0, category);
+					return { pack, categories };
+				} else {
+					// pack doesn't have cache, modify current pack data
+					const currentPack = queryClient.getQueryData(packKeys.packId(null));
+					const { categories, pack } = currentPack as InitialState;
+
+					const [category] = categories.splice(prevIndex, 1);
+					categories.splice(newIndex, 0, category);
+					return { pack, categories };
+				}
 			});
+
 			return { prevPack };
 		},
 		onError: (_err, _packInfo, context) => {

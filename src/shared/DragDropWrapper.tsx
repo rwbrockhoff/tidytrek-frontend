@@ -30,12 +30,13 @@ export const Drag = ({ index, draggableId, children }: DragProps) => {
 
 type DropProps = {
 	droppableId: number | string | null;
+	type: string | undefined;
 	children: React.ReactNode;
 };
 
-export const Drop = ({ droppableId, children }: DropProps) => {
+export const Drop = ({ droppableId, type, children }: DropProps) => {
 	return (
-		<Droppable droppableId={`${droppableId}`}>
+		<Droppable droppableId={`${droppableId}`} type={type}>
 			{(provided) => (
 				<div ref={provided.innerRef} {...provided.droppableProps}>
 					{children}
@@ -48,15 +49,36 @@ export const Drop = ({ droppableId, children }: DropProps) => {
 
 type DropTableBodyProps = {
 	droppableId: number | string | null;
+	type: string | undefined;
 	children: React.ReactNode;
+	disabled?: boolean;
 };
 
-export const DropTableBody = ({ droppableId, children }: DropTableBodyProps) => {
+export const DropTableBody = ({
+	droppableId,
+	type,
+	disabled,
+	children,
+}: DropTableBodyProps) => {
 	return (
-		<Droppable droppableId={`${droppableId}`}>
-			{(provided) => (
-				<tbody ref={provided.innerRef} {...provided.droppableProps}>
-					{children}
+		<Droppable droppableId={`${droppableId}`} type={type} isDropDisabled={disabled}>
+			{(provided, { isDraggingOver }) => (
+				<tbody
+					ref={provided.innerRef}
+					style={{ height: 10 }}
+					{...provided.droppableProps}>
+					{children ? (
+						children
+					) : (
+						<tr
+							className="empty-table-row"
+							style={{
+								backgroundColor: isDraggingOver && !children ? 'white' : '#f0f0f0',
+							}}>
+							<td colSpan={16}></td>
+						</tr>
+					)}
+
 					{provided.placeholder}
 				</tbody>
 			)}
@@ -65,10 +87,19 @@ export const DropTableBody = ({ droppableId, children }: DropTableBodyProps) => 
 };
 
 type DragDropContext = {
+	onDragStart?: () => void;
 	onDragEnd: (result: Result) => void;
 	children: React.ReactNode;
 };
 
-export const DragDropContext = ({ children, onDragEnd }: DragDropContext) => {
-	return <Context onDragEnd={onDragEnd}>{children}</Context>;
+export const DragDropContext = ({
+	children,
+	onDragEnd,
+	onDragStart,
+}: DragDropContext) => {
+	return (
+		<Context onDragStart={onDragStart} onDragEnd={onDragEnd}>
+			{children}
+		</Context>
+	);
 };

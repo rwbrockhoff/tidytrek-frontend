@@ -1,19 +1,29 @@
-import { Table, Input } from 'semantic-ui-react';
+import {
+	Table as SemTable,
+	Input as SemInput,
+	Header as SemHeader,
+} from 'semantic-ui-react';
+import ThemeButton from '../../TableButtons/ThemeButton/ThemeButton';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
-import '../TableCell/TableCell.css';
-import './CategoryNameCell.css';
-import { ReactInput } from '../../../../../types/generalTypes';
+import styled, { css } from 'styled-components';
+import { type ReactInput } from '../../../../../types/generalTypes';
+import { type CategoryChanges } from '../../PackCategory';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type CategoryNameCellProps = {
+	categoryName: string;
+	categoryColor: string;
 	size: number;
 	disabled: boolean;
-	categoryName: string;
-	onToggleOff: (packCategoryName: string) => void;
+	editCategory: (categoryChanges: CategoryChanges) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const { size, disabled, onToggleOff, categoryName } = props;
+	const userView = useUserContext();
+
+	const { size, disabled, editCategory, categoryName, categoryColor } = props;
+
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
 	const [showGrip, setShowGrip] = useState(false);
@@ -23,49 +33,85 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const toggleToCell = () => {
 		if (toggleInput) {
 			setToggleInput(false);
-			if (props.categoryName !== packCategoryName) {
-				onToggleOff(packCategoryName);
+			if (categoryName !== packCategoryName) {
+				editCategory({ packCategoryName });
 			}
 		}
 	};
 
 	const handleOnMouseOver = () => {
-		if (!disabled) toggleToEdit();
+		if (!disabled && userView) toggleToEdit();
 		setShowGrip(true);
 	};
 
 	const handleOnMouseLeave = () => {
-		if (!disabled) toggleToCell();
+		if (!disabled && userView) toggleToCell();
 		setShowGrip(false);
 	};
 
 	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
 
+	const displayInput = !toggleInput || !userView;
+
 	return (
-		<Table.HeaderCell
+		<HeaderCell
 			className="table-header-cell"
 			colSpan={size}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}
 			onClick={!disabled ? toggleToEdit : undefined}>
-			<GripButton display={showGrip} />
+			<GripButton display={showGrip && userView} />
 
-			<Input
-				className="table-cell-input header-title"
-				value={packCategoryName || 'Category'}
-				name={'packCategoryName'}
-				onChange={handleInput}
-				// Show input background when user interacts
-				transparent={!toggleInput}
-				style={{
-					fontSize: '1.2em',
-					width: 'fit-content',
-					paddingLeft: !toggleInput ? '15px' : '0px',
-				}}
-			/>
-		</Table.HeaderCell>
+			{userView ? (
+				<Input
+					value={packCategoryName || 'Category'}
+					name="packCategoryName"
+					onChange={handleInput}
+					disabled={!userView}
+					// Show input background when user interacts
+					$displayInput={displayInput}>
+					<ThemeButton color={categoryColor} onClick={editCategory} />
+					<input />
+				</Input>
+			) : (
+				<Header>{packCategoryName}</Header>
+			)}
+		</HeaderCell>
 	);
 };
 
 export default CategoryNameCell;
+
+const HeaderCell = styled(SemTable.HeaderCell)`
+	&&&& {
+		position: relative;
+		overflow: visible;
+	}
+`;
+
+const Input = styled(SemInput)`
+	&&& {
+		font-size: 1.2em;
+		width: fit-content;
+		height: 30px;
+		input {
+			padding-left: 0.5em;
+		}
+		${(props) =>
+			props.$displayInput &&
+			css`
+				input {
+					border-color: transparent;
+					background-color: transparent;
+					box-shadow: none;
+					border-radius: 0;
+				}
+			`};
+	}
+`;
+
+const Header = styled(SemHeader)`
+	margin-left: 15px;
+	opacity: 0.8;
+`;

@@ -8,12 +8,12 @@ import {
 	useAddNewPackMutation,
 	useMovePackMutation,
 } from '../../queries/packQueries';
-import { Divider, Icon } from 'semantic-ui-react';
+import { Divider, Icon, Sidebar as SemanticSidebar, Segment } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
-import { DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 
-const Sidebar = () => {
+const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
@@ -46,7 +46,7 @@ const Sidebar = () => {
 	}, [addNewPackData, paramPackId, navigate]);
 
 	useEffect(() => {
-		// subscribe to "/" loading default pack, navigate w/ packId for query cache
+		// subscribe to user clicking on a different pack
 		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
 			const encodedId = encode(currentPackId);
 			navigate(`/packs/${encodedId}`);
@@ -83,7 +83,12 @@ const Sidebar = () => {
 	};
 
 	return (
-		<nav>
+		<SemanticSidebar
+			id="sidebar-container"
+			as={Segment}
+			animation="overlay"
+			vertical
+			visible={showSidebar}>
 			<h1>
 				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
 			</h1>
@@ -106,14 +111,41 @@ const Sidebar = () => {
 				</li>
 			</menu>
 			<Divider />
-			<PackList
-				packList={packList}
-				getPack={handleGetPack}
-				addPack={handleAddPack}
-				onDragEnd={handleOnDragEnd}
-			/>
-		</nav>
+			<DragDropContext onDragEnd={handleOnDragEnd}>
+				<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
+			</DragDropContext>
+		</SemanticSidebar>
 	);
 };
 
 export default Sidebar;
+
+{
+	/* <nav>
+			<h1>
+				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
+			</h1>
+			<menu className="nav-menu">
+				<li>
+					<Link to="/account">
+						<Icon name="user outline" />
+						Account
+					</Link>
+				</li>
+				<li>
+					<Link to="/gear-closet">
+						<Icon name="archive" />
+						Gear Closet
+					</Link>
+				</li>
+				<li onClick={handleLogout}>
+					<Icon name="log out" />
+					Log Out
+				</li>
+			</menu>
+			<Divider />
+			<DragDropContext onDragEnd={handleOnDragEnd}>
+				<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
+			</DragDropContext>
+		</nav> */
+}

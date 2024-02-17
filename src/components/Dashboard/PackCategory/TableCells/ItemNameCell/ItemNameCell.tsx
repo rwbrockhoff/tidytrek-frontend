@@ -1,22 +1,28 @@
-import { Table, Input, Popup, Icon } from 'semantic-ui-react';
+import { Table, Input, Popup, Icon, Button } from 'semantic-ui-react';
 import { useState } from 'react';
 import './ItemNameCell.css';
 import { GripButton } from '../../TableButtons/TableButtons';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
+import Link from '../../../../../shared/ui/Link';
+
+type OnChange = (
+	e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
+) => void;
 
 type ItemNameCellProps = {
-	value: string | number;
+	value: string;
 	itemName: string;
 	placeholder?: string;
 	size: number;
 	displayIcon: boolean;
 	packItemUrl: string;
-	onChange: (
-		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
-	) => void;
+	onChange: OnChange;
 	onToggleOff: () => void;
 };
 
 const ItemNameCell = (props: ItemNameCellProps) => {
+	const userView = useUserContext();
+
 	const {
 		value,
 		itemName,
@@ -35,7 +41,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 			onToggleOff();
 		}
 	};
-
+	const display = !toggleInput || !userView;
 	return (
 		<Table.Cell
 			colSpan={size}
@@ -44,31 +50,60 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<GripButton display={displayIcon} />
+			<GripButton display={displayIcon && userView} />
 
-			<Input
-				className="item-name-input"
-				value={value || ''}
-				name={itemName}
-				placeholder={placeholder}
-				onChange={onChange}
-				transparent={!toggleInput}
-				fluid
-				style={{
-					paddingLeft: !toggleInput ? '13px' : '0px',
-					paddingRight: '35px',
-				}}
-			/>
+			{userView ? (
+				<Input
+					className="item-name-input"
+					value={value || ''}
+					name={itemName}
+					placeholder={placeholder}
+					onChange={onChange}
+					transparent={display}
+					fluid
+					style={{
+						paddingLeft: display ? '13px' : '0px',
+						paddingRight: '10px',
+					}}>
+					<input />
+					<LinkPopup
+						userView={userView}
+						packItemUrl={packItemUrl}
+						displayIcon={displayIcon}
+						onChange={onChange}
+					/>
+				</Input>
+			) : (
+				<Link url={packItemUrl} text={value} className="item-name-text" showIcon />
+			)}
+		</Table.Cell>
+	);
+};
+
+export default ItemNameCell;
+
+type LinkPopupProps = {
+	userView: boolean;
+	packItemUrl: string;
+	displayIcon: boolean;
+	onChange: OnChange;
+};
+
+const LinkPopup = (props: LinkPopupProps) => {
+	const { userView, packItemUrl, displayIcon, onChange } = props;
+	if (userView) {
+		return (
 			<Popup
 				on="click"
 				pinned
 				className="url-popup-container"
 				trigger={
-					<Icon
-						name="linkify"
-						className="url-link-icon"
-						color={packItemUrl ? 'blue' : 'grey'}
+					<Button
+						className="url-icon-button"
+						basic
+						size="mini"
 						style={{ opacity: displayIcon || packItemUrl ? 100 : 0 }}
+						icon={<Icon name="linkify" color={packItemUrl ? 'blue' : 'grey'} />}
 					/>
 				}>
 				<Input
@@ -78,14 +113,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 					placeholder="Item link"
 					className="url-save-input"
 				/>
-				{/* <Button color="blue" className="url-save-button">
-          Save
-        </Button> */}
-
-				{/* <Icon name="trash" /> */}
 			</Popup>
-		</Table.Cell>
-	);
+		);
+	} else return null;
 };
-
-export default ItemNameCell;

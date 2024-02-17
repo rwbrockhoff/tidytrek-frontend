@@ -1,14 +1,24 @@
 import { Link } from 'react-router-dom';
-import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
+import {
+	Button,
+	Form,
+	Grid,
+	Header,
+	Icon,
+	Message,
+	Segment,
+	FormCheckbox,
+} from 'semantic-ui-react';
 import './LogInForm.css';
 import { FormError, ReactInput } from '../../../types/generalTypes';
 import DisplayWrapper from '../../../shared/ui/DisplayWrapper';
+import { type CheckboxEvent } from '../../../shared/formHelpers';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
 	formError: FormError;
-	onFormChange: (e: ReactInput) => void;
+	onFormChange: (e: ReactInput | CheckboxEvent) => void;
 	onSubmit: () => void;
 };
 
@@ -31,16 +41,28 @@ const LogInForm = ({
 					</Header>
 					{isRegisterForm && (
 						<>
-							<Form.Input
-								fluid
-								icon="user"
-								iconPosition="left"
-								placeholder="Name"
-								name="name"
-								data-testid="name-input"
-								type="name"
-								onChange={onFormChange}
-							/>
+							<Form.Group>
+								<Form.Input
+									icon="user"
+									iconPosition="left"
+									placeholder="First Name"
+									name="firstName"
+									data-testid="first-name-input"
+									type="name"
+									width={8}
+									onChange={onFormChange}
+								/>
+								<Form.Input
+									icon="user"
+									iconPosition="left"
+									placeholder="Last Name"
+									name="lastName"
+									data-testid="last-name-input"
+									type="name"
+									width={8}
+									onChange={onFormChange}
+								/>
+							</Form.Group>
 							<Form.Input
 								fluid
 								icon="user"
@@ -74,16 +96,24 @@ const LogInForm = ({
 						onChange={onFormChange}
 					/>
 					{isRegisterForm && (
-						<Form.Input
-							fluid
-							icon="lock"
-							iconPosition="left"
-							placeholder="Verify password"
-							type="password"
-							name="confirmPassword"
-							data-testid="verify-password-input"
-							onChange={onFormChange}
-						/>
+						<>
+							<Form.Input
+								fluid
+								icon="lock"
+								iconPosition="left"
+								placeholder="Verify password"
+								type="password"
+								name="confirmPassword"
+								data-testid="verify-password-input"
+								onChange={onFormChange}
+								width={16}
+							/>
+							<FormCheckbox
+								label="I agree to the terms and conditions"
+								name="agreeToTerms"
+								onChange={onFormChange}
+							/>
+						</>
 					)}
 
 					<Button color="blue" fluid size="large" disabled={isLoading} onClick={onSubmit}>

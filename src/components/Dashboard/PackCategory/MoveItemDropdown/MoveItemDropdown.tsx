@@ -1,17 +1,19 @@
-import { Dropdown, Table, Button, Icon, DropdownProps } from 'semantic-ui-react';
-import { type PackListItem } from '../../../../types/packTypes';
+import { Dropdown, Table, Icon, DropdownProps } from 'semantic-ui-react';
+import { Button } from '../../../../shared/ui/SemanticUI';
+import { PackItem, type PackListItem } from '../../../../types/packTypes';
 import { type PackInfo } from '../../../../types/packTypes';
 import { useState } from 'react';
 import { SyntheticEvent } from 'react';
 
 type MoveItemDropdownProps = {
-	packItemId: number;
+	packItem: PackItem;
 	availablePacks: PackListItem[];
 	moveItemToPack: (packInfo: PackInfo) => void;
 };
 
 const MoveItemDropdown = (props: MoveItemDropdownProps) => {
-	const { packItemId, availablePacks, moveItemToPack } = props;
+	const { packItem, availablePacks, moveItemToPack } = props;
+	const { packItemId, packItemIndex } = packItem;
 	const [packId, setPackId] = useState<number | null>();
 	const [categoryId, setCategoryId] = useState<number | null>();
 
@@ -56,6 +58,7 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 				packItemId,
 				packId: currentPack.packId,
 				packCategoryId: categoryId,
+				packItemIndex,
 			});
 		}
 	};
@@ -93,6 +96,7 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 			</Table.Cell>
 			<Table.Cell colSpan="2" textAlign="left">
 				<Button
+					$themeColor="primary"
 					size="small"
 					disabled={!packAndCategorySelected}
 					color={packAndCategorySelected ? 'blue' : 'grey'}

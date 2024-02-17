@@ -1,86 +1,76 @@
-import { Table, Button, Icon } from 'semantic-ui-react';
-import {
-	type PackListItem,
-	type PackItem,
-	type PackInfo,
-} from '../../../types/packTypes';
-import { type DropResult } from 'react-beautiful-dnd';
-import {
-	useAddGearClosetItemMutation,
-	useEditGearClosetItemMutation,
-	useMoveGearClosetItemMutation,
-	useMoveItemToPackMutation,
-	useDeleteGearClosetItemMutation,
-} from '../../../queries/closetQueries';
+import { Icon } from 'semantic-ui-react';
+import { Table, Button } from '../../../shared/ui/SemanticUI';
+import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
+import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
-import { DropTableBody, DragDropContext } from '../../../shared/DragDropWrapper';
+import { DropTableBody } from '../../../shared/DragDropWrapper';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
 	gearClosetList: PackItem[] | [];
+	dragDisabled: boolean;
+	isEmptyList: boolean;
+	onSave: (packItem: PackItem) => void;
+	onDelete: (packItemId: number) => void;
+	onMove: (packInfo: PackInfo) => void;
 };
 
-const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
+const GearClosetList = ({
+	gearClosetList,
+	packList,
+	dragDisabled,
+	isEmptyList,
+	onSave,
+	onMove,
+	onDelete,
+}: GearClosetListProps) => {
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
-	const { mutate: editItem } = useEditGearClosetItemMutation();
-	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
-	const { mutate: moveToPack } = useMoveItemToPackMutation();
-	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
-
-	const handleOnSave = (packItem: PackItem) => editItem(packItem);
-
-	const handleDelete = (packItemId: number) => deleteItem(packItemId);
-
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
-
-	const onDragEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
-
-		const sameIndex = destination.index === source.index;
-		const sameCategory = destination.droppableId === source.droppableId;
-
-		if (sameIndex && sameCategory) return;
-
-		moveGearClosetItem({
-			packItemId: draggableId,
-			packItemIndex: destination.index,
-			prevPackItemIndex: source.index,
-		});
-	};
 
 	return (
-		<Table fixed striped columns="16" color="blue" size="small">
+		<Table $themeColor="primary" fixed striped columns="16" size="small">
 			<Table.Header>
 				<Table.Row>
-					<Table.HeaderCell colSpan="4">Item</Table.HeaderCell>
-					<Table.HeaderCell colSpan="6">Description</Table.HeaderCell>
-					<Table.HeaderCell colSpan="2" textAlign="right">
+					<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>
+						Item
+					</Table.HeaderCell>
+					<Table.HeaderCell colSpan="7" style={{ paddingLeft: '25px' }}>
+						Description
+					</Table.HeaderCell>
+					<Table.HeaderCell
+						colSpan="2"
+						textAlign="center"
+						style={{ paddingLeft: '90px' }}>
 						Quantity
 					</Table.HeaderCell>
 					<Table.HeaderCell colSpan="2" textAlign="center">
 						Weight
 					</Table.HeaderCell>
 
-					<Table.HeaderCell colSpan="2"></Table.HeaderCell>
+					<Table.HeaderCell colSpan="1"></Table.HeaderCell>
 				</Table.Row>
 			</Table.Header>
 
-			<DragDropContext onDragEnd={onDragEnd}>
-				<DropTableBody droppableId={`gear-closet`}>
+			{!isEmptyList ? (
+				<DropTableBody
+					droppableId={`gear-closet`}
+					type="closet-item"
+					disabled={dragDisabled}>
 					{gearClosetList.map((item: PackItem, index) => (
 						<TableRow
 							item={item}
-							key={`${item.packItemId}`}
-							index={index}
 							packList={packList}
-							handleMoveItemToPack={handleMoveItemToPack}
-							handleOnSave={handleOnSave}
-							handleDelete={handleDelete}
+							disabled={dragDisabled}
+							key={item.packItemId}
+							index={index}
+							handleMoveItemToPack={onMove}
+							handleOnSave={onSave}
+							handleDelete={onDelete}
 						/>
 					))}
 				</DropTableBody>
-			</DragDropContext>
+			) : (
+				<NotFoundMessage />
+			)}
 
 			<Table.Footer>
 				<Table.Row className="footer-container">
@@ -104,3 +94,15 @@ const GearClosetList = ({ gearClosetList, packList }: GearClosetListProps) => {
 };
 
 export default GearClosetList;
+
+const NotFoundMessage = () => {
+	return (
+		<Table.Body>
+			<Table.Row>
+				<Table.Cell colSpan="16" textAlign="center" style={{ opacity: 0.4 }}>
+					<Icon name="search" /> No Items Found.
+				</Table.Cell>
+			</Table.Row>
+		</Table.Body>
+	);
+};

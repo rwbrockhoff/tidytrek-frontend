@@ -1,11 +1,5 @@
-import {
-	Modal,
-	ModalHeader,
-	ModalContent,
-	ModalActions,
-	Button,
-	Icon,
-} from 'semantic-ui-react';
+import { Modal, ModalHeader, ModalContent, ModalActions, Icon } from 'semantic-ui-react';
+import { Button } from './SemanticUI';
 
 type DeleteModalProps = {
 	open: boolean;
@@ -46,7 +40,7 @@ export const DeleteModal = ({
 					Delete
 				</Button>
 				{!simple && (
-					<Button positive onClick={onClickMove}>
+					<Button $themeColor="primary" onClick={onClickMove}>
 						Move to Gear Closet
 					</Button>
 				)}
@@ -77,7 +71,7 @@ export const DeleteItemModal = ({
 					<Icon name="trash alternate outline" />
 					Delete
 				</Button>
-				<Button positive onClick={onClickMove}>
+				<Button $themeColor="primary" onClick={onClickMove}>
 					Move to Gear Closet
 				</Button>
 			</ModalActions>

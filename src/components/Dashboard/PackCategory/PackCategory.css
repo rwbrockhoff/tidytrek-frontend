@@ -2,6 +2,7 @@
 	width: 100%;
 	text-align: center;
 	margin: 15px 0px;
+	display: flex;
 }
 
 .ui.table tfoot {

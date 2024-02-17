@@ -2,22 +2,23 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
 import { useGetAuthStatusQuery } from '../../queries/userQueries.ts';
+import { ThemeProvider } from 'styled-components';
+import { createTheme } from './themeUtils.ts';
 
 const AppWithRoutes = () => {
-	const { isLoading, data: response } = useGetAuthStatusQuery();
+	const { isLoading, data } = useGetAuthStatusQuery();
+	const theme = createTheme(data?.settings);
 
-	const appRouter = createBrowserRouter(
-		response?.isAuthenticated ? userRoutes : guestRoutes,
-	);
+	const appRouter = createBrowserRouter(data?.isAuthenticated ? userRoutes : guestRoutes);
 
-	if (isLoading) {
-		return <Loader content="Loading..." />;
-	}
+	if (isLoading) return <Loader content="Loading..." />;
 
 	return (
-		<div style={{ height: '100vh' }}>
-			<RouterProvider router={appRouter} />
-		</div>
+		<ThemeProvider theme={theme}>
+			<div style={{ height: '100vh' }}>
+				<RouterProvider router={appRouter} />
+			</div>
+		</ThemeProvider>
 	);
 };
 

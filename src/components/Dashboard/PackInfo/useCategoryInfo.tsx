@@ -2,8 +2,6 @@ import { type Category } from '../../../types/packTypes';
 import { weightConverter } from '../../../utils/weightConverter';
 import { useMemo } from 'react';
 
-const chartColors = ['#338866', '#78B87A', '#5F84A2', '#7BB8C0', '#A7B5FE', '#F36F3B'];
-
 export const useCategoryInfo = (packCategories: Category[], outputUnit: string) => {
 	return useMemo(() => {
 		let consumables = 0;
@@ -30,7 +28,7 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 		const chartCategoryInfo = categoryWeights.map((totalWeight: number, index) => {
 			const categoryName = packCategories[index].packCategoryName;
 			const categoryId = packCategories[index].packCategoryId;
-			const chartColor = chartColors[index];
+			const chartColor = packCategories[index].packCategoryColor;
 			return { categoryName, categoryId, totalWeight, chartColor };
 		});
 

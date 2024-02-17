@@ -6,10 +6,6 @@
 	width: 400px;
 }
 
-.ui.popup.url-popup-container button {
-	margin-left: 15px;
-}
-
 .ui.popup.url-popup-container i {
 	cursor: pointer;
 	color: grey;
@@ -17,6 +13,11 @@
 
 .ui.popup.url-popup-container i:hover {
 	color: black;
+}
+
+.ui.mini.basic.icon.button.url-icon-button {
+	background-color: transparent !important;
+	box-shadow: none;
 }
 
 .item-name-cell {
@@ -27,13 +28,10 @@
 	height: 30px;
 }
 
-.item-name-cell i.url-link-icon {
-	cursor: pointer;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
 .ui.fixed.table td:first-child {
 	overflow: visible;
+}
+
+p.item-name-text {
+	margin-left: 20px;
 }

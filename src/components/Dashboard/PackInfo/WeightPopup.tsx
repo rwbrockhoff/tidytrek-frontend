@@ -19,6 +19,9 @@ const WeightPopup = ({ totalWeight, descriptivePackWeight }: WeightPopupProps) =
 		<Popup
 			mouseEnterDelay={700}
 			on="hover"
+			pinned
+			position="top center"
+			hideOnScroll
 			trigger={
 				<ListItem className="chart-display-list-item" style={{ cursor: 'pointer' }}>
 					<Icon name="info circle" style={{ marginRight: 5, opacity: 0.2 }} /> Total

@@ -1,14 +1,17 @@
-import './PackChart.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Category } from '../../../../types/packTypes';
+import styled, { useTheme } from 'styled-components';
 
 type PackChartProps = {
 	categories: Category[];
 	categoryWeights: number[];
 };
 
-const PackChart = (props: PackChartProps) => {
+const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
+	const theme = useTheme();
+
 	ChartJS.register(ArcElement, Tooltip, Legend);
 	ChartJS.overrides.doughnut.plugins.legend.display = false;
 	ChartJS.defaults.plugins.tooltip.displayColors = false;
@@ -17,33 +20,45 @@ const PackChart = (props: PackChartProps) => {
 		return (label += ' lbs');
 	};
 
-	const categoryLabels = props.categories.map((category) => {
-		return category.packCategoryName;
-	});
+	const categoryLabels = useMemo(
+		() =>
+			categories.map((category) => {
+				return category.packCategoryName;
+			}),
+		[categories],
+	);
+
+	const categoryColors = useMemo(
+		() =>
+			categories.map((category) => {
+				return theme[category.packCategoryColor];
+			}),
+		[categories],
+	);
 
 	const chartData = {
 		labels: categoryLabels,
 		datasets: [
 			{
-				data: props.categoryWeights,
-				backgroundColor: [
-					'#338866',
-					'#78B87A',
-					'#5F84A2',
-					'#7BB8C0',
-					'#A7B5FE',
-					'#F36F3B',
-				],
+				data: categoryWeights,
+				backgroundColor: categoryColors,
 				borderWidth: 2,
 			},
 		],
 	};
 
 	return (
-		<div className="pack-chart-container">
+		<ChartContainer>
 			<Doughnut data={chartData} />
-		</div>
+		</ChartContainer>
 	);
 };
 
 export default PackChart;
+
+const ChartContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+`;

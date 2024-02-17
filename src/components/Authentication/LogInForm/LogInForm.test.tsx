@@ -30,7 +30,7 @@ describe('LogInForm', () => {
 	it('Should show register form ui', () => {
 		wrappedRender(RegisterFormWithProps);
 		const registerButton = screen.getByRole('button', { name: /register/i });
-		const nameInput = screen.getByTestId('name-input');
+		const nameInput = screen.getByTestId('first-name-input');
 		const verifyPasswordInput = screen.getByTestId('verify-password-input');
 
 		expect(nameInput).toBeDefined();
@@ -42,10 +42,12 @@ describe('LogInForm', () => {
 		const { user } = wrappedRender(RegisterFormWithProps);
 		const registerButton = screen.getByRole('button', { name: /register/i });
 
-		const nameInput = screen.getByTestId('name-input');
+		const nameInput = screen.getByTestId('first-name-input');
+		const lastNameInput = screen.getByTestId('last-name-input');
 		const emailInput = screen.getByTestId('email-input');
 
-		await user.type(nameInput, 'Josh Collins');
+		await user.type(nameInput, 'Josh');
+		await user.type(lastNameInput, 'Collins');
 		await user.type(emailInput, 'jcollins@gmail');
 
 		await user.click(registerButton);

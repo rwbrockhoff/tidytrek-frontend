@@ -1,6 +1,7 @@
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import './TableCell.css';
+import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 
 type TableCellProps = {
 	value: string | number;
@@ -14,11 +15,15 @@ type TableCellProps = {
 };
 
 const TableCell = (props: TableCellProps) => {
+	const userView = useUserContext();
 	const { value, itemName, placeholder, size, onChange, onToggleOff } = props;
+
 	const [toggleInput, setToggleInput] = useState(false);
-	const toggleToEdit = () => !toggleInput && setToggleInput(true);
+	const display = !toggleInput || !userView;
+
+	const toggleToEdit = () => display && setToggleInput(true);
 	const toggleToCell = () => {
-		if (toggleInput) {
+		if (!display) {
 			setToggleInput(false);
 			onToggleOff();
 		}
@@ -31,17 +36,21 @@ const TableCell = (props: TableCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<Input
-				className="table-cell-input"
-				value={value || ''}
-				name={itemName}
-				placeholder={placeholder}
-				onChange={onChange}
-				transparent={!toggleInput}
-				style={{
-					paddingLeft: !toggleInput ? '13px' : '0px',
-				}}
-			/>
+			{userView ? (
+				<Input
+					className="table-cell-input"
+					value={value || ''}
+					name={itemName}
+					placeholder={placeholder}
+					onChange={onChange}
+					transparent={display}
+					style={{
+						paddingLeft: display ? '13px' : '0px',
+					}}
+				/>
+			) : (
+				<p>{value}</p>
+			)}
 		</Table.Cell>
 	);
 };

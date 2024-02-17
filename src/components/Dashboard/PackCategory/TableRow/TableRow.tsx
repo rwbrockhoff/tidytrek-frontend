@@ -15,14 +15,15 @@ import {
 } from '../TableButtons/TableButtons';
 import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
-import { Draggable } from 'react-beautiful-dnd';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
+import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
 	item: PackItem;
-	key: string;
 	index: number;
+	disabled?: boolean;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
 	packList: PackListItem[];
@@ -30,12 +31,15 @@ type TableRowProps = {
 		packItemId: number;
 		packId: number;
 		packCategoryId: number;
+		packItemIndex: number;
 	}) => void;
 };
 
 const TableRow = (props: TableRowProps) => {
-	const { handleMoveItemToPack, handleOnSave, handleDelete } = props;
-	const { packItem, handleInput, packItemChanged } = useTableRowInput(props.item);
+	const userView = useUserContext();
+	const { item, index, disabled, handleMoveItemToPack, handleOnSave, handleDelete } =
+		props;
+	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
@@ -59,10 +63,14 @@ const TableRow = (props: TableRowProps) => {
 	const handleButton = (property: PackButtonSwitches) =>
 		handleOnSave({ ...packItem, ...property });
 
-	const dropId = `${packItemId}`;
+	const dropId = `item${packItemId}`;
 
 	return (
-		<Draggable key={dropId} draggableId={dropId} index={props.index}>
+		<Draggable
+			key={dropId}
+			draggableId={dropId}
+			index={index}
+			isDragDisabled={!userView || disabled}>
 			{(provided) => (
 				<>
 					<tr
@@ -80,7 +88,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={4}
+							size={userView ? 4 : 5}
 						/>
 						<TableCell
 							value={packItemDescription}
@@ -114,21 +122,23 @@ const TableRow = (props: TableRowProps) => {
 							size={2}
 						/>
 
-						<ActionButtons size={1}>
-							<MoveItemButton
-								display={toggleRow}
-								onToggle={() => setToggleGearButtons(!toggleGearButtons)}
-							/>
-							<DeleteButton
-								display={toggleRow}
-								onClickDelete={() => handleDelete(packItemId)}
-							/>
-						</ActionButtons>
+						{userView && (
+							<ActionButtons size={1}>
+								<MoveItemButton
+									display={toggleRow}
+									onToggle={() => setToggleGearButtons(!toggleGearButtons)}
+								/>
+								<DeleteButton
+									display={toggleRow}
+									onClickDelete={() => handleDelete(packItemId)}
+								/>
+							</ActionButtons>
+						)}
 					</tr>
 
-					{toggleGearButtons && (
+					{toggleGearButtons && userView && (
 						<MoveItemDropdown
-							packItemId={packItemId}
+							packItem={item}
 							availablePacks={availablePacks}
 							moveItemToPack={handleMoveItemToPack}
 						/>

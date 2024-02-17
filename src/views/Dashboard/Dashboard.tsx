@@ -3,6 +3,7 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
+import { UserViewContext } from './useUserContext';
 import {
 	useGetPackQuery,
 	useGetPackListQuery,
@@ -10,20 +11,33 @@ import {
 	useMovePackItemMutation,
 	useMovePackCategoryMutation,
 } from '../../queries/packQueries';
-import { Drop, DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
-import { Category, type Pack } from '../../types/packTypes';
+import { useViewPackQuery } from '../../queries/guestQueries';
+import { type Category, type Pack } from '../../types/packTypes';
+import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
+import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
+import { ThemeProvider } from 'styled-components';
+import { getThemeAsGuest } from '../Layout/themeUtils';
 
-const Dashboard = () => {
+type DashboardProps = { userView: boolean };
+
+const Dashboard = ({ userView }: DashboardProps) => {
 	const { mutate: addCategory } = useAddPackCategoryMutation();
 	const { mutate: movePackItem } = useMovePackItemMutation();
 	const { mutate: movePackCategory } = useMovePackCategoryMutation();
 
 	const { packId: paramPackId } = useParams();
-	const { data, isPending } = useGetPackQuery(paramPackId);
-	const { data: packListData } = useGetPackListQuery();
+	const { data, isPending } = userView
+		? useGetPackQuery(paramPackId)
+		: useViewPackQuery(paramPackId);
+
+	const theme = getThemeAsGuest(data);
+
+	const { data: packListData } = userView
+		? useGetPackListQuery()
+		: { data: { packList: [] } };
 	const { packList } = packListData || { packList: [] };
 
-	const packCategories = data?.categories || [];
+	let packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
 	const packId = data?.pack.packId || null;
 
@@ -31,65 +45,75 @@ const Dashboard = () => {
 		packId && addCategory(packId);
 	};
 
-	const onDragItemEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
+	const handleOnDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source, type } = result;
+
 		if (!destination) return;
 
 		const sameIndex = destination.index === source.index;
-		const sameCategory = destination.droppableId === source.droppableId;
 
-		if (sameIndex && sameCategory) return;
+		if (type === 'category') {
+			if (sameIndex) return;
 
-		movePackItem({
-			packId: paramPackId ? packId : null,
-			packItemId: draggableId,
-			packCategoryId: destination.droppableId,
-			packItemIndex: destination.index,
-			prevPackCategoryId: source.droppableId,
-			prevPackItemIndex: source.index,
-		});
+			movePackCategory({
+				packId: currentPack.packId,
+				paramPackId,
+				packCategoryId: draggableId,
+				prevIndex: source.index,
+				newIndex: destination.index,
+			});
+		} else {
+			const sameCategory = destination.droppableId === source.droppableId;
+			if (sameIndex && sameCategory) return;
+
+			const dragId = draggableId.replace(/\D/g, '');
+			movePackItem({
+				packId: paramPackId ? packId : null,
+				packItemId: dragId,
+				packCategoryId: destination.droppableId,
+				packItemIndex: destination.index,
+				prevPackCategoryId: source.droppableId,
+				prevPackItemIndex: source.index,
+			});
+		}
 	};
 
-	const onDragCategoryEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
-
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
-
-		movePackCategory({
-			packId: destination.droppableId,
-			packCategoryId: draggableId,
-			prevIndex: source.index,
-			newIndex: destination.index,
-		});
-	};
+	const { packAffiliate, packAffiliateDescription } = currentPack;
 
 	return (
-		<div className="dashboard-container">
-			<PackInfo
-				currentPack={currentPack}
-				packCategories={packCategories}
-				fetching={isPending}
-			/>
+		<UserViewContext.Provider value={userView}>
+			<ThemeProvider theme={theme}>
+				<div className="dashboard-container">
+					<PackInfo
+						currentPack={currentPack}
+						packCategories={packCategories}
+						fetching={isPending}
+					/>
 
-			<DragDropContext onDragEnd={onDragCategoryEnd}>
-				<Drop droppableId={packId}>
-					{packCategories.length >= 0 &&
-						packCategories.map((category: Category, idx: number) => (
-							<PackCategory
-								category={category}
-								packList={packList}
-								onDragItem={onDragItemEnd}
-								index={idx}
-								key={category?.packCategoryId || idx}
-							/>
-						))}
-				</Drop>
-			</DragDropContext>
+					<DragDropContext onDragEnd={handleOnDragEnd}>
+						<Drop droppableId={'dashboard-drop-window'} type="category">
+							{packCategories.length >= 0 &&
+								packCategories.map((category: Category, idx: number) => (
+									<PackCategory
+										category={category}
+										packList={packList}
+										index={idx}
+										key={category?.packCategoryId || idx}
+									/>
+								))}
+						</Drop>
+					</DragDropContext>
 
-			<AddCategoryButton onClick={handleAddPackCategory} />
-		</div>
+					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+					{!userView && (
+						<DashboardFooter
+							affiliate={packAffiliate}
+							description={packAffiliateDescription}
+						/>
+					)}
+				</div>
+			</ThemeProvider>
+		</UserViewContext.Provider>
 	);
 };
 

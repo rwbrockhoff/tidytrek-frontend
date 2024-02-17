@@ -25,12 +25,14 @@ export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
 	packId: number;
+	packCategoryColor: string;
 	packItems: [PackItem];
 };
 
 export type PackItem = {
 	packItemId: number;
 	packCategoryId: number;
+	packItemIndex: number;
 	packItemName: string;
 	packItemDescription: string;
 	packItemWeight: number;
@@ -53,6 +55,7 @@ export type PackInfo = {
 	packItemId: number;
 	packId: number;
 	packCategoryId: number;
+	packItemIndex: number;
 };
 
 export type PackButtonSwitches = {

@@ -1,12 +1,6 @@
 import { validPassword, validEmail, passwordRequirements } from './authHelper';
-import { FormError } from '../../types/generalTypes';
-
-type FormData = {
-	name: string;
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
+import { type FormError } from '../../types/generalTypes';
+import { type RegisterUser } from '../../types/userTypes';
 
 export const useValidateForm = (setFormError: (error: FormError) => void) => {
 	const invalidForm = (
@@ -15,10 +9,16 @@ export const useValidateForm = (setFormError: (error: FormError) => void) => {
 		setFormError({ error: true, message });
 	};
 
-	const validateFormData = (formData: FormData) => {
-		const { name, email, password, confirmPassword } = formData;
+	const validateFormData = (formData: RegisterUser) => {
+		const { firstName, lastName, email, password, confirmPassword, agreeToTerms } =
+			formData;
+		//agree to terms
+		if (!agreeToTerms) {
+			invalidForm('Please agree to the terms.');
+			return false;
+		}
 		//validate name when registering
-		if (!name) {
+		if (!firstName || !lastName) {
 			invalidForm('Please type in your name.');
 			return false;
 		}
