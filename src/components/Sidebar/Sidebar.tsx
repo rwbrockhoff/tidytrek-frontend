@@ -46,7 +46,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	}, [addNewPackData, paramPackId, navigate]);
 
 	useEffect(() => {
-		// subscribe to "/" loading default pack, navigate w/ packId for query cache
+		// subscribe to user clicking on a different pack
 		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
 			const encodedId = encode(currentPackId);
 			navigate(`/packs/${encodedId}`);

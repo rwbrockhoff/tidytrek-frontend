@@ -57,6 +57,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 			movePackCategory({
 				packId: currentPack.packId,
+				paramPackId,
 				packCategoryId: draggableId,
 				prevIndex: source.index,
 				newIndex: destination.index,
