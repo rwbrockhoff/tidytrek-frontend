@@ -47,6 +47,16 @@ export const Table = styled(SemTable)`
 	}
 `;
 
+export const TableCell = styled(Table.Cell)`
+	&&&& {
+		${(props) =>
+			props.$overflow &&
+			css`
+				overflow: visible;
+			`};
+	}
+`;
+
 export const ModalHeader = styled(SemModalHeader)`
 	&&& {
 		${(props) =>
