@@ -121,6 +121,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 					{...provided.draggableProps}>
 					<Table
 						$themeColor={packCategoryColor}
+						$minimalPadding
 						fixed
 						striped
 						compact

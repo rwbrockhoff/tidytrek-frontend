@@ -37,23 +37,24 @@ export const Icon = styled(SemIcon)`
 	}
 `;
 
-export const Table = styled(SemTable)`
+export const Table = styled(SemTable)<{ $themeColor?: string }>`
 	&&& {
+		border-top: ${(props) =>
+			props.$themeColor ? `0.3em solid ${props.theme[props.$themeColor]}` : 'inherit'};
+
 		${(props) =>
-			props.$themeColor &&
+			props.$minimalPadding &&
 			css`
-				border-top: 0.3em solid ${props.theme[props.$themeColor]};
+				td {
+					padding: 0.2em 0.2em;
+				}
 			`};
 	}
 `;
 
-export const TableCell = styled(Table.Cell)`
+export const TableCell = styled(Table.Cell)<{ $overflow?: boolean }>`
 	&&&& {
-		${(props) =>
-			props.$overflow &&
-			css`
-				overflow: visible;
-			`};
+		overflow: ${(props) => (props.$overflow ? 'visible' : 'inherit')};
 	}
 `;
 

@@ -1,10 +1,11 @@
 import TableCell from '../TableCells/TableCell/TableCell';
-import './TableRow.css';
+import styled from 'styled-components';
 import { useState } from 'react';
 import {
 	type PackItem,
 	type PackButtonSwitches,
 	type PackListItem,
+	type PackInfo,
 } from '../../../../types/packTypes';
 import ItemNameCell from '../TableCells/ItemNameCell/ItemNameCell';
 import PackWeightCell from '../TableCells/PackWeightCell/PackWeightCell';
@@ -21,18 +22,13 @@ import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
-	item: PackItem;
 	index: number;
+	item: PackItem;
+	packList: PackListItem[];
 	disabled?: boolean;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
-	packList: PackListItem[];
-	handleMoveItemToPack: (packInfo: {
-		packItemId: number;
-		packId: number;
-		packCategoryId: number;
-		packItemIndex: number;
-	}) => void;
+	handleMoveItemToPack: (packInfo: PackInfo) => void;
 };
 
 const TableRow = (props: TableRowProps) => {
@@ -60,7 +56,7 @@ const TableRow = (props: TableRowProps) => {
 
 	const handleToggle = () => packItemChanged && handleOnSave(packItem);
 
-	const handleButton = (property: PackButtonSwitches) =>
+	const handleClickButton = (property: PackButtonSwitches) =>
 		handleOnSave({ ...packItem, ...property });
 
 	const dropId = `item${packItemId}`;
@@ -73,8 +69,7 @@ const TableRow = (props: TableRowProps) => {
 			isDragDisabled={!userView || disabled}>
 			{(provided) => (
 				<>
-					<tr
-						className="table-row"
+					<Row
 						onMouseOver={() => setToggleRow(true)}
 						onMouseLeave={() => setToggleRow(false)}
 						ref={provided.innerRef}
@@ -102,7 +97,7 @@ const TableRow = (props: TableRowProps) => {
 							wornWeight={wornWeight}
 							consumable={consumable}
 							favorite={favorite}
-							onClick={handleButton}
+							onClick={handleClickButton}
 							display={toggleRow}
 							size={3}
 						/>
@@ -134,7 +129,7 @@ const TableRow = (props: TableRowProps) => {
 								/>
 							</ActionButtons>
 						)}
-					</tr>
+					</Row>
 
 					{toggleGearButtons && userView && (
 						<MoveItemDropdown
@@ -150,3 +145,11 @@ const TableRow = (props: TableRowProps) => {
 };
 
 export default TableRow;
+
+const Row = styled.tr`
+	&&& {
+		position: relative;
+		border: none;
+		background-color: white;
+	}
+`;
