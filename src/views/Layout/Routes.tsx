@@ -6,6 +6,8 @@ import Dashboard from '../Dashboard/Dashboard';
 import Account from '../Account/Account';
 import GearCloset from '../GearCloset/GearCloset';
 import { Navigate } from 'react-router-dom';
+import AccountSettings from '../Account/AccountSettings/AccountSettings';
+import ProfileSettings from '../Account/ProfileSettings/ProfileSettings';
 
 export const userRoutes = [
 	{
@@ -31,12 +33,25 @@ export const userRoutes = [
 	{
 		path: '/account',
 		element: <ViewLayout />,
-		children: [{ path: '/account', element: <Account /> }],
+		children: [
+			{
+				path: '/account',
+				element: <Account />,
+				children: [
+					{
+						index: true,
+						element: <AccountSettings />,
+					},
+					{ path: '/account/profile', element: <ProfileSettings /> },
+				],
+			},
+		],
 	},
 	{
 		path: '/reset-password',
 		element: <ResetPassword />,
 	},
+	{ path: '/account/*', index: true, element: <Navigate to="/account" /> },
 	{ path: '/*', index: true, element: <Navigate to="/" /> },
 ];
 
