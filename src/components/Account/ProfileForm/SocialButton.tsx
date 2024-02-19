@@ -1,5 +1,6 @@
 import { Label, Icon, Button, SemanticICONS } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { SocialLink, SocialObject } from '../../../types/profileSettingsTypes';
 
 type SocialButtonProps = {
 	social: SocialLink;
@@ -43,16 +44,6 @@ const CircleButton = styled(Button)<{ $backgroundColor: string }>`
 		}
 	}
 `;
-
-export type SocialLink = {
-	socialName: SemanticICONS | undefined;
-	color: string;
-	icon?: React.ReactNode;
-};
-
-export type SocialObject = {
-	[K: string]: SocialLink;
-};
 
 export const socialObject: SocialObject = {
 	custom: {

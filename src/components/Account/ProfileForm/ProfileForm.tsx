@@ -12,12 +12,18 @@ import AddLink from './AddLink';
 import { useState } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
+import { ProfileSettings } from '../../../types/profileSettingsTypes';
 
-const ProfileForm = () => {
+const defaultPhotoUrl =
+	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+
+const ProfileForm = ({ settings }: { settings: ProfileSettings | undefined }) => {
 	const [showLinks, setShowLinks] = useState(false);
 
+	const { userBio, userLocation, profilePhotoUrl } = settings || {};
+
 	const handleAddSocialLink = (service: string, socialLink: string) => {
-		console.log('Please add: ', service, socialLink);
+		//mutation
 	};
 
 	return (
@@ -25,10 +31,7 @@ const ProfileForm = () => {
 			<Segment>
 				<Header as="h4">Profile Settings</Header>
 				<PhotoContainer>
-					<Avatar
-						src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-						alt="profile photo"
-					/>
+					<Avatar src={profilePhotoUrl || defaultPhotoUrl} alt="profile photo" />
 					<Button $themeColor="primary">
 						<Icon name="cloud upload" />
 						Upload
@@ -36,17 +39,14 @@ const ProfileForm = () => {
 				</PhotoContainer>
 			</Segment>
 			<Segment stacked>
-				{/* <Header as="h4" style={{ marginBottom: 30 }}>
-					Profile Info
-				</Header> */}
 				<StyledForm>
 					<FormField>
 						<label>Based In</label>
-						<Input name="userLocation" placeholder="Denver, CO" />
+						<Input name="userLocation" value={userLocation} placeholder="Denver, CO" />
 					</FormField>
 					<FormField>
 						<label>Profile Bio</label>
-						<TextArea name="userBio" placeholder="Bio for your profile" />
+						<TextArea name="userBio" value={userBio} placeholder="Bio for your profile" />
 					</FormField>
 				</StyledForm>
 				<Text style={{ marginTop: 25 }}> Profile Links </Text>
