@@ -1,32 +1,34 @@
-import { Label, Icon, Button, SemanticICONS } from 'semantic-ui-react';
+import { Label, Icon, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { SocialLink, SocialObject } from '../../../types/profileSettingsTypes';
+import { SocialLinkInfo, SocialObject } from '../../../types/profileSettingsTypes';
 
 type SocialButtonProps = {
-	social: SocialLink;
+	socialName: string;
+	color: string;
+	icon: React.ReactNode;
+	displayUrl?: string;
 	onClick: (socialName: string | undefined) => void;
 };
 
-export const SocialButton = ({ social, onClick }: SocialButtonProps) => {
-	const { socialName, color, icon } = social;
+export const SocialButton = (props: SocialButtonProps) => {
+	const { socialName, color, icon, displayUrl, onClick } = props;
 
 	return (
 		<StyledLabel $backgroundColor={color} onClick={() => onClick(socialName)}>
-			{icon ? icon : <Icon name={socialName} />}
-			{socialName}
+			{icon}
+			{displayUrl || socialName || 'Link'}
 		</StyledLabel>
 	);
 };
 
-export const SocialButtonPicker = ({ currentSocial }: { currentSocial: SocialLink }) => {
-	const { socialName, color } = currentSocial;
+export const SocialButtonPicker = ({
+	currentSocial,
+}: {
+	currentSocial: SocialLinkInfo;
+}) => {
+	const { icon, color } = currentSocial;
 
-	return (
-		<CircleButton
-			$backgroundColor={color}
-			icon={currentSocial?.icon ? currentSocial?.icon : <Icon name={socialName} />}
-		/>
-	);
+	return <CircleButton $backgroundColor={color} icon={icon} />;
 };
 
 const CircleButton = styled(Button)<{ $backgroundColor: string }>`
@@ -47,31 +49,35 @@ const CircleButton = styled(Button)<{ $backgroundColor: string }>`
 
 export const socialObject: SocialObject = {
 	custom: {
-		socialName: 'custom' as SemanticICONS,
+		socialName: 'custom',
 		color: 'grey',
 		icon: <Icon name="linkify" />,
 	},
-	facebook: { socialName: 'facebook', color: '#3b5998' },
-	instagram: { socialName: 'instagram', color: '#d62976' },
+	facebook: { socialName: 'facebook', color: '#3b5998', icon: <Icon name="facebook" /> },
+	instagram: {
+		socialName: 'instagram',
+		color: '#d62976',
+		icon: <Icon name="instagram" />,
+	},
 	twitter: {
 		socialName: 'twitter',
 		color: '#000000',
 		icon: <i className="fa-brands fa-x-twitter" />,
 	},
 	tiktok: {
-		socialName: 'tiktok' as SemanticICONS,
+		socialName: 'tiktok',
 		color: '#000000',
 		icon: <i className="fa-brands fa-tiktok" />,
 	},
-	youtube: { socialName: 'youtube', color: '#ff0000' },
-	reddit: { socialName: 'reddit', color: '#ff4500' },
+	youtube: { socialName: 'youtube', color: '#ff0000', icon: <Icon name="youtube" /> },
+	reddit: { socialName: 'reddit', color: '#ff4500', icon: <Icon name="reddit" /> },
 	venmo: {
-		socialName: 'venmo' as SemanticICONS,
+		socialName: 'venmo',
 		color: '#008cff',
 		icon: <Icon name="vimeo v" />,
 	},
-	paypal: { socialName: 'paypal', color: '#001c64' },
-	patreon: { socialName: 'patreon', color: '#000000' },
+	paypal: { socialName: 'paypal', color: '#001c64', icon: <Icon name="paypal" /> },
+	patreon: { socialName: 'patreon', color: '#000000', icon: <Icon name="patreon" /> },
 };
 
 const StyledLabel = styled(Label)`

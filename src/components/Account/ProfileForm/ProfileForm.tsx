@@ -12,12 +12,19 @@ import AddLink from './AddLink';
 import { useState } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
-import { ProfileSettings } from '../../../types/profileSettingsTypes';
+import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
+import { socialObject, SocialButton } from './SocialButton';
 
 const defaultPhotoUrl =
 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
-const ProfileForm = ({ settings }: { settings: ProfileSettings | undefined }) => {
+const ProfileForm = ({
+	settings,
+	socialLinks,
+}: {
+	settings: ProfileSettings | undefined;
+	socialLinks: SocialLink[];
+}) => {
 	const [showLinks, setShowLinks] = useState(false);
 
 	const { userBio, userLocation, profilePhotoUrl } = settings || {};
@@ -42,15 +49,36 @@ const ProfileForm = ({ settings }: { settings: ProfileSettings | undefined }) =>
 				<StyledForm>
 					<FormField>
 						<label>Based In</label>
-						<Input name="userLocation" value={userLocation} placeholder="Denver, CO" />
+						<Input name="userLocation" placeholder="Denver, CO" />
 					</FormField>
 					<FormField>
 						<label>Profile Bio</label>
-						<TextArea name="userBio" value={userBio} placeholder="Bio for your profile" />
+						<TextArea name="userBio" placeholder="Bio for your profile" />
 					</FormField>
 				</StyledForm>
 				<Text style={{ marginTop: 25 }}> Profile Links </Text>
-				<p style={{ opacity: 0.5 }}>Add links that others can see on your profile.</p>
+				<p style={{ opacity: 0.5 }}>
+					Add links that others can see on your profile. 4 link maximum to keep things
+					tidy.
+				</p>
+
+				<CurrentLinksContainer>
+					{socialLinks.map((link, index) => {
+						const { socialName, color, icon } = socialObject[link.socialLinkName];
+						const displayLink = shortenLink(link.socialLinkUrl);
+						return (
+							<SocialButton
+								key={index}
+								socialName={socialName}
+								color={color}
+								icon={icon}
+								displayUrl={displayLink}
+								onClick={() => console.log('clicked')}
+							/>
+						);
+					})}
+				</CurrentLinksContainer>
+
 				{!showLinks && (
 					<Button
 						basic
@@ -78,7 +106,7 @@ export const Segment = styled(SemSegment)`
 `;
 
 const StyledForm = styled(Form)`
-	width: 50%;
+	width: 60%;
 `;
 
 const Avatar = styled.img`
@@ -110,3 +138,19 @@ const Text = styled.p`
 	text-transform: none;
 	margin-top: 15px;
 `;
+
+const CurrentLinksContainer = styled.div`
+	display: flex;
+	margin-bottom: 25px;
+	&&& {
+		div.ui.label {
+			margin: 5px 0px;
+			margin-right: 10px;
+		}
+	}
+`;
+
+const shortenLink = (link: string) => {
+	let slashIndex = link.lastIndexOf('/');
+	return link.split('').splice(slashIndex).join('');
+};

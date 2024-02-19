@@ -41,9 +41,15 @@ const AddLink = ({ addLink }: AddLinkProps) => {
 					<PopupContent>
 						<PopupContainer>
 							{Object.keys(socialObject).map((key, index) => {
-								const item = socialObject[key];
+								const { socialName, color, icon } = socialObject[key];
 								return (
-									<SocialButton key={index} social={item} onClick={handleChangeButton} />
+									<SocialButton
+										key={index}
+										socialName={socialName}
+										color={color}
+										icon={icon}
+										onClick={handleChangeButton}
+									/>
 								);
 							})}
 						</PopupContainer>

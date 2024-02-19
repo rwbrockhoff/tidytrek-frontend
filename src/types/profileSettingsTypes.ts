@@ -1,7 +1,6 @@
-import { SemanticICONS } from 'semantic-ui-react';
-
 export type InitialState = {
 	profileSettings: ProfileSettings;
+	socialLinks: SocialLink[];
 };
 
 export type ProfileSettings = {
@@ -10,12 +9,20 @@ export type ProfileSettings = {
 	userLocation: string;
 };
 
-export type SocialLink = {
-	socialName: SemanticICONS | undefined;
+export type SocialLinkInfo = {
+	socialName: string;
 	color: string;
 	icon?: React.ReactNode;
 };
 
 export type SocialObject = {
-	[K: string]: SocialLink;
+	[K: string]: SocialLinkInfo;
+};
+
+export type SocialLink = {
+	socialLinkName: string;
+	socialLinkUrl: string;
+	socialLinkListId: number;
+	socialLinkId: number;
+	userId: number;
 };

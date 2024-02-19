@@ -4,11 +4,11 @@ import { useGetProfileSettingsQuery } from '../../../queries/userProfileQueries'
 
 const ProfileSettings = () => {
 	const { data } = useGetProfileSettingsQuery();
-	const settings = data?.profileSettings;
+	const { profileSettings, socialLinks = [] } = data || {};
 
 	return (
 		<Container>
-			<ProfileForm settings={settings} />
+			<ProfileForm settings={profileSettings} socialLinks={socialLinks} />
 		</Container>
 	);
 };
