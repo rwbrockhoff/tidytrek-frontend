@@ -16,6 +16,7 @@ import { useEditPackMutation } from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
 import './PackFormModal.css';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
+import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
 
 type PackFormModalProps = {
 	pack: Pack;
@@ -80,7 +81,9 @@ const PackFormModal = (props: PackFormModalProps) => {
 	const handleSubmitPack = () => {
 		if (packChanged) {
 			const { packId } = props.pack;
-			editPack({ packId, modifiedPack });
+			const { packUrl } = modifiedPack;
+			const cleanUrl = packUrl ? cleanUpLink(packUrl) : '';
+			editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
 			onClose();
 		}
 	};
@@ -151,7 +154,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 
 					<FormGroup>
 						<FormField width={6}>
-							<label>Link Name</label>
+							<label>Display Text</label>
 							<Input
 								name="packUrlName"
 								value={packUrlName ?? ''}

@@ -25,6 +25,7 @@ import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
+import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 
 type PackCategoryProps = {
 	category: Category;
@@ -96,7 +97,9 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 
 	const handleOnSave = (packItem: PackItem) => {
 		const { packItemId } = packItem;
-		editPackItem({ packItemId, packItem });
+		const { packItemUrl } = packItem;
+		const cleanUrl = cleanUpLink(packItemUrl);
+		editPackItem({ packItemId, packItem: { ...packItem, packItemUrl: cleanUrl } });
 	};
 
 	const handleDeleteItemPrompt = (packItemId: number) => {

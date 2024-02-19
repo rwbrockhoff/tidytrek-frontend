@@ -20,6 +20,7 @@ import {
 	useDeleteSocialLinkMutation,
 } from '../../../queries/userProfileQueries';
 import Avatar from '../../../shared/ui/Avatar';
+import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 
 const ProfileForm = ({
 	settings,
@@ -37,7 +38,8 @@ const ProfileForm = ({
 	const { profilePhotoUrl } = settings || {};
 
 	const handleAddSocialLink = (service: string, socialLink: string) => {
-		addSocialLink({ service, socialLink });
+		const cleanLink = cleanUpLink(socialLink);
+		addSocialLink({ service, socialLink: cleanLink });
 	};
 
 	const handleDeleteSocialLink = (socialLinkId: number | undefined) => {

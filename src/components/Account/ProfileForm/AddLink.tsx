@@ -25,6 +25,15 @@ const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 		setSocialLink('');
 	};
 
+	const handleUpdateService = () => {
+		//update social service icon based on URL
+		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
+			socialLink.includes(social),
+		);
+		if (socialService && socialService !== service) setService(socialService);
+		if (service !== 'custom') setService('custom');
+	};
+
 	const handleInput = (e: ReactInput) => setSocialLink(e.target.value);
 
 	const currentSocial = socialMediaUI[service];
@@ -59,6 +68,7 @@ const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 				</Popup>
 
 				<Input
+					onBlur={handleUpdateService}
 					placeholder="Paste your link..."
 					value={socialLink}
 					onChange={handleInput}

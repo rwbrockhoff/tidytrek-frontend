@@ -15,11 +15,18 @@ export const CustomLink = ({
 	if (!enabled || !link) return children;
 	if (externalLink) {
 		return (
-			<Link to={`https://${link}`} target="_blank" rel="noopener noreferrer">
+			<Link to={link} target="_blank" rel="noopener noreferrer">
 				{children}
 			</Link>
 		);
 	} else {
-		return <Link to={`https://${link}`}>{children}</Link>;
+		return <Link to={link}>{children}</Link>;
 	}
+};
+
+export const cleanUpLink = (link: string) => {
+	if (!link) return '';
+	if (link.includes('http:')) return link.replace('http:', 'https:');
+	if (link.includes('https://')) return link;
+	else return `https://${link}`;
 };
