@@ -15,7 +15,7 @@ const Account = () => {
 	return (
 		<Container>
 			<Header as="h3" textAlign="center">
-				Account Info
+				User Settings
 			</Header>
 
 			<AccountMenu />
