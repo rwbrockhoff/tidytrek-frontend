@@ -30,7 +30,8 @@ const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
 			socialLink.includes(social),
 		);
-		if (socialService && socialService !== service) setService(socialService);
+		if (socialService === service) return;
+		if (socialService && socialService !== service) return setService(socialService);
 		if (service !== 'custom') setService('custom');
 	};
 

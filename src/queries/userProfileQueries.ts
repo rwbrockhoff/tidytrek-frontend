@@ -30,3 +30,14 @@ export const useDeleteSocialLinkMutation = () => {
 		},
 	});
 };
+
+export const useEditProfileMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (profileInfo: { userLocation: string; userBio: string }) =>
+			tidyTrekAPI.put('/user-profile/', profileInfo),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: userProfileKeys.all });
+		},
+	});
+};

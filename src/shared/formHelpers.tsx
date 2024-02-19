@@ -1,4 +1,5 @@
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
+export type TextAreaEvent = React.ChangeEvent<HTMLTextAreaElement>;
 export type CheckboxEvent = React.FormEvent<HTMLInputElement>;
 export type FormInput = {};
 
@@ -7,7 +8,7 @@ export const isInputEvent = (e: InputEvent | CheckboxEvent): e is InputEvent => 
 };
 
 export function setFormInput<T>(
-	e: InputEvent,
+	e: InputEvent | TextAreaEvent,
 	setState: React.Dispatch<React.SetStateAction<T>>,
 ) {
 	setState((prevFormData) => ({

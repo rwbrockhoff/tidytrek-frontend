@@ -9,49 +9,50 @@ import {
 	Icon,
 } from 'semantic-ui-react';
 import AddLink from './AddLink';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
 import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
 import { SocialButton } from './SocialButton';
 import socialMediaUI from '../../../shared/ui/SocialMediaUI';
-import {
-	useAddSocialLinkMutation,
-	useDeleteSocialLinkMutation,
-} from '../../../queries/userProfileQueries';
 import Avatar from '../../../shared/ui/Avatar';
-import { cleanUpLink } from '../../../shared/ui/CustomLinks';
+import { type UserInfo } from '../../../views/Account/ProfileSettings/ProfileSettings';
+import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
 
-const ProfileForm = ({
-	settings,
-	socialLinks,
-}: {
+type ProfileFormProps = {
 	settings: ProfileSettings | undefined;
 	socialLinks: SocialLink[];
-}) => {
-	const { mutate: addSocialLink, isPending } = useAddSocialLinkMutation();
-	const { mutate: deleteSocialLink, isPending: isPendingDeleteItem } =
-		useDeleteSocialLinkMutation();
+	isPending: boolean;
+	addLink: (service: string, socialLink: string) => void;
+	deleteLink: (socialLinkId: number | undefined) => void;
+	editProfile: (userInfo: UserInfo) => void;
+};
+
+const ProfileForm = (props: ProfileFormProps) => {
+	const { settings, socialLinks, isPending, addLink, deleteLink, editProfile } = props;
 
 	const [showLinks, setShowLinks] = useState(false);
+	const [userInfo, setUserInfo] = useState({ userBio: '', userLocation: '' });
 
-	const { profilePhotoUrl } = settings || {};
+	useEffect(() => {
+		if (settings) {
+			const { userBio, userLocation } = settings;
+			setUserInfo({ userBio, userLocation });
+		}
+	}, [settings]);
 
-	const handleAddSocialLink = (service: string, socialLink: string) => {
-		const cleanLink = cleanUpLink(socialLink);
-		addSocialLink({ service, socialLink: cleanLink });
-	};
+	const handleInput = (e: InputEvent | TextAreaEvent) => setFormInput(e, setUserInfo);
 
-	const handleDeleteSocialLink = (socialLinkId: number | undefined) => {
-		if (socialLinkId && !isPendingDeleteItem) deleteSocialLink(socialLinkId);
-	};
+	const handleEditProfile = () => editProfile({ userBio, userLocation });
+
+	const { userBio, userLocation } = userInfo;
 
 	return (
 		<SegmentGroup>
 			<Segment>
 				<Header as="h4">Profile Settings</Header>
 				<PhotoContainer>
-					<Avatar src={profilePhotoUrl} />
+					<Avatar src={settings?.profilePhotoUrl} />
 
 					<Button $themeColor="primary">
 						<Icon name="cloud upload" />
@@ -60,14 +61,24 @@ const ProfileForm = ({
 				</PhotoContainer>
 			</Segment>
 			<Segment stacked>
-				<StyledForm>
+				<StyledForm onBlur={handleEditProfile}>
 					<FormField>
 						<label>Based In</label>
-						<Input name="userLocation" placeholder="Denver, CO" />
+						<Input
+							name="userLocation"
+							value={userLocation}
+							onChange={handleInput}
+							placeholder="Denver, CO"
+						/>
 					</FormField>
 					<FormField>
 						<label>Profile Bio</label>
-						<TextArea name="userBio" placeholder="Bio for your profile" />
+						<TextArea
+							name="userBio"
+							value={userBio}
+							onChange={handleInput}
+							placeholder="Bio for your profile"
+						/>
 					</FormField>
 				</StyledForm>
 				<Text style={{ marginTop: 25 }}> Profile Links </Text>
@@ -79,18 +90,18 @@ const ProfileForm = ({
 				<CurrentLinksContainer>
 					{socialLinks.map((link, index) => {
 						const { socialName, color, icon } = socialMediaUI[link.socialLinkName];
-
+						const { socialLinkId: id } = link;
 						return (
 							<SocialButton
 								key={index}
-								socialLinkId={link.socialLinkId}
+								socialLinkId={id}
 								socialName={socialName}
 								color={color}
 								icon={icon}
 								socialLinkUrl={link.socialLinkUrl}
 								linkEnabled
 								deleteEnabled
-								onDelete={handleDeleteSocialLink}
+								onDelete={() => deleteLink(id)}
 							/>
 						);
 					})}
@@ -107,7 +118,7 @@ const ProfileForm = ({
 					</Button>
 				)}
 
-				{showLinks && <AddLink addLink={handleAddSocialLink} isPending={isPending} />}
+				{showLinks && <AddLink addLink={addLink} isPending={isPending} />}
 			</Segment>
 		</SegmentGroup>
 	);
