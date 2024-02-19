@@ -13,10 +13,13 @@ import { useState } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
 import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
-import { socialObject, SocialButton } from './SocialButton';
-
-const defaultPhotoUrl =
-	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+import { SocialButton } from './SocialButton';
+import socialMediaUI from '../../../shared/ui/SocialMediaUI';
+import {
+	useAddSocialLinkMutation,
+	useDeleteSocialLinkMutation,
+} from '../../../queries/userProfileQueries';
+import Avatar from '../../../shared/ui/Avatar';
 
 const ProfileForm = ({
 	settings,
@@ -25,12 +28,20 @@ const ProfileForm = ({
 	settings: ProfileSettings | undefined;
 	socialLinks: SocialLink[];
 }) => {
+	const { mutate: addSocialLink, isPending } = useAddSocialLinkMutation();
+	const { mutate: deleteSocialLink, isPending: isPendingDeleteItem } =
+		useDeleteSocialLinkMutation();
+
 	const [showLinks, setShowLinks] = useState(false);
 
-	const { userBio, userLocation, profilePhotoUrl } = settings || {};
+	const { profilePhotoUrl } = settings || {};
 
 	const handleAddSocialLink = (service: string, socialLink: string) => {
-		//mutation
+		addSocialLink({ service, socialLink });
+	};
+
+	const handleDeleteSocialLink = (socialLinkId: number | undefined) => {
+		if (socialLinkId && !isPendingDeleteItem) deleteSocialLink(socialLinkId);
 	};
 
 	return (
@@ -38,7 +49,8 @@ const ProfileForm = ({
 			<Segment>
 				<Header as="h4">Profile Settings</Header>
 				<PhotoContainer>
-					<Avatar src={profilePhotoUrl || defaultPhotoUrl} alt="profile photo" />
+					<Avatar src={profilePhotoUrl} />
+
 					<Button $themeColor="primary">
 						<Icon name="cloud upload" />
 						Upload
@@ -64,16 +76,19 @@ const ProfileForm = ({
 
 				<CurrentLinksContainer>
 					{socialLinks.map((link, index) => {
-						const { socialName, color, icon } = socialObject[link.socialLinkName];
-						const displayLink = shortenLink(link.socialLinkUrl);
+						const { socialName, color, icon } = socialMediaUI[link.socialLinkName];
+
 						return (
 							<SocialButton
 								key={index}
+								socialLinkId={link.socialLinkId}
 								socialName={socialName}
 								color={color}
 								icon={icon}
-								displayUrl={displayLink}
-								onClick={() => console.log('clicked')}
+								socialLinkUrl={link.socialLinkUrl}
+								linkEnabled
+								deleteEnabled
+								onDelete={handleDeleteSocialLink}
 							/>
 						);
 					})}
@@ -90,7 +105,7 @@ const ProfileForm = ({
 					</Button>
 				)}
 
-				{showLinks && <AddLink addLink={handleAddSocialLink} />}
+				{showLinks && <AddLink addLink={handleAddSocialLink} isPending={isPending} />}
 			</Segment>
 		</SegmentGroup>
 	);
@@ -107,13 +122,6 @@ export const Segment = styled(SemSegment)`
 
 const StyledForm = styled(Form)`
 	width: 60%;
-`;
-
-const Avatar = styled.img`
-	width: 100px;
-	height: 100px;
-	border-radius: 50px;
-	margin: 10px;
 `;
 
 const PhotoContainer = styled.div`
@@ -149,8 +157,3 @@ const CurrentLinksContainer = styled.div`
 		}
 	}
 `;
-
-const shortenLink = (link: string) => {
-	let slashIndex = link.lastIndexOf('/');
-	return link.split('').splice(slashIndex).join('');
-};

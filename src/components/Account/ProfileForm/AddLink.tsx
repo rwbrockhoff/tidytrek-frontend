@@ -2,14 +2,16 @@ import { Divider, Icon, Input, Popup, PopupContent } from 'semantic-ui-react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { SocialButton, SocialButtonPicker, socialObject } from './SocialButton';
+import { SocialButton, SocialButtonPicker } from './SocialButton';
+import socialMediaUI from '../../../shared/ui/SocialMediaUI';
 import { ReactInput } from '../../../types/generalTypes';
 
 type AddLinkProps = {
+	isPending: boolean;
 	addLink: (service: string, socialLink: string) => void;
 };
 
-const AddLink = ({ addLink }: AddLinkProps) => {
+const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 	const [service, setService] = useState('facebook');
 	const [socialLink, setSocialLink] = useState('');
 
@@ -25,7 +27,7 @@ const AddLink = ({ addLink }: AddLinkProps) => {
 
 	const handleInput = (e: ReactInput) => setSocialLink(e.target.value);
 
-	const currentSocial = socialObject[service];
+	const currentSocial = socialMediaUI[service];
 
 	return (
 		<>
@@ -40,8 +42,8 @@ const AddLink = ({ addLink }: AddLinkProps) => {
 					}>
 					<PopupContent>
 						<PopupContainer>
-							{Object.keys(socialObject).map((key, index) => {
-								const { socialName, color, icon } = socialObject[key];
+							{Object.keys(socialMediaUI).map((key, index) => {
+								const { socialName, color, icon } = socialMediaUI[key];
 								return (
 									<SocialButton
 										key={index}
@@ -61,7 +63,10 @@ const AddLink = ({ addLink }: AddLinkProps) => {
 					value={socialLink}
 					onChange={handleInput}
 				/>
-				<Button $themeColor="primary" disabled={!socialLink} onClick={handleAddLink}>
+				<Button
+					$themeColor="primary"
+					disabled={!socialLink || isPending}
+					onClick={handleAddLink}>
 					<Icon name="add" />
 					Add Link
 				</Button>

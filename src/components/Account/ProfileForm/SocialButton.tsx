@@ -1,22 +1,47 @@
 import { Label, Icon, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { SocialLinkInfo, SocialObject } from '../../../types/profileSettingsTypes';
+import { SocialLinkInfo } from '../../../types/profileSettingsTypes';
+import { CustomLink } from '../../../shared/ui/CustomLinks';
 
 type SocialButtonProps = {
 	socialName: string;
+	socialLinkId?: number;
+	socialLinkUrl?: string;
 	color: string;
 	icon: React.ReactNode;
-	displayUrl?: string;
-	onClick: (socialName: string | undefined) => void;
+	linkEnabled?: boolean;
+	deleteEnabled?: boolean;
+	onClick?: (socialName: string | undefined) => void;
+	onDelete?: (socialLinkId: number | undefined) => void;
 };
 
 export const SocialButton = (props: SocialButtonProps) => {
-	const { socialName, color, icon, displayUrl, onClick } = props;
+	const {
+		socialName,
+		socialLinkId,
+		color,
+		icon,
+		socialLinkUrl,
+		linkEnabled,
+		deleteEnabled,
+		onClick,
+		onDelete,
+	} = props;
+
+	const handleClick = () => onClick && onClick(socialName);
+	const handleDelete = () => onDelete && onDelete(socialLinkId);
+
+	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl) : socialName;
 
 	return (
-		<StyledLabel $backgroundColor={color} onClick={() => onClick(socialName)}>
-			{icon}
-			{displayUrl || socialName || 'Link'}
+		<StyledLabel $backgroundColor={color} onClick={handleClick}>
+			<CustomLink link={socialLinkUrl} enabled={linkEnabled} externalLink>
+				{icon}
+				{displayLink || 'Link'}
+			</CustomLink>
+			{deleteEnabled && (
+				<Icon name="delete" style={{ marginLeft: 10 }} onClick={handleDelete} />
+			)}
 		</StyledLabel>
 	);
 };
@@ -47,37 +72,9 @@ const CircleButton = styled(Button)<{ $backgroundColor: string }>`
 	}
 `;
 
-export const socialObject: SocialObject = {
-	custom: {
-		socialName: 'custom',
-		color: 'grey',
-		icon: <Icon name="linkify" />,
-	},
-	facebook: { socialName: 'facebook', color: '#3b5998', icon: <Icon name="facebook" /> },
-	instagram: {
-		socialName: 'instagram',
-		color: '#d62976',
-		icon: <Icon name="instagram" />,
-	},
-	twitter: {
-		socialName: 'twitter',
-		color: '#000000',
-		icon: <i className="fa-brands fa-x-twitter" />,
-	},
-	tiktok: {
-		socialName: 'tiktok',
-		color: '#000000',
-		icon: <i className="fa-brands fa-tiktok" />,
-	},
-	youtube: { socialName: 'youtube', color: '#ff0000', icon: <Icon name="youtube" /> },
-	reddit: { socialName: 'reddit', color: '#ff4500', icon: <Icon name="reddit" /> },
-	venmo: {
-		socialName: 'venmo',
-		color: '#008cff',
-		icon: <Icon name="vimeo v" />,
-	},
-	paypal: { socialName: 'paypal', color: '#001c64', icon: <Icon name="paypal" /> },
-	patreon: { socialName: 'patreon', color: '#000000', icon: <Icon name="patreon" /> },
+const shortenLink = (link: string) => {
+	let slashIndex = link.lastIndexOf('/');
+	return link.split('').splice(slashIndex).join('');
 };
 
 const StyledLabel = styled(Label)`
@@ -89,6 +86,12 @@ const StyledLabel = styled(Label)`
 		i {
 			color: white;
 			margin-right: 5px;
+		}
+		a {
+			opacity: 1;
+		}
+		a:hover {
+			opacity: 0.8;
 		}
 	}
 `;
