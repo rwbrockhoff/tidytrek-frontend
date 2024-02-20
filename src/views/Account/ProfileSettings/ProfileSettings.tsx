@@ -5,6 +5,7 @@ import {
 	useAddSocialLinkMutation,
 	useDeleteSocialLinkMutation,
 	useEditProfileMutation,
+	useDeleteProfilePhotoMutation,
 } from '../../../queries/userProfileQueries';
 import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 
@@ -21,6 +22,7 @@ const ProfileSettings = () => {
 	const { mutate: deleteSocialLink, isPending: isPendingDeleteItem } =
 		useDeleteSocialLinkMutation();
 	const { mutate: editProfile } = useEditProfileMutation();
+	const { mutate: deleteProfilePhoto } = useDeleteProfilePhotoMutation();
 
 	const handleAddSocialLink = (service: string, socialLink: string) => {
 		const cleanLink = cleanUpLink(socialLink);
@@ -42,6 +44,7 @@ const ProfileSettings = () => {
 				addLink={handleAddSocialLink}
 				deleteLink={handleDeleteSocialLink}
 				editProfile={handleEditProfile}
+				deleteProfilePhoto={deleteProfilePhoto}
 			/>
 		</Container>
 	);

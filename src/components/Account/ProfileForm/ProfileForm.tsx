@@ -7,17 +7,23 @@ import {
 	Input,
 	TextArea,
 	Icon,
+	Message,
 } from 'semantic-ui-react';
-import AddLink from './AddLink';
-import { useState, useEffect } from 'react';
+import {
+	useState,
+	useEffect,
+	useRef,
+	type ChangeEvent,
+	type SyntheticEvent,
+} from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
 import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
-import { SocialButton } from './SocialButton';
-import socialMediaUI from '../../../shared/ui/SocialMediaUI';
 import Avatar from '../../../shared/ui/Avatar';
 import { type UserInfo } from '../../../views/Account/ProfileSettings/ProfileSettings';
 import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
+import { useUploadProfilePhotoMutation } from '../../../queries/userProfileQueries';
+import SocialLinks from './SocialLinks';
 
 type ProfileFormProps = {
 	settings: ProfileSettings | undefined;
@@ -26,13 +32,29 @@ type ProfileFormProps = {
 	addLink: (service: string, socialLink: string) => void;
 	deleteLink: (socialLinkId: number | undefined) => void;
 	editProfile: (userInfo: UserInfo) => void;
+	deleteProfilePhoto: () => void;
 };
 
 const ProfileForm = (props: ProfileFormProps) => {
-	const { settings, socialLinks, isPending, addLink, deleteLink, editProfile } = props;
+	const {
+		settings,
+		socialLinks,
+		isPending,
+		addLink,
+		deleteLink,
+		editProfile,
+		deleteProfilePhoto,
+	} = props;
 
-	const [showLinks, setShowLinks] = useState(false);
 	const [userInfo, setUserInfo] = useState({ userBio: '', userLocation: '' });
+	const [file, setFile] = useState<globalThis.File | null>();
+	const formRef = useRef<HTMLFormElement | null>(null);
+
+	const {
+		mutate: uploadPhoto,
+		isPending: isUploadingPhoto,
+		isError: isUploadError,
+	} = useUploadProfilePhotoMutation();
 
 	useEffect(() => {
 		if (settings) {
@@ -45,6 +67,24 @@ const ProfileForm = (props: ProfileFormProps) => {
 
 	const handleEditProfile = () => editProfile({ userBio, userLocation });
 
+	const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+		if (event.target.files) {
+			const file = event.target.files[0];
+			setFile(file);
+		}
+	};
+
+	const handleSubmitForm = async (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+		e.preventDefault();
+		if (file) {
+			const formData = new FormData();
+			formData.append('profilePhoto', file);
+			uploadPhoto(formData);
+			formRef?.current && formRef.current.reset();
+			setFile(null);
+		}
+	};
+
 	const { userBio, userLocation } = userInfo;
 
 	return (
@@ -52,12 +92,27 @@ const ProfileForm = (props: ProfileFormProps) => {
 			<Segment>
 				<Header as="h4">Profile Settings</Header>
 				<PhotoContainer>
-					<Avatar src={settings?.profilePhotoUrl} />
+					<Avatar
+						src={settings?.profilePhotoUrl}
+						onDelete={deleteProfilePhoto}
+						isPending={isUploadingPhoto}
+					/>
+					<form ref={formRef} onSubmit={handleSubmitForm}>
+						<Input type="file" accept="image/jpg, image/png" onChange={handleFile} />
+						<Button
+							$themeColor="primary"
+							type="submit"
+							disabled={isUploadingPhoto || !file}>
+							<Icon name="cloud upload" />
+							{isUploadingPhoto ? 'Uploading...' : 'Upload'}
+						</Button>
+					</form>
 
-					<Button $themeColor="primary">
-						<Icon name="cloud upload" />
-						Upload
-					</Button>
+					{isUploadError && (
+						<Message warning size="mini" style={{ marginRight: 'auto' }}>
+							<Icon name="warning" /> Upload error. File size limit is 10 mb.
+						</Message>
+					)}
 				</PhotoContainer>
 			</Segment>
 			<Segment stacked>
@@ -81,44 +136,13 @@ const ProfileForm = (props: ProfileFormProps) => {
 						/>
 					</FormField>
 				</StyledForm>
-				<Text style={{ marginTop: 25 }}> Profile Links </Text>
-				<p style={{ opacity: 0.5 }}>
-					Add links that others can see on your profile. 4 link maximum to keep things
-					tidy.
-				</p>
 
-				<CurrentLinksContainer>
-					{socialLinks.map((link, index) => {
-						const { socialName, color, icon } = socialMediaUI[link.socialLinkName];
-						const { socialLinkId: id } = link;
-						return (
-							<SocialButton
-								key={index}
-								socialLinkId={id}
-								socialName={socialName}
-								color={color}
-								icon={icon}
-								socialLinkUrl={link.socialLinkUrl}
-								linkEnabled
-								deleteEnabled
-								onDelete={() => deleteLink(id)}
-							/>
-						);
-					})}
-				</CurrentLinksContainer>
-
-				{!showLinks && (
-					<Button
-						basic
-						$themeColor="primary"
-						style={{ margin: '10px 0px' }}
-						onClick={() => setShowLinks(true)}>
-						<Icon name="add" />
-						Add Link
-					</Button>
-				)}
-
-				{showLinks && <AddLink addLink={addLink} isPending={isPending} />}
+				<SocialLinks
+					socialLinks={socialLinks}
+					isPending={isPending}
+					addLink={addLink}
+					deleteLink={deleteLink}
+				/>
 			</Segment>
 		</SegmentGroup>
 	);
@@ -146,27 +170,6 @@ const PhotoContainer = styled.div`
 	&&& {
 		button {
 			margin: 10px;
-		}
-	}
-`;
-
-const Text = styled.p`
-	display: block;
-	margin: 0 0 0.28571429rem 0;
-	color: rgba(0, 0, 0, 0.87);
-	font-size: 0.92857143em;
-	font-weight: 700;
-	text-transform: none;
-	margin-top: 15px;
-`;
-
-const CurrentLinksContainer = styled.div`
-	display: flex;
-	margin-bottom: 25px;
-	&&& {
-		div.ui.label {
-			margin: 5px 0px;
-			margin-right: 10px;
 		}
 	}
 `;

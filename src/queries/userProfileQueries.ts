@@ -41,3 +41,26 @@ export const useEditProfileMutation = () => {
 		},
 	});
 };
+
+export const useUploadProfilePhotoMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (formData: FormData) =>
+			tidyTrekAPI.post('/user-profile/profile-photo', formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: userProfileKeys.all });
+		},
+	});
+};
+
+export const useDeleteProfilePhotoMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: () => tidyTrekAPI.delete(`/user-profile/profile-photo`),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: userProfileKeys.all });
+		},
+	});
+};
