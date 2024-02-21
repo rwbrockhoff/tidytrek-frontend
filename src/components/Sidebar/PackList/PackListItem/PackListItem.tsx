@@ -1,4 +1,5 @@
 import { PackListItem as ListItem } from '../../../../types/packTypes';
+import styled from 'styled-components';
 
 type PackListItemProps = {
 	pack: ListItem;
@@ -8,12 +9,33 @@ type PackListItemProps = {
 const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 	return (
 		<div key={pack.packId} onClick={() => onClick(pack.packId)}>
-			<p>
-				<i className="fa-solid fa-grip-vertical" />
+			<Text>
+				<GripIcon className="fa-solid fa-grip-vertical" />
 				{pack.packName}
-			</p>
+			</Text>
 		</div>
 	);
 };
 
 export default PackListItem;
+
+const Text = styled.p`
+	&& {
+		cursor: pointer;
+		margin: 10px 0px;
+		margin-left: -20px;
+		opacity: 1;
+		&:hover {
+			opacity: 0.8;
+			i {
+				opacity: 0.6;
+			}
+		}
+	}
+`;
+
+const GripIcon = styled.i`
+	opacity: 0;
+	margin-right: 10px;
+	cursor: grab;
+`;

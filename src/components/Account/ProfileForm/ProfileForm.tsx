@@ -79,6 +79,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 				<PhotoContainer>
 					<Avatar
 						src={settings?.profilePhotoUrl}
+						margin="10px"
 						onDelete={deleteProfilePhoto}
 						isPending={isUploadingPhoto}
 					/>

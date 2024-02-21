@@ -10,11 +10,19 @@ type AvatarProps = {
 	src: string | undefined;
 	size?: Size;
 	link?: string;
+	margin?: string;
 	isPending?: boolean;
 	onDelete?: () => void;
 };
 
-const Avatar = ({ src, size = 'big', link, isPending, onDelete }: AvatarProps) => {
+const Avatar = ({
+	src,
+	size = 'big',
+	link,
+	margin = '0px',
+	isPending,
+	onDelete,
+}: AvatarProps) => {
 	const [showButton, setShowButton] = useState(false);
 
 	const hasLink = link ? true : false;
@@ -35,7 +43,12 @@ const Avatar = ({ src, size = 'big', link, isPending, onDelete }: AvatarProps) =
 					</>
 				)}
 
-				<StyledAvatar src={photoSource} alt="user profile photo" size={size} />
+				<StyledAvatar
+					src={photoSource}
+					$margin={margin}
+					$size={size}
+					alt="user profile photo"
+				/>
 			</InnerContainer>
 		</CustomLink>
 	);
@@ -45,12 +58,17 @@ export default Avatar;
 
 type Size = 'big' | 'small';
 
-const StyledAvatar = styled.img<{ size?: Size }>`
-	width: ${(props) => (props.size === 'big' ? '100px' : '50px')};
-	height: ${(props) => (props.size === 'big' ? '100px' : '50px')};
-	border-radius: ${(props) => (props.size === 'big' ? '50px' : '25px')};
-	margin: 10px;
+const StyledAvatar = styled.img<{ $size?: Size; $margin?: string }>`
+	width: ${(props) => (props.$size === 'big' ? '100px' : '50px')};
+	height: ${(props) => (props.$size === 'big' ? '100px' : '50px')};
+	border-radius: ${(props) => (props.$size === 'big' ? '50px' : '25px')};
+	margin: ${(props) => (props.$margin ? props.$margin : 'inherit')};
 	object-fit: cover;
+	opacity: 1;
+
+	:hover {
+		opacity: 0.2;
+	}
 `;
 
 const Background = styled.div`

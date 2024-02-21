@@ -1,7 +1,7 @@
-import './Sidebar.css';
 import { useLogoutMutation } from '../../queries/userQueries';
 import { useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import {
 	useGetPackListQuery,
 	useGetPackQuery,
@@ -9,11 +9,12 @@ import {
 	useMovePackMutation,
 } from '../../queries/packQueries';
 import { useGetAuthStatusQuery } from '../../queries/userQueries';
-import { Divider, Icon, Sidebar as SemanticSidebar, Segment } from 'semantic-ui-react';
+import { Divider, Sidebar as SemanticSidebar } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
 import { DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
-import PopupMenu from './PopupMenu';
+import PopupMenu from './PackList/Menus/PopupMenu';
+import { SidebarMenu } from './PackList/Menus/Menus';
 
 const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	const location = useLocation();
@@ -86,42 +87,50 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	};
 
 	return (
-		<SemanticSidebar
-			id="sidebar-container"
-			as={Segment}
-			animation="overlay"
-			vertical
-			visible={showSidebar}>
-			<h1>
-				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
-			</h1>
+		<aside>
+			<StyledSidebar animation="overlay" visible={showSidebar}>
+				<h1>
+					<Link to={`/packs/${encodedId}`}>tidytrek</Link>
+				</h1>
 
-			<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} />
+				<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} logout={handleLogout} />
 
-			<menu className="nav-menu">
-				<li>
-					<Link to="/account">
-						<Icon name="user outline" />
-						Account
-					</Link>
-				</li>
-				<li>
-					<Link to="/gear-closet">
-						<Icon name="archive" />
-						Gear Closet
-					</Link>
-				</li>
-				<li onClick={handleLogout}>
-					<Icon name="log out" />
-					Log Out
-				</li>
-			</menu>
-			<Divider />
-			<DragDropContext onDragEnd={handleOnDragEnd}>
-				<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
-			</DragDropContext>
-		</SemanticSidebar>
+				<SidebarMenu />
+
+				<StyledDivider />
+
+				<DragDropContext onDragEnd={handleOnDragEnd}>
+					<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
+				</DragDropContext>
+			</StyledSidebar>
+		</aside>
 	);
 };
 
 export default Sidebar;
+
+const StyledSidebar = styled(SemanticSidebar)`
+	&&&& {
+		background: #514f59;
+		color: white;
+		height: 100vh;
+		width: 20vw;
+		padding: 5vh 50px;
+
+		h1 {
+			margin-bottom: 50px;
+		}
+		h3 {
+			color: white;
+		}
+		a:visited {
+			color: white;
+		}
+	}
+`;
+
+const StyledDivider = styled(Divider)`
+	&& {
+		margin: 25px 0px;
+	}
+`;
