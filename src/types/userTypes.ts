@@ -1,8 +1,10 @@
 export type User = {
 	userId: string;
-	name: string;
+	firstName: string;
+	lastName: string;
 	email: string;
 	username: string;
+	profilePhotoUrl: string;
 };
 
 export type RegisterUser = {

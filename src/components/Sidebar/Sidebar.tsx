@@ -8,16 +8,18 @@ import {
 	useAddNewPackMutation,
 	useMovePackMutation,
 } from '../../queries/packQueries';
+import { useGetAuthStatusQuery } from '../../queries/userQueries';
 import { Divider, Icon, Sidebar as SemanticSidebar, Segment } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
 import { DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
+import PopupMenu from './PopupMenu';
 
 const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
-
+	const { data: userData } = useGetAuthStatusQuery();
 	const { data: packData } = useGetPackQuery(paramPackId);
 	const { data: packListData } = useGetPackListQuery();
 
@@ -30,6 +32,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	const currentPackId = packData?.pack.packId;
 	const defaultPackId = packListData?.packList[0].packId;
 	const encodedId = defaultPackId ? encode(defaultPackId) : '';
+	const user = userData?.user;
 
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
@@ -92,6 +95,9 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 			<h1>
 				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
 			</h1>
+
+			<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} />
+
 			<menu className="nav-menu">
 				<li>
 					<Link to="/account">
@@ -119,33 +125,3 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 };
 
 export default Sidebar;
-
-{
-	/* <nav>
-			<h1>
-				<Link to={`/packs/${encodedId}`}>tidytrek</Link>
-			</h1>
-			<menu className="nav-menu">
-				<li>
-					<Link to="/account">
-						<Icon name="user outline" />
-						Account
-					</Link>
-				</li>
-				<li>
-					<Link to="/gear-closet">
-						<Icon name="archive" />
-						Gear Closet
-					</Link>
-				</li>
-				<li onClick={handleLogout}>
-					<Icon name="log out" />
-					Log Out
-				</li>
-			</menu>
-			<Divider />
-			<DragDropContext onDragEnd={handleOnDragEnd}>
-				<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
-			</DragDropContext>
-		</nav> */
-}

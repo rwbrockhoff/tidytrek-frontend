@@ -8,12 +8,13 @@ const defaultPhotoUrl =
 
 type AvatarProps = {
 	src: string | undefined;
+	size?: Size;
 	link?: string;
 	isPending?: boolean;
 	onDelete?: () => void;
 };
 
-const Avatar = ({ src, link, isPending, onDelete }: AvatarProps) => {
+const Avatar = ({ src, size = 'big', link, isPending, onDelete }: AvatarProps) => {
 	const [showButton, setShowButton] = useState(false);
 
 	const hasLink = link ? true : false;
@@ -34,7 +35,7 @@ const Avatar = ({ src, link, isPending, onDelete }: AvatarProps) => {
 					</>
 				)}
 
-				<StyledAvatar src={photoSource} alt="user profile photo" size="big" />
+				<StyledAvatar src={photoSource} alt="user profile photo" size={size} />
 			</InnerContainer>
 		</CustomLink>
 	);
@@ -44,10 +45,10 @@ export default Avatar;
 
 type Size = 'big' | 'small';
 
-const StyledAvatar = styled.img<{ size: Size }>`
-	width: ${(props) => (props.size === 'big' ? '100px' : '25px')};
-	height: ${(props) => (props.size === 'big' ? '100px' : '25px')};
-	border-radius: ${(props) => (props.size === 'big' ? '50px' : '12px')};
+const StyledAvatar = styled.img<{ size?: Size }>`
+	width: ${(props) => (props.size === 'big' ? '100px' : '50px')};
+	height: ${(props) => (props.size === 'big' ? '100px' : '50px')};
+	border-radius: ${(props) => (props.size === 'big' ? '50px' : '25px')};
 	margin: 10px;
 	object-fit: cover;
 `;
