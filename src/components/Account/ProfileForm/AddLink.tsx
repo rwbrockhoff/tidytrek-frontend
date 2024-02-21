@@ -5,13 +5,14 @@ import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './SocialButton';
 import socialMediaUI from '../../../shared/ui/SocialMediaUI';
 import { ReactInput } from '../../../types/generalTypes';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
 
-type AddLinkProps = {
-	isPending: boolean;
-	addLink: (service: string, socialLink: string) => void;
-};
+const AddLink = () => {
+	const { addSocialLink } = useHandlers().handlers;
+	const {
+		addSocialLink: { isPending },
+	} = useHandlers().mutations;
 
-const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 	const [service, setService] = useState('facebook');
 	const [socialLink, setSocialLink] = useState('');
 
@@ -20,7 +21,7 @@ const AddLink = ({ isPending, addLink }: AddLinkProps) => {
 	};
 
 	const handleAddLink = () => {
-		addLink(service, socialLink);
+		addSocialLink(service, socialLink);
 		setService('facebook');
 		setSocialLink('');
 	};

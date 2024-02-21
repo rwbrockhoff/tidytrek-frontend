@@ -4,10 +4,9 @@ import './ItemNameCell.css';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
 import Link from '../../../../../shared/ui/Link';
+import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
 
-type OnChange = (
-	e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
-) => void;
+type OnChange = (e: InputEvent | SelectEvent) => void;
 
 type ItemNameCellProps = {
 	value: string;

@@ -6,16 +6,15 @@ import AddLink from './AddLink';
 import styled from 'styled-components';
 import { SocialLink } from '../../../types/profileSettingsTypes';
 import { useState } from 'react';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
 
 type SocialLinksProps = {
 	socialLinks: SocialLink[];
-	isPending: boolean;
-	addLink: (service: string, socialLink: string) => void;
-	deleteLink: (socialLinkId: number | undefined) => void;
 };
 
 const SocialLinks = (props: SocialLinksProps) => {
-	const { socialLinks, isPending, addLink, deleteLink } = props;
+	const { socialLinks } = props;
+	const { deleteSocialLink } = useHandlers().handlers;
 
 	const [showLinks, setShowLinks] = useState(false);
 
@@ -40,7 +39,7 @@ const SocialLinks = (props: SocialLinksProps) => {
 							socialLinkUrl={link.socialLinkUrl}
 							linkEnabled
 							deleteEnabled
-							onDelete={() => deleteLink(id)}
+							onDelete={() => deleteSocialLink(id)}
 						/>
 					);
 				})}
@@ -57,7 +56,7 @@ const SocialLinks = (props: SocialLinksProps) => {
 				</Button>
 			)}
 
-			{showLinks && <AddLink addLink={addLink} isPending={isPending} />}
+			{showLinks && <AddLink />}
 		</>
 	);
 };

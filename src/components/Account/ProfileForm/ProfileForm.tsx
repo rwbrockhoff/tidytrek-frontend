@@ -9,52 +9,37 @@ import {
 	Icon,
 	Message,
 } from 'semantic-ui-react';
-import {
-	useState,
-	useEffect,
-	useRef,
-	type ChangeEvent,
-	type SyntheticEvent,
-} from 'react';
+import { useState, useEffect, useRef, type ChangeEvent } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
 import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
 import Avatar from '../../../shared/ui/Avatar';
-import { type UserInfo } from '../../../views/Account/ProfileSettings/ProfileSettings';
-import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
-import { useUploadProfilePhotoMutation } from '../../../queries/userProfileQueries';
+import {
+	setFormInput,
+	InputEvent,
+	TextAreaEvent,
+	FormEvent,
+} from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
 
 type ProfileFormProps = {
 	settings: ProfileSettings | undefined;
 	socialLinks: SocialLink[];
-	isPending: boolean;
-	addLink: (service: string, socialLink: string) => void;
-	deleteLink: (socialLinkId: number | undefined) => void;
-	editProfile: (userInfo: UserInfo) => void;
-	deleteProfilePhoto: () => void;
 };
 
 const ProfileForm = (props: ProfileFormProps) => {
-	const {
-		settings,
-		socialLinks,
-		isPending,
-		addLink,
-		deleteLink,
-		editProfile,
-		deleteProfilePhoto,
-	} = props;
+	const { settings, socialLinks } = props;
 
 	const [userInfo, setUserInfo] = useState({ userBio: '', userLocation: '' });
 	const [file, setFile] = useState<globalThis.File | null>();
 	const formRef = useRef<HTMLFormElement | null>(null);
 
+	const { handlers, mutations } = useHandlers();
+	const { editProfile, deleteProfilePhoto } = handlers;
 	const {
-		mutate: uploadPhoto,
-		isPending: isUploadingPhoto,
-		isError: isUploadError,
-	} = useUploadProfilePhotoMutation();
+		uploadPhoto: { mutate, isPending: isUploadingPhoto, isError: isUploadError },
+	} = mutations;
 
 	useEffect(() => {
 		if (settings) {
@@ -74,12 +59,12 @@ const ProfileForm = (props: ProfileFormProps) => {
 		}
 	};
 
-	const handleSubmitForm = async (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+	const handleSubmitForm = async (e: FormEvent) => {
 		e.preventDefault();
 		if (file) {
 			const formData = new FormData();
 			formData.append('profilePhoto', file);
-			uploadPhoto(formData);
+			mutate(formData);
 			formRef?.current && formRef.current.reset();
 			setFile(null);
 		}
@@ -110,7 +95,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 
 					{isUploadError && (
 						<Message warning size="mini" style={{ marginRight: 'auto' }}>
-							<Icon name="warning" /> Upload error. File size limit is 10 mb.
+							<Icon name="warning" /> We had an error uploading your photo. Oops!
 						</Message>
 					)}
 				</PhotoContainer>
@@ -121,7 +106,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 						<label>Based In</label>
 						<Input
 							name="userLocation"
-							value={userLocation}
+							value={userLocation || ''}
 							onChange={handleInput}
 							placeholder="Denver, CO"
 						/>
@@ -130,19 +115,14 @@ const ProfileForm = (props: ProfileFormProps) => {
 						<label>Profile Bio</label>
 						<TextArea
 							name="userBio"
-							value={userBio}
+							value={userBio || ''}
 							onChange={handleInput}
 							placeholder="Bio for your profile"
 						/>
 					</FormField>
 				</StyledForm>
 
-				<SocialLinks
-					socialLinks={socialLinks}
-					isPending={isPending}
-					addLink={addLink}
-					deleteLink={deleteLink}
-				/>
+				<SocialLinks socialLinks={socialLinks} />
 			</Segment>
 		</SegmentGroup>
 	);
