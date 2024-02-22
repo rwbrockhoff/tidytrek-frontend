@@ -3,7 +3,6 @@ import {
 	type PackListItem,
 	type Category,
 	type PackItem,
-	type PackInfo,
 } from '../../../types/packTypes';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
@@ -15,8 +14,9 @@ import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
-import { usePackMutations } from '../../../views/Dashboard/usePackMutations';
-import { useHandlers } from '../../../views/Dashboard/useHandlers';
+import { usePackItemMutations } from '../../../views/Dashboard/usePackItemMutations';
+import { usePackCategoryMutations } from '../../../views/Dashboard/usePackCategoryMutations';
+import { usePackItemHandlers } from '../../../views/Dashboard/usePackItemHandlers';
 
 type PackCategoryProps = {
 	category: Category;
@@ -32,25 +32,25 @@ export type CategoryChanges = {
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
-	const { editPackItem } = useHandlers().handlers;
-
-	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
-		category;
+	const { handlers, handlerState } = usePackItemHandlers();
 
 	const {
-		addPackItem,
-		movePackItemToCloset,
+		moveItemToCloset,
 		moveItemToPack,
-		deletePackItem,
-		editPackCategory,
-		deletePackCategory,
-		deletePackCategoryAndItems,
-	} = usePackMutations();
+		editPackItem,
+		deleteItemPrompt,
+		toggleItemModal,
+		deleteItem,
+	} = handlers;
+
+	const { packItemToChange, showDeleteItemModal } = handlerState;
+
+	const { addPackItem } = usePackItemMutations();
+
+	const { editPackCategory, deletePackCategory, deletePackCategoryAndItems } =
+		usePackCategoryMutations();
 
 	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
-	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
-
-	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
 
 	const handleToggleCategoryModal = () =>
 		setShowDeleteCategoryModal(!showDeleteCategoryModal);
@@ -71,24 +71,8 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 
 	const handleAddItem = () => addPackItem.mutate({ packId, packCategoryId });
 
-	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
-
-	const handleMoveItem = () => {
-		if (packItemToChange) movePackItemToCloset.mutate(packItemToChange);
-		setShowDeleteItemModal(false);
-	};
-
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveItemToPack.mutate(packInfo);
-
-	const handleDeleteItem = () => {
-		if (packItemToChange) deletePackItem.mutate(packItemToChange);
-		setShowDeleteItemModal(false);
-	};
-
-	const handleDeleteItemPrompt = (packItemId: number) => {
-		setPackItemToChange(packItemId);
-		setShowDeleteItemModal(true);
-	};
+	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
+		category;
 
 	const [isMinimized, setMinimized] = useState(false);
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
@@ -134,9 +118,9 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 										key={item.packItemId}
 										index={idx}
 										packList={packList}
-										handleMoveItemToPack={handleMoveItemToPack}
+										handleMoveItemToPack={moveItemToPack}
 										handleOnSave={editPackItem}
-										handleDelete={handleDeleteItemPrompt}
+										handleDelete={deleteItemPrompt}
 									/>
 								))}
 						</DropTableBody>
@@ -149,20 +133,18 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 							/>
 						)}
 					</Table>
-
 					<DeleteModal
 						open={showDeleteCategoryModal}
 						onClickMove={handleDeleteCategory}
 						onClickDelete={handleDeleteCategoryAndItems}
 						onClose={handleToggleCategoryModal}
 					/>
-
 					<DeleteItemModal
 						id={packItemToChange}
 						open={showDeleteItemModal}
-						onClose={handleToggleItemModal}
-						onClickMove={handleMoveItem}
-						onClickDelete={handleDeleteItem}
+						onClose={toggleItemModal}
+						onClickMove={moveItemToCloset}
+						onClickDelete={deleteItem}
 					/>
 				</div>
 			)}

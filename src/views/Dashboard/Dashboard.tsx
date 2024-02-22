@@ -11,13 +11,16 @@ import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWra
 import { ThemeProvider } from 'styled-components';
 import { getThemeAsGuest, isGuestData } from '../Layout/themeUtils';
 import styled from 'styled-components';
-import { HandlerWrapper } from './useHandlers';
-import { usePackMutations } from './usePackMutations';
+import { HandlerWrapper as PackItemHandlerWrapper } from './usePackItemHandlers';
+import { HandlerWrapper as PackCategoryHandlerWrapper } from './usePackCategoryHandlers';
+import { usePackItemMutations } from './usePackItemMutations';
+import { usePackCategoryMutations } from './usePackCategoryMutations';
 
 type DashboardProps = { userView: boolean };
 
 const Dashboard = ({ userView }: DashboardProps) => {
-	const { addPackCategory, movePackCategory, movePackItem } = usePackMutations();
+	const { movePackItem } = usePackItemMutations();
+	const { addPackCategory, movePackCategory } = usePackCategoryMutations();
 
 	const { packId: paramPackId } = useParams();
 	const { data, isPending } = userView
@@ -76,43 +79,45 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const { packAffiliate, packAffiliateDescription } = currentPack;
 
 	return (
-		<HandlerWrapper>
-			<UserViewContext.Provider value={userView}>
-				<ThemeProvider theme={theme}>
-					<DashboardContainer>
-						<PackInfo
-							currentPack={currentPack}
-							packCategories={packCategories}
-							profile={profile}
-							fetching={isPending}
-						/>
-
-						<DragDropContext onDragEnd={handleOnDragEnd}>
-							<Drop droppableId={'dashboard-drop-window'} type="category">
-								{packCategories.length >= 0 &&
-									packCategories.map((category: Category, idx: number) => (
-										<PackCategory
-											category={category}
-											packList={packList}
-											index={idx}
-											key={category?.packCategoryId || idx}
-										/>
-									))}
-							</Drop>
-						</DragDropContext>
-
-						{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
-
-						{!userView && (
-							<DashboardFooter
-								affiliate={packAffiliate}
-								description={packAffiliateDescription}
+		<PackCategoryHandlerWrapper>
+			<PackItemHandlerWrapper>
+				<UserViewContext.Provider value={userView}>
+					<ThemeProvider theme={theme}>
+						<DashboardContainer>
+							<PackInfo
+								currentPack={currentPack}
+								packCategories={packCategories}
+								profile={profile}
+								fetching={isPending}
 							/>
-						)}
-					</DashboardContainer>
-				</ThemeProvider>
-			</UserViewContext.Provider>
-		</HandlerWrapper>
+
+							<DragDropContext onDragEnd={handleOnDragEnd}>
+								<Drop droppableId={'dashboard-drop-window'} type="category">
+									{packCategories.length >= 0 &&
+										packCategories.map((category: Category, idx: number) => (
+											<PackCategory
+												category={category}
+												packList={packList}
+												index={idx}
+												key={category?.packCategoryId || idx}
+											/>
+										))}
+								</Drop>
+							</DragDropContext>
+
+							{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+
+							{!userView && (
+								<DashboardFooter
+									affiliate={packAffiliate}
+									description={packAffiliateDescription}
+								/>
+							)}
+						</DashboardContainer>
+					</ThemeProvider>
+				</UserViewContext.Provider>
+			</PackItemHandlerWrapper>
+		</PackCategoryHandlerWrapper>
 	);
 };
 
