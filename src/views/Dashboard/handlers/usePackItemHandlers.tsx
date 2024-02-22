@@ -1,13 +1,16 @@
-import { usePackItemMutations } from './usePackItemMutations';
+import { usePackItemMutations } from '../mutations/usePackItemMutations';
 import { createContext, useContext, useState } from 'react';
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { MovePackItemProps, PackInfo, PackItem } from '../../types/packTypes';
-import { cleanUpLink } from '../../shared/ui/CustomLinks';
+import { MovePackItemProps, PackInfo, PackItem } from '../../../types/packTypes';
+import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 
 type InternalMutation<T> = UseMutationResult<AxiosResponse<any, any>, Error, T, unknown>;
 
+type AddItemInfo = { packId: number; packCategoryId: number };
+
 type Handlers = {
+	addPackItem: (addItemInfo: AddItemInfo) => void;
 	moveItemToCloset: () => void;
 	moveItemToPack: (packInfo: PackInfo) => void;
 	editPackItem: (packItem: PackItem) => void;
@@ -39,8 +42,13 @@ const useCreateHandlers = () => {
 	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
 
 	const mutations = usePackItemMutations();
-	const { editPackItem, deletePackItem, movePackItemToCloset, moveItemToPack } =
-		mutations;
+	const {
+		editPackItem,
+		deletePackItem,
+		movePackItemToCloset,
+		moveItemToPack,
+		addPackItem,
+	} = mutations;
 
 	//-Handlers--//
 	const handleEditPackItem = (packItem: PackItem) => {
@@ -51,6 +59,8 @@ const useCreateHandlers = () => {
 	};
 
 	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
+
+	const handleAddItem = (addItemInfo: AddItemInfo) => addPackItem.mutate(addItemInfo);
 
 	const handleMoveItemToPack = (packInfo: PackInfo) => moveItemToPack.mutate(packInfo);
 
@@ -71,7 +81,8 @@ const useCreateHandlers = () => {
 
 	//-Handlers--//
 
-	const handlers = {
+	const handlers: Handlers = {
+		addPackItem: handleAddItem,
 		editPackItem: handleEditPackItem,
 		moveItemToCloset: handleMoveItemToCloset,
 		deleteItemPrompt: handleDeleteItemPrompt,
@@ -80,7 +91,7 @@ const useCreateHandlers = () => {
 		moveItemToPack: handleMoveItemToPack,
 	};
 
-	const handlerState = {
+	const handlerState: HandlerState = {
 		packItemToChange,
 		showDeleteItemModal,
 	};

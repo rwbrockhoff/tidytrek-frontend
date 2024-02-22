@@ -10,6 +10,7 @@ import {
 import { packKeys, packListKeys, closetKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { getCategoryIdx } from '../utils/packUtils';
+import { HeaderInfo } from '../views/Dashboard/handlers/usePackCategoryHandlers';
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({
@@ -234,12 +235,9 @@ export const useAddPackCategoryMutation = () => {
 export const useEditPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (categoryInfo: {
-			packCategoryId: number;
-			categoryChanges: { packCategoryName?: string; packCategoryColor?: string };
-		}) => {
-			const { packCategoryId, categoryChanges } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryChanges);
+		mutationFn: (categoryInfo: HeaderInfo) => {
+			const { packCategoryId } = categoryInfo;
+			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryInfo);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });

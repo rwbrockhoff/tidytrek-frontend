@@ -1,16 +1,16 @@
 import { Popup as SemPopup, PopupContent } from 'semantic-ui-react';
 import { Button } from '../../../../../shared/ui/SemanticUI';
 import styled, { useTheme } from 'styled-components';
-import { CategoryChanges } from '../../PackCategory';
 
 type ThemeButtonProps = {
-	color: string;
-	onClick: (categoryChanges: CategoryChanges) => void;
+	color: string | undefined;
+	onClick: (categoryColor: string) => void;
 };
 
 const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 	const theme = useTheme();
-	const handleOnClick = (color: string) => onClick({ packCategoryColor: color });
+	const handleOnClick = (newColor: string) => onClick(newColor);
+
 	return (
 		<Popup
 			on="click"

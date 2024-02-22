@@ -4,7 +4,7 @@ import {
 	useEditPackCategoryMutation,
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
-} from '../../queries/packQueries';
+} from '../../../queries/packQueries';
 
 export const usePackCategoryMutations = () => {
 	const addPackCategory = useAddPackCategoryMutation();

@@ -14,9 +14,8 @@ import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
-import { usePackItemMutations } from '../../../views/Dashboard/usePackItemMutations';
-import { usePackCategoryMutations } from '../../../views/Dashboard/usePackCategoryMutations';
-import { usePackItemHandlers } from '../../../views/Dashboard/usePackItemHandlers';
+import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
+import { usePackCategoryHandlers } from '../../../views/Dashboard/handlers/usePackCategoryHandlers';
 
 type PackCategoryProps = {
 	category: Category;
@@ -24,17 +23,15 @@ type PackCategoryProps = {
 	index: number;
 };
 
-export type CategoryChanges = {
-	packCategoryName?: string;
-	packCategoryColor?: string;
-};
-
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
 	const { handlers, handlerState } = usePackItemHandlers();
+	const { handlers: categoryHandlers, handlerState: categoryHandlerState } =
+		usePackCategoryHandlers();
 
 	const {
+		addPackItem,
 		moveItemToCloset,
 		moveItemToPack,
 		editPackItem,
@@ -43,36 +40,18 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 		deleteItem,
 	} = handlers;
 
+	const { toggleCategoryModal, deleteCategory, deleteCategoryAndItems } =
+		categoryHandlers;
+
 	const { packItemToChange, showDeleteItemModal } = handlerState;
+	const { showDeleteCategoryModal } = categoryHandlerState;
 
-	const { addPackItem } = usePackItemMutations();
-
-	const { editPackCategory, deletePackCategory, deletePackCategoryAndItems } =
-		usePackCategoryMutations();
-
-	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
-
-	const handleToggleCategoryModal = () =>
-		setShowDeleteCategoryModal(!showDeleteCategoryModal);
-
-	const handleEditCategory = (categoryChanges: CategoryChanges) => {
-		editPackCategory.mutate({ packCategoryId, categoryChanges });
-	};
-
-	const handleDeleteCategoryAndItems = () => {
-		deletePackCategoryAndItems.mutate(packCategoryId);
-		setShowDeleteCategoryModal(false);
-	};
-
-	const handleDeleteCategory = () => {
-		deletePackCategory.mutate(packCategoryId);
-		setShowDeleteCategoryModal(false);
-	};
-
-	const handleAddItem = () => addPackItem.mutate({ packId, packCategoryId });
+	const handleAddItem = () => addPackItem({ packId, packCategoryId });
 
 	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
 		category;
+
+	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
 
 	const [isMinimized, setMinimized] = useState(false);
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
@@ -102,12 +81,10 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 						size="small">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
-							categoryName={packCategoryName}
-							categoryColor={packCategoryColor}
+							categoryHeaderInfo={categoryHeaderInfo}
 							isMinimized={isMinimized}
 							minimizeCategory={handleMinimizeCategory}
-							editCategory={handleEditCategory}
-							deleteCategory={handleToggleCategoryModal}
+							deleteCategory={toggleCategoryModal}
 						/>
 
 						<DropTableBody droppableId={packCategoryId} type="item">
@@ -135,9 +112,9 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 					</Table>
 					<DeleteModal
 						open={showDeleteCategoryModal}
-						onClickMove={handleDeleteCategory}
-						onClickDelete={handleDeleteCategoryAndItems}
-						onClose={handleToggleCategoryModal}
+						onClickMove={() => deleteCategory(packCategoryId)}
+						onClickDelete={() => deleteCategoryAndItems(packCategoryId)}
+						onClose={toggleCategoryModal}
 					/>
 					<DeleteItemModal
 						id={packItemToChange}

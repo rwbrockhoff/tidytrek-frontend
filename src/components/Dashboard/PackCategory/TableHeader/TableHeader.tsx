@@ -5,31 +5,22 @@ import {
 	MinimizeButton,
 	DeleteButton,
 } from '../TableButtons/TableButtons';
-import { type CategoryChanges } from '../PackCategory';
+import { type HeaderInfo } from '../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useState } from 'react';
 import { useUserContext } from '../../../../views/Dashboard/useUserContext';
 
 type TableHeaderProps = {
-	categoryName: string;
-	categoryColor: string;
+	categoryHeaderInfo: HeaderInfo;
 	isMinimized: boolean;
 	dragProps: object;
 	minimizeCategory: () => void;
-	editCategory: (categoryChanges: CategoryChanges) => void;
 	deleteCategory: () => void;
 };
 
 const TableHeader = (props: TableHeaderProps) => {
 	const userView = useUserContext();
-	const {
-		categoryName,
-		categoryColor,
-		isMinimized,
-		dragProps,
-		minimizeCategory,
-		editCategory,
-		deleteCategory,
-	} = props;
+	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory, deleteCategory } =
+		props;
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const minSpanSize = isMinimized ? 15 : 11;
@@ -41,11 +32,9 @@ const TableHeader = (props: TableHeaderProps) => {
 			onMouseLeave={() => setToggleRow(false)}>
 			<Table.Row style={{ opacity: isMinimized ? 0.5 : 1 }}>
 				<CategoryNameCell
-					categoryName={categoryName}
-					categoryColor={categoryColor}
+					categoryHeaderInfo={categoryHeaderInfo}
 					size={spanSize}
 					disabled={isMinimized}
-					editCategory={editCategory}
 				/>
 
 				{!isMinimized && (

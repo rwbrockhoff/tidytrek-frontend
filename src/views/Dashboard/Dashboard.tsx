@@ -11,10 +11,10 @@ import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWra
 import { ThemeProvider } from 'styled-components';
 import { getThemeAsGuest, isGuestData } from '../Layout/themeUtils';
 import styled from 'styled-components';
-import { HandlerWrapper as PackItemHandlerWrapper } from './usePackItemHandlers';
-import { HandlerWrapper as PackCategoryHandlerWrapper } from './usePackCategoryHandlers';
-import { usePackItemMutations } from './usePackItemMutations';
-import { usePackCategoryMutations } from './usePackCategoryMutations';
+import { HandlerWrapper as PackItemHandlerWrapper } from './handlers/usePackItemHandlers';
+import { HandlerWrapper as PackCategoryHandlerWrapper } from './handlers/usePackCategoryHandlers';
+import { usePackItemMutations } from './mutations/usePackItemMutations';
+import { usePackCategoryMutations } from './mutations/usePackCategoryMutations';
 
 type DashboardProps = { userView: boolean };
 
