@@ -15,16 +15,20 @@ import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
 import Avatar from '../../../shared/ui/Avatar';
-import { ProfileSettings } from '../../../types/profileSettingsTypes';
+import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
+import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
 	profile: ProfileSettings | null;
+	socialLinks: SocialLink[] | null;
 	fetching: boolean;
 };
 
-const PackInfo = ({ fetching, currentPack, packCategories, profile }: PackInfoProps) => {
+const PackInfo = (props: PackInfoProps) => {
+	const { fetching, currentPack, packCategories, profile, socialLinks } = props;
+
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
 
@@ -69,7 +73,16 @@ const PackInfo = ({ fetching, currentPack, packCategories, profile }: PackInfoPr
 				className="pack-info-left-panel"
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
-				{!userView && <Avatar src={profilePhotoUrl} size="small" />}
+				{!userView && (
+					<>
+						<Avatar src={profilePhotoUrl} size="small" />
+						<SocialLinkList
+							socialLinks={socialLinks || []}
+							deleteEnabled={false}
+							colorButton={false}
+						/>
+					</>
+				)}
 
 				<Header as="h1">
 					{packName}

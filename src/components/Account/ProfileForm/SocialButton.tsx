@@ -1,5 +1,5 @@
 import { Label, Icon, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { SocialLinkInfo } from '../../../types/profileSettingsTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 
@@ -7,35 +7,41 @@ type SocialButtonProps = {
 	socialName: string;
 	socialLinkId?: number;
 	socialLinkUrl?: string;
+	colorButton?: boolean;
 	color: string;
 	icon: React.ReactNode;
-	linkEnabled?: boolean;
-	deleteEnabled?: boolean;
+	deleteEnabled: boolean;
 	onClick?: (socialName: string | undefined) => void;
-	onDelete?: (socialLinkId: number | undefined) => void;
+	onDelete?: (socialLinkId: number | undefined) => void | undefined;
 };
 
 export const SocialButton = (props: SocialButtonProps) => {
 	const {
 		socialName,
 		socialLinkId,
+		colorButton = true,
 		color,
 		icon,
 		socialLinkUrl,
-		linkEnabled,
 		deleteEnabled,
 		onClick,
 		onDelete,
 	} = props;
 
 	const handleClick = () => onClick && onClick(socialName);
-	const handleDelete = () => onDelete && onDelete(socialLinkId);
+
+	const handleDelete = () => {
+		if (deleteEnabled && onDelete) onDelete(socialLinkId);
+	};
 
 	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl) : socialName;
 
 	return (
-		<StyledLabel $backgroundColor={color} onClick={handleClick}>
-			<CustomLink link={socialLinkUrl} enabled={linkEnabled} externalLink>
+		<StyledLabel
+			$backgroundColor={color}
+			$colorButton={colorButton}
+			onClick={handleClick}>
+			<CustomLink link={socialLinkUrl} enabled externalLink>
 				{icon}
 				{displayLink || 'Link'}
 			</CustomLink>
@@ -80,18 +86,21 @@ const shortenLink = (link: string) => {
 const StyledLabel = styled(Label)`
 	&&& {
 		cursor: pointer;
-		color: white;
-		background-color: ${(props) =>
-			props.$backgroundColor ? props.$backgroundColor : 'blue'};
-		i {
-			color: white;
-			margin-right: 5px;
-		}
 		a {
 			opacity: 1;
 		}
 		a:hover {
 			opacity: 0.8;
 		}
+		${(props) =>
+			props.$colorButton &&
+			css`
+				color: white;
+				background-color: ${props.$backgroundColor ? props.$backgroundColor : 'blue'};
+				i {
+					color: white;
+					margin-right: 5px;
+				}
+			`};
 	}
 `;

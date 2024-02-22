@@ -1,12 +1,11 @@
-import { SocialButton } from './SocialButton';
 import { Icon } from 'semantic-ui-react';
 import { Button } from '../../../shared/ui/SemanticUI';
-import socialMediaUI from '../../../shared/ui/SocialMediaUI';
 import AddLink from './AddLink';
 import styled from 'styled-components';
 import { SocialLink } from '../../../types/profileSettingsTypes';
 import { useState } from 'react';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
+import SocialLinkList from './SocialLinkList';
 
 type SocialLinksProps = {
 	socialLinks: SocialLink[];
@@ -25,25 +24,11 @@ const SocialLinks = (props: SocialLinksProps) => {
 				Add links that others can see on your profile. 4 link maximum to keep things tidy.
 			</p>
 
-			<CurrentLinksContainer>
-				{socialLinks.map((link, index) => {
-					const { socialName, color, icon } = socialMediaUI[link.socialLinkName];
-					const { socialLinkId: id } = link;
-					return (
-						<SocialButton
-							key={index}
-							socialLinkId={id}
-							socialName={socialName}
-							color={color}
-							icon={icon}
-							socialLinkUrl={link.socialLinkUrl}
-							linkEnabled
-							deleteEnabled
-							onDelete={() => deleteSocialLink(id)}
-						/>
-					);
-				})}
-			</CurrentLinksContainer>
+			<SocialLinkList
+				socialLinks={socialLinks}
+				deleteEnabled
+				onDelete={deleteSocialLink}
+			/>
 
 			{!showLinks && (
 				<Button
@@ -71,15 +56,4 @@ const Text = styled.p`
 	font-weight: 700;
 	text-transform: none;
 	margin-top: 15px;
-`;
-
-const CurrentLinksContainer = styled.div`
-	display: flex;
-	margin-bottom: 25px;
-	&&& {
-		div.ui.label {
-			margin: 5px 0px;
-			margin-right: 10px;
-		}
-	}
 `;

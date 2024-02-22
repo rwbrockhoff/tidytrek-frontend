@@ -14,6 +14,7 @@ type Handlers = {
 	deleteCategoryAndItems: (packCategoryId: number) => void;
 };
 
+// Exposed mutations being used outside of handlers
 type Mutations = {};
 
 type HandlerState = { showDeleteCategoryModal: boolean };

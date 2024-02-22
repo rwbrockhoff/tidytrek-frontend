@@ -16,6 +16,7 @@ type Handlers = {
 	deleteItem: () => void;
 };
 
+// Exposed mutations being used outside of handlers
 type Mutations = {
 	movePackItem: InternalMutation<MovePackItemProps>;
 	editPackItem: InternalMutation<{

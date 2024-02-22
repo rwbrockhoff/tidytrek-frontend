@@ -23,21 +23,25 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const { addPackCategory, movePackCategory } = usePackCategoryMutations();
 
 	const { packId: paramPackId } = useParams();
+
 	const { data, isPending } = userView
 		? useGetPackQuery(paramPackId)
 		: useViewPackQuery(paramPackId);
 
-	const theme = getThemeAsGuest(data);
-
 	const { data: packListData } = userView
 		? useGetPackListQuery()
 		: { data: { packList: [] } };
-	const { packList } = packListData || { packList: [] };
 
-	let packCategories = data?.categories || [];
+	const packList = packListData?.packList || [];
+	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
 	const packId = data?.pack.packId || null;
-	const profile = isGuestData(data) ? data.profile : null;
+
+	//--Guest View Data--//
+	const profile = isGuestData(data) ? data.profileSettings : null;
+	const socialLinks = isGuestData(data) ? data.socialLinks : null;
+	const theme = getThemeAsGuest(data);
+	//--Guest View Data--//
 
 	const handleAddPackCategory = () => {
 		packId && addPackCategory.mutate(packId);
@@ -88,12 +92,13 @@ const Dashboard = ({ userView }: DashboardProps) => {
 								currentPack={currentPack}
 								packCategories={packCategories}
 								profile={profile}
+								socialLinks={socialLinks}
 								fetching={isPending}
 							/>
 
 							<DragDropContext onDragEnd={handleOnDragEnd}>
 								<Drop droppableId={'dashboard-drop-window'} type="category">
-									{packCategories.length >= 0 &&
+									{packCategories.length > 0 &&
 										packCategories.map((category: Category, idx: number) => (
 											<PackCategory
 												category={category}
