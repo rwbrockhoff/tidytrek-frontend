@@ -146,7 +146,6 @@ const PhotoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: fit-content;
-	align-items: center;
 	justify-content: center;
 	&&& {
 		button {

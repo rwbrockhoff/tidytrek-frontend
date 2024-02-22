@@ -56,12 +56,13 @@ const Avatar = ({
 
 export default Avatar;
 
-type Size = 'big' | 'small';
+type Size = 'big' | 'medium' | 'small';
 
 const StyledAvatar = styled.img<{ $size?: Size; $margin?: string }>`
-	width: ${(props) => (props.$size === 'big' ? '100px' : '50px')};
-	height: ${(props) => (props.$size === 'big' ? '100px' : '50px')};
-	border-radius: ${(props) => (props.$size === 'big' ? '50px' : '25px')};
+	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
+
 	margin: ${(props) => (props.$margin ? props.$margin : 'inherit')};
 	object-fit: cover;
 	opacity: 1;
@@ -70,6 +71,12 @@ const StyledAvatar = styled.img<{ $size?: Size; $margin?: string }>`
 		opacity: 0.2;
 	}
 `;
+
+const sizeChart = {
+	big: { widthOrHeight: '100px', borderRadius: '50px' },
+	medium: { widthOrHeight: '75px', borderRadius: '38px' },
+	small: { widthOrHeight: '50px', borderRadius: '25px' },
+};
 
 const Background = styled.div`
 	position: absolute;
@@ -95,5 +102,5 @@ const StyledButton = styled(Button)`
 
 const InnerContainer = styled.div`
 	position: relative;
-	width: 100%;
+	width: fit-content%;
 `;

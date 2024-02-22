@@ -39,7 +39,6 @@ export default SocialLinkList;
 
 const CurrentLinksContainer = styled.div`
 	display: flex;
-	margin: 10px 0px;
 	&&& {
 		div.ui.label {
 			margin: 5px 0px;

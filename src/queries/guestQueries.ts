@@ -12,6 +12,7 @@ export type InitialState = {
 	settings: Settings;
 	profileSettings: ProfileSettings;
 	socialLinks: SocialLink[];
+	user: { firstName: string; username: string };
 };
 
 export const useViewPackQuery = (packId: string | undefined) => {

@@ -16,3 +16,8 @@ export type RegisterUser = {
 	confirmPassword: string;
 	agreeToTerms: boolean;
 };
+
+export type UserNames = {
+	firstName: string;
+	username: string;
+};

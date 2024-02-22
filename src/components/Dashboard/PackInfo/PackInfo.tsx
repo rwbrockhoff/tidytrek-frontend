@@ -14,20 +14,21 @@ import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
-import Avatar from '../../../shared/ui/Avatar';
 import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
-import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
+import { type UserNames } from '../../../types/userTypes';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
+	user: UserNames | null;
 	profile: ProfileSettings | null;
 	socialLinks: SocialLink[] | null;
 	fetching: boolean;
 };
 
 const PackInfo = (props: PackInfoProps) => {
-	const { fetching, currentPack, packCategories, profile, socialLinks } = props;
+	const { fetching, currentPack, packCategories, user, profile, socialLinks } = props;
 
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
@@ -74,14 +75,11 @@ const PackInfo = (props: PackInfoProps) => {
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
 				{!userView && (
-					<>
-						<Avatar src={profilePhotoUrl} size="small" />
-						<SocialLinkList
-							socialLinks={socialLinks || []}
-							deleteEnabled={false}
-							colorButton={false}
-						/>
-					</>
+					<ProfileInfo
+						profilePhotoUrl={profilePhotoUrl}
+						socialLinks={socialLinks}
+						user={user}
+					/>
 				)}
 
 				<Header as="h1">
