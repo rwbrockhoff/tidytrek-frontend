@@ -6,7 +6,7 @@ import AddLink from './AddLink';
 import styled from 'styled-components';
 import { SocialLink } from '../../../types/profileSettingsTypes';
 import { useState } from 'react';
-import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
 type SocialLinksProps = {
 	socialLinks: SocialLink[];

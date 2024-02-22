@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './SocialButton';
 import socialMediaUI from '../../../shared/ui/SocialMediaUI';
 import { ReactInput } from '../../../types/generalTypes';
-import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
 const AddLink = () => {
 	const { addSocialLink } = useHandlers().handlers;

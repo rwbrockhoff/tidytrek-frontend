@@ -21,7 +21,7 @@ import {
 	FormEvent,
 } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
-import { useHandlers } from '../../../views/Account/ProfileSettings/useHandlers';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
 type ProfileFormProps = {
 	settings: ProfileSettings | undefined;

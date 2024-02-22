@@ -1,11 +1,8 @@
 import { usePackItemMutations } from '../mutations/usePackItemMutations';
 import { createContext, useContext, useState } from 'react';
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { type InternalMutation } from '../../../shared/handlers';
 import { MovePackItemProps, PackInfo, PackItem } from '../../../types/packTypes';
 import { cleanUpLink } from '../../../shared/ui/CustomLinks';
-
-type InternalMutation<T> = UseMutationResult<AxiosResponse<any, any>, Error, T, unknown>;
 
 type AddItemInfo = { packId: number; packCategoryId: number };
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ProfileForm from '../../../components/Account/ProfileForm/ProfileForm';
 import { useGetProfileSettingsQuery } from '../../../queries/userProfileQueries';
-import { HandlerWrapper } from './useHandlers';
+import { HandlerWrapper } from './useProfileHandlers';
 
 export type UserInfo = {
 	userBio: string;

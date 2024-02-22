@@ -1,11 +1,8 @@
 import { UserInfo } from './ProfileSettings';
-import { useProfileSettingsMutations } from './useMutations';
+import { useProfileSettingsMutations } from './useProfileMutations';
 import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 import { createContext, useContext } from 'react';
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
-
-type InternalMutation<T> = UseMutationResult<AxiosResponse<any, any>, Error, T, unknown>;
+import { InternalMutation } from '../../../shared/handlers';
 
 type Handlers = {
 	addSocialLink: (service: string, socialLink: string) => void;
@@ -43,7 +40,7 @@ const useCreateHandlers = () => {
 
 	const handleDeleteProfilePhoto = () => deleteProfilePhoto.mutate();
 
-	const handlers = {
+	const handlers: Handlers = {
 		addSocialLink: handleAddSocialLink,
 		deleteSocialLink: handleDeleteSocialLink,
 		editProfile: handleEditProfile,
