@@ -1,5 +1,5 @@
 import './TableButtons.css';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type WeightDropdownProps = {
 	unit: string;

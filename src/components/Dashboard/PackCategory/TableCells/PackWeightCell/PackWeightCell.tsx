@@ -3,7 +3,7 @@ import { useState } from 'react';
 import WeightDropdown from '../../TableButtons/WeightDropdown';
 import '../TableCell/TableCell.css';
 import './PackWeightCell.css';
-import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
 
 type PackWeightCellProps = {
 	weight: string | number;

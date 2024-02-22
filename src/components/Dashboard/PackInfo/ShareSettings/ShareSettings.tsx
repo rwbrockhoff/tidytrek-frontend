@@ -1,7 +1,7 @@
 import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
 import { Button } from '../../../../shared/ui/SemanticUI';
 import { useState } from 'react';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 import './ShareSettings.css';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };

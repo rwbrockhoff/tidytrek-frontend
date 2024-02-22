@@ -1,5 +1,5 @@
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type TableFooterProps = {
 	itemQuantity: number;

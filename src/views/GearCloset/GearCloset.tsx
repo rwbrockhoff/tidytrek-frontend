@@ -12,7 +12,7 @@ import {
 	useDeleteGearClosetItemMutation,
 } from '../../queries/closetQueries';
 import { useGetPackListQuery } from '../../queries/packQueries';
-import { UserViewContext } from '../Dashboard/useUserContext';
+import { UserViewContext } from '../Dashboard/hooks/useUserContext';
 import { type DropResult } from 'react-beautiful-dnd';
 import { DragDropContext } from '../../shared/DragDropWrapper';
 import { type InputEvent } from '../../shared/formHelpers';

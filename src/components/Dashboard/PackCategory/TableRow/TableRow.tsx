@@ -18,7 +18,7 @@ import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {

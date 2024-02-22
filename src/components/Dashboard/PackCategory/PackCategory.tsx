@@ -10,7 +10,7 @@ import TableHeader from './TableHeader/TableHeader';
 import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
 import { useState } from 'react';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
-import { useUserContext } from '../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';

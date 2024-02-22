@@ -2,19 +2,20 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
-import { UserViewContext } from './useUserContext';
+import { UserViewContext } from './hooks/useUserContext';
 import { useGetPackQuery, useGetPackListQuery } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
 import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
 import { ThemeProvider } from 'styled-components';
-import { getThemeAsGuest, isGuestData } from '../Layout/themeUtils';
 import styled from 'styled-components';
 import { HandlerWrapper as PackItemHandlerWrapper } from './handlers/usePackItemHandlers';
 import { HandlerWrapper as PackCategoryHandlerWrapper } from './handlers/usePackCategoryHandlers';
 import { usePackItemMutations } from './mutations/usePackItemMutations';
 import { usePackCategoryMutations } from './mutations/usePackCategoryMutations';
+import useGuestData from './hooks/useGuestData';
+import { getThemeAsGuest } from '../Layout/themeUtils';
 
 type DashboardProps = { userView: boolean };
 
@@ -38,9 +39,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const packId = data?.pack.packId || null;
 
 	//--Guest View Data--//
-	const user = isGuestData(data) ? data?.user : null;
-	const profile = isGuestData(data) ? data.profileSettings : null;
-	const socialLinks = isGuestData(data) ? data.socialLinks : null;
+	const { user, profile, socialLinks } = useGuestData(data);
 	const theme = getThemeAsGuest(data);
 	//--Guest View Data--//
 
