@@ -1,4 +1,3 @@
-import './Dashboard.css';
 import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
@@ -16,7 +15,8 @@ import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
 import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
 import { ThemeProvider } from 'styled-components';
-import { getThemeAsGuest } from '../Layout/themeUtils';
+import { getThemeAsGuest, isGuestData } from '../Layout/themeUtils';
+import styled from 'styled-components';
 
 type DashboardProps = { userView: boolean };
 
@@ -40,6 +40,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	let packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
 	const packId = data?.pack.packId || null;
+	const profile = isGuestData(data) ? data.profile : null;
 
 	const handleAddPackCategory = () => {
 		packId && addCategory(packId);
@@ -83,10 +84,11 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	return (
 		<UserViewContext.Provider value={userView}>
 			<ThemeProvider theme={theme}>
-				<div className="dashboard-container">
+				<DashboardContainer>
 					<PackInfo
 						currentPack={currentPack}
 						packCategories={packCategories}
+						profile={profile}
 						fetching={isPending}
 					/>
 
@@ -111,10 +113,16 @@ const Dashboard = ({ userView }: DashboardProps) => {
 							description={packAffiliateDescription}
 						/>
 					)}
-				</div>
+				</DashboardContainer>
 			</ThemeProvider>
 		</UserViewContext.Provider>
 	);
 };
 
 export default Dashboard;
+
+const DashboardContainer = styled.div`
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+`;

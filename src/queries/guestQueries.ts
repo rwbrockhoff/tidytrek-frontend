@@ -4,8 +4,14 @@ import { guestKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { type Pack, type Category } from '../types/packTypes';
 import { type Settings } from '../types/settingsTypes';
+import { ProfileSettings } from '../types/profileSettingsTypes';
 
-export type InitialState = { pack: Pack; categories: Category[]; settings: Settings };
+export type InitialState = {
+	pack: Pack;
+	categories: Category[];
+	settings: Settings;
+	profile: ProfileSettings;
+};
 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;

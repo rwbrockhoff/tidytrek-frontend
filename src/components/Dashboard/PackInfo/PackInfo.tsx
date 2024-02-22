@@ -14,18 +14,22 @@ import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
+import Avatar from '../../../shared/ui/Avatar';
+import { ProfileSettings } from '../../../types/profileSettingsTypes';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
+	profile: ProfileSettings | null;
 	fetching: boolean;
 };
 
-const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
+const PackInfo = ({ fetching, currentPack, packCategories, profile }: PackInfoProps) => {
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
 
 	const navigate = useNavigate();
+
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
@@ -57,12 +61,16 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
+	const { profilePhotoUrl } = profile || {};
+
 	return (
 		<div className="pack-info-container">
 			<div
 				className="pack-info-left-panel"
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
+				{!userView && <Avatar src={profilePhotoUrl} size="small" />}
+
 				<Header as="h1">
 					{packName}
 					{showIcon && userView && (

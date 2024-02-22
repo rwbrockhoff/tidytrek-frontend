@@ -21,7 +21,7 @@ export const getThemeAsGuest = (data: PackQueryState | GuestQueryState | undefin
 	return useMemo(() => (isGuestData(data) ? createTheme(data.settings) : {}), [data]);
 };
 
-const isGuestData = (
+export const isGuestData = (
 	data: PackQueryState | GuestQueryState | undefined,
 ): data is GuestQueryState => {
 	return (data && 'settings' in data) || false;
