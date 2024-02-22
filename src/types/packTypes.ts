@@ -72,3 +72,11 @@ export type MovePackItemProps = {
 	prevPackCategoryId: string;
 	prevPackItemIndex: number;
 };
+
+export type MovePackCategoryProps = {
+	packId: number;
+	packCategoryId: string;
+	newIndex: number;
+	prevIndex: number;
+	paramPackId: string | undefined;
+};

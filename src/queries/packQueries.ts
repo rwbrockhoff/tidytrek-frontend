@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import {
-	MovePackItemProps,
+	type MovePackItemProps,
 	type InitialState,
 	type Pack,
 	type PackItem,
@@ -252,7 +252,6 @@ export const useMovePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		// mutationKey: packKeys.packId(packId),
 		mutationFn: (categoryInfo: {
 			packId: number;
 			packCategoryId: string;

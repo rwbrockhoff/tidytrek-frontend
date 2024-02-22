@@ -3,13 +3,7 @@ import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
 import { UserViewContext } from './useUserContext';
-import {
-	useGetPackQuery,
-	useGetPackListQuery,
-	useAddPackCategoryMutation,
-	useMovePackItemMutation,
-	useMovePackCategoryMutation,
-} from '../../queries/packQueries';
+import { useGetPackQuery, useGetPackListQuery } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
@@ -17,13 +11,13 @@ import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWra
 import { ThemeProvider } from 'styled-components';
 import { getThemeAsGuest, isGuestData } from '../Layout/themeUtils';
 import styled from 'styled-components';
+import { HandlerWrapper } from './useHandlers';
+import { usePackMutations } from './usePackMutations';
 
 type DashboardProps = { userView: boolean };
 
 const Dashboard = ({ userView }: DashboardProps) => {
-	const { mutate: addCategory } = useAddPackCategoryMutation();
-	const { mutate: movePackItem } = useMovePackItemMutation();
-	const { mutate: movePackCategory } = useMovePackCategoryMutation();
+	const { addPackCategory, movePackCategory, movePackItem } = usePackMutations();
 
 	const { packId: paramPackId } = useParams();
 	const { data, isPending } = userView
@@ -43,7 +37,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const profile = isGuestData(data) ? data.profile : null;
 
 	const handleAddPackCategory = () => {
-		packId && addCategory(packId);
+		packId && addPackCategory.mutate(packId);
 	};
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -56,7 +50,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		if (type === 'category') {
 			if (sameIndex) return;
 
-			movePackCategory({
+			movePackCategory.mutate({
 				packId: currentPack.packId,
 				paramPackId,
 				packCategoryId: draggableId,
@@ -68,7 +62,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 			if (sameIndex && sameCategory) return;
 
 			const dragId = draggableId.replace(/\D/g, '');
-			movePackItem({
+			movePackItem.mutate({
 				packId: paramPackId ? packId : null,
 				packItemId: dragId,
 				packCategoryId: destination.droppableId,
@@ -82,40 +76,43 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const { packAffiliate, packAffiliateDescription } = currentPack;
 
 	return (
-		<UserViewContext.Provider value={userView}>
-			<ThemeProvider theme={theme}>
-				<DashboardContainer>
-					<PackInfo
-						currentPack={currentPack}
-						packCategories={packCategories}
-						profile={profile}
-						fetching={isPending}
-					/>
-
-					<DragDropContext onDragEnd={handleOnDragEnd}>
-						<Drop droppableId={'dashboard-drop-window'} type="category">
-							{packCategories.length >= 0 &&
-								packCategories.map((category: Category, idx: number) => (
-									<PackCategory
-										category={category}
-										packList={packList}
-										index={idx}
-										key={category?.packCategoryId || idx}
-									/>
-								))}
-						</Drop>
-					</DragDropContext>
-
-					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
-					{!userView && (
-						<DashboardFooter
-							affiliate={packAffiliate}
-							description={packAffiliateDescription}
+		<HandlerWrapper>
+			<UserViewContext.Provider value={userView}>
+				<ThemeProvider theme={theme}>
+					<DashboardContainer>
+						<PackInfo
+							currentPack={currentPack}
+							packCategories={packCategories}
+							profile={profile}
+							fetching={isPending}
 						/>
-					)}
-				</DashboardContainer>
-			</ThemeProvider>
-		</UserViewContext.Provider>
+
+						<DragDropContext onDragEnd={handleOnDragEnd}>
+							<Drop droppableId={'dashboard-drop-window'} type="category">
+								{packCategories.length >= 0 &&
+									packCategories.map((category: Category, idx: number) => (
+										<PackCategory
+											category={category}
+											packList={packList}
+											index={idx}
+											key={category?.packCategoryId || idx}
+										/>
+									))}
+							</Drop>
+						</DragDropContext>
+
+						{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+
+						{!userView && (
+							<DashboardFooter
+								affiliate={packAffiliate}
+								description={packAffiliateDescription}
+							/>
+						)}
+					</DashboardContainer>
+				</ThemeProvider>
+			</UserViewContext.Provider>
+		</HandlerWrapper>
 	);
 };
 

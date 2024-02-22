@@ -10,22 +10,13 @@ import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
 import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
 import { useState } from 'react';
-import {
-	useAddNewPackItemMutation,
-	useEditPackItemMutation,
-	useEditPackCategoryMutation,
-	useMoveItemToClosetMutation,
-	useDeletePackItemMutation,
-	useDeletePackCategoryMutation,
-	useDeletePackCategoryAndItemsMutation,
-} from '../../../queries/packQueries';
-import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/useUserContext';
 import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
-import { cleanUpLink } from '../../../shared/ui/CustomLinks';
+import { usePackMutations } from '../../../views/Dashboard/usePackMutations';
+import { useHandlers } from '../../../views/Dashboard/useHandlers';
 
 type PackCategoryProps = {
 	category: Category;
@@ -41,71 +32,66 @@ export type CategoryChanges = {
 const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
+	const { editPackItem } = useHandlers().handlers;
+
 	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
 		category;
 
-	const { mutate: addPackItem } = useAddNewPackItemMutation();
-	const { mutate: editPackItem } = useEditPackItemMutation();
-	const { mutate: movePackItem } = useMoveItemToClosetMutation();
-	const { mutate: moveToPack } = useMoveItemToPackMutation();
-
-	const { mutate: deletePackItem } = useDeletePackItemMutation();
-
-	const { mutate: editPackCategory } = useEditPackCategoryMutation();
-	const { mutate: deleteCategory } = useDeletePackCategoryMutation();
-	const { mutate: deleteCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
+	const {
+		addPackItem,
+		movePackItemToCloset,
+		moveItemToPack,
+		deletePackItem,
+		editPackCategory,
+		deletePackCategory,
+		deletePackCategoryAndItems,
+	} = usePackMutations();
 
 	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
 	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
+
 	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
-	const [isMinimized, setMinimized] = useState(false);
 
 	const handleToggleCategoryModal = () =>
 		setShowDeleteCategoryModal(!showDeleteCategoryModal);
 
-	const handleMinimizeCategory = () => setMinimized(!isMinimized);
-
 	const handleEditCategory = (categoryChanges: CategoryChanges) => {
-		editPackCategory({ packCategoryId, categoryChanges });
+		editPackCategory.mutate({ packCategoryId, categoryChanges });
 	};
 
 	const handleDeleteCategoryAndItems = () => {
-		deleteCategoryAndItems(packCategoryId);
+		deletePackCategoryAndItems.mutate(packCategoryId);
 		setShowDeleteCategoryModal(false);
 	};
 
 	const handleDeleteCategory = () => {
-		deleteCategory(packCategoryId);
+		deletePackCategory.mutate(packCategoryId);
 		setShowDeleteCategoryModal(false);
 	};
 
-	const handleAddItem = () => addPackItem({ packId, packCategoryId });
+	const handleAddItem = () => addPackItem.mutate({ packId, packCategoryId });
 
 	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
 
 	const handleMoveItem = () => {
-		if (packItemToChange) movePackItem(packItemToChange);
+		if (packItemToChange) movePackItemToCloset.mutate(packItemToChange);
 		setShowDeleteItemModal(false);
 	};
 
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
+	const handleMoveItemToPack = (packInfo: PackInfo) => moveItemToPack.mutate(packInfo);
 
 	const handleDeleteItem = () => {
-		if (packItemToChange) deletePackItem(packItemToChange);
+		if (packItemToChange) deletePackItem.mutate(packItemToChange);
 		setShowDeleteItemModal(false);
-	};
-
-	const handleOnSave = (packItem: PackItem) => {
-		const { packItemId } = packItem;
-		const { packItemUrl } = packItem;
-		const cleanUrl = cleanUpLink(packItemUrl);
-		editPackItem({ packItemId, packItem: { ...packItem, packItemUrl: cleanUrl } });
 	};
 
 	const handleDeleteItemPrompt = (packItemId: number) => {
 		setPackItemToChange(packItemId);
 		setShowDeleteItemModal(true);
 	};
+
+	const [isMinimized, setMinimized] = useState(false);
+	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
 	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
@@ -149,7 +135,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 										index={idx}
 										packList={packList}
 										handleMoveItemToPack={handleMoveItemToPack}
-										handleOnSave={handleOnSave}
+										handleOnSave={editPackItem}
 										handleDelete={handleDeleteItemPrompt}
 									/>
 								))}
