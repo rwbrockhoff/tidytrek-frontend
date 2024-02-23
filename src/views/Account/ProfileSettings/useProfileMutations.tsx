@@ -4,7 +4,7 @@ import {
 	useEditProfileMutation,
 	useUploadProfilePhotoMutation,
 	useDeleteProfilePhotoMutation,
-} from '../../../queries/userProfileQueries';
+} from '../../../queries/profileSettingsQueries';
 
 export const useProfileSettingsMutations = () => {
 	const addSocialLink = useAddSocialLinkMutation();

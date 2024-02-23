@@ -2,7 +2,7 @@ import { Icon } from 'semantic-ui-react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import AddLink from './AddLink';
 import styled from 'styled-components';
-import { SocialLink } from '../../../types/profileSettingsTypes';
+import { SocialLink } from '../../../types/profileTypes';
 import { useState } from 'react';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import SocialLinkList from './SocialLinkList';

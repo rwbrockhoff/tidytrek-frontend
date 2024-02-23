@@ -3,7 +3,8 @@ const Pack = 'Pack';
 const Packlist = 'Packlist';
 const Closet = 'Closet';
 const Guest = 'Guest';
-const UserProfile = 'UserProfile';
+const Profile = 'Profile';
+const ProfileSettings = 'ProfileSettings';
 
 export const userKeys = {
 	all: [User] as const,
@@ -26,6 +27,10 @@ export const guestKeys = {
 	packId: (packId: number | null) => [Guest, packId] as const,
 };
 
-export const userProfileKeys = {
-	all: [UserProfile] as const,
+export const profileKeys = {
+	all: [Profile] as const,
+};
+
+export const profileSettingsKeys = {
+	all: [ProfileSettings] as const,
 };

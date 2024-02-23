@@ -1,6 +1,6 @@
 import Avatar from '../../../../shared/ui/Avatar';
 import { Header } from 'semantic-ui-react';
-import { SocialLink } from '../../../../types/profileSettingsTypes';
+import { SocialLink } from '../../../../types/profileTypes';
 import SocialLinkList from '../../../Account/ProfileForm/SocialLinkList';
 import styled from 'styled-components';
 import { type UserNames } from '../../../../types/userTypes';

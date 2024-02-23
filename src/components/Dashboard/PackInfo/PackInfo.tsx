@@ -14,7 +14,7 @@ import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
-import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
+import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { type UserNames } from '../../../types/userTypes';
 

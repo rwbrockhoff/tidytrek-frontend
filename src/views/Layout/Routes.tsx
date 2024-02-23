@@ -8,6 +8,7 @@ import GearCloset from '../GearCloset/GearCloset';
 import { Navigate } from 'react-router-dom';
 import AccountSettings from '../Account/AccountSettings/AccountSettings';
 import ProfileSettings from '../Account/ProfileSettings/ProfileSettings';
+import Profile from '../Profile/Profile';
 
 export const userRoutes = [
 	{
@@ -24,6 +25,16 @@ export const userRoutes = [
 		path: '/gear-closet',
 		element: <ViewLayout />,
 		children: [{ path: '/gear-closet', element: <GearCloset /> }],
+	},
+	{
+		path: '/profile',
+		element: <ViewLayout />,
+		children: [{ path: '/profile', element: <Profile /> }],
+	},
+	{
+		path: '/user/:userId',
+		element: <ViewLayout />,
+		children: [{ path: '/user/:userId', element: <Profile /> }],
 	},
 	{
 		path: '/pk/:packId',
@@ -68,6 +79,11 @@ export const guestRoutes = [
 	{
 		path: '/reset-password/:resetToken',
 		element: <ResetPassword />,
+	},
+	{
+		path: '/user/:userId',
+		element: <GuestPackLayout />,
+		children: [{ path: '/user/:userId', element: <Profile /> }],
 	},
 	{
 		path: '/pk/:packId',

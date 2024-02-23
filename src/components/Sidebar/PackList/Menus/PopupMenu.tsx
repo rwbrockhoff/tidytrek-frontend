@@ -2,6 +2,7 @@ import Avatar from '../../../../shared/ui/Avatar';
 import { Popup, PopupContent } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AvatarMenu } from './Menus';
+import { Link } from 'react-router-dom';
 
 type PopupMenuProps = {
 	profilePhotoUrl: string | undefined;
@@ -19,7 +20,9 @@ const PopupMenu = (props: PopupMenuProps) => {
 			hoverable
 			trigger={
 				<Container>
-					<Avatar src={profilePhotoUrl} size="small" margin="0px" />
+					<Link to="/profile">
+						<Avatar src={profilePhotoUrl} size="small" margin="0px" />
+					</Link>
 				</Container>
 			}>
 			<PopupContent>

@@ -12,7 +12,7 @@ import {
 import { useState, useEffect, useRef, type ChangeEvent } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
-import { ProfileSettings, SocialLink } from '../../../types/profileSettingsTypes';
+import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
 import Avatar from '../../../shared/ui/Avatar';
 import {
 	setFormInput,

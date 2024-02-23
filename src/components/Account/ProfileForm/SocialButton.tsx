@@ -1,6 +1,6 @@
 import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { SocialLinkInfo } from '../../../types/profileSettingsTypes';
+import { SocialLinkInfo } from '../../../types/profileTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 
 type SocialButtonProps = {

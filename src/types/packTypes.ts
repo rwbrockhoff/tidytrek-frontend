@@ -19,6 +19,7 @@ export type Pack = {
 	packUrl: string;
 	packAffiliate: boolean;
 	packAffiliateDescription: string;
+	packViews: number;
 };
 
 export type Category = {

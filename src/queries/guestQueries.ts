@@ -4,7 +4,7 @@ import { guestKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { type Pack, type Category } from '../types/packTypes';
 import { type Settings } from '../types/settingsTypes';
-import { ProfileSettings, SocialLink } from '../types/profileSettingsTypes';
+import { ProfileSettings, SocialLink } from '../types/profileTypes';
 
 export type InitialState = {
 	pack: Pack;

@@ -10,6 +10,7 @@ type AvatarProps = {
 	src: string | undefined;
 	size?: Size;
 	link?: string;
+	withBorder?: boolean;
 	margin?: string;
 	isPending?: boolean;
 	onDelete?: () => void;
@@ -20,6 +21,7 @@ const Avatar = ({
 	size = 'big',
 	link,
 	margin = '0px',
+	withBorder = false,
 	isPending,
 	onDelete,
 }: AvatarProps) => {
@@ -47,6 +49,7 @@ const Avatar = ({
 					src={photoSource}
 					$margin={margin}
 					$size={size}
+					$withBorder={withBorder}
 					alt="user profile photo"
 				/>
 			</InnerContainer>
@@ -56,13 +59,17 @@ const Avatar = ({
 
 export default Avatar;
 
-type Size = 'big' | 'medium' | 'small';
+type Size = 'small' | 'medium' | 'big' | 'large';
 
-const StyledAvatar = styled.img<{ $size?: Size; $margin?: string }>`
+const StyledAvatar = styled.img<{
+	$size?: Size;
+	$margin?: string;
+	$withBorder?: boolean;
+}>`
 	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-
+	border: ${(props) => (props.$withBorder ? '3px solid white' : 'inherit')};
 	margin: ${(props) => (props.$margin ? props.$margin : 'inherit')};
 	object-fit: cover;
 	opacity: 1;
@@ -73,6 +80,7 @@ const StyledAvatar = styled.img<{ $size?: Size; $margin?: string }>`
 `;
 
 const sizeChart = {
+	large: { widthOrHeight: '150px', borderRadius: '75px' },
 	big: { widthOrHeight: '100px', borderRadius: '50px' },
 	medium: { widthOrHeight: '75px', borderRadius: '38px' },
 	small: { widthOrHeight: '50px', borderRadius: '25px' },
