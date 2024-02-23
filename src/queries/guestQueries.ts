@@ -4,7 +4,12 @@ import { guestKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { type Pack, type Category } from '../types/packTypes';
 import { type Settings } from '../types/settingsTypes';
-import { ProfileSettings, SocialLink } from '../types/profileTypes';
+import {
+	type ProfileSettings,
+	type SocialLink,
+	type UserProfile,
+} from '../types/profileTypes';
+import { type UserNames } from '../types/userTypes';
 
 export type InitialState = {
 	pack: Pack;
@@ -12,11 +17,12 @@ export type InitialState = {
 	settings: Settings;
 	profileSettings: ProfileSettings;
 	socialLinks: SocialLink[];
-	user: { firstName: string; username: string };
+	user: UserNames;
 };
 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
+
 	return useQuery<InitialState>({
 		queryKey: guestKeys.packId(decodedId as number | null),
 		queryFn: () => {
@@ -24,6 +30,21 @@ export const useViewPackQuery = (packId: string | undefined) => {
 				const decodedId = decode(packId);
 				return tidyTrekAPI.get(`/guests/pack/${decodedId}`).then((res) => res.data);
 			} else return tidyTrekAPI.get('/guests/pack').then((res) => res.data);
+		},
+	});
+};
+
+export const useViewProfileQuery = (userId: string | undefined) => {
+	const decodedId = userId ? decode(userId) : null;
+	const decodedUserName = !decodedId ? userId : null;
+
+	return useQuery<UserProfile>({
+		queryKey: guestKeys.packId(decodedId as number | null),
+		queryFn: () => {
+			const decodedUserId = userId && decode(userId);
+			return tidyTrekAPI
+				.get(`/guests/user/${decodedUserId}/${decodedUserName}`)
+				.then((res) => res.data);
 		},
 	});
 };

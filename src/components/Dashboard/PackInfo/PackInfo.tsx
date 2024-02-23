@@ -17,18 +17,21 @@ import Link from '../../../shared/ui/Link';
 import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { type UserNames } from '../../../types/userTypes';
+import { type Settings } from '../../../types/settingsTypes';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
 	user: UserNames | null;
 	profile: ProfileSettings | null;
+	settings: Settings | null;
 	socialLinks: SocialLink[] | null;
 	fetching: boolean;
 };
 
 const PackInfo = (props: PackInfoProps) => {
-	const { fetching, currentPack, packCategories, user, profile, socialLinks } = props;
+	const { fetching, currentPack, packCategories, user, profile, settings, socialLinks } =
+		props;
 
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
@@ -67,6 +70,7 @@ const PackInfo = (props: PackInfoProps) => {
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { profilePhotoUrl } = profile || {};
+	const { publicProfile } = settings || {};
 
 	return (
 		<div className="pack-info-container">
@@ -79,6 +83,7 @@ const PackInfo = (props: PackInfoProps) => {
 						profilePhotoUrl={profilePhotoUrl}
 						socialLinks={socialLinks}
 						user={user}
+						publicProfile={publicProfile}
 					/>
 				)}
 

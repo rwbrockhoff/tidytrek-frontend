@@ -10,20 +10,24 @@ import styled from 'styled-components';
 import { Pack } from '../../../types/packTypes';
 import { Link } from 'react-router-dom';
 import { encode } from '../../../utils/generateDisplayId';
+import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 
 type PackCardProps = {
 	pack: Pack;
 };
 
 const PackCard = (props: PackCardProps) => {
+	const userView = useUserContext();
 	const { pack } = props;
 	const { packId, packName, packDescription, packPublic, packViews } = pack || {};
 	const encodedPackId = encode(packId);
+	const userBasedUrl = userView ? 'pack' : 'pk';
+
 	return (
 		<StyledCard>
 			<CardContent>
 				<CardHeader>
-					<Link to={`/pack/${encodedPackId}`}>{packName}</Link>
+					<Link to={`/${userBasedUrl}/${encodedPackId}`}>{packName}</Link>
 				</CardHeader>
 				<CardMeta>
 					<span>{packPublic ? 'Public' : 'Private'}</span>
@@ -43,7 +47,6 @@ export default PackCard;
 const StyledCard = styled(Card)`
 	&&& {
 		margin: 15px;
-
 		a {
 			color: ${(props) => props.theme.primary || 'inherit'};
 			&:hover {

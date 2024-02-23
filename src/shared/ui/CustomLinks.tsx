@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 type CustomLinkProps = {
 	link: string | undefined;
@@ -15,12 +16,12 @@ export const CustomLink = ({
 	if (!enabled || !link) return children;
 	if (externalLink) {
 		return (
-			<Link to={link} target="_blank" rel="noopener noreferrer">
+			<StyledLink to={link} target="_blank" rel="noopener noreferrer">
 				{children}
-			</Link>
+			</StyledLink>
 		);
 	} else {
-		return <Link to={link}>{children}</Link>;
+		return <StyledLink to={link}>{children}</StyledLink>;
 	}
 };
 
@@ -30,3 +31,7 @@ export const cleanUpLink = (link: string) => {
 	if (link.includes('https://')) return link;
 	else return `https://${link}`;
 };
+
+const StyledLink = styled(Link)`
+	color: ${(props) => props.theme.primary || 'inherit'};
+`;

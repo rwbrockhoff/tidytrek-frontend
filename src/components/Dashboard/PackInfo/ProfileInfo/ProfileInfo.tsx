@@ -4,20 +4,31 @@ import { SocialLink } from '../../../../types/profileTypes';
 import SocialLinkList from '../../../Account/ProfileForm/SocialLinkList';
 import styled from 'styled-components';
 import { type UserNames } from '../../../../types/userTypes';
+import { CustomLink } from '../../../../shared/ui/CustomLinks';
+import { encode } from '../../../../utils/generateDisplayId';
 
 type ProfileInfoProps = {
 	profilePhotoUrl: string | undefined;
 	socialLinks: SocialLink[] | null;
 	user: UserNames | null;
+	publicProfile: boolean | undefined;
 };
 
-const ProfileInfo = ({ profilePhotoUrl, socialLinks, user }: ProfileInfoProps) => {
+const ProfileInfo = (props: ProfileInfoProps) => {
+	const { profilePhotoUrl, publicProfile, socialLinks, user } = props;
+	const { username, firstName, userId } = user || {};
+
+	const userBasedUrl = username || (userId && encode(userId));
 	return (
 		<ProfileInfoContainer>
-			<Avatar src={profilePhotoUrl} size="medium" />
+			<CustomLink link={`/user/${userBasedUrl}`} enabled={publicProfile}>
+				<Avatar src={profilePhotoUrl} size="medium" />
+			</CustomLink>
 			<TextContainer>
 				<UsernameHeader as="h4">
-					{user?.username || user?.firstName || 'Tidy Hiker'}
+					<CustomLink link={`/user/${userBasedUrl}`} enabled={publicProfile}>
+						{username || firstName || 'Tidy Hiker'}
+					</CustomLink>
 				</UsernameHeader>
 				<SocialLinkList
 					socialLinks={socialLinks || []}

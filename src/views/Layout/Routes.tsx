@@ -29,12 +29,12 @@ export const userRoutes = [
 	{
 		path: '/profile',
 		element: <ViewLayout />,
-		children: [{ path: '/profile', element: <Profile /> }],
+		children: [{ path: '/profile', element: <Profile userView={true} /> }],
 	},
 	{
 		path: '/user/:userId',
 		element: <ViewLayout />,
-		children: [{ path: '/user/:userId', element: <Profile /> }],
+		children: [{ path: '/user/:userId', element: <Profile userView={false} /> }],
 	},
 	{
 		path: '/pk/:packId',
@@ -83,7 +83,7 @@ export const guestRoutes = [
 	{
 		path: '/user/:userId',
 		element: <GuestPackLayout />,
-		children: [{ path: '/user/:userId', element: <Profile /> }],
+		children: [{ path: '/user/:userId', element: <Profile userView={false} /> }],
 	},
 	{
 		path: '/pk/:packId',

@@ -20,4 +20,5 @@ export type RegisterUser = {
 export type UserNames = {
 	firstName: string;
 	username: string;
+	userId: number;
 };
