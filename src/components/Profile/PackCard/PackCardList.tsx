@@ -1,3 +1,4 @@
+import { CardGroup } from 'semantic-ui-react';
 import { Pack } from '../../../types/packTypes';
 import PackCard from './PackCard';
 import styled from 'styled-components';
@@ -11,9 +12,11 @@ const PackCardList = (props: PackCardListProps) => {
 	const packList = packThumbnailList || [];
 	return (
 		<ListContainer>
-			{packList.map((pack, index) => {
-				return <PackCard key={pack.packId || index} pack={pack} />;
-			})}
+			<CardGroup itemsPerRow={4}>
+				{packList.map((pack, index) => {
+					return <PackCard key={pack.packId || index} pack={pack} />;
+				})}
+			</CardGroup>
 		</ListContainer>
 	);
 };
@@ -21,6 +24,5 @@ const PackCardList = (props: PackCardListProps) => {
 export default PackCardList;
 
 const ListContainer = styled.div`
-	display: flex;
 	margin: 5vh 0vh;
 `;

@@ -67,7 +67,9 @@ const AvatarContainer = styled.div`
 `;
 
 const ProfileInfoContainer = styled.div`
-	height: 175px;
+	min-height: 175px;
+	height: fit-content;
+	padding: 25px 0px;
 	background-color: #e8e8e8;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;

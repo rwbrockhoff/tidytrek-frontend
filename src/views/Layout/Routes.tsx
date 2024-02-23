@@ -17,9 +17,9 @@ export const userRoutes = [
 		children: [{ path: '/', index: true, element: <Dashboard userView={true} /> }],
 	},
 	{
-		path: '/packs/:packId',
+		path: '/pack/:packId',
 		element: <ViewLayout />,
-		children: [{ path: '/packs/:packId', element: <Dashboard userView={true} /> }],
+		children: [{ path: '/pack/:packId', element: <Dashboard userView={true} /> }],
 	},
 	{
 		path: '/gear-closet',

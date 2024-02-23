@@ -43,7 +43,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 				const encodedId = encode(packId);
 				if (paramPackId !== encodedId) {
 					addNewPackData.reset();
-					navigate(`/packs/${encodedId}`);
+					navigate(`/pack/${encodedId}`);
 				}
 			}
 		}
@@ -53,7 +53,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 		// subscribe to user clicking on a different pack
 		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
 			const encodedId = encode(currentPackId);
-			navigate(`/packs/${encodedId}`);
+			navigate(`/pack/${encodedId}`);
 		}
 	}, [currentPackId]);
 
@@ -61,8 +61,8 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 		const { pathname } = location;
 		if (currentPackId === undefined) navigate('/');
 		const encodedId = encode(packId);
-		if (packId !== currentPackId) navigate(`/packs/${encodedId}`);
-		if (pathname !== '/') navigate(`/packs/${encodedId}`);
+		if (packId !== currentPackId) navigate(`/pack/${encodedId}`);
+		if (pathname !== '/') navigate(`/pack/${encodedId}`);
 	};
 
 	const handleAddPack = () => {
@@ -90,7 +90,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 		<aside>
 			<StyledSidebar animation="overlay" visible={showSidebar}>
 				<h1>
-					<Link to={`/packs/${encodedId}`}>tidytrek</Link>
+					<Link to={`/pack/${encodedId}`}>tidytrek</Link>
 				</h1>
 
 				<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} logout={handleLogout} />
