@@ -10,7 +10,7 @@ type CustomLinkProps = {
 export const CustomLink = ({
 	link,
 	externalLink,
-	enabled,
+	enabled = true,
 	children,
 }: CustomLinkProps) => {
 	if (!enabled || !link) return children;

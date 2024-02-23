@@ -10,6 +10,7 @@ const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
 
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
+
 	const userProfile = data?.userProfile;
 	const packThumbnailList = data?.packThumbnailList;
 

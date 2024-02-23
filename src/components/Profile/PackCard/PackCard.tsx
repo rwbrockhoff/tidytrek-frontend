@@ -8,7 +8,7 @@ import {
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Pack } from '../../../types/packTypes';
-import { Link } from 'react-router-dom';
+import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 
@@ -22,23 +22,29 @@ const PackCard = (props: PackCardProps) => {
 	const { packId, packName, packDescription, packPublic, packViews } = pack || {};
 	const encodedPackId = encode(packId);
 	const userBasedUrl = userView ? 'pack' : 'pk';
-
+	const link = `/${userBasedUrl}/${encodedPackId}`;
 	return (
-		<StyledCard>
-			<CardContent>
-				<CardHeader>
-					<Link to={`/${userBasedUrl}/${encodedPackId}`}>{packName}</Link>
-				</CardHeader>
-				<CardMeta>
-					<span>{packPublic ? 'Public' : 'Private'}</span>
-				</CardMeta>
-				<CardDescription>{packDescription}</CardDescription>
-			</CardContent>
-			<CardContent extra>
-				<Icon name="eye" />
-				{packViews} Views
-			</CardContent>
-		</StyledCard>
+		<CustomLink link={link} enabled={!userView}>
+			<StyledCard>
+				<CardContent>
+					<CardHeader>
+						<CustomLink link={link} enabled={userView}>
+							{packName}
+						</CustomLink>
+					</CardHeader>
+					<CardMeta>
+						<span>{packPublic ? 'Public' : 'Private'}</span>
+					</CardMeta>
+					<CardDescription>{packDescription}</CardDescription>
+				</CardContent>
+				{userView && (
+					<CardContent extra>
+						<Icon name="eye" />
+						{packViews} Views
+					</CardContent>
+				)}
+			</StyledCard>
+		</CustomLink>
 	);
 };
 
