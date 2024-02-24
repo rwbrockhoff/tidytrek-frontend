@@ -20,6 +20,7 @@ const PackCard = (props: PackCardProps) => {
 	const userView = useUserContext();
 	const { pack } = props;
 	const { packId, packName, packDescription, packPublic, packViews } = pack || {};
+
 	const encodedPackId = encode(packId);
 	const userBasedUrl = userView ? 'pack' : 'pk';
 	const link = `/${userBasedUrl}/${encodedPackId}`;
