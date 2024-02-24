@@ -4,12 +4,14 @@ import { type ProfileInfo } from '../../../types/profileTypes';
 import { Header, Icon } from 'semantic-ui-react';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
+import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 
 type ProfileHeaderProps = {
 	userProfile: ProfileInfo | undefined;
 };
 
 const ProfileHeader = (props: ProfileHeaderProps) => {
+	const userView = useUserContext();
 	const { userProfile } = props;
 	const { profileSettings, socialLinks, user } = userProfile || {};
 	const { profilePhotoUrl, backgroundPhotoUrl, userLocation, userBio } =
@@ -25,7 +27,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 			<AvatarContainer>
 				<Avatar
 					withBorder
-					uploadEnabled
+					uploadEnabled={userView}
 					src={profilePhotoUrl}
 					size="large"
 					isPending={isPending}
