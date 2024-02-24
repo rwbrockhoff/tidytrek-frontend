@@ -15,7 +15,7 @@ type Mutations = {
 	addSocialLink: InternalMutation<{ service: string; socialLink: string }>;
 	deleteSocialLink: InternalMutation<{ socialLinkId: number | undefined }>;
 	editProfile: InternalMutation<{ userInfo: UserInfo }>;
-	uploadPhoto: InternalMutation<FormData>;
+	uploadProfilePhoto: InternalMutation<FormData>;
 	deleteProfilePhoto: InternalMutation<void>;
 };
 

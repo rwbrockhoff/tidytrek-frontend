@@ -38,7 +38,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 	const { handlers, mutations } = useHandlers();
 	const { editProfile, deleteProfilePhoto } = handlers;
 	const {
-		uploadPhoto: { mutate, isPending: isUploadingPhoto, isError: isUploadError },
+		uploadProfilePhoto: { mutate, isPending: isUploadingPhoto, isError: isUploadError },
 	} = mutations;
 
 	useEffect(() => {
@@ -79,11 +79,10 @@ const ProfileForm = (props: ProfileFormProps) => {
 				<PhotoContainer>
 					<Avatar
 						src={settings?.profilePhotoUrl}
-						margin="10px"
 						onDelete={deleteProfilePhoto}
 						isPending={isUploadingPhoto}
 					/>
-					<form ref={formRef} onSubmit={handleSubmitForm}>
+					<form encType="multipart/form-data" ref={formRef} onSubmit={handleSubmitForm}>
 						<Input type="file" accept="image/jpg, image/png" onChange={handleFile} />
 						<Button
 							$themeColor="primary"

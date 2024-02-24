@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { profileSettingsKeys, userKeys } from './queryKeys';
+import { profileSettingsKeys, profileKeys, userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { InitialState } from '../types/profileTypes';
 
@@ -51,6 +51,7 @@ export const useUploadProfilePhotoMutation = () => {
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
@@ -62,6 +63,7 @@ export const useDeleteProfilePhotoMutation = () => {
 		mutationFn: () => tidyTrekAPI.delete(`/profile-settings/profile-photo`),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});

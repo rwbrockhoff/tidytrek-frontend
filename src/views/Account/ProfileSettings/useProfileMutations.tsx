@@ -10,14 +10,14 @@ export const useProfileSettingsMutations = () => {
 	const addSocialLink = useAddSocialLinkMutation();
 	const deleteSocialLink = useDeleteSocialLinkMutation();
 	const editProfile = useEditProfileMutation();
-	const uploadPhoto = useUploadProfilePhotoMutation();
+	const uploadProfilePhoto = useUploadProfilePhotoMutation();
 	const deleteProfilePhoto = useDeleteProfilePhotoMutation();
 
 	return {
 		addSocialLink,
 		deleteSocialLink,
 		editProfile,
-		uploadPhoto,
+		uploadProfilePhoto,
 		deleteProfilePhoto,
 	};
 };

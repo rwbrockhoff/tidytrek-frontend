@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Button, Loader } from 'semantic-ui-react';
 import { CustomLink } from './CustomLinks';
 import { useState } from 'react';
+import UploadFile from './UploadFile';
 
 const defaultPhotoUrl =
 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
@@ -11,20 +12,26 @@ type AvatarProps = {
 	size?: Size;
 	link?: string;
 	withBorder?: boolean;
+	uploadEnabled?: boolean;
 	margin?: string;
 	isPending?: boolean;
+	onUpload?: (formData: FormData) => void;
 	onDelete?: () => void;
 };
 
-const Avatar = ({
-	src,
-	size = 'big',
-	link,
-	margin = '0px',
-	withBorder = false,
-	isPending,
-	onDelete,
-}: AvatarProps) => {
+const Avatar = (props: AvatarProps) => {
+	const {
+		src,
+		size = 'big',
+		link,
+		margin = '0px',
+		withBorder = false,
+		uploadEnabled = false,
+		isPending,
+		onDelete,
+		onUpload,
+	} = props;
+
 	const [showButton, setShowButton] = useState(false);
 
 	const hasLink = link ? true : false;
@@ -38,11 +45,20 @@ const Avatar = ({
 				{display && (
 					<StyledButton circular icon="delete" size="mini" onClick={onDelete} />
 				)}
+
 				{isPending && (
 					<>
-						<StyledLoader active inverted />
-						<Background />
+						<StyledLoader active inverted $size={size} />
+						<Background $size={size} />
 					</>
+				)}
+
+				{uploadEnabled && showButton && (
+					<UploadFile
+						fileId="profile-photo-upload"
+						fileName="profilePhoto"
+						onUpload={onUpload}
+					/>
 				)}
 
 				<StyledAvatar
@@ -86,26 +102,25 @@ const sizeChart = {
 	small: { widthOrHeight: '50px', borderRadius: '25px' },
 };
 
-const Background = styled.div`
+const Background = styled.div<{ $size: Size }>`
 	position: absolute;
-	width: 100px;
-	height: 100px;
-	border-radius: 50px;
-	margin: 10px;
+	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
 	background-color: black;
 	opacity: 0.5;
 `;
 
-const StyledLoader = styled(Loader)`
+const StyledLoader = styled(Loader)<{ $size: Size }>`
 	&&& {
-		left: 60px;
+		left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2);
 	}
 `;
 
 const StyledButton = styled(Button)`
 	position: absolute;
-	top: 0;
-	left: 75px;
+	top: -10px;
+	left: 65px;
 `;
 
 const InnerContainer = styled.div`

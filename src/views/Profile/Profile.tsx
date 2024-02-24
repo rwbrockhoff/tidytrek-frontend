@@ -7,6 +7,7 @@ import { useGetProfileQuery } from '../../queries/profileQueries';
 import { UserViewContext } from '../Dashboard/hooks/useUserContext';
 import { useViewProfileQuery } from '../../queries/guestQueries';
 import { useGetAuthStatusQuery } from '../../queries/userQueries';
+import { HandlerWrapper } from '../Account/ProfileSettings/useProfileHandlers';
 
 const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
@@ -19,11 +20,13 @@ const Profile = ({ userView }: { userView: boolean }) => {
 
 	return (
 		<UserViewContext.Provider value={userView}>
-			<ProfileContainer>
-				{isGuest && <ProfileBanner />}
-				<ProfileHeader userProfile={userProfile} />
-				<PackCardList packThumbnailList={packThumbnailList} />
-			</ProfileContainer>
+			<HandlerWrapper>
+				<ProfileContainer>
+					{isGuest && <ProfileBanner />}
+					<ProfileHeader userProfile={userProfile} />
+					<PackCardList packThumbnailList={packThumbnailList} />
+				</ProfileContainer>
+			</HandlerWrapper>
 		</UserViewContext.Provider>
 	);
 };

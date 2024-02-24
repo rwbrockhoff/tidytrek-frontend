@@ -3,6 +3,7 @@ import Avatar from '../../../shared/ui/Avatar';
 import { type ProfileInfo } from '../../../types/profileTypes';
 import { Header, Icon } from 'semantic-ui-react';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
+import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
 type ProfileHeaderProps = {
 	userProfile: ProfileInfo | undefined;
@@ -14,11 +15,22 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 	const { profilePhotoUrl, backgroundPhotoUrl, userLocation, userBio } =
 		profileSettings || {};
 
+	const {
+		uploadProfilePhoto: { mutate, isPending },
+	} = useHandlers().mutations;
+
 	return (
 		<ProfileHeaderContainer>
 			<BackgroundImage src={backgroundPhotoUrl} />
 			<AvatarContainer>
-				<Avatar withBorder src={profilePhotoUrl} size="large" />
+				<Avatar
+					withBorder
+					uploadEnabled
+					src={profilePhotoUrl}
+					size="large"
+					isPending={isPending}
+					onUpload={mutate}
+				/>
 			</AvatarContainer>
 			<ProfileInfoContainer>
 				<ProfileTextContainer>
