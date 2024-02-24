@@ -68,3 +68,16 @@ export const useDeleteProfilePhotoMutation = () => {
 		},
 	});
 };
+
+export const useUploadBannerPhotoMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (formData: FormData) =>
+			tidyTrekAPI.post('/profile-settings/banner-photo', formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+		},
+	});
+};

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Button, Loader } from 'semantic-ui-react';
 import { CustomLink } from './CustomLinks';
 import { useState } from 'react';
+import Dimmer from './Dimmer';
 import UploadFile from './UploadFile';
 
 const defaultPhotoUrl =
@@ -37,6 +38,8 @@ const Avatar = (props: AvatarProps) => {
 	const hasLink = link ? true : false;
 	const photoSource = src ? src : defaultPhotoUrl;
 	const display = onDelete && src && showButton;
+	const displayDimmer = uploadEnabled && (isPending || showButton);
+
 	return (
 		<CustomLink link={link} enabled={hasLink}>
 			<InnerContainer
@@ -46,19 +49,19 @@ const Avatar = (props: AvatarProps) => {
 					<StyledButton circular icon="delete" size="mini" onClick={onDelete} />
 				)}
 
-				{isPending && (
-					<>
-						<StyledLoader active inverted $size={size} />
-						<Background $size={size} />
-					</>
-				)}
+				{isPending && <StyledLoader active inverted $size={size} />}
+
+				<StyledDimmer $size={size} active={displayDimmer} />
 
 				{uploadEnabled && showButton && (
-					<UploadFile
-						fileId="profile-photo-upload"
-						fileName="profilePhoto"
-						onUpload={onUpload}
-					/>
+					<UploadContainer>
+						<UploadFile
+							fileId="profile-photo-upload"
+							fileName="profilePhoto"
+							isPending={isPending}
+							onUpload={onUpload}
+						/>
+					</UploadContainer>
 				)}
 
 				<StyledAvatar
@@ -76,6 +79,7 @@ const Avatar = (props: AvatarProps) => {
 export default Avatar;
 
 type Size = 'small' | 'medium' | 'big' | 'large';
+const avatarBorderWidth = '3px';
 
 const StyledAvatar = styled.img<{
 	$size?: Size;
@@ -85,7 +89,8 @@ const StyledAvatar = styled.img<{
 	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-	border: ${(props) => (props.$withBorder ? '3px solid white' : 'inherit')};
+	border: ${(props) =>
+		props.$withBorder ? `${avatarBorderWidth} solid white` : 'inherit'};
 	margin: ${(props) => (props.$margin ? props.$margin : 'inherit')};
 	object-fit: cover;
 	opacity: 1;
@@ -102,13 +107,23 @@ const sizeChart = {
 	small: { widthOrHeight: '50px', borderRadius: '25px' },
 };
 
-const Background = styled.div<{ $size: Size }>`
-	position: absolute;
-	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
-	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+// width and height based on Size type (subtracting any added border width)
+const StyledDimmer = styled(Dimmer)<{ $size: Size; withBorder?: boolean }>`
+	width: calc(
+		${(props) => props.$size && sizeChart[props.$size].widthOrHeight} -
+			${avatarBorderWidth}
+	);
+	height: calc(
+		${(props) => props.$size && sizeChart[props.$size].widthOrHeight} -
+			${avatarBorderWidth}
+	);
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-	background-color: black;
-	opacity: 0.5;
+`;
+
+const UploadContainer = styled.div`
+	position: absolute;
+	top: 38px;
+	left: 38px;
 `;
 
 const StyledLoader = styled(Loader)<{ $size: Size }>`

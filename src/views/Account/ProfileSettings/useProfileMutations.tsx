@@ -4,6 +4,7 @@ import {
 	useEditProfileMutation,
 	useUploadProfilePhotoMutation,
 	useDeleteProfilePhotoMutation,
+	useUploadBannerPhotoMutation,
 } from '../../../queries/profileSettingsQueries';
 
 export const useProfileSettingsMutations = () => {
@@ -12,12 +13,13 @@ export const useProfileSettingsMutations = () => {
 	const editProfile = useEditProfileMutation();
 	const uploadProfilePhoto = useUploadProfilePhotoMutation();
 	const deleteProfilePhoto = useDeleteProfilePhotoMutation();
-
+	const uploadBannerPhoto = useUploadBannerPhotoMutation();
 	return {
 		addSocialLink,
 		deleteSocialLink,
 		editProfile,
 		uploadProfilePhoto,
 		deleteProfilePhoto,
+		uploadBannerPhoto,
 	};
 };

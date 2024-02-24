@@ -6,11 +6,18 @@ type UploadFileProps = {
 	fileId: string;
 	fileType?: string;
 	fileName: string;
+	isPending: boolean | undefined;
 	onUpload: ((formData: FormData) => void) | undefined;
 };
 
 const UploadFile = (props: UploadFileProps) => {
-	const { fileId, fileType = 'image/jpg, image/png', fileName, onUpload } = props;
+	const {
+		fileId,
+		fileType = 'image/jpg, image/png',
+		fileName,
+		isPending,
+		onUpload,
+	} = props;
 
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [file, setFile] = useState<globalThis.File | null>();
@@ -46,7 +53,13 @@ const UploadFile = (props: UploadFileProps) => {
 				<UploadLabel htmlFor={fileId}>
 					<Icon name="cloud upload" />
 				</UploadLabel>
-				<UploadInput id={fileId} type="file" accept={fileType} onChange={handleFile} />
+				<UploadInput
+					id={fileId}
+					type="file"
+					accept={fileType}
+					onChange={handleFile}
+					disabled={isPending}
+				/>
 			</form>
 		</UploadContainer>
 	);
@@ -67,9 +80,6 @@ const UploadInput = styled.input`
 const UploadContainer = styled.div`
 	width: 75px;
 	height: 75px;
-	position: absolute;
-	top: 38px;
-	left: 38px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

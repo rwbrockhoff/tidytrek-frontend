@@ -5,6 +5,7 @@ import { Header, Icon } from 'semantic-ui-react';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
+import BannerPhoto from '../ProfileBanner/BannerPhoto';
 
 type ProfileHeaderProps = {
 	userProfile: ProfileInfo | undefined;
@@ -18,20 +19,26 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 		profileSettings || {};
 
 	const {
-		uploadProfilePhoto: { mutate, isPending },
+		uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
+		uploadBannerPhoto: { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto },
 	} = useHandlers().mutations;
 
 	return (
 		<ProfileHeaderContainer>
-			<BackgroundImage src={backgroundPhotoUrl} />
+			<BannerPhoto
+				bannerPhotoUrl={backgroundPhotoUrl}
+				isPending={isPendingBannerPhoto}
+				onUpload={uploadBannerPhoto}
+			/>
+
 			<AvatarContainer>
 				<Avatar
 					withBorder
 					uploadEnabled={userView}
 					src={profilePhotoUrl}
 					size="large"
-					isPending={isPending}
-					onUpload={mutate}
+					isPending={isPendingProfilePhoto}
+					onUpload={uploadProfilePhoto}
 				/>
 			</AvatarContainer>
 			<ProfileInfoContainer>
@@ -62,15 +69,7 @@ export default ProfileHeader;
 
 const ProfileHeaderContainer = styled.div`
 	position: relative;
-`;
-
-const BackgroundImage = styled.img`
-	width: 100%;
-	height: 250px;
-	object-fit: cover;
-	border-top-left-radius: 25px;
-	border-top-right-radius: 25px;
-	margin-bottom: -5px;
+	margin-top: 25px;
 `;
 
 const AvatarContainer = styled.div`

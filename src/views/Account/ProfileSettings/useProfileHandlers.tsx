@@ -17,6 +17,7 @@ type Mutations = {
 	editProfile: InternalMutation<{ userInfo: UserInfo }>;
 	uploadProfilePhoto: InternalMutation<FormData>;
 	deleteProfilePhoto: InternalMutation<void>;
+	uploadBannerPhoto: InternalMutation<FormData>;
 };
 
 type HandlerData = { handlers: Handlers; mutations: Mutations };
