@@ -6,19 +6,21 @@ import PackCardList from '../../components/Profile/PackCard/PackCardList';
 import { useGetProfileQuery } from '../../queries/profileQueries';
 import { UserViewContext } from '../Dashboard/hooks/useUserContext';
 import { useViewProfileQuery } from '../../queries/guestQueries';
+import { useGetAuthStatusQuery } from '../../queries/userQueries';
 
 const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
-
+	const { data: authData } = useGetAuthStatusQuery();
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
 
+	const isGuest = !authData?.isAuthenticated;
 	const userProfile = data?.userProfile;
 	const packThumbnailList = data?.packThumbnailList;
 
 	return (
 		<UserViewContext.Provider value={userView}>
 			<ProfileContainer>
-				<ProfileBanner />
+				{isGuest && <ProfileBanner />}
 				<ProfileHeader userProfile={userProfile} />
 				<PackCardList packThumbnailList={packThumbnailList} />
 			</ProfileContainer>

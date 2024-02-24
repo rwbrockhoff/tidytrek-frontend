@@ -9,9 +9,11 @@ const ProfileBanner = () => {
 			<CustomLink link="/">
 				<StyledHeader as="h2">tidytrek</StyledHeader>
 			</CustomLink>
-			<StyledButton>
-				<CustomLink link={'/register'}>Sign Up</CustomLink>
-			</StyledButton>
+			<RightPanel>
+				<CustomLink link={'/register'}>
+					<StyledButton>Sign Up</StyledButton>
+				</CustomLink>
+			</RightPanel>
 		</BannerContainer>
 	);
 };
@@ -30,9 +32,12 @@ const StyledButton = styled(Button)`
 	&&& {
 		background-color: #338866;
 		color: white;
-		margin-left: auto;
-		margin-right: 50px;
 	}
+`;
+
+const RightPanel = styled.div`
+	margin-left: auto;
+	margin-right: 50px;
 `;
 
 const StyledHeader = styled(Header)`

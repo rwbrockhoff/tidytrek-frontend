@@ -7,7 +7,8 @@ import {
 	Icon,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Pack } from '../../../types/packTypes';
+import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
+import { type Pack } from '../../../types/packTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
@@ -37,6 +38,7 @@ const PackCard = (props: PackCardProps) => {
 						<span>{packPublic ? 'Public' : 'Private'}</span>
 					</CardMeta>
 					<CardDescription>{packDescription}</CardDescription>
+					<PackLabels pack={pack} padded />
 				</CardContent>
 				{userView && (
 					<CardContent extra>
@@ -53,6 +55,7 @@ export default PackCard;
 
 const StyledCard = styled(Card)`
 	&&& {
+		width: 20vw;
 		margin: 15px;
 		a {
 			color: ${(props) => props.theme.primary || 'inherit'};

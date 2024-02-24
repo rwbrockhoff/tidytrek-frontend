@@ -34,4 +34,8 @@ export const cleanUpLink = (link: string) => {
 
 const StyledLink = styled(Link)`
 	color: ${(props) => props.theme.primary || 'inherit'};
+	&:hover {
+		color: ${(props) => props.theme.primary || 'inherit'};
+		opacity: 0.9;
+	}
 `;
