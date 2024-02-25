@@ -2,15 +2,16 @@ import Avatar from '../../../../shared/ui/Avatar';
 import { Popup, PopupContent } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AvatarMenu } from './Menus';
-import { Link } from 'react-router-dom';
+import { CustomLink } from '../../../../shared/ui/CustomLinks';
 
 type PopupMenuProps = {
 	profilePhotoUrl: string | undefined;
+	isMobile: boolean;
 	logout: () => void;
 };
 
 const PopupMenu = (props: PopupMenuProps) => {
-	const { profilePhotoUrl, logout } = props;
+	const { profilePhotoUrl, isMobile, logout } = props;
 	return (
 		<Popup
 			pinned
@@ -20,9 +21,9 @@ const PopupMenu = (props: PopupMenuProps) => {
 			hoverable
 			trigger={
 				<Container>
-					<Link to="/profile">
-						<Avatar src={profilePhotoUrl} size="small" margin="0px" />
-					</Link>
+					<CustomLink link="/profile" enabled={!isMobile}>
+						<Avatar src={profilePhotoUrl} size="small" />
+					</CustomLink>
 				</Container>
 			}>
 			<PopupContent>

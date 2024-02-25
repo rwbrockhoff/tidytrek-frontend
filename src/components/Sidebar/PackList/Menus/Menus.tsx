@@ -25,6 +25,12 @@ export const SidebarMenu = () => {
 	return (
 		<Menu>
 			<li>
+				<Link to="/profile">
+					<Icon name="user outline" />
+					Profile
+				</Link>
+			</li>
+			<li>
 				<Link to="/gear-closet">
 					<Icon name="archive" />
 					Gear Closet

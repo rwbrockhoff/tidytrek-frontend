@@ -109,7 +109,11 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					</Link>
 				</h1>
 
-				<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} logout={handleLogout} />
+				<PopupMenu
+					profilePhotoUrl={user?.profilePhotoUrl}
+					isMobile={isMobile}
+					logout={handleLogout}
+				/>
 
 				<SidebarMenu />
 
