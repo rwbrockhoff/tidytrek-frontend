@@ -45,6 +45,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 		packUrl: '',
 		packAffiliate: false,
 		packAffiliateDescription: '',
+		packViews: 0,
 	});
 
 	useEffect(() => {

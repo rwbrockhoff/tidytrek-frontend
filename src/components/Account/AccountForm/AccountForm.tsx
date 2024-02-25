@@ -55,7 +55,7 @@ const AccountForm = ({
 			<Segment>
 				<Header as="h4">Account Info</Header>
 				<p>
-					<b>Name:</b> {user?.name || 'A Tidy Hiker'}
+					<b>Name:</b> {user?.firstName || 'A Tidy Hiker'}
 				</p>
 				<p>
 					<b>Email:</b> {user?.email || 'No email here. Too busy hiking.'}
