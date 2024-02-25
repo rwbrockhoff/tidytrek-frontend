@@ -15,7 +15,7 @@ export const createTheme = (settings: Settings | undefined) => {
 			userTheme[themeColorName] = themeColor;
 		});
 	} else return tidyTheme;
-	return { ...tidyTheme, userTheme };
+	return { ...tidyTheme, ...userTheme };
 };
 
 export const getThemeAsGuest = (data: PackQueryState | GuestQueryState | undefined) => {

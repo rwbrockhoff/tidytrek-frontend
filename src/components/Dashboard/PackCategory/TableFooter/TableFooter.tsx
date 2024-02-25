@@ -1,6 +1,8 @@
 import { Table, Icon } from 'semantic-ui-react';
 import { Button } from '../../../../shared/ui/SemanticUI';
+import styled from 'styled-components';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { themeBgColor } from '../../../../shared/mixins/mixins';
 
 type TableFooterProps = {
 	itemQuantity: number;
@@ -11,7 +13,7 @@ type TableFooterProps = {
 const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) => {
 	const userView = useUserContext();
 	return (
-		<Table.Footer>
+		<StyledFooter>
 			<Table.Row className="footer-container">
 				<Table.Cell colSpan={userView ? 11 : 12}>
 					{userView && (
@@ -36,8 +38,16 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 					style={{ paddingLeft: userView ? '25px' : 0 }}>{`${weight} lbs`}</Table.Cell>
 				{userView && <Table.Cell colSpan={1}></Table.Cell>}
 			</Table.Row>
-		</Table.Footer>
+		</StyledFooter>
 	);
 };
 
 export default TableFooter;
+
+const StyledFooter = styled(Table.Footer)`
+	&& {
+		${themeBgColor('lightGrey')}
+		font-size: 0.9em;
+		color: grey;
+	}
+`;

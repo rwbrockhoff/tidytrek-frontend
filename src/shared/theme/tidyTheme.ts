@@ -1,7 +1,5 @@
-export type TidyTheme = {
-	lightGrey: '#f0f0f0';
-};
+export type TidyThemeColorName = 'lightGrey';
 
-export const tidyTheme: TidyTheme = {
+export const tidyTheme = {
 	lightGrey: '#f0f0f0',
 };
