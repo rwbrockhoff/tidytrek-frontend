@@ -72,7 +72,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 	};
 
 	const { userBio, userLocation } = userInfo;
-
+	const isMaxLengthBio = userBio.length >= 250;
 	return (
 		<SegmentGroup>
 			<Segment>
@@ -103,7 +103,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 			</Segment>
 			<Segment stacked>
 				<StyledForm onBlur={handleEditProfile}>
-					<FormField $width={'50%'}>
+					<FormField $width={'80%'}>
 						<label>Based In</label>
 						<Input
 							name="userLocation"
@@ -112,16 +112,24 @@ const ProfileForm = (props: ProfileFormProps) => {
 							placeholder="Denver, CO"
 						/>
 					</FormField>
-					<FormField $width={'50%'}>
+					<FormField $width={'80%'}>
 						<label>Profile Bio</label>
 						<TextArea
 							name="userBio"
+							maxLength="250"
 							value={userBio || ''}
 							onChange={handleInput}
 							placeholder="Bio for your profile"
 						/>
 					</FormField>
 				</StyledForm>
+
+				{isMaxLengthBio && (
+					<StyledMessage warning>
+						<Icon name="alarm" /> Woah there, partner. There's a 250 character limit to
+						keep things tidy.
+					</StyledMessage>
+				)}
 
 				<SocialLinks socialLinks={socialLinks} />
 			</Segment>
@@ -139,7 +147,7 @@ export const Segment = styled(SemSegment)`
 `;
 
 const StyledForm = styled(Form)`
-	width: 60%;
+	width: 70%;
 	${mobile(`
 		width: 100%;
 	`)}
@@ -155,4 +163,8 @@ const PhotoContainer = styled.div`
 			margin: 10px;
 		}
 	}
+`;
+
+const StyledMessage = styled(Message)`
+	width: fit-content;
 `;
