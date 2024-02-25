@@ -5,8 +5,10 @@ import {
 	ModalHeader as SemModalHeader,
 	Checkbox as SemCheckbox,
 	Table as SemTable,
+	FormField as SemFormField,
 } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
+import { mobile } from '../mixins/mixins';
 
 export const Button = styled(SemButton)`
 	&&& {
@@ -87,6 +89,13 @@ export const Checkbox = styled(SemCheckbox)`
 				}
 			`};
 	}
+`;
+
+export const FormField = styled(SemFormField)<{ $width: string }>`
+	width: ${({ $width }) => $width};
+	${mobile(`
+			width: 100%;
+		`)}
 `;
 
 // .ui.toggle.checkbox input:checked~label:before {

@@ -1,5 +1,5 @@
-import { Form, Input, FormField, Icon, Header } from 'semantic-ui-react';
-import { Button } from '../../../shared/ui/SemanticUI';
+import { Form, Input, Icon, Header } from 'semantic-ui-react';
+import { Button, FormField } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
 import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
 import { Segment } from './AccountForm';
 import styled from 'styled-components';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PasswordFormProps = {
 	displayForm: boolean;
@@ -44,7 +45,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 			{displayForm && (
 				<>
 					<Form>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>Current Password</label>
 							<Input
 								name="currentPassword"
@@ -54,7 +55,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>New Password</label>
 							<Input
 								name="newPassword"
@@ -64,7 +65,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>Confirm</label>
 							<Input
 								name="confirmNewPassword"
@@ -112,4 +113,9 @@ const ButtonContainer = styled.div`
 			margin: 5px;
 		}
 	}
+
+	${mobile(`
+		width: 100%;
+		margin-top: 25px;
+	`)}
 `;

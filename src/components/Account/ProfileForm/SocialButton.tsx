@@ -11,7 +11,7 @@ type SocialButtonProps = {
 	colorButton?: boolean;
 	color: string;
 	icon: React.ReactNode;
-	deleteEnabled: boolean;
+	deleteEnabled?: boolean;
 	onClick?: (socialName: string | undefined) => void;
 	onDelete?: (socialLinkId: number | undefined) => void | undefined;
 };
@@ -24,7 +24,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 		color,
 		icon,
 		socialLinkUrl,
-		deleteEnabled,
+		deleteEnabled = false,
 		onClick,
 		onDelete,
 	} = props;

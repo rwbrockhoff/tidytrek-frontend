@@ -5,12 +5,12 @@ import socialMediaUI from '../../../shared/theme/SocialMediaUI';
 
 type SocialLinkListProps = {
 	socialLinks: SocialLink[];
-	deleteEnabled: boolean;
+	deleteEnabled?: boolean;
 	colorButton?: boolean;
 	onDelete?: (socialLinkId: number | undefined) => void | undefined;
 };
 const SocialLinkList = (props: SocialLinkListProps) => {
-	const { socialLinks, deleteEnabled, colorButton, onDelete } = props;
+	const { socialLinks, deleteEnabled = false, colorButton, onDelete } = props;
 
 	return (
 		<CurrentLinksContainer>

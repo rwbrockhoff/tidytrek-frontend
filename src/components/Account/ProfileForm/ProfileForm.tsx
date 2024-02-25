@@ -3,12 +3,12 @@ import {
 	Segment as SemSegment,
 	Header,
 	Form,
-	FormField,
 	Input,
 	TextArea,
 	Icon,
 	Message,
 } from 'semantic-ui-react';
+import { FormField } from '../../../shared/ui/SemanticUI';
 import { useState, useEffect, useRef, type ChangeEvent } from 'react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
@@ -22,6 +22,7 @@ import {
 } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type ProfileFormProps = {
 	settings: ProfileSettings | undefined;
@@ -102,7 +103,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 			</Segment>
 			<Segment stacked>
 				<StyledForm onBlur={handleEditProfile}>
-					<FormField>
+					<FormField $width={'50%'}>
 						<label>Based In</label>
 						<Input
 							name="userLocation"
@@ -111,7 +112,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 							placeholder="Denver, CO"
 						/>
 					</FormField>
-					<FormField>
+					<FormField $width={'50%'}>
 						<label>Profile Bio</label>
 						<TextArea
 							name="userBio"
@@ -139,6 +140,9 @@ export const Segment = styled(SemSegment)`
 
 const StyledForm = styled(Form)`
 	width: 60%;
+	${mobile(`
+		width: 100%;
+	`)}
 `;
 
 const PhotoContainer = styled.div`

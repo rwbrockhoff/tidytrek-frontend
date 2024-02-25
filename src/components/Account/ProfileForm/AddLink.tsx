@@ -26,17 +26,20 @@ const AddLink = () => {
 		setSocialLink('');
 	};
 
-	const handleUpdateService = () => {
+	const handleUpdateService = (value: string) => {
 		//update social service icon based on URL
 		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
-			socialLink.includes(social),
+			value.includes(social),
 		);
 		if (socialService === service) return;
 		if (socialService && socialService !== service) return setService(socialService);
 		if (service !== 'custom') setService('custom');
 	};
 
-	const handleInput = (e: ReactInput) => setSocialLink(e.target.value);
+	const handleInput = (e: ReactInput) => {
+		setSocialLink(e.target.value);
+		handleUpdateService(e.target.value);
+	};
 
 	const currentSocial = socialMediaUI[service];
 
@@ -61,7 +64,6 @@ const AddLink = () => {
 										socialName={socialName}
 										color={color}
 										icon={icon}
-										deleteEnabled
 										onClick={handleChangeButton}
 									/>
 								);
@@ -71,7 +73,6 @@ const AddLink = () => {
 				</Popup>
 
 				<Input
-					onBlur={handleUpdateService}
 					placeholder="Paste your link..."
 					value={socialLink}
 					onChange={handleInput}
