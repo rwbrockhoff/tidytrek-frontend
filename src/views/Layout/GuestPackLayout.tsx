@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import { mobile } from '../../shared/mixins/mixins';
 
 const GuestPackLayout = () => {
 	return (
@@ -21,8 +22,7 @@ const GuestViewContainer = styled.div`
 	padding-right: 10vw;
 	padding-bottom: 2vh;
 	padding-top: 5vh;
-
-	@media only screen and (max-width: 768px) {
+	${mobile(`
 		padding: 25px 25px;
-	}
+	`)}
 `;

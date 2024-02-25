@@ -6,6 +6,7 @@ import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 import BannerPhoto from '../BannerPhoto/BannerPhoto';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type ProfileHeaderProps = {
 	userProfile: ProfileInfo | undefined;
@@ -78,10 +79,10 @@ const AvatarContainer = styled.div`
 	position: absolute;
 	top: 200px;
 	left: 50px;
-	@media only screen and (max-width: 768px) {
+	${mobile(`
 		top: 175px;
 		left: calc(50% - 75px);
-	}
+	`)}
 `;
 
 const ProfileInfoContainer = styled.div`
@@ -91,9 +92,6 @@ const ProfileInfoContainer = styled.div`
 	background-color: #e8e8e8;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
-
-	@media only screen and (max-width: 768px) {
-	}
 `;
 
 const ProfileTextContainer = styled.div`
@@ -105,12 +103,12 @@ const ProfileTextContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 
-	@media only screen and (max-width: 768px) {
+	${mobile(`
 		margin: 0px 20px;
 		margin-top: 75px;
 		width: 80vw;
 		justify-content: flex-start;
-	}
+	`)}
 `;
 
 const LocationText = styled.p`

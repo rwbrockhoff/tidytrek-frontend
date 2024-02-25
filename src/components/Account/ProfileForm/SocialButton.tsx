@@ -1,5 +1,6 @@
 import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
+import { flexCenter, wh } from '../../../shared/mixins/mixins';
 import { SocialLinkInfo } from '../../../types/profileTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 
@@ -64,12 +65,9 @@ export const SocialButtonPicker = ({
 
 const CircleButton = styled(Button)<{ $backgroundColor: string }>`
 	&&&& {
-		width: 30px;
-		height: 30px;
+		${wh('30px')}
+		${flexCenter}
 		border-radius: 15px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		background-color: ${(props) =>
 			props.$backgroundColor ? props.$backgroundColor : 'grey'};
 		i {

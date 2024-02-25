@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { mobile } from '../../../../shared/mixins/mixins';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
@@ -50,8 +51,8 @@ const Menu = styled.menu`
 		:hover {
 			opacity: 0.7;
 		}
-		@media only screen and (max-width: 768px) {
+		${mobile(`
 			font-size: 1.2em;
-		}
+		`)}
 	}
 `;

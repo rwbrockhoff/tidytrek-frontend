@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Category } from '../../../../types/packTypes';
 import styled, { useTheme } from 'styled-components';
+import { flexCenter } from '../../../../shared/mixins/mixins';
 
 type PackChartProps = {
 	categories: Category[];
@@ -57,8 +58,6 @@ const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 export default PackChart;
 
 const ChartContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	${flexCenter}
 	width: 100%;
 `;

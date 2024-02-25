@@ -125,7 +125,8 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 export default Sidebar;
 
-const StyledSidebar = styled(SemanticSidebar)<{ $showSidebar: boolean }>`
+type StyleProps = { $showSidebar: boolean };
+const StyledSidebar = styled(SemanticSidebar)<StyleProps>`
 	&&&& {
 		background: #514f59;
 		color: white;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 import { ChangeEvent, FormEvent, useRef, useState, useEffect } from 'react';
+import { flexCenter, wh } from '../mixins/mixins';
 
 type UploadFileProps = {
 	fileId: string;
@@ -78,9 +79,6 @@ const UploadInput = styled.input`
 `;
 
 const UploadContainer = styled.div`
-	width: 75px;
-	height: 75px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	${wh('75px')}
+	${flexCenter}
 `;

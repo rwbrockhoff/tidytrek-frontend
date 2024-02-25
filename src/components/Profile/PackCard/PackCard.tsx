@@ -12,6 +12,7 @@ import { type Pack } from '../../../types/packTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PackCardProps = {
 	pack: Pack;
@@ -62,8 +63,6 @@ const StyledCard = styled(Card)`
 				opacity: 0.8;
 			}
 		}
-		@media only screen and (max-width: 768px) {
-			width: fit-content;
-		}
+		${mobile(`width: fit-content;`)}
 	}
 `;
