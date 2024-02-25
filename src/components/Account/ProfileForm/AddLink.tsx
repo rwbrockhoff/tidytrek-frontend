@@ -3,7 +3,7 @@ import { Button } from '../../../shared/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './SocialButton';
-import socialMediaUI from '../../../shared/ui/SocialMediaUI';
+import socialMediaUI from '../../../shared/theme/SocialMediaUI';
 import { ReactInput } from '../../../types/generalTypes';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
@@ -61,6 +61,7 @@ const AddLink = () => {
 										socialName={socialName}
 										color={color}
 										icon={icon}
+										deleteEnabled
 										onClick={handleChangeButton}
 									/>
 								);

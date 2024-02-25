@@ -1,4 +1,4 @@
-import { isGuestData } from '../../Layout/themeUtils';
+import { isGuestData } from '../../../shared/theme/themeUtils';
 import { InitialState as PackState } from '../../../types/packTypes';
 import { InitialState as GuestState } from '../../../queries/guestQueries';
 

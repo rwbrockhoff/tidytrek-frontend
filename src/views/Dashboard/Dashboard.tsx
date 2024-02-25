@@ -16,7 +16,7 @@ import { usePackItemMutations } from './mutations/usePackItemMutations';
 import { usePackCategoryMutations } from './mutations/usePackCategoryMutations';
 import { useGetAuthStatusQuery } from '../../queries/userQueries';
 import useGuestData from './hooks/useGuestData';
-import { getThemeAsGuest } from '../Layout/themeUtils';
+import { getThemeAsGuest } from '../../shared/theme/themeUtils';
 
 type DashboardProps = { userView: boolean };
 

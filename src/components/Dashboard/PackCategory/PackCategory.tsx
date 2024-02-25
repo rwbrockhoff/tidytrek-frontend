@@ -4,6 +4,7 @@ import {
 	type Category,
 	type PackItem,
 } from '../../../types/packTypes';
+import styled from 'styled-components';
 import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
@@ -67,10 +68,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
-				<div
-					className="table-container"
-					ref={provided.innerRef}
-					{...provided.draggableProps}>
+				<TableContainer ref={provided.innerRef} {...provided.draggableProps}>
 					<Table
 						$themeColor={packCategoryColor}
 						$minimalPadding
@@ -123,10 +121,17 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 						onClickMove={moveItemToCloset}
 						onClickDelete={deleteItem}
 					/>
-				</div>
+				</TableContainer>
 			)}
 		</Draggable>
 	);
 };
 
 export default PackCategory;
+
+const TableContainer = styled.div`
+	width: 100%;
+	text-align: center;
+	margin: 15px 0px;
+	display: flex;
+`;

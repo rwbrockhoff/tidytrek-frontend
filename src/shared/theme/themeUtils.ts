@@ -6,6 +6,7 @@ import {
 	type Settings,
 	type UserTheme,
 } from '../../types/settingsTypes';
+import { tidyTheme } from './tidyTheme';
 
 export const createTheme = (settings: Settings | undefined) => {
 	let userTheme: UserTheme = {};
@@ -13,8 +14,8 @@ export const createTheme = (settings: Settings | undefined) => {
 		settings.themeColors.map(({ themeColorName, themeColor }: ThemeColor) => {
 			userTheme[themeColorName] = themeColor;
 		});
-	} else return {};
-	return userTheme;
+	} else return tidyTheme;
+	return { ...tidyTheme, userTheme };
 };
 
 export const getThemeAsGuest = (data: PackQueryState | GuestQueryState | undefined) => {
