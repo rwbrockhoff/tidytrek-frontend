@@ -22,7 +22,7 @@ export default ProfileBanner;
 
 const BannerContainer = styled.div`
 	height: 5vh;
-	width: 80vw;
+	width: 100%;
 	margin-bottom: 2vh;
 	display: flex;
 	align-items: center;
@@ -37,10 +37,10 @@ const StyledButton = styled(Button)`
 
 const RightPanel = styled.div`
 	margin-left: auto;
-	margin-right: 50px;
+	margin-right: 2vw;
 `;
 
 const StyledHeader = styled(Header)`
 	margin: 0;
-	margin-left: 50px;
+	margin-left: 2vw;
 `;
