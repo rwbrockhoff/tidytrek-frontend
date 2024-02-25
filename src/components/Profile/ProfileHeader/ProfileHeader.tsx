@@ -77,6 +77,10 @@ const AvatarContainer = styled.div`
 	position: absolute;
 	top: 200px;
 	left: 50px;
+	@media only screen and (max-width: 768px) {
+		top: 175px;
+		left: calc(50% - 75px);
+	}
 `;
 
 const ProfileInfoContainer = styled.div`
@@ -86,6 +90,9 @@ const ProfileInfoContainer = styled.div`
 	background-color: #e8e8e8;
 	border-bottom-left-radius: 25px;
 	border-bottom-right-radius: 25px;
+
+	@media only screen and (max-width: 768px) {
+	}
 `;
 
 const ProfileTextContainer = styled.div`
@@ -96,6 +103,13 @@ const ProfileTextContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+
+	@media only screen and (max-width: 768px) {
+		margin: 0px 20px;
+		margin-top: 75px;
+		width: 80vw;
+		justify-content: flex-start;
+	}
 `;
 
 const LocationText = styled.p`

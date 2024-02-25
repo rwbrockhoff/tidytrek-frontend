@@ -12,7 +12,7 @@ const PackCardList = (props: PackCardListProps) => {
 	const packList = packThumbnailList || [];
 	return (
 		<ListContainer>
-			<CardGroup itemsPerRow={4}>
+			<CardGroup itemsPerRow={4} stackable>
 				{packList.map((pack, index) => {
 					return <PackCard key={pack.packId || index} pack={pack} />;
 				})}
