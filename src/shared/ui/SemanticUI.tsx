@@ -90,8 +90,8 @@ export const Checkbox = styled(SemCheckbox)`
 `;
 
 // .ui.toggle.checkbox input:checked~label:before {
-//     background-color: #2185d0!important;
+//     background-color: #2185d0;
 // }
 // .ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before {
-//     background-color: #2185d0!important;
+//     background-color: #2185d0;
 // }

@@ -1,12 +1,13 @@
-import { Table, Input, Popup, Icon, Button } from 'semantic-ui-react';
+import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import './ItemNameCell.css';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
 import Link from '../../../../../shared/ui/Link';
 import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
+import LinkPopup from './LinkPopup';
 
-type OnChange = (e: InputEvent | SelectEvent) => void;
+export type OnChange = (e: InputEvent | SelectEvent) => void;
 
 type ItemNameCellProps = {
 	value: string;
@@ -80,39 +81,3 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 };
 
 export default ItemNameCell;
-
-type LinkPopupProps = {
-	userView: boolean;
-	packItemUrl: string;
-	displayIcon: boolean;
-	onChange: OnChange;
-};
-
-const LinkPopup = (props: LinkPopupProps) => {
-	const { userView, packItemUrl, displayIcon, onChange } = props;
-	if (userView) {
-		return (
-			<Popup
-				on="click"
-				pinned
-				className="url-popup-container"
-				trigger={
-					<Button
-						className="url-icon-button"
-						basic
-						size="mini"
-						style={{ opacity: displayIcon || packItemUrl ? 100 : 0 }}
-						icon={<Icon name="linkify" color={packItemUrl ? 'blue' : 'grey'} />}
-					/>
-				}>
-				<Input
-					name="packItemUrl"
-					value={packItemUrl ?? ''}
-					onChange={onChange}
-					placeholder="Item link"
-					className="url-save-input"
-				/>
-			</Popup>
-		);
-	} else return null;
-};

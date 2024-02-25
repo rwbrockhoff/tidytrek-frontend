@@ -15,11 +15,6 @@
 	color: black;
 }
 
-.ui.mini.basic.icon.button.url-icon-button {
-	background-color: transparent !important;
-	box-shadow: none;
-}
-
 .item-name-cell {
 	position: relative;
 }
