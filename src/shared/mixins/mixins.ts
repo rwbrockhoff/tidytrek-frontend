@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+import { type ThemeColorName } from '../../types/settingsTypes';
 
 export const fontSize = (size: number, base = 16) => `
   font-size: ${size}px; // older browsers fallback
@@ -20,4 +21,12 @@ export const mobile = (customCss: string) => css`
 	@media only screen and (max-width: 768px) {
 		${customCss}
 	}
+`;
+
+export const themeColor = (color: ThemeColorName) => css`
+	color: ${(props) => props.theme[color] || 'inherit'};
+`;
+
+export const themeBgColor = (color: ThemeColorName) => css`
+	background-color: ${(props) => props.theme[color] || 'inherit'};
 `;
