@@ -38,7 +38,7 @@ export const userRoutes = [
 	},
 	{
 		path: '/pk/:packId',
-		element: <GuestPackLayout />,
+		element: <ViewLayout />,
 		children: [{ path: '/pk/:packId', element: <Dashboard userView={false} /> }],
 	},
 	{

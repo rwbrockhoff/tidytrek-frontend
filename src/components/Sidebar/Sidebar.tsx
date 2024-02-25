@@ -37,7 +37,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const { mutate: logout } = useLogoutMutation();
 
 	const packList = packListData?.packList || [];
-	const currentPackId = packData?.pack.packId;
+	const currentPackId = packData?.pack?.packId;
 	const defaultPackId = packListData?.packList[0].packId;
 	const encodedId = defaultPackId ? encode(defaultPackId) : '';
 	const user = userData?.user;
@@ -101,7 +101,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	return (
 		<aside>
 			<StyledSidebar animation="overlay" visible={showSidebar} $showSidebar={showSidebar}>
-				<SidebarButton isSidebar={true} onClick={onToggle} />
+				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<h1>
 					<Link to={`/pack/${encodedId}`} onClick={onToggle}>

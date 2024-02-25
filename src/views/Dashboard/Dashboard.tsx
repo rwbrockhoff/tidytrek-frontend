@@ -14,6 +14,7 @@ import { HandlerWrapper as PackItemHandlerWrapper } from './handlers/usePackItem
 import { HandlerWrapper as PackCategoryHandlerWrapper } from './handlers/usePackCategoryHandlers';
 import { usePackItemMutations } from './mutations/usePackItemMutations';
 import { usePackCategoryMutations } from './mutations/usePackCategoryMutations';
+import { useGetAuthStatusQuery } from '../../queries/userQueries';
 import useGuestData from './hooks/useGuestData';
 import { getThemeAsGuest } from '../Layout/themeUtils';
 
@@ -25,6 +26,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 	const { packId: paramPackId } = useParams();
 
+	const { data: authData } = useGetAuthStatusQuery();
+
 	const { data, isPending } = userView
 		? useGetPackQuery(paramPackId)
 		: useViewPackQuery(paramPackId);
@@ -33,6 +36,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		? useGetPackListQuery()
 		: { data: { packList: [] } };
 
+	const isAuthenticated = authData?.isAuthenticated;
 	const packList = packListData?.packList || [];
 	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
@@ -114,7 +118,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 
 							{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
 
-							{!userView && (
+							{!userView && !isAuthenticated && (
 								<DashboardFooter
 									affiliate={packAffiliate}
 									description={packAffiliateDescription}
