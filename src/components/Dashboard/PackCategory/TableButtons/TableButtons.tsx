@@ -1,5 +1,5 @@
-import { Table, Button, Icon } from 'semantic-ui-react';
-import './TableButtons.css';
+import { Table, Button, Icon, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -23,12 +23,9 @@ type MoveButtonProps = {
 
 export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	return (
-		<button
-			className="table-button"
-			onClick={onToggle}
-			style={{ opacity: display ? 100 : 0 }}>
-			<Icon name="share" color="grey" />
-		</button>
+		<TableButton onClick={onToggle} style={{ opacity: display ? 100 : 0 }}>
+			<Icon name="share" />
+		</TableButton>
 	);
 };
 
@@ -39,12 +36,9 @@ type ButtonProps = {
 
 export const DeleteButton = ({ display, onClickDelete }: ButtonProps) => {
 	return (
-		<button
-			className="table-button"
-			onClick={onClickDelete}
-			style={{ opacity: display ? 100 : 0 }}>
-			<Icon name="trash" color="grey" />
-		</button>
+		<TableButton onClick={onClickDelete} style={{ opacity: display ? 100 : 0 }}>
+			<Icon name="trash" />
+		</TableButton>
 	);
 };
 
@@ -60,12 +54,9 @@ export const MinimizeButton = ({
 	minimize,
 }: MinimizeButtonProps) => {
 	return (
-		<button
-			className="table-button"
-			onClick={minimize}
-			style={{ opacity: display ? 100 : 0 }}>
-			<Icon name={isMinimized ? 'plus' : 'minus'} color="grey" />
-		</button>
+		<TableButton onClick={minimize} style={{ opacity: display ? 100 : 0 }}>
+			<Icon name={isMinimized ? 'plus' : 'minus'} />
+		</TableButton>
 	);
 };
 
@@ -83,9 +74,42 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 export const GripButton = ({ display }: { display: boolean }) => {
 	if (display) {
 		return (
-			<div className="grip-icon">
+			<GripContainer>
 				<i className="fa-solid fa-grip-vertical" />
-			</div>
+			</GripContainer>
 		);
 	} else return null;
 };
+
+export const TableButton = styled(Button)`
+	&&& {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		margin: 0px 0px;
+		padding: 5px;
+		icon:hover {
+			color: black;
+		}
+		input {
+			height: 30px;
+		}
+	}
+`;
+
+export const TableInput = styled(Input)`
+	height: 30px;
+`;
+
+const GripContainer = styled.div`
+	position: absolute;
+	left: -60px;
+	opacity: 0.2;
+	width: 60px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 15px;
+	touch-action: manipulation;
+`;

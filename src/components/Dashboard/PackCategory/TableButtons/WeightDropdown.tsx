@@ -1,4 +1,4 @@
-import './TableButtons.css';
+import styled from 'styled-components';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type WeightDropdownProps = {
@@ -11,16 +11,12 @@ const WeightDropdown = (props: WeightDropdownProps) => {
 	const { unit, onChange } = props;
 	if (userView) {
 		return (
-			<select
-				className="weight-unit-select"
-				name="packItemUnit"
-				value={unit}
-				onChange={(e) => onChange(e)}>
+			<StyledSelect name="packItemUnit" value={unit} onChange={(e) => onChange(e)}>
 				<option value={'oz'}>oz</option>
 				<option value={'lb'}>lb</option>
 				<option value={'g'}>g</option>
 				<option value={'kg'}>kg</option>
-			</select>
+			</StyledSelect>
 		);
 	} else {
 		return <p>{unit}</p>;
@@ -28,3 +24,11 @@ const WeightDropdown = (props: WeightDropdownProps) => {
 };
 
 export default WeightDropdown;
+
+const StyledSelect = styled.select`
+	background-color: transparent;
+	color: #000000af;
+	border-radius: 5px;
+	border: none;
+	outline: none;
+`;

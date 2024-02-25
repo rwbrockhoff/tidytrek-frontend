@@ -1,6 +1,6 @@
-import { Table, Input } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
+import { TableInput } from './TableButtons';
 import { useState } from 'react';
-import './TableButtons.css';
 import { ReactInput } from '../../../../types/generalTypes';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
@@ -26,7 +26,6 @@ const QuantityButton = (props: ButtonProps) => {
 
 	return (
 		<Table.Cell
-			className="table-button"
 			textAlign="center"
 			colSpan={size}
 			disabled={!userView}
@@ -34,7 +33,7 @@ const QuantityButton = (props: ButtonProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<Input
+			<TableInput
 				fluid
 				name="packItemQuantity"
 				value={quantity}
