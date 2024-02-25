@@ -50,5 +50,8 @@ const Menu = styled.menu`
 		:hover {
 			opacity: 0.7;
 		}
+		@media only screen and (max-width: 768px) {
+			font-size: 1.2em;
+		}
 	}
 `;

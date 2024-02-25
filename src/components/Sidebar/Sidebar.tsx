@@ -15,8 +15,15 @@ import PackList from './PackList/PackList';
 import { DragDropContext, type DropResult } from '../../shared/DragDropWrapper';
 import PopupMenu from './PackList/Menus/PopupMenu';
 import { SidebarMenu } from './PackList/Menus/Menus';
+import { SidebarButton } from '../../views/Layout/ViewLayout';
+import useCheckMobile from './useCheckMobile';
 
-const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
+type SidebarProps = {
+	showSidebar: boolean;
+	onToggle: () => void;
+};
+
+const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
@@ -34,6 +41,8 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 	const defaultPackId = packListData?.packList[0].packId;
 	const encodedId = defaultPackId ? encode(defaultPackId) : '';
 	const user = userData?.user;
+
+	const isMobile = useCheckMobile();
 
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
@@ -57,6 +66,11 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 		}
 	}, [currentPackId]);
 
+	useEffect(() => {
+		// toggle sidebar menu for mobile link clicks
+		if (isMobile && showSidebar) onToggle();
+	}, [location.pathname]);
+
 	const handleGetPack = async (packId: number) => {
 		const { pathname } = location;
 		if (currentPackId === undefined) navigate('/');
@@ -65,9 +79,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 		if (pathname !== '/') navigate(`/pack/${encodedId}`);
 	};
 
-	const handleAddPack = () => {
-		addPack();
-	};
+	const handleAddPack = () => addPack();
 
 	const handleLogout = () => {
 		logout();
@@ -88,9 +100,13 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 
 	return (
 		<aside>
-			<StyledSidebar animation="overlay" visible={showSidebar}>
+			<StyledSidebar animation="overlay" visible={showSidebar} $showSidebar={showSidebar}>
+				<SidebarButton isSidebar={true} onClick={onToggle} />
+
 				<h1>
-					<Link to={`/pack/${encodedId}`}>tidytrek</Link>
+					<Link to={`/pack/${encodedId}`} onClick={onToggle}>
+						tidytrek
+					</Link>
 				</h1>
 
 				<PopupMenu profilePhotoUrl={user?.profilePhotoUrl} logout={handleLogout} />
@@ -109,14 +125,14 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
 
 export default Sidebar;
 
-const StyledSidebar = styled(SemanticSidebar)`
+const StyledSidebar = styled(SemanticSidebar)<{ $showSidebar: boolean }>`
 	&&&& {
 		background: #514f59;
 		color: white;
 		height: 100vh;
 		width: 20vw;
 		padding: 5vh 50px;
-
+		position: absolute;
 		h1 {
 			margin-bottom: 50px;
 		}
@@ -125,6 +141,15 @@ const StyledSidebar = styled(SemanticSidebar)`
 		}
 		a:visited {
 			color: white;
+		}
+
+		@media only screen and (max-width: 768px) {
+			width: ${(props) => (props.$showSidebar ? '100vw' : '0vw')};
+			padding: ${(props) => (props.$showSidebar ? '5vh 50px' : 0)};
+
+			h3 {
+				font-size: 2em;
+			}
 		}
 	}
 `;

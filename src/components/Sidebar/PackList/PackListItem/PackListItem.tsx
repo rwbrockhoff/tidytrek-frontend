@@ -31,6 +31,9 @@ const Text = styled.p`
 				opacity: 0.6;
 			}
 		}
+		@media only screen and (max-width: 768px) {
+			font-size: 1.2em;
+		}
 	}
 `;
 
