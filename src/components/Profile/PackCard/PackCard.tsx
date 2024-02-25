@@ -63,5 +63,8 @@ const StyledCard = styled(Card)`
 				opacity: 0.8;
 			}
 		}
+		@media only screen and (max-width: 768px) {
+			width: fit-content;
+		}
 	}
 `;

@@ -5,7 +5,7 @@ import { Header, Icon } from 'semantic-ui-react';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
-import BannerPhoto from '../ProfileBanner/BannerPhoto';
+import BannerPhoto from '../BannerPhoto/BannerPhoto';
 
 type ProfileHeaderProps = {
 	userProfile: ProfileInfo | undefined;
@@ -27,6 +27,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 		<ProfileHeaderContainer>
 			<BannerPhoto
 				bannerPhotoUrl={backgroundPhotoUrl}
+				uploadEnabled={userView}
 				isPending={isPendingBannerPhoto}
 				onUpload={uploadBannerPhoto}
 			/>

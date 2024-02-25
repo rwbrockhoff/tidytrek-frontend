@@ -7,13 +7,15 @@ import { Loader } from 'semantic-ui-react';
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;
 	isPending: boolean;
+	uploadEnabled: boolean;
 	onUpload: (formData: FormData) => void;
 };
 
 const BannerPhoto = (props: BannerPhotoProps) => {
-	const { bannerPhotoUrl, isPending, onUpload } = props;
+	const { bannerPhotoUrl, isPending, uploadEnabled = false, onUpload } = props;
 	const [showUploadMode, setShowUploadMode] = useState(false);
 
+	const dimmerEnabled = uploadEnabled && (isPending || showUploadMode);
 	return (
 		<BannerContainer
 			onMouseOver={() => setShowUploadMode(true)}
@@ -22,9 +24,9 @@ const BannerPhoto = (props: BannerPhotoProps) => {
 
 			{isPending && <StyledLoader active inverted size="big" />}
 
-			<StyledDimmer active={isPending || showUploadMode} />
+			<StyledDimmer active={dimmerEnabled} />
 
-			{showUploadMode && (
+			{showUploadMode && uploadEnabled && (
 				<UploadContainer>
 					<UploadFile
 						fileId="profile-banner-photo"
