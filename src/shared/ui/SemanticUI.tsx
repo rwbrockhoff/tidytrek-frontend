@@ -16,6 +16,13 @@ export const Button = styled(SemButton)`
 				background-color: ${props.theme[props.$themeColor]};
 				color: white;
 			`};
+
+		${(props) =>
+			props.$footerButton &&
+			css`
+				margin-top: 5px;
+				margin-left: 10px;
+			`};
 	}
 `;
 

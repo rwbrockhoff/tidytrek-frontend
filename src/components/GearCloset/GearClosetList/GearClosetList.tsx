@@ -80,7 +80,7 @@ const GearClosetList = ({
 							floated="left"
 							compact
 							basic
-							className="add-item-table-button"
+							$footerButton
 							disabled={isPendingAddItem}
 							onClick={() => addItem()}>
 							<Icon name="add" />

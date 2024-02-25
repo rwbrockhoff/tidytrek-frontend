@@ -1,4 +1,5 @@
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Table, Icon } from 'semantic-ui-react';
+import { Button } from '../../../../shared/ui/SemanticUI';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type TableFooterProps = {
@@ -19,7 +20,7 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 							floated="left"
 							compact
 							basic
-							className="add-item-table-button"
+							$footerButton
 							onClick={handleAddItem}>
 							<Icon name="add" />
 							Add Item

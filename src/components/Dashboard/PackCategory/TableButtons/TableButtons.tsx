@@ -72,12 +72,7 @@ export const MinimizeButton = ({
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
 		<div>
-			<Button
-				color="grey"
-				basic
-				size="small"
-				className="add-item-table-button"
-				onClick={onClick}>
+			<Button color="grey" basic size="small" onClick={onClick}>
 				<Icon name="tree" />
 				Add Category
 			</Button>
