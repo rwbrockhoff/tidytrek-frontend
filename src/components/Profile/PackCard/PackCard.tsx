@@ -55,7 +55,6 @@ export default PackCard;
 
 const StyledCard = styled(Card)`
 	&&& {
-		width: 20vw;
 		margin: 15px;
 		a {
 			color: ${(props) => props.theme.primary || 'inherit'};

@@ -7,7 +7,7 @@ import {
 	type PackItem,
 	type PackListItem,
 } from '../types/packTypes';
-import { packKeys, packListKeys, closetKeys } from './queryKeys';
+import { packKeys, packListKeys, closetKeys, profileKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { getCategoryIdx } from '../utils/packUtils';
 import { HeaderInfo } from '../views/Dashboard/handlers/usePackCategoryHandlers';
@@ -44,6 +44,7 @@ export const useAddNewPackMutation = () => {
 		mutationFn: () => tidyTrekAPI.post('/packs').then((res) => res.data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
 	});
 };
@@ -100,6 +101,7 @@ export const useMovePackMutation = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
 	});
 };
