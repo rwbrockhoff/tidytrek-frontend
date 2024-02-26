@@ -44,7 +44,7 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 
 export default TableFooter;
 
-const StyledFooter = styled(Table.Footer)`
+export const StyledFooter = styled(Table.Footer)`
 	&& {
 		${themeBgColor('lightGrey')}
 		font-size: 0.9em;
