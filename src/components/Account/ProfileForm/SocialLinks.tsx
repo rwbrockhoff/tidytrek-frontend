@@ -2,6 +2,7 @@ import { Icon } from 'semantic-ui-react';
 import { Button } from '../../../shared/ui/SemanticUI';
 import AddLink from './AddLink';
 import styled from 'styled-components';
+import { SubText } from '../../../shared/ui/TidyUI';
 import { SocialLink } from '../../../types/profileTypes';
 import { useState } from 'react';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
@@ -20,9 +21,9 @@ const SocialLinks = (props: SocialLinksProps) => {
 	return (
 		<>
 			<Text style={{ marginTop: 25 }}> Profile Links </Text>
-			<p style={{ opacity: 0.5 }}>
+			<SubText>
 				Add links that others can see on your profile. 4 link maximum to keep things tidy.
-			</p>
+			</SubText>
 
 			<SocialLinkList
 				socialLinks={socialLinks}

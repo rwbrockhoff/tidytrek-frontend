@@ -5,7 +5,7 @@ import { decode } from '../utils/generateDisplayId';
 import { type Pack, type Category } from '../types/packTypes';
 import { type Settings } from '../types/settingsTypes';
 import {
-	type ProfileSettings,
+	type UserProfileWithPack,
 	type SocialLink,
 	type UserProfile,
 } from '../types/profileTypes';
@@ -15,7 +15,7 @@ export type InitialState = {
 	pack: Pack;
 	categories: Category[];
 	settings: Settings;
-	profileSettings: ProfileSettings;
+	userProfile: UserProfile;
 	socialLinks: SocialLink[];
 	user: UserNames;
 };
@@ -38,7 +38,7 @@ export const useViewProfileQuery = (userId: string | undefined) => {
 	const decodedId = userId ? decode(userId) : null;
 	const decodedUserName = !decodedId ? userId : null;
 
-	return useQuery<UserProfile>({
+	return useQuery<UserProfileWithPack>({
 		queryKey: guestKeys.packId(decodedId as number | null),
 		queryFn: () => {
 			const decodedUserId = userId && decode(userId);

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys, profileKeys, userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { InitialState } from '../types/profileTypes';
+import { type UserInfo } from '../types/profileTypes';
 
 export const useGetProfileSettingsQuery = () =>
 	useQuery<InitialState>({
@@ -34,7 +35,7 @@ export const useDeleteSocialLinkMutation = () => {
 export const useEditProfileMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (profileInfo: { userLocation: string; userBio: string }) =>
+		mutationFn: (profileInfo: UserInfo) =>
 			tidyTrekAPI.put('/profile-settings/', profileInfo),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });

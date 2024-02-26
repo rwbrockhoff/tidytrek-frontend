@@ -3,19 +3,14 @@ import ProfileForm from '../../../components/Account/ProfileForm/ProfileForm';
 import { useGetProfileSettingsQuery } from '../../../queries/profileSettingsQueries';
 import { HandlerWrapper } from './useProfileHandlers';
 
-export type UserInfo = {
-	userBio: string;
-	userLocation: string;
-};
-
 const ProfileSettings = () => {
 	const { data } = useGetProfileSettingsQuery();
-	const { profileSettings, socialLinks = [] } = data || {};
+	const { profileInfo, socialLinks = [] } = data || {};
 
 	return (
 		<HandlerWrapper>
 			<Container>
-				<ProfileForm settings={profileSettings} socialLinks={socialLinks} />
+				<ProfileForm profileInfo={profileInfo} socialLinks={socialLinks} />
 			</Container>
 		</HandlerWrapper>
 	);

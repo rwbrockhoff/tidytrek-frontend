@@ -1,4 +1,4 @@
-import { UserInfo } from './ProfileSettings';
+import { type UserInfo } from '../../../types/profileTypes';
 import { useProfileSettingsMutations } from './useProfileMutations';
 import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 import { createContext, useContext } from 'react';
@@ -14,7 +14,7 @@ type Handlers = {
 type Mutations = {
 	addSocialLink: InternalMutation<{ service: string; socialLink: string }>;
 	deleteSocialLink: InternalMutation<{ socialLinkId: number | undefined }>;
-	editProfile: InternalMutation<{ userInfo: UserInfo }>;
+	editProfile: InternalMutation<UserInfo>;
 	uploadProfilePhoto: InternalMutation<FormData>;
 	deleteProfilePhoto: InternalMutation<void>;
 	uploadBannerPhoto: InternalMutation<FormData>;

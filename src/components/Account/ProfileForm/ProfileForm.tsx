@@ -7,50 +7,61 @@ import {
 	Icon,
 	Message,
 } from 'semantic-ui-react';
-import { Header } from '../../../shared/ui/SemanticUI';
-import { FormField } from '../../../shared/ui/SemanticUI';
+import { Header, FormField } from '../../../shared/ui/SemanticUI';
+import { SubText } from '../../../shared/ui/TidyUI';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
+import { type SocialLink, type ProfileInfo } from '../../../types/profileTypes';
 import Avatar from '../../../shared/ui/Avatar';
 import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { mobile } from '../../../shared/mixins/mixins';
+import useNestedError from './useNestedError';
 
 type ProfileFormProps = {
-	settings: ProfileSettings | undefined;
+	profileInfo: ProfileInfo | undefined;
 	socialLinks: SocialLink[];
 };
 
 const ProfileForm = (props: ProfileFormProps) => {
-	const { settings, socialLinks } = props;
+	const { profileInfo, socialLinks } = props;
 
-	const [userInfo, setUserInfo] = useState({ userBio: '', userLocation: '' });
+	const [userInfo, setUserInfo] = useState({
+		userBio: '',
+		userLocation: '',
+		username: '',
+		trailName: '',
+	});
 
 	const { handlers, mutations } = useHandlers();
-	const { editProfile, deleteProfilePhoto } = handlers;
+	const { deleteProfilePhoto } = handlers;
 	const {
 		uploadProfilePhoto: {
 			mutate: uploadProfilePhoto,
 			isPending: isUploadingPhoto,
 			isError: isUploadError,
 		},
+		editProfile: { mutate: editProfile, error, isError },
 	} = mutations;
 
 	useEffect(() => {
-		if (settings) {
-			const { userBio, userLocation } = settings;
-			setUserInfo({ userBio, userLocation });
+		if (profileInfo) {
+			const { userBio, userLocation, username, trailName } = profileInfo;
+			setUserInfo({ userBio, userLocation, username, trailName });
 		}
-	}, [settings]);
+	}, [profileInfo]);
 
 	const handleInput = (e: InputEvent | TextAreaEvent) => setFormInput(e, setUserInfo);
 
-	const handleEditProfile = () => editProfile({ userBio, userLocation });
+	const handleEditProfile = () => editProfile(userInfo);
 
-	const { userBio, userLocation } = userInfo;
+	const { userBio, userLocation, username, trailName } = userInfo;
+
 	const isMaxLengthBio = userBio && userBio.length >= 250;
+
+	const errorMessage = isError && useNestedError(error);
+
 	return (
 		<SegmentGroup>
 			<Segment>
@@ -63,7 +74,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 					</Header>
 					<SubText>You can upload .jpg or .png photos.</SubText>
 					<Avatar
-						src={settings?.profilePhotoUrl}
+						src={profileInfo?.profilePhotoUrl}
 						size="big"
 						uploadEnabled
 						onDelete={deleteProfilePhoto}
@@ -80,6 +91,25 @@ const ProfileForm = (props: ProfileFormProps) => {
 			</Segment>
 			<Segment stacked>
 				<StyledForm onBlur={handleEditProfile}>
+					<FormField $width={'80%'} error={isError}>
+						<label>Username</label>
+						<Input
+							name="username"
+							value={username || ''}
+							onChange={handleInput}
+							placeholder=""
+						/>
+						{isError && <label>{errorMessage}</label>}
+					</FormField>
+					<FormField $width={'80%'}>
+						<label>Trail Name</label>
+						<Input
+							name="trailName"
+							value={trailName || ''}
+							onChange={handleInput}
+							placeholder=""
+						/>
+					</FormField>
 					<FormField $width={'80%'}>
 						<label>Based In</label>
 						<Input
@@ -140,11 +170,6 @@ const PhotoContainer = styled.div`
 			margin: 10px;
 		}
 	}
-`;
-
-const SubText = styled.p`
-	font-size: 0.9em;
-	opacity: 0.7;
 `;
 
 const StyledMessage = styled(Message)`

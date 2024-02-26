@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Avatar from '../../../shared/ui/Avatar';
-import { type ProfileInfo } from '../../../types/profileTypes';
+import { type UserProfile } from '../../../types/profileTypes';
 import { Icon } from 'semantic-ui-react';
 import { Header } from '../../../shared/ui/SemanticUI';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
@@ -10,18 +10,24 @@ import BannerPhoto from '../BannerPhoto/BannerPhoto';
 import { mobile } from '../../../shared/mixins/mixins';
 
 type ProfileHeaderProps = {
-	userProfile: ProfileInfo | undefined;
+	userProfile: UserProfile | undefined;
 };
 
 const ProfileHeader = (props: ProfileHeaderProps) => {
 	const userView = useUserContext();
 	const { userProfile } = props;
-	const { profileSettings, socialLinks, user } = userProfile || {};
 
-	const { profilePhotoUrl, bannerPhotoUrl, userLocation, userBio } =
-		profileSettings || {};
+	const { socialLinks, profileInfo } = userProfile || {};
 
-	const { username, firstName, trailName } = user || {};
+	const {
+		profilePhotoUrl,
+		bannerPhotoUrl,
+		userLocation,
+		userBio,
+		username,
+		trailName,
+		firstName,
+	} = profileInfo || {};
 
 	const {
 		uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
@@ -50,7 +56,8 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 			<ProfileInfoContainer>
 				<ProfileTextContainer>
 					<UsernameHeader as="h3">
-						{username || firstName || 'Tidy Hiker'} <span>({trailName})</span>
+						{username || firstName || 'Tidy Hiker'}
+						{trailName && <span>({trailName})</span>}
 					</UsernameHeader>
 
 					<InnerContainer>

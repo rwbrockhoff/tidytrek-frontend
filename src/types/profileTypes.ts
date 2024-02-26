@@ -1,26 +1,34 @@
 import { Pack } from './packTypes';
-import { UserNames } from './userTypes';
 
 export type InitialState = {
-	profileSettings: ProfileSettings;
+	profileInfo: ProfileInfo;
 	socialLinks: SocialLink[];
 };
 
-export type ProfileSettings = {
+export type ProfileInfo = {
 	userBio: string;
 	userLocation: string;
+	firstName: string;
+	username: string;
+	trailName: string;
 	profilePhotoUrl: string;
 	bannerPhotoUrl: string;
 };
 
-export type ProfileInfo = {
-	profileSettings: ProfileSettings;
-	socialLinks: SocialLink[];
-	user: UserNames;
+export type UserInfo = {
+	userBio: string;
+	userLocation: string;
+	username: string;
+	trailName: string;
 };
 
 export type UserProfile = {
-	userProfile: ProfileInfo;
+	profileInfo: ProfileInfo;
+	socialLinks: SocialLink[];
+};
+
+export type UserProfileWithPack = {
+	userProfile: UserProfile;
 	packThumbnailList: Pack[];
 };
 
