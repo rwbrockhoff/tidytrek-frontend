@@ -11,6 +11,7 @@ export type RegisterUser = {
 	firstName: string;
 	lastName: string;
 	username: string;
+	trailName: string;
 	email: string;
 	password: string;
 	confirmPassword: string;

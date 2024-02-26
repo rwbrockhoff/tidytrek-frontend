@@ -31,6 +31,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 		firstName: '',
 		lastName: '',
 		username: '',
+		trailName: '',
 		email: '',
 		password: '',
 		confirmPassword: '',

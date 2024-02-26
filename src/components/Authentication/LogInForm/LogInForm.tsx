@@ -2,14 +2,15 @@ import { Link } from 'react-router-dom';
 import { Form, Segment, FormCheckbox } from 'semantic-ui-react';
 import { Button, Header } from '../../../shared/ui/SemanticUI';
 import { FormContainer, FooterText, FormMessage } from '../FormComponents';
-import { FormError, ReactInput } from '../../../types/generalTypes';
-import { type CheckboxEvent } from '../../../shared/formHelpers';
+import { FormError } from '../../../types/generalTypes';
+import { type InputEvent, type CheckboxEvent } from '../../../shared/formHelpers';
+import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
 	formError: FormError;
-	onFormChange: (e: ReactInput | CheckboxEvent) => void;
+	onFormChange: (e: InputEvent | CheckboxEvent) => void;
 	onSubmit: () => void;
 };
 
@@ -28,42 +29,9 @@ const LogInForm = ({
 					<Header as="h3" $themeColor="tidyGreen">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
-					{isRegisterForm && (
-						<>
-							<Form.Group>
-								<Form.Input
-									icon="user"
-									iconPosition="left"
-									placeholder="First Name"
-									name="firstName"
-									data-testid="first-name-input"
-									type="name"
-									width={8}
-									onChange={onFormChange}
-								/>
-								<Form.Input
-									icon="user"
-									iconPosition="left"
-									placeholder="Last Name"
-									name="lastName"
-									data-testid="last-name-input"
-									type="name"
-									width={8}
-									onChange={onFormChange}
-								/>
-							</Form.Group>
-							<Form.Input
-								fluid
-								icon="user"
-								iconPosition="left"
-								placeholder="Username (optional)"
-								name="username"
-								data-testid="username-input"
-								type="name"
-								onChange={onFormChange}
-							/>
-						</>
-					)}
+
+					{isRegisterForm && <RegisterFormSection onFormChange={onFormChange} />}
+
 					<Form.Input
 						fluid
 						icon="at"
