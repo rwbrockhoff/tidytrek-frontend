@@ -6,6 +6,7 @@ export type InitialState = {
 };
 
 export type ProfileInfo = {
+	userId: number;
 	userBio: string;
 	userLocation: string;
 	firstName: string;

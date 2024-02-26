@@ -14,24 +14,21 @@ import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
-import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
+import { type UserProfile } from '../../../types/profileTypes';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import { type UserNames } from '../../../types/userTypes';
 import { type Settings } from '../../../types/settingsTypes';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
-	user: UserNames | null;
-	profile: ProfileSettings | null;
+	userProfile: UserProfile | undefined;
 	settings: Settings | null;
-	socialLinks: SocialLink[] | null;
 	fetching: boolean;
 };
 
 const PackInfo = (props: PackInfoProps) => {
-	const { fetching, currentPack, packCategories, user, profile, settings, socialLinks } =
-		props;
+	const { fetching, currentPack, packCategories, userProfile, settings } = props;
+	const { profileInfo, socialLinks } = userProfile || {};
 
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
@@ -69,7 +66,6 @@ const PackInfo = (props: PackInfoProps) => {
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
-	const { profilePhotoUrl } = profile || {};
 	const { publicProfile } = settings || {};
 
 	return (
@@ -80,9 +76,8 @@ const PackInfo = (props: PackInfoProps) => {
 				onMouseLeave={() => setShowIcon(false)}>
 				{!userView && (
 					<ProfileInfo
-						profilePhotoUrl={profilePhotoUrl}
+						userInfo={profileInfo}
 						socialLinks={socialLinks}
-						user={user}
 						publicProfile={publicProfile}
 					/>
 				)}

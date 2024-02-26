@@ -1,22 +1,20 @@
 import Avatar from '../../../../shared/ui/Avatar';
 import { Header } from 'semantic-ui-react';
-import { SocialLink } from '../../../../types/profileTypes';
+import { type ProfileInfo, type SocialLink } from '../../../../types/profileTypes';
 import SocialLinkList from '../../../Account/ProfileForm/SocialLinkList';
 import styled from 'styled-components';
-import { type UserNames } from '../../../../types/userTypes';
 import { CustomLink } from '../../../../shared/ui/CustomLinks';
 import { encode } from '../../../../utils/generateDisplayId';
 
 type ProfileInfoProps = {
-	profilePhotoUrl: string | undefined;
-	socialLinks: SocialLink[] | null;
-	user: UserNames | null;
+	userInfo: ProfileInfo | undefined;
+	socialLinks: SocialLink[] | undefined;
 	publicProfile: boolean | undefined;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
-	const { profilePhotoUrl, publicProfile, socialLinks, user } = props;
-	const { username, firstName, userId } = user || {};
+	const { userInfo, socialLinks, publicProfile } = props;
+	const { username, firstName, userId, profilePhotoUrl } = userInfo || {};
 
 	const userBasedUrl = username || (userId && encode(userId));
 	return (

@@ -4,20 +4,13 @@ import { guestKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { type Pack, type Category } from '../types/packTypes';
 import { type Settings } from '../types/settingsTypes';
-import {
-	type UserProfileWithPack,
-	type SocialLink,
-	type UserProfile,
-} from '../types/profileTypes';
-import { type UserNames } from '../types/userTypes';
+import { type UserProfileWithPack, type UserProfile } from '../types/profileTypes';
 
 export type InitialState = {
 	pack: Pack;
 	categories: Category[];
 	settings: Settings;
 	userProfile: UserProfile;
-	socialLinks: SocialLink[];
-	user: UserNames;
 };
 
 export const useViewPackQuery = (packId: string | undefined) => {

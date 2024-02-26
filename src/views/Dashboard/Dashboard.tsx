@@ -43,7 +43,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const packId = data?.pack.packId || null;
 
 	//--Guest View Data--//
-	const { user, profile, socialLinks, settings } = useGuestData(data);
+	const { userProfile, settings } = useGuestData(data);
 	const theme = getThemeAsGuest(data);
 	//--Guest View Data--//
 
@@ -95,10 +95,8 @@ const Dashboard = ({ userView }: DashboardProps) => {
 							<PackInfo
 								currentPack={currentPack}
 								packCategories={packCategories}
-								user={user}
-								profile={profile}
+								userProfile={userProfile}
 								settings={settings}
-								socialLinks={socialLinks}
 								fetching={isPending}
 							/>
 

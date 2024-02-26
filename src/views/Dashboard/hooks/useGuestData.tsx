@@ -6,8 +6,8 @@ const useGuestData = (data: PackState | GuestState | undefined) => {
 	const isGuest = isGuestData(data);
 
 	if (isGuest) {
-		const { user, profileSettings, settings, socialLinks } = data;
-		return { user, profile: profileSettings, settings, socialLinks };
+		const { userProfile, settings } = data;
+		return { userProfile, settings };
 	} else return { user: null, theme: {}, profile: null, settings: null, socialLinks: [] };
 };
 
