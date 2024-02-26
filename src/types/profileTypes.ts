@@ -10,7 +10,7 @@ export type ProfileSettings = {
 	userBio: string;
 	userLocation: string;
 	profilePhotoUrl: string;
-	backgroundPhotoUrl: string;
+	bannerPhotoUrl: string;
 };
 
 export type ProfileInfo = {

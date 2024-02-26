@@ -16,7 +16,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 	const userView = useUserContext();
 	const { userProfile } = props;
 	const { profileSettings, socialLinks, user } = userProfile || {};
-	const { profilePhotoUrl, backgroundPhotoUrl, userLocation, userBio } =
+	const { profilePhotoUrl, bannerPhotoUrl, userLocation, userBio } =
 		profileSettings || {};
 
 	const {
@@ -27,7 +27,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 	return (
 		<ProfileHeaderContainer>
 			<BannerPhoto
-				bannerPhotoUrl={backgroundPhotoUrl}
+				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}
 				isPending={isPendingBannerPhoto}
 				onUpload={uploadBannerPhoto}

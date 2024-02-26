@@ -72,7 +72,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 	};
 
 	const { userBio, userLocation } = userInfo;
-	const isMaxLengthBio = userBio.length >= 250;
+	const isMaxLengthBio = userBio && userBio.length >= 250;
 	return (
 		<SegmentGroup>
 			<Segment>

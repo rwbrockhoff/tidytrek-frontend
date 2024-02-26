@@ -17,6 +17,7 @@ import PopupMenu from './PackList/Menus/PopupMenu';
 import { SidebarMenu } from './PackList/Menus/Menus';
 import { SidebarButton } from '../../views/Layout/ViewLayout';
 import useCheckMobile from './useCheckMobile';
+import { Header } from '../../shared/ui/SemanticUI';
 
 type SidebarProps = {
 	showSidebar: boolean;
@@ -103,11 +104,9 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			<StyledSidebar animation="overlay" visible={showSidebar} $showSidebar={showSidebar}>
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
-				<h1>
-					<Link to={`/pack/${encodedId}`} onClick={onToggle}>
-						tidytrek
-					</Link>
-				</h1>
+				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
+					<Header as="h1">tidytrek</Header>
+				</Link>
 
 				<PopupMenu
 					profilePhotoUrl={user?.profilePhotoUrl}
@@ -144,6 +143,7 @@ const StyledSidebar = styled(SemanticSidebar)<StyleProps>`
 		h3 {
 			color: white;
 		}
+		a,
 		a:visited {
 			color: white;
 		}
