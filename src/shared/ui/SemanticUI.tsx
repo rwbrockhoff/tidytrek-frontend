@@ -1,6 +1,7 @@
 import {
 	Button as SemButton,
 	Input as SemInput,
+	Header as SemHeader,
 	Icon as SemIcon,
 	ModalHeader as SemModalHeader,
 	Checkbox as SemCheckbox,
@@ -25,6 +26,9 @@ export const Button = styled(SemButton)`
 				margin-top: 5px;
 				margin-left: 10px;
 			`};
+		&:hover {
+			filter: brightness(95%);
+		}
 	}
 `;
 
@@ -33,6 +37,17 @@ export const Input = styled(SemInput)`
 		input:focus {
 			border-color: ${(props) => props.theme.primary};
 		}
+	}
+`;
+
+export const Header = styled(SemHeader)<{ $marginBottom?: string }>`
+	&&& {
+		${(props) =>
+			props.$themeColor &&
+			css`
+				color: ${props.theme[props.$themeColor]};
+			`};
+		margin-bottom: ${(props) => (props.$marginBottom ? props.$marginBottom : '1rem')};
 	}
 `;
 

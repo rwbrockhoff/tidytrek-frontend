@@ -1,5 +1,4 @@
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
-import { Grid } from 'semantic-ui-react';
 import { useState } from 'react';
 import { setFormInput } from '../../shared/formHelpers';
 import { useValidateForm } from './useValidateForm';
@@ -8,6 +7,7 @@ import { useCombinePendingStatus, type MutationPending } from './useCombinePendi
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
 import { type RegisterUser } from '../../types/userTypes';
 import { CheckboxEvent, InputEvent, isInputEvent } from '../../shared/formHelpers';
+import { AuthContainer } from '../../components/Authentication/FormComponents';
 
 const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const loginData = useLoginMutation();
@@ -58,7 +58,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	};
 
 	return (
-		<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+		<AuthContainer>
 			<LogInForm
 				isRegisterForm={isRegisterForm}
 				isLoading={isPending}
@@ -66,7 +66,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 				onFormChange={handleFormChange}
 				onSubmit={handleFormSubmit}
 			/>
-		</Grid>
+		</AuthContainer>
 	);
 };
 

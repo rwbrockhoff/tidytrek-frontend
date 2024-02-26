@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Button } from '../../../shared/ui/SemanticUI';
 import { Header } from 'semantic-ui-react';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
+import { themeBgColor } from '../../../shared/mixins/mixins';
 
 const ProfileBanner = () => {
 	return (
@@ -30,7 +31,7 @@ const BannerContainer = styled.div`
 
 const StyledButton = styled(Button)`
 	&&& {
-		background-color: #338866;
+		${themeBgColor('tidyGreen')}
 		color: white;
 	}
 `;

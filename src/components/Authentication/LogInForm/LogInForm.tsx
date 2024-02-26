@@ -1,17 +1,8 @@
 import { Link } from 'react-router-dom';
-import {
-	Button,
-	Form,
-	Grid,
-	Header,
-	Icon,
-	Message,
-	Segment,
-	FormCheckbox,
-} from 'semantic-ui-react';
-import './LogInForm.css';
+import { Form, Segment, FormCheckbox } from 'semantic-ui-react';
+import { Button, Header } from '../../../shared/ui/SemanticUI';
+import { FormContainer, FooterText, FormMessage } from '../FormComponents';
 import { FormError, ReactInput } from '../../../types/generalTypes';
-import DisplayWrapper from '../../../shared/ui/DisplayWrapper';
 import { type CheckboxEvent } from '../../../shared/formHelpers';
 
 type FormProps = {
@@ -30,13 +21,11 @@ const LogInForm = ({
 	onSubmit,
 }: FormProps) => {
 	return (
-		<Grid.Column style={{ maxWidth: 450 }}>
-			<Header as="h1" textAlign="center">
-				tidytrek app
-			</Header>
+		<FormContainer>
+			<Header as="h1">tidytrek</Header>
 			<Form size="large">
 				<Segment stacked>
-					<Header as="h2" color="blue" textAlign="center">
+					<Header as="h3" $themeColor="tidyGreen">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
 					{isRegisterForm && (
@@ -116,32 +105,38 @@ const LogInForm = ({
 						</>
 					)}
 
-					<Button color="blue" fluid size="large" disabled={isLoading} onClick={onSubmit}>
+					<Button
+						$themeColor="tidyGreen"
+						fluid
+						size="large"
+						disabled={isLoading}
+						onClick={onSubmit}>
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 
-					<DisplayWrapper display={formError.error}>
-						<Message color="red" data-testid="error-message">
-							<Icon name="hand point right outline" />
-							{formError.message || 'Oops! There was an error.'}
-						</Message>
-					</DisplayWrapper>
+					{formError.error && (
+						<FormMessage
+							messageType="error"
+							text={formError.message || 'Oops! There was an error.'}
+							id="login-form-message"
+						/>
+					)}
 
-					<DisplayWrapper display={isRegisterForm}>
-						<p style={{ marginTop: '25px' }}>
+					{isRegisterForm && (
+						<FooterText>
 							Already have an account? <Link to={'/'}>Log In</Link>
-						</p>
-					</DisplayWrapper>
+						</FooterText>
+					)}
 
-					<DisplayWrapper display={!isRegisterForm}>
-						<p style={{ marginTop: '25px' }}>
+					{!isRegisterForm && (
+						<FooterText>
 							<Link to={'/register'}>Sign Up</Link> |{' '}
 							<Link to={'/reset-password'}>Forgot Your Password</Link>
-						</p>
-					</DisplayWrapper>
+						</FooterText>
+					)}
 				</Segment>
 			</Form>
-		</Grid.Column>
+		</FormContainer>
 	);
 };
 
