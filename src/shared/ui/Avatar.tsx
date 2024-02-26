@@ -41,32 +41,33 @@ const Avatar = (props: AvatarProps) => {
 
 	return (
 		<CustomLink link={link} enabled={hasLink}>
-			<InnerContainer
+			<OuterContainer
 				$size={size}
 				$withBorder={withBorder}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
 				{display && (
-					<StyledButton circular icon="delete" size="mini" onClick={onDelete} />
+					<DeleteButton circular icon="delete" size="mini" onClick={onDelete} />
 				)}
+				<InnerContainer $size={size} $withBorder={withBorder}>
+					{isPending && <StyledLoader active inverted $size={size} />}
 
-				{isPending && <StyledLoader active inverted $size={size} />}
+					<StyledDimmer active={displayDimmer} />
 
-				<StyledDimmer active={displayDimmer} />
+					{uploadEnabled && showButton && (
+						<UploadContainer $size={size}>
+							<UploadFile
+								fileId="profile-photo-upload"
+								fileName="profilePhoto"
+								isPending={isPending}
+								onUpload={onUpload}
+							/>
+						</UploadContainer>
+					)}
 
-				{uploadEnabled && showButton && (
-					<UploadContainer $size={size}>
-						<UploadFile
-							fileId="profile-photo-upload"
-							fileName="profilePhoto"
-							isPending={isPending}
-							onUpload={onUpload}
-						/>
-					</UploadContainer>
-				)}
-
-				<StyledAvatar src={photoSource} $size={size} alt="user profile photo" />
-			</InnerContainer>
+					<StyledAvatar src={photoSource} $size={size} alt="user profile photo" />
+				</InnerContainer>
+			</OuterContainer>
 		</CustomLink>
 	);
 };
@@ -92,6 +93,12 @@ const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
 	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
 	${flexCenter};
+`;
+
+const OuterContainer = styled(InnerContainer)`
+	overflow: visible;
+	border: none;
+	border-radius: 0px;
 `;
 
 const StyledAvatar = styled.img<{ $size?: Size }>`
@@ -121,8 +128,9 @@ const StyledLoader = styled(Loader)<{ $size: Size }>`
 	}
 `;
 
-const StyledButton = styled(Button)`
+const DeleteButton = styled(Button)`
 	position: absolute;
+	z-index: 1;
 	top: -10px;
 	left: 65px;
 `;

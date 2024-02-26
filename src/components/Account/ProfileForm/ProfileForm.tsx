@@ -58,6 +58,10 @@ const ProfileForm = (props: ProfileFormProps) => {
 					Profile Settings
 				</Header>
 				<PhotoContainer>
+					<Header as="h5" $marginBottom="0">
+						Avatar
+					</Header>
+					<SubText>You can upload .jpg or .png photos.</SubText>
 					<Avatar
 						src={settings?.profilePhotoUrl}
 						size="big"
@@ -136,6 +140,11 @@ const PhotoContainer = styled.div`
 			margin: 10px;
 		}
 	}
+`;
+
+const SubText = styled.p`
+	font-size: 0.9em;
+	opacity: 0.7;
 `;
 
 const StyledMessage = styled(Message)`
