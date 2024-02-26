@@ -1,25 +1,19 @@
 import {
 	SegmentGroup,
 	Segment as SemSegment,
-	Header,
 	Form,
 	Input,
 	TextArea,
 	Icon,
 	Message,
 } from 'semantic-ui-react';
+import { Header } from '../../../shared/ui/SemanticUI';
 import { FormField } from '../../../shared/ui/SemanticUI';
-import { useState, useEffect, useRef, type ChangeEvent } from 'react';
-import { Button } from '../../../shared/ui/SemanticUI';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ProfileSettings, SocialLink } from '../../../types/profileTypes';
 import Avatar from '../../../shared/ui/Avatar';
-import {
-	setFormInput,
-	InputEvent,
-	TextAreaEvent,
-	FormEvent,
-} from '../../../shared/formHelpers';
+import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { mobile } from '../../../shared/mixins/mixins';
@@ -33,13 +27,15 @@ const ProfileForm = (props: ProfileFormProps) => {
 	const { settings, socialLinks } = props;
 
 	const [userInfo, setUserInfo] = useState({ userBio: '', userLocation: '' });
-	const [file, setFile] = useState<globalThis.File | null>();
-	const formRef = useRef<HTMLFormElement | null>(null);
 
 	const { handlers, mutations } = useHandlers();
 	const { editProfile, deleteProfilePhoto } = handlers;
 	const {
-		uploadProfilePhoto: { mutate, isPending: isUploadingPhoto, isError: isUploadError },
+		uploadProfilePhoto: {
+			mutate: uploadProfilePhoto,
+			isPending: isUploadingPhoto,
+			isError: isUploadError,
+		},
 	} = mutations;
 
 	useEffect(() => {
@@ -53,46 +49,23 @@ const ProfileForm = (props: ProfileFormProps) => {
 
 	const handleEditProfile = () => editProfile({ userBio, userLocation });
 
-	const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
-		if (event.target.files) {
-			const file = event.target.files[0];
-			setFile(file);
-		}
-	};
-
-	const handleSubmitForm = async (e: FormEvent) => {
-		e.preventDefault();
-		if (file) {
-			const formData = new FormData();
-			formData.append('profilePhoto', file);
-			mutate(formData);
-			formRef?.current && formRef.current.reset();
-			setFile(null);
-		}
-	};
-
 	const { userBio, userLocation } = userInfo;
 	const isMaxLengthBio = userBio && userBio.length >= 250;
 	return (
 		<SegmentGroup>
 			<Segment>
-				<Header as="h4">Profile Settings</Header>
+				<Header as="h4" $marginBottom="2rem">
+					Profile Settings
+				</Header>
 				<PhotoContainer>
 					<Avatar
 						src={settings?.profilePhotoUrl}
+						size="big"
+						uploadEnabled
 						onDelete={deleteProfilePhoto}
 						isPending={isUploadingPhoto}
+						onUpload={uploadProfilePhoto}
 					/>
-					<form encType="multipart/form-data" ref={formRef} onSubmit={handleSubmitForm}>
-						<Input type="file" accept="image/jpg, image/png" onChange={handleFile} />
-						<Button
-							$themeColor="primary"
-							type="submit"
-							disabled={isUploadingPhoto || !file}>
-							<Icon name="cloud upload" />
-							{isUploadingPhoto ? 'Uploading...' : 'Upload'}
-						</Button>
-					</form>
 
 					{isUploadError && (
 						<Message warning size="mini" style={{ marginRight: 'auto' }}>

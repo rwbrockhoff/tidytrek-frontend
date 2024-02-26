@@ -58,7 +58,7 @@ const BannerImage = styled.img`
 
 const UploadContainer = styled.div`
 	position: absolute;
-	bottom: 0px;
+	bottom: 15px;
 	right: 25px;
 `;
 

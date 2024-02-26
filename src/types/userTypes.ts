@@ -4,6 +4,7 @@ export type User = {
 	lastName: string;
 	email: string;
 	username: string;
+	trailName: string;
 	profilePhotoUrl: string;
 };
 
@@ -21,5 +22,6 @@ export type RegisterUser = {
 export type UserNames = {
 	firstName: string;
 	username: string;
+	trailName: string;
 	userId: number;
 };

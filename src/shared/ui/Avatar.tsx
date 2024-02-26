@@ -4,6 +4,7 @@ import { CustomLink } from './CustomLinks';
 import { useState } from 'react';
 import Dimmer from './Dimmer';
 import UploadFile from './UploadFile';
+import { flexCenter } from '../mixins/mixins';
 
 const defaultPhotoUrl =
 	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
@@ -14,7 +15,6 @@ type AvatarProps = {
 	link?: string;
 	withBorder?: boolean;
 	uploadEnabled?: boolean;
-	margin?: string;
 	isPending?: boolean;
 	onUpload?: (formData: FormData) => void;
 	onDelete?: () => void;
@@ -25,7 +25,6 @@ const Avatar = (props: AvatarProps) => {
 		src,
 		size = 'big',
 		link,
-		margin = '0px',
 		withBorder = false,
 		uploadEnabled = false,
 		isPending,
@@ -43,6 +42,8 @@ const Avatar = (props: AvatarProps) => {
 	return (
 		<CustomLink link={link} enabled={hasLink}>
 			<InnerContainer
+				$size={size}
+				$withBorder={withBorder}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
 				{display && (
@@ -51,10 +52,10 @@ const Avatar = (props: AvatarProps) => {
 
 				{isPending && <StyledLoader active inverted $size={size} />}
 
-				<StyledDimmer $size={size} active={displayDimmer} />
+				<StyledDimmer active={displayDimmer} />
 
 				{uploadEnabled && showButton && (
-					<UploadContainer>
+					<UploadContainer $size={size}>
 						<UploadFile
 							fileId="profile-photo-upload"
 							fileName="profilePhoto"
@@ -64,13 +65,7 @@ const Avatar = (props: AvatarProps) => {
 					</UploadContainer>
 				)}
 
-				<StyledAvatar
-					src={photoSource}
-					$margin={margin}
-					$size={size}
-					$withBorder={withBorder}
-					alt="user profile photo"
-				/>
+				<StyledAvatar src={photoSource} $size={size} alt="user profile photo" />
 			</InnerContainer>
 		</CustomLink>
 	);
@@ -81,25 +76,6 @@ export default Avatar;
 type Size = 'small' | 'medium' | 'big' | 'large';
 const avatarBorderWidth = '3px';
 
-const StyledAvatar = styled.img<{
-	$size?: Size;
-	$margin?: string;
-	$withBorder?: boolean;
-}>`
-	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
-	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
-	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-	border: ${(props) =>
-		props.$withBorder ? `${avatarBorderWidth} solid white` : 'inherit'};
-	margin: ${(props) => (props.$margin ? props.$margin : 'inherit')};
-	object-fit: cover;
-	opacity: 1;
-
-	:hover {
-		opacity: 0.2;
-	}
-`;
-
 const sizeChart = {
 	large: { widthOrHeight: '150px', borderRadius: '75px' },
 	big: { widthOrHeight: '100px', borderRadius: '50px' },
@@ -107,28 +83,41 @@ const sizeChart = {
 	small: { widthOrHeight: '50px', borderRadius: '25px' },
 };
 
-// width and height based on Size type (subtracting any added border width)
-const StyledDimmer = styled(Dimmer)<{ $size: Size; withBorder?: boolean }>`
-	width: calc(
-		${(props) => props.$size && sizeChart[props.$size].widthOrHeight} -
-			${avatarBorderWidth}
-	);
-	height: calc(
-		${(props) => props.$size && sizeChart[props.$size].widthOrHeight} -
-			${avatarBorderWidth}
-	);
+// width and height based on Size type
+const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
+	position: relative;
+	overflow: hidden;
+	border: ${(props) => (props.$withBorder ? `${avatarBorderWidth} solid white` : 'none')};
+	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
+	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
+	${flexCenter};
 `;
 
-const UploadContainer = styled.div`
+const StyledAvatar = styled.img<{ $size?: Size }>`
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+`;
+
+const StyledDimmer = styled(Dimmer)`
 	position: absolute;
-	top: 38px;
-	left: 38px;
+	width: 100%;
+	height: 100%;
+`;
+
+const UploadContainer = styled.div<{ $size: Size }>`
+	position: absolute;
+	top: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) - 2em;
+	left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) - 2em;
 `;
 
 const StyledLoader = styled(Loader)<{ $size: Size }>`
 	&&& {
-		left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2);
+		top: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) -
+			2.28571429rem;
+		left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) -
+			2.28571429rem;
 	}
 `;
 
@@ -136,9 +125,4 @@ const StyledButton = styled(Button)`
 	position: absolute;
 	top: -10px;
 	left: 65px;
-`;
-
-const InnerContainer = styled.div`
-	position: relative;
-	width: fit-content%;
 `;

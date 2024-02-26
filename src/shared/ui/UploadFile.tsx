@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 import { ChangeEvent, FormEvent, useRef, useState, useEffect } from 'react';
-import { flexCenter, wh } from '../mixins/mixins';
 
 type UploadFileProps = {
 	fileId: string;
@@ -49,7 +48,7 @@ const UploadFile = (props: UploadFileProps) => {
 	};
 
 	return (
-		<UploadContainer>
+		<div>
 			<form encType="multipart/form-data" ref={formRef} onSubmit={handleSubmitForm}>
 				<UploadLabel htmlFor={fileId}>
 					<Icon name="cloud upload" />
@@ -62,7 +61,7 @@ const UploadFile = (props: UploadFileProps) => {
 					disabled={isPending}
 				/>
 			</form>
-		</UploadContainer>
+		</div>
 	);
 };
 
@@ -72,13 +71,11 @@ const UploadLabel = styled.label`
 	color: white;
 	cursor: pointer;
 	font-size: 2em;
+	.icon {
+		margin: 0;
+	}
 `;
 
 const UploadInput = styled.input`
 	display: none;
-`;
-
-const UploadContainer = styled.div`
-	${wh('75px')}
-	${flexCenter}
 `;

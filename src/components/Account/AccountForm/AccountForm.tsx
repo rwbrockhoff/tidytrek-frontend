@@ -1,10 +1,5 @@
-import {
-	SegmentGroup,
-	Segment as SemSegment,
-	Button,
-	Icon,
-	Header,
-} from 'semantic-ui-react';
+import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
+import { Header } from '../../../shared/ui/SemanticUI';
 import { type User } from '../../../types/userTypes';
 import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
@@ -49,19 +44,20 @@ const AccountForm = ({
 		handleTogglePasswordForm();
 		resetFormError();
 	};
+	const { firstName, lastName, email } = user || {};
 
+	const fullName = `${firstName} ${lastName}`;
 	return (
 		<SegmentGroup>
 			<Segment>
-				<Header as="h4">Account Info</Header>
+				<Header as="h4" $marginBottom="2rem">
+					Account Info
+				</Header>
 				<p>
-					<b>Name:</b> {user?.firstName || 'A Tidy Hiker'}
+					<b>Name:</b> {fullName || 'A Tidy Hiker'}
 				</p>
 				<p>
-					<b>Email:</b> {user?.email || 'No email here. Too busy hiking.'}
-				</p>
-				<p>
-					<b>Username:</b> {user?.username || 'No trail name yet? Take your time.'}
+					<b>Email:</b> {email || 'No email here. Too busy hiking.'}
 				</p>
 			</Segment>
 			<PasswordForm

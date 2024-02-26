@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import Avatar from '../../../shared/ui/Avatar';
 import { type ProfileInfo } from '../../../types/profileTypes';
-import { Header, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import { Header } from '../../../shared/ui/SemanticUI';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
@@ -16,8 +17,11 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 	const userView = useUserContext();
 	const { userProfile } = props;
 	const { profileSettings, socialLinks, user } = userProfile || {};
+
 	const { profilePhotoUrl, bannerPhotoUrl, userLocation, userBio } =
 		profileSettings || {};
+
+	const { username, firstName, trailName } = user || {};
 
 	const {
 		uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
@@ -46,13 +50,17 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
 			<ProfileInfoContainer>
 				<ProfileTextContainer>
 					<UsernameHeader as="h3">
-						{user?.username || user?.firstName || 'Tidy Hiker'}
+						{username || firstName || 'Tidy Hiker'} <span>({trailName})</span>
 					</UsernameHeader>
+
 					<InnerContainer>
-						<LocationText>
-							<Icon name="location arrow" />
-							{userLocation}
-						</LocationText>
+						{userLocation && (
+							<LocationText>
+								<Icon name="location arrow" />
+								{userLocation}
+							</LocationText>
+						)}
+
 						<SocialLinkList
 							socialLinks={socialLinks || []}
 							deleteEnabled={false}
@@ -111,17 +119,20 @@ const ProfileTextContainer = styled.div`
 	`)}
 `;
 
+const UsernameHeader = styled(Header)`
+	span {
+		opacity: 0.7;
+		margin-left: 0.5rem;
+	}
+`;
+
 const LocationText = styled.p`
 	margin: 0;
 	margin-right: 15px;
 `;
 
-const UsernameHeader = styled(Header)`
-	margin-bottom: 10px;
-`;
-
 const InnerContainer = styled.div`
 	display: flex;
 	align-items: center;
-	margin-bottom: 15px;
+	margin-bottom: 0.5rem;
 `;
