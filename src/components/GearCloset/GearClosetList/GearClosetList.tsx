@@ -5,6 +5,11 @@ import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
+import styled from 'styled-components';
+import {
+	HeaderCell,
+	TableText,
+} from '../../Dashboard/PackCategory/TableHeader/TableHeader';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -28,26 +33,35 @@ const GearClosetList = ({
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
 
 	return (
-		<Table $themeColor="primary" fixed striped columns="16" size="small">
+		<StyledTable $themeColor="primary" fixed striped size="small">
 			<Table.Header>
 				<Table.Row>
-					<Table.HeaderCell colSpan="4" style={{ paddingLeft: '25px' }}>
+					<HeaderCell colSpan="5" $paddingLeft="25px">
 						Item
-					</Table.HeaderCell>
-					<Table.HeaderCell colSpan="7" style={{ paddingLeft: '25px' }}>
-						Description
-					</Table.HeaderCell>
-					<Table.HeaderCell
-						colSpan="2"
-						textAlign="center"
-						style={{ paddingLeft: '90px' }}>
-						Quantity
-					</Table.HeaderCell>
-					<Table.HeaderCell colSpan="2" textAlign="center">
-						Weight
-					</Table.HeaderCell>
+					</HeaderCell>
 
-					<Table.HeaderCell colSpan="1"></Table.HeaderCell>
+					<HeaderCell colSpan="5" $paddingLeft="25px">
+						Description
+					</HeaderCell>
+
+					<Table.HeaderCell colSpan="4" />
+					<HeaderCell textAlign="left" colSpan="2" $paddingLeft="15px">
+						Qty
+					</HeaderCell>
+
+					<HeaderCell textAlign="center" colSpan="3">
+						<TableText $width="100px" $paddingRight="13px">
+							Weight
+						</TableText>
+					</HeaderCell>
+
+					<HeaderCell textAlign="left" colSpan="3" $paddingLeft="25px">
+						<TableText $width="75px" $paddingLeft="13px">
+							Price
+						</TableText>
+					</HeaderCell>
+
+					<Table.HeaderCell colSpan="2"></Table.HeaderCell>
 				</Table.Row>
 			</Table.Header>
 
@@ -75,7 +89,7 @@ const GearClosetList = ({
 
 			<StyledFooter>
 				<Table.Row className="footer-container">
-					<Table.Cell colSpan={16}>
+					<Table.Cell colSpan="24">
 						<Button
 							size="mini"
 							floated="left"
@@ -90,7 +104,7 @@ const GearClosetList = ({
 					</Table.Cell>
 				</Table.Row>
 			</StyledFooter>
-		</Table>
+		</StyledTable>
 	);
 };
 
@@ -100,10 +114,16 @@ const NotFoundMessage = () => {
 	return (
 		<Table.Body>
 			<Table.Row>
-				<Table.Cell colSpan="16" textAlign="center" style={{ opacity: 0.4 }}>
+				<Table.Cell colSpan="24" textAlign="center" style={{ opacity: 0.4 }}>
 					<Icon name="search" /> No Items Found.
 				</Table.Cell>
 			</Table.Row>
 		</Table.Body>
 	);
 };
+
+const StyledTable = styled(Table)`
+	td {
+		width: 5%;
+	}
+`;

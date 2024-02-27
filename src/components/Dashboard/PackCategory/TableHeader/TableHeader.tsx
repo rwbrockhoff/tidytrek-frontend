@@ -79,7 +79,7 @@ const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	transition: opacity 250ms ease;
 `;
 
-const HeaderCell = styled(Table.HeaderCell)<{ $paddingLeft?: string }>`
+export const HeaderCell = styled(Table.HeaderCell)<{ $paddingLeft?: string }>`
 	&&&& {
 		padding-left: ${({ $paddingLeft }) => $paddingLeft};
 	}

@@ -54,7 +54,7 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 
 	return (
 		<TableRow>
-			<TableCell colSpan="8" />
+			<TableCell colSpan="16" />
 			<TableCell colSpan="3" collapsing $overflow={true}>
 				<Dropdown
 					selection
