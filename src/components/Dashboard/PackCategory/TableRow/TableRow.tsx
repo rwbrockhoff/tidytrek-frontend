@@ -85,7 +85,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={userView ? 5 : 6}
+							size={userView ? 5 : 7}
 						/>
 						<TableCell
 							value={packItemDescription}

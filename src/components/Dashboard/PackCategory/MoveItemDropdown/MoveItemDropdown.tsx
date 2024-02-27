@@ -54,7 +54,7 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 
 	return (
 		<TableRow>
-			<TableCell colSpan="16" />
+			<TableCell colSpan="15" />
 			<TableCell colSpan="3" collapsing $overflow={true}>
 				<Dropdown
 					selection
@@ -80,7 +80,7 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 					onChange={handleSelectCategory}
 				/>
 			</TableCell>
-			<TableCell colSpan="2" textAlign="left">
+			<TableCell colSpan="3" textAlign="left">
 				<Button
 					$themeColor="primary"
 					size="small"

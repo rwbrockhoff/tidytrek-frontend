@@ -5,6 +5,7 @@ import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserCont
 import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
 import useCurrency from '../../../../../utils/useCurrency';
 import styled from 'styled-components';
+import { flexCenter } from '../../../../../shared/mixins/mixins';
 
 type PriceCellProps = {
 	price: number;
@@ -54,7 +55,7 @@ const PriceCell = (props: PriceCellProps) => {
 					/>
 				</div>
 			) : (
-				<Text>{`${price}`}</Text>
+				<Text>{formattedPrice}</Text>
 			)}
 		</Table.Cell>
 	);
@@ -76,4 +77,7 @@ const StyledInput = styled(Input)<{ $toggleInput: boolean }>`
 
 const Text = styled.p`
 	height: 30px;
+	${flexCenter}
+	justify-content: flex-start;
+	padding-left: 13px;
 `;

@@ -25,7 +25,7 @@ const TableHeader = (props: TableHeaderProps) => {
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const minSpanSize = isMinimized ? 22 : 14;
-	const spanSize = userView ? minSpanSize : 10;
+	const spanSize = userView ? minSpanSize : 16;
 	return (
 		<Table.Header
 			{...dragProps}

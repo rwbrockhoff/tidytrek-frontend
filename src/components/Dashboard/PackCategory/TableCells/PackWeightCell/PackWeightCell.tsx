@@ -35,7 +35,7 @@ const PackWeightCell = (props: PackWeightCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}
-			style={{}}>
+			style={{ paddingLeft: userView ? 0 : '38px' }}>
 			{userView ? (
 				<CellContainer>
 					<StyledInput

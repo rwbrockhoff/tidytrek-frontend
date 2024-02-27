@@ -20,10 +20,12 @@ const TableFooter = ({
 }: TableFooterProps) => {
 	const userView = useUserContext();
 	const hasItems = itemQuantity > 0;
+	const firstColumnSize = (hasItems ? 14 : 22) + (userView ? 0 : 2);
+
 	return (
 		<StyledFooter>
 			<Table.Row className="footer-container">
-				<Table.Cell colSpan={hasItems ? 14 : 22}>
+				<Table.Cell colSpan={firstColumnSize}>
 					{userView && (
 						<Button
 							size="mini"
@@ -43,7 +45,7 @@ const TableFooter = ({
 						<Table.Cell textAlign="left" colSpan={2}>
 							{itemQuantity} Items
 						</Table.Cell>
-						<Table.Cell textAlign="center" colSpan={3} style={{}}>
+						<Table.Cell textAlign="center" colSpan={3}>
 							<TableText $width="100px">{`${weight} lbs`}</TableText>
 						</Table.Cell>
 

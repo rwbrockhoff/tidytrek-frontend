@@ -23,7 +23,7 @@ type MoveButtonProps = {
 
 export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	return (
-		<TableButton onClick={onToggle} style={{ opacity: display ? 100 : 0 }}>
+		<TableButton onClick={onToggle} $display={display}>
 			<Icon name="share" />
 		</TableButton>
 	);
@@ -36,7 +36,7 @@ type ButtonProps = {
 
 export const DeleteButton = ({ display, onClickDelete }: ButtonProps) => {
 	return (
-		<TableButton onClick={onClickDelete} style={{ opacity: display ? 100 : 0 }}>
+		<TableButton onClick={onClickDelete} $display={display} $marginLeft="15px">
 			<Icon name="trash" />
 		</TableButton>
 	);
@@ -54,7 +54,7 @@ export const MinimizeButton = ({
 	minimize,
 }: MinimizeButtonProps) => {
 	return (
-		<TableButton onClick={minimize} style={{ opacity: display ? 100 : 0 }}>
+		<TableButton onClick={minimize} $display={display}>
 			<Icon name={isMinimized ? 'plus' : 'minus'} />
 		</TableButton>
 	);
@@ -81,12 +81,14 @@ export const GripButton = ({ display }: { display: boolean }) => {
 	} else return null;
 };
 
-export const TableButton = styled(Button)`
+export const TableButton = styled(Button)<{ $display?: boolean; $marginLeft?: string }>`
 	&&& {
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
 		margin: 0px 0px;
+		margin-left: ${({ $marginLeft }) => ($marginLeft ? $marginLeft : 0)};
+		opacity: ${({ $display }) => ($display ? 1 : 0)};
 		padding: 5px;
 		icon:hover {
 			color: black;

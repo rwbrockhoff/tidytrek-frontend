@@ -64,7 +64,8 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0; // todo: get from weight converter
 	const showCategoryItems = packItems[0] && !isMinimized;
-
+	// hide empty categories on guest view
+	if (!userView && !showCategoryItems) return null;
 	return (
 		<Draggable
 			key={category.packCategoryId}
