@@ -4,6 +4,7 @@ import {
 	DragDropContext as Context,
 	type DropResult as Result,
 } from 'react-beautiful-dnd';
+import EmptyTableRow from '../components/Dashboard/PackCategory/TableRow/EmptyTableRow';
 
 export type DropResult = Result;
 
@@ -70,13 +71,10 @@ export const DropTableBody = ({
 					{children ? (
 						children
 					) : (
-						<tr
-							className="empty-table-row"
-							style={{
-								backgroundColor: isDraggingOver && !children ? 'white' : '#f0f0f0',
-							}}>
-							<td colSpan={16}></td>
-						</tr>
+						<EmptyTableRow
+							isDraggingOver={isDraggingOver}
+							noChildren={!children ? true : false}
+						/>
 					)}
 
 					{provided.placeholder}
