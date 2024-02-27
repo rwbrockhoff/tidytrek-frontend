@@ -3,19 +3,26 @@ import { Button } from '../../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 import { themeBgColor } from '../../../../shared/mixins/mixins';
+import { TableText } from '../TableHeader/TableHeader';
 
 type TableFooterProps = {
 	itemQuantity: number;
 	weight: number;
+	price: string;
 	handleAddItem: () => void;
 };
 
-const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) => {
+const TableFooter = ({
+	itemQuantity,
+	weight,
+	price,
+	handleAddItem,
+}: TableFooterProps) => {
 	const userView = useUserContext();
 	return (
 		<StyledFooter>
 			<Table.Row className="footer-container">
-				<Table.Cell colSpan={userView ? 11 : 12}>
+				<Table.Cell colSpan={14}>
 					{userView && (
 						<Button
 							size="mini"
@@ -29,14 +36,19 @@ const TableFooter = ({ itemQuantity, weight, handleAddItem }: TableFooterProps) 
 						</Button>
 					)}
 				</Table.Cell>
-				<Table.Cell textAlign="center" colSpan={2} style={{ paddingLeft: '50px' }}>
+				<Table.Cell textAlign="left" colSpan={2}>
 					{itemQuantity} Items
 				</Table.Cell>
-				<Table.Cell
-					textAlign="center"
-					colSpan={2}
-					style={{ paddingLeft: userView ? '25px' : 0 }}>{`${weight} lbs`}</Table.Cell>
-				{userView && <Table.Cell colSpan={1}></Table.Cell>}
+				<Table.Cell textAlign="center" colSpan={3} style={{}}>
+					<TableText $width="100px">{`${weight} lbs`}</TableText>
+				</Table.Cell>
+
+				<Table.Cell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
+					<TableText $width="75px" $paddingLeft="13px">
+						{price}
+					</TableText>
+				</Table.Cell>
+				{userView && <Table.Cell colSpan={2}></Table.Cell>}
 			</Table.Row>
 		</StyledFooter>
 	);

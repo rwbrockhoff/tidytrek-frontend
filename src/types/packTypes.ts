@@ -43,6 +43,7 @@ export type PackItem = {
 	wornWeight: boolean;
 	consumable: boolean;
 	favorite: boolean;
+	packItemPrice: number;
 };
 
 export type PackListItem = {

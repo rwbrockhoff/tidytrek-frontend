@@ -41,7 +41,10 @@ const QuantityButton = (props: ButtonProps) => {
 				step={1}
 				transparent={!toggleInput}
 				onChange={onChange}
-				style={{ paddingLeft: toggleInput ? '0px' : '12px' }}
+				style={{
+					paddingLeft: toggleInput ? '0px' : '12px',
+					width: '70px',
+				}}
 			/>
 		</Table.Cell>
 	);

@@ -63,6 +63,20 @@ const PropertyButtons = (props: ButtonProps) => {
 					/>
 				}
 			/>
+
+			<Popup
+				content="Make item for sale"
+				mouseEnterDelay={700}
+				on="hover"
+				trigger={
+					<Icon
+						name="money"
+						color={consumable ? 'olive' : 'grey'}
+						style={{ opacity: showOnHover || consumable ? 100 : 0 }}
+						onClick={() => handleOnClick({ consumable: !consumable })}
+					/>
+				}
+			/>
 		</Table.Cell>
 	);
 };

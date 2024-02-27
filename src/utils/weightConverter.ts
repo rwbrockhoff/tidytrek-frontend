@@ -1,17 +1,28 @@
 import { type PackItem } from '../types/packTypes';
+import useCurrency from './useCurrency';
 
 export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 	if (itemList[0]) {
 		let totalConsumableWeight = 0;
 		let totalWornWeight = 0;
+		let totalPrice = 0;
 
 		const totalWeight = itemList
 			.map((item: PackItem) => {
-				const { packItemWeight, packItemUnit, packItemQuantity, wornWeight, consumable } =
-					item;
-				let convertedWeight = 0;
+				const {
+					packItemWeight,
+					packItemUnit,
+					packItemQuantity,
+					wornWeight,
+					consumable,
+					packItemPrice,
+				} = item;
+
+				// handle pricing first
+				if (packItemPrice) totalPrice += packItemPrice;
 
 				// Ensure we always return number type for reducer
+				let convertedWeight = 0;
 				const itemWeight = Number(packItemWeight) * packItemQuantity;
 
 				if (packItemUnit === outputUnit || itemWeight === 0) {
@@ -35,8 +46,19 @@ export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 			.reduce((weight: number, sum: number = 0) => (sum += weight))
 			.toFixed(2);
 
-		return { totalWeight: Number(totalWeight), totalWornWeight, totalConsumableWeight };
-	} else return { totalWeight: 0, totalWornWeight: 0, totalConsumableWeight: 0 };
+		return {
+			totalWeight: Number(totalWeight),
+			totalWornWeight,
+			totalConsumableWeight,
+			totalPrice: useCurrency(totalPrice, 'USD'),
+		};
+	} else
+		return {
+			totalWeight: 0,
+			totalWornWeight: 0,
+			totalConsumableWeight: 0,
+			totalPrice: useCurrency(0, 'USD'),
+		};
 };
 
 function convertToOunces(weight: number, unit: string) {

@@ -16,6 +16,7 @@ import {
 } from '../TableButtons/TableButtons';
 import QuantityButton from '../TableButtons/QuantityButton';
 import PropertyButtons from '../TableButtons/PropertyButtons';
+import PriceCell from '../TableCells/PriceCell/PriceCell';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
@@ -52,6 +53,7 @@ const TableRow = (props: TableRowProps) => {
 		wornWeight,
 		consumable,
 		favorite,
+		packItemPrice,
 	} = packItem;
 
 	const handleToggle = () => packItemChanged && handleOnSave(packItem);
@@ -83,7 +85,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={userView ? 4 : 5}
+							size={userView ? 5 : 6}
 						/>
 						<TableCell
 							value={packItemDescription}
@@ -93,19 +95,20 @@ const TableRow = (props: TableRowProps) => {
 							placeholder="Description"
 							size={5}
 						/>
+
 						<PropertyButtons
 							wornWeight={wornWeight}
 							consumable={consumable}
 							favorite={favorite}
 							onClick={handleClickButton}
 							display={toggleRow}
-							size={3}
+							size={4}
 						/>
 						<QuantityButton
 							quantity={packItemQuantity}
 							onChange={handleInput}
 							onToggleOff={handleToggle}
-							size={1}
+							size={2}
 						/>
 						<PackWeightCell
 							weight={packItemWeight}
@@ -114,11 +117,19 @@ const TableRow = (props: TableRowProps) => {
 							onChange={handleInput}
 							onToggleOff={handleToggle}
 							itemName="packItemWeight"
-							size={2}
+							size={3}
+						/>
+						<PriceCell
+							price={packItemPrice}
+							itemName="packItemPrice"
+							placeholder={0}
+							onChange={handleInput}
+							onToggleOff={handleToggle}
+							size={3}
 						/>
 
 						{userView && (
-							<ActionButtons size={1}>
+							<ActionButtons size={2}>
 								<MoveItemButton
 									display={toggleRow}
 									onToggle={() => setToggleGearButtons(!toggleGearButtons)}

@@ -1,14 +1,14 @@
 import { Table, Input } from 'semantic-ui-react';
-import styled from 'styled-components';
 import { useState } from 'react';
-import WeightDropdown from '../../TableButtons/WeightDropdown';
 import '../TableCell/TableCell.css';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
-import { type InputEvent, type SelectEvent } from '../../../../../shared/formHelpers';
+import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
+import useCurrency from '../../../../../utils/useCurrency';
+import styled from 'styled-components';
 
-type PackWeightCellProps = {
-	weight: string | number;
-	unit: string;
+type PriceCellProps = {
+	price: number;
+	unit?: string;
 	itemName: string;
 	placeholder: number;
 	size: number;
@@ -16,9 +16,10 @@ type PackWeightCellProps = {
 	onToggleOff: () => void;
 };
 
-const PackWeightCell = (props: PackWeightCellProps) => {
+const PriceCell = (props: PriceCellProps) => {
 	const userView = useUserContext();
-	const { weight, unit, itemName, placeholder, size, onChange, onToggleOff } = props;
+	const { price, itemName, placeholder, size, onChange, onToggleOff } = props;
+
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
 	const toggleToCell = () => {
@@ -28,48 +29,51 @@ const PackWeightCell = (props: PackWeightCellProps) => {
 		}
 	};
 
+	const formattedPrice = useCurrency(price, 'USD');
+
 	return (
 		<Table.Cell
+			textAlign="center"
 			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}
-			style={{}}>
+			style={{ paddingLeft: '25px' }}>
 			{userView ? (
-				<CellContainer>
+				<div>
 					<StyledInput
-						value={weight || ''}
+						fluid
+						value={toggleInput ? price : formattedPrice}
 						name={itemName}
 						transparent={!toggleInput}
-						$toggleInput={toggleInput}
 						placeholder={placeholder}
 						onChange={onChange}
+						$toggleInput={toggleInput}
+						// style={{ paddingRight: !toggleInput ? '14px' : 0 }}
 					/>
-
-					<WeightDropdown unit={unit} onChange={onChange} />
-				</CellContainer>
+				</div>
 			) : (
-				<p>{`${weight}  ${unit}`}</p>
+				<Text>{`${price}`}</Text>
 			)}
 		</Table.Cell>
 	);
 };
 
-export default PackWeightCell;
-
-const CellContainer = styled.div`
-	display: inline-flex;
-	width: 100px;
-`;
+export default PriceCell;
 
 const StyledInput = styled(Input)<{ $toggleInput: boolean }>`
 	&&& {
-		width: 55px;
-		height: 35px;
-		padding-right: ${(props) => (props.$toggleInput ? 0 : '13px')};
+		height: 30px;
+		padding-left: ${(props) => (props.$toggleInput ? 0 : '13px')};
+		max-width: 75px;
+		width: 75px;
 		input {
-			text-align: right;
+			text-align: left;
 		}
 	}
+`;
+
+const Text = styled.p`
+	height: 30px;
 `;

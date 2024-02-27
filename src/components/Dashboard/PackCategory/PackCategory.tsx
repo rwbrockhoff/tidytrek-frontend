@@ -57,8 +57,12 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const [isMinimized, setMinimized] = useState(false);
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
-	const { totalWeight: convertedCategoryWeight } = weightConverter(packItems, 'lb');
-	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0;
+	const { totalWeight: convertedCategoryWeight, totalPrice } = weightConverter(
+		packItems,
+		'lb',
+	);
+
+	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0; // todo: get from weight converter
 	const showCategoryItems = packItems[0] && !isMinimized;
 
 	return (
@@ -69,13 +73,13 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 			index={index}>
 			{(provided) => (
 				<TableContainer ref={provided.innerRef} {...provided.draggableProps}>
-					<Table
+					<StyledTable
 						$themeColor={packCategoryColor}
 						$minimalPadding
 						fixed
 						striped
 						compact
-						columns="16"
+						stackable
 						size="small">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
@@ -104,10 +108,11 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 							<TableFooter
 								itemQuantity={itemQuantity}
 								weight={convertedCategoryWeight}
+								price={totalPrice}
 								handleAddItem={handleAddItem}
 							/>
 						)}
-					</Table>
+					</StyledTable>
 					<DeleteModal
 						open={showDeleteCategoryModal}
 						onClickMove={() => deleteCategory(packCategoryId)}
@@ -132,6 +137,12 @@ export default PackCategory;
 const TableContainer = styled.div`
 	width: 100%;
 	text-align: center;
-	margin: 15px 0px;
+	margin: 5vh 0px;
 	display: flex;
+`;
+
+const StyledTable = styled(Table)`
+	td {
+		width: 5%;
+	}
 `;

@@ -16,6 +16,7 @@ export const useTableRowInput = (item: PackItem) => {
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
+		packItemPrice: 0,
 	});
 
 	useEffect(() => {
