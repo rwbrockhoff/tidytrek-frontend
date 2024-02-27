@@ -19,10 +19,11 @@ const TableFooter = ({
 	handleAddItem,
 }: TableFooterProps) => {
 	const userView = useUserContext();
+	const hasItems = itemQuantity > 0;
 	return (
 		<StyledFooter>
 			<Table.Row className="footer-container">
-				<Table.Cell colSpan={14}>
+				<Table.Cell colSpan={hasItems ? 14 : 22}>
 					{userView && (
 						<Button
 							size="mini"
@@ -36,18 +37,23 @@ const TableFooter = ({
 						</Button>
 					)}
 				</Table.Cell>
-				<Table.Cell textAlign="left" colSpan={2}>
-					{itemQuantity} Items
-				</Table.Cell>
-				<Table.Cell textAlign="center" colSpan={3} style={{}}>
-					<TableText $width="100px">{`${weight} lbs`}</TableText>
-				</Table.Cell>
 
-				<Table.Cell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
-					<TableText $width="75px" $paddingLeft="13px">
-						{price}
-					</TableText>
-				</Table.Cell>
+				{hasItems && (
+					<>
+						<Table.Cell textAlign="left" colSpan={2}>
+							{itemQuantity} Items
+						</Table.Cell>
+						<Table.Cell textAlign="center" colSpan={3} style={{}}>
+							<TableText $width="100px">{`${weight} lbs`}</TableText>
+						</Table.Cell>
+
+						<Table.Cell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
+							<TableText $width="75px" $paddingLeft="13px">
+								{price}
+							</TableText>
+						</Table.Cell>
+					</>
+				)}
 				{userView && <Table.Cell colSpan={2}></Table.Cell>}
 			</Table.Row>
 		</StyledFooter>
