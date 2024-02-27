@@ -14,7 +14,7 @@ import {
 	DeleteButton,
 	MoveItemButton,
 } from '../TableButtons/TableButtons';
-import QuantityButton from '../TableButtons/QuantityButton';
+import QuantityCell from '../TableCells/QuantityCell/QuantityCell';
 import PropertyButtons from '../TableButtons/PropertyButtons';
 import PriceCell from '../TableCells/PriceCell/PriceCell';
 import { useTableRowInput } from './useTableRowInput';
@@ -104,7 +104,7 @@ const TableRow = (props: TableRowProps) => {
 							display={toggleRow}
 							size={4}
 						/>
-						<QuantityButton
+						<QuantityCell
 							quantity={packItemQuantity}
 							onChange={handleInput}
 							onToggleOff={handleToggle}

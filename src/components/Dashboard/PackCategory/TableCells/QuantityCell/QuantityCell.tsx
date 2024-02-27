@@ -1,8 +1,8 @@
 import { Table } from 'semantic-ui-react';
-import { TableInput } from './TableButtons';
+import { TableInput } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
-import { ReactInput } from '../../../../types/generalTypes';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { ReactInput } from '../../../../../types/generalTypes';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
 
 type ButtonProps = {
 	quantity: number;
@@ -11,7 +11,7 @@ type ButtonProps = {
 	onToggleOff: () => void;
 };
 
-const QuantityButton = (props: ButtonProps) => {
+const QuantityCell = (props: ButtonProps) => {
 	const userView = useUserContext();
 	const { quantity, size, onChange, onToggleOff } = props;
 
@@ -50,4 +50,4 @@ const QuantityButton = (props: ButtonProps) => {
 	);
 };
 
-export default QuantityButton;
+export default QuantityCell;
