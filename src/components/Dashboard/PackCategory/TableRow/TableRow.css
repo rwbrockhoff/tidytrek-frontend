@@ -1,9 +1,0 @@
-tr.table-row {
-	position: relative;
-	border: none;
-	background-color: white;
-}
-
-.ui.compact.table td {
-	padding: 0.2em 0.2em;
-}

@@ -1,25 +1,20 @@
-import {
-	Segment,
-	Form,
-	Input,
-	FormField,
-	Icon,
-	Header,
-	Divider,
-} from 'semantic-ui-react';
-import { Button } from '../../../shared/ui/SemanticUI';
+import { Form, Input, Icon, Header } from 'semantic-ui-react';
+import { Button, FormField } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
 import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
 import Message from '../../../shared/ui/Message';
 import { useContext } from 'react';
-import { ChangePassContext } from '../../../views/Account/Account';
+import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
+import { Segment } from './AccountForm';
+import styled from 'styled-components';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PasswordFormProps = {
 	displayForm: boolean;
+	passwordInfo: PasswordInfo;
 	toggleForm: () => void;
 	resetFormError: () => void;
-	passwordInfo: PasswordInfo;
 	onChange: (e: ReactInput) => void;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 };
@@ -27,9 +22,9 @@ type PasswordFormProps = {
 const PasswordForm = (props: PasswordFormProps) => {
 	const {
 		displayForm,
+		passwordInfo,
 		toggleForm,
 		resetFormError,
-		passwordInfo,
 		onChange,
 		changePassword,
 	} = props;
@@ -38,7 +33,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 	const { isPending, isSuccess, error } = useContext(ChangePassContext);
 
 	return (
-		<Segment stacked>
+		<Segment>
 			<Header as="h4">Update Your Password</Header>
 			{!displayForm && (
 				<Button basic onClick={toggleForm}>
@@ -49,9 +44,8 @@ const PasswordForm = (props: PasswordFormProps) => {
 
 			{displayForm && (
 				<>
-					<Divider />
 					<Form>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>Current Password</label>
 							<Input
 								name="currentPassword"
@@ -61,7 +55,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>New Password</label>
 							<Input
 								name="newPassword"
@@ -71,7 +65,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<FormField width={8}>
+						<FormField $width={'50%'}>
 							<label>Confirm</label>
 							<Input
 								name="confirmNewPassword"
@@ -84,7 +78,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 						<Link to="/reset-password">
 							<p className="reset-password-link">Reset Your Password</p>
 						</Link>
-						<div className="form-button-container">
+						<ButtonContainer>
 							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 							<Button
 								$themeColor="primary"
@@ -92,7 +86,7 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onClick={() => changePassword(passwordInfo)}>
 								Save Password
 							</Button>
-						</div>
+						</ButtonContainer>
 					</Form>
 
 					<Message
@@ -108,3 +102,20 @@ const PasswordForm = (props: PasswordFormProps) => {
 };
 
 export default PasswordForm;
+
+const ButtonContainer = styled.div`
+	width: 50%;
+	display: flex;
+	justify-content: flex-end;
+
+	&&& {
+		button {
+			margin: 5px;
+		}
+	}
+
+	${mobile(`
+		width: 100%;
+		margin-top: 25px;
+	`)}
+`;

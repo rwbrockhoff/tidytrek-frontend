@@ -1,24 +1,16 @@
 import { Link } from 'react-router-dom';
-import {
-	Button,
-	Form,
-	Grid,
-	Header,
-	Icon,
-	Message,
-	Segment,
-	FormCheckbox,
-} from 'semantic-ui-react';
-import './LogInForm.css';
-import { FormError, ReactInput } from '../../../types/generalTypes';
-import DisplayWrapper from '../../../shared/ui/DisplayWrapper';
-import { type CheckboxEvent } from '../../../shared/formHelpers';
+import { Form, Segment, FormCheckbox } from 'semantic-ui-react';
+import { Button, Header } from '../../../shared/ui/SemanticUI';
+import { FormContainer, FooterText, FormMessage } from '../FormComponents';
+import { FormError } from '../../../types/generalTypes';
+import { type InputEvent, type CheckboxEvent } from '../../../shared/formHelpers';
+import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isLoading: boolean;
 	formError: FormError;
-	onFormChange: (e: ReactInput | CheckboxEvent) => void;
+	onFormChange: (e: InputEvent | CheckboxEvent) => void;
 	onSubmit: () => void;
 };
 
@@ -30,51 +22,16 @@ const LogInForm = ({
 	onSubmit,
 }: FormProps) => {
 	return (
-		<Grid.Column style={{ maxWidth: 450 }}>
-			<Header as="h1" textAlign="center">
-				tidytrek app
-			</Header>
+		<FormContainer>
+			<Header as="h1">tidytrek</Header>
 			<Form size="large">
 				<Segment stacked>
-					<Header as="h2" color="blue" textAlign="center">
+					<Header as="h3" $themeColor="tidyGreen">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
-					{isRegisterForm && (
-						<>
-							<Form.Group>
-								<Form.Input
-									icon="user"
-									iconPosition="left"
-									placeholder="First Name"
-									name="firstName"
-									data-testid="first-name-input"
-									type="name"
-									width={8}
-									onChange={onFormChange}
-								/>
-								<Form.Input
-									icon="user"
-									iconPosition="left"
-									placeholder="Last Name"
-									name="lastName"
-									data-testid="last-name-input"
-									type="name"
-									width={8}
-									onChange={onFormChange}
-								/>
-							</Form.Group>
-							<Form.Input
-								fluid
-								icon="user"
-								iconPosition="left"
-								placeholder="Username (optional)"
-								name="username"
-								data-testid="username-input"
-								type="name"
-								onChange={onFormChange}
-							/>
-						</>
-					)}
+
+					{isRegisterForm && <RegisterFormSection onFormChange={onFormChange} />}
+
 					<Form.Input
 						fluid
 						icon="at"
@@ -116,32 +73,38 @@ const LogInForm = ({
 						</>
 					)}
 
-					<Button color="blue" fluid size="large" disabled={isLoading} onClick={onSubmit}>
+					<Button
+						$themeColor="tidyGreen"
+						fluid
+						size="large"
+						disabled={isLoading}
+						onClick={onSubmit}>
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 
-					<DisplayWrapper display={formError.error}>
-						<Message color="red" data-testid="error-message">
-							<Icon name="hand point right outline" />
-							{formError.message || 'Oops! There was an error.'}
-						</Message>
-					</DisplayWrapper>
+					{formError.error && (
+						<FormMessage
+							messageType="error"
+							text={formError.message || 'Oops! There was an error.'}
+							id="login-form-message"
+						/>
+					)}
 
-					<DisplayWrapper display={isRegisterForm}>
-						<p style={{ marginTop: '25px' }}>
+					{isRegisterForm && (
+						<FooterText>
 							Already have an account? <Link to={'/'}>Log In</Link>
-						</p>
-					</DisplayWrapper>
+						</FooterText>
+					)}
 
-					<DisplayWrapper display={!isRegisterForm}>
-						<p style={{ marginTop: '25px' }}>
+					{!isRegisterForm && (
+						<FooterText>
 							<Link to={'/register'}>Sign Up</Link> |{' '}
 							<Link to={'/reset-password'}>Forgot Your Password</Link>
-						</p>
-					</DisplayWrapper>
+						</FooterText>
+					)}
 				</Segment>
 			</Form>
-		</Grid.Column>
+		</FormContainer>
 	);
 };
 

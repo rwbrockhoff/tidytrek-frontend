@@ -1,48 +1,54 @@
-import './Dashboard.css';
 import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
-import { UserViewContext } from './useUserContext';
-import {
-	useGetPackQuery,
-	useGetPackListQuery,
-	useAddPackCategoryMutation,
-	useMovePackItemMutation,
-	useMovePackCategoryMutation,
-} from '../../queries/packQueries';
+import { UserViewContext } from './hooks/useUserContext';
+import { useGetPackQuery, useGetPackListQuery } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
 import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
 import { ThemeProvider } from 'styled-components';
-import { getThemeAsGuest } from '../Layout/themeUtils';
+import styled from 'styled-components';
+import { HandlerWrapper as PackItemHandlerWrapper } from './handlers/usePackItemHandlers';
+import { HandlerWrapper as PackCategoryHandlerWrapper } from './handlers/usePackCategoryHandlers';
+import { usePackItemMutations } from './mutations/usePackItemMutations';
+import { usePackCategoryMutations } from './mutations/usePackCategoryMutations';
+import { useGetAuthStatusQuery } from '../../queries/userQueries';
+import useGuestData from './hooks/useGuestData';
+import { getThemeAsGuest } from '../../shared/theme/themeUtils';
 
 type DashboardProps = { userView: boolean };
 
 const Dashboard = ({ userView }: DashboardProps) => {
-	const { mutate: addCategory } = useAddPackCategoryMutation();
-	const { mutate: movePackItem } = useMovePackItemMutation();
-	const { mutate: movePackCategory } = useMovePackCategoryMutation();
+	const { movePackItem } = usePackItemMutations();
+	const { addPackCategory, movePackCategory } = usePackCategoryMutations();
 
 	const { packId: paramPackId } = useParams();
+
+	const { data: authData } = useGetAuthStatusQuery();
+
 	const { data, isPending } = userView
 		? useGetPackQuery(paramPackId)
 		: useViewPackQuery(paramPackId);
 
-	const theme = getThemeAsGuest(data);
-
 	const { data: packListData } = userView
 		? useGetPackListQuery()
 		: { data: { packList: [] } };
-	const { packList } = packListData || { packList: [] };
 
-	let packCategories = data?.categories || [];
+	const isAuthenticated = authData?.isAuthenticated;
+	const packList = packListData?.packList || [];
+	const packCategories = data?.categories || [];
 	const currentPack = data?.pack || ({} as Pack);
 	const packId = data?.pack.packId || null;
 
+	//--Guest View Data--//
+	const { userProfile, settings } = useGuestData(data);
+	const theme = getThemeAsGuest(data);
+	//--Guest View Data--//
+
 	const handleAddPackCategory = () => {
-		packId && addCategory(packId);
+		packId && addPackCategory.mutate(packId);
 	};
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -55,7 +61,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		if (type === 'category') {
 			if (sameIndex) return;
 
-			movePackCategory({
+			movePackCategory.mutate({
 				packId: currentPack.packId,
 				paramPackId,
 				packCategoryId: draggableId,
@@ -67,7 +73,7 @@ const Dashboard = ({ userView }: DashboardProps) => {
 			if (sameIndex && sameCategory) return;
 
 			const dragId = draggableId.replace(/\D/g, '');
-			movePackItem({
+			movePackItem.mutate({
 				packId: paramPackId ? packId : null,
 				packItemId: dragId,
 				packCategoryId: destination.droppableId,
@@ -81,40 +87,53 @@ const Dashboard = ({ userView }: DashboardProps) => {
 	const { packAffiliate, packAffiliateDescription } = currentPack;
 
 	return (
-		<UserViewContext.Provider value={userView}>
-			<ThemeProvider theme={theme}>
-				<div className="dashboard-container">
-					<PackInfo
-						currentPack={currentPack}
-						packCategories={packCategories}
-						fetching={isPending}
-					/>
+		<PackCategoryHandlerWrapper>
+			<PackItemHandlerWrapper>
+				<UserViewContext.Provider value={userView}>
+					<ThemeProvider theme={theme}>
+						<DashboardContainer>
+							<PackInfo
+								currentPack={currentPack}
+								packCategories={packCategories}
+								userProfile={userProfile}
+								settings={settings}
+								fetching={isPending}
+							/>
 
-					<DragDropContext onDragEnd={handleOnDragEnd}>
-						<Drop droppableId={'dashboard-drop-window'} type="category">
-							{packCategories.length >= 0 &&
-								packCategories.map((category: Category, idx: number) => (
-									<PackCategory
-										category={category}
-										packList={packList}
-										index={idx}
-										key={category?.packCategoryId || idx}
-									/>
-								))}
-						</Drop>
-					</DragDropContext>
+							<DragDropContext onDragEnd={handleOnDragEnd}>
+								<Drop droppableId={'dashboard-drop-window'} type="category">
+									{packCategories.length > 0 &&
+										packCategories.map((category: Category, idx: number) => (
+											<PackCategory
+												category={category}
+												packList={packList}
+												index={idx}
+												key={category?.packCategoryId || idx}
+											/>
+										))}
+								</Drop>
+							</DragDropContext>
 
-					{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
-					{!userView && (
-						<DashboardFooter
-							affiliate={packAffiliate}
-							description={packAffiliateDescription}
-						/>
-					)}
-				</div>
-			</ThemeProvider>
-		</UserViewContext.Provider>
+							{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+
+							{!userView && !isAuthenticated && (
+								<DashboardFooter
+									affiliate={packAffiliate}
+									description={packAffiliateDescription}
+								/>
+							)}
+						</DashboardContainer>
+					</ThemeProvider>
+				</UserViewContext.Provider>
+			</PackItemHandlerWrapper>
+		</PackCategoryHandlerWrapper>
 	);
 };
 
 export default Dashboard;
+
+const DashboardContainer = styled.div`
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+`;

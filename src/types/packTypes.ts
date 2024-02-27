@@ -19,6 +19,7 @@ export type Pack = {
 	packUrl: string;
 	packAffiliate: boolean;
 	packAffiliateDescription: string;
+	packViews: number;
 };
 
 export type Category = {
@@ -71,4 +72,12 @@ export type MovePackItemProps = {
 	packItemIndex: number;
 	prevPackCategoryId: string;
 	prevPackItemIndex: number;
+};
+
+export type MovePackCategoryProps = {
+	packId: number;
+	packCategoryId: string;
+	newIndex: number;
+	prevIndex: number;
+	paramPackId: string | undefined;
 };

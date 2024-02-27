@@ -4,6 +4,7 @@ import { type PackListItem, type PackItem, PackInfo } from '../../../types/packT
 import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
+import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -72,7 +73,7 @@ const GearClosetList = ({
 				<NotFoundMessage />
 			)}
 
-			<Table.Footer>
+			<StyledFooter>
 				<Table.Row className="footer-container">
 					<Table.Cell colSpan={16}>
 						<Button
@@ -80,7 +81,7 @@ const GearClosetList = ({
 							floated="left"
 							compact
 							basic
-							className="add-item-table-button"
+							$footerButton
 							disabled={isPendingAddItem}
 							onClick={() => addItem()}>
 							<Icon name="add" />
@@ -88,7 +89,7 @@ const GearClosetList = ({
 						</Button>
 					</Table.Cell>
 				</Table.Row>
-			</Table.Footer>
+			</StyledFooter>
 		</Table>
 	);
 };

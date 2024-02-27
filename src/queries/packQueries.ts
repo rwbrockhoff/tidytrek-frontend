@@ -1,15 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import {
-	MovePackItemProps,
+	type MovePackItemProps,
 	type InitialState,
 	type Pack,
 	type PackItem,
 	type PackListItem,
 } from '../types/packTypes';
-import { packKeys, packListKeys, closetKeys } from './queryKeys';
+import { packKeys, packListKeys, closetKeys, profileKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { getCategoryIdx } from '../utils/packUtils';
+import { HeaderInfo } from '../views/Dashboard/handlers/usePackCategoryHandlers';
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({
@@ -43,6 +44,7 @@ export const useAddNewPackMutation = () => {
 		mutationFn: () => tidyTrekAPI.post('/packs').then((res) => res.data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
 	});
 };
@@ -99,6 +101,7 @@ export const useMovePackMutation = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
 	});
 };
@@ -234,12 +237,9 @@ export const useAddPackCategoryMutation = () => {
 export const useEditPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (categoryInfo: {
-			packCategoryId: number;
-			categoryChanges: { packCategoryName?: string; packCategoryColor?: string };
-		}) => {
-			const { packCategoryId, categoryChanges } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryChanges);
+		mutationFn: (categoryInfo: HeaderInfo) => {
+			const { packCategoryId } = categoryInfo;
+			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryInfo);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -252,7 +252,6 @@ export const useMovePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		// mutationKey: packKeys.packId(packId),
 		mutationFn: (categoryInfo: {
 			packId: number;
 			packCategoryId: string;

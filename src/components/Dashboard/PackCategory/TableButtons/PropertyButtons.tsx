@@ -1,7 +1,7 @@
 import { Table, Popup, Icon } from 'semantic-ui-react';
 import { type PackButtonSwitches } from '../../../../types/packTypes';
 import './PropertyButton.css';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type ButtonProps = {
 	size: number;

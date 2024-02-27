@@ -1,8 +1,9 @@
 import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { themeColor } from '../../../../shared/mixins/mixins';
 import { Button } from '../../../../shared/ui/SemanticUI';
 import { useState } from 'react';
-import { useUserContext } from '../../../../views/Dashboard/useUserContext';
-import './ShareSettings.css';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };
 
@@ -22,25 +23,25 @@ const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 
 	if (packPublic) {
 		return (
-			<div className="share-settings-container">
-				<p>
+			<ShareSettingsContainer>
+				<LightText>
 					<Icon name="binoculars" /> Public
-				</p>
+				</LightText>
 				<Popup
 					on="click"
 					flowing
 					hideOnScroll
 					onClose={handleReset}
 					trigger={
-						<p className="share-button">
+						<ShareText>
 							<Icon name="share alternate" />
 							Share Pack
-						</p>
+						</ShareText>
 					}>
 					<PopupContent>
 						<Header as="h4">Share Your Pack</Header>
 						<Divider />
-						<div className="share-settings-popup-container">
+						<div>
 							<Input size="mini" value={packLink} />
 							<Button
 								$themeColor="primary"
@@ -63,15 +64,32 @@ const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 						</div>
 					</PopupContent>
 				</Popup>
-			</div>
+			</ShareSettingsContainer>
 		);
 	} else {
 		return (
-			<p className="share-settings-text">
+			<LightText>
 				<Icon name="hide" /> Private
-			</p>
+			</LightText>
 		);
 	}
 };
 
 export default ShareSettings;
+
+const ShareSettingsContainer = styled.div`
+	display: flex;
+`;
+
+const LightText = styled.p`
+	opacity: 0.4;
+`;
+
+const ShareText = styled(LightText)`
+	margin-left: 15px;
+	cursor: pointer;
+	&:hover {
+		opacity: 1;
+		${themeColor('primary')}
+	}
+`;

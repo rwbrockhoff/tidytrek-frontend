@@ -1,4 +1,3 @@
-import './PackList.css';
 import { Header, Divider, Icon } from 'semantic-ui-react';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
 import { Drop, Drag } from '../../../shared/DragDropWrapper';
@@ -6,16 +5,14 @@ import PackListItem from './PackListItem/PackListItem';
 
 type PackListProps = {
 	packList: PackListItemType[];
-	getPack: (packId: number) => Promise<void>;
+	getPack: (packId: number) => void;
 	addPack: () => void;
 };
 
 const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 	return (
-		<div className="pack-list-container">
-			<Header as="h3" className="pack-title">
-				Packs
-			</Header>
+		<div>
+			<Header as="h3">Packs</Header>
 
 			<Drop droppableId={'sidebar-pack-list'} type="packlist-item">
 				{packList.map((pack: PackListItemType, index: number) => {

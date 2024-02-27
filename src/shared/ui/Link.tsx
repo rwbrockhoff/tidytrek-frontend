@@ -10,7 +10,7 @@ type LinkProps = {
 const Link = ({ url, text, showIcon = false, className }: LinkProps) => {
 	if (url) {
 		return (
-			<a href={`https://${url}`} target="_blank" rel="noopener noreferrer">
+			<a href={url} target="_blank" rel="noopener noreferrer">
 				<p className={className}>
 					{showIcon && <Icon name="linkify" />}
 					{text}

@@ -1,6 +1,9 @@
-import { Grid, Header, Form, Segment, Message, Icon, Button } from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
+import { Header, Button } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
 import { ReactInput } from '../../../types/generalTypes';
+import { FooterText, FormContainer, FormMessage } from '../FormComponents';
+import { AuthContainer } from '../FormComponents';
 
 type FormData = {
 	email: string;
@@ -34,87 +37,89 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	} = props;
 	const { email, password, confirmPassword } = formData;
 	return (
-		<Grid.Column style={{ maxWidth: 450 }}>
-			<Header as="h1" textAlign="center">
-				tidytrek app
-			</Header>
-			<Form size="large">
-				<Segment stacked>
-					<Header as="h2" color="blue" textAlign="center">
-						Reset Password
-					</Header>
+		<AuthContainer>
+			<FormContainer>
+				<Header as="h1">tidytrek</Header>
+				<Form size="large">
+					<Segment stacked>
+						<Header as="h3" $themeColor="tidyGreen">
+							Reset Password
+						</Header>
 
-					{!hasResetToken && (
-						<Form.Input
+						{!hasResetToken && (
+							<Form.Input
+								fluid
+								icon="at"
+								type="email"
+								iconPosition="left"
+								placeholder="E-mail address"
+								name="email"
+								data-testid="email-input"
+								value={email}
+								onChange={onFormChange}
+							/>
+						)}
+
+						{hasResetToken && (
+							<>
+								<Form.Input
+									fluid
+									icon="lock"
+									iconPosition="left"
+									placeholder="Password"
+									type="password"
+									name="password"
+									data-testid="password-input"
+									value={password}
+									onChange={onFormChange}
+								/>
+
+								<Form.Input
+									fluid
+									icon="lock"
+									iconPosition="left"
+									placeholder="Verify password"
+									type="password"
+									name="confirmPassword"
+									data-testid="verify-password-input"
+									value={confirmPassword}
+									onChange={onFormChange}
+								/>
+							</>
+						)}
+
+						<Button
+							$themeColor="tidyGreen"
 							fluid
-							icon="at"
-							type="email"
-							iconPosition="left"
-							placeholder="E-mail address"
-							name="email"
-							data-testid="email-input"
-							value={email}
-							onChange={onFormChange}
-						/>
-					)}
+							size="large"
+							disabled={isLoading}
+							onClick={hasResetToken ? onResetConfirm : onResetRequest}>
+							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
+						</Button>
 
-					{hasResetToken && (
-						<>
-							<Form.Input
-								fluid
-								icon="lock"
-								iconPosition="left"
-								placeholder="Password"
-								type="password"
-								name="password"
-								data-testid="password-input"
-								value={password}
-								onChange={onFormChange}
+						{formError && (
+							<FormMessage
+								messageType="error"
+								text={formErrorMessage || 'Oops! There was an error.'}
+								id="reset-password-message"
 							/>
+						)}
 
-							<Form.Input
-								fluid
-								icon="lock"
-								iconPosition="left"
-								placeholder="Verify password"
-								type="password"
-								name="confirmPassword"
-								data-testid="verify-password-input"
-								value={confirmPassword}
-								onChange={onFormChange}
+						{isSuccess && (
+							<FormMessage
+								messageType="success"
+								text={'Please check your inbox for a link to reset your password.'}
+								id="reset-password-message"
 							/>
-						</>
-					)}
+						)}
 
-					<Button
-						color="blue"
-						fluid
-						size="large"
-						disabled={isLoading}
-						onClick={hasResetToken ? onResetConfirm : onResetRequest}>
-						{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
-					</Button>
-
-					{formError && (
-						<Message color="red" data-testid="error-message">
-							<Icon name="hand point right outline" />
-							{formErrorMessage || 'Oops! There was an error.'}
-						</Message>
-					)}
-
-					{isSuccess && (
-						<Message color="green" data-testid="success-message">
-							<Icon name="check" />
-							Please check your inbox for a link to reset your password.
-						</Message>
-					)}
-
-					<p style={{ marginTop: '25px' }}>
-						<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
-					</p>
-				</Segment>
-			</Form>
-		</Grid.Column>
+						<FooterText>
+							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
+						</FooterText>
+					</Segment>
+				</Form>
+			</FormContainer>
+		</AuthContainer>
 	);
 };
 

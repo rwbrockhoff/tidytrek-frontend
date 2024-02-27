@@ -1,14 +1,15 @@
-import { SegmentGroup, Segment, Button, Icon, Header } from 'semantic-ui-react';
+import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
+import { Header } from '../../../shared/ui/SemanticUI';
 import { type User } from '../../../types/userTypes';
 import { type PasswordInfo } from '../../../types/generalTypes';
 import { type ReactInput } from '../../../types/generalTypes';
-import PasswordForm from '../PasswordForm/PasswordForm';
+import PasswordForm from './PasswordForm';
 import { setFormInput } from '../../../shared/formHelpers';
 import { useState } from 'react';
-import './AccountForm.css';
+import styled from 'styled-components';
 
 type AccountFormProps = {
-	user: User | undefined;
+	user: User | null;
 	success: boolean;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 	resetFormError: () => void;
@@ -43,26 +44,27 @@ const AccountForm = ({
 		handleTogglePasswordForm();
 		resetFormError();
 	};
+	const { firstName, lastName, email } = user || {};
 
+	const fullName = `${firstName} ${lastName}`;
 	return (
-		<SegmentGroup className="account-segment-group">
-			<Segment stacked>
-				<Header as="h4">Account Info</Header>
+		<SegmentGroup>
+			<Segment>
+				<Header as="h4" $marginBottom="2rem">
+					Account Info
+				</Header>
 				<p>
-					<b>Name:</b> {user?.name || 'A Tidy Hiker'}
+					<b>Name:</b> {fullName || 'A Tidy Hiker'}
 				</p>
 				<p>
-					<b>Email:</b> {user?.email || 'No email here. Too busy hiking.'}
-				</p>
-				<p>
-					<b>Username:</b> {user?.username || 'No trail name yet? Take your time.'}
+					<b>Email:</b> {email || 'No email here. Too busy hiking.'}
 				</p>
 			</Segment>
 			<PasswordForm
 				displayForm={displayPasswordForm}
+				passwordInfo={passwordInfo}
 				toggleForm={handleTogglePasswordForm}
 				resetFormError={handleResetForm}
-				passwordInfo={passwordInfo}
 				onChange={handleOnChange}
 				changePassword={changePassword}
 			/>
@@ -82,3 +84,10 @@ const AccountForm = ({
 };
 
 export default AccountForm;
+
+export const Segment = styled(SemSegment)`
+	&&& {
+		padding: 35px 25px;
+	}
+}
+`;

@@ -8,21 +8,26 @@ import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { type ReactInput } from '../../../../../types/generalTypes';
-import { type CategoryChanges } from '../../PackCategory';
-import { useUserContext } from '../../../../../views/Dashboard/useUserContext';
+import { type HeaderInfo } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
+import { usePackCategoryHandlers } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 
 type CategoryNameCellProps = {
-	categoryName: string;
-	categoryColor: string;
+	categoryHeaderInfo: HeaderInfo;
 	size: number;
 	disabled: boolean;
-	editCategory: (categoryChanges: CategoryChanges) => void;
 };
 
 const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
+	const { editCategory } = usePackCategoryHandlers().handlers;
 
-	const { size, disabled, editCategory, categoryName, categoryColor } = props;
+	const { size, disabled, categoryHeaderInfo } = props;
+	const {
+		packCategoryName: categoryName,
+		packCategoryColor,
+		packCategoryId,
+	} = categoryHeaderInfo;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 	const [toggleInput, setToggleInput] = useState(false);
@@ -34,10 +39,13 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		if (toggleInput) {
 			setToggleInput(false);
 			if (categoryName !== packCategoryName) {
-				editCategory({ packCategoryName });
+				editCategory({ packCategoryName, packCategoryId });
 			}
 		}
 	};
+
+	const handleChangeColor = (packCategoryColor: string) =>
+		editCategory({ packCategoryColor, packCategoryId });
 
 	const handleOnMouseOver = () => {
 		if (!disabled && userView) toggleToEdit();
@@ -71,7 +79,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 					disabled={!userView}
 					// Show input background when user interacts
 					$displayInput={displayInput}>
-					<ThemeButton color={categoryColor} onClick={editCategory} />
+					<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
 					<input />
 				</Input>
 			) : (

@@ -1,9 +1,13 @@
-import { Dropdown, Table, Icon, DropdownProps } from 'semantic-ui-react';
-import { Button } from '../../../../shared/ui/SemanticUI';
+import { Dropdown, Icon, DropdownProps } from 'semantic-ui-react';
+import { Button, TableCell } from '../../../../shared/ui/SemanticUI';
 import { PackItem, type PackListItem } from '../../../../types/packTypes';
 import { type PackInfo } from '../../../../types/packTypes';
 import { useState } from 'react';
+import usePackDropdown from './usePackDropdown';
 import { SyntheticEvent } from 'react';
+import styled from 'styled-components';
+
+type SelectEvent = SyntheticEvent<HTMLElement, Event>;
 
 type MoveItemDropdownProps = {
 	packItem: PackItem;
@@ -17,38 +21,20 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const [packId, setPackId] = useState<number | null>();
 	const [categoryId, setCategoryId] = useState<number | null>();
 
-	const packList = availablePacks.map((item) => ({
-		key: item.packId,
-		value: item.packId,
-		text: item.packName,
-	}));
-
 	const [currentPack] = availablePacks.filter((item) => item.packId === packId);
 
 	const availableCategories = currentPack?.packCategories || [];
 
-	const categoryList = availableCategories[0]
-		? availableCategories.map((item) => ({
-				key: item?.packCategoryId,
-				value: item?.packCategoryId,
-				text: item?.packCategoryName,
-			}))
-		: [];
+	const { packList, categoryList } = usePackDropdown(availablePacks, availableCategories);
 
-	const handleSelectPack = (
-		_event: SyntheticEvent<HTMLElement, Event>,
-		data: DropdownProps,
-	) => {
+	const handleSelectPack = (_event: SelectEvent, data: DropdownProps) => {
 		if (data.value && typeof data.value === 'number') {
 			setPackId(data.value);
 			setCategoryId(null);
 		}
 	};
 
-	const handleCategorySelect = (
-		_event: SyntheticEvent<HTMLElement, Event>,
-		data: DropdownProps,
-	) => {
+	const handleSelectCategory = (_event: SelectEvent, data: DropdownProps) => {
 		if (data.value && typeof data.value === 'number') setCategoryId(data.value);
 	};
 
@@ -67,9 +53,9 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const packAndCategorySelected = packId && categoryId ? true : false;
 
 	return (
-		<tr style={{ paddingTop: '25px !important' }}>
-			<Table.Cell colSpan="8" />
-			<Table.Cell colSpan="3" collapsing>
+		<TableRow>
+			<TableCell colSpan="8" />
+			<TableCell colSpan="3" collapsing $overflow={true}>
 				<Dropdown
 					selection
 					placeholder="Choose pack..."
@@ -80,8 +66,8 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 					options={packList}
 					onChange={handleSelectPack}
 				/>
-			</Table.Cell>
-			<Table.Cell colSpan="3" collapsing>
+			</TableCell>
+			<TableCell colSpan="3" collapsing $overflow={true}>
 				<Dropdown
 					selection
 					placeholder="Choose Category..."
@@ -91,22 +77,27 @@ const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 					disabled={!packSelected}
 					value={categoryId || undefined}
 					options={categoryList}
-					onChange={handleCategorySelect}
+					onChange={handleSelectCategory}
 				/>
-			</Table.Cell>
-			<Table.Cell colSpan="2" textAlign="left">
+			</TableCell>
+			<TableCell colSpan="2" textAlign="left">
 				<Button
 					$themeColor="primary"
 					size="small"
 					disabled={!packAndCategorySelected}
-					color={packAndCategorySelected ? 'blue' : 'grey'}
 					onClick={handleMoveItemToPack}>
 					<Icon name="share" />
 					Move
 				</Button>
-			</Table.Cell>
-		</tr>
+			</TableCell>
+		</TableRow>
 	);
 };
 
 export default MoveItemDropdown;
+
+const TableRow = styled.tr`
+	&&&& {
+		height: 60px;
+	}
+`;

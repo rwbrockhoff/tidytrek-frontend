@@ -1,82 +1,38 @@
-import {
-	useChangePasswordMutation,
-	useGetAuthStatusQuery,
-	useDeleteAccountMutation,
-} from '../../queries/userQueries';
-import { useState, createContext } from 'react';
-import { Icon, Header } from 'semantic-ui-react';
-import { type PasswordInfo } from '../../types/generalTypes';
-import AccountForm from '../../components/Account/AccountForm/AccountForm';
-import { DeleteModal } from '../../shared/ui/Modals';
-import './Account.css';
-import { validPassword, passwordRequirements } from '../Authentication/authHelper';
-import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';
+import { useGetAuthStatusQuery } from '../../queries/userQueries';
+import { Header } from 'semantic-ui-react';
+import { Outlet } from 'react-router-dom';
+import { createContext } from 'react';
+import { User } from '../../types/userTypes';
+import AccountMenu from '../../components/Account/AccountMenu/AccountMenu';
+import styled from 'styled-components';
+import { mobile } from '../../shared/mixins/mixins';
 
-const deleteMessage =
-	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";
-
-export const ChangePassContext = createContext({
-	isPending: false,
-	isSuccess: false,
-	error: { error: false, message: '' },
-});
+export const UserContext = createContext<{ user: User | null }>({ user: null });
 
 const Account = () => {
 	const { data } = useGetAuthStatusQuery();
-	const { mutate: deleteAccount } = useDeleteAccountMutation();
-	const changePassData = useChangePasswordMutation();
-	const { mutate: changePassword, isSuccess, isPending } = changePassData;
-
-	const user = data?.user;
-
-	const [showModal, setShowModal] = useState(false);
-
-	const handleToggleModal = () => setShowModal(!showModal);
-
-	const handleChangePassword = (passwordInfo: PasswordInfo) => {
-		const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
-		if (!currentPassword) return handleError('Please type in your current password.');
-		if (newPassword !== confirmNewPassword)
-			return handleError('Your passwords do not match.');
-		if (!validPassword(newPassword)) return handleError(passwordRequirements);
-		if (currentPassword) changePassword(passwordInfo);
-	};
-
-	const handleError = (message: string) =>
-		setFormError({ error: true, message: message });
-
-	const handleResetFormError = () => {
-		setFormError({ error: false, message: '' });
-		// changePassData.reset();
-	};
-
-	const [error, setFormError] = useCombineErrors([changePassData as MutationError]);
+	const user = data?.user || null;
 
 	return (
-		<div className="account-container">
-			<Header as="h3">
-				<Icon name="user outline" />
-				Account Info
+		<Container>
+			<Header as="h3" textAlign="center">
+				User Settings
 			</Header>
-			<ChangePassContext.Provider value={{ isSuccess, isPending, error }}>
-				<AccountForm
-					user={user}
-					success={isSuccess}
-					resetFormError={handleResetFormError}
-					changePassword={handleChangePassword}
-					deleteAccount={handleToggleModal}
-				/>
-			</ChangePassContext.Provider>
-			<DeleteModal
-				simple
-				open={showModal}
-				header="Delete Your Account"
-				message={deleteMessage}
-				onClose={handleToggleModal}
-				onClickDelete={deleteAccount}
-			/>
-		</div>
+
+			<AccountMenu />
+
+			<UserContext.Provider value={{ user }}>
+				<Outlet />
+			</UserContext.Provider>
+		</Container>
 	);
 };
 
 export default Account;
+
+const Container = styled.div`
+	padding: 0 5vw;
+	${mobile(`
+		padding: 0;
+	`)}
+`;

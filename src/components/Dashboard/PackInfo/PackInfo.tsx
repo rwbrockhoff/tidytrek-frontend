@@ -1,6 +1,6 @@
 import { Header, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
-import { useUserContext } from '../../../views/Dashboard/useUserContext';
+import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
@@ -14,18 +14,27 @@ import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
 import Link from '../../../shared/ui/Link';
+import { type UserProfile } from '../../../types/profileTypes';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
+import { type Settings } from '../../../types/settingsTypes';
 
 type PackInfoProps = {
 	currentPack: Pack;
 	packCategories: Category[];
+	userProfile: UserProfile | undefined;
+	settings: Settings | null;
 	fetching: boolean;
 };
 
-const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
+const PackInfo = (props: PackInfoProps) => {
+	const { fetching, currentPack, packCategories, userProfile, settings } = props;
+	const { profileInfo, socialLinks } = userProfile || {};
+
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
 
 	const navigate = useNavigate();
+
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
@@ -57,12 +66,22 @@ const PackInfo = ({ fetching, currentPack, packCategories }: PackInfoProps) => {
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
+	const { publicProfile } = settings || {};
+
 	return (
 		<div className="pack-info-container">
 			<div
 				className="pack-info-left-panel"
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
+				{!userView && (
+					<ProfileInfo
+						userInfo={profileInfo}
+						socialLinks={socialLinks}
+						publicProfile={publicProfile}
+					/>
+				)}
+
 				<Header as="h1">
 					{packName}
 					{showIcon && userView && (

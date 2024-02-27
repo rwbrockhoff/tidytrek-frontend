@@ -1,25 +1,7 @@
-.table-container {
-	width: 100%;
-	text-align: center;
-	margin: 15px 0px;
-	display: flex;
-}
-
-.ui.table tfoot {
-	background-color: #f0f0f0;
-	font-size: 0.9em;
-	color: grey;
-}
-
 .ui.table {
 	border: none;
 }
 
 .table-container h3 {
 	padding-left: 25px;
-}
-
-.add-item-table-button {
-	margin-top: 5px !important;
-	margin-left: 10px !important;
 }
