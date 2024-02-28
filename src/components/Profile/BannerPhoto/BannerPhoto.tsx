@@ -20,7 +20,7 @@ const BannerPhoto = (props: BannerPhotoProps) => {
 		<BannerContainer
 			onMouseOver={() => setShowUploadMode(true)}
 			onMouseLeave={() => setShowUploadMode(false)}>
-			<BannerImage src={bannerPhotoUrl} />
+			<BannerImage src={bannerPhotoUrl} alt="landscape profile banner photo" />
 
 			{isPending && <StyledLoader active inverted size="big" />}
 

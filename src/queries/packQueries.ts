@@ -63,6 +63,24 @@ export const useEditPackMutation = () => {
 	});
 };
 
+export const useUploadPackPhotoMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (photoInfo: { packId: number; formData: FormData }) => {
+			const { packId, formData } = photoInfo;
+			return tidyTrekAPI.post(`/packs/${packId}/pack-photo`, formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			});
+		},
+		onSuccess: (_response, variables) => {
+			const { packId } = variables;
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(null) });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+		},
+	});
+};
+
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({

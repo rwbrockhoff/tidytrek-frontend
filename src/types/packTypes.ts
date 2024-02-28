@@ -18,6 +18,7 @@ export type Pack = {
 	packPricing: boolean;
 	packUrlName: string;
 	packUrl: string;
+	packPhotoUrl: string;
 	packAffiliate: boolean;
 	packAffiliateDescription: string;
 	packViews: number;

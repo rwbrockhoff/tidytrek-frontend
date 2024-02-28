@@ -12,14 +12,17 @@ import {
 } from 'semantic-ui-react';
 import { Button, ModalHeader, Checkbox } from '../../../../shared/ui/SemanticUI';
 import { useState, useEffect } from 'react';
-import { useEditPackMutation } from '../../../../queries/packQueries';
+import {
+	useEditPackMutation,
+	useUploadPackPhotoMutation,
+} from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
-import './PackFormModal.css';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
 import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
 import { InputEvent, TextAreaEvent } from '../../../../shared/formHelpers';
 import styled from 'styled-components';
 import { SubText } from '../../../../shared/ui/TidyUI';
+import PhotoUpload from './PhotoUpload';
 
 type PackFormModalProps = {
 	pack: Pack;
@@ -28,11 +31,9 @@ type PackFormModalProps = {
 	onClickDelete: () => void;
 };
 
-const mockPhotoUrl =
-	'https://images.unsplash.com/photo-1517398825998-780ca786555f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-
 const PackFormModal = (props: PackFormModalProps) => {
 	const { mutate: editPack } = useEditPackMutation();
+	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
 
 	const { pack, open, onClose, onClickDelete } = props;
 	const [packChanged, setPackChanged] = useState(false);
@@ -54,6 +55,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 		packViews: 0,
 		packBookmarkCount: 0,
 		packPricing: false,
+		packPhotoUrl: '',
 	});
 
 	useEffect(() => {
@@ -94,6 +96,11 @@ const PackFormModal = (props: PackFormModalProps) => {
 		}
 	};
 
+	const handleUploadPhoto = (formData: FormData) => {
+		const { packId } = pack;
+		uploadPackPhoto({ packId, formData });
+	};
+
 	const {
 		packPublic,
 		packName,
@@ -109,13 +116,25 @@ const PackFormModal = (props: PackFormModalProps) => {
 		packPricing,
 	} = modifiedPack;
 
+	const { packPhotoUrl } = pack;
+
 	return (
 		// change open={true} -> open={open}
 		<Modal size="small" closeIcon open={open} onClose={onClose}>
 			<ModalHeader $themeColor="primary">
 				{packName ?? pack.packName ?? 'Pack'}
 			</ModalHeader>
-			<ModalContent>
+			<StyledModalContent>
+				<RightPanel>
+					<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
+					<SubText>Upload a .jpg or .png file.</SubText>
+					<PhotoUpload
+						src={packPhotoUrl}
+						uploadEnabled={!isPending}
+						isPending={isPending}
+						onUpload={handleUploadPhoto}
+					/>
+				</RightPanel>
 				<Form style={{ padding: '0 10px' }}>
 					<FormSection>
 						<LeftPanel>
@@ -138,11 +157,6 @@ const PackFormModal = (props: PackFormModalProps) => {
 								/>
 							</FormField>
 						</LeftPanel>
-						<RightPanel>
-							<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
-							<SubText>Upload a .jpg or .png file.</SubText>
-							<PackPhoto src={mockPhotoUrl} alt="upload custom pack photo" />
-						</RightPanel>
 					</FormSection>
 
 					<PackTagProperties
@@ -238,7 +252,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 						</FormField>
 					)}
 				</Form>
-			</ModalContent>
+			</StyledModalContent>
 			<ModalActions>
 				<Button color="red" floated="left" basic onClick={onClickDelete}>
 					<Icon name="trash" /> Delete Pack
@@ -253,6 +267,9 @@ const PackFormModal = (props: PackFormModalProps) => {
 
 export default PackFormModal;
 
+const StyledModalContent = styled(ModalContent)`
+	position: relative;
+`;
 const StyledField = styled(FormField)`
 	display: flex;
 	align-items: center;
@@ -262,14 +279,9 @@ const StyledField = styled(FormField)`
 	}
 `;
 
-const PackPhoto = styled.img`
-	width: 100%;
-	object-cover: cover;
-	border-radius: 15px;
-`;
-
 const FormSection = styled.div`
 	display: flex;
+	height: 250px;
 	margin-bottom: 25px;
 `;
 
@@ -277,13 +289,17 @@ const LeftPanel = styled.div`
 	width: 50%;
 	padding-right: 25px;
 	textarea {
-		height: 135px;
+		height: 150px;
 	}
 `;
 
 const RightPanel = styled.div`
-	width: 50%;
-	padding-left: 10px;
+	width: 45%;
+	padding-top: 0;
+	position: absolute;
+	z-index: 1;
+	right: calc(1.5rem + 10px);
+	top: 1.5rem;
 `;
 
 const LabelContainer = styled.div``;
