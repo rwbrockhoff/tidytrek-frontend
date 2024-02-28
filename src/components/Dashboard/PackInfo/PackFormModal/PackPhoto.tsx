@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import UploadFile from '../../../../shared/ui/UploadFile';
 import { Button, Loader } from 'semantic-ui-react';
 import { Dimmer } from '../../../../shared/ui/Dimmer';
-
-const mockPhotoUrl =
-	'https://images.unsplash.com/photo-1517398825998-780ca786555f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+import { defaultPackPhoto } from '../../../../shared/ui/defaultPhotos';
+import { flexCenter } from '../../../../shared/mixins/mixins';
 
 type PackPhotoUploadProps = {
 	src: string;
@@ -23,7 +22,7 @@ const PhotoUpload = (props: PackPhotoUploadProps) => {
 		if (isPending) setShowButton(false);
 	}, [isPending]);
 
-	const photoSource = src || mockPhotoUrl;
+	const photoSource = src || defaultPackPhoto;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 	const displayDeleteButton = src && showButton && !isPending;
 	return (
@@ -78,8 +77,9 @@ const StyledDimmer = styled(Dimmer)`
 const UploadContainer = styled.div`
 	position: absolute;
 	top: calc(100px - 1.5em);
-	left: calc(50% - 2em);
 	z-index: 5;
+	width: 100%;
+	${flexCenter}
 `;
 
 const Container = styled.div`
@@ -90,8 +90,8 @@ const Container = styled.div`
 
 const StyledLoader = styled(Loader)`
 	&&& {
-		top: calc(50% - 0em);
-		left: calc(50% - 0.5em);
+		width: 100%;
+		${flexCenter}
 	}
 `;
 

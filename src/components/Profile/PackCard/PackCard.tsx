@@ -14,13 +14,11 @@ import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import { mobile } from '../../../shared/mixins/mixins';
+import { defaultPackPhoto } from '../../../shared/ui/defaultPhotos';
 
 type PackCardProps = {
 	pack: Pack;
 };
-
-const defaultPackPhoto =
-	'https://photos.tidytrek.co/eyJidWNrZXQiOiJ0aWR5dHJlay1kZWZhdWx0LXBob3RvcyIsImtleSI6InBhY2tfY2FyZF9kZWZhdWx0LnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjQwMH19fQ==';
 
 const PackCard = (props: PackCardProps) => {
 	const userView = useUserContext();

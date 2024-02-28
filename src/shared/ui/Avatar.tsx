@@ -5,9 +5,7 @@ import { useState } from 'react';
 import Dimmer from './Dimmer';
 import UploadFile from './UploadFile';
 import { flexCenter } from '../mixins/mixins';
-
-const defaultPhotoUrl =
-	'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+import { defaultAvatarPhoto } from './defaultPhotos';
 
 type AvatarProps = {
 	src: string | undefined;
@@ -35,7 +33,7 @@ const Avatar = (props: AvatarProps) => {
 	const [showButton, setShowButton] = useState(false);
 
 	const hasLink = link ? true : false;
-	const photoSource = src ? src : defaultPhotoUrl;
+	const photoSource = src ? src : defaultAvatarPhoto;
 	const displayDeleteButton = onDelete && src && showButton && !isPending;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 

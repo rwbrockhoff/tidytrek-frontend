@@ -23,7 +23,7 @@ import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
 import { InputEvent, TextAreaEvent } from '../../../../shared/formHelpers';
 import styled from 'styled-components';
 import { SubText } from '../../../../shared/ui/TidyUI';
-import PhotoUpload from './PhotoUpload';
+import PackPhoto from './PackPhoto';
 
 type PackFormModalProps = {
 	pack: Pack;
@@ -137,7 +137,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 				<RightPanel>
 					<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
 					<SubText>Upload a .jpg or .png file.</SubText>
-					<PhotoUpload
+					<PackPhoto
 						src={packPhotoUrl}
 						uploadEnabled={!photoPending}
 						isPending={photoPending}
