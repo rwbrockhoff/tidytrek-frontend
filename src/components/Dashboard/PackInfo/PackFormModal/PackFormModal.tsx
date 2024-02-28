@@ -17,6 +17,9 @@ import { Pack } from '../../../../types/packTypes';
 import './PackFormModal.css';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
 import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
+import { InputEvent, TextAreaEvent } from '../../../../shared/formHelpers';
+import styled from 'styled-components';
+import { SubText } from '../../../../shared/ui/TidyUI';
 
 type PackFormModalProps = {
 	pack: Pack;
@@ -56,16 +59,12 @@ const PackFormModal = (props: PackFormModalProps) => {
 		});
 	}, [props.pack]);
 
-	const handleFormChange = (
-		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
-	) => {
+	const handleFormChange = (e: InputEvent | TextAreaEvent) => {
 		setModifiedPack((prevFormData) => ({
 			...prevFormData,
 			[e?.target?.name]: e?.target?.value,
 		}));
-		if (!packChanged) {
-			setPackChanged(true);
-		}
+		if (!packChanged) setPackChanged(true);
 	};
 
 	const handleCheckBox = (updatedCheckbox: {
@@ -106,28 +105,13 @@ const PackFormModal = (props: PackFormModalProps) => {
 	} = modifiedPack;
 
 	return (
+		// change open={true} -> open={open}
 		<Modal size="small" closeIcon open={open} onClose={onClose}>
 			<ModalHeader $themeColor="primary">
 				{packName ?? pack.packName ?? 'Pack'}
 			</ModalHeader>
 			<ModalContent>
 				<Form>
-					<FormField
-						style={{
-							display: 'flex',
-							justifyContent: 'flex-end',
-						}}>
-						<Checkbox
-							$themeColor="primary"
-							toggle
-							checked={packPublic}
-							onClick={() => handleCheckBox({ packPublic: !packPublic })}
-						/>
-
-						<label className="public-toggle-label">
-							<Icon name="binoculars" /> Public
-						</label>
-					</FormField>
 					<FormField>
 						<label>Pack Name</label>
 						<Input
@@ -181,16 +165,38 @@ const PackFormModal = (props: PackFormModalProps) => {
 
 					<Divider />
 
-					<FormField>
+					<StyledField width={16}>
+						<LabelContainer>
+							<label>
+								<Icon name="binoculars" /> Public
+							</label>
+							<SubText>Choose whether you want your pack to be public.</SubText>
+						</LabelContainer>
 						<Checkbox
 							$themeColor="primary"
 							toggle
-							name="packAffiliate"
+							checked={packPublic}
+							onClick={() => handleCheckBox({ packPublic: !packPublic })}
+						/>
+					</StyledField>
+
+					<StyledField width={16}>
+						<LabelContainer>
+							<label>
+								<Icon name="linkify" /> Affiliate Links
+							</label>
+							<SubText>
+								Enable if you use affiliate links for any of your pack items.
+							</SubText>
+						</LabelContainer>
+						<Checkbox
+							$themeColor="primary"
+							toggle
 							checked={packAffiliate ?? false}
 							onClick={() => handleCheckBox({ packAffiliate: !packAffiliate })}
-							label="Click here if you use affiliate links for any of your pack items."
 						/>
-					</FormField>
+					</StyledField>
+
 					{packAffiliate && (
 						<FormField>
 							<label>Custom Affiliate Message</label>
@@ -217,3 +223,14 @@ const PackFormModal = (props: PackFormModalProps) => {
 };
 
 export default PackFormModal;
+
+const StyledField = styled(FormField)`
+	display: flex;
+	align-items: center;
+	.checkbox {
+		padding-top: 10px;
+		margin-left: auto;
+	}
+`;
+
+const LabelContainer = styled.div``;
