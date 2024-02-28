@@ -1,7 +1,7 @@
 import { Table, Icon } from 'semantic-ui-react';
 import { Button } from '../../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
 import { themeBgColor } from '../../../../shared/mixins/mixins';
 import { TableText } from '../TableHeader/TableHeader';
 

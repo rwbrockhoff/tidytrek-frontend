@@ -2,7 +2,7 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
-import { UserViewContext } from './hooks/useUserContext';
+import { UserViewContext } from './hooks/useViewerContext';
 import { useGetPackQuery, useGetPackListQuery } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';

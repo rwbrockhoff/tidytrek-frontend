@@ -15,11 +15,13 @@ export type Pack = {
 	packSeasonTag: string;
 	packDistanceTag: string;
 	packPublic: boolean;
+	packPricing: boolean;
 	packUrlName: string;
 	packUrl: string;
 	packAffiliate: boolean;
 	packAffiliateDescription: string;
 	packViews: number;
+	packBookmarkCount: number;
 };
 
 export type Category = {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { themeColor } from '../../../../shared/mixins/mixins';
 import { Button } from '../../../../shared/ui/SemanticUI';
 import { useState } from 'react';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };
 

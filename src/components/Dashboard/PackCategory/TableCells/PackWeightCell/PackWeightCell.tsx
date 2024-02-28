@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import WeightDropdown from '../../TableButtons/WeightDropdown';
 import '../TableCell/TableCell.css';
-import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { type InputEvent, type SelectEvent } from '../../../../../shared/formHelpers';
 
 type PackWeightCellProps = {

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { type ReactInput } from '../../../../../types/generalTypes';
 import { type HeaderInfo } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
-import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { usePackCategoryHandlers } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 
 type CategoryNameCellProps = {

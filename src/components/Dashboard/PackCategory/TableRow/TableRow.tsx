@@ -19,7 +19,7 @@ import PropertyButtons from '../TableButtons/PropertyButtons';
 import PriceCell from '../TableCells/PriceCell/PriceCell';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {

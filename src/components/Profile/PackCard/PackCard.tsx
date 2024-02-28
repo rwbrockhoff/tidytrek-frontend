@@ -11,7 +11,7 @@ import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
 import { type Pack } from '../../../types/packTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
-import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import { mobile } from '../../../shared/mixins/mixins';
 
 type PackCardProps = {

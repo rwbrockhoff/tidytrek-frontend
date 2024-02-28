@@ -8,7 +8,7 @@ import {
 } from '../TableButtons/TableButtons';
 import { type HeaderInfo } from '../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useState } from 'react';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;

@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react';
 import { Header } from '../../../shared/ui/SemanticUI';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
-import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import BannerPhoto from '../BannerPhoto/BannerPhoto';
 import { mobile } from '../../../shared/mixins/mixins';
 

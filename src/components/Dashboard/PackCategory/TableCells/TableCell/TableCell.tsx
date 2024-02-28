@@ -1,7 +1,7 @@
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import './TableCell.css';
-import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 
 type TableCellProps = {
 	value: string | number;

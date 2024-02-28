@@ -2,7 +2,7 @@ import { Table } from 'semantic-ui-react';
 import { TableInput } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import { ReactInput } from '../../../../../types/generalTypes';
-import { useUserContext } from '../../../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 
 type ButtonProps = {
 	quantity: number;

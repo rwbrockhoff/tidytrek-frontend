@@ -4,7 +4,7 @@ import ProfileHeader from '../../components/Profile/ProfileHeader/ProfileHeader'
 import ProfileBanner from '../../components/Profile/ProfileBanner/ProfileBanner';
 import PackCardList from '../../components/Profile/PackCard/PackCardList';
 import { useGetProfileQuery } from '../../queries/profileQueries';
-import { UserViewContext } from '../Dashboard/hooks/useUserContext';
+import { UserViewContext } from '../Dashboard/hooks/useViewerContext';
 import { useViewProfileQuery } from '../../queries/guestQueries';
 import { useGetAuthStatusQuery } from '../../queries/userQueries';
 import { HandlerWrapper } from '../Account/ProfileSettings/useProfileHandlers';

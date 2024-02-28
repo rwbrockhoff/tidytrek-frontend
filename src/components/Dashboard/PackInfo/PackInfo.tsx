@@ -1,6 +1,6 @@
 import { Header, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
-import { useUserContext } from '../../../views/Dashboard/hooks/useUserContext';
+import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
