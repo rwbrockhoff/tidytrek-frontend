@@ -6,15 +6,15 @@ import { Dimmer } from '../../../../shared/ui/Dimmer';
 import { defaultPackPhoto } from '../../../../shared/ui/defaultPhotos';
 import { flexCenter } from '../../../../shared/mixins/mixins';
 
-type PackPhotoUploadProps = {
+type PackPhotoProps = {
 	src: string;
 	uploadEnabled: boolean;
 	isPending: boolean;
 	onUpload: (formData: FormData) => void;
-	onDelete: () => void;
+	onDelete?: () => void;
 };
 
-const PhotoUpload = (props: PackPhotoUploadProps) => {
+const PackPhoto = (props: PackPhotoProps) => {
 	const { src, uploadEnabled = false, isPending, onUpload, onDelete } = props;
 	const [showButton, setShowButton] = useState(false);
 
@@ -24,7 +24,7 @@ const PhotoUpload = (props: PackPhotoUploadProps) => {
 
 	const photoSource = src || defaultPackPhoto;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
-	const displayDeleteButton = src && showButton && !isPending;
+	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
 		<Container
 			onMouseOver={() => setShowButton(true)}
@@ -39,7 +39,7 @@ const PhotoUpload = (props: PackPhotoUploadProps) => {
 				/>
 			)}
 
-			<PackPhoto src={photoSource} alt="upload custom pack photo" />
+			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
 			{isPending && <StyledLoader active inverted />}
 
@@ -58,28 +58,27 @@ const PhotoUpload = (props: PackPhotoUploadProps) => {
 	);
 };
 
-export default PhotoUpload;
+export default PackPhoto;
 
-const PackPhoto = styled.img`
+const StyledPackPhoto = styled.img`
 	width: 100%;
 	height: 200px;
 	object-cover: cover;
-	border-radius: 15px;
 `;
 
 const StyledDimmer = styled(Dimmer)`
 	top: 0px;
 	width: 100%;
 	height: 200px;
-	border-radius: 15px;
 `;
 
 const UploadContainer = styled.div`
 	position: absolute;
-	top: calc(100px - 1.5em);
-	z-index: 5;
+	top: 0;
 	width: 100%;
+	height: 200px;
 	${flexCenter}
+	z-index: 5;
 `;
 
 const Container = styled.div`

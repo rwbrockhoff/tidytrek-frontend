@@ -5,7 +5,6 @@ import {
 	CardContent,
 	Card,
 	Icon,
-	Image,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
@@ -14,25 +13,36 @@ import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import { mobile } from '../../../shared/mixins/mixins';
-import { defaultPackPhoto } from '../../../shared/ui/defaultPhotos';
+import PackPhoto from '../../Dashboard/PackInfo/PackFormModal/PackPhoto';
+import { useUploadPackPhotoMutation } from '../../../queries/packQueries';
 
 type PackCardProps = {
 	pack: Pack;
 };
 
 const PackCard = (props: PackCardProps) => {
+	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
+
 	const userView = useUserContext();
 	const { pack } = props;
 	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
 		pack || {};
 
+	const handlePhotoUpload = (formData: FormData) => uploadPackPhoto({ packId, formData });
+
 	const encodedPackId = encode(packId);
 	const userBasedUrl = userView ? 'pack' : 'pk';
 	const link = `/${userBasedUrl}/${encodedPackId}`;
+
 	return (
 		<CustomLink link={link} enabled={!userView}>
 			<StyledCard>
-				<Image src={packPhotoUrl || defaultPackPhoto} />
+				<PackPhoto
+					src={packPhotoUrl}
+					uploadEnabled={!isPending}
+					isPending={isPending}
+					onUpload={handlePhotoUpload}
+				/>
 				<CardContent>
 					<CardHeader>
 						<CustomLink link={link} enabled={userView}>
