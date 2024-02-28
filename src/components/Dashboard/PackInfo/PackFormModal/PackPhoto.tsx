@@ -96,7 +96,7 @@ const StyledLoader = styled(Loader)`
 
 const DeleteButton = styled(Button)`
 	position: absolute;
-	z-index: 1;
+	z-index: 10;
 	top: -10px;
 	right: -10px;
 `;
