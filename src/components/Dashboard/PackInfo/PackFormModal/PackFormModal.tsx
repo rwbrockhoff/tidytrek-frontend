@@ -28,6 +28,9 @@ type PackFormModalProps = {
 	onClickDelete: () => void;
 };
 
+const mockPhotoUrl =
+	'https://images.unsplash.com/photo-1517398825998-780ca786555f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
 const PackFormModal = (props: PackFormModalProps) => {
 	const { mutate: editPack } = useEditPackMutation();
 
@@ -70,6 +73,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 	const handleCheckBox = (updatedCheckbox: {
 		packAffiliate?: boolean;
 		packPublic?: boolean;
+		packPricing?: boolean;
 	}) => {
 		setModifiedPack((prevFormData) => ({
 			...prevFormData,
@@ -102,6 +106,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 		packUrlName,
 		packAffiliate,
 		packAffiliateDescription,
+		packPricing,
 	} = modifiedPack;
 
 	return (
@@ -111,25 +116,34 @@ const PackFormModal = (props: PackFormModalProps) => {
 				{packName ?? pack.packName ?? 'Pack'}
 			</ModalHeader>
 			<ModalContent>
-				<Form>
-					<FormField>
-						<label>Pack Name</label>
-						<Input
-							name="packName"
-							value={packName ?? ''}
-							onChange={handleFormChange}
-							placeholder="Pack Name"
-						/>
-					</FormField>
-					<FormField>
-						<label>Pack Description</label>
-						<TextArea
-							name="packDescription"
-							value={packDescription ?? ''}
-							onChange={handleFormChange}
-							placeholder="Pack Description"
-						/>
-					</FormField>
+				<Form style={{ padding: '0 10px' }}>
+					<FormSection>
+						<LeftPanel>
+							<FormField>
+								<label>Pack Name</label>
+								<Input
+									name="packName"
+									value={packName ?? ''}
+									onChange={handleFormChange}
+									placeholder="Pack Name"
+								/>
+							</FormField>
+							<FormField>
+								<label>Pack Description</label>
+								<TextArea
+									name="packDescription"
+									value={packDescription ?? ''}
+									onChange={handleFormChange}
+									placeholder="Pack Description"
+								/>
+							</FormField>
+						</LeftPanel>
+						<RightPanel>
+							<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
+							<SubText>Upload a .jpg or .png file.</SubText>
+							<PackPhoto src={mockPhotoUrl} alt="upload custom pack photo" />
+						</RightPanel>
+					</FormSection>
 
 					<PackTagProperties
 						packLocationTag={packLocationTag}
@@ -163,7 +177,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 						</FormField>
 					</FormGroup>
 
-					<Divider />
+					<Divider style={{ margin: '25px 0px' }} />
 
 					<StyledField width={16}>
 						<LabelContainer>
@@ -177,6 +191,21 @@ const PackFormModal = (props: PackFormModalProps) => {
 							toggle
 							checked={packPublic}
 							onClick={() => handleCheckBox({ packPublic: !packPublic })}
+						/>
+					</StyledField>
+
+					<StyledField width={16}>
+						<LabelContainer>
+							<label>
+								<Icon name="money" /> Pack Prices
+							</label>
+							<SubText>Show a price column on your pack to track expenses.</SubText>
+						</LabelContainer>
+						<Checkbox
+							$themeColor="primary"
+							toggle
+							checked={packPricing}
+							onClick={() => handleCheckBox({ packPricing: !packPricing })}
 						/>
 					</StyledField>
 
@@ -231,6 +260,30 @@ const StyledField = styled(FormField)`
 		padding-top: 10px;
 		margin-left: auto;
 	}
+`;
+
+const PackPhoto = styled.img`
+	width: 100%;
+	object-cover: cover;
+	border-radius: 15px;
+`;
+
+const FormSection = styled.div`
+	display: flex;
+	margin-bottom: 25px;
+`;
+
+const LeftPanel = styled.div`
+	width: 50%;
+	padding-right: 25px;
+	textarea {
+		height: 135px;
+	}
+`;
+
+const RightPanel = styled.div`
+	width: 50%;
+	padding-left: 10px;
 `;
 
 const LabelContainer = styled.div``;
