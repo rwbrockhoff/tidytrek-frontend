@@ -81,6 +81,18 @@ export const useUploadPackPhotoMutation = () => {
 	});
 };
 
+export const useDeletePackPhotoMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/${packId}/pack-photo`),
+		onSuccess: (_response, packId) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(null) });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+		},
+	});
+};
+
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({

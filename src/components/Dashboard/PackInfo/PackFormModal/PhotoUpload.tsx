@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UploadFile from '../../../../shared/ui/UploadFile';
-import { Loader } from 'semantic-ui-react';
+import { Button, Loader } from 'semantic-ui-react';
 import { Dimmer } from '../../../../shared/ui/Dimmer';
 
 const mockPhotoUrl =
@@ -12,10 +12,11 @@ type PackPhotoUploadProps = {
 	uploadEnabled: boolean;
 	isPending: boolean;
 	onUpload: (formData: FormData) => void;
+	onDelete: () => void;
 };
 
 const PhotoUpload = (props: PackPhotoUploadProps) => {
-	const { src, uploadEnabled = false, isPending, onUpload } = props;
+	const { src, uploadEnabled = false, isPending, onUpload, onDelete } = props;
 	const [showButton, setShowButton] = useState(false);
 
 	useEffect(() => {
@@ -24,11 +25,21 @@ const PhotoUpload = (props: PackPhotoUploadProps) => {
 
 	const photoSource = src || mockPhotoUrl;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
-
+	const displayDeleteButton = src && showButton && !isPending;
 	return (
 		<Container
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
+			{displayDeleteButton && (
+				<DeleteButton
+					circular
+					icon="delete"
+					size="mini"
+					onClick={onDelete}
+					disabled={isPending}
+				/>
+			)}
+
 			<PackPhoto src={photoSource} alt="upload custom pack photo" />
 
 			{isPending && <StyledLoader active inverted />}
@@ -82,4 +93,11 @@ const StyledLoader = styled(Loader)`
 		top: calc(50% - 0em);
 		left: calc(50% - 0.5em);
 	}
+`;
+
+const DeleteButton = styled(Button)`
+	position: absolute;
+	z-index: 1;
+	top: -10px;
+	right: -10px;
 `;

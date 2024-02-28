@@ -5,6 +5,7 @@ import {
 	CardContent,
 	Card,
 	Icon,
+	Image,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
@@ -18,10 +19,14 @@ type PackCardProps = {
 	pack: Pack;
 };
 
+const defaultPackPhoto =
+	'https://photos.tidytrek.co/eyJidWNrZXQiOiJ0aWR5dHJlay1kZWZhdWx0LXBob3RvcyIsImtleSI6InBhY2tfY2FyZF9kZWZhdWx0LnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjQwMH19fQ==';
+
 const PackCard = (props: PackCardProps) => {
 	const userView = useUserContext();
 	const { pack } = props;
-	const { packId, packName, packDescription, packPublic, packViews } = pack || {};
+	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
+		pack || {};
 
 	const encodedPackId = encode(packId);
 	const userBasedUrl = userView ? 'pack' : 'pk';
@@ -29,6 +34,7 @@ const PackCard = (props: PackCardProps) => {
 	return (
 		<CustomLink link={link} enabled={!userView}>
 			<StyledCard>
+				<Image src={packPhotoUrl || defaultPackPhoto} />
 				<CardContent>
 					<CardHeader>
 						<CustomLink link={link} enabled={userView}>

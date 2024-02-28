@@ -36,7 +36,7 @@ const Avatar = (props: AvatarProps) => {
 
 	const hasLink = link ? true : false;
 	const photoSource = src ? src : defaultPhotoUrl;
-	const displayDeleteButton = onDelete && src && showButton;
+	const displayDeleteButton = onDelete && src && showButton && !isPending;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 
 	return (
@@ -47,7 +47,13 @@ const Avatar = (props: AvatarProps) => {
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
 				{displayDeleteButton && (
-					<DeleteButton circular icon="delete" size="mini" onClick={onDelete} />
+					<DeleteButton
+						circular
+						icon="delete"
+						size="mini"
+						onClick={onDelete}
+						disabled={isPending}
+					/>
 				)}
 
 				<InnerContainer $size={size} $withBorder={withBorder}>

@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import {
 	useEditPackMutation,
 	useUploadPackPhotoMutation,
+	useDeletePackPhotoMutation,
 } from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
@@ -33,7 +34,10 @@ type PackFormModalProps = {
 
 const PackFormModal = (props: PackFormModalProps) => {
 	const { mutate: editPack } = useEditPackMutation();
-	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
+	const { mutate: uploadPackPhoto, isPending: isPendingUpload } =
+		useUploadPackPhotoMutation();
+	const { mutate: deletePackPhoto, isPending: isPendingDelete } =
+		useDeletePackPhotoMutation();
 
 	const { pack, open, onClose, onClickDelete } = props;
 	const [packChanged, setPackChanged] = useState(false);
@@ -93,12 +97,17 @@ const PackFormModal = (props: PackFormModalProps) => {
 			const cleanUrl = packUrl ? cleanUpLink(packUrl) : '';
 			editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
 			onClose();
-		}
+		} else onClose();
 	};
 
 	const handleUploadPhoto = (formData: FormData) => {
 		const { packId } = pack;
 		uploadPackPhoto({ packId, formData });
+	};
+
+	const handleDeletePhoto = () => {
+		const { packId } = pack;
+		deletePackPhoto(packId);
 	};
 
 	const {
@@ -117,7 +126,7 @@ const PackFormModal = (props: PackFormModalProps) => {
 	} = modifiedPack;
 
 	const { packPhotoUrl } = pack;
-
+	const photoPending = isPendingUpload || isPendingDelete;
 	return (
 		// change open={true} -> open={open}
 		<Modal size="small" closeIcon open={open} onClose={onClose}>
@@ -130,9 +139,10 @@ const PackFormModal = (props: PackFormModalProps) => {
 					<SubText>Upload a .jpg or .png file.</SubText>
 					<PhotoUpload
 						src={packPhotoUrl}
-						uploadEnabled={!isPending}
-						isPending={isPending}
+						uploadEnabled={!photoPending}
+						isPending={photoPending}
 						onUpload={handleUploadPhoto}
+						onDelete={handleDeletePhoto}
 					/>
 				</RightPanel>
 				<Form style={{ padding: '0 10px' }}>
