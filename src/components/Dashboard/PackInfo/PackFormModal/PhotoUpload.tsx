@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UploadFile from '../../../../shared/ui/UploadFile';
 import { Loader } from 'semantic-ui-react';
@@ -17,6 +17,10 @@ type PackPhotoUploadProps = {
 const PhotoUpload = (props: PackPhotoUploadProps) => {
 	const { src, uploadEnabled = false, isPending, onUpload } = props;
 	const [showButton, setShowButton] = useState(false);
+
+	useEffect(() => {
+		if (isPending) setShowButton(false);
+	}, [isPending]);
 
 	const photoSource = src || mockPhotoUrl;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
