@@ -22,7 +22,7 @@ export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 				} = item;
 
 				// handle pricing first
-				if (packItemPrice) totalPrice += packItemPrice;
+				if (packItemPrice) totalPrice += packItemPrice * packItemQuantity;
 
 				// Ensure we always return number type for reducer
 				let convertedWeight = 0;
