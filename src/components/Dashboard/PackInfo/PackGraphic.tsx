@@ -4,7 +4,7 @@ import { Image, List, ListItem, Label, Divider } from 'semantic-ui-react';
 import { Icon } from '../../../shared/ui/SemanticUI';
 import CampGraphic from '../../../assets/camping.svg';
 import { useCategoryInfo } from './useCategoryInfo';
-import WeightPopup from './WeightPopup';
+import PackSummaryPanel from './PackSummaryPanel';
 
 type PackGraphicProps = {
 	fetching: boolean;
@@ -19,6 +19,7 @@ const PackGraphic = (props: PackGraphicProps) => {
 		totalWeight,
 		packHasWeight,
 		descriptivePackWeight,
+		totalPackPrice,
 	} = useCategoryInfo(packCategories, 'lb');
 
 	if (packHasWeight && !fetching) {
@@ -38,9 +39,10 @@ const PackGraphic = (props: PackGraphicProps) => {
 
 						<Divider />
 
-						<WeightPopup
+						<PackSummaryPanel
 							totalWeight={totalWeight}
 							descriptivePackWeight={descriptivePackWeight}
+							totalPackPrice={totalPackPrice}
 						/>
 					</List>
 				</div>

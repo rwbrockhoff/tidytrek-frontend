@@ -1,5 +1,8 @@
 import { type PackItem } from '../types/packTypes';
-import useCurrency from './useCurrency';
+
+// weightConverter sums the total weight of all pack items into one weight metric
+// it also returns the total price, consumable weight, and wornWeight
+// useCategoryInfo is the more complex hook used to summarize a pack (this hook is for a pack category);
 
 export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 	if (itemList[0]) {
@@ -50,14 +53,14 @@ export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
 			totalWeight: Number(totalWeight),
 			totalWornWeight,
 			totalConsumableWeight,
-			totalPrice: useCurrency(totalPrice, 'USD'),
+			totalPrice: totalPrice,
 		};
 	} else
 		return {
 			totalWeight: 0,
 			totalWornWeight: 0,
 			totalConsumableWeight: 0,
-			totalPrice: useCurrency(0, 'USD'),
+			totalPrice: 0,
 		};
 };
 

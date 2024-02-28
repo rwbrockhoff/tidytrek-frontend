@@ -17,6 +17,7 @@ import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
 import { usePackCategoryHandlers } from '../../../views/Dashboard/handlers/usePackCategoryHandlers';
+import useCurrency from '../../../utils/useCurrency';
 
 type PackCategoryProps = {
 	category: Category;
@@ -62,6 +63,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 		'lb',
 	);
 
+	const formattedTotalPrice = useCurrency(totalPrice, 'USD');
 	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0; // todo: get from weight converter
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view
@@ -109,7 +111,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 							<TableFooter
 								itemQuantity={itemQuantity}
 								weight={convertedCategoryWeight}
-								price={totalPrice}
+								price={formattedTotalPrice}
 								handleAddItem={handleAddItem}
 							/>
 						)}

@@ -8,12 +8,14 @@ import {
 	PopupContent,
 } from 'semantic-ui-react';
 
-type WeightPopupProps = {
+type PackSummaryPanelProps = {
 	totalWeight: number;
 	descriptivePackWeight: { baseWeight: string; consumables: string; wornWeight: string };
+	totalPackPrice: string;
 };
 
-const WeightPopup = ({ totalWeight, descriptivePackWeight }: WeightPopupProps) => {
+const PackSummaryPanel = (props: PackSummaryPanelProps) => {
+	const { totalWeight, descriptivePackWeight, totalPackPrice } = props;
 	const { baseWeight, consumables, wornWeight } = descriptivePackWeight;
 	return (
 		<Popup
@@ -23,10 +25,16 @@ const WeightPopup = ({ totalWeight, descriptivePackWeight }: WeightPopupProps) =
 			position="top center"
 			hideOnScroll
 			trigger={
-				<ListItem className="chart-display-list-item" style={{ cursor: 'pointer' }}>
-					<Icon name="info circle" style={{ marginRight: 5, opacity: 0.2 }} /> Total
-					Weight: <Label>{totalWeight} lbs</Label>
-				</ListItem>
+				<div>
+					<ListItem className="chart-display-list-item" style={{ cursor: 'pointer' }}>
+						<Icon name="info circle" style={{ marginRight: 5, opacity: 0.2 }} /> Total
+						Weight: <Label>{totalWeight} lbs</Label>
+					</ListItem>
+					<ListItem className="chart-display-list-item" style={{ marginTop: 10 }}>
+						<Icon name="money" style={{ marginRight: 5, opacity: 0.2 }} /> Total Price:{' '}
+						<Label>{totalPackPrice}</Label>
+					</ListItem>
+				</div>
 			}>
 			<PopupContent>
 				<List className="chart-display-popup-list" relaxed>
@@ -62,4 +70,4 @@ const WeightPopup = ({ totalWeight, descriptivePackWeight }: WeightPopupProps) =
 	);
 };
 
-export default WeightPopup;
+export default PackSummaryPanel;
