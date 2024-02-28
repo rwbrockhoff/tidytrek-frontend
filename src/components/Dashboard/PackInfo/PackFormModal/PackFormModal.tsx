@@ -46,6 +46,8 @@ const PackFormModal = (props: PackFormModalProps) => {
 		packAffiliate: false,
 		packAffiliateDescription: '',
 		packViews: 0,
+		packBookmarkCount: 0,
+		packPricing: false,
 	});
 
 	useEffect(() => {

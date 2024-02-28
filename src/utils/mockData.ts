@@ -14,6 +14,7 @@ export const mockPackItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 0,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 2,
@@ -28,6 +29,7 @@ export const mockPackItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 1,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 3,
@@ -42,6 +44,7 @@ export const mockPackItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 2,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 4,
@@ -56,6 +59,7 @@ export const mockPackItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 3,
+		packItemPrice: 0,
 	},
 ];
 
@@ -73,6 +77,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 0,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 2,
@@ -87,6 +92,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 1,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 3,
@@ -101,6 +107,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 2,
+		packItemPrice: 0,
 	},
 	{
 		packItemId: 4,
@@ -115,5 +122,6 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		consumable: false,
 		favorite: false,
 		packItemIndex: 3,
+		packItemPrice: 0,
 	},
 ];

@@ -5,7 +5,6 @@ import {
 	type PackItem,
 } from '../../../types/packTypes';
 import styled from 'styled-components';
-import './PackCategory.css';
 import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
 import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
@@ -145,6 +144,9 @@ const TableContainer = styled.div`
 `;
 
 const StyledTable = styled(Table)`
+	&& {
+		border: none;
+	}
 	td {
 		width: 5%;
 	}
