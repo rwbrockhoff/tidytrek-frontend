@@ -19,7 +19,10 @@ import PropertyButtons from '../TableButtons/PropertyButtons';
 import PriceCell from '../TableCells/PriceCell/PriceCell';
 import { useTableRowInput } from './useTableRowInput';
 import MoveItemDropdown from '../MoveItemDropdown/MoveItemDropdown';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
+import {
+	usePricingContext,
+	useUserContext,
+} from '../../../../views/Dashboard/hooks/useViewerContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 type TableRowProps = {
@@ -34,6 +37,8 @@ type TableRowProps = {
 
 const TableRow = (props: TableRowProps) => {
 	const userView = useUserContext();
+	const showPrices = usePricingContext();
+
 	const { item, index, disabled, handleMoveItemToPack, handleOnSave, handleDelete } =
 		props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
@@ -62,7 +67,8 @@ const TableRow = (props: TableRowProps) => {
 		handleOnSave({ ...packItem, ...property });
 
 	const dropId = `item${packItemId}`;
-
+	const packNameSize = (userView ? 5 : 7) + (showPrices ? 0 : 1);
+	const packDescriptionSize = showPrices ? 5 : 7;
 	return (
 		<Draggable
 			key={dropId}
@@ -85,7 +91,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={userView ? 5 : 7}
+							size={packNameSize}
 						/>
 						<TableCell
 							value={packItemDescription}
@@ -93,7 +99,7 @@ const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemDescription"
 							placeholder="Description"
-							size={5}
+							size={packDescriptionSize}
 						/>
 
 						<PropertyButtons
@@ -119,14 +125,17 @@ const TableRow = (props: TableRowProps) => {
 							itemName="packItemWeight"
 							size={3}
 						/>
-						<PriceCell
-							price={packItemPrice}
-							itemName="packItemPrice"
-							placeholder={0}
-							onChange={handleInput}
-							onToggleOff={handleToggle}
-							size={3}
-						/>
+
+						{showPrices && (
+							<PriceCell
+								price={packItemPrice}
+								itemName="packItemPrice"
+								placeholder={0}
+								onChange={handleInput}
+								onToggleOff={handleToggle}
+								size={3}
+							/>
+						)}
 
 						{userView && (
 							<ActionButtons size={2}>

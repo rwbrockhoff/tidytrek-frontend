@@ -8,6 +8,7 @@ import {
 	PopupContent,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { usePricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
 
 type PackSummaryPanelProps = {
 	totalWeight: number;
@@ -18,6 +19,8 @@ type PackSummaryPanelProps = {
 const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 	const { totalWeight, descriptivePackWeight, totalPackPrice } = props;
 	const { baseWeight, consumables, wornWeight } = descriptivePackWeight;
+	const showPrices = usePricingContext();
+
 	return (
 		<>
 			<Popup
@@ -65,10 +68,13 @@ const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 					</List>
 				</PopupContent>
 			</Popup>
-			<ListItem className="chart-display-list-item" style={{ marginTop: 10 }}>
-				<LightIcon name="money" style={{ marginLeft: 0 }} /> Total Price:{' '}
-				<Label>{totalPackPrice}</Label>
-			</ListItem>
+
+			{showPrices && (
+				<ListItem className="chart-display-list-item" style={{ marginTop: 10 }}>
+					<LightIcon name="money" style={{ marginLeft: 0 }} /> Total Price:
+					<Label>{totalPackPrice}</Label>
+				</ListItem>
+			)}
 		</>
 	);
 };

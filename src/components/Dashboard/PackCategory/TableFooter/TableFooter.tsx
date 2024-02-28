@@ -1,7 +1,10 @@
 import { Table, Icon } from 'semantic-ui-react';
 import { Button } from '../../../../shared/ui/SemanticUI';
 import styled from 'styled-components';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
+import {
+	usePricingContext,
+	useUserContext,
+} from '../../../../views/Dashboard/hooks/useViewerContext';
 import { themeBgColor } from '../../../../shared/mixins/mixins';
 import { TableText } from '../TableHeader/TableHeader';
 
@@ -19,8 +22,10 @@ const TableFooter = ({
 	handleAddItem,
 }: TableFooterProps) => {
 	const userView = useUserContext();
+	const showPrices = usePricingContext();
 	const hasItems = itemQuantity > 0;
-	const firstColumnSize = (hasItems ? 14 : 22) + (userView ? 0 : 2);
+	const firstColumnSize =
+		(hasItems ? 14 : 22) + (userView ? 0 : 2) + (showPrices ? 0 : 3);
 
 	return (
 		<StyledFooter>
@@ -49,11 +54,13 @@ const TableFooter = ({
 							<TableText $width="100px">{`${weight} lbs`}</TableText>
 						</Table.Cell>
 
-						<Table.Cell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
-							<TableText $width="75px" $paddingLeft="13px">
-								{price}
-							</TableText>
-						</Table.Cell>
+						{showPrices && (
+							<Table.Cell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
+								<TableText $width="75px" $paddingLeft="13px">
+									{price}
+								</TableText>
+							</Table.Cell>
+						)}
 					</>
 				)}
 				{userView && <Table.Cell colSpan={2}></Table.Cell>}

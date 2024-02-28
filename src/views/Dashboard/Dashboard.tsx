@@ -2,7 +2,7 @@ import PackInfo from '../../components/Dashboard/PackInfo/PackInfo';
 import PackCategory from '../../components/Dashboard/PackCategory/PackCategory';
 import { AddCategoryButton } from '../../components/Dashboard/PackCategory/TableButtons/TableButtons';
 import { useParams } from 'react-router-dom';
-import { UserViewContext } from './hooks/useViewerContext';
+import { UserViewContext, PricingContext } from './hooks/useViewerContext';
 import { useGetPackQuery, useGetPackListQuery } from '../../queries/packQueries';
 import { useViewPackQuery } from '../../queries/guestQueries';
 import { type Category, type Pack } from '../../types/packTypes';
@@ -84,46 +84,48 @@ const Dashboard = ({ userView }: DashboardProps) => {
 		}
 	};
 
-	const { packAffiliate, packAffiliateDescription } = currentPack;
+	const { packAffiliate, packAffiliateDescription, packPricing } = currentPack;
 
 	return (
 		<PackCategoryHandlerWrapper>
 			<PackItemHandlerWrapper>
 				<UserViewContext.Provider value={userView}>
-					<ThemeProvider theme={theme}>
-						<DashboardContainer>
-							<PackInfo
-								currentPack={currentPack}
-								packCategories={packCategories}
-								userProfile={userProfile}
-								settings={settings}
-								fetching={isPending}
-							/>
-
-							<DragDropContext onDragEnd={handleOnDragEnd}>
-								<Drop droppableId={'dashboard-drop-window'} type="category">
-									{packCategories.length > 0 &&
-										packCategories.map((category: Category, idx: number) => (
-											<PackCategory
-												category={category}
-												packList={packList}
-												index={idx}
-												key={category?.packCategoryId || idx}
-											/>
-										))}
-								</Drop>
-							</DragDropContext>
-
-							{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
-
-							{!userView && !isAuthenticated && (
-								<DashboardFooter
-									affiliate={packAffiliate}
-									description={packAffiliateDescription}
+					<PricingContext.Provider value={packPricing}>
+						<ThemeProvider theme={theme}>
+							<DashboardContainer>
+								<PackInfo
+									currentPack={currentPack}
+									packCategories={packCategories}
+									userProfile={userProfile}
+									settings={settings}
+									fetching={isPending}
 								/>
-							)}
-						</DashboardContainer>
-					</ThemeProvider>
+
+								<DragDropContext onDragEnd={handleOnDragEnd}>
+									<Drop droppableId={'dashboard-drop-window'} type="category">
+										{packCategories.length > 0 &&
+											packCategories.map((category: Category, idx: number) => (
+												<PackCategory
+													category={category}
+													packList={packList}
+													index={idx}
+													key={category?.packCategoryId || idx}
+												/>
+											))}
+									</Drop>
+								</DragDropContext>
+
+								{userView && <AddCategoryButton onClick={handleAddPackCategory} />}
+
+								{!userView && !isAuthenticated && (
+									<DashboardFooter
+										affiliate={packAffiliate}
+										description={packAffiliateDescription}
+									/>
+								)}
+							</DashboardContainer>
+						</ThemeProvider>
+					</PricingContext.Provider>
 				</UserViewContext.Provider>
 			</PackItemHandlerWrapper>
 		</PackCategoryHandlerWrapper>

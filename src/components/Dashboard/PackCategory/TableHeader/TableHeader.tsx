@@ -8,7 +8,10 @@ import {
 } from '../TableButtons/TableButtons';
 import { type HeaderInfo } from '../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useState } from 'react';
-import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
+import {
+	usePricingContext,
+	useUserContext,
+} from '../../../../views/Dashboard/hooks/useViewerContext';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -20,12 +23,13 @@ type TableHeaderProps = {
 
 const TableHeader = (props: TableHeaderProps) => {
 	const userView = useUserContext();
+	const showPrices = usePricingContext();
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory, deleteCategory } =
 		props;
 	const [toggleRow, setToggleRow] = useState(false);
 
-	const minSpanSize = isMinimized ? 22 : 14;
-	const spanSize = userView ? minSpanSize : 16;
+	const minSpanSize = isMinimized ? 22 : 14 + (showPrices ? 0 : 3);
+	const spanSize = userView ? minSpanSize : showPrices ? 16 : 19;
 	return (
 		<Table.Header
 			{...dragProps}
@@ -50,11 +54,13 @@ const TableHeader = (props: TableHeaderProps) => {
 							</TableText>
 						</HeaderCell>
 
-						<HeaderCell textAlign="left" colSpan="3" $paddingLeft="25px">
-							<TableText $width="75px" $paddingLeft="13px">
-								Price
-							</TableText>
-						</HeaderCell>
+						{showPrices && (
+							<HeaderCell textAlign="left" colSpan="3" $paddingLeft="25px">
+								<TableText $width="75px" $paddingLeft="13px">
+									Price
+								</TableText>
+							</HeaderCell>
+						)}
 					</>
 				)}
 				{userView && (
@@ -90,7 +96,7 @@ export const TableText = styled.p<{
 	$paddingLeft?: string;
 	$paddingRight?: string;
 }>`
-	width: ${(props) => props.$width && props.$width};
-	padding-left: ${(props) => props.$paddingLeft && props.$paddingLeft};
-	padding-right: ${(props) => props.$paddingRight && props.$paddingRight};
+	width: ${({ $width }) => $width && $width};
+	padding-left: ${({ $paddingLeft }) => $paddingLeft && $paddingLeft};
+	padding-right: ${({ $paddingRight }) => $paddingRight && $paddingRight};
 `;
