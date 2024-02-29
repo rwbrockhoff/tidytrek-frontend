@@ -6,7 +6,10 @@ import {
 	MinimizeButton,
 	DeleteButton,
 } from '../TableButtons/TableButtons';
-import { type HeaderInfo } from '../../../../views/Dashboard/handlers/usePackCategoryHandlers';
+import {
+	usePackCategoryHandlers,
+	type HeaderInfo,
+} from '../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useState } from 'react';
 import {
 	usePricingContext,
@@ -18,14 +21,13 @@ type TableHeaderProps = {
 	isMinimized: boolean;
 	dragProps: object;
 	minimizeCategory: () => void;
-	deleteCategory: () => void;
 };
 
 const TableHeader = (props: TableHeaderProps) => {
+	const { deleteCategoryPrompt } = usePackCategoryHandlers().handlers;
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
-	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory, deleteCategory } =
-		props;
+	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const minSpanSize = isMinimized ? 22 : 14 + (showPrices ? 0 : 3);
@@ -70,7 +72,12 @@ const TableHeader = (props: TableHeaderProps) => {
 							isMinimized={isMinimized}
 							minimize={minimizeCategory}
 						/>
-						<DeleteButton display={toggleRow} onClickDelete={deleteCategory} />
+						<DeleteButton
+							display={toggleRow}
+							onClickDelete={() =>
+								deleteCategoryPrompt(categoryHeaderInfo.packCategoryId)
+							}
+						/>
 					</ActionButtons>
 				)}
 			</TableRow>

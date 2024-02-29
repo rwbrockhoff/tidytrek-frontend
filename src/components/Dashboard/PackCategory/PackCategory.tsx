@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 import TableRow from './TableRow/TableRow';
 import TableHeader from './TableHeader/TableHeader';
-import { DeleteModal, DeleteItemModal } from '../../../shared/ui/Modals';
+import { DeleteItemModal } from '../../../shared/ui/Modals';
 import { useState } from 'react';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
@@ -15,7 +15,6 @@ import TableFooter from './TableFooter/TableFooter';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
-import { usePackCategoryHandlers } from '../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import useCurrency from '../../../utils/useCurrency';
 
 type PackCategoryProps = {
@@ -28,8 +27,6 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
 	const { handlers, handlerState } = usePackItemHandlers();
-	const { handlers: categoryHandlers, handlerState: categoryHandlerState } =
-		usePackCategoryHandlers();
 
 	const {
 		addPackItem,
@@ -41,11 +38,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 		deleteItem,
 	} = handlers;
 
-	const { toggleCategoryModal, deleteCategory, deleteCategoryAndItems } =
-		categoryHandlers;
-
 	const { packItemToChange, showDeleteItemModal } = handlerState;
-	const { showDeleteCategoryModal } = categoryHandlerState;
 
 	const handleAddItem = () => addPackItem({ packId, packCategoryId });
 
@@ -67,6 +60,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view
 	if (!userView && !showCategoryItems) return null;
+
 	return (
 		<Draggable
 			key={category.packCategoryId}
@@ -88,7 +82,6 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 							categoryHeaderInfo={categoryHeaderInfo}
 							isMinimized={isMinimized}
 							minimizeCategory={handleMinimizeCategory}
-							deleteCategory={toggleCategoryModal}
 						/>
 
 						<DropTableBody droppableId={packCategoryId} type="item">
@@ -115,12 +108,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 							/>
 						)}
 					</StyledTable>
-					<DeleteModal
-						open={showDeleteCategoryModal}
-						onClickMove={() => deleteCategory(packCategoryId)}
-						onClickDelete={() => deleteCategoryAndItems(packCategoryId)}
-						onClose={toggleCategoryModal}
-					/>
+
 					<DeleteItemModal
 						id={packItemToChange}
 						open={showDeleteItemModal}
