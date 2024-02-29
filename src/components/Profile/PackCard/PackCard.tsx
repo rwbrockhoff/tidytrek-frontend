@@ -11,20 +11,18 @@ import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
 import { type Pack } from '../../../types/packTypes';
 import { CustomLink } from '../../../shared/ui/CustomLinks';
 import { encode } from '../../../utils/generateDisplayId';
-import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import { mobile } from '../../../shared/mixins/mixins';
 import PackPhoto from '../../Dashboard/PackInfo/PackFormModal/PackPhoto';
 import { useUploadPackPhotoMutation } from '../../../queries/packQueries';
 
 type PackCardProps = {
 	pack: Pack;
+	userView: boolean;
 };
 
 const PackCard = (props: PackCardProps) => {
 	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
-
-	const userView = useUserContext();
-	const { pack } = props;
+	const { pack, userView } = props;
 	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
 		pack || {};
 
@@ -39,7 +37,7 @@ const PackCard = (props: PackCardProps) => {
 			<StyledCard>
 				<PackPhoto
 					src={packPhotoUrl}
-					uploadEnabled={!isPending}
+					uploadEnabled={!isPending && userView}
 					isPending={isPending}
 					onUpload={handlePhotoUpload}
 				/>
