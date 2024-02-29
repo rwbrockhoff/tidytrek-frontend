@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { tidyTheme } from '../../../../shared/theme/tidyTheme';
+
 type EmptyTableRowProps = {
 	isDraggingOver: boolean;
 	noChildren: boolean;
@@ -9,7 +10,7 @@ const EmptyTableRow = ({ isDraggingOver, noChildren }: EmptyTableRowProps) => {
 
 	return (
 		<TableRow $transparent={isTransparent}>
-			<td colSpan={24}></td>
+			<td colSpan={24} />
 		</TableRow>
 	);
 };

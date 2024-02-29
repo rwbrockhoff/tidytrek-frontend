@@ -90,7 +90,7 @@ const GearClosetList = ({
 				)}
 
 				<StyledFooter>
-					<Table.Row className="footer-container">
+					<Table.Row>
 						<Table.Cell colSpan="24">
 							<Button
 								size="mini"

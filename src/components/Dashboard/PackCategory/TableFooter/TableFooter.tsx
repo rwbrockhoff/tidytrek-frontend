@@ -24,13 +24,16 @@ const TableFooter = ({
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
 	const hasItems = itemQuantity > 0;
+
+	//calculate colSpans
 	const firstColumnSize =
-		(hasItems ? 14 : 22) + (userView ? 0 : 2) + (showPrices ? 0 : 3);
+		(hasItems ? 14 : 19) + (userView ? 0 : 2) + (showPrices ? 0 : 3);
+	const firstCol = firstColumnSize + (!hasItems && showPrices ? 3 : 0);
 
 	return (
 		<StyledFooter>
-			<Table.Row className="footer-container">
-				<Table.Cell colSpan={firstColumnSize}>
+			<Table.Row>
+				<Table.Cell colSpan={firstCol}>
 					{userView && (
 						<Button
 							size="mini"

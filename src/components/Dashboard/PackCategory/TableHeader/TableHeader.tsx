@@ -32,6 +32,7 @@ const TableHeader = (props: TableHeaderProps) => {
 
 	const minSpanSize = isMinimized ? 22 : 14 + (showPrices ? 0 : 3);
 	const spanSize = userView ? minSpanSize : showPrices ? 16 : 19;
+
 	return (
 		<Table.Header
 			{...dragProps}
