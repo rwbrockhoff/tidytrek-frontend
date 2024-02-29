@@ -1,5 +1,6 @@
 import { Input, Popup, Icon, Button } from 'semantic-ui-react';
 import { OnChange } from './ItemNameCell';
+import styled from 'styled-components';
 
 type LinkPopupProps = {
 	userView: boolean;
@@ -10,35 +11,49 @@ type LinkPopupProps = {
 
 const LinkPopup = (props: LinkPopupProps) => {
 	const { userView, packItemUrl, displayIcon, onChange } = props;
+	const displayButton = displayIcon || packItemUrl ? true : false;
 	if (userView) {
 		return (
-			<Popup
+			<StyledPopup
 				on="click"
 				pinned
-				className="url-popup-container"
+				className="popup"
 				trigger={
-					<Button
-						className="url-icon-button"
-						basic
-						size="mini"
-						style={{
-							opacity: displayIcon || packItemUrl ? 100 : 0,
-							backgroundColor: 'transparent',
-							boxShadow: 'none',
-						}}
-						icon={<Icon name="linkify" color={packItemUrl ? 'blue' : 'grey'} />}
-					/>
+					<div>
+						<StyledButton
+							className="url-icon-button"
+							basic
+							size="mini"
+							$display={displayButton}
+							icon={<Icon name="linkify" color={packItemUrl ? 'blue' : 'grey'} />}
+						/>
+					</div>
 				}>
 				<Input
 					name="packItemUrl"
 					value={packItemUrl ?? ''}
 					onChange={onChange}
 					placeholder="Item link"
-					className="url-save-input"
 				/>
-			</Popup>
+			</StyledPopup>
 		);
 	} else return null;
 };
 
 export default LinkPopup;
+
+const StyledPopup = styled(Popup)`
+	max-width: fit-content;
+
+	input {
+		width: 400px;
+	}
+`;
+
+const StyledButton = styled(Button)<{ $display: boolean }>`
+	&&&& {
+		opacity: ${({ $display }) => ($display ? 100 : 0)};
+		background-color: transparent;
+		box-shadow: none;
+	}
+`;

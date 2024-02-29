@@ -1,6 +1,6 @@
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
-import './ItemNameCell.css';
+import styled from 'styled-components';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import Link from '../../../../../shared/ui/Link';
@@ -43,9 +43,8 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 	const display = !toggleInput || !userView;
 	return (
-		<Table.Cell
+		<StyledCell
 			colSpan={size}
-			className="item-name-cell"
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
@@ -54,7 +53,6 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 
 			{userView ? (
 				<Input
-					className="item-name-input"
 					value={value || ''}
 					name={itemName}
 					placeholder={placeholder}
@@ -74,10 +72,26 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 					/>
 				</Input>
 			) : (
-				<Link url={packItemUrl} text={value} className="item-name-text" showIcon />
+				<LinkContainer>
+					<Link url={packItemUrl} text={value} showIcon />
+				</LinkContainer>
 			)}
-		</Table.Cell>
+		</StyledCell>
 	);
 };
 
 export default ItemNameCell;
+
+const StyledCell = styled(Table.Cell)`
+	&&& {
+		position: relative;
+		input {
+			height: 30px;
+			margin-left: 10px;
+		}
+	}
+`;
+
+const LinkContainer = styled.div`
+	margin-left: 20px;
+`;

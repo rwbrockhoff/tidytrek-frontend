@@ -24,7 +24,6 @@ import {
 	useUserContext,
 } from '../../../../views/Dashboard/hooks/useViewerContext';
 import { Draggable } from 'react-beautiful-dnd';
-import { mobile } from '../../../../shared/mixins/mixins';
 
 type TableRowProps = {
 	index: number;
@@ -44,7 +43,7 @@ const TableRow = (props: TableRowProps) => {
 		props;
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
 	const [toggleRow, setToggleRow] = useState(false);
-	const [viewAllCells, setViewAllCells] = useState(false);
+	// const [viewAllCells, setViewAllCells] = useState(false);
 
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 	const availablePacks = props?.packList || [];
@@ -174,5 +173,8 @@ const Row = styled.tr`
 		position: relative;
 		border: none;
 		background-color: white;
+		td:first-child {
+			overflow: visible;
+		}
 	}
 `;
