@@ -5,6 +5,8 @@ import { Icon } from '../../../shared/ui/SemanticUI';
 import CampGraphic from '../../../assets/camping.svg';
 import { useCategoryInfo } from './useCategoryInfo';
 import PackSummaryPanel from './PackSummaryPanel';
+import { Panel } from '../../../shared/ui/TidyUI';
+import styled from 'styled-components';
 
 type PackGraphicProps = {
 	fetching: boolean;
@@ -25,15 +27,15 @@ const PackGraphic = (props: PackGraphicProps) => {
 	if (packHasWeight && !fetching) {
 		return (
 			<>
-				<div className="pack-info-center-panel">
-					<List className="chart-display-list">
+				<SummaryPanel $width="25%">
+					<ChartList>
 						{chartCategoryInfo.map((category) => {
 							return (
-								<ListItem key={category.categoryId} className="chart-display-list-item">
+								<ChartItem key={category.categoryId}>
 									<Icon name="circle" $themeColor={category.chartColor} />
 									<p>{category.categoryName}: </p>
 									<Label>{category.totalWeight} lbs</Label>
-								</ListItem>
+								</ChartItem>
 							);
 						})}
 
@@ -44,25 +46,72 @@ const PackGraphic = (props: PackGraphicProps) => {
 							descriptivePackWeight={descriptivePackWeight}
 							totalPackPrice={totalPackPrice}
 						/>
-					</List>
-				</div>
-				<div className="pack-info-right-panel-chart">
+					</ChartList>
+				</SummaryPanel>
+				<ChartPanel $width="25%">
 					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</div>
+				</ChartPanel>
 			</>
 		);
 	}
 	if (!packHasWeight && !fetching) {
 		return (
-			<div className="pack-info-right-panel-graphic">
+			<GraphicPanel $width="50%">
 				<Image src={CampGraphic} />
 				<p>
 					<Icon name="hand point down outline" />
 					Add items below to get started
 				</p>
-			</div>
+			</GraphicPanel>
 		);
 	} else return null;
 };
 
 export default PackGraphic;
+
+const ChartPanel = styled(Panel)`
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-left: 25px;
+`;
+
+const GraphicPanel = styled(Panel)`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+	height: 30vh;
+	img {
+		height: 100%;
+	}
+	p {
+		margin-right: 30px;
+	}
+`;
+
+const SummaryPanel = styled(Panel)`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	padding-right: 15px;
+`;
+
+const ChartList = styled(List)`
+	&&& {
+		width: fit-content;
+	}
+`;
+const ChartItem = styled(ListItem)`
+	&&& {
+		font-size: 0.9em;
+		display: flex;
+		align-items: baseline;
+		p {
+			margin-right: 5px;
+		}
+		div.ui.label {
+			margin-left: auto;
+		}
+	}
+`;

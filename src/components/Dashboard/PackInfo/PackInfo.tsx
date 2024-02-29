@@ -8,6 +8,8 @@ import {
 import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../../../shared/ui/Modals';
+import styled from 'styled-components';
+import { Panel } from '../../../shared/ui/TidyUI';
 import './PackInfo.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
@@ -69,9 +71,9 @@ const PackInfo = (props: PackInfoProps) => {
 	const { publicProfile } = settings || {};
 
 	return (
-		<div className="pack-info-container">
-			<div
-				className="pack-info-left-panel"
+		<PackInfoContainer className="pack-info-container">
+			<Panel
+				$width={'50%'}
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
 				{!userView && (
@@ -85,7 +87,7 @@ const PackInfo = (props: PackInfoProps) => {
 				<Header as="h1">
 					{packName}
 					{showIcon && userView && (
-						<Icon name="pencil alternate" color="grey" onClick={handleToggleModal} />
+						<EditIcon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Header>
 
@@ -103,7 +105,7 @@ const PackInfo = (props: PackInfoProps) => {
 				<p>{packDescription}</p>
 
 				<PackLabels pack={currentPack} />
-			</div>
+			</Panel>
 
 			{/* Right Hand Panel */}
 
@@ -121,8 +123,26 @@ const PackInfo = (props: PackInfoProps) => {
 				onClickDelete={handleDeletePackAndItems}
 				onClickMove={handleDeletePack}
 			/>
-		</div>
+		</PackInfoContainer>
 	);
 };
 
 export default PackInfo;
+
+const PackInfoContainer = styled.div`
+	width: 100%;
+	height: 40vh;
+	display: inline-flex;
+	align-items: center;
+	margin-bottom: 2vh;
+`;
+
+const EditIcon = styled(Icon)`
+	&&& {
+		font-size: 0.6em;
+		margin-left: 15px;
+		vertical-align: text-top;
+		height: 0.6em;
+		cursor: pointer;
+	}
+`;

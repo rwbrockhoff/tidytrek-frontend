@@ -10,3 +10,7 @@ export const Dimmer = styled(SemDimmer)`
 	width: 100%;
 	height: 100%;
 `;
+
+export const Panel = styled.div<{ $width: string }>`
+	width: ${({ $width }) => $width};
+`;

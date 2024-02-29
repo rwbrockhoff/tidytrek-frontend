@@ -31,49 +31,49 @@ const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 				hideOnScroll
 				trigger={
 					<div>
-						<ListItem className="chart-display-list-item" style={{ cursor: 'pointer' }}>
+						<PopupListItem style={{ cursor: 'pointer' }}>
 							<LightIcon name="info circle" /> Total Weight:{' '}
-							<Label>{totalWeight} lbs</Label>
-						</ListItem>
+							<StyledLabel>{totalWeight} lbs</StyledLabel>
+						</PopupListItem>
 					</div>
 				}>
 				<PopupContent>
 					<List className="chart-display-popup-list" relaxed>
-						<ListItem className="chart-display-list-item">
+						<PopupListItem>
 							<p>
 								<Icon color="teal" name="balance scale" />
 								Base Weight:
 							</p>
-							<Label>{baseWeight}</Label>
-						</ListItem>
+							<StyledLabel>{baseWeight}</StyledLabel>
+						</PopupListItem>
 
-						<ListItem className="chart-display-list-item">
+						<PopupListItem>
 							<p>
 								<Icon name="food" color="olive" />
 								Consumables:
 							</p>
-							<Label>{consumables}</Label>
-						</ListItem>
-						<ListItem className="chart-display-list-item">
+							<StyledLabel>{consumables}</StyledLabel>
+						</PopupListItem>
+						<PopupListItem>
 							<p>
 								<i className={`fa-solid fa-shirt`} />
 								Worn Weight:
 							</p>
-							<Label>{wornWeight}</Label>
-						</ListItem>
+							<StyledLabel>{wornWeight}</StyledLabel>
+						</PopupListItem>
 						<Divider />
-						<ListItem className="chart-display-list-item">
-							<p>Total Weight: </p> <Label>{totalWeight} lbs</Label>
-						</ListItem>
+						<PopupListItem>
+							<p>Total Weight: </p> <StyledLabel>{totalWeight} lbs</StyledLabel>
+						</PopupListItem>
 					</List>
 				</PopupContent>
 			</Popup>
 
 			{showPrices && (
-				<ListItem className="chart-display-list-item" style={{ marginTop: 10 }}>
+				<PopupListItem style={{ marginTop: 10 }}>
 					<LightIcon name="money" style={{ marginLeft: 0 }} /> Total Price:
-					<Label>{totalPackPrice}</Label>
-				</ListItem>
+					<StyledLabel>{totalPackPrice}</StyledLabel>
+				</PopupListItem>
 			)}
 		</>
 	);
@@ -85,5 +85,30 @@ const LightIcon = styled(Icon)`
 	&&& {
 		opacity: 0.2;
 		margin-right: 5px;
+	}
+`;
+
+const PopupListItem = styled(ListItem)`
+	&&& {
+		font-size: 0.9em;
+		display: flex;
+		align-items: baseline;
+		p {
+			margin-right: 10px;
+			text-align: left;
+			i {
+				margin-right: 10px;
+			}
+
+			.fa-solid.fa-shirt {
+				color: #2185d0;
+			}
+		}
+	}
+`;
+
+const StyledLabel = styled(Label)`
+	&& {
+		margin-left: auto;
 	}
 `;
