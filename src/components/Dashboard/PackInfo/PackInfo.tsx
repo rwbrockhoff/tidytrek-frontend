@@ -1,4 +1,4 @@
-import { Header, Icon } from 'semantic-ui-react';
+import { Header, Icon, Button } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import {
@@ -10,7 +10,6 @@ import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../../../shared/ui/Modals';
 import styled from 'styled-components';
 import { Panel } from '../../../shared/ui/TidyUI';
-import './PackInfo.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
@@ -19,6 +18,7 @@ import Link from '../../../shared/ui/Link';
 import { type UserProfile } from '../../../types/profileTypes';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import { type Settings } from '../../../types/settingsTypes';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -43,9 +43,11 @@ const PackInfo = (props: PackInfoProps) => {
 	const [showIcon, setShowIcon] = useState(false);
 	const [showPackModal, setShowPackModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showPackChart, setShowPackChart] = useState(false);
 
 	const handleToggleModal = () => setShowPackModal(!showPackModal);
 	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
 
 	const handleShowDeleteModal = () => {
 		setShowPackModal(false);
@@ -72,7 +74,7 @@ const PackInfo = (props: PackInfoProps) => {
 
 	return (
 		<PackInfoContainer className="pack-info-container">
-			<Panel
+			<InfoPanel
 				$width={'50%'}
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
@@ -105,11 +107,19 @@ const PackInfo = (props: PackInfoProps) => {
 				<p>{packDescription}</p>
 
 				<PackLabels pack={currentPack} />
-			</Panel>
+				<ToggleChartButton basic onClick={handleTogglePackChart}>
+					<Icon name="pie chart" />
+					Show Pack Chart
+				</ToggleChartButton>
+			</InfoPanel>
 
 			{/* Right Hand Panel */}
 
-			<PackGraphic fetching={fetching} packCategories={packCategories} />
+			<PackGraphic
+				fetching={fetching}
+				packCategories={packCategories}
+				display={showPackChart}
+			/>
 
 			<PackFormModal
 				open={showPackModal}
@@ -130,11 +140,23 @@ const PackInfo = (props: PackInfoProps) => {
 export default PackInfo;
 
 const PackInfoContainer = styled.div`
-	width: 100%;
+	width: 95%;
 	height: 40vh;
 	display: inline-flex;
 	align-items: center;
 	margin-bottom: 2vh;
+	${mobile(`
+		height: fit-content;
+		flex-direction: column;
+		margin-top: 3vh;
+		margin-bottom: 0;
+	`)}
+`;
+
+const InfoPanel = styled(Panel)`
+	${mobile(`
+		margin-bottom: 25px;
+	`)}
 `;
 
 const EditIcon = styled(Icon)`
@@ -144,5 +166,17 @@ const EditIcon = styled(Icon)`
 		vertical-align: text-top;
 		height: 0.6em;
 		cursor: pointer;
+	}
+`;
+
+const ToggleChartButton = styled(Button)`
+	&&& {
+		margin-top: 25px;
+		width: 100%;
+		display: none;
+		${mobile(`
+			display: block;
+		
+	`)}
 	}
 `;

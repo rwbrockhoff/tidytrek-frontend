@@ -7,14 +7,16 @@ import { useCategoryInfo } from './useCategoryInfo';
 import PackSummaryPanel from './PackSummaryPanel';
 import { Panel } from '../../../shared/ui/TidyUI';
 import styled from 'styled-components';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PackGraphicProps = {
-	fetching: boolean;
 	packCategories: Category[];
+	fetching: boolean;
+	display: boolean;
 };
 
 const PackGraphic = (props: PackGraphicProps) => {
-	const { fetching, packCategories } = props;
+	const { packCategories, fetching, display } = props;
 	const {
 		chartCategoryInfo,
 		categoryWeights,
@@ -26,8 +28,8 @@ const PackGraphic = (props: PackGraphicProps) => {
 
 	if (packHasWeight && !fetching) {
 		return (
-			<>
-				<SummaryPanel $width="25%">
+			<OuterPanel $width="50%" $display={display}>
+				<SummaryPanel $width="50%">
 					<ChartList>
 						{chartCategoryInfo.map((category) => {
 							return (
@@ -48,10 +50,10 @@ const PackGraphic = (props: PackGraphicProps) => {
 						/>
 					</ChartList>
 				</SummaryPanel>
-				<ChartPanel $width="25%">
+				<ChartPanel $width="50%">
 					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
 				</ChartPanel>
-			</>
+			</OuterPanel>
 		);
 	}
 	if (!packHasWeight && !fetching) {
@@ -69,11 +71,28 @@ const PackGraphic = (props: PackGraphicProps) => {
 
 export default PackGraphic;
 
+const OuterPanel = styled(Panel)<{ $display: boolean }>`
+	display: flex;
+	align-items: center;
+	transition: max-height 350ms ease-in-out;
+	${(props) =>
+		mobile(`
+		max-height: ${props.$display ? '150vh' : 0};
+		overflow: hidden;
+		flex-direction: column-reverse;
+	`)}
+`;
+
 const ChartPanel = styled(Panel)`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	margin-left: 25px;
+	${mobile(`
+	width: 75vw;
+		margin-left: 0;
+		margin-bottom: 25px;
+	`)}
 `;
 
 const GraphicPanel = styled(Panel)`
@@ -95,11 +114,18 @@ const SummaryPanel = styled(Panel)`
 	flex-direction: column;
 	align-items: flex-end;
 	padding-right: 15px;
+	${mobile(`
+		padding-right: 0;
+		align-items: center;
+	`)}
 `;
 
 const ChartList = styled(List)`
 	&&& {
 		width: fit-content;
+		${mobile(`
+			width: 75vw;
+		`)}
 	}
 `;
 const ChartItem = styled(ListItem)`

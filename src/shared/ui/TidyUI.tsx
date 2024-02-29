@@ -1,5 +1,6 @@
 import { Dimmer as SemDimmer } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { mobile } from '../mixins/mixins';
 
 export const SubText = styled.p`
 	font-size: 0.9em;
@@ -13,4 +14,7 @@ export const Dimmer = styled(SemDimmer)`
 
 export const Panel = styled.div<{ $width: string }>`
 	width: ${({ $width }) => $width};
+	${mobile(`
+		width: 100%;
+	`)}
 `;
