@@ -5,6 +5,7 @@ import {
 	ActionButtons,
 	MinimizeButton,
 	DeleteButton,
+	MobileToggleButton,
 } from '../TableButtons/TableButtons';
 import {
 	usePackCategoryHandlers,
@@ -15,6 +16,7 @@ import {
 	usePricingContext,
 	useUserContext,
 } from '../../../../views/Dashboard/hooks/useViewerContext';
+import { mobile } from '../../../../shared/mixins/mixins';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -91,11 +93,19 @@ export default TableHeader;
 const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	opacity: ${(props) => (props.$isMinimized ? 0.5 : 1)};
 	transition: opacity 250ms ease;
+	${mobile(`
+		opacity: 1;
+		display: flex !important;
+	`)}
 `;
 
+// display:block !important deeply nested in Semantic css
 export const HeaderCell = styled(Table.HeaderCell)<{ $paddingLeft?: string }>`
 	&&&& {
 		padding-left: ${({ $paddingLeft }) => $paddingLeft};
+		${mobile(`
+			display: none !important;
+		`)}
 	}
 `;
 

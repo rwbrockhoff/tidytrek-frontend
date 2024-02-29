@@ -1,5 +1,6 @@
 import { Table, Button, Icon, Input } from 'semantic-ui-react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { mobile } from '../../../../shared/mixins/mixins';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -8,11 +9,46 @@ type ActionButtonsProps = {
 };
 
 export const ActionButtons = ({ header, size = 1, children }: ActionButtonsProps) => {
-	const ButtonCell = header ? Table.HeaderCell : Table.Cell;
+	// const ButtonCell = header ? Table.HeaderCell : Table.Cell;
+	if (header) {
+		return (
+			<StyledHeaderCell textAlign="center" colSpan={size}>
+				{children}
+			</StyledHeaderCell>
+		);
+	} else {
+		return (
+			<StyledCell textAlign="center" colSpan={size}>
+				{children}
+			</StyledCell>
+		);
+	}
+};
+
+const StyledHeaderCell = styled(Table.HeaderCell)`
+	&&& {
+		${mobile(`
+		display: inline-flex;
+		border-radius: 0 !important;
+		width: fit-content;
+		.icon {
+			margin-right: 20px !important;
+		}
+	`)}
+	}
+`;
+
+const StyledCell = styled(Table.Cell)``;
+
+type MobileToggleProps = {
+	onToggle: () => void;
+};
+
+export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 	return (
-		<ButtonCell textAlign="center" colSpan={size}>
-			{children}
-		</ButtonCell>
+		<TableButton onClick={onToggle} $mobileOnly>
+			<Icon name="toggle down" />
+		</TableButton>
 	);
 };
 
@@ -81,8 +117,20 @@ export const GripButton = ({ display }: { display: boolean }) => {
 	} else return null;
 };
 
-export const TableButton = styled(Button)<{ $display?: boolean; $marginLeft?: string }>`
+export const TableButton = styled(Button)<{
+	$display?: boolean;
+	$marginLeft?: string;
+	$mobileOnly?: boolean;
+}>`
 	&&& {
+		${(props) =>
+			props.$mobileOnly &&
+			css`
+				display: none;
+				${mobile(`
+					display: block;
+				`)}
+			`}
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
@@ -96,6 +144,9 @@ export const TableButton = styled(Button)<{ $display?: boolean; $marginLeft?: st
 		input {
 			height: 30px;
 		}
+		${mobile(`
+			opacity: 1;
+		`)}
 	}
 `;
 

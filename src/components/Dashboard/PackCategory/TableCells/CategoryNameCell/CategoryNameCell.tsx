@@ -11,6 +11,7 @@ import { type ReactInput } from '../../../../../types/generalTypes';
 import { type HeaderInfo } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { usePackCategoryHandlers } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
+import { mobile } from '../../../../../shared/mixins/mixins';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -63,7 +64,6 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	return (
 		<HeaderCell
-			className="table-header-cell"
 			colSpan={size}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}
@@ -92,20 +92,27 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 export default CategoryNameCell;
 
 const HeaderCell = styled(SemTable.HeaderCell)`
-	&&&& {
+	&&& {
 		position: relative;
 		overflow: visible;
+		${mobile(`
+			display: inline-flex;
+			flex: 1;
+		`)}
 	}
 `;
 
 const Input = styled(SemInput)`
 	&&& {
 		font-size: 1.2em;
-		width: fit-content;
 		height: 30px;
 		input {
 			padding-left: 0.5em;
 		}
+		${mobile(`
+			height: 40px;
+			font-size: 1.3em;
+		`)}
 		${(props) =>
 			props.$displayInput &&
 			css`

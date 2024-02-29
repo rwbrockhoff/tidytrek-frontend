@@ -16,6 +16,8 @@ import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
 import useCurrency from '../../../utils/useCurrency';
+import { mobile } from '../../../shared/mixins/mixins';
+import './MobileTable.css';
 
 type PackCategoryProps = {
 	category: Category;
@@ -75,8 +77,9 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 						fixed
 						striped
 						compact
-						stackable
-						size="small">
+						unstackable
+						size="small"
+						className="dnxTable">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
 							categoryHeaderInfo={categoryHeaderInfo}
@@ -129,6 +132,12 @@ const TableContainer = styled.div`
 	text-align: center;
 	margin: 5vh 0px;
 	display: flex;
+
+	${mobile(`
+		border: 2px dashed green !important;
+		height: fit-content;
+		overflow-x: scroll;
+	`)}
 `;
 
 const StyledTable = styled(Table)`
