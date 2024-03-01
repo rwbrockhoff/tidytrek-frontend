@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UploadFile from '../../../../shared/ui/UploadFile';
-import { Button, Loader } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import { Loader } from '../../../../shared/ui/TidyUI';
 import { Dimmer } from '../../../../shared/ui/Dimmer';
 import { defaultPackPhoto } from '../../../../shared/ui/defaultPhotos';
-import { flexCenter } from '../../../../shared/mixins/mixins';
+import { absoluteCenter } from '../../../../shared/mixins/mixins';
 
 type PackPhotoProps = {
 	src: string;
@@ -41,7 +42,7 @@ const PackPhoto = (props: PackPhotoProps) => {
 
 			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
-			{isPending && <StyledLoader active inverted />}
+			<Loader active={isPending} inverted />
 
 			{uploadEnabled && showButton && (
 				<UploadContainer>
@@ -73,11 +74,7 @@ const StyledDimmer = styled(Dimmer)`
 `;
 
 const UploadContainer = styled.div`
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 200px;
-	${flexCenter}
+	${absoluteCenter}
 	z-index: 5;
 `;
 
@@ -85,13 +82,6 @@ const Container = styled.div`
 	position: relative;
 	width: 100%;
 	height: 200px;
-`;
-
-const StyledLoader = styled(Loader)`
-	&&& {
-		width: 100%;
-		${flexCenter}
-	}
 `;
 
 const DeleteButton = styled(Button)`

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import UploadFile from '../../../shared/ui/UploadFile';
 import { useState } from 'react';
 import Dimmer from '../../../shared/ui/Dimmer';
-import { Loader } from 'semantic-ui-react';
+import { Loader } from '../../../shared/ui/TidyUI';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;
@@ -22,7 +22,7 @@ const BannerPhoto = (props: BannerPhotoProps) => {
 			onMouseLeave={() => setShowUploadMode(false)}>
 			<BannerImage src={bannerPhotoUrl} alt="landscape profile banner photo" />
 
-			{isPending && <StyledLoader active inverted size="big" />}
+			<Loader active={isPending} inverted size="big" />
 
 			<StyledDimmer active={dimmerEnabled} />
 
@@ -68,10 +68,4 @@ const StyledDimmer = styled(Dimmer)`
 	height: 250px;
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
-`;
-
-const StyledLoader = styled(Loader)`
-	&&& {
-		left: 50%;
-	}
 `;

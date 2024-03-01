@@ -1,7 +1,7 @@
 import { Modal, ModalHeader, ModalContent, ModalActions, Icon } from 'semantic-ui-react';
 import { Button } from './SemanticUI';
 import styled from 'styled-components';
-import { mobile } from '../mixins/mixins';
+import { absoluteCenter } from '../mixins/mixins';
 import { tidyTheme } from '../theme/tidyTheme';
 
 type DeleteModalProps = {
@@ -53,15 +53,7 @@ export const DeleteModal = ({
 };
 
 const CustomModal = styled(Modal)`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	&&& {
-		${mobile(`
-
-		`)}
-	}
+	${absoluteCenter}
 `;
 
 export const DeleteItemModal = ({

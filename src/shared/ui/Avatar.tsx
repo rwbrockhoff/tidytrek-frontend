@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Button, Loader } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import { Loader } from './TidyUI';
 import { CustomLink } from './CustomLinks';
 import { useState } from 'react';
 import Dimmer from './Dimmer';
 import UploadFile from './UploadFile';
-import { flexCenter } from '../mixins/mixins';
+import { absoluteCenter, flexCenter } from '../mixins/mixins';
 import { defaultAvatarPhoto } from './defaultPhotos';
 
 type AvatarProps = {
@@ -55,12 +56,12 @@ const Avatar = (props: AvatarProps) => {
 				)}
 
 				<InnerContainer $size={size} $withBorder={withBorder}>
-					{isPending && <StyledLoader active inverted $size={size} />}
+					<Loader active={isPending} inverted />
 
 					<StyledDimmer active={displayDimmer} />
 
 					{uploadEnabled && showButton && (
-						<UploadContainer $size={size}>
+						<UploadContainer>
 							<UploadFile
 								fileId="profile-photo-upload"
 								fileName="profilePhoto"
@@ -113,24 +114,12 @@ const StyledAvatar = styled.img<{ $size?: Size }>`
 `;
 
 const StyledDimmer = styled(Dimmer)`
-	position: absolute;
 	width: 100%;
 	height: 100%;
 `;
 
-const UploadContainer = styled.div<{ $size: Size }>`
-	position: absolute;
-	top: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) - 2em;
-	left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) - 2em;
-`;
-
-const StyledLoader = styled(Loader)<{ $size: Size }>`
-	&&& {
-		top: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) -
-			2.28571429rem;
-		left: calc(${(props) => props.$size && sizeChart[props.$size].widthOrHeight} / 2) -
-			2.28571429rem;
-	}
+const UploadContainer = styled.div`
+	${absoluteCenter}
 `;
 
 const DeleteButton = styled(Button)`

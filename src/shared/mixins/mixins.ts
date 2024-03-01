@@ -18,6 +18,13 @@ export const flexCenter = () => `
     justify-content: center;
 `;
 
+export const absoluteCenter = () => `
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const mobile = (customCss: string) => css`
 	@media only screen and (max-width: 768px) {
 		${customCss}
