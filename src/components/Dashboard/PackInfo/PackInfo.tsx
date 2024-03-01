@@ -108,6 +108,7 @@ const PackInfo = (props: PackInfoProps) => {
 				<p>{packDescription}</p>
 
 				<PackLabels pack={currentPack} />
+
 				<ToggleChartButton basic onClick={handleTogglePackChart}>
 					<Icon name="pie chart" />
 					Show Pack Chart

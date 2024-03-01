@@ -1,4 +1,4 @@
-import { Table } from '../../../shared/ui/SemanticUI';
+import TidyTable from '../../../shared/ui/TidyTable';
 import {
 	type PackListItem,
 	type Category,
@@ -17,7 +17,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
 import useCurrency from '../../../utils/useCurrency';
 import { mobile } from '../../../shared/mixins/mixins';
-import './MobileTable.css';
 
 type PackCategoryProps = {
 	category: Category;
@@ -74,7 +73,8 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					$isMinimized={isMinimized}>
-					<StyledTable
+					<TidyTable
+						$tableCellWidth="5%"
 						$themeColor={packCategoryColor}
 						$minimalPadding
 						fixed
@@ -113,7 +113,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 								handleAddItem={handleAddItem}
 							/>
 						)}
-					</StyledTable>
+					</TidyTable>
 
 					<DeleteItemModal
 						id={packItemToChange}
@@ -141,13 +141,4 @@ const TableContainer = styled.div<{ $isMinimized: boolean }>`
 		height: fit-content;
 		margin-bottom: ${$isMinimized ? '0px' : '75px'};
 	`)}
-`;
-
-const StyledTable = styled(Table)`
-	&& {
-		border: none;
-	}
-	td {
-		width: 5%;
-	}
 `;

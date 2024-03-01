@@ -1,16 +1,18 @@
 import { Icon } from 'semantic-ui-react';
-import { Table, Button } from '../../../shared/ui/SemanticUI';
+import TidyTable from '../../../shared/ui/TidyTable';
+import { Button, Table } from '../../../shared/ui/SemanticUI';
 import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
 import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
-import styled from 'styled-components';
 import {
 	HeaderCell,
 	TableText,
 } from '../../Dashboard/PackCategory/TableHeader/TableHeader';
 import { PricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
+import styled from 'styled-components';
+import { mobile } from '../../../shared/mixins/mixins';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -35,7 +37,13 @@ const GearClosetList = ({
 
 	return (
 		<PricingContext.Provider value={true}>
-			<StyledTable $themeColor="primary" fixed striped size="small">
+			<StyledTidyTable
+				$tableCellWidth="5%"
+				$themeColor="primary"
+				unstackable
+				fixed
+				striped
+				size="small">
 				<Table.Header>
 					<Table.Row>
 						<HeaderCell colSpan="5" $paddingLeft="25px">
@@ -106,7 +114,7 @@ const GearClosetList = ({
 						</Table.Cell>
 					</Table.Row>
 				</StyledFooter>
-			</StyledTable>
+			</StyledTidyTable>
 		</PricingContext.Provider>
 	);
 };
@@ -125,8 +133,16 @@ const NotFoundMessage = () => {
 	);
 };
 
-const StyledTable = styled(Table)`
-	td {
-		width: 5%;
+const StyledTidyTable = styled(TidyTable)`
+	&&& {
+		${mobile(`
+			thead {
+				display: none;
+			}
+
+			tfoot button {
+				font-size: 1.1em;
+			}
+		`)}
 	}
 `;

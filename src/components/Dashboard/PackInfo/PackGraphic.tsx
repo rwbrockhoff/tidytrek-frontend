@@ -107,6 +107,7 @@ const GraphicPanel = styled(Panel)`
 	p {
 		margin-right: 30px;
 	}
+	${mobile(`display:none;`)}
 `;
 
 const SummaryPanel = styled(Panel)`

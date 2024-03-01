@@ -113,12 +113,12 @@ const StyledRow = styled(Table.Row)`
 const StyledCell = styled(Table.Cell)`
 	&&& {
 		text-align: center;
-		font-size: 1.1em;
+		font-size: 1em;
 	}
 `;
 
 const StyledButton = styled(Button)`
 	&&& {
-		font-size: 1.1em;
+		font-size: 1em;
 	}
 `;

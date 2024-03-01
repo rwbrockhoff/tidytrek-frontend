@@ -94,12 +94,9 @@ const StyledCell = styled(Table.Cell)`
 			margin-left: 10px;
 			${mobile(`
 				height: 40px;
-				margin-left: 0px;
+				margin-left: 10px;
 			`)}
 		}
-		${mobile(`
-			
-		`)}
 	}
 `;
 
