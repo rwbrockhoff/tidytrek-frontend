@@ -4,12 +4,9 @@ import { Button, Table } from '../../../shared/ui/SemanticUI';
 import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
 import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
+import GearClosetHeader from '../GearClosetHeader/GearClosetHeader';
 import { DropTableBody } from '../../../shared/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
-import {
-	HeaderCell,
-	TableText,
-} from '../../Dashboard/PackCategory/TableHeader/TableHeader';
 import { PricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import styled from 'styled-components';
 import { mobile } from '../../../shared/mixins/mixins';
@@ -18,7 +15,7 @@ export type GearClosetListProps = {
 	packList: PackListItem[] | [];
 	gearClosetList: PackItem[] | [];
 	dragDisabled: boolean;
-	isEmptyList: boolean;
+	listHasItems: boolean;
 	onSave: (packItem: PackItem) => void;
 	onDelete: (packItemId: number) => void;
 	onMove: (packInfo: PackInfo) => void;
@@ -28,7 +25,7 @@ const GearClosetList = ({
 	gearClosetList,
 	packList,
 	dragDisabled,
-	isEmptyList,
+	listHasItems,
 	onSave,
 	onMove,
 	onDelete,
@@ -44,38 +41,9 @@ const GearClosetList = ({
 				fixed
 				striped
 				size="small">
-				<Table.Header>
-					<Table.Row>
-						<HeaderCell colSpan="5" $paddingLeft="25px">
-							Item
-						</HeaderCell>
+				<GearClosetHeader />
 
-						<HeaderCell colSpan="5" $paddingLeft="25px">
-							Description
-						</HeaderCell>
-
-						<Table.HeaderCell colSpan="4" />
-						<HeaderCell textAlign="left" colSpan="2" $paddingLeft="15px">
-							Qty
-						</HeaderCell>
-
-						<HeaderCell textAlign="center" colSpan="3">
-							<TableText $width="100px" $paddingRight="13px">
-								Weight
-							</TableText>
-						</HeaderCell>
-
-						<HeaderCell textAlign="left" colSpan="3" $paddingLeft="25px">
-							<TableText $width="75px" $paddingLeft="13px">
-								Price
-							</TableText>
-						</HeaderCell>
-
-						<Table.HeaderCell colSpan="2"></Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
-
-				{!isEmptyList ? (
+				{listHasItems ? (
 					<DropTableBody
 						droppableId={`gear-closet`}
 						type="closet-item"

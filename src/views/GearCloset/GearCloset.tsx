@@ -61,7 +61,7 @@ const GearCloset = () => {
 	);
 
 	const dragDisabled = searchInput.length ? true : false;
-	const isEmptyList = !filteredClosetList.length && searchInput.length ? true : false;
+	const listHasItems = filteredClosetList.length ? true : false;
 
 	return (
 		<UserViewContext.Provider value={true}>
@@ -85,7 +85,7 @@ const GearCloset = () => {
 					<GearClosetList
 						gearClosetList={filteredClosetList}
 						packList={packList}
-						isEmptyList={isEmptyList}
+						listHasItems={listHasItems}
 						dragDisabled={dragDisabled}
 						onMove={handleMoveItemToPack}
 						onSave={handleOnSave}
