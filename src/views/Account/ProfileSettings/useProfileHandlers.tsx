@@ -1,8 +1,8 @@
 import { type UserInfo } from '../../../types/profileTypes';
+import { type InternalMutation } from '../../../types/formTypes';
 import { useProfileSettingsMutations } from './useProfileMutations';
 import { cleanUpLink } from '../../../shared/ui/CustomLinks';
 import { createContext, useContext } from 'react';
-import { InternalMutation } from '../../../shared/handlers';
 
 type Handlers = {
 	addSocialLink: (service: string, socialLink: string) => void;
