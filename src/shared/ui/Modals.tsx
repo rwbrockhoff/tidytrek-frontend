@@ -1,5 +1,8 @@
 import { Modal, ModalHeader, ModalContent, ModalActions, Icon } from 'semantic-ui-react';
 import { Button } from './SemanticUI';
+import styled from 'styled-components';
+import { mobile } from '../mixins/mixins';
+import { tidyTheme } from '../theme/tidyTheme';
 
 type DeleteModalProps = {
 	open: boolean;
@@ -29,7 +32,7 @@ export const DeleteModal = ({
 	onClickMove,
 }: DeleteModalProps) => {
 	return (
-		<Modal size="mini" closeIcon open={open} onClose={onClose}>
+		<CustomModal size="mini" closeIcon open={open} onClose={onClose}>
 			<ModalHeader>{header ? header : 'Are you sure?'}</ModalHeader>
 			<ModalContent>
 				<p>{message ? message : 'Do you want to delete or move your items?'}</p>
@@ -45,9 +48,21 @@ export const DeleteModal = ({
 					</Button>
 				)}
 			</ModalActions>
-		</Modal>
+		</CustomModal>
 	);
 };
+
+const CustomModal = styled(Modal)`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	&&& {
+		${mobile(`
+
+		`)}
+	}
+`;
 
 export const DeleteItemModal = ({
 	open,
@@ -78,3 +93,60 @@ export const DeleteItemModal = ({
 		</Modal>
 	);
 };
+
+export const TidyModal = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<StyledModal>
+			<TidyModalHeader>
+				<ModalHeaderText>Are you sure?</ModalHeaderText>
+				<ModalCloseButtonContainer>
+					<Icon name="close" />
+				</ModalCloseButtonContainer>
+			</TidyModalHeader>
+			<ModalBody>{children}</ModalBody>
+
+			<ModalFooter>
+				<Button>Save</Button>
+			</ModalFooter>
+		</StyledModal>
+	);
+};
+
+const StyledModal = styled.div`
+	background-color: white;
+	width: 400px;
+	height: fit-content;
+	position: absolute;
+	z-index: 1001;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	border-radius: 5px;
+	overflow: hidden;
+`;
+
+const TidyModalHeader = styled.div`
+	display: flex;
+	align-items: center;
+	min-height: 50px;
+	padding: 1.5em 2em;
+	border-bottom: 1px solid ${tidyTheme.lightGrey};
+`;
+
+const ModalBody = styled.div`
+	padding: 1em 2em;
+`;
+
+const ModalFooter = styled.div`
+	background-color: #f9fafb;
+	border-top: 1px solid ${tidyTheme.lightGrey};
+	min-height: 50px;
+	padding: 1em 2em;
+	display: flex;
+	justify-content: flex-end;
+`;
+
+const ModalHeaderText = styled.h3``;
+
+const ModalCloseButtonContainer = styled.div``;

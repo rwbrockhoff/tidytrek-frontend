@@ -11,13 +11,13 @@ const ViewLayout = () => {
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 
 	return (
-		<div id="app-view-container">
+		<AppViewContainer>
 			<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
 			<ViewLayoutContainer $showSidebar={showSidebar}>
 				<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
 				<Outlet />
 			</ViewLayoutContainer>
-		</div>
+		</AppViewContainer>
 	);
 };
 
@@ -52,10 +52,17 @@ const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
 	}
 `;
 
+const AppViewContainer = styled.div`
+	background-color: #f0f0f0;
+	height: 100vh;
+	display: flex;
+`;
+
 const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	width: ${(props) => (props.$showSidebar ? '80vw' : '100vw')};
 	margin-left: ${(props) => (props.$showSidebar ? '20vw' : '0vw')};
 	height: 100vh;
+	position: relative;
 	overflow-y: auto;
 	padding-left: 4vw;
 	padding-right: 4vw;

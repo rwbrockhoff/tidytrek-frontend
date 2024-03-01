@@ -24,12 +24,6 @@ a {
 	cursor: pointer;
 }
 
-#app-view-container {
-	background-color: #f0f0f0;
-	height: 100vh;
-	display: flex;
-}
-
 /* Changes to Semantic UI */
 .ui.form .field.field input:-webkit-autofill,
 .ui.form .field.field input:-webkit-autofill:focus,
@@ -42,17 +36,6 @@ a {
 
 .ui.dimmer {
 	background-color: rgba(0, 0, 0, 0.25);
-}
-
-.ui.mini.modal {
-	left: calc(50% - 38px);
-	.close {
-		color: grey;
-	}
-}
-
-.ui.small.modal {
-	left: 37.5%;
 }
 
 .ui.modal > i.close.icon {

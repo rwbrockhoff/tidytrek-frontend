@@ -141,12 +141,13 @@ const PackInfo = (props: PackInfoProps) => {
 export default PackInfo;
 
 const PackInfoContainer = styled.div`
-	width: 95%;
 	height: 40vh;
 	display: inline-flex;
 	align-items: center;
 	margin-bottom: 2vh;
+	width: 100%;
 	${mobile(`
+		width: 95%;
 		height: fit-content;
 		flex-direction: column;
 		margin-top: 3vh;

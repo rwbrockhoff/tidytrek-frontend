@@ -63,7 +63,7 @@ export default PackPhoto;
 const StyledPackPhoto = styled.img`
 	width: 100%;
 	height: 200px;
-	object-cover: cover;
+	object-fit: cover;
 `;
 
 const StyledDimmer = styled(Dimmer)`
