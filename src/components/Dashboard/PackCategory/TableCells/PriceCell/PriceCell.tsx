@@ -1,10 +1,9 @@
 import { type InputEvent, type SelectEvent } from '../../../../../types/formTypes';
+import styled from 'styled-components';
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
-import '../TableCell/TableCell.css';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import useCurrency from '../../../../../utils/useCurrency';
-import styled from 'styled-components';
 import { flexCenter } from '../../../../../shared/mixins/mixins';
 
 type PriceCellProps = {
@@ -51,7 +50,6 @@ const PriceCell = (props: PriceCellProps) => {
 						placeholder={placeholder}
 						onChange={onChange}
 						$toggleInput={toggleInput}
-						// style={{ paddingRight: !toggleInput ? '14px' : 0 }}
 					/>
 				</div>
 			) : (

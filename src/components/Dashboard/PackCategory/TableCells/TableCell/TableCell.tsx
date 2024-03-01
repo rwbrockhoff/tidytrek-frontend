@@ -1,6 +1,7 @@
+import { type InputEvent, type SelectEvent } from '../../../../../types/formTypes';
 import { Table, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
 import { useState } from 'react';
-import './TableCell.css';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 
 type TableCellProps = {
@@ -8,9 +9,7 @@ type TableCellProps = {
 	itemName: string;
 	placeholder?: string;
 	size: number;
-	onChange: (
-		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
-	) => void;
+	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
@@ -37,16 +36,13 @@ const TableCell = (props: TableCellProps) => {
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
 			{userView ? (
-				<Input
-					className="table-cell-input"
+				<StyledInput
 					value={value || ''}
 					name={itemName}
 					placeholder={placeholder}
 					onChange={onChange}
 					transparent={display}
-					style={{
-						paddingLeft: display ? '13px' : '0px',
-					}}
+					$display={display}
 				/>
 			) : (
 				<p>{value}</p>
@@ -56,3 +52,11 @@ const TableCell = (props: TableCellProps) => {
 };
 
 export default TableCell;
+
+const StyledInput = styled(Input)<{ $display: boolean }>`
+	&&& {
+		width: 100%;
+		height: 30px;
+		padding-left: ${({ $display }) => ($display ? '13px' : 0)};
+	}
+`;
