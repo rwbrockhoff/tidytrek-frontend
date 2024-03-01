@@ -118,4 +118,9 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	height: 100%;
+	footer {
+		width: 100%;
+		margin-top: auto;
+	}
 `;
