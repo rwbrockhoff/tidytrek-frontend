@@ -1,25 +1,36 @@
 import { Icon } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { themeColor } from '../mixins/mixins';
 
 type LinkProps = {
 	url: string;
 	text: string;
 	showIcon?: boolean;
-	className?: string;
 };
 
-const Link = ({ url, text, showIcon = false, className }: LinkProps) => {
+const Link = ({ url, text, showIcon = false }: LinkProps) => {
 	if (url) {
 		return (
-			<a href={url} target="_blank" rel="noopener noreferrer">
-				<p className={className}>
+			<StyledLink href={url} target="_blank" rel="noopener noreferrer">
+				<p>
 					{showIcon && <Icon name="linkify" />}
 					{text}
 				</p>
-			</a>
+			</StyledLink>
 		);
 	} else {
-		return <p className={className}>{text}</p>;
+		return <p>{text}</p>;
 	}
 };
 
 export default Link;
+
+const StyledLink = styled.a`
+	p {
+		margin-bottom: 10px;
+		${themeColor('primary')}
+	}
+	i {
+		margin-right: 5px;
+	}
+`;

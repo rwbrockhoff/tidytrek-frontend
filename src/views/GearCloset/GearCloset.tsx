@@ -17,6 +17,7 @@ import { type DropResult } from 'react-beautiful-dnd';
 import { DragDropContext } from '../../shared/DragDropWrapper';
 import { type InputEvent } from '../../shared/formHelpers';
 import { searchMatch } from '../../shared/formHelpers';
+import { mobile } from '../../shared/mixins/mixins';
 
 const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
@@ -112,5 +113,6 @@ const SearchContainer = styled.div`
 		margin-bottom: 50px;
 		margin-left: auto;
 		margin-right: auto;
+		${mobile(`width: 95%;`)}
 	}
 `;

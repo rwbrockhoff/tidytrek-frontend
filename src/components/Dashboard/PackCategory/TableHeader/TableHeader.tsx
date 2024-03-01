@@ -5,7 +5,6 @@ import {
 	ActionButtons,
 	MinimizeButton,
 	DeleteButton,
-	MobileToggleButton,
 } from '../TableButtons/TableButtons';
 import {
 	usePackCategoryHandlers,

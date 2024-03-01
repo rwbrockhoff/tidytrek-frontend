@@ -73,7 +73,7 @@ const PackInfo = (props: PackInfoProps) => {
 	const { publicProfile } = settings || {};
 
 	return (
-		<PackInfoContainer className="pack-info-container">
+		<PackInfoContainer>
 			<InfoPanel
 				$width={'50%'}
 				onMouseOver={() => setShowIcon(true)}
@@ -88,20 +88,21 @@ const PackInfo = (props: PackInfoProps) => {
 
 				<Header as="h1">
 					{packName}
-					{showIcon && userView && (
-						<EditIcon name="pencil alternate" color="grey" onClick={handleToggleModal} />
+
+					{userView && (
+						<EditIcon
+							name="pencil alternate"
+							color="grey"
+							onClick={handleToggleModal}
+							$display={showIcon}
+						/>
 					)}
 				</Header>
 
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 
 				{packUrl && (
-					<Link
-						url={packUrl}
-						text={packUrlName || packUrl || 'Pack Link'}
-						className="pack-link"
-						showIcon
-					/>
+					<Link url={packUrl} text={packUrlName || packUrl || 'Pack Link'} showIcon />
 				)}
 
 				<p>{packDescription}</p>
@@ -154,18 +155,18 @@ const PackInfoContainer = styled.div`
 `;
 
 const InfoPanel = styled(Panel)`
-	${mobile(`
-		margin-bottom: 25px;
-	`)}
+	${mobile(`margin-bottom: 25px;`)}
 `;
 
-const EditIcon = styled(Icon)`
+const EditIcon = styled(Icon)<{ $display: boolean }>`
 	&&& {
 		font-size: 0.6em;
 		margin-left: 15px;
 		vertical-align: text-top;
 		height: 0.6em;
 		cursor: pointer;
+		opacity: ${({ $display }) => ($display ? 1 : 0)};
+		${mobile(`opacity: 1;`)}
 	}
 `;
 
@@ -174,9 +175,6 @@ const ToggleChartButton = styled(Button)`
 		margin-top: 25px;
 		width: 100%;
 		display: none;
-		${mobile(`
-			display: block;
-		
-	`)}
+		${mobile(`display: block;`)}
 	}
 `;
