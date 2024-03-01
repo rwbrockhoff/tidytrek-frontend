@@ -1,7 +1,9 @@
-import { Header, Divider, Icon } from 'semantic-ui-react';
+import { Header, Divider, Icon, Button } from 'semantic-ui-react';
+import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
 import { Drop, Drag } from '../../../shared/components/DragDropWrapper';
 import PackListItem from './PackListItem/PackListItem';
+import { mobile } from '../../../shared/mixins/mixins';
 
 type PackListProps = {
 	packList: PackListItemType[];
@@ -25,12 +27,25 @@ const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 			</Drop>
 
 			<Divider />
-			<p onClick={addPack}>
+
+			<NewPackButton size="mini" onClick={addPack}>
 				<Icon name="add" />
 				Create New Pack
-			</p>
+			</NewPackButton>
 		</div>
 	);
 };
 
 export default PackList;
+
+const NewPackButton = styled(Button)`
+	&&& {
+		background-color: transparent;
+		color: white;
+		padding: 0;
+		${mobile(`
+			font-size: 1em;
+			margin-top: 1em;
+		`)}
+	}
+`;
