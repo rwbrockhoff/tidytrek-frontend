@@ -1,7 +1,8 @@
 import { Table, Popup, Icon } from 'semantic-ui-react';
 import { type PackButtonSwitches } from '../../../../types/packTypes';
-import './PropertyButton.css';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
+import styled from 'styled-components';
+import { themeColor } from '../../../../shared/mixins/mixins';
 
 type ButtonProps = {
 	size: number;
@@ -29,7 +30,7 @@ const PropertyButtons = (props: ButtonProps) => {
 	const showOnHover = display && userView;
 
 	return (
-		<Table.Cell className="property-table-button" textAlign="center" colSpan={size}>
+		<PropertyButtonsCell textAlign="center" colSpan={size}>
 			<Icon
 				name="favorite"
 				color={favorite ? 'yellow' : 'grey'}
@@ -64,7 +65,7 @@ const PropertyButtons = (props: ButtonProps) => {
 				}
 			/>
 
-			<Popup
+			{/* <Popup
 				content="Make item for sale"
 				mouseEnterDelay={700}
 				on="hover"
@@ -76,9 +77,26 @@ const PropertyButtons = (props: ButtonProps) => {
 						onClick={() => handleOnClick({ consumable: !consumable })}
 					/>
 				}
-			/>
-		</Table.Cell>
+			/> */}
+		</PropertyButtonsCell>
 	);
 };
 
 export default PropertyButtons;
+
+const PropertyButtonsCell = styled(Table.Cell)`
+	&&& {
+		i {
+			margin: 0px 10px;
+			padding: 5px;
+			cursor: pointer;
+			color: rgba(0, 0, 0, 0.5);
+			&:hover {
+				color: rgba(0, 0, 0, 0.7);
+			}
+		}
+		.fa-solid.fa-shirt.worn-weight-item {
+			${themeColor('primaryBlue')}
+		}
+	}
+`;

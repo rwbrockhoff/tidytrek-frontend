@@ -42,7 +42,7 @@ const PackPhoto = (props: PackPhotoProps) => {
 
 			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
-			<Loader active={isPending} inverted />
+			{isPending && <Loader active={isPending} inverted />}
 
 			{uploadEnabled && showButton && (
 				<UploadContainer>

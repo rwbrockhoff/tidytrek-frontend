@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { usePricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
+import { themeColor } from '../../../shared/mixins/mixins';
 
 type PackSummaryPanelProps = {
 	totalWeight: number;
@@ -99,9 +100,8 @@ const PopupListItem = styled(ListItem)`
 			i {
 				margin-right: 10px;
 			}
-
 			.fa-solid.fa-shirt {
-				color: #2185d0;
+				${themeColor('primaryBlue')}
 			}
 		}
 	}
