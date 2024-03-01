@@ -2,7 +2,7 @@ import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
 import { flexCenter, wh } from '../../../shared/mixins/mixins';
 import { SocialLinkInfo } from '../../../types/profileTypes';
-import { CustomLink } from '../../../shared/ui/CustomLinks';
+import { Link } from '../../../shared/ui/Link';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -42,10 +42,10 @@ export const SocialButton = (props: SocialButtonProps) => {
 			$backgroundColor={color}
 			$colorButton={colorButton}
 			onClick={handleClick}>
-			<CustomLink link={socialLinkUrl} enabled externalLink>
+			<Link link={socialLinkUrl} enabled externalLink>
 				{icon}
 				{displayLink || 'Link'}
-			</CustomLink>
+			</Link>
 			{deleteEnabled && (
 				<Icon name="delete" style={{ marginLeft: 10 }} onClick={handleDelete} />
 			)}

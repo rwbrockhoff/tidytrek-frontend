@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { GripButton, MobileToggleButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
-import Link from '../../../../../shared/ui/Link';
+import { DisplayLink } from '../../../../../shared/ui/Link';
 import LinkPopup from './LinkPopup';
 import { mobile } from '../../../../../shared/mixins/mixins';
 
@@ -77,7 +77,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 				</Input>
 			) : (
 				<LinkContainer>
-					<Link url={packItemUrl} text={value} showIcon />
+					<DisplayLink url={packItemUrl} text={value} showIcon />
 				</LinkContainer>
 			)}
 		</StyledCell>

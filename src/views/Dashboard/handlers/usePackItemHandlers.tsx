@@ -2,7 +2,7 @@ import { type InternalMutation } from '../../../types/formTypes';
 import { usePackItemMutations } from '../mutations/usePackItemMutations';
 import { createContext, useContext, useState } from 'react';
 import { MovePackItemProps, PackInfo, PackItem } from '../../../types/packTypes';
-import { cleanUpLink } from '../../../shared/ui/CustomLinks';
+import { cleanUpLink } from '../../../shared/ui/Link';
 
 type AddItemInfo = { packId: number; packCategoryId: number };
 

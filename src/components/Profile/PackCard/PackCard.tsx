@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
 import { type Pack } from '../../../types/packTypes';
-import { CustomLink } from '../../../shared/ui/CustomLinks';
+import { Link } from '../../../shared/ui/Link';
 import { encode } from '../../../utils/generateDisplayId';
 import { mobile } from '../../../shared/mixins/mixins';
 import PackPhoto from '../../Dashboard/PackInfo/PackFormModal/PackPhoto';
@@ -33,7 +33,7 @@ const PackCard = (props: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<CustomLink link={link} enabled={!userView}>
+		<Link link={link} enabled={!userView}>
 			<StyledCard>
 				<PackPhoto
 					src={packPhotoUrl}
@@ -43,9 +43,9 @@ const PackCard = (props: PackCardProps) => {
 				/>
 				<CardContent>
 					<CardHeader>
-						<CustomLink link={link} enabled={userView}>
+						<Link link={link} enabled={userView}>
 							{packName}
-						</CustomLink>
+						</Link>
 					</CardHeader>
 					<CardMeta>
 						<span>{packPublic ? 'Public' : 'Private'}</span>
@@ -60,7 +60,7 @@ const PackCard = (props: PackCardProps) => {
 					</CardContent>
 				)}
 			</StyledCard>
-		</CustomLink>
+		</Link>
 	);
 };
 

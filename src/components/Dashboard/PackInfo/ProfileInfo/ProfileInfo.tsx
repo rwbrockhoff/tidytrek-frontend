@@ -3,7 +3,7 @@ import { Header } from 'semantic-ui-react';
 import { type ProfileInfo, type SocialLink } from '../../../../types/profileTypes';
 import SocialLinkList from '../../../Account/ProfileForm/SocialLinkList';
 import styled from 'styled-components';
-import { CustomLink } from '../../../../shared/ui/CustomLinks';
+import { Link } from '../../../../shared/ui/Link';
 import { encode } from '../../../../utils/generateDisplayId';
 
 type ProfileInfoProps = {
@@ -19,14 +19,14 @@ const ProfileInfo = (props: ProfileInfoProps) => {
 	const userBasedUrl = username || (userId && encode(userId));
 	return (
 		<ProfileInfoContainer>
-			<CustomLink link={`/user/${userBasedUrl}`} enabled={publicProfile}>
+			<Link link={`/user/${userBasedUrl}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="medium" />
-			</CustomLink>
+			</Link>
 			<TextContainer>
 				<UsernameHeader as="h4">
-					<CustomLink link={`/user/${userBasedUrl}`} enabled={publicProfile}>
+					<Link link={`/user/${userBasedUrl}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}
-					</CustomLink>
+					</Link>
 				</UsernameHeader>
 				<SocialLinkList
 					socialLinks={socialLinks || []}

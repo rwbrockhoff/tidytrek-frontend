@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import { Button } from '../../../shared/ui/SemanticUI';
 import { Header } from 'semantic-ui-react';
-import { CustomLink } from '../../../shared/ui/CustomLinks';
+import { Link } from '../../../shared/ui/Link';
 import { themeBgColor } from '../../../shared/mixins/mixins';
 
 const ProfileBanner = () => {
 	return (
 		<BannerContainer>
-			<CustomLink link="/">
+			<Link link="/">
 				<StyledHeader as="h2">tidytrek</StyledHeader>
-			</CustomLink>
+			</Link>
 			<RightPanel>
-				<CustomLink link={'/register'}>
+				<Link link={'/register'}>
 					<StyledButton>Sign Up</StyledButton>
-				</CustomLink>
+				</Link>
 			</RightPanel>
 		</BannerContainer>
 	);

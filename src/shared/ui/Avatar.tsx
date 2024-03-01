@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 import { Loader } from './TidyUI';
-import { CustomLink } from './CustomLinks';
+import { Link } from './Link';
 import { useState } from 'react';
 import Dimmer from './Dimmer';
 import UploadFile from '../components/UploadFile';
@@ -39,7 +39,7 @@ const Avatar = (props: AvatarProps) => {
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 
 	return (
-		<CustomLink link={link} enabled={hasLink}>
+		<Link link={link} enabled={hasLink}>
 			<OuterContainer
 				$size={size}
 				$withBorder={withBorder}
@@ -74,7 +74,7 @@ const Avatar = (props: AvatarProps) => {
 					<StyledAvatar src={photoSource} $size={size} alt="user profile photo" />
 				</InnerContainer>
 			</OuterContainer>
-		</CustomLink>
+		</Link>
 	);
 };
 

@@ -1,7 +1,7 @@
 import { type UserInfo } from '../../../types/profileTypes';
 import { type InternalMutation } from '../../../types/formTypes';
 import { useProfileSettingsMutations } from './useProfileMutations';
-import { cleanUpLink } from '../../../shared/ui/CustomLinks';
+import { cleanUpLink } from '../../../shared/ui/Link';
 import { createContext, useContext } from 'react';
 
 type Handlers = {

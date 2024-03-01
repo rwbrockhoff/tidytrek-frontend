@@ -2,7 +2,7 @@ import Avatar from '../../../../shared/ui/Avatar';
 import { Popup, PopupContent } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AvatarMenu } from './Menus';
-import { CustomLink } from '../../../../shared/ui/CustomLinks';
+import { Link } from '../../../../shared/ui/Link';
 
 type PopupMenuProps = {
 	profilePhotoUrl: string | undefined;
@@ -23,9 +23,9 @@ const PopupMenu = (props: PopupMenuProps) => {
 			eventsEnabled
 			trigger={
 				<Container>
-					<CustomLink link="/profile" enabled={!isMobile}>
+					<Link link="/profile" enabled={!isMobile}>
 						<Avatar src={profilePhotoUrl} size="small" />
-					</CustomLink>
+					</Link>
 				</Container>
 			}>
 			<PopupContent>

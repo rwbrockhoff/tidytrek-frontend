@@ -20,7 +20,7 @@ import {
 } from '../../../../queries/packQueries';
 import { Pack } from '../../../../types/packTypes';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
-import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
+import { cleanUpLink } from '../../../../shared/ui/Link';
 import styled from 'styled-components';
 import { SubText } from '../../../../shared/ui/TidyUI';
 import PackPhoto from './PackPhoto';

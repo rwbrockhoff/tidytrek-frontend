@@ -1,5 +1,11 @@
+import { type UserProfile } from '../../../types/profileTypes';
+import { type Category, type Pack } from '../../../types/packTypes';
+import { type Settings } from '../../../types/settingsTypes';
+import styled from 'styled-components';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { mobile } from '../../../shared/mixins/mixins';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import {
 	useDeletePackMutation,
@@ -8,17 +14,11 @@ import {
 import PackGraphic from './PackGraphic';
 import PackFormModal from './PackFormModal/PackFormModal';
 import { DeleteModal } from '../../../shared/ui/Modals';
-import styled from 'styled-components';
 import { Panel } from '../../../shared/ui/TidyUI';
-import { useNavigate, useParams } from 'react-router-dom';
-import { type Category, type Pack } from '../../../types/packTypes';
 import ShareSettings from './ShareSettings/ShareSettings';
 import PackLabels from './PackLabels/PackLabels';
-import Link from '../../../shared/ui/Link';
-import { type UserProfile } from '../../../types/profileTypes';
+import { DisplayLink } from '../../../shared/ui/Link';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import { type Settings } from '../../../types/settingsTypes';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -102,7 +102,11 @@ const PackInfo = (props: PackInfoProps) => {
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 
 				{packUrl && (
-					<Link url={packUrl} text={packUrlName || packUrl || 'Pack Link'} showIcon />
+					<DisplayLink
+						url={packUrl}
+						text={packUrlName || packUrl || 'Pack Link'}
+						showIcon
+					/>
 				)}
 
 				<p>{packDescription}</p>
