@@ -9,10 +9,10 @@ import { mobile } from '../mixins/mixins';
 
 const borderStyle = '1px solid rgba(34, 36, 38, 0.1)';
 
-const TidyTable = styled(Table)<{ $tableCellWidth?: string }>`
+const TidyTable = styled(Table)<{ $tableCellWidth?: string; $themeColor: string }>`
 	&&& {
-		border: none;
-
+		border: ${borderStyle};
+		border-top: 3px solid ${(props) => props.theme[props.$themeColor]};
 		${({ $tableCellWidth }) =>
 			$tableCellWidth &&
 			css`

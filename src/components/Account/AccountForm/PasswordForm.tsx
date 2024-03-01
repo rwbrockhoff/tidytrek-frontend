@@ -1,6 +1,6 @@
 import { Form, Input, Icon, Header } from 'semantic-ui-react';
 import { Button, FormField } from '../../../shared/ui/SemanticUI';
-import { Link } from 'react-router-dom';
+import { Link } from '../../../shared/ui/Link';
 import { type PasswordInfo, type InputEvent } from '../../../types/formTypes';
 import Message from '../../../shared/ui/Message';
 import { useContext } from 'react';
@@ -74,8 +74,8 @@ const PasswordForm = (props: PasswordFormProps) => {
 								onChange={onChange}
 							/>
 						</FormField>
-						<Link to="/reset-password">
-							<p className="reset-password-link">Reset Your Password</p>
+						<Link link="/reset-password">
+							<p>Reset Your Password</p>
 						</Link>
 						<ButtonContainer>
 							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>

@@ -39,7 +39,7 @@ const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 					</div>
 				}>
 				<PopupContent>
-					<List className="chart-display-popup-list" relaxed>
+					<List relaxed>
 						<PopupListItem>
 							<p>
 								<Icon color="teal" name="balance scale" />

@@ -50,7 +50,7 @@ const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<StyledCell textAlign="left" colSpan={2}>
+						<StyledCell colSpan={2} style={{ textAlign: 'left' }}>
 							{itemQuantity} Items
 						</StyledCell>
 						<StyledCell textAlign="center" colSpan={3}>
@@ -58,8 +58,8 @@ const TableFooter = ({
 						</StyledCell>
 
 						{showPrices && (
-							<StyledCell textAlign="left" colSpan={3} style={{ paddingLeft: '25px' }}>
-								<TableText $width="75px" $paddingLeft="13px">
+							<StyledCell textAlign="left" colSpan={3}>
+								<TableText $width="75px" $paddingLeft="5px">
 									{price}
 								</TableText>
 							</StyledCell>

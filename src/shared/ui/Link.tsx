@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 import { themeColor } from '../mixins/mixins';
 
@@ -35,12 +35,18 @@ type DisplayLinkProps = {
 	url: string;
 	text: string;
 	showIcon?: boolean;
+	margin?: string;
 };
 
-export const DisplayLink = ({ url, text, showIcon = false }: DisplayLinkProps) => {
+export const DisplayLink = (props: DisplayLinkProps) => {
+	const { url, text, showIcon = false, margin } = props;
 	if (url) {
 		return (
-			<StyledBasicLink href={url} target="_blank" rel="noopener noreferrer">
+			<StyledBasicLink
+				href={url}
+				$margin={margin}
+				target="_blank"
+				rel="noopener noreferrer">
 				<p>
 					{showIcon && <Icon name="linkify" />}
 					{text}
@@ -52,10 +58,14 @@ export const DisplayLink = ({ url, text, showIcon = false }: DisplayLinkProps) =
 	}
 };
 
-const StyledBasicLink = styled.a`
+const StyledBasicLink = styled.a<{ $margin?: string }>`
 	p {
-		margin-bottom: 10px;
 		${themeColor('primary')}
+		${({ $margin }) =>
+			$margin &&
+			css`
+				margin: ${$margin};
+			`}
 	}
 	i {
 		margin-right: 5px;

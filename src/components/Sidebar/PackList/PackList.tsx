@@ -25,7 +25,7 @@ const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 			</Drop>
 
 			<Divider />
-			<p onClick={addPack} className="add-new-pack-button">
+			<p onClick={addPack}>
 				<Icon name="add" />
 				Create New Pack
 			</p>

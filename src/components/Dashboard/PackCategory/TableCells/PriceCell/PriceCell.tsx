@@ -39,7 +39,7 @@ const PriceCell = (props: PriceCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}
-			style={{ paddingLeft: '25px' }}>
+			style={{ paddingLeft: '15px' }}>
 			{userView ? (
 				<div>
 					<StyledInput

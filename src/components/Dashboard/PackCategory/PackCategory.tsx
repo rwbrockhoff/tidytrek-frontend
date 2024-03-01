@@ -81,8 +81,7 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 						striped
 						compact
 						unstackable
-						size="small"
-						className="dnxTable">
+						size="small">
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
 							categoryHeaderInfo={categoryHeaderInfo}

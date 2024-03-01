@@ -66,9 +66,7 @@ const GearCloset = () => {
 	return (
 		<UserViewContext.Provider value={true}>
 			<div>
-				<Header as="h1" className="gear-closet-header">
-					Gear Closet
-				</Header>
+				<Header as="h1">Gear Closet</Header>
 
 				<SearchContainer>
 					<Input

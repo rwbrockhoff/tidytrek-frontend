@@ -53,13 +53,13 @@ const TableHeader = (props: TableHeaderProps) => {
 						</HeaderCell>
 
 						<HeaderCell textAlign="center" colSpan="3">
-							<TableText $width="100px" $paddingRight="13px">
+							<TableText $width="100px" $paddingRight="5px">
 								Weight
 							</TableText>
 						</HeaderCell>
 
 						{showPrices && (
-							<HeaderCell textAlign="left" colSpan="3" $paddingLeft="25px">
+							<HeaderCell textAlign="left" colSpan="3" $paddingLeft="15px">
 								<TableText $width="75px" $paddingLeft="13px">
 									Price
 								</TableText>
