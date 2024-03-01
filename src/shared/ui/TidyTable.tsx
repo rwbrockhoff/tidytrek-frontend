@@ -32,7 +32,7 @@ const TidyTable = styled(Table)<{ $tableCellWidth?: string }>`
             width: 100%;
         }
 
-        thead, tfoot tr {
+        thead, tfoot {
             display: flex;
         }
     
