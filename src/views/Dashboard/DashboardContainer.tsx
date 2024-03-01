@@ -9,7 +9,11 @@ import {
 } from '../../types/packTypes';
 import { InitialState as GuestState } from '../../queries/guestQueries';
 import DashboardFooter from '../../components/Dashboard/DashboardFooter/DashboardFooter';
-import { DragDropContext, Drop, type DropResult } from '../../shared/DragDropWrapper';
+import {
+	DragDropContext,
+	Drop,
+	type DropResult,
+} from '../../shared/components/DragDropWrapper';
 import { ThemeProvider } from 'styled-components';
 import styled from 'styled-components';
 import useGuestData from './hooks/useGuestData';

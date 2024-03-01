@@ -1,3 +1,6 @@
+import { type RegisterUser } from '../../types/userTypes';
+import { type CheckboxEvent, type InputEvent } from '../../types/formTypes';
+import { isInputEvent } from '../../shared/formHelpers';
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
 import { useState } from 'react';
 import { setFormInput } from '../../shared/formHelpers';
@@ -5,8 +8,6 @@ import { useValidateForm } from './useValidateForm';
 import { useCombineErrors, type MutationError } from './useCombineErrors';
 import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
-import { type RegisterUser } from '../../types/userTypes';
-import { CheckboxEvent, InputEvent, isInputEvent } from '../../shared/formHelpers';
 import { AuthContainer } from '../../components/Authentication/FormComponents';
 
 const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {

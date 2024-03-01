@@ -1,8 +1,7 @@
 import { Form, Input, Icon, Header } from 'semantic-ui-react';
 import { Button, FormField } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
-import { type PasswordInfo } from '../../../types/generalTypes';
-import { type ReactInput } from '../../../types/generalTypes';
+import { type PasswordInfo, type InputEvent } from '../../../types/formTypes';
 import Message from '../../../shared/ui/Message';
 import { useContext } from 'react';
 import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
@@ -15,7 +14,7 @@ type PasswordFormProps = {
 	passwordInfo: PasswordInfo;
 	toggleForm: () => void;
 	resetFormError: () => void;
-	onChange: (e: ReactInput) => void;
+	onChange: (e: InputEvent) => void;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 };
 

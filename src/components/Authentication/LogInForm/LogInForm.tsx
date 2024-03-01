@@ -1,9 +1,9 @@
+import { type InputEvent, type CheckboxEvent } from '../../../types/formTypes';
 import { Link } from 'react-router-dom';
 import { Form, Segment, FormCheckbox } from 'semantic-ui-react';
 import { Button, Header } from '../../../shared/ui/SemanticUI';
 import { FormContainer, FooterText, FormMessage } from '../FormComponents';
-import { FormError } from '../../../types/generalTypes';
-import { type InputEvent, type CheckboxEvent } from '../../../shared/formHelpers';
+import { FormError } from '../../../types/formTypes';
 import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
 
 type FormProps = {

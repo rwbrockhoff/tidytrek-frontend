@@ -4,7 +4,7 @@ import { Loader } from './TidyUI';
 import { CustomLink } from './CustomLinks';
 import { useState } from 'react';
 import Dimmer from './Dimmer';
-import UploadFile from './UploadFile';
+import UploadFile from '../components/UploadFile';
 import { absoluteCenter, flexCenter } from '../mixins/mixins';
 import { defaultAvatarPhoto } from './defaultPhotos';
 

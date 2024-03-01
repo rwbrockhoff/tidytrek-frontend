@@ -5,7 +5,7 @@ import { type PackListItem, type PackItem, PackInfo } from '../../../types/packT
 import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
 import GearClosetHeader from '../GearClosetHeader/GearClosetHeader';
-import { DropTableBody } from '../../../shared/DragDropWrapper';
+import { DropTableBody } from '../../../shared/components/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
 import { PricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import styled from 'styled-components';

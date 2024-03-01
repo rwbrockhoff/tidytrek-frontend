@@ -3,7 +3,7 @@ import { useState, createContext, useContext } from 'react';
 import { UserContext } from '../Account';
 import { DeleteModal } from '../../../shared/ui/Modals';
 import AccountForm from '../../../components/Account/AccountForm/AccountForm';
-import { type PasswordInfo } from '../../../types/generalTypes';
+import { type PasswordInfo } from '../../../types/formTypes';
 import { validPassword, passwordRequirements } from '../../Authentication/authHelper';
 import {
 	useCombineErrors,

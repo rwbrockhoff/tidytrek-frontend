@@ -1,8 +1,10 @@
+import { type DropResult } from 'react-beautiful-dnd';
+import { type PackItem, type PackInfo } from '../../types/packTypes';
+import { type InputEvent } from '../../types/formTypes';
 import { Header as SemHeader } from 'semantic-ui-react';
 import { Input } from '../../shared/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { type PackItem, type PackInfo } from '../../types/packTypes';
 import GearClosetList from '../../components/GearCloset/GearClosetList/GearClosetList';
 import {
 	useGetGearClosetQuery,
@@ -13,9 +15,7 @@ import {
 } from '../../queries/closetQueries';
 import { useGetPackListQuery } from '../../queries/packQueries';
 import { UserViewContext } from '../Dashboard/hooks/useViewerContext';
-import { type DropResult } from 'react-beautiful-dnd';
-import { DragDropContext } from '../../shared/DragDropWrapper';
-import { type InputEvent } from '../../shared/formHelpers';
+import { DragDropContext } from '../../shared/components/DragDropWrapper';
 import { searchMatch } from '../../shared/formHelpers';
 import { mobile } from '../../shared/mixins/mixins';
 

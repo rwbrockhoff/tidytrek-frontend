@@ -10,6 +10,7 @@ import {
 	FormGroup,
 	Divider,
 } from 'semantic-ui-react';
+import { type InputEvent, type TextAreaEvent } from '../../../../types/formTypes';
 import { Button, ModalHeader, Checkbox } from '../../../../shared/ui/SemanticUI';
 import { useState, useEffect } from 'react';
 import {
@@ -20,7 +21,6 @@ import {
 import { Pack } from '../../../../types/packTypes';
 import PackTagProperties from './PackTagProperties/PackTagProperties';
 import { cleanUpLink } from '../../../../shared/ui/CustomLinks';
-import { InputEvent, TextAreaEvent } from '../../../../shared/formHelpers';
 import styled from 'styled-components';
 import { SubText } from '../../../../shared/ui/TidyUI';
 import PackPhoto from './PackPhoto';

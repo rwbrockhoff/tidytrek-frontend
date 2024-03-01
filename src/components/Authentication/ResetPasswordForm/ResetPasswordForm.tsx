@@ -1,7 +1,7 @@
+import { type InputEvent } from '../../../types/formTypes';
 import { Form, Segment } from 'semantic-ui-react';
 import { Header, Button } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
-import { ReactInput } from '../../../types/generalTypes';
 import { FooterText, FormContainer, FormMessage } from '../FormComponents';
 import { AuthContainer } from '../FormComponents';
 
@@ -18,7 +18,7 @@ type ResetPasswordFormProps = {
 	isSuccess: boolean;
 	formError: boolean;
 	formErrorMessage: string;
-	onFormChange: (e: ReactInput) => void;
+	onFormChange: (e: InputEvent) => void;
 	onResetRequest: () => void;
 	onResetConfirm: () => void;
 };

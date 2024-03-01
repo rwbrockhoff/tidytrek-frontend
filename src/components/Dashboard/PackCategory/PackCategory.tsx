@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { weightConverter, quantityConverter } from '../../../utils/weightConverter';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import TableFooter from './TableFooter/TableFooter';
-import { DropTableBody } from '../../../shared/DragDropWrapper';
+import { DropTableBody } from '../../../shared/components/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
 import useCurrency from '../../../utils/useCurrency';

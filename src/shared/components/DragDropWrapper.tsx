@@ -4,7 +4,7 @@ import {
 	DragDropContext as Context,
 	type DropResult as Result,
 } from 'react-beautiful-dnd';
-import EmptyTableRow from '../components/Dashboard/PackCategory/TableRow/EmptyTableRow';
+import EmptyTableRow from '../../components/Dashboard/PackCategory/TableRow/EmptyTableRow';
 
 export type DropResult = Result;
 

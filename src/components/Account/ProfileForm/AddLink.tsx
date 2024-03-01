@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './SocialButton';
 import socialMediaUI from '../../../shared/theme/SocialMediaUI';
-import { ReactInput } from '../../../types/generalTypes';
+import { type InputEvent } from '../../../types/formTypes';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 
 const AddLink = () => {
@@ -36,7 +36,7 @@ const AddLink = () => {
 		if (service !== 'custom') setService('custom');
 	};
 
-	const handleInput = (e: ReactInput) => {
+	const handleInput = (e: InputEvent) => {
 		setSocialLink(e.target.value);
 		handleUpdateService(e.target.value);
 	};

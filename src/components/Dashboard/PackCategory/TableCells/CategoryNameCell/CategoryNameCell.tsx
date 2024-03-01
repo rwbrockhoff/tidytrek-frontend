@@ -7,7 +7,7 @@ import ThemeButton from '../../TableButtons/ThemeButton/ThemeButton';
 import { GripButton } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { type ReactInput } from '../../../../../types/generalTypes';
+import { type InputEvent } from '../../../../../types/formTypes';
 import { type HeaderInfo } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { usePackCategoryHandlers } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
@@ -58,7 +58,7 @@ const CategoryNameCell = (props: CategoryNameCellProps) => {
 		setShowGrip(false);
 	};
 
-	const handleInput = (e: ReactInput) => setPackCategoryName(e.target.value);
+	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	const displayInput = !toggleInput || !userView;
 

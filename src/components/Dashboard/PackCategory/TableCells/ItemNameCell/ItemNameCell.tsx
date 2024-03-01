@@ -1,10 +1,10 @@
+import { type InputEvent, type SelectEvent } from '../../../../../types/formTypes';
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { GripButton, MobileToggleButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import Link from '../../../../../shared/ui/Link';
-import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
 import LinkPopup from './LinkPopup';
 import { mobile } from '../../../../../shared/mixins/mixins';
 

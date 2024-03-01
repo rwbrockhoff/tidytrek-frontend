@@ -3,7 +3,7 @@ import { userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { RegisterUser, type User } from '../types/userTypes';
 import { type Settings } from '../types/settingsTypes';
-import { type PasswordInfo } from '../types/generalTypes';
+import { type PasswordInfo } from '../types/formTypes';
 
 type InitialState = {
 	isAuthenticated: boolean;

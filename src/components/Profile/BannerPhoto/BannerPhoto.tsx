@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import UploadFile from '../../../shared/ui/UploadFile';
+import UploadFile from '../../../shared/components/UploadFile';
 import { useState } from 'react';
 import Dimmer from '../../../shared/ui/Dimmer';
 import { Loader } from '../../../shared/ui/TidyUI';

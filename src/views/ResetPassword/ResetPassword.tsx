@@ -1,3 +1,4 @@
+import { type InputEvent } from '../../types/formTypes';
 import { Grid } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,7 +18,6 @@ import {
 	type MutationSuccess,
 } from '../Authentication/useCombineSuccess';
 import { setFormInput } from '../../shared/formHelpers';
-import { ReactInput } from '../../types/generalTypes';
 
 const ResetPassword = () => {
 	const { resetToken } = useParams();
@@ -46,7 +46,7 @@ const ResetPassword = () => {
 		confirmPassword: '',
 	});
 
-	const handleFormChange = (e: ReactInput) => setFormInput(e, setFormData);
+	const handleFormChange = (e: InputEvent) => setFormInput(e, setFormData);
 
 	const handleResetPasswordRequest = () => {
 		if (validEmail(formData.email)) {

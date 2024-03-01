@@ -1,10 +1,8 @@
-import { SyntheticEvent } from 'react';
-
-export type InputEvent = React.ChangeEvent<HTMLInputElement>;
-export type TextAreaEvent = React.ChangeEvent<HTMLTextAreaElement>;
-export type CheckboxEvent = React.FormEvent<HTMLInputElement>;
-export type SelectEvent = React.ChangeEvent<HTMLSelectElement>;
-export type FormEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>;
+import {
+	type CheckboxEvent,
+	type InputEvent,
+	type TextAreaEvent,
+} from '../types/formTypes';
 
 export const isInputEvent = (e: InputEvent | CheckboxEvent): e is InputEvent => {
 	return e.type === 'change' || false;

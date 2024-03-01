@@ -1,8 +1,8 @@
+import { type User } from '../../../types/userTypes';
+import { type PasswordInfo } from '../../../types/formTypes';
+import { type InputEvent } from '../../../types/formTypes';
 import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
 import { Header } from '../../../shared/ui/SemanticUI';
-import { type User } from '../../../types/userTypes';
-import { type PasswordInfo } from '../../../types/generalTypes';
-import { type ReactInput } from '../../../types/generalTypes';
 import PasswordForm from './PasswordForm';
 import { setFormInput } from '../../../shared/formHelpers';
 import { useState } from 'react';
@@ -36,7 +36,7 @@ const AccountForm = ({
 
 	if (success && passwordInfo !== initialState) setPasswordInfo(initialState);
 
-	const handleOnChange = (e: ReactInput) =>
+	const handleOnChange = (e: InputEvent) =>
 		setFormInput<PasswordInfo>(e, setPasswordInfo);
 
 	const handleResetForm = () => {

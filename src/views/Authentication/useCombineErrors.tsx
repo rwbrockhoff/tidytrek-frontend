@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FormError } from '../../types/generalTypes';
+import { FormError } from '../../types/formTypes';
 import { AxiosError } from 'axios';
 
 // isError comes from mutation, error prop comes from our API

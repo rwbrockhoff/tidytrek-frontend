@@ -1,8 +1,8 @@
+import { type InputEvent, type SelectEvent } from '../../../../../types/formTypes';
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import '../TableCell/TableCell.css';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
-import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
 import useCurrency from '../../../../../utils/useCurrency';
 import styled from 'styled-components';
 import { flexCenter } from '../../../../../shared/mixins/mixins';

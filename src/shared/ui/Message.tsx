@@ -1,5 +1,5 @@
 import { Message as SemanticMessage, Icon } from 'semantic-ui-react';
-import { type FormError } from '../../types/generalTypes';
+import { type FormError } from '../../types/formTypes';
 
 type MessageProps = {
 	loading: boolean;

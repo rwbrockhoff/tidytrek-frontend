@@ -1,6 +1,6 @@
 import { Header, Divider, Icon } from 'semantic-ui-react';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
-import { Drop, Drag } from '../../../shared/DragDropWrapper';
+import { Drop, Drag } from '../../../shared/components/DragDropWrapper';
 import PackListItem from './PackListItem/PackListItem';
 
 type PackListProps = {

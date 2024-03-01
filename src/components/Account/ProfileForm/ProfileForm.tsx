@@ -1,3 +1,5 @@
+import { type SocialLink, type ProfileInfo } from '../../../types/profileTypes';
+import { type InputEvent, type TextAreaEvent } from '../../../types/formTypes';
 import {
 	SegmentGroup,
 	Segment as SemSegment,
@@ -11,9 +13,8 @@ import { Header, FormField } from '../../../shared/ui/SemanticUI';
 import { SubText } from '../../../shared/ui/TidyUI';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { type SocialLink, type ProfileInfo } from '../../../types/profileTypes';
 import Avatar from '../../../shared/ui/Avatar';
-import { setFormInput, InputEvent, TextAreaEvent } from '../../../shared/formHelpers';
+import { setFormInput } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { mobile } from '../../../shared/mixins/mixins';

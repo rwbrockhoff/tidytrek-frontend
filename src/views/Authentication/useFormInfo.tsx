@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FormError } from '../../types/generalTypes';
+import { FormError } from '../../types/formTypes';
 
 // isError comes from mutation, error prop comes from our API
 // this allows TS check with expected props

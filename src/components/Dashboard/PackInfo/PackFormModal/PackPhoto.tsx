@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import UploadFile from '../../../../shared/ui/UploadFile';
+import UploadFile from '../../../../shared/components/UploadFile';
 import { Button } from 'semantic-ui-react';
 import { Loader } from '../../../../shared/ui/TidyUI';
 import { Dimmer } from '../../../../shared/ui/Dimmer';

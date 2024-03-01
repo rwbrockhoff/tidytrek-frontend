@@ -1,13 +1,13 @@
+import { type InputEvent } from '../../../../../types/formTypes';
 import { Table } from 'semantic-ui-react';
 import { TableInput } from '../../TableButtons/TableButtons';
 import { useState } from 'react';
-import { ReactInput } from '../../../../../types/generalTypes';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 
 type ButtonProps = {
 	quantity: number;
 	size: number;
-	onChange: (e: ReactInput) => void;
+	onChange: (e: InputEvent) => void;
 	onToggleOff: () => void;
 };
 
