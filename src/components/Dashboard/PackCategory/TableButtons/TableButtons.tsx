@@ -32,7 +32,7 @@ const StyledHeaderCell = styled(Table.HeaderCell)`
 		border-radius: 0 !important;
 		width: fit-content;
 		.icon {
-			margin-right: 20px !important;
+			margin-right: 10px !important;
 		}
 	`)}
 	}
@@ -46,7 +46,11 @@ type MobileToggleProps = {
 
 export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 	return (
-		<TableButton onClick={onToggle} $mobileOnly>
+		<TableButton
+			onClick={onToggle}
+			$mobileOnly
+			$marginLeft="15px"
+			style={{ fontSize: '1.1em' }}>
 			<Icon name="toggle down" />
 		</TableButton>
 	);

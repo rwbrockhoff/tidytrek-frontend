@@ -1,11 +1,12 @@
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { GripButton } from '../../TableButtons/TableButtons';
+import { GripButton, MobileToggleButton } from '../../TableButtons/TableButtons';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import Link from '../../../../../shared/ui/Link';
 import { InputEvent, SelectEvent } from '../../../../../shared/formHelpers';
 import LinkPopup from './LinkPopup';
+import { mobile } from '../../../../../shared/mixins/mixins';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
@@ -18,6 +19,7 @@ type ItemNameCellProps = {
 	packItemUrl: string;
 	onChange: OnChange;
 	onToggleOff: () => void;
+	toggleMobileView: () => void;
 };
 
 const ItemNameCell = (props: ItemNameCellProps) => {
@@ -32,6 +34,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 		displayIcon,
 		onChange,
 		onToggleOff,
+		toggleMobileView,
 	} = props;
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
@@ -64,6 +67,7 @@ const ItemNameCell = (props: ItemNameCellProps) => {
 						paddingRight: '10px',
 					}}>
 					<input />
+					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup
 						userView={userView}
 						packItemUrl={packItemUrl}
@@ -88,7 +92,14 @@ const StyledCell = styled(Table.Cell)`
 		input {
 			height: 30px;
 			margin-left: 10px;
+			${mobile(`
+				height: 40px;
+				margin-left: 0px;
+			`)}
 		}
+		${mobile(`
+			
+		`)}
 	}
 `;
 

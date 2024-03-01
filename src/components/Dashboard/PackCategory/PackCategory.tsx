@@ -70,7 +70,10 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
-				<TableContainer ref={provided.innerRef} {...provided.draggableProps}>
+				<TableContainer
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+					$isMinimized={isMinimized}>
 					<StyledTable
 						$themeColor={packCategoryColor}
 						$minimalPadding
@@ -127,16 +130,16 @@ const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 
 export default PackCategory;
 
-const TableContainer = styled.div`
+const TableContainer = styled.div<{ $isMinimized: boolean }>`
 	width: 100%;
 	text-align: center;
 	margin: 5vh 0px;
 	display: flex;
 
-	${mobile(`
-		border: 2px dashed green !important;
+	${({ $isMinimized }) =>
+		mobile(`
 		height: fit-content;
-		overflow-x: scroll;
+		margin-bottom: ${$isMinimized ? '0px' : '75px'};
 	`)}
 `;
 

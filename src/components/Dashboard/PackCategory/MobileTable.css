@@ -1,8 +1,4 @@
 @media only screen and (max-width: 767px) {
-	table.dnxTable {
-		border: none !important;
-	}
-
 	table.dnxTable th,
 	table.dnxTable td {
 		padding: 1em 0.5em;
@@ -14,7 +10,6 @@
 	table.dnxTable tfoot {
 		display: block !important;
 		width: 100%;
-		border: 1px dashed pink;
 	}
 
 	table.denxTable tbody tr {
@@ -30,7 +25,7 @@
 		border-left: none !important;
 	}
 
-	table.dnxTable tbody tr {
+	table.dnxTable tbody tr:not(:last-child) {
 		padding: 0.25em 0;
 		border: 1px solid rgba(34, 36, 38, 0.2);
 	}

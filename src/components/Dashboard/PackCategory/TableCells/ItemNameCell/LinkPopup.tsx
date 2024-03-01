@@ -1,6 +1,7 @@
 import { Input, Popup, Icon, Button } from 'semantic-ui-react';
 import { OnChange } from './ItemNameCell';
 import styled from 'styled-components';
+import { mobile } from '../../../../../shared/mixins/mixins';
 
 type LinkPopupProps = {
 	userView: boolean;
@@ -16,12 +17,9 @@ const LinkPopup = (props: LinkPopupProps) => {
 		return (
 			<StyledPopup
 				on="click"
-				pinned
-				className="popup"
 				trigger={
 					<div>
 						<StyledButton
-							className="url-icon-button"
 							basic
 							size="mini"
 							$display={displayButton}
@@ -44,10 +42,12 @@ export default LinkPopup;
 
 const StyledPopup = styled(Popup)`
 	max-width: fit-content;
-
 	input {
 		width: 400px;
 	}
+	${mobile(`
+		display: none;
+	`)}
 `;
 
 const StyledButton = styled(Button)<{ $display: boolean }>`
@@ -55,5 +55,8 @@ const StyledButton = styled(Button)<{ $display: boolean }>`
 		opacity: ${({ $display }) => ($display ? 100 : 0)};
 		background-color: transparent;
 		box-shadow: none;
+		${mobile(`
+			display: none;
+		`)}
 	}
 `;
