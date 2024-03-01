@@ -19,6 +19,8 @@ const PopupMenu = (props: PopupMenuProps) => {
 			openOnTriggerClick
 			openOnTriggerMouseEnter
 			hoverable
+			hideOnScroll
+			eventsEnabled
 			trigger={
 				<Container>
 					<CustomLink link="/profile" enabled={!isMobile}>

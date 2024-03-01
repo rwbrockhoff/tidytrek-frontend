@@ -14,6 +14,8 @@ const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 	return (
 		<Popup
 			on="click"
+			hoverable
+			hideOnScroll
 			trigger={
 				<Container>
 					<CircleButton $themeColor={color} circular />
