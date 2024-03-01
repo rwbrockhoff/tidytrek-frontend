@@ -7,7 +7,6 @@ import { useCategoryInfo } from './useCategoryInfo';
 import PackSummaryPanel from './PackSummaryPanel';
 import { Panel } from '../../../shared/ui/TidyUI';
 import styled from 'styled-components';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -76,10 +75,10 @@ const OuterPanel = styled(Panel)<{ $display: boolean }>`
 	align-items: center;
 	transition: max-height 350ms ease-in-out;
 	${(props) =>
-		mobile(`
-		max-height: ${props.$display ? '150vh' : 0};
-		overflow: hidden;
-		flex-direction: column-reverse;
+		props.theme.mx.mobile(`
+			max-height: ${props.$display ? '150vh' : 0};
+			overflow: hidden;
+			flex-direction: column-reverse;
 	`)}
 `;
 
@@ -88,10 +87,11 @@ const ChartPanel = styled(Panel)`
 	align-items: center;
 	justify-content: flex-end;
 	margin-left: 25px;
-	${mobile(`
-	width: 75vw;
-		margin-left: 0;
-		margin-bottom: 25px;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			width: 75vw;
+			margin-left: 0;
+			margin-bottom: 25px;
 	`)}
 `;
 
@@ -107,7 +107,7 @@ const GraphicPanel = styled(Panel)`
 	p {
 		margin-right: 30px;
 	}
-	${mobile(`display:none;`)}
+	${({ theme: t }) => t.mx.mobile(`display:none;`)}
 `;
 
 const SummaryPanel = styled(Panel)`
@@ -115,17 +115,19 @@ const SummaryPanel = styled(Panel)`
 	flex-direction: column;
 	align-items: flex-end;
 	padding-right: 15px;
-	${mobile(`
-		padding-right: 0;
-		align-items: center;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			padding-right: 0;
+			align-items: center;
 	`)}
 `;
 
 const ChartList = styled(List)`
 	&&& {
 		width: fit-content;
-		${mobile(`
-			width: 75vw;
+		${({ theme: t }) =>
+			t.mx.mobile(`
+				width: 75vw;
 		`)}
 	}
 `;

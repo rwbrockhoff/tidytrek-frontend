@@ -11,7 +11,6 @@ import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
 import { type Pack } from '../../../types/packTypes';
 import { Link } from '../../../shared/ui/Link';
 import { encode } from '../../../utils/generateDisplayId';
-import { mobile } from '../../../shared/mixins/mixins';
 import PackPhoto from '../../Dashboard/PackInfo/PackFormModal/PackPhoto';
 import { useUploadPackPhotoMutation } from '../../../queries/packQueries';
 
@@ -70,11 +69,11 @@ const StyledCard = styled(Card)`
 	&&& {
 		margin: 15px;
 		a {
-			color: ${(props) => props.theme.primary || 'inherit'};
+			color: ${({ theme }) => theme.user.primary || 'inherit'};
 			&:hover {
 				opacity: 0.8;
 			}
 		}
-		${mobile(`width: fit-content;`)}
+		${({ theme: t }) => t.mx.mobile(`width: fit-content;`)}
 	}
 `;

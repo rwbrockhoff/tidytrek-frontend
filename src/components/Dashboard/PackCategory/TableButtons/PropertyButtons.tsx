@@ -2,7 +2,6 @@ import { Table, Popup, Icon } from 'semantic-ui-react';
 import { type PackButtonSwitches } from '../../../../types/packTypes';
 import { useUserContext } from '../../../../views/Dashboard/hooks/useViewerContext';
 import styled from 'styled-components';
-import { themeColor } from '../../../../shared/mixins/mixins';
 
 type ButtonProps = {
 	size: number;
@@ -96,7 +95,7 @@ const PropertyButtonsCell = styled(Table.Cell)`
 			}
 		}
 		.fa-solid.fa-shirt.worn-weight-item {
-			${themeColor('primaryBlue')}
+			${({ theme }) => theme.mx.themeColor('tidyBlue')}
 		}
 	}
 `;

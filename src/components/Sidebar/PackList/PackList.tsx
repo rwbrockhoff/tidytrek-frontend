@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '../../../types/packTypes';
 import { Drop, Drag } from '../../../shared/components/DragDropWrapper';
 import PackListItem from './PackListItem/PackListItem';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type PackListProps = {
 	packList: PackListItemType[];
@@ -43,9 +42,10 @@ const NewPackButton = styled(Button)`
 		background-color: transparent;
 		color: white;
 		padding: 0;
-		${mobile(`
-			font-size: 1em;
-			margin-top: 1em;
+		${({ theme: t }) =>
+			t.mx.mobile(`
+				font-size: 1em;
+				margin-top: 1em;
 		`)}
 	}
 `;

@@ -5,7 +5,6 @@ import {
 	usePricingContext,
 	useUserContext,
 } from '../../../../views/Dashboard/hooks/useViewerContext';
-import { mobile, themeBgColor } from '../../../../shared/mixins/mixins';
 import { TableText } from '../TableHeader/TableHeader';
 
 type TableFooterProps = {
@@ -76,10 +75,11 @@ export default TableFooter;
 
 export const StyledFooter = styled(Table.Footer)`
 	&& {
-		${themeBgColor('lightGrey')}
+		background-color: ${({ theme: t }) => t.tidy.tidyLightGrey};
 		font-size: 0.9em;
 		color: grey;
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			font-size: 1.1em;
 		`)}
 	}
@@ -87,7 +87,8 @@ export const StyledFooter = styled(Table.Footer)`
 
 const StyledRow = styled(Table.Row)`
 	&&& {
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			display: flex !important;
 			position: relative;
 			height: 50px;

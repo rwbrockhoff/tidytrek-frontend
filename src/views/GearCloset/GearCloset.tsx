@@ -17,7 +17,6 @@ import { useGetPackListQuery } from '../../queries/packQueries';
 import { UserViewContext } from '../Dashboard/hooks/useViewerContext';
 import { DragDropContext } from '../../shared/components/DragDropWrapper';
 import { searchMatch } from '../../shared/formHelpers';
-import { mobile } from '../../shared/mixins/mixins';
 
 const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
@@ -111,6 +110,6 @@ const SearchContainer = styled.div`
 		margin-bottom: 50px;
 		margin-left: auto;
 		margin-right: auto;
-		${mobile(`width: 95%;`)}
+		${({ theme: t }) => t.mx.mobile(`width: 95%;`)}
 	}
 `;

@@ -16,7 +16,6 @@ import { DropTableBody } from '../../../shared/components/DragDropWrapper';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePackItemHandlers } from '../../../views/Dashboard/handlers/usePackItemHandlers';
 import useCurrency from '../../../utils/useCurrency';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type PackCategoryProps = {
 	category: Category;
@@ -136,7 +135,8 @@ const TableContainer = styled.div<{ $isMinimized: boolean }>`
 	display: flex;
 
 	${({ $isMinimized }) =>
-		mobile(`
+		({ theme: t }) =>
+			t.mx.mobile(`
 		height: fit-content;
 		margin-bottom: ${$isMinimized ? '0px' : '75px'};
 	`)}

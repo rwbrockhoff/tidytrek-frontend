@@ -7,7 +7,6 @@ import { useContext } from 'react';
 import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
 import { Segment } from './AccountForm';
 import styled from 'styled-components';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type PasswordFormProps = {
 	displayForm: boolean;
@@ -113,7 +112,8 @@ const ButtonContainer = styled.div`
 		}
 	}
 
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 		width: 100%;
 		margin-top: 25px;
 	`)}

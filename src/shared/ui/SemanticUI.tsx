@@ -9,14 +9,13 @@ import {
 	FormField as SemFormField,
 } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { mobile } from '../mixins/mixins';
 
 export const Button = styled(SemButton)`
 	&&& {
 		${(props) =>
 			props.$themeColor &&
 			css`
-				background-color: ${props.theme[props.$themeColor]};
+				background-color: ${props.theme.user[props.$themeColor]};
 				color: white;
 			`};
 
@@ -35,7 +34,7 @@ export const Button = styled(SemButton)`
 export const Input = styled(SemInput)`
 	&&& {
 		input:focus {
-			border-color: ${(props) => props.theme.primary};
+			border-color: ${({ theme }) => theme.user.primary};
 		}
 	}
 `;
@@ -45,7 +44,7 @@ export const Header = styled(SemHeader)<{ $marginBottom?: string }>`
 		${(props) =>
 			props.$themeColor &&
 			css`
-				color: ${props.theme[props.$themeColor]};
+				color: ${props.theme.user[props.$themeColor]};
 			`};
 		margin-bottom: ${(props) => (props.$marginBottom ? props.$marginBottom : '1rem')};
 	}
@@ -56,7 +55,7 @@ export const Icon = styled(SemIcon)`
 		${(props) =>
 			props.$themeColor &&
 			css`
-				color: ${props.theme[props.$themeColor]};
+				color: ${props.theme.user[props.$themeColor]};
 			`};
 	}
 `;
@@ -64,7 +63,9 @@ export const Icon = styled(SemIcon)`
 export const Table = styled(SemTable)<{ $themeColor?: string }>`
 	&&& {
 		border-top: ${(props) =>
-			props.$themeColor ? `0.3em solid ${props.theme[props.$themeColor]}` : 'inherit'};
+			props.$themeColor
+				? `0.3em solid ${props.theme.user[props.$themeColor]}`
+				: 'inherit'};
 
 		${(props) =>
 			props.$minimalPadding &&
@@ -87,7 +88,7 @@ export const ModalHeader = styled(SemModalHeader)`
 		${(props) =>
 			props.$themeColor &&
 			css`
-				background-color: ${props.theme[props.$themeColor]};
+				background-color: ${props.theme.user[props.$themeColor]};
 				color: white;
 			`};
 	}
@@ -99,7 +100,7 @@ export const Checkbox = styled(SemCheckbox)`
 			props.$themeColor &&
 			css`
                     .ui.toggle.checkbox input:checked~label:before {
-                    background-color: ${props.theme[props.$themeColor]};
+                    background-color: ${props.theme.user[props.$themeColor]};
                 }
 				}
 			`};
@@ -108,9 +109,10 @@ export const Checkbox = styled(SemCheckbox)`
 
 export const FormField = styled(SemFormField)<{ $width: string }>`
 	width: ${({ $width }) => $width};
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			width: 100%;
-		`)}
+	`)}
 `;
 
 // .ui.toggle.checkbox input:checked~label:before {

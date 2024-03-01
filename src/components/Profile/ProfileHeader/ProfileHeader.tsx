@@ -7,7 +7,6 @@ import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import BannerPhoto from '../BannerPhoto/BannerPhoto';
-import { mobile } from '../../../shared/mixins/mixins';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | undefined;
@@ -94,9 +93,10 @@ const AvatarContainer = styled.div`
 	position: absolute;
 	top: 200px;
 	left: 50px;
-	${mobile(`
-		top: 175px;
-		left: calc(50% - 75px);
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			top: 175px;
+			left: calc(50% - 75px);
 	`)}
 `;
 
@@ -118,11 +118,12 @@ const ProfileTextContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 
-	${mobile(`
-		margin: 0px 20px;
-		margin-top: 75px;
-		width: 80vw;
-		justify-content: flex-start;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			margin: 0px 20px;
+			margin-top: 75px;
+			width: 80vw;
+			justify-content: flex-start;
 	`)}
 `;
 

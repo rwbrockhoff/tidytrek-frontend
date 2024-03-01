@@ -15,7 +15,6 @@ import {
 	usePricingContext,
 	useUserContext,
 } from '../../../../views/Dashboard/hooks/useViewerContext';
-import { mobile } from '../../../../shared/mixins/mixins';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -92,7 +91,8 @@ export default TableHeader;
 const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	opacity: ${(props) => (props.$isMinimized ? 0.5 : 1)};
 	transition: opacity 250ms ease;
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 		opacity: 1;
 		display: flex !important;
 	`)}
@@ -102,7 +102,8 @@ const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 export const HeaderCell = styled(Table.HeaderCell)<{ $paddingLeft?: string }>`
 	&&&& {
 		padding-left: ${({ $paddingLeft }) => $paddingLeft};
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			display: none !important;
 		`)}
 	}

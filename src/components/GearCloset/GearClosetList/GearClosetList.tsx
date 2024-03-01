@@ -9,7 +9,6 @@ import { DropTableBody } from '../../../shared/components/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
 import { PricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import styled from 'styled-components';
-import { mobile } from '../../../shared/mixins/mixins';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -103,14 +102,15 @@ const NotFoundMessage = () => {
 
 const StyledTidyTable = styled(TidyTable)`
 	&&& {
-		${mobile(`
-			thead {
-				display: none;
-			}
+		${({ theme: t }) =>
+			t.mx.mobile(`
+				thead {
+					display: none;
+				}
 
-			tfoot button {
-				font-size: 1.1em;
-			}
+				tfoot button {
+					font-size: 1.1em;
+				}
 		`)}
 	}
 `;

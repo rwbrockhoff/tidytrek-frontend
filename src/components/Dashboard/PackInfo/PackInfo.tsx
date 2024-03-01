@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { mobile } from '../../../shared/mixins/mixins';
 import { useUserContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import {
 	useDeletePackMutation,
@@ -152,17 +151,18 @@ const PackInfoContainer = styled.div`
 	align-items: center;
 	margin-bottom: 2vh;
 	width: 100%;
-	${mobile(`
-		width: 95%;
-		height: fit-content;
-		flex-direction: column;
-		margin-top: 3vh;
-		margin-bottom: 0;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			width: 95%;
+			height: fit-content;
+			flex-direction: column;
+			margin-top: 3vh;
+			margin-bottom: 0;
 	`)}
 `;
 
 const InfoPanel = styled(Panel)`
-	${mobile(`margin-bottom: 25px;`)}
+	${({ theme: t }) => t.mx.mobile(`margin-bottom: 25px;`)}
 `;
 
 const EditIcon = styled(Icon)<{ $display: boolean }>`
@@ -173,7 +173,7 @@ const EditIcon = styled(Icon)<{ $display: boolean }>`
 		height: 0.6em;
 		cursor: pointer;
 		opacity: ${({ $display }) => ($display ? 1 : 0)};
-		${mobile(`opacity: 1;`)}
+		${({ theme: t }) => t.mx.mobile(`opacity: 1;`)}
 	}
 `;
 
@@ -182,6 +182,6 @@ const ToggleChartButton = styled(Button)`
 		margin-top: 25px;
 		width: 100%;
 		display: none;
-		${mobile(`display: block;`)}
+		${({ theme: t }) => t.mx.mobile(`display: block;`)}
 	}
 `;

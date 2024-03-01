@@ -32,7 +32,7 @@ const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	const categoryColors = useMemo(
 		() =>
 			categories.map((category) => {
-				return theme[category.packCategoryColor];
+				return theme.user[category.packCategoryColor];
 			}),
 		[categories],
 	);

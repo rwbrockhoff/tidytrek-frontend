@@ -1,7 +1,6 @@
 import { Input, Popup, Icon, Button } from 'semantic-ui-react';
 import { OnChange } from './ItemNameCell';
 import styled from 'styled-components';
-import { mobile } from '../../../../../shared/mixins/mixins';
 
 type LinkPopupProps = {
 	userView: boolean;
@@ -45,7 +44,8 @@ const StyledPopup = styled(Popup)`
 	input {
 		width: 400px;
 	}
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 		display: none;
 	`)}
 `;
@@ -55,7 +55,8 @@ const StyledButton = styled(Button)<{ $display: boolean }>`
 		opacity: ${({ $display }) => ($display ? 100 : 0)};
 		background-color: transparent;
 		box-shadow: none;
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			display: none;
 		`)}
 	}

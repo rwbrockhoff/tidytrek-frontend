@@ -6,7 +6,6 @@ import { useState } from 'react';
 import usePackDropdown from './usePackDropdown';
 import { SyntheticEvent } from 'react';
 import styled from 'styled-components';
-import { mobile } from '../../../../shared/mixins/mixins';
 
 type SelectEvent = SyntheticEvent<HTMLElement, Event>;
 
@@ -100,7 +99,8 @@ export default MoveItemDropdown;
 const TableRow = styled.tr`
 	&&&& {
 		height: 60px;
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			height: fit-content;
 			td {
 				padding: 10px 15px;

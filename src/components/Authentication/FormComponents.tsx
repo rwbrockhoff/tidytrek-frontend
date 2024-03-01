@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { flexCenter, mobile, themeBgColor } from '../../shared/mixins/mixins';
 import { Icon, Message } from 'semantic-ui-react';
 
 type FormMessageProps = {
@@ -24,7 +23,8 @@ export const FormMessage = (props: FormMessageProps) => {
 export const FormContainer = styled.div`
 	width: 30vw;
 
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 		width: 90vw;
 	`)}
 `;
@@ -34,10 +34,10 @@ export const FooterText = styled.p`
 `;
 
 export const AuthContainer = styled.div`
-	${flexCenter}
+	${({ theme: t }) => t.mx.flexCenter}
 	text-align: center;
 	flex-direction: column;
 	height: 100vh;
 	width: 100%;
-	${themeBgColor('lightGrey')}
+	${({ theme: t }) => t.mx.themeBgColor(`tidyLightGrey`)}
 `;

@@ -32,9 +32,9 @@ export const mobile = (customCss: string) => css`
 `;
 
 export const themeColor = (color: ThemeColorName | TidyThemeColorName) => css`
-	color: ${(props) => props.theme[color] || 'inherit'};
+	color: ${(props) => props.theme.user[color] || 'inherit'};
 `;
 
 export const themeBgColor = (color: ThemeColorName | TidyThemeColorName) => css`
-	background-color: ${(props) => props.theme[color] || 'inherit'};
+	background-color: ${(props) => props.theme.user[color] || 'inherit'};
 `;

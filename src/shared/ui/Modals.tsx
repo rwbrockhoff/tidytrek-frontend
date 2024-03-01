@@ -123,7 +123,7 @@ const TidyModalHeader = styled.div`
 	align-items: center;
 	min-height: 50px;
 	padding: 1.5em 2em;
-	border-bottom: 1px solid ${tidyTheme.lightGrey};
+	border-bottom: 1px solid ${tidyTheme.tidyLightGrey};
 `;
 
 const ModalBody = styled.div`
@@ -132,7 +132,7 @@ const ModalBody = styled.div`
 
 const ModalFooter = styled.div`
 	background-color: #f9fafb;
-	border-top: 1px solid ${tidyTheme.lightGrey};
+	border-top: 1px solid ${tidyTheme.tidyLightGrey};
 	min-height: 50px;
 	padding: 1em 2em;
 	display: flex;

@@ -6,7 +6,6 @@ import { GripButton, MobileToggleButton } from '../../TableButtons/TableButtons'
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { DisplayLink } from '../../../../../shared/ui/Link';
 import LinkPopup from './LinkPopup';
-import { mobile } from '../../../../../shared/mixins/mixins';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
@@ -92,7 +91,8 @@ const StyledCell = styled(Table.Cell)`
 		input {
 			height: 30px;
 			margin-left: 10px;
-			${mobile(`
+			${({ theme: t }) =>
+				t.mx.mobile(`
 				height: 40px;
 				margin-left: 10px;
 			`)}

@@ -17,7 +17,6 @@ import Avatar from '../../../shared/ui/Avatar';
 import { setFormInput } from '../../../shared/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
-import { mobile } from '../../../shared/mixins/mixins';
 import useNestedError from './useNestedError';
 
 type ProfileFormProps = {
@@ -151,12 +150,12 @@ export const Segment = styled(SemSegment)`
 	&&& {
 		padding: 35px 25px;
 	}
-}
 `;
 
 const StyledForm = styled(Form)`
 	width: 70%;
-	${mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 		width: 100%;
 	`)}
 `;

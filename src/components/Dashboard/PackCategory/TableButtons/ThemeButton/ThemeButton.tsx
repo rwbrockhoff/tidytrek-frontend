@@ -8,7 +8,8 @@ type ThemeButtonProps = {
 };
 
 const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
-	const theme = useTheme();
+	const { user: userTheme } = useTheme() || {};
+
 	const handleOnClick = (newColor: string) => onClick(newColor);
 
 	return (
@@ -23,7 +24,7 @@ const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 			}>
 			<PopupContent>
 				<PopupContainer>
-					{Object.keys(theme).map((color, index) => (
+					{Object.keys(userTheme).map((color, index) => (
 						<CircleButton
 							key={color || index}
 							$themeColor={color}
@@ -49,8 +50,7 @@ const Container = styled.div`
 const CircleButton = styled(Button)`
 	&&& {
 		padding: 0px;
-		width: 15px;
-		heigh: 15px;
+		${({ theme }) => theme.mx.wh('18px')}
 	}
 `;
 

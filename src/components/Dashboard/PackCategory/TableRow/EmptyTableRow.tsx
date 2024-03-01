@@ -17,7 +17,7 @@ const EmptyTableRow = ({ isDraggingOver, noChildren }: EmptyTableRowProps) => {
 
 const TableRow = styled.tr<{ $transparent: boolean }>`
 	background-color: ${({ $transparent }) =>
-		$transparent ? 'white' : `${tidyTheme.lightGrey}`};
+		$transparent ? 'white' : `${tidyTheme.tidyLightGrey}`};
 `;
 
 export default EmptyTableRow;

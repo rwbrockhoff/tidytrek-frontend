@@ -42,7 +42,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 				<Header as="h1">tidytrek</Header>
 				<Form size="large">
 					<Segment stacked>
-						<Header as="h3" $themeColor="tidyGreen">
+						<Header as="h3" $themeColor="tidyPrimary">
 							Reset Password
 						</Header>
 
@@ -89,7 +89,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						)}
 
 						<Button
-							$themeColor="tidyGreen"
+							$themeColor="tidyPrimary"
 							fluid
 							size="large"
 							disabled={isLoading}

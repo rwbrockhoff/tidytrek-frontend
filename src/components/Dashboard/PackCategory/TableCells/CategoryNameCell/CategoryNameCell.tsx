@@ -11,7 +11,6 @@ import { type InputEvent } from '../../../../../types/formTypes';
 import { type HeaderInfo } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
 import { useUserContext } from '../../../../../views/Dashboard/hooks/useViewerContext';
 import { usePackCategoryHandlers } from '../../../../../views/Dashboard/handlers/usePackCategoryHandlers';
-import { mobile } from '../../../../../shared/mixins/mixins';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -95,7 +94,8 @@ const HeaderCell = styled(SemTable.HeaderCell)`
 	&&& {
 		position: relative;
 		overflow: visible;
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			display: inline-flex;
 			flex: 1;
 		`)}
@@ -109,7 +109,8 @@ const Input = styled(SemInput)`
 		input {
 			padding-left: 0.5em;
 		}
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			height: 40px;
 			font-size: 1.3em;
 		`)}

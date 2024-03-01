@@ -1,6 +1,5 @@
 import { Table, Button, Icon, Input } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { mobile } from '../../../../shared/mixins/mixins';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -27,7 +26,8 @@ export const ActionButtons = ({ header, size = 1, children }: ActionButtonsProps
 
 const StyledHeaderCell = styled(Table.HeaderCell)`
 	&&& {
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 		display: inline-flex;
 		border-radius: 0 !important;
 		width: fit-content;
@@ -131,7 +131,8 @@ export const TableButton = styled(Button)<{
 			props.$mobileOnly &&
 			css`
 				display: none;
-				${mobile(`
+				${({ theme: t }) =>
+					t.mx.mobile(`
 					display: block;
 				`)}
 			`}
@@ -148,7 +149,8 @@ export const TableButton = styled(Button)<{
 		input {
 			height: 30px;
 		}
-		${mobile(`
+		${({ theme: t }) =>
+			t.mx.mobile(`
 			opacity: 1;
 		`)}
 	}

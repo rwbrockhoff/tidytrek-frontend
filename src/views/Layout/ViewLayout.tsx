@@ -3,7 +3,6 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
-import { mobile } from '../../shared/mixins/mixins';
 
 const ViewLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
@@ -71,9 +70,10 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	transition: all 500ms ease;
 	transition-property: margin-left, width;
 
-	${mobile(`
-	width: 100vw;
-	margin-left: 0;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			width: 100vw;
+			margin-left: 0;
 	`)}
 `;
 

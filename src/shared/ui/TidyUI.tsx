@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { absoluteCenter, mobile } from '../mixins/mixins';
 import { Loader as SemLoader } from 'semantic-ui-react';
 
 export const SubText = styled.p`
@@ -9,11 +8,12 @@ export const SubText = styled.p`
 
 export const Panel = styled.div<{ $width: string }>`
 	width: ${({ $width }) => $width};
-	${mobile(`
-		width: 100%;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			width: 100%;
 	`)}
 `;
 
 export const Loader = styled(SemLoader)`
-	${absoluteCenter}
+	${({ theme: t }) => t.mx.absoluteCenter}
 `;

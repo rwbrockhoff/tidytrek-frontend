@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { mobile } from '../../../../shared/mixins/mixins';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
@@ -57,8 +56,9 @@ const Menu = styled.menu`
 		:hover {
 			opacity: 0.7;
 		}
-		${mobile(`
-			font-size: 1.2em;
+		${({ theme: t }) =>
+			t.mx.mobile(`
+				font-size: 1.2em;
 		`)}
 	}
 `;

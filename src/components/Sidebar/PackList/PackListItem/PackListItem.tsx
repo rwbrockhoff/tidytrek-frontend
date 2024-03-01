@@ -1,4 +1,3 @@
-import { mobile } from '../../../../shared/mixins/mixins';
 import { PackListItem as ListItem } from '../../../../types/packTypes';
 import styled from 'styled-components';
 
@@ -32,8 +31,9 @@ const Text = styled.p`
 				opacity: 0.6;
 			}
 		}
-		${mobile(`
-			font-size: 1.2em;
+		${({ theme: t }) =>
+			t.mx.mobile(`
+				font-size: 1.2em;
 		`)}
 	}
 `;

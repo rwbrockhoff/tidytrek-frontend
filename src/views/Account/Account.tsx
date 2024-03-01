@@ -5,7 +5,6 @@ import { createContext } from 'react';
 import { User } from '../../types/userTypes';
 import AccountMenu from '../../components/Account/AccountMenu/AccountMenu';
 import styled from 'styled-components';
-import { mobile } from '../../shared/mixins/mixins';
 
 export const UserContext = createContext<{ user: User | null }>({ user: null });
 
@@ -32,7 +31,8 @@ export default Account;
 
 const Container = styled.div`
 	padding: 0 5vw;
-	${mobile(`
-		padding: 0;
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			padding: 0;
 	`)}
 `;
