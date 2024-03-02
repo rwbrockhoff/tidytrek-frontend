@@ -1,4 +1,5 @@
 import { Pack } from './packTypes';
+import { Settings } from './settingsTypes';
 
 export type InitialState = {
 	profileInfo: ProfileInfo;
@@ -31,6 +32,7 @@ export type UserProfile = {
 export type UserProfileWithPack = {
 	userProfile: UserProfile;
 	packThumbnailList: Pack[];
+	settings?: Settings;
 };
 
 export type SocialLinkInfo = {

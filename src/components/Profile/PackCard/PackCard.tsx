@@ -41,11 +41,11 @@ const PackCard = (props: PackCardProps) => {
 					onUpload={handlePhotoUpload}
 				/>
 				<CardContent>
-					<CardHeader>
+					<StyledCardHeader>
 						<Link link={link} enabled={userView}>
-							{packName}
+							<p>{packName}</p>
 						</Link>
-					</CardHeader>
+					</StyledCardHeader>
 					<CardMeta>
 						<span>{packPublic ? 'Public' : 'Private'}</span>
 					</CardMeta>
@@ -69,11 +69,17 @@ const StyledCard = styled(Card)`
 	&&& {
 		margin: 15px;
 		a {
-			color: ${({ theme }) => theme.user.primary || 'inherit'};
+			${({ theme: t }) => t.mx.themeColor('primary')}
 			&:hover {
 				opacity: 0.8;
 			}
 		}
 		${({ theme: t }) => t.mx.mobile(`width: fit-content;`)}
+	}
+`;
+
+const StyledCardHeader = styled(CardHeader)`
+	p {
+		${({ theme: t }) => t.mx.themeColor('primary')}
 	}
 `;

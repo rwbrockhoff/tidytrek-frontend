@@ -13,6 +13,10 @@ export type InitialState = {
 	userProfile: UserProfile;
 };
 
+type GuestProfileViewState = {
+	settings: Settings;
+} & UserProfileWithPack;
+
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
 
@@ -31,7 +35,7 @@ export const useViewProfileQuery = (userId: string | undefined) => {
 	const decodedId = userId ? decode(userId) : null;
 	const decodedUserName = !decodedId ? userId : null;
 
-	return useQuery<UserProfileWithPack>({
+	return useQuery<GuestProfileViewState>({
 		queryKey: guestKeys.packId(decodedId as number | null),
 		queryFn: () => {
 			const decodedUserId = userId && decode(userId);

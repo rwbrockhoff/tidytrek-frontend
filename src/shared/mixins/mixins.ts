@@ -41,7 +41,9 @@ export const themeColor = (
 	color: ThemeColorName | TidyThemeColorName,
 	themeName: ThemeName = 'user',
 ) => css`
-	color: ${(props) => props.theme[themeName][color] || 'inherit'};
+	color: ${({ theme: t }) => {
+		return t[themeName] !== undefined ? t[themeName][color] : t.tidy.tidyPrimary;
+	}};
 `;
 
 export const themeBgColor = (

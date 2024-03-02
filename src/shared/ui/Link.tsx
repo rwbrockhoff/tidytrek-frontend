@@ -5,12 +5,14 @@ import { themeColor } from '../mixins/mixins';
 
 type LinkProps = {
 	link: string | undefined;
+	children: React.ReactNode;
 	externalLink?: boolean;
 	enabled?: boolean;
-	children: React.ReactNode;
 };
 
-export const Link = ({ link, externalLink, enabled = true, children }: LinkProps) => {
+export const Link = (props: LinkProps) => {
+	const { link, externalLink, enabled = true, children } = props;
+
 	if (!enabled || !link) return children;
 	if (externalLink) {
 		return (

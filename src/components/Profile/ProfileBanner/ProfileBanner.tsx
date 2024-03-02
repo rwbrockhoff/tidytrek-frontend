@@ -44,4 +44,5 @@ const RightPanel = styled.div`
 const StyledHeader = styled(Header)`
 	margin: 0;
 	margin-left: 2vw;
+	${({ theme: t }) => t.mx.themeColor('tidyPrimary', 'tidy')}
 `;
