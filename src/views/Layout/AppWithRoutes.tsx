@@ -15,9 +15,7 @@ const AppWithRoutes = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<div style={{ height: '100vh' }}>
-				<RouterProvider router={appRouter} />
-			</div>
+			<RouterProvider router={appRouter} />
 		</ThemeProvider>
 	);
 };

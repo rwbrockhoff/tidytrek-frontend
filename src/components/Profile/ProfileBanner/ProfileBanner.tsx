@@ -31,7 +31,7 @@ const BannerContainer = styled.div`
 
 const StyledButton = styled(Button)`
 	&&& {
-		${themeBgColor('tidyPrimary')}
+		${themeBgColor('tidyPrimary', 'tidy')}
 		color: white;
 	}
 `;

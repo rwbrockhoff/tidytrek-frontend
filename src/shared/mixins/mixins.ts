@@ -2,9 +2,15 @@ import { css } from 'styled-components';
 import { type ThemeColorName } from '../../types/settingsTypes';
 import { TidyThemeColorName } from '../theme/tidyTheme';
 
+// export const fontSize = (size: number, base = 16) => `
+//   font-size: ${size}px; // older browsers fallback
+//   font-size: calc(${size / base} * 1rem);
+// `;
+type ThemeName = 'tidy' | 'user';
+
 export const fontSize = (size: number, base = 16) => `
-  font-size: ${size}px; // older browsers fallback
-  font-size: calc(${size / base} * 1rem);
+  font-size: ${size * base}px; // older browsers fallback
+  font-size: calc(${size} * 1rem);
 `;
 
 export const wh = (w: string, h = w) => `
@@ -31,10 +37,16 @@ export const mobile = (customCss: string) => css`
 	}
 `;
 
-export const themeColor = (color: ThemeColorName | TidyThemeColorName) => css`
-	color: ${(props) => props.theme.user[color] || 'inherit'};
+export const themeColor = (
+	color: ThemeColorName | TidyThemeColorName,
+	themeName: ThemeName = 'user',
+) => css`
+	color: ${(props) => props.theme[themeName][color] || 'inherit'};
 `;
 
-export const themeBgColor = (color: ThemeColorName | TidyThemeColorName) => css`
-	background-color: ${(props) => props.theme.user[color] || 'inherit'};
+export const themeBgColor = (
+	color: ThemeColorName | TidyThemeColorName,
+	themeName: ThemeName = 'user',
+) => css`
+	background-color: ${(props) => props.theme[themeName][color] || 'inherit'};
 `;

@@ -42,9 +42,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 				<Header as="h1">tidytrek</Header>
 				<Form size="large">
 					<Segment stacked>
-						<Header as="h3" $themeColor="tidyPrimary">
-							Reset Password
-						</Header>
+						<Header as="h3">Reset Password</Header>
 
 						{!hasResetToken && (
 							<Form.Input
@@ -89,7 +87,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						)}
 
 						<Button
-							$themeColor="tidyPrimary"
+							$tidyColor="tidyPrimary"
 							fluid
 							size="large"
 							disabled={isLoading}

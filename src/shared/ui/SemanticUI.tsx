@@ -20,6 +20,13 @@ export const Button = styled(SemButton)`
 			`};
 
 		${(props) =>
+			props.$tidyColor &&
+			css`
+				background-color: ${props.theme.tidy[props.$tidyColor]};
+				color: white;
+			`};
+
+		${(props) =>
 			props.$footerButton &&
 			css`
 				margin-top: 5px;

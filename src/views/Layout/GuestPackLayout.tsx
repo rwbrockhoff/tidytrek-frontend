@@ -3,11 +3,9 @@ import styled from 'styled-components';
 
 const GuestPackLayout = () => {
 	return (
-		<div id="app-view-container">
-			<GuestViewContainer>
-				<Outlet />
-			</GuestViewContainer>
-		</div>
+		<GuestViewContainer>
+			<Outlet />
+		</GuestViewContainer>
 	);
 };
 
@@ -15,7 +13,8 @@ export default GuestPackLayout;
 
 const GuestViewContainer = styled.div`
 	width: 100vw;
-	height: 100vh;
+	height: 100%;
+	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	overflow-y: auto;
 	padding-left: 10vw;
 	padding-right: 10vw;

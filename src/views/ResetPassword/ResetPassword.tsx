@@ -81,7 +81,7 @@ const ResetPassword = () => {
 	};
 
 	return (
-		<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+		<Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
 			<ResetPasswordForm
 				formData={formData}
 				hasResetToken={resetToken ? true : false}

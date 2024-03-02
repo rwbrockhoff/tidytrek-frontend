@@ -52,17 +52,18 @@ const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
 `;
 
 const AppViewContainer = styled.div`
-	background-color: #f0f0f0;
-	height: 100vh;
-	display: flex;
+	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
 `;
 
 const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
-	width: ${(props) => (props.$showSidebar ? '80vw' : '100vw')};
-	margin-left: ${(props) => (props.$showSidebar ? '20vw' : '0vw')};
-	height: 100vh;
+	width: ${(props) => (props.$showSidebar ? '80%' : '100%')};
+	height: 100%;
+	overflow: auto;
+	margin-left: ${(props) => (props.$showSidebar ? '20%' : '0%')};
 	position: relative;
-	overflow-y: auto;
 	padding-left: 4vw;
 	padding-right: 4vw;
 	padding-bottom: 10vh;
@@ -72,7 +73,7 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 
 	${({ theme: t }) =>
 		t.mx.mobile(`
-			width: 100vw;
+			width: 100%;
 			margin-left: 0;
 	`)}
 `;

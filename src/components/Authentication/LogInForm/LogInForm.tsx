@@ -26,7 +26,7 @@ const LogInForm = ({
 			<Header as="h1">tidytrek</Header>
 			<Form size="large">
 				<Segment stacked>
-					<Header as="h3" $themeColor="tidyPrimary">
+					<Header as="h3">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
 
@@ -74,7 +74,7 @@ const LogInForm = ({
 					)}
 
 					<Button
-						$themeColor="tidyPrimary"
+						$tidyColor="tidyPrimary"
 						fluid
 						size="large"
 						disabled={isLoading}

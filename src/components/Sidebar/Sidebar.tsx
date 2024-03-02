@@ -136,7 +136,7 @@ const StyledSidebar = styled(SemanticSidebar)<StyleProps>`
 	&&&& {
 		background: #514f59;
 		color: white;
-		height: 100vh;
+		height: 100%;
 		width: 20vw;
 		padding: 5vh 50px;
 		position: absolute;

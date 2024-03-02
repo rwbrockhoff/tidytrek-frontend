@@ -30,14 +30,14 @@ export const FormContainer = styled.div`
 `;
 
 export const FooterText = styled.p`
-	margin-top: 1rem;
+	margin-top: 1em;
 `;
 
 export const AuthContainer = styled.div`
 	${({ theme: t }) => t.mx.flexCenter}
 	text-align: center;
 	flex-direction: column;
-	height: 100vh;
+	min-height: 100%;
 	width: 100%;
-	${({ theme: t }) => t.mx.themeBgColor(`tidyLightGrey`)}
+	${({ theme: t }) => t.mx.themeBgColor(`tidyLightGrey`, 'tidy')}
 `;
