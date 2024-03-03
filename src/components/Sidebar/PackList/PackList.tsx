@@ -13,7 +13,7 @@ type PackListProps = {
 const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 	return (
 		<div>
-			<Header as="h3">Packs</Header>
+			<StyledHeader as="h3">Packs</StyledHeader>
 
 			<Drop droppableId={'sidebar-pack-list'} type="packlist-item">
 				{packList.map((pack: PackListItemType, index: number) => {
@@ -42,10 +42,17 @@ const NewPackButton = styled(Button)`
 		background-color: transparent;
 		color: white;
 		padding: 0;
+
 		${({ theme: t }) =>
 			t.mx.mobile(`
 				font-size: 1em;
 				margin-top: 1em;
 		`)}
+	}
+`;
+
+const StyledHeader = styled(Header)`
+	&&& {
+		color: white;
 	}
 `;

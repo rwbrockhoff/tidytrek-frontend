@@ -58,7 +58,7 @@ const Menu = styled.menu`
 		}
 		${({ theme: t }) =>
 			t.mx.mobile(`
-				font-size: 1.2em;
+				font-size: 1.2rem;
 		`)}
 	}
 `;

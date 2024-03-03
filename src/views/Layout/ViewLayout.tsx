@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
+import { mobile } from '../../shared/mixins/mixins';
 
 const ViewLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
@@ -10,13 +11,15 @@ const ViewLayout = () => {
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 
 	return (
-		<AppViewContainer>
-			<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
-			<ViewLayoutContainer $showSidebar={showSidebar}>
-				<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
-				<Outlet />
-			</ViewLayoutContainer>
-		</AppViewContainer>
+		<OuterContainer>
+			<AppViewContainer>
+				<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
+				<ViewLayoutContainer $showSidebar={showSidebar}>
+					<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
+					<Outlet />
+				</ViewLayoutContainer>
+			</AppViewContainer>
+		</OuterContainer>
 	);
 };
 
@@ -51,18 +54,30 @@ const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
 	}
 `;
 
-const AppViewContainer = styled.div`
+const OuterContainer = styled.div`
+	width: 100%;
 	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	height: 100%;
-	overflow: hidden;
-	box-sizing: border-box;
+	overflow-y: scroll;
+	${mobile(`overflow-y: auto;`)}
+`;
+
+const AppViewContainer = styled.div`
+	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
+	min-height: 100%;
+	max-width: 1280px;
+	overflow-x: hidden;
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
 `;
 
 const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	width: ${(props) => (props.$showSidebar ? '80%' : '100%')};
-	height: 100%;
-	overflow: auto;
-	margin-left: ${(props) => (props.$showSidebar ? '20%' : '0%')};
+	margin-left: ${(props) => (props.$showSidebar ? '250px' : '0%')};
+	min-height: 100%;
+	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	position: relative;
 	padding-left: 4vw;
 	padding-right: 4vw;
@@ -74,7 +89,7 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			width: 100%;
-			margin-left: 0;
+			margin: 0;
 	`)}
 `;
 

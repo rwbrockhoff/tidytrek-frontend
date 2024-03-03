@@ -9,7 +9,7 @@ import {
 	useMovePackMutation,
 } from '../../queries/packQueries';
 import { useGetAuthStatusQuery } from '../../queries/userQueries';
-import { Divider, Sidebar as SemanticSidebar } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import PackList from './PackList/PackList';
 import {
@@ -21,6 +21,7 @@ import { SidebarMenu } from './PackList/Menus/Menus';
 import { SidebarButton } from '../../views/Layout/ViewLayout';
 import useCheckMobile from './useCheckMobile';
 import { Header } from '../../shared/ui/SemanticUI';
+import { mobile } from '../../shared/mixins/mixins';
 
 type SidebarProps = {
 	showSidebar: boolean;
@@ -72,7 +73,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	useEffect(() => {
 		// toggle sidebar menu for mobile link clicks
-		if (isMobile && showSidebar) onToggle();
+		if (isMobile && !showSidebar) onToggle();
 	}, [location.pathname]);
 
 	const handleGetPack = async (packId: number) => {
@@ -87,7 +88,6 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	const handleLogout = () => {
 		logout();
-		navigate('/');
 	};
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -103,8 +103,8 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	};
 
 	return (
-		<aside>
-			<StyledSidebar animation="overlay" visible={showSidebar} $showSidebar={showSidebar}>
+		<StyledSidebar $showSidebar={showSidebar}>
+			<SidebarContainer>
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
@@ -124,42 +124,53 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 				<DragDropContext onDragEnd={handleOnDragEnd}>
 					<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
 				</DragDropContext>
-			</StyledSidebar>
-		</aside>
+			</SidebarContainer>
+		</StyledSidebar>
 	);
 };
 
 export default Sidebar;
 
-type StyleProps = { $showSidebar: boolean };
-const StyledSidebar = styled(SemanticSidebar)<StyleProps>`
-	&&&& {
-		background: #514f59;
+const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
+	width: 1280px;
+	position: fixed;
+	right: 50%;
+	transform: translateX(calc(50% - 1030px));
+	opacity: ${({ $showSidebar }) => ($showSidebar ? 1 : 0)};
+	background: #514f59;
+	color: white;
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	overflow: hidden;
+	transition: all 500ms ease;
+
+	h1 {
+		margin-bottom: 50px;
+	}
+
+	a,
+	a:visited {
 		color: white;
-		height: 100%;
-		width: 20vw;
-		padding: 5vh 50px;
-		position: absolute;
-		h1 {
-			margin-bottom: 50px;
-		}
+	}
+
+	@media only screen and (max-width: 768px) {
+		z-index: 100;
+		width: 100%;
+		right: 0%;
+		opacity: 1;
+		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
 		h3 {
-			color: white;
-		}
-		a,
-		a:visited {
-			color: white;
-		}
-
-		@media only screen and (max-width: 768px) {
-			width: ${(props) => (props.$showSidebar ? '100vw' : '0vw')};
-			padding: ${(props) => (props.$showSidebar ? '5vh 50px' : 0)};
-
-			h3 {
-				font-size: 2em;
-			}
+			font-size: 2rem;
 		}
 	}
+`;
+
+const SidebarContainer = styled.div`
+	width: 250px;
+	height: 100%;
+	padding: 5vh 50px;
+	${mobile(`width: 100%;`)}
 `;
 
 const StyledDivider = styled(Divider)`

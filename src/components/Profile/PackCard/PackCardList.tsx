@@ -14,7 +14,7 @@ const PackCardList = (props: PackCardListProps) => {
 	const packList = packThumbnailList || [];
 	return (
 		<ListContainer>
-			<CardGroup itemsPerRow={4} stackable>
+			<CardGroup itemsPerRow={3} stackable>
 				{packList.map((pack, index) => {
 					return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
 				})}
