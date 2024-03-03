@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
 import { mobile } from '../shared/mixins/mixins';
 
-const ViewLayout = () => {
+const UserViewLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
 
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
@@ -89,4 +89,4 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	`)}
 `;
 
-export default ViewLayout;
+export default UserViewLayout;

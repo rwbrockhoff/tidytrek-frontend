@@ -1,5 +1,5 @@
-import ViewLayout from './ViewLayout';
-import GuestPackLayout from './GuestPackLayout';
+import ViewLayout from './UserViewLayout';
+import GuestPackLayout from './GuestViewLayout';
 import Authentication from '../views/Authentication/Authentication';
 import ResetPassword from '../views/ResetPassword/ResetPassword';
 import Dashboard from '../views/Dashboard/Dashboard';

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
-const GuestPackLayout = () => {
+const GuestViewLayout = () => {
 	return (
 		<GuestViewContainer>
 			<Outlet />
@@ -9,7 +9,7 @@ const GuestPackLayout = () => {
 	);
 };
 
-export default GuestPackLayout;
+export default GuestViewLayout;
 
 const GuestViewContainer = styled.div`
 	width: 100vw;
