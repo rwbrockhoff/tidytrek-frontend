@@ -79,17 +79,14 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	min-height: 100%;
 	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	position: relative;
-	padding-left: 4vw;
-	padding-right: 4vw;
-	padding-bottom: 10vh;
-	padding-top: 5vh;
+	padding: 3em 4em 6em 4em;
 	transition: all 500ms ease;
 	transition-property: margin-left, width;
-
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			width: 100%;
 			margin: 0;
+			padding: 3em 1em 3em 1em;
 	`)}
 `;
 

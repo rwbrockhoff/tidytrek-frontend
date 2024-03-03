@@ -169,7 +169,7 @@ const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
 const SidebarContainer = styled.div`
 	width: 250px;
 	height: 100%;
-	padding: 5vh 50px;
+	padding: 3em 50px;
 	${mobile(`width: 100%;`)}
 `;
 
