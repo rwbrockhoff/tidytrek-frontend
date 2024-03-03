@@ -43,7 +43,7 @@ const Text = styled.p`
 	}
 `;
 
-const GripContainer = styled.div`
+const GripContainer = styled.span`
 	height: 1.5em;
 	position: absolute;
 	left: -1.8em;

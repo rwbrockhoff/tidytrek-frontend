@@ -38,6 +38,6 @@ const Profile = ({ userView }: { userView: boolean }) => {
 
 export default Profile;
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled.main`
 	position: relative;
 `;

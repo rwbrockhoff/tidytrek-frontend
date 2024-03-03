@@ -114,7 +114,7 @@ const DashboardContainer = (props: DashboardContainerProps) => {
 
 export default DashboardContainer;
 
-const Container = styled.div`
+const Container = styled.main`
 	display: flex;
 	align-items: center;
 	flex-direction: column;

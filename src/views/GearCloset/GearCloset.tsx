@@ -64,7 +64,7 @@ const GearCloset = () => {
 
 	return (
 		<UserViewContext.Provider value={true}>
-			<div>
+			<main>
 				<Header as="h1">Gear Closet</Header>
 
 				<SearchContainer>
@@ -89,7 +89,7 @@ const GearCloset = () => {
 						onDelete={handleDelete}
 					/>
 				</DragDropContext>
-			</div>
+			</main>
 		</UserViewContext.Provider>
 	);
 };

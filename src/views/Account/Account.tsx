@@ -12,7 +12,7 @@ const Account = () => {
 	const user = data?.user || null;
 
 	return (
-		<div>
+		<main>
 			<Header as="h3" textAlign="center">
 				User Settings
 			</Header>
@@ -22,7 +22,7 @@ const Account = () => {
 			<UserContext.Provider value={{ user }}>
 				<Outlet />
 			</UserContext.Provider>
-		</div>
+		</main>
 	);
 };
 
