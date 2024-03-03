@@ -20,6 +20,7 @@ export default SidebarButton;
 
 const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
 	&&& {
+		${(props) => !props.$isSidebar && props.theme.mx.mobile(`display: none`)}
 		opacity: 0.4;
 		background-color: transparent;
 
@@ -28,7 +29,7 @@ const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
 			css`
 				color: white;
 				position: absolute;
-				right: 25px;
+				right: 2em;
 				opacity: 0.8;
 			`};
 	}

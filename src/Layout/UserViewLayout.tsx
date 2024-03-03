@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { mobile } from '../shared/mixins/mixins';
+import MobileHeader from './MobileHeader';
 import SidebarButton from '../components/Sidebar/SidebarButton/SidebarButton';
 
 const UserViewLayout = () => {
@@ -13,6 +13,7 @@ const UserViewLayout = () => {
 	return (
 		<OuterContainer>
 			<AppViewContainer>
+				<MobileHeader onClick={handleToggleSidebar} />
 				<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
 				<ViewLayoutContainer $showSidebar={showSidebar}>
 					<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
@@ -25,10 +26,10 @@ const UserViewLayout = () => {
 
 const OuterContainer = styled.div`
 	width: 100%;
-	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	height: 100%;
 	overflow-y: scroll;
-	${mobile(`overflow-y: auto;`)}
+	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
+	${({ theme: t }) => t.mx.mobile(`overflow-y: auto;`)}
 `;
 
 const AppViewContainer = styled.div`
@@ -54,7 +55,7 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 		t.mx.mobile(`
 			width: 100%;
 			margin: 0;
-			padding: 3em 1em 3em 1em;
+			padding: 10em 1em 3em 1em;
 	`)}
 `;
 

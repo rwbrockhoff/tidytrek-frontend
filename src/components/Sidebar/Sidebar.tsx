@@ -171,6 +171,7 @@ const SidebarContainer = styled.div`
 	width: 250px;
 	height: 100%;
 	padding: 3em 50px;
+	box-sizing: border-box;
 	${mobile(`width: 100%;`)}
 `;
 
