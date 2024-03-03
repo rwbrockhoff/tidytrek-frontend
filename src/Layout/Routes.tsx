@@ -1,14 +1,14 @@
 import ViewLayout from './ViewLayout';
 import GuestPackLayout from './GuestPackLayout';
-import Authentication from '../Authentication/Authentication';
-import ResetPassword from '../ResetPassword/ResetPassword';
-import Dashboard from '../Dashboard/Dashboard';
-import Account from '../Account/Account';
-import GearCloset from '../GearCloset/GearCloset';
+import Authentication from '../views/Authentication/Authentication';
+import ResetPassword from '../views/ResetPassword/ResetPassword';
+import Dashboard from '../views/Dashboard/Dashboard';
+import Account from '../views/Account/Account';
+import GearCloset from '../views/GearCloset/GearCloset';
 import { Navigate } from 'react-router-dom';
-import AccountSettings from '../Account/AccountSettings/AccountSettings';
-import ProfileSettings from '../Account/ProfileSettings/ProfileSettings';
-import Profile from '../Profile/Profile';
+import AccountSettings from '../views/Account/AccountSettings/AccountSettings';
+import ProfileSettings from '../views/Account/ProfileSettings/ProfileSettings';
+import Profile from '../views/Profile/Profile';
 
 export const userRoutes = [
 	{

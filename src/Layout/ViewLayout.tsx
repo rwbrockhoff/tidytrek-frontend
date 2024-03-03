@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
-import { mobile } from '../../shared/mixins/mixins';
+import { mobile } from '../shared/mixins/mixins';
 
 const ViewLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
