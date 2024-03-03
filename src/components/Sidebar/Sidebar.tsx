@@ -18,8 +18,8 @@ import {
 } from '../../shared/components/DragDropWrapper';
 import PopupMenu from './PackList/Menus/PopupMenu';
 import { SidebarMenu } from './PackList/Menus/Menus';
-import { SidebarButton } from '../../Layout/UserViewLayout';
-import useCheckMobile from './useCheckMobile';
+import SidebarButton from './SidebarButton/SidebarButton';
+import useCheckMobile from '../../shared/hooks/useCheckMobile';
 import { Header } from '../../shared/ui/SemanticUI';
 import { mobile } from '../../shared/mixins/mixins';
 

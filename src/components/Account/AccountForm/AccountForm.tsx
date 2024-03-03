@@ -4,7 +4,7 @@ import { type InputEvent } from '../../../types/formTypes';
 import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
 import { Header } from '../../../shared/ui/SemanticUI';
 import PasswordForm from './PasswordForm';
-import { setFormInput } from '../../../shared/formHelpers';
+import { setFormInput } from '../../../utils/formHelpers';
 import { useState } from 'react';
 import styled from 'styled-components';
 

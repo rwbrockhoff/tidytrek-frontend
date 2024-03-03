@@ -17,7 +17,7 @@ import {
 	useCombineSuccess,
 	type MutationSuccess,
 } from '../Authentication/useCombineSuccess';
-import { setFormInput } from '../../shared/formHelpers';
+import { setFormInput } from '../../utils/formHelpers';
 
 const ResetPassword = () => {
 	const { resetToken } = useParams();

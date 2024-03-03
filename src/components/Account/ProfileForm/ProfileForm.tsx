@@ -14,7 +14,7 @@ import { SubText } from '../../../shared/ui/TidyUI';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Avatar from '../../../shared/ui/Avatar';
-import { setFormInput } from '../../../shared/formHelpers';
+import { setFormInput } from '../../../utils/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
 import useNestedError from './useNestedError';

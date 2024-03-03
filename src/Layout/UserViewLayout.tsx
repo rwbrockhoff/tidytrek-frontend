@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { Icon, Button } from 'semantic-ui-react';
 import { mobile } from '../shared/mixins/mixins';
+import SidebarButton from '../components/Sidebar/SidebarButton/SidebarButton';
 
 const UserViewLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
@@ -22,37 +22,6 @@ const UserViewLayout = () => {
 		</OuterContainer>
 	);
 };
-
-type SidebarButtonProps = {
-	onClick: () => void;
-	isSidebar: boolean;
-};
-
-export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
-	return (
-		<StyledButton
-			icon={<Icon name="sidebar" />}
-			$isSidebar={isSidebar}
-			onClick={onClick}
-		/>
-	);
-};
-
-const StyledButton = styled(Button)<{ $isSidebar: boolean }>`
-	&&& {
-		opacity: 0.4;
-		background-color: transparent;
-
-		${(props) =>
-			props.$isSidebar &&
-			css`
-				color: white;
-				position: absolute;
-				right: 25px;
-				opacity: 0.8;
-			`};
-	}
-`;
 
 const OuterContainer = styled.div`
 	width: 100%;

@@ -24,7 +24,7 @@ import {
 	useUserContext,
 } from '../../../../views/Dashboard/hooks/useViewerContext';
 import { Draggable } from 'react-beautiful-dnd';
-import useCheckMobile from '../../../Sidebar/useCheckMobile';
+import useCheckMobile from '../../../../shared/hooks/useCheckMobile';
 
 type TableRowProps = {
 	index: number;

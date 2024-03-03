@@ -16,7 +16,7 @@ import {
 import { useGetPackListQuery } from '../../queries/packQueries';
 import { UserViewContext } from '../Dashboard/hooks/useViewerContext';
 import { DragDropContext } from '../../shared/components/DragDropWrapper';
-import { searchMatch } from '../../shared/formHelpers';
+import { searchMatch } from '../../utils/formHelpers';
 
 const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');

@@ -1,9 +1,9 @@
 import { type RegisterUser } from '../../types/userTypes';
 import { type CheckboxEvent, type InputEvent } from '../../types/formTypes';
-import { isInputEvent } from '../../shared/formHelpers';
+import { isInputEvent } from '../../utils/formHelpers';
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
 import { useState } from 'react';
-import { setFormInput } from '../../shared/formHelpers';
+import { setFormInput } from '../../utils/formHelpers';
 import { useValidateForm } from './useValidateForm';
 import { useCombineErrors, type MutationError } from './useCombineErrors';
 import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
