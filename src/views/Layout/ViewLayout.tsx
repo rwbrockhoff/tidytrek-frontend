@@ -66,7 +66,6 @@ const AppViewContainer = styled.div`
 	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	min-height: 100%;
 	max-width: 1280px;
-	overflow-x: hidden;
 	width: 100%;
 	margin: 0 auto;
 	position: relative;

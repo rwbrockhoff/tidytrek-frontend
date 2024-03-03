@@ -108,7 +108,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
-					<Header as="h1">tidytrek</Header>
+					<Logo as="h1">tidytrek</Logo>
 				</Link>
 
 				<PopupMenu
@@ -131,6 +131,12 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 export default Sidebar;
 
+const Logo = styled(Header)`
+	&&& {
+		margin-bottom: 1em;
+	}
+`;
+
 const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
 	width: 1280px;
 	position: fixed;
@@ -142,12 +148,7 @@ const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
 	height: 100%;
 	display: flex;
 	justify-content: flex-end;
-	overflow: hidden;
 	transition: all 500ms ease;
-
-	h1 {
-		margin-bottom: 50px;
-	}
 
 	a,
 	a:visited {
@@ -175,6 +176,6 @@ const SidebarContainer = styled.div`
 
 const StyledDivider = styled(Divider)`
 	&& {
-		margin: 25px 0px;
+		margin: 2em 0;
 	}
 `;

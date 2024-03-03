@@ -21,7 +21,8 @@ export const Drag = ({ index, draggableId, children }: DragProps) => {
 				<div
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					{...provided.dragHandleProps}>
+					{...provided.dragHandleProps}
+					style={{ ...provided.draggableProps.style, position: 'static' }}>
 					{children}
 				</div>
 			)}

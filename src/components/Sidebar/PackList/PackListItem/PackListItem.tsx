@@ -10,7 +10,9 @@ const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 	return (
 		<div key={pack.packId} onClick={() => onClick(pack.packId)}>
 			<Text>
-				<GripIcon className="fa-solid fa-grip-vertical" />
+				<GripContainer>
+					<i className="fa-solid fa-grip-vertical" />
+				</GripContainer>
 				{pack.packName}
 			</Text>
 		</div>
@@ -22,9 +24,12 @@ export default PackListItem;
 const Text = styled.p`
 	&& {
 		cursor: pointer;
-		margin: 10px 0px;
-		margin-left: -20px;
+		margin: 1em 0;
+		position: relative;
 		opacity: 1;
+		i {
+			opacity: 0;
+		}
 		&:hover {
 			opacity: 0.8;
 			i {
@@ -38,8 +43,10 @@ const Text = styled.p`
 	}
 `;
 
-const GripIcon = styled.i`
-	opacity: 0;
-	margin-right: 10px;
+const GripContainer = styled.div`
+	height: 1.5em;
+	position: absolute;
+	left: -1.8em;
+	padding: 0 0.5em;
 	cursor: grab;
 `;
