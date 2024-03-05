@@ -5,9 +5,12 @@ import { Button, Header } from '../../../shared/ui/SemanticUI';
 import { FormContainer, FooterText, FormMessage } from '../FormComponents';
 import { FormError } from '../../../types/formTypes';
 import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
+import { RegisterUserFormData } from '../../../types/userTypes';
 
 type FormProps = {
+	formData: RegisterUserFormData;
 	isRegisterForm: boolean;
+	isRegisterSuccess: boolean;
 	isLoading: boolean;
 	formError: FormError;
 	onFormChange: (e: InputEvent | CheckboxEvent) => void;
@@ -15,7 +18,9 @@ type FormProps = {
 };
 
 const LogInForm = ({
+	formData,
 	isRegisterForm,
+	isRegisterSuccess,
 	isLoading,
 	formError,
 	onFormChange,
@@ -24,13 +29,15 @@ const LogInForm = ({
 	return (
 		<FormContainer>
 			<Header as="h1">tidytrek</Header>
-			<Form size="large">
+			<Form size="large" onSubmit={onSubmit}>
 				<Segment stacked>
 					<Header as="h3">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
 
-					{isRegisterForm && <RegisterFormSection onFormChange={onFormChange} />}
+					{isRegisterForm && (
+						<RegisterFormSection formData={formData} onFormChange={onFormChange} />
+					)}
 
 					<Form.Input
 						fluid
@@ -39,6 +46,7 @@ const LogInForm = ({
 						iconPosition="left"
 						placeholder="E-mail address"
 						name="email"
+						value={formData.email}
 						data-testid="email-input"
 						onChange={onFormChange}
 					/>
@@ -49,6 +57,7 @@ const LogInForm = ({
 						placeholder="Password"
 						type="password"
 						name="password"
+						value={formData.password}
 						data-testid="password-input"
 						onChange={onFormChange}
 					/>
@@ -61,11 +70,14 @@ const LogInForm = ({
 								placeholder="Verify password"
 								type="password"
 								name="confirmPassword"
+								value={formData.confirmPassword}
 								data-testid="verify-password-input"
 								onChange={onFormChange}
 								width={16}
 							/>
+
 							<FormCheckbox
+								checked={formData.agreeToTerms}
 								label="I agree to the terms and conditions"
 								name="agreeToTerms"
 								onChange={onFormChange}
@@ -77,6 +89,7 @@ const LogInForm = ({
 						$tidyColor="tidyPrimary"
 						fluid
 						size="large"
+						type="submit"
 						disabled={isLoading}
 						onClick={onSubmit}>
 						{isRegisterForm ? 'Register' : 'Login'}
@@ -87,6 +100,14 @@ const LogInForm = ({
 							messageType="error"
 							text={formError.message || 'Oops! There was an error.'}
 							id="login-form-message"
+						/>
+					)}
+
+					{isRegisterSuccess && (
+						<FormMessage
+							messageType="success"
+							text="Check your email for a link to sign in."
+							id="register-success-message"
 						/>
 					)}
 

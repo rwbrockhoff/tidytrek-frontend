@@ -9,6 +9,16 @@ export type User = {
 };
 
 export type RegisterUser = {
+	userId: string;
+	firstName: string;
+	lastName: string;
+	username: string;
+	trailName: string;
+	email: string;
+	agreeToTerms: boolean;
+};
+
+export type RegisterUserFormData = {
 	firstName: string;
 	lastName: string;
 	username: string;

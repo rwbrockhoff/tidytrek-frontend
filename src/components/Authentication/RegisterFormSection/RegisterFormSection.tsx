@@ -1,11 +1,13 @@
 import { type InputEvent, type CheckboxEvent } from '../../../types/formTypes';
 import { Form } from 'semantic-ui-react';
+import { RegisterUserFormData } from '../../../types/userTypes';
 
 type RegisterFormSectionProps = {
+	formData: RegisterUserFormData;
 	onFormChange: (e: InputEvent | CheckboxEvent) => void;
 };
 
-const RegisterFormSection = ({ onFormChange }: RegisterFormSectionProps) => {
+const RegisterFormSection = ({ formData, onFormChange }: RegisterFormSectionProps) => {
 	return (
 		<>
 			<Form.Group>
@@ -16,6 +18,7 @@ const RegisterFormSection = ({ onFormChange }: RegisterFormSectionProps) => {
 					name="firstName"
 					data-testid="first-name-input"
 					type="name"
+					value={formData.firstName}
 					width={8}
 					onChange={onFormChange}
 				/>
@@ -24,6 +27,7 @@ const RegisterFormSection = ({ onFormChange }: RegisterFormSectionProps) => {
 					iconPosition="left"
 					placeholder="Last Name"
 					name="lastName"
+					value={formData.lastName}
 					data-testid="last-name-input"
 					type="name"
 					width={8}
@@ -36,6 +40,7 @@ const RegisterFormSection = ({ onFormChange }: RegisterFormSectionProps) => {
 				iconPosition="left"
 				placeholder="Username (optional)"
 				name="username"
+				value={formData.username}
 				data-testid="username-input"
 				type="name"
 				onChange={onFormChange}
@@ -46,6 +51,7 @@ const RegisterFormSection = ({ onFormChange }: RegisterFormSectionProps) => {
 				iconPosition="left"
 				placeholder="Trail Name (optional)"
 				name="trailName"
+				value={formData.trailName}
 				data-testid="trail-name-input"
 				type="name"
 				onChange={onFormChange}

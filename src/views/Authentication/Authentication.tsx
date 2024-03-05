@@ -1,4 +1,4 @@
-import { type RegisterUser } from '../../types/userTypes';
+import { RegisterUserFormData } from '../../types/userTypes';
 import { type CheckboxEvent, type InputEvent } from '../../types/formTypes';
 import { isInputEvent } from '../../utils/formHelpers';
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
@@ -10,11 +10,22 @@ import { useCombinePendingStatus, type MutationPending } from './useCombinePendi
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
 import { AuthContainer } from '../../components/Authentication/FormComponents';
 
+const initialFormState = {
+	firstName: '',
+	lastName: '',
+	username: '',
+	trailName: '',
+	email: '',
+	password: '',
+	confirmPassword: '',
+	agreeToTerms: false,
+};
+
 const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const loginData = useLoginMutation();
 	const registerData = useRegisterMutation();
 	const { mutate: loginUser } = loginData;
-	const { mutate: registerUser } = registerData;
+	const { mutate: registerUser, isSuccess: isRegisterSuccess } = registerData;
 
 	const [formError, setFormError] = useCombineErrors([
 		loginData as MutationError,
@@ -28,19 +39,15 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 	const { invalidForm, validateFormData } = useValidateForm(setFormError);
 
-	const [formData, setFormData] = useState<RegisterUser>({
-		firstName: '',
-		lastName: '',
-		username: '',
-		trailName: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-		agreeToTerms: false,
-	});
+	// type FormData = Omit<RegisterUser, 'userId'> & {
+	// 	password: string;
+	// 	confirmPassword: string;
+	// };
+
+	const [formData, setFormData] = useState<RegisterUserFormData>(initialFormState);
 
 	const handleFormChange = (e: InputEvent | CheckboxEvent) => {
-		if (isInputEvent(e)) setFormInput<RegisterUser>(e, setFormData);
+		if (isInputEvent(e)) setFormInput<RegisterUserFormData>(e, setFormData);
 		else {
 			setFormData((prev) => ({ ...prev, agreeToTerms: !prev.agreeToTerms }));
 		}
@@ -63,6 +70,8 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 		<AuthContainer>
 			<LogInForm
 				isRegisterForm={isRegisterForm}
+				isRegisterSuccess={isRegisterSuccess}
+				formData={formData}
 				isLoading={isPending}
 				formError={formError}
 				onFormChange={handleFormChange}
