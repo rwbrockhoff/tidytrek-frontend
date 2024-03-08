@@ -49,30 +49,32 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 		}
 	};
 
+	const handleRegister = async () => {
+		const formIsValid = validateFormData(formData);
+		if (formIsValid) {
+			const { email, password } = formData;
+			const { data, error } = await supabase.auth.signUp({
+				email,
+				password,
+			});
+			const userId = data?.user && data.user.id;
+			if (userId && !error) registerUser({ ...formData, userId });
+			else invalidForm(registerError);
+		}
+	};
+
 	const handleFormSubmit = async () => {
-		if (isRegisterForm) {
-			const formIsValid = validateFormData(formData);
-			if (formIsValid) {
-				const { email, password } = formData;
-				const { data, error } = await supabase.auth.signUp({
-					email,
-					password,
-				});
-				const userId = data?.user && data.user.id;
-				userId && registerUser({ ...formData, userId });
-				error && console.log('Register Error: ', error);
-			}
-			// formIsValid && registerUser(formData);
-		} else {
+		if (isRegisterForm) return await handleRegister();
+		else {
 			const { email, password } = formData;
 			if (email && password) {
 				const { data, error } = await supabase.auth.signInWithPassword({
 					email,
 					password,
 				});
-				error && console.log('Error signing in: ', error);
 				const userId = data?.user && data.user.id;
-				userId && loginUser({ userId, email });
+				if (userId && !error) loginUser({ userId, email });
+				else invalidForm(signinError);
 			} else {
 				invalidForm('Please provide your email and password.');
 			}
@@ -95,3 +97,6 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 };
 
 export default Authentication;
+
+const signinError = 'There was an error logging in.';
+const registerError = 'There was an error registering your account.';

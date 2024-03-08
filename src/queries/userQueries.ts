@@ -45,6 +45,7 @@ export const useLogoutMutation = () => {
 		mutationFn: () => tidyTrekAPI.post('/auth/logout'),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
+			queryClient.clear();
 		},
 	});
 };
@@ -83,6 +84,7 @@ export const useDeleteAccountMutation = () => {
 		mutationFn: () => tidyTrekAPI.delete('/auth/account'),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
+			queryClient.clear();
 		},
 	});
 };

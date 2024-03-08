@@ -90,8 +90,7 @@ const LogInForm = ({
 						fluid
 						size="large"
 						type="submit"
-						disabled={isLoading}
-						onClick={onSubmit}>
+						disabled={isLoading}>
 						{isRegisterForm ? 'Register' : 'Login'}
 					</Button>
 

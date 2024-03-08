@@ -6,7 +6,7 @@ import AccountForm from '../../../components/Account/AccountForm/AccountForm';
 import { type PasswordInfo } from '../../../types/formTypes';
 import { validPassword, passwordRequirements } from '../../Authentication/authHelper';
 import { useDeleteAccountMutation } from '../../../queries/userQueries';
-import { updatePassword } from '../../../api/supabaseClient';
+import supabase, { updatePassword } from '../../../api/supabaseClient';
 
 export const ChangePassContext = createContext({
 	isSuccess: false,
@@ -40,6 +40,11 @@ const AccountSettings = () => {
 		else setFormSuccess(true);
 	};
 
+	const handleDeleteAccount = async () => {
+		await deleteAccount();
+		await supabase.auth.signOut();
+	};
+
 	const handleError = (message: string) =>
 		setFormError({ error: true, message: message });
 
@@ -62,7 +67,7 @@ const AccountSettings = () => {
 				header="Delete Your Account"
 				message={deleteMessage}
 				onClose={handleToggleModal}
-				onClickDelete={deleteAccount}
+				onClickDelete={handleDeleteAccount}
 			/>
 		</Container>
 	);
