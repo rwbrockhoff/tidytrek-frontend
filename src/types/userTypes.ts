@@ -12,8 +12,6 @@ export type RegisterUser = {
 	userId: string;
 	firstName: string;
 	lastName: string;
-	username: string;
-	trailName: string;
 	email: string;
 	agreeToTerms: boolean;
 };
@@ -21,8 +19,6 @@ export type RegisterUser = {
 export type RegisterUserFormData = {
 	firstName: string;
 	lastName: string;
-	username: string;
-	trailName: string;
 	email: string;
 	password: string;
 	confirmPassword: string;

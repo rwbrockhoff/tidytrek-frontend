@@ -1,5 +1,4 @@
 import { type InputEvent } from '../../types/formTypes';
-import { Grid } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -81,19 +80,17 @@ const ResetPassword = () => {
 	};
 
 	return (
-		<Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-			<ResetPasswordForm
-				formData={formData}
-				hasResetToken={resetToken ? true : false}
-				isLoading={isPending}
-				isSuccess={isSuccess}
-				formError={formError.error}
-				formErrorMessage={formError.message}
-				onFormChange={handleFormChange}
-				onResetRequest={handleResetPasswordRequest}
-				onResetConfirm={handleConfirmPasswordReset}
-			/>
-		</Grid>
+		<ResetPasswordForm
+			formData={formData}
+			hasResetToken={resetToken ? true : false}
+			isLoading={isPending}
+			isSuccess={isSuccess}
+			formError={formError.error}
+			formErrorMessage={formError.message}
+			onFormChange={handleFormChange}
+			onResetRequest={handleResetPasswordRequest}
+			onResetConfirm={handleConfirmPasswordReset}
+		/>
 	);
 };
 

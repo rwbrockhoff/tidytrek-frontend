@@ -9,54 +9,30 @@ type RegisterFormSectionProps = {
 
 const RegisterFormSection = ({ formData, onFormChange }: RegisterFormSectionProps) => {
 	return (
-		<>
-			<Form.Group>
-				<Form.Input
-					icon="user"
-					iconPosition="left"
-					placeholder="First Name"
-					name="firstName"
-					data-testid="first-name-input"
-					type="name"
-					value={formData.firstName}
-					width={8}
-					onChange={onFormChange}
-				/>
-				<Form.Input
-					icon="user"
-					iconPosition="left"
-					placeholder="Last Name"
-					name="lastName"
-					value={formData.lastName}
-					data-testid="last-name-input"
-					type="name"
-					width={8}
-					onChange={onFormChange}
-				/>
-			</Form.Group>
+		<Form.Group>
 			<Form.Input
-				fluid
 				icon="user"
 				iconPosition="left"
-				placeholder="Username (optional)"
-				name="username"
-				value={formData.username}
-				data-testid="username-input"
+				placeholder="First Name"
+				name="firstName"
+				data-testid="first-name-input"
 				type="name"
+				value={formData.firstName}
+				width={8}
 				onChange={onFormChange}
 			/>
 			<Form.Input
-				fluid
-				icon="tree"
+				icon="user"
 				iconPosition="left"
-				placeholder="Trail Name (optional)"
-				name="trailName"
-				value={formData.trailName}
-				data-testid="trail-name-input"
+				placeholder="Last Name"
+				name="lastName"
+				value={formData.lastName}
+				data-testid="last-name-input"
 				type="name"
+				width={8}
 				onChange={onFormChange}
 			/>
-		</>
+		</Form.Group>
 	);
 };
 

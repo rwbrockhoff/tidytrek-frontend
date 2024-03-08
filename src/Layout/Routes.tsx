@@ -9,12 +9,17 @@ import { Navigate } from 'react-router-dom';
 import AccountSettings from '../views/Account/AccountSettings/AccountSettings';
 import ProfileSettings from '../views/Account/ProfileSettings/ProfileSettings';
 import Profile from '../views/Profile/Profile';
+import Welcome from '../views/Authentication/Welcome/Welcome';
 
 export const userRoutes = [
 	{
 		path: '/',
 		element: <ViewLayout />,
 		children: [{ path: '/', index: true, element: <Dashboard userView={true} /> }],
+	},
+	{
+		path: '/welcome',
+		element: <Welcome />,
 	},
 	{
 		path: '/pack/:packId',
@@ -75,6 +80,10 @@ export const guestRoutes = [
 	{
 		path: '/reset-password',
 		element: <ResetPassword />,
+	},
+	{
+		path: '/welcome',
+		element: <Welcome />,
 	},
 	{
 		path: '/reset-password/:resetToken',

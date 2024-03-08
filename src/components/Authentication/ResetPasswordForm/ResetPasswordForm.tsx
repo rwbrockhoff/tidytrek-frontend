@@ -99,7 +99,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							<FormMessage
 								messageType="error"
 								text={formErrorMessage || 'Oops! There was an error.'}
-								id="reset-password-message"
+								id="reset-password-error-message"
 							/>
 						)}
 
@@ -107,7 +107,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							<FormMessage
 								messageType="success"
 								text={'Please check your inbox for a link to reset your password.'}
-								id="reset-password-message"
+								id="reset-password-success-message"
 							/>
 						)}
 

@@ -10,12 +10,11 @@ import { useCombinePendingStatus, type MutationPending } from './useCombinePendi
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
 import { AuthContainer } from '../../components/Authentication/FormComponents';
 import supabase from '../../api/supabaseClient';
+import { frontendURL } from '../../api/tidytrekAPI';
 
 const initialFormState = {
 	firstName: '',
 	lastName: '',
-	username: '',
-	trailName: '',
 	email: '',
 	password: '',
 	confirmPassword: '',
@@ -51,16 +50,21 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 	const handleRegister = async () => {
 		const formIsValid = validateFormData(formData);
-		if (formIsValid) {
-			const { email, password } = formData;
-			const { data, error } = await supabase.auth.signUp({
-				email,
-				password,
-			});
-			const userId = data?.user && data.user.id;
-			if (userId && !error) registerUser({ ...formData, userId });
-			else invalidForm(registerError);
-		}
+		if (!formIsValid) return;
+
+		const { email, password } = formData;
+		const { data, error } = await supabase.auth.signUp({
+			email,
+			password,
+			options: {
+				emailRedirectTo: `${frontendURL}/welcome`,
+			},
+		});
+		const userId = data?.user && data.user.id;
+		if (userId && !error) {
+			registerUser({ ...formData, userId });
+			setFormData(initialFormState);
+		} else invalidForm(registerError);
 	};
 
 	const handleFormSubmit = async () => {

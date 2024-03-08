@@ -10,6 +10,17 @@ export const useGetProfileSettingsQuery = () =>
 		queryFn: () => tidyTrekAPI.get('/profile-settings/').then((res) => res.data),
 	});
 
+export const useUpdateUsernameMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (userInfo: { username: string; trailName: string }) =>
+			tidyTrekAPI.put('/profile-settings/username', userInfo),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+		},
+	});
+};
+
 export const useAddSocialLinkMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
