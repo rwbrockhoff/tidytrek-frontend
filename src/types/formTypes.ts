@@ -11,9 +11,9 @@ export type FormEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>;
 export type FormError = { error: boolean; message: string };
 
 export type PasswordInfo = {
-	currentPassword: string;
 	newPassword: string;
 	confirmNewPassword: string;
+	emailCode: string;
 };
 
 export type InternalMutation<T> = UseMutationResult<

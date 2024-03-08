@@ -1,4 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { type Session } from '@supabase/supabase-js';
+import supabase from '../api/supabaseClient.ts';
 import { Loader } from 'semantic-ui-react';
 import { userRoutes, guestRoutes } from './Routes.tsx';
 import { useGetAuthStatusQuery } from '../queries/userQueries.ts';
@@ -9,7 +12,25 @@ const AppWithRoutes = () => {
 	const { isLoading, data } = useGetAuthStatusQuery();
 	const theme = createTheme(data?.settings);
 
-	const appRouter = createBrowserRouter(data?.isAuthenticated ? userRoutes : guestRoutes);
+	const [session, setSession] = useState<Session | null>(null);
+
+	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			setSession(session);
+		});
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session);
+		});
+
+		return () => subscription.unsubscribe();
+	}, []);
+
+	const appRouter = createBrowserRouter(
+		session && data?.isAuthenticated ? userRoutes : guestRoutes,
+	);
 
 	if (isLoading) return <Loader content="Loading..." />;
 

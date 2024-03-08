@@ -2,100 +2,103 @@ import { Form, Input, Icon, Header } from 'semantic-ui-react';
 import { Button, FormField } from '../../../shared/ui/SemanticUI';
 import { Link } from '../../../shared/ui/Link';
 import { type PasswordInfo, type InputEvent } from '../../../types/formTypes';
-import Message from '../../../shared/ui/Message';
 import { useContext } from 'react';
 import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
-import { Segment } from './AccountForm';
+import { FormSection } from './AccountForm';
 import styled from 'styled-components';
+import ConfirmationForm from './ConfirmationForm';
 
 type PasswordFormProps = {
-	displayForm: boolean;
+	displayFormSection: FormSection;
+	confirmationSent: boolean;
 	passwordInfo: PasswordInfo;
-	toggleForm: () => void;
-	resetFormError: () => void;
+	changeFormSection: (section: FormSection) => void;
+	sendConfirmation: () => void;
+	resetForm: () => void;
 	onChange: (e: InputEvent) => void;
 	changePassword: (passwordInfo: PasswordInfo) => void;
 };
 
 const PasswordForm = (props: PasswordFormProps) => {
 	const {
-		displayForm,
+		displayFormSection,
+		confirmationSent,
 		passwordInfo,
-		toggleForm,
-		resetFormError,
+		changeFormSection,
+		sendConfirmation,
+		resetForm,
 		onChange,
 		changePassword,
 	} = props;
-	const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
+	const { newPassword, confirmNewPassword, emailCode } = passwordInfo;
 
-	const { isPending, isSuccess, error } = useContext(ChangePassContext);
+	const { isSuccess } = useContext(ChangePassContext);
 
+	// show confirmation form when the section is chosen,
+	// or to show 'email sent' message when passwordForm is visible
+	const showConfirmationForm =
+		(!isSuccess && displayFormSection === 'confirmationForm') ||
+		(displayFormSection === 'passwordForm' && confirmationSent);
 	return (
-		<Segment>
+		<>
 			<Header as="h4">Update Your Password</Header>
-			{!displayForm && (
-				<Button basic onClick={toggleForm}>
+			{displayFormSection === 'initial' && (
+				<Button basic onClick={() => changeFormSection('confirmationForm')}>
 					<Icon name="key" />
 					Change Password
 				</Button>
 			)}
 
-			{displayForm && (
-				<>
-					<Form>
-						<FormField $width={'50%'}>
-							<label>Current Password</label>
-							<Input
-								name="currentPassword"
-								placeholder="Current Password"
-								type="password"
-								value={currentPassword}
-								onChange={onChange}
-							/>
-						</FormField>
-						<FormField $width={'50%'}>
-							<label>New Password</label>
-							<Input
-								name="newPassword"
-								placeholder="New Password"
-								type="password"
-								value={newPassword}
-								onChange={onChange}
-							/>
-						</FormField>
-						<FormField $width={'50%'}>
-							<label>Confirm</label>
-							<Input
-								name="confirmNewPassword"
-								placeholder="Confirm New Password"
-								type="password"
-								value={confirmNewPassword}
-								onChange={onChange}
-							/>
-						</FormField>
-						<Link link="/reset-password">
-							<p>Reset Your Password</p>
-						</Link>
-						<ButtonContainer>
-							<Button onClick={resetFormError}>{isSuccess ? 'Close' : 'Cancel'}</Button>
-							<Button
-								$themeColor="primary"
-								disabled={isPending}
-								onClick={() => changePassword(passwordInfo)}>
-								Save Password
-							</Button>
-						</ButtonContainer>
-					</Form>
-
-					<Message
-						loading={isPending}
-						error={error}
-						success={isSuccess}
-						successMessage="Your password has been updated!"
-					/>
-				</>
+			{showConfirmationForm && (
+				<ConfirmationForm
+					sendConfirmation={sendConfirmation}
+					confirmationSent={confirmationSent}
+				/>
 			)}
-		</Segment>
+
+			{displayFormSection === 'passwordForm' && (
+				<Form>
+					<FormField $width={'50%'}>
+						<label>New Password</label>
+						<Input
+							name="newPassword"
+							placeholder="New Password"
+							type="password"
+							value={newPassword}
+							onChange={onChange}
+						/>
+					</FormField>
+					<FormField $width={'50%'}>
+						<label>Confirm</label>
+						<Input
+							name="confirmNewPassword"
+							placeholder="Confirm New Password"
+							type="password"
+							value={confirmNewPassword}
+							onChange={onChange}
+						/>
+					</FormField>
+					<FormField $width={'50%'}>
+						<label>Email Code</label>
+						<Input
+							name="emailCode"
+							placeholder="Email Code"
+							value={emailCode}
+							onChange={onChange}
+						/>
+					</FormField>
+					<Link link="/reset-password">
+						<p>Reset Your Password</p>
+					</Link>
+					<ButtonContainer>
+						<Button onClick={resetForm}>{isSuccess ? 'Close' : 'Cancel'}</Button>
+						<Button $themeColor="primary" onClick={() => changePassword(passwordInfo)}>
+							Save Password
+						</Button>
+					</ButtonContainer>
+				</Form>
+			)}
+		</>
 	);
 };
 
@@ -115,6 +118,6 @@ const ButtonContainer = styled.div`
 	${({ theme: t }) =>
 		t.mx.mobile(`
 		width: 100%;
-		margin-top: 25px;
+		margin-top: 2em;
 	`)}
 `;

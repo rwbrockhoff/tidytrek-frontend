@@ -5,48 +5,71 @@ import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-r
 import { Header } from '../../../shared/ui/SemanticUI';
 import PasswordForm from './PasswordForm';
 import { setFormInput } from '../../../utils/formHelpers';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { reauthenticateUser } from '../../../api/supabaseClient';
+import { ChangePassContext } from '../../../views/Account/AccountSettings/AccountSettings';
+import Message from '../../../shared/ui/Message';
 
 type AccountFormProps = {
 	user: User | null;
-	success: boolean;
 	changePassword: (passwordInfo: PasswordInfo) => void;
+	setError: (message: string) => void;
 	resetFormError: () => void;
 	deleteAccount: () => void;
 };
 
 const initialState = {
-	currentPassword: '',
 	newPassword: '',
 	confirmNewPassword: '',
+	emailCode: '',
 };
+
+export type FormSection = 'initial' | 'passwordForm' | 'confirmationForm';
 
 const AccountForm = ({
 	user,
-	success,
 	resetFormError,
+	setError,
 	changePassword,
 	deleteAccount,
 }: AccountFormProps) => {
-	const [displayPasswordForm, setTogglePasswordForm] = useState(false);
+	const { isSuccess, error } = useContext(ChangePassContext);
 
 	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>(initialState);
-	const handleTogglePasswordForm = () => setTogglePasswordForm(!displayPasswordForm);
+	const [displayFormSection, setDisplayFormSection] = useState<FormSection>('initial');
+	const [confirmationSent, setConfirmationSent] = useState(false);
 
-	if (success && passwordInfo !== initialState) setPasswordInfo(initialState);
+	useEffect(() => {
+		// clear form on success
+		if (isSuccess && passwordInfo !== initialState) handleResetForm();
+	}, [isSuccess]);
+
+	const handleChangeFormSection = (section: FormSection) =>
+		setDisplayFormSection(section);
 
 	const handleOnChange = (e: InputEvent) =>
 		setFormInput<PasswordInfo>(e, setPasswordInfo);
 
+	const handleSendConfirmation = async () => {
+		try {
+			handleChangeFormSection('passwordForm');
+			const { error } = await reauthenticateUser();
+			if (!error) setConfirmationSent(true);
+		} catch (err) {
+			setError(confirmationErrorMessage);
+		}
+	};
+
 	const handleResetForm = () => {
 		setPasswordInfo(initialState);
-		handleTogglePasswordForm();
 		resetFormError();
+		handleChangeFormSection('initial');
 	};
-	const { firstName, lastName, email } = user || {};
 
+	const { firstName, lastName, email } = user || {};
 	const fullName = `${firstName} ${lastName}`;
+
 	return (
 		<SegmentGroup>
 			<Segment>
@@ -60,14 +83,25 @@ const AccountForm = ({
 					<b>Email:</b> {email || 'No email here. Too busy hiking.'}
 				</p>
 			</Segment>
-			<PasswordForm
-				displayForm={displayPasswordForm}
-				passwordInfo={passwordInfo}
-				toggleForm={handleTogglePasswordForm}
-				resetFormError={handleResetForm}
-				onChange={handleOnChange}
-				changePassword={changePassword}
-			/>
+			<Segment>
+				<PasswordForm
+					displayFormSection={displayFormSection}
+					confirmationSent={confirmationSent}
+					passwordInfo={passwordInfo}
+					changeFormSection={handleChangeFormSection}
+					sendConfirmation={handleSendConfirmation}
+					resetForm={handleResetForm}
+					onChange={handleOnChange}
+					changePassword={changePassword}
+				/>
+				<MessageContainer>
+					<Message
+						error={error}
+						success={isSuccess}
+						successMessage="Your password has been updated!"
+					/>
+				</MessageContainer>
+			</Segment>
 			<Segment stacked>
 				<Header as="h4">Delete Your Account</Header>
 				<p>
@@ -85,9 +119,16 @@ const AccountForm = ({
 
 export default AccountForm;
 
+const MessageContainer = styled.div`
+	width: 50%;
+	margin-top: 2em;
+`;
+
 export const Segment = styled(SemSegment)`
 	&&& {
-		padding: 35px 25px;
+		padding: 3em 2em;
 	}
-}
 `;
+
+const confirmationErrorMessage =
+	'There was an error sending a confirmation code. Please try again later.';

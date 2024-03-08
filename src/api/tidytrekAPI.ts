@@ -8,16 +8,23 @@ export const tidyTrekAPI = axios.create({
 	withCredentials: true,
 });
 
-// tidyTrekAPINoAuth.interceptors.request.use(
-// 	(config) => {
-// 		const authToken = localStorage.getItem('sb-pnfcatjvbwxdkapaprsb-auth-token');
-// 		const { access_token } = authToken ? JSON.parse(authToken) : null;
+tidyTrekAPI.interceptors.request.use(
+	(config) => {
+		const token = getToken();
+		config.headers['Authorization'] = `Bearer ${token || ''}`;
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	},
+);
 
-// 		config.headers['Authorization'] = `Bearer ${access_token ? access_token : ''}`;
-// 		return config;
-// 	},
-// 	(error) => {
-// 		console.log('Config Error: ', error);
-// 		return Promise.reject(error);
-// 	},
-// );
+const getToken = () => {
+	// Fetch token stored in localStorage by Supabase
+	const storageKey = import.meta.env.VITE_STORAGE_KEY;
+	const sessionDataString = localStorage.getItem(storageKey);
+	const sessionData = JSON.parse(sessionDataString || 'null');
+	const token = sessionData?.access_token;
+
+	return token;
+};

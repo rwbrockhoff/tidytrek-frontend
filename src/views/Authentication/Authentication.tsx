@@ -9,6 +9,7 @@ import { useCombineErrors, type MutationError } from './useCombineErrors';
 import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
 import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
 import { AuthContainer } from '../../components/Authentication/FormComponents';
+import supabase from '../../api/supabaseClient';
 
 const initialFormState = {
 	firstName: '',
@@ -39,11 +40,6 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 	const { invalidForm, validateFormData } = useValidateForm(setFormError);
 
-	// type FormData = Omit<RegisterUser, 'userId'> & {
-	// 	password: string;
-	// 	confirmPassword: string;
-	// };
-
 	const [formData, setFormData] = useState<RegisterUserFormData>(initialFormState);
 
 	const handleFormChange = (e: InputEvent | CheckboxEvent) => {
@@ -53,14 +49,31 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 		}
 	};
 
-	const handleFormSubmit = () => {
+	const handleFormSubmit = async () => {
 		if (isRegisterForm) {
 			const formIsValid = validateFormData(formData);
-			formIsValid && registerUser(formData);
+			if (formIsValid) {
+				const { email, password } = formData;
+				const { data, error } = await supabase.auth.signUp({
+					email,
+					password,
+				});
+				const userId = data?.user && data.user.id;
+				userId && registerUser({ ...formData, userId });
+				error && console.log('Register Error: ', error);
+			}
+			// formIsValid && registerUser(formData);
 		} else {
 			const { email, password } = formData;
-			if (email && password) loginUser({ email, password });
-			else {
+			if (email && password) {
+				const { data, error } = await supabase.auth.signInWithPassword({
+					email,
+					password,
+				});
+				error && console.log('Error signing in: ', error);
+				const userId = data?.user && data.user.id;
+				userId && loginUser({ userId, email });
+			} else {
 				invalidForm('Please provide your email and password.');
 			}
 		}

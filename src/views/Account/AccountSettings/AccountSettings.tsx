@@ -5,17 +5,10 @@ import { DeleteModal } from '../../../shared/ui/Modals';
 import AccountForm from '../../../components/Account/AccountForm/AccountForm';
 import { type PasswordInfo } from '../../../types/formTypes';
 import { validPassword, passwordRequirements } from '../../Authentication/authHelper';
-import {
-	useCombineErrors,
-	type MutationError,
-} from '../../Authentication/useCombineErrors';
-import {
-	useChangePasswordMutation,
-	useDeleteAccountMutation,
-} from '../../../queries/userQueries';
+import { useDeleteAccountMutation } from '../../../queries/userQueries';
+import { updatePassword } from '../../../api/supabaseClient';
 
 export const ChangePassContext = createContext({
-	isPending: false,
 	isSuccess: false,
 	error: { error: false, message: '' },
 });
@@ -23,21 +16,28 @@ export const ChangePassContext = createContext({
 const AccountSettings = () => {
 	const { user } = useContext(UserContext);
 
+	const { mutate: deleteAccount } = useDeleteAccountMutation();
 	const [showModal, setShowModal] = useState(false);
+
+	const [formError, setFormError] = useState({ error: false, message: '' });
+	const [formSuccess, setFormSuccess] = useState(false);
 
 	const handleToggleModal = () => setShowModal(!showModal);
 
-	const { mutate: deleteAccount } = useDeleteAccountMutation();
-	const changePassData = useChangePasswordMutation();
-	const { mutate: changePassword, isSuccess, isPending } = changePassData;
-
-	const handleChangePassword = (passwordInfo: PasswordInfo) => {
-		const { currentPassword, newPassword, confirmNewPassword } = passwordInfo;
-		if (!currentPassword) return handleError('Please type in your current password.');
+	const handleChangePassword = async (passwordInfo: PasswordInfo) => {
+		// Check passwords meet requirements
+		const { newPassword, confirmNewPassword, emailCode } = passwordInfo;
 		if (newPassword !== confirmNewPassword)
 			return handleError('Your passwords do not match.');
 		if (!validPassword(newPassword)) return handleError(passwordRequirements);
-		if (currentPassword) changePassword(passwordInfo);
+		if (!emailCode) return handleError('Please include the code we sent to your email.');
+		// Send request to Supabase
+		const { error } = await updatePassword(newPassword, emailCode);
+		if (error)
+			return handleError(
+				'There was an error updating your password. You might need to try again.',
+			);
+		else setFormSuccess(true);
 	};
 
 	const handleError = (message: string) =>
@@ -45,14 +45,12 @@ const AccountSettings = () => {
 
 	const handleResetFormError = () => setFormError({ error: false, message: '' });
 
-	const [error, setFormError] = useCombineErrors([changePassData as MutationError]);
-
 	return (
 		<Container>
-			<ChangePassContext.Provider value={{ isSuccess, isPending, error }}>
+			<ChangePassContext.Provider value={{ isSuccess: formSuccess, error: formError }}>
 				<AccountForm
 					user={user}
-					success={isSuccess}
+					setError={handleError}
 					resetFormError={handleResetFormError}
 					changePassword={handleChangePassword}
 					deleteAccount={handleToggleModal}

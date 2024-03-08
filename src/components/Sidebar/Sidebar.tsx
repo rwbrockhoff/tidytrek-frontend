@@ -22,6 +22,7 @@ import SidebarButton from './SidebarButton/SidebarButton';
 import useCheckMobile from '../../shared/hooks/useCheckMobile';
 import { Header } from '../../shared/ui/SemanticUI';
 import { mobile } from '../../shared/mixins/mixins';
+import supabase from '../../api/supabaseClient';
 
 type SidebarProps = {
 	showSidebar: boolean;
@@ -86,7 +87,8 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	const handleAddPack = () => addPack();
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
+		await supabase.auth.signOut();
 		logout();
 	};
 
