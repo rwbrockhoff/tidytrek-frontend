@@ -10,6 +10,7 @@ import AccountSettings from '../views/Account/AccountSettings/AccountSettings';
 import ProfileSettings from '../views/Account/ProfileSettings/ProfileSettings';
 import Profile from '../views/Profile/Profile';
 import Welcome from '../views/Authentication/Welcome/Welcome';
+import ResetSuccess from '../components/Authentication/ResetPasswordForm/ResetSuccess';
 
 export const userRoutes = [
 	{
@@ -64,9 +65,10 @@ export const userRoutes = [
 		],
 	},
 	{
-		path: '/reset-password',
+		path: '/reset-password/*',
 		element: <ResetPassword />,
 	},
+	{ path: '/reset-password/success', element: <ResetSuccess /> },
 	{ path: '/account/*', index: true, element: <Navigate to="/account" /> },
 	{ path: '/*', index: true, element: <Navigate to="/" /> },
 ];
@@ -78,16 +80,12 @@ export const guestRoutes = [
 	},
 	{ path: '/register', element: <Authentication isRegisterForm={true} /> },
 	{
-		path: '/reset-password',
+		path: '/reset-password/*',
 		element: <ResetPassword />,
 	},
 	{
 		path: '/welcome',
 		element: <Welcome />,
-	},
-	{
-		path: '/reset-password/:resetToken',
-		element: <ResetPassword />,
 	},
 	{
 		path: '/user/:userId',

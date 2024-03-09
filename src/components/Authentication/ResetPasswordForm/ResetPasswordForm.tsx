@@ -1,4 +1,4 @@
-import { type InputEvent } from '../../../types/formTypes';
+import { FormError, type InputEvent } from '../../../types/formTypes';
 import { Form, Segment } from 'semantic-ui-react';
 import { Header, Button } from '../../../shared/ui/SemanticUI';
 import { Link } from 'react-router-dom';
@@ -13,11 +13,9 @@ type FormData = {
 
 type ResetPasswordFormProps = {
 	formData: FormData;
+	formError: FormError;
+	emailSent: boolean;
 	hasResetToken: boolean;
-	isLoading: boolean;
-	isSuccess: boolean;
-	formError: boolean;
-	formErrorMessage: string;
 	onFormChange: (e: InputEvent) => void;
 	onResetRequest: () => void;
 	onResetConfirm: () => void;
@@ -26,15 +24,15 @@ type ResetPasswordFormProps = {
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	const {
 		formData,
-		hasResetToken,
-		isLoading,
-		isSuccess,
 		formError,
-		formErrorMessage,
+		emailSent,
+		hasResetToken,
 		onFormChange,
 		onResetRequest,
 		onResetConfirm,
 	} = props;
+
+	const { error, message } = formError;
 	const { email, password, confirmPassword } = formData;
 	return (
 		<AuthContainer>
@@ -90,20 +88,19 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							$tidyColor="tidyPrimary"
 							fluid
 							size="large"
-							disabled={isLoading}
 							onClick={hasResetToken ? onResetConfirm : onResetRequest}>
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 
-						{formError && (
+						{error && (
 							<FormMessage
 								messageType="error"
-								text={formErrorMessage || 'Oops! There was an error.'}
+								text={message || 'Oops! There was an error.'}
 								id="reset-password-error-message"
 							/>
 						)}
 
-						{isSuccess && (
+						{emailSent && (
 							<FormMessage
 								messageType="success"
 								text={'Please check your inbox for a link to reset your password.'}

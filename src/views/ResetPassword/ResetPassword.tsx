@@ -1,92 +1,80 @@
 import { type InputEvent } from '../../types/formTypes';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import {
-	useRequestResetPasswordMutation,
-	useConfirmResetPasswordMutation,
-} from '../../queries/userQueries';
+import { useEffect, useState } from 'react';
 import ResetPasswordForm from '../../components/Authentication/ResetPasswordForm/ResetPasswordForm';
 import { validEmail, validPassword } from '../Authentication/authHelper';
-import { useCombineErrors, type MutationError } from '../Authentication/useCombineErrors';
-import {
-	useCombinePendingStatus,
-	type MutationPending,
-} from '../Authentication/useCombinePendingStatus';
-import {
-	useCombineSuccess,
-	type MutationSuccess,
-} from '../Authentication/useCombineSuccess';
 import { setFormInput } from '../../utils/formHelpers';
+import supabase from '../../api/supabaseClient';
+import { frontendURL } from '../../api/tidytrekAPI';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useGetAuthStatusQuery, useLoginMutation } from '../../queries/userQueries';
 
 const ResetPassword = () => {
-	const { resetToken } = useParams();
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { data } = useGetAuthStatusQuery();
+	const { mutate: login } = useLoginMutation();
 
-	const requestPassData = useRequestResetPasswordMutation();
-	const confirmPassData = useConfirmResetPasswordMutation();
+	const [formData, setFormData] = useState(initialState);
+	const [formError, setFormError] = useState(initialErrorState);
+	const [emailSent, setEmailSent] = useState(false);
 
-	const [formError, setFormError] = useCombineErrors([
-		requestPassData as MutationError,
-		confirmPassData as MutationError,
-	]);
+	useEffect(() => {
+		// subscribe to session change and log in user
+		if (data?.isAuthenticated === false) {
+			supabase.auth.getUser().then(({ data: { user } }) => {
+				const { id, email } = user || {};
+				if (id && email) login({ email, userId: id });
+			});
+		}
+	}, []);
 
-	const isPending = useCombinePendingStatus([
-		requestPassData as MutationPending,
-		confirmPassData as MutationPending,
-	]);
-
-	const isSuccess = useCombineSuccess([
-		requestPassData as MutationSuccess,
-		confirmPassData as MutationSuccess,
-	]);
-
-	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
-		confirmPassword: '',
-	});
-
-	const handleFormChange = (e: InputEvent) => setFormInput(e, setFormData);
-
-	const handleResetPasswordRequest = () => {
-		if (validEmail(formData.email)) {
-			requestPassData.mutate(formData.email);
-			setFormData((prevState) => ({ ...prevState, email: '' }));
-		} else setFormError({ error: true, message: 'Invalid email format.' });
+	const handleFormChange = (e: InputEvent) => {
+		if (formError.error) setFormError(initialErrorState);
+		setFormInput(e, setFormData);
 	};
 
-	const handleConfirmPasswordReset = () => {
+	const handleResetPasswordRequest = async () => {
+		const { email } = formData;
+		// handle invalid email
+		if (!validEmail(email)) return handleError('Invalid email format.');
+		// supabase send request
+		const { error } = await supabase.auth.resetPasswordForEmail(email, {
+			redirectTo: `${frontendURL}/reset-password/confirm`,
+		});
+		if (error)
+			handleError('There was an error sending the request to your email at this time.');
+		// reset form
+		else {
+			setFormData(initialState);
+			setEmailSent(true);
+		}
+	};
+
+	const handleError = (message: string) => setFormError({ error: true, message });
+
+	const handleConfirmPasswordReset = async () => {
 		const { password, confirmPassword } = formData;
 		if (password !== confirmPassword) {
-			return setFormError({
-				error: true,
-				message: "Passwords didn't match. Try again.",
-			});
+			return handleError("Passwords didn't match. Try again.");
 		}
 		if (!validPassword(password)) {
-			return setFormError({
-				error: true,
-				message:
-					'Password should have at least 8 characters, contain one uppercase, and one number.',
-			});
+			return handleError(
+				'Password should have at least 8 characters, contain one uppercase, and one number.',
+			);
 		}
-		if (resetToken) {
-			confirmPassData.mutate({ password, confirmPassword, resetToken });
-			setFormData({
-				email: '',
-				password: '',
-				confirmPassword: '',
-			});
-		}
+		// call updateUser() with valid password
+		const { error } = await supabase.auth.updateUser({ password });
+		if (error) handleError('There was an error updating your password at this time.');
+		else navigate('/reset-password/success');
 	};
 
+	const showPasswordView = location.pathname === '/reset-password/confirm';
 	return (
 		<ResetPasswordForm
 			formData={formData}
-			hasResetToken={resetToken ? true : false}
-			isLoading={isPending}
-			isSuccess={isSuccess}
-			formError={formError.error}
-			formErrorMessage={formError.message}
+			formError={formError}
+			emailSent={emailSent}
+			hasResetToken={showPasswordView}
 			onFormChange={handleFormChange}
 			onResetRequest={handleResetPasswordRequest}
 			onResetConfirm={handleConfirmPasswordReset}
@@ -95,3 +83,15 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
+
+// Defaults
+const initialState = {
+	email: '',
+	password: '',
+	confirmPassword: '',
+};
+
+const initialErrorState = {
+	error: false,
+	message: '',
+};

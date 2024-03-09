@@ -21,11 +21,9 @@ const Welcome = () => {
 	useEffect(() => {
 		// subscribe to session change and log in user
 		if (data?.isAuthenticated === false) {
-			supabase.auth.getSession().then(({ data: { session } }) => {
-				if (session) {
-					const { email, id } = session?.user || {};
-					id && email && login({ email, userId: id });
-				}
+			supabase.auth.getUser().then(({ data: { user } }) => {
+				const { id, email } = user || {};
+				if (id && email) login({ email, userId: id });
 			});
 		}
 	}, []);

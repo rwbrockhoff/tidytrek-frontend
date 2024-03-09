@@ -3,7 +3,6 @@ import { userKeys } from './queryKeys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { type RegisterUser, type User } from '../types/userTypes';
 import { type Settings } from '../types/settingsTypes';
-import { type PasswordInfo } from '../types/formTypes';
 
 type InitialState = {
 	isAuthenticated: boolean;
@@ -46,34 +45,6 @@ export const useLogoutMutation = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 			queryClient.clear();
-		},
-	});
-};
-
-export const useChangePasswordMutation = () => {
-	return useMutation({
-		mutationFn: (passwordInfo: PasswordInfo) =>
-			tidyTrekAPI.put('/auth/password', passwordInfo),
-	});
-};
-
-export const useRequestResetPasswordMutation = () => {
-	return useMutation({
-		mutationFn: (email: string) =>
-			tidyTrekAPI.post('/auth/reset-password/request', { email }),
-	});
-};
-
-export const useConfirmResetPasswordMutation = () => {
-	const queryClient = useQueryClient();
-	return useMutation({
-		mutationFn: (data: {
-			password: string;
-			confirmPassword: string;
-			resetToken: string;
-		}) => tidyTrekAPI.put('/auth/reset-password/confirm', data),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
