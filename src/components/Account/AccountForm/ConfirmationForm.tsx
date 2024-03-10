@@ -12,7 +12,7 @@ const ConfirmationForm = ({
 	return (
 		<ConfirmationContainer>
 			{!confirmationSent ? (
-				<Message style={{ width: '50%' }}>
+				<Message style={{ width: messageWidth }}>
 					<MessageHeader>Verify Email </MessageHeader>
 					<SubText>Let's send a code to your email to get started.</SubText>
 					<Button basic onClick={sendConfirmation}>
@@ -21,7 +21,7 @@ const ConfirmationForm = ({
 					</Button>
 				</Message>
 			) : (
-				<Message style={{ width: '50%' }} success>
+				<Message style={{ width: messageWidth }} success>
 					<MessageHeader>
 						<Icon name="check" />
 						Code Sent{' '}
@@ -38,3 +38,6 @@ export default ConfirmationForm;
 const ConfirmationContainer = styled.div`
 	margin: 2em 0em 2em 0em;
 `;
+
+// defaults
+const messageWidth = '50%';

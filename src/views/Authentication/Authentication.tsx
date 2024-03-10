@@ -45,8 +45,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 	const handleRegister = async () => {
 		const formIsValid = validateFormData(formData);
-		if (!formIsValid) return;
-
+		if (!formIsValid) return; // error messages automatically handled
 		const { email, password } = formData;
 		const { data, error } = await supabase.auth.signUp({
 			email,
@@ -55,29 +54,29 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 				emailRedirectTo: `${frontendURL}/welcome`,
 			},
 		});
+		// handle supabase error
+		if (!data.user || error) return invalidForm(registerError);
+		// otherwise register account
 		const userId = data?.user && data.user.id;
-		if (userId && !error) {
+		if (userId) {
 			registerUser({ ...formData, userId });
 			setFormData(initialFormState);
-		} else invalidForm(registerError);
+		}
 	};
 
 	const handleFormSubmit = async () => {
 		if (isRegisterForm) return await handleRegister();
-		else {
-			const { email, password } = formData;
-			if (email && password) {
-				const { data, error } = await supabase.auth.signInWithPassword({
-					email,
-					password,
-				});
-				const userId = data?.user && data.user.id;
-				if (userId && !error) loginUser({ userId, email });
-				else invalidForm(signinError);
-			} else {
-				invalidForm('Please provide your email and password.');
-			}
-		}
+		const { email, password } = formData;
+		if (!email || !password) return invalidForm(emptyFormError);
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email,
+			password,
+		});
+		// handle supabase error
+		if (!data.user || error) return invalidForm(signinError);
+		// otherwise log in
+		const userId = data?.user && data.user.id;
+		if (userId && !error) loginUser({ userId, email });
 	};
 
 	return (
@@ -98,5 +97,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 export default Authentication;
 
-const signinError = 'There was an error logging in.';
+// defaults
+const signinError = 'Invalid login credentials.';
 const registerError = 'There was an error registering your account.';
+const emptyFormError = 'Please provide your email and password.';

@@ -37,7 +37,7 @@ const LogInForm = ({
 			<Form size="large">
 				<Segment stacked>
 					<Header as="h3" $marginBottom="1.5em" $tidyColor="tidyPrimary">
-						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
+						{isRegisterForm ? 'Create your account' : 'Log in to your account'}
 					</Header>
 
 					<GoogleAuth
@@ -99,15 +99,17 @@ const LogInForm = ({
 						/>
 					)}
 
-					<StyledSubText>
-						By clicking "Create account" or "Continue with Google", you agree to the
-						Tidytrek Terms of Service and Privacy Policy.
-					</StyledSubText>
-
 					{isRegisterForm && (
-						<FooterText style={{ marginTop: '2em' }}>
-							Already have an account? <Link to={'/'}>Log In</Link>
-						</FooterText>
+						<>
+							<StyledSubText>
+								By clicking "Create account" or "Continue with Google", you agree to the
+								Tidytrek Terms of Service and Privacy Policy.
+							</StyledSubText>
+
+							<FooterText style={{ marginTop: '2em' }}>
+								Already have an account? <Link to={'/'}>Log In</Link>
+							</FooterText>
+						</>
 					)}
 
 					{!isRegisterForm && (

@@ -14,50 +14,26 @@ type AuthContext = 'signup' | 'signin';
 
 const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
+	const google_button = useRef(null);
 	const isMobile = useCheckMobile();
 	const { context, invalidForm } = props;
 
-	const { mutate: registerUser } = useRegisterMutation();
-	const { mutate: loginUser } = useLoginMutation();
+	const {
+		mutate: registerUser,
+		isError: isRegisterError,
+		isSuccess: isRegisterSuccess,
+	} = useRegisterMutation();
 
-	const google_button = useRef(null);
-
-	async function handleGoogleAuth(response: unknown, error: unknown) {
-		// handle error from google auth flow
-		if (error) return invalidForm(googleError);
-		// pass token to supabase
-		const { data, error: supaError } = await supabase.auth.signInWithIdToken({
-			provider: 'google',
-			//@ts-ignore
-			token: response.credential,
-		});
-		// handle supabase error
-		if (supaError) return invalidForm(supabaseError);
-		else {
-			// continue register/sign in process
-			const userId = data?.user?.id;
-			const userInfo = data?.user?.user_metadata;
-			const { email, avatar_url, full_name } = userInfo;
-			const splitName = full_name.split(' ');
-			const resizedPhoto = resizeGoogleAvatar(avatar_url);
-			if (context === 'signup') {
-				// handle register
-				registerUser({
-					userId,
-					email,
-					firstName: splitName[0] || '',
-					lastName: splitName[1] || '',
-					avatarUrl: resizedPhoto,
-				});
-				navigate('/welcome');
-			} else {
-				// handle login
-				loginUser({ userId, email });
-			}
-		}
-	}
+	const { mutate: loginUser, isError: isLoginError } = useLoginMutation();
 
 	useEffect(() => {
+		// subscribe to success/error for auth requests
+		if (isRegisterSuccess) navigate('/welcome');
+		if (isRegisterError || isLoginError) invalidForm(generalErrorMessage);
+	}, [isRegisterSuccess]);
+
+	useEffect(() => {
+		// subscribe to google gsi and render button
 		if (google_button.current) {
 			google.accounts.id.initialize({
 				client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -71,6 +47,36 @@ const GoogleAuth = (props: GoogleAuthProps) => {
 			});
 		}
 	}, [google_button.current]);
+
+	const handleGoogleAuth = async (response: unknown, error: unknown) => {
+		// handle error from google auth flow
+		if (error) return invalidForm(googleErrorMessage);
+		// pass token to supabase
+		const { data, error: supaError } = await supabase.auth.signInWithIdToken({
+			provider: 'google',
+			//@ts-ignore
+			token: response.credential,
+		});
+		// handle supabase error
+		if (supaError || !data.session) return invalidForm(generalErrorMessage);
+		else {
+			// continue register/sign in process
+			const userId = data?.user?.id;
+			const userInfo = data?.user?.user_metadata;
+			const { email, avatar_url, full_name } = userInfo;
+			if (context === 'signup') {
+				const splitName = full_name.split(' ');
+				const resizedPhoto = resizeGoogleAvatar(avatar_url);
+				registerUser({
+					userId,
+					email,
+					firstName: splitName[0] || '',
+					lastName: splitName[1] || '',
+					avatarUrl: resizedPhoto,
+				});
+			} else loginUser({ userId, email });
+		}
+	};
 
 	return (
 		<GoogleContainer>
@@ -99,5 +105,5 @@ const resizeGoogleAvatar = (url: string) => {
 };
 
 // defaults
-const googleError = 'There was an error connecting with Google at this time.';
-const supabaseError = 'There was an unexpected error. Contact support if needed.';
+const googleErrorMessage = 'There was an error connecting with Google at this time.';
+const generalErrorMessage = 'There was an unexpected error. Contact support if needed.';

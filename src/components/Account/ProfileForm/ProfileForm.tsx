@@ -17,7 +17,7 @@ import Avatar from '../../../shared/ui/Avatar';
 import { setFormInput } from '../../../utils/formHelpers';
 import SocialLinks from './SocialLinks';
 import { useHandlers } from '../../../views/Account/ProfileSettings/useProfileHandlers';
-import useNestedError from './useNestedError';
+import { useAxiosErrorMessage } from '../../../shared/hooks/useAxiosError';
 
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;
@@ -66,7 +66,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 
 	const isMaxLengthBio = userBio && userBio.length >= 250;
 
-	const errorMessage = isError && useNestedError(error);
+	const errorMessage = isError && useAxiosErrorMessage(error);
 
 	return (
 		<SegmentGroup>

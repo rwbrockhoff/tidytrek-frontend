@@ -69,6 +69,7 @@ const AccountForm = ({
 
 	const { firstName, lastName, email } = user || {};
 	const fullName = `${firstName} ${lastName}`;
+	const showMessage = error.error || isSuccess;
 
 	return (
 		<SegmentGroup>
@@ -94,13 +95,16 @@ const AccountForm = ({
 					onChange={handleOnChange}
 					changePassword={changePassword}
 				/>
-				<MessageContainer>
-					<Message
-						error={error}
-						success={isSuccess}
-						successMessage="Your password has been updated!"
-					/>
-				</MessageContainer>
+
+				{showMessage && (
+					<MessageContainer>
+						<Message
+							error={error}
+							success={isSuccess}
+							successMessage="Your password has been updated!"
+						/>
+					</MessageContainer>
+				)}
 			</Segment>
 			<Segment stacked>
 				<Header as="h4">Delete Your Account</Header>
@@ -130,5 +134,6 @@ export const Segment = styled(SemSegment)`
 	}
 `;
 
+// defeaults
 const confirmationErrorMessage =
 	'There was an error sending a confirmation code. Please try again later.';

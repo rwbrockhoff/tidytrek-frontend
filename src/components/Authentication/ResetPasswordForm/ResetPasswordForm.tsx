@@ -103,7 +103,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						{emailSent && (
 							<FormMessage
 								messageType="success"
-								text={'Please check your inbox for a link to reset your password.'}
+								text={resetInstructionMessage}
 								id="reset-password-success-message"
 							/>
 						)}
@@ -119,3 +119,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 };
 
 export default ResetPasswordForm;
+
+// defaults
+const resetInstructionMessage =
+	'If you have an account on Tidytrek, you will receive an email with a link to reset your password. Be sure to check your spam folder too.';
