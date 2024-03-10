@@ -2,7 +2,7 @@ import { RegisterUserFormData } from '../../types/userTypes';
 import { type InputEvent } from '../../types/formTypes';
 import { isInputEvent } from '../../utils/formHelpers';
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { setFormInput } from '../../utils/formHelpers';
 import { useValidateForm } from './useValidateForm';
 import { useCombineErrors, type MutationError } from './useCombineErrors';
@@ -11,6 +11,7 @@ import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries
 import { AuthContainer } from '../../components/Authentication/FormComponents';
 import supabase from '../../api/supabaseClient';
 import { frontendURL } from '../../api/tidytrekAPI';
+import { useLocation } from 'react-router-dom';
 
 const initialFormState = {
 	firstName: '',
@@ -20,6 +21,7 @@ const initialFormState = {
 };
 
 const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
+	const { pathname } = useLocation();
 	const loginData = useLoginMutation();
 	const registerData = useRegisterMutation();
 	const { mutate: loginUser } = loginData;
@@ -38,6 +40,11 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const { invalidForm, validateFormData } = useValidateForm(setFormError);
 
 	const [formData, setFormData] = useState<RegisterUserFormData>(initialFormState);
+
+	useEffect(() => {
+		// subscribe to view change and reset form errors
+		if (formError.error) setFormError({ error: false, message: '' });
+	}, [pathname]);
 
 	const handleFormChange = (e: InputEvent) => {
 		if (isInputEvent(e)) setFormInput<RegisterUserFormData>(e, setFormData);
