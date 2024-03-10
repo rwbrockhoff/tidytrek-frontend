@@ -18,3 +18,14 @@ export const useAxiosErrorStatus = (error: Error | null) => {
 
 export const isAxiosError = (error: unknown): error is AxiosError =>
 	axios.isAxiosError(error);
+
+export const useMutationError = (error: unknown, cb: (message: string) => void) => {
+	if (isAxiosError(error)) {
+		const errorMessage = useAxiosErrorMessage(error);
+		return cb(errorMessage);
+	} else return cb(defaultErrorMessage);
+};
+
+// defaults
+const defaultErrorMessage =
+	'There was an error handling your request at this time. Contact support if this continues.';

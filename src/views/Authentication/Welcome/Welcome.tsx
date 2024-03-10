@@ -7,7 +7,7 @@ import { useUpdateUsernameMutation } from '../../../queries/profileSettingsQueri
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../../api/supabaseClient';
 import { useGetAuthStatusQuery, useLoginMutation } from '../../../queries/userQueries';
-import { useAxiosErrorMessage, isAxiosError } from '../../../shared/hooks/useAxiosError';
+import { useMutationError } from '../../../shared/hooks/useAxiosError';
 
 const Welcome = () => {
 	const navigate = useNavigate();
@@ -46,10 +46,7 @@ const Welcome = () => {
 			setFormData(initialFormState);
 			navigate('/');
 		} catch (error) {
-			if (isAxiosError(error)) {
-				const errorMessage = useAxiosErrorMessage(error);
-				handleFormError(errorMessage);
-			}
+			useMutationError(error, handleFormError);
 		}
 	};
 
