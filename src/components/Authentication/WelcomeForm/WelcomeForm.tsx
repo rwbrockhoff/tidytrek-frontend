@@ -1,5 +1,6 @@
 import { FormError, type InputEvent } from '../../../types/formTypes';
-import { Form, Header, Segment } from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
+import { Header } from '../../../shared/ui/SemanticUI';
 import { FooterText, FormContainer, FormMessage } from '../FormComponents';
 import { SubText } from '../../../shared/ui/TidyUI';
 import { Button } from '../../../shared/ui/SemanticUI';
@@ -22,13 +23,17 @@ const WelcomeForm = (props: WelcomeFormProps) => {
 			<Header as="h1">tidytrek</Header>
 			<Form size="large" onSubmit={saveUsername}>
 				<Segment stacked>
-					<Header as="h3">Set Up Your Username</Header>
-					<SubText>
-						If you go by a different name out on the trail, we'd love to know.
+					<Header as="h3" $tidyColor="tidyPrimary">
+						Welcome to Tidytrek!
+					</Header>
+					<p>Go by a different name on the trail?</p>
+					<SubText style={{ lineHeight: '2em' }}>
+						A <strong>username</strong> has to be unique and helps people find your
+						profile. <br /> A <strong>trail name</strong> can be anything you'd like.
 					</SubText>
 					<Form.Input
 						fluid
-						placeholder="Username"
+						placeholder="Username (optional)"
 						name="username"
 						value={username}
 						onChange={onChange}
@@ -37,7 +42,7 @@ const WelcomeForm = (props: WelcomeFormProps) => {
 
 					<Form.Input
 						fluid
-						placeholder="Trail Name"
+						placeholder="Trail Name (optional)"
 						name="trailName"
 						value={trailName}
 						onChange={onChange}

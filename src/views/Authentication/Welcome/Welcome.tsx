@@ -7,13 +7,14 @@ import { useUpdateUsernameMutation } from '../../../queries/profileSettingsQueri
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../../api/supabaseClient';
 import { useGetAuthStatusQuery, useLoginMutation } from '../../../queries/userQueries';
+import { useAxiosErrorMessage, isAxiosError } from '../../../shared/hooks/useAxiosError';
 
 const Welcome = () => {
 	const navigate = useNavigate();
 	const { data } = useGetAuthStatusQuery();
 
 	const { mutate: login } = useLoginMutation();
-	const { mutate: saveUsername, isPending } = useUpdateUsernameMutation();
+	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 
 	const [formData, setFormData] = useState(initialFormState);
 	const [formError, setFormError] = useState(initialErrorState);
@@ -37,13 +38,18 @@ const Welcome = () => {
 		setFormError({ error: true, message });
 	};
 
-	const handleSaveUsername = () => {
+	const handleSaveUsername = async () => {
 		const { username, trailName } = formData;
-		if (!username && !trailName) return handleFormError(errorMessage);
-		else {
-			saveUsername(formData);
+		if (!username && !trailName) navigate('/');
+		try {
+			await saveUsername(formData);
 			setFormData(initialFormState);
 			navigate('/');
+		} catch (error) {
+			if (isAxiosError(error)) {
+				const errorMessage = useAxiosErrorMessage(error);
+				handleFormError(errorMessage);
+			}
 		}
 	};
 
@@ -65,6 +71,5 @@ const Welcome = () => {
 export default Welcome;
 
 // Defaults //
-const errorMessage = 'Please type in a username or trail name.';
 const initialFormState = { username: '', trailName: '' };
 const initialErrorState = { error: false, message: '' };

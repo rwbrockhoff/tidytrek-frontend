@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // return nested axios error or a default error message
 export const useAxiosErrorMessage = (error: Error | null) => {
@@ -15,3 +15,6 @@ export const useAxiosErrorStatus = (error: Error | null) => {
 		return error?.response ? error.response?.status : null;
 	} else return null;
 };
+
+export const isAxiosError = (error: unknown): error is AxiosError =>
+	axios.isAxiosError(error);
