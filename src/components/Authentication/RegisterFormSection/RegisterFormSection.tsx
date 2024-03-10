@@ -1,10 +1,10 @@
-import { type InputEvent, type CheckboxEvent } from '../../../types/formTypes';
+import { type InputEvent } from '../../../types/formTypes';
 import { Form } from 'semantic-ui-react';
 import { RegisterUserFormData } from '../../../types/userTypes';
 
 type RegisterFormSectionProps = {
 	formData: RegisterUserFormData;
-	onFormChange: (e: InputEvent | CheckboxEvent) => void;
+	onFormChange: (e: InputEvent) => void;
 };
 
 const RegisterFormSection = ({ formData, onFormChange }: RegisterFormSectionProps) => {

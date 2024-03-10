@@ -9,6 +9,7 @@ import {
 	FormField as SemFormField,
 } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
+import { TidyThemeColorName } from '../theme/tidyTheme';
 
 export const Button = styled(SemButton)`
 	&&& {
@@ -46,12 +47,20 @@ export const Input = styled(SemInput)`
 	}
 `;
 
-export const Header = styled(SemHeader)<{ $marginBottom?: string }>`
+export const Header = styled(SemHeader)<{
+	$marginBottom?: string;
+	$tidyColor?: TidyThemeColorName;
+}>`
 	&&& {
 		${(props) =>
 			props.$themeColor &&
 			css`
 				color: ${props.theme.user[props.$themeColor]};
+			`};
+		${(props) =>
+			props.$tidyColor &&
+			css`
+				color: ${props.theme.tidy[props.$tidyColor]};
 			`};
 		margin-bottom: ${(props) => (props.$marginBottom ? props.$marginBottom : '1rem')};
 	}

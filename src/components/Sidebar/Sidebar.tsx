@@ -23,6 +23,7 @@ import useCheckMobile from '../../shared/hooks/useCheckMobile';
 import { Header } from '../../shared/ui/SemanticUI';
 import { mobile } from '../../shared/mixins/mixins';
 import supabase from '../../api/supabaseClient';
+declare const google: any;
 
 type SidebarProps = {
 	showSidebar: boolean;
@@ -89,6 +90,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
+		await google.accounts.id.disableAutoSelect();
 		logout();
 	};
 

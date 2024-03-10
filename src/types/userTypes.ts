@@ -13,7 +13,7 @@ export type RegisterUser = {
 	firstName: string;
 	lastName: string;
 	email: string;
-	agreeToTerms: boolean;
+	avatarUrl?: string | null;
 };
 
 export type RegisterUserFormData = {
@@ -21,8 +21,6 @@ export type RegisterUserFormData = {
 	lastName: string;
 	email: string;
 	password: string;
-	confirmPassword: string;
-	agreeToTerms: boolean;
 };
 
 export type UserNames = {

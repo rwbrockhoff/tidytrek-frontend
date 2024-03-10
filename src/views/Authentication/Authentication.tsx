@@ -1,5 +1,5 @@
 import { RegisterUserFormData } from '../../types/userTypes';
-import { type CheckboxEvent, type InputEvent } from '../../types/formTypes';
+import { type InputEvent } from '../../types/formTypes';
 import { isInputEvent } from '../../utils/formHelpers';
 import LogInForm from '../../components/Authentication/LogInForm/LogInForm';
 import { useState } from 'react';
@@ -17,8 +17,6 @@ const initialFormState = {
 	lastName: '',
 	email: '',
 	password: '',
-	confirmPassword: '',
-	agreeToTerms: false,
 };
 
 const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
@@ -41,11 +39,8 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 
 	const [formData, setFormData] = useState<RegisterUserFormData>(initialFormState);
 
-	const handleFormChange = (e: InputEvent | CheckboxEvent) => {
+	const handleFormChange = (e: InputEvent) => {
 		if (isInputEvent(e)) setFormInput<RegisterUserFormData>(e, setFormData);
-		else {
-			setFormData((prev) => ({ ...prev, agreeToTerms: !prev.agreeToTerms }));
-		}
 	};
 
 	const handleRegister = async () => {
@@ -93,6 +88,7 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 				formData={formData}
 				isLoading={isPending}
 				formError={formError}
+				invalidForm={invalidForm}
 				onFormChange={handleFormChange}
 				onSubmit={handleFormSubmit}
 			/>

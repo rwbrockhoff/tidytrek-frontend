@@ -10,19 +10,13 @@ export const useValidateForm = (setFormError: (error: FormError) => void) => {
 	};
 
 	const validateFormData = (formData: RegisterUserFormData) => {
-		const { firstName, lastName, email, password, confirmPassword, agreeToTerms } =
-			formData;
-		//agree to terms
-		if (!agreeToTerms) {
-			invalidForm('Please agree to the terms.');
-			return false;
-		}
-		//validate name when registering
+		const { firstName, lastName, email, password } = formData;
+		// validate name when registering
 		if (!firstName || !lastName) {
 			invalidForm('Please type in your name.');
 			return false;
 		}
-		//validate email
+		// validate email
 		else if (!email || !validEmail(email)) {
 			invalidForm('Please include a valid email address.');
 			return false;
@@ -30,11 +24,8 @@ export const useValidateForm = (setFormError: (error: FormError) => void) => {
 			invalidForm('Please type in your password.');
 			return false;
 		}
-		//validate passwords match when registering
-		else if (password !== confirmPassword) {
-			invalidForm('Passwords need to match.');
-			return false;
-		} else if (!validPassword(password)) {
+		// validate password
+		else if (!validPassword(password)) {
 			invalidForm(passwordRequirements);
 			return false;
 		} else {

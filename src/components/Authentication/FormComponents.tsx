@@ -21,7 +21,7 @@ export const FormMessage = (props: FormMessageProps) => {
 };
 
 export const FormContainer = styled.div`
-	width: 30vw;
+	width: calc(400px + 2em);
 
 	${({ theme: t }) =>
 		t.mx.mobile(`

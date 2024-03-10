@@ -1,11 +1,14 @@
-import { type InputEvent, type CheckboxEvent } from '../../../types/formTypes';
+import { type InputEvent } from '../../../types/formTypes';
 import { Link } from 'react-router-dom';
-import { Form, Segment, FormCheckbox } from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
 import { Button, Header } from '../../../shared/ui/SemanticUI';
 import { FormContainer, FooterText, FormMessage } from '../FormComponents';
 import { FormError } from '../../../types/formTypes';
 import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
 import { RegisterUserFormData } from '../../../types/userTypes';
+import GoogleAuth from '../GoogleAuth';
+import styled from 'styled-components';
+import { SubText } from '../../../shared/ui/TidyUI';
 
 type FormProps = {
 	formData: RegisterUserFormData;
@@ -13,7 +16,8 @@ type FormProps = {
 	isRegisterSuccess: boolean;
 	isLoading: boolean;
 	formError: FormError;
-	onFormChange: (e: InputEvent | CheckboxEvent) => void;
+	invalidForm: (message: string) => void;
+	onFormChange: (e: InputEvent) => void;
 	onSubmit: () => void;
 };
 
@@ -23,17 +27,25 @@ const LogInForm = ({
 	isRegisterSuccess,
 	isLoading,
 	formError,
+	invalidForm,
 	onFormChange,
 	onSubmit,
 }: FormProps) => {
 	return (
 		<FormContainer>
 			<Header as="h1">tidytrek</Header>
-			<Form size="large" onSubmit={onSubmit}>
+			<Form size="large">
 				<Segment stacked>
-					<Header as="h3">
+					<Header as="h3" $marginBottom="1.5em" $tidyColor="tidyPrimary">
 						{isRegisterForm ? 'Register your account' : 'Log-in to your account'}
 					</Header>
+
+					<GoogleAuth
+						context={isRegisterForm ? 'signup' : 'signin'}
+						invalidForm={invalidForm}
+					/>
+
+					<DividerText>or</DividerText>
 
 					{isRegisterForm && (
 						<RegisterFormSection formData={formData} onFormChange={onFormChange} />
@@ -61,37 +73,14 @@ const LogInForm = ({
 						data-testid="password-input"
 						onChange={onFormChange}
 					/>
-					{isRegisterForm && (
-						<>
-							<Form.Input
-								fluid
-								icon="lock"
-								iconPosition="left"
-								placeholder="Verify password"
-								type="password"
-								name="confirmPassword"
-								value={formData.confirmPassword}
-								data-testid="verify-password-input"
-								onChange={onFormChange}
-								width={16}
-							/>
-
-							<FormCheckbox
-								checked={formData.agreeToTerms}
-								label="I agree to the terms and conditions"
-								name="agreeToTerms"
-								onChange={onFormChange}
-							/>
-						</>
-					)}
 
 					<Button
 						$tidyColor="tidyPrimary"
 						fluid
 						size="large"
-						type="submit"
+						onClick={onSubmit}
 						disabled={isLoading}>
-						{isRegisterForm ? 'Register' : 'Login'}
+						{isRegisterForm ? 'Create account' : 'Login'}
 					</Button>
 
 					{formError.error && (
@@ -110,8 +99,13 @@ const LogInForm = ({
 						/>
 					)}
 
+					<StyledSubText>
+						By clicking "Create account" or "Continue with Google", you agree to the
+						Tidytrek Terms of Service and Privacy Policy.
+					</StyledSubText>
+
 					{isRegisterForm && (
-						<FooterText>
+						<FooterText style={{ marginTop: '2em' }}>
 							Already have an account? <Link to={'/'}>Log In</Link>
 						</FooterText>
 					)}
@@ -129,3 +123,13 @@ const LogInForm = ({
 };
 
 export default LogInForm;
+
+const DividerText = styled.p`
+	margin: 1em 0em;
+	opacity: 0.8;
+	font-size: 1.1rem;
+`;
+
+const StyledSubText = styled(SubText)`
+	margin-top: 2em;
+`;
