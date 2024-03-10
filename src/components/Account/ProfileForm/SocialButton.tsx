@@ -86,9 +86,9 @@ const StyledLabel = styled(Label)`
 		cursor: pointer;
 		a {
 			opacity: 1;
-		}
-		a:hover {
-			opacity: 0.8;
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 		${(props) =>
 			props.$colorButton &&

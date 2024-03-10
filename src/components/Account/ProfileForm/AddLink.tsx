@@ -49,6 +49,8 @@ const AddLink = () => {
 			<SocialLinksContainer>
 				<Popup
 					on="click"
+					hoverable
+					hideOnScroll
 					trigger={
 						<div>
 							<SocialButtonPicker currentSocial={currentSocial} />
