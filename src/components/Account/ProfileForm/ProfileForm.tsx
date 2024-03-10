@@ -27,6 +27,7 @@ type ProfileFormProps = {
 const ProfileForm = (props: ProfileFormProps) => {
 	const { profileInfo, socialLinks } = props;
 
+	const [isProfileChanged, setIsProfileChanged] = useState(false);
 	const [userInfo, setUserInfo] = useState({
 		userBio: '',
 		userLocation: '',
@@ -52,9 +53,14 @@ const ProfileForm = (props: ProfileFormProps) => {
 		}
 	}, [profileInfo]);
 
-	const handleInput = (e: InputEvent | TextAreaEvent) => setFormInput(e, setUserInfo);
+	const handleInput = (e: InputEvent | TextAreaEvent) => {
+		if (!isProfileChanged) setIsProfileChanged(true);
+		setFormInput(e, setUserInfo);
+	};
 
-	const handleEditProfile = () => editProfile(userInfo);
+	const handleEditProfile = () => {
+		if (isProfileChanged) editProfile(userInfo);
+	};
 
 	const { userBio, userLocation, username, trailName } = userInfo;
 
@@ -91,7 +97,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 			</Segment>
 			<Segment stacked>
 				<StyledForm onBlur={handleEditProfile}>
-					<FormField $width={'80%'} error={isError}>
+					<FormField $width={inputWidth} error={isError}>
 						<label>Username</label>
 						<Input
 							name="username"
@@ -101,7 +107,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 						/>
 						{isError && <label>{errorMessage}</label>}
 					</FormField>
-					<FormField $width={'80%'}>
+					<FormField $width={inputWidth}>
 						<label>Trail Name</label>
 						<Input
 							name="trailName"
@@ -110,7 +116,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 							placeholder=""
 						/>
 					</FormField>
-					<FormField $width={'80%'}>
+					<FormField $width={inputWidth}>
 						<label>Based In</label>
 						<Input
 							name="userLocation"
@@ -119,7 +125,7 @@ const ProfileForm = (props: ProfileFormProps) => {
 							placeholder="Denver, CO"
 						/>
 					</FormField>
-					<FormField $width={'80%'}>
+					<FormField $width={inputWidth}>
 						<label>Profile Bio</label>
 						<TextArea
 							name="userBio"
@@ -175,3 +181,6 @@ const PhotoContainer = styled.div`
 const StyledMessage = styled(Message)`
 	width: fit-content;
 `;
+
+// defaults
+const inputWidth = '80%';
