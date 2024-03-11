@@ -10,7 +10,7 @@ import {
 import { packKeys, packListKeys, closetKeys, profileKeys } from './queryKeys';
 import { decode } from '../utils/generateDisplayId';
 import { getCategoryIdx } from '../utils/packUtils';
-import { HeaderInfo } from '../views/Dashboard/handlers/usePackCategoryHandlers';
+import { HeaderInfo } from '../features/Dashboard/handlers/usePackCategoryHandlers';
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({
