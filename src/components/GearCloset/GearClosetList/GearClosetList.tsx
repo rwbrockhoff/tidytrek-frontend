@@ -2,34 +2,61 @@ import { Icon } from 'semantic-ui-react';
 import TidyTable from '../../../shared/ui/TidyTable';
 import { Button, Table } from '../../../shared/ui/SemanticUI';
 import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
-import { useAddGearClosetItemMutation } from '../../../queries/closetQueries';
+import {
+	useAddGearClosetItemMutation,
+	useDeleteGearClosetItemMutation,
+	useEditGearClosetItemMutation,
+	useMoveGearClosetItemMutation,
+	useMoveItemToPackMutation,
+} from '../../../queries/closetQueries';
 import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
-import GearClosetHeader from '../GearClosetHeader/GearClosetHeader';
-import { DropTableBody } from '../../../shared/components/DragDropWrapper';
+import GearClosetHeader from './GearClosetHeader';
+import {
+	DragDropContext,
+	DropResult,
+	DropTableBody,
+} from '../../../shared/components/DragDropWrapper';
 import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
 import { PricingContext } from '../../../views/Dashboard/hooks/useViewerContext';
 import styled from 'styled-components';
+import NotFoundMessage from './NotFoundMessage';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
 	gearClosetList: PackItem[] | [];
 	dragDisabled: boolean;
 	listHasItems: boolean;
-	onSave: (packItem: PackItem) => void;
-	onDelete: (packItemId: number) => void;
-	onMove: (packInfo: PackInfo) => void;
 };
 
-const GearClosetList = ({
-	gearClosetList,
-	packList,
-	dragDisabled,
-	listHasItems,
-	onSave,
-	onMove,
-	onDelete,
-}: GearClosetListProps) => {
+const GearClosetList = (props: GearClosetListProps) => {
+	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
+
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
+	const { mutate: editItem } = useEditGearClosetItemMutation();
+	const { mutate: moveToPack } = useMoveItemToPackMutation();
+	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
+	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
+
+	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
+	const handleOnSave = (packItem: PackItem) => editItem(packItem);
+	const handleDelete = (packItemId: number) => deleteItem(packItemId);
+
+	const handleOnDragEnd = (result: DropResult) => {
+		const { draggableId, destination, source } = result;
+		if (!destination) return;
+
+		const sameIndex = destination.index === source.index;
+		const sameCategory = destination.droppableId === source.droppableId;
+
+		if (sameIndex && sameCategory) return;
+		const dragId = draggableId.replace(/\D/g, '');
+
+		moveGearClosetItem({
+			packItemId: dragId,
+			packItemIndex: destination.index,
+			prevPackItemIndex: source.index,
+		});
+	};
 
 	return (
 		<PricingContext.Provider value={true}>
@@ -43,23 +70,25 @@ const GearClosetList = ({
 				<GearClosetHeader />
 
 				{listHasItems ? (
-					<DropTableBody
-						droppableId={`gear-closet`}
-						type="closet-item"
-						disabled={dragDisabled}>
-						{gearClosetList.map((item: PackItem, index) => (
-							<TableRow
-								item={item}
-								packList={packList}
-								disabled={dragDisabled}
-								key={item.packItemId}
-								index={index}
-								handleMoveItemToPack={onMove}
-								handleOnSave={onSave}
-								handleDelete={onDelete}
-							/>
-						))}
-					</DropTableBody>
+					<DragDropContext onDragEnd={handleOnDragEnd}>
+						<DropTableBody
+							droppableId={`gear-closet`}
+							type="closet-item"
+							disabled={dragDisabled}>
+							{gearClosetList.map((item: PackItem, index) => (
+								<TableRow
+									item={item}
+									packList={packList}
+									disabled={dragDisabled}
+									key={item.packItemId}
+									index={index}
+									handleMoveItemToPack={handleMoveItemToPack}
+									handleOnSave={handleOnSave}
+									handleDelete={handleDelete}
+								/>
+							))}
+						</DropTableBody>
+					</DragDropContext>
 				) : (
 					<NotFoundMessage />
 				)}
@@ -87,18 +116,6 @@ const GearClosetList = ({
 };
 
 export default GearClosetList;
-
-const NotFoundMessage = () => {
-	return (
-		<Table.Body>
-			<Table.Row>
-				<Table.Cell colSpan="24" textAlign="center" style={{ opacity: 0.4 }}>
-					<Icon name="search" /> No Items Found.
-				</Table.Cell>
-			</Table.Row>
-		</Table.Body>
-	);
-};
 
 const StyledTidyTable = styled(TidyTable)`
 	&&& {
