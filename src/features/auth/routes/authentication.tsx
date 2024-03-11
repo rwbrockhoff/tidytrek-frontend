@@ -1,16 +1,19 @@
-import { RegisterUserFormData } from '../../types/userTypes';
-import { type InputEvent } from '../../types/formTypes';
-import { isInputEvent } from '../../utils/formHelpers';
-import LogInForm from '../../features/Authentication/LogInForm/LogInForm';
+import { RegisterUserFormData } from '../../../types/userTypes';
+import { type InputEvent } from '../../../types/formTypes';
+import { isInputEvent } from '../../../utils/formHelpers';
+import LogInForm from '../components/login-form';
 import { useEffect, useState } from 'react';
-import { setFormInput } from '../../utils/formHelpers';
-import { useValidateForm } from './useValidateForm';
-import { useCombineErrors, type MutationError } from './useCombineErrors';
-import { useCombinePendingStatus, type MutationPending } from './useCombinePendingStatus';
-import { useLoginMutation, useRegisterMutation } from '../../queries/userQueries';
-import { AuthContainer } from '../../features/Authentication/FormComponents';
-import supabase from '../../api/supabaseClient';
-import { frontendURL } from '../../api/tidytrekAPI';
+import { setFormInput } from '../../../utils/formHelpers';
+import { useValidateForm } from '../hooks/use-validate-form';
+import { useCombineErrors, type MutationError } from '../hooks/use-combine-errors';
+import {
+	useCombinePendingStatus,
+	type MutationPending,
+} from '../hooks/use-combine-status';
+import { useLoginMutation, useRegisterMutation } from '../../../queries/userQueries';
+import { AuthContainer } from '../components/form-components';
+import supabase from '../../../api/supabaseClient';
+import { frontendURL } from '../../../api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';
 
 const initialFormState = {
@@ -20,7 +23,7 @@ const initialFormState = {
 	password: '',
 };
 
-const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
+export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const { pathname } = useLocation();
 	const loginData = useLoginMutation();
 	const registerData = useRegisterMutation();
@@ -101,8 +104,6 @@ const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 		</AuthContainer>
 	);
 };
-
-export default Authentication;
 
 // defaults
 const signinError = 'Invalid login credentials.';

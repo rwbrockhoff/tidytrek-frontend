@@ -1,10 +1,10 @@
-import { FormError, type InputEvent } from '../../../types/formTypes';
+import { FormError, type InputEvent } from '../../../../types/formTypes';
 import { Form, Segment } from 'semantic-ui-react';
-import { Header } from '../../../components/ui/SemanticUI';
-import { FooterText, FormContainer, FormMessage } from '../FormComponents';
-import { SubText } from '../../../components/ui/TidyUI';
-import { Button } from '../../../components/ui/SemanticUI';
-import { Link } from '../../../components/ui/Link';
+import { Header } from '../../../../components/ui/SemanticUI';
+import { FooterText, FormContainer, FormMessage } from '../form-components';
+import { SubText } from '../../../../components/ui/TidyUI';
+import { Button } from '../../../../components/ui/SemanticUI';
+import { Link } from '../../../../components/ui/Link';
 
 type WelcomeFormProps = {
 	username: string;
@@ -15,7 +15,7 @@ type WelcomeFormProps = {
 	saveUsername: () => void;
 };
 
-const WelcomeForm = (props: WelcomeFormProps) => {
+export const WelcomeForm = (props: WelcomeFormProps) => {
 	const { username, trailName, formError, isPending, onChange, saveUsername } = props;
 	const { error, message } = formError;
 	return (
@@ -74,5 +74,3 @@ const WelcomeForm = (props: WelcomeFormProps) => {
 		</FormContainer>
 	);
 };
-
-export default WelcomeForm;

@@ -1,20 +1,19 @@
 import { useMemo, useState } from 'react';
-import { FormError } from '../../types/formTypes';
-import { AxiosError } from 'axios';
+import { FormError } from '@/types/formTypes';
 
 // isError comes from mutation, error prop comes from our API
 // this allows TS check with expected props
-export type MutationError = { isError: boolean; error: AxiosError | null };
+type ServerResponse = { isError: boolean; error: { data: { error: string } } };
 
-type ServerResponse = {
+type MutationResponse = {
 	isError: boolean;
-	error: { response: { data: { error: string } } };
+	error: FormError | undefined;
 };
 
-type MutationData = MutationError | ServerResponse;
+type MutationData = MutationResponse | ServerResponse;
 
 const hasErrorProps = (status: MutationData): status is ServerResponse => {
-	return (status.isError && status.error && 'response' in status.error) || false;
+	return (status.isError && status.error && 'data' in status.error) || false;
 };
 
 const defaultMessage = 'There was an error.';
@@ -29,15 +28,16 @@ const createMessage = (message: string | undefined) => {
 
 const initialState = { error: false, message: '' };
 
-export const useCombineErrors = (
-	mutations: MutationError[],
+export const useFormInfo = (
+	mutations: MutationData[],
+	loading: boolean,
 ): [FormError, (error: FormError) => void] => {
 	const [formError, setFormError] = useState(initialState);
 
 	const result: FormError = useMemo(() => {
 		for (const mutation of mutations) {
 			if (hasErrorProps(mutation)) {
-				const rawMessage = mutation.error.response.data.error;
+				const rawMessage = mutation.error.data?.error;
 				const message = createMessage(rawMessage);
 				return { error: true, message };
 			}
@@ -45,6 +45,7 @@ export const useCombineErrors = (
 		return initialState;
 	}, [mutations]);
 
+	if (loading && formError.error) setFormError(initialState);
 	if (result.error) return [result, setFormError];
 	else return [formError, setFormError];
 };

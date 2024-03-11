@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { type Session } from '@supabase/supabase-js';
 import supabase from '../api/supabaseClient.ts';
 import { Loader } from 'semantic-ui-react';
-import { userRoutes, guestRoutes } from './routes.tsx';
+import { publicRoutes } from './public.tsx';
+import { protectedRoutes } from './protected.tsx';
 import { useGetAuthStatusQuery } from '../queries/userQueries.ts';
 import { ThemeProvider } from 'styled-components';
 import { createTheme } from '../styles/theme/theme-utils.ts';
 
-export const AppWithRoutes = () => {
+export const AppRouter = () => {
 	const { isLoading, data } = useGetAuthStatusQuery();
 	const theme = createTheme(data?.settings);
 
@@ -29,7 +30,7 @@ export const AppWithRoutes = () => {
 	}, []);
 
 	const appRouter = createBrowserRouter(
-		session && data?.isAuthenticated ? userRoutes : guestRoutes,
+		session && data?.isAuthenticated ? protectedRoutes : publicRoutes,
 	);
 
 	if (isLoading) return <Loader content="Loading..." />;

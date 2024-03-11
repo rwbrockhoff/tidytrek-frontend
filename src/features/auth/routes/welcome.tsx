@@ -1,6 +1,6 @@
 import { type InputEvent } from '../../../types/formTypes';
-import { AuthContainer } from '../../../features/Authentication/FormComponents';
-import WelcomeForm from '../../../features/Authentication/WelcomeForm/WelcomeForm';
+import { AuthContainer } from '../components/form-components';
+import { WelcomeForm } from '../components/welcome/welcome-form';
 import { setFormInput } from '../../../utils/formHelpers';
 import { useEffect, useState } from 'react';
 import { useUpdateUsernameMutation } from '../../../queries/profileSettingsQueries';
@@ -9,7 +9,7 @@ import supabase from '../../../api/supabaseClient';
 import { useGetAuthStatusQuery, useLoginMutation } from '../../../queries/userQueries';
 import { useMutationError } from '../../../hooks/useAxiosError';
 
-const Welcome = () => {
+export const Welcome = () => {
 	const navigate = useNavigate();
 	const { data } = useGetAuthStatusQuery();
 
@@ -64,8 +64,6 @@ const Welcome = () => {
 		</AuthContainer>
 	);
 };
-
-export default Welcome;
 
 // Defaults //
 const initialFormState = { username: '', trailName: '' };

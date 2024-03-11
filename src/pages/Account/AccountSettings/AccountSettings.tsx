@@ -4,7 +4,10 @@ import { UserContext } from '../Account';
 import { DeleteModal } from '../../../components/ui/Modals';
 import AccountForm from '../../../features/Account/AccountForm/AccountForm';
 import { type PasswordInfo } from '../../../types/formTypes';
-import { validPassword, passwordRequirements } from '../../Authentication/authHelper';
+import {
+	validPassword,
+	passwordRequirements,
+} from '../../../features/auth/utils/auth-helpers';
 import { useDeleteAccountMutation } from '../../../queries/userQueries';
 import supabase, { updatePassword } from '../../../api/supabaseClient';
 

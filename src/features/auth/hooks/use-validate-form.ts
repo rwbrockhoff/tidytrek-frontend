@@ -1,6 +1,6 @@
-import { validPassword, validEmail, passwordRequirements } from './authHelper';
-import { type FormError } from '../../types/formTypes';
-import { RegisterUserFormData } from '../../types/userTypes';
+import { validPassword, validEmail, passwordRequirements } from '../utils/auth-helpers';
+import { type FormError } from '../../../types/formTypes';
+import { RegisterUserFormData } from '../../../types/userTypes';
 
 export const useValidateForm = (setFormError: (error: FormError) => void) => {
 	const invalidForm = (

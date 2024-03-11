@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import supabase from '../../api/supabaseClient';
+import supabase from '../../../api/supabaseClient';
 declare const google: any;
-import { useRegisterMutation, useLoginMutation } from '../../queries/userQueries';
+import { useRegisterMutation, useLoginMutation } from '../../../queries/userQueries';
 import { useNavigate } from 'react-router-dom';
-import useCheckMobile from '../../hooks/useCheckMobile';
+import useCheckMobile from '../../../hooks/useCheckMobile';
 
 type GoogleAuthProps = {
 	context: AuthContext;

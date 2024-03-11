@@ -1,14 +1,14 @@
-import { type InputEvent } from '../types/formTypes';
+import { type InputEvent } from '@/types/formTypes';
 import { useEffect, useState } from 'react';
-import ResetPasswordForm from '../features/Authentication/ResetPasswordForm/ResetPasswordForm';
-import { validEmail, validPassword } from './Authentication/authHelper';
-import { setFormInput } from '../utils/formHelpers';
-import supabase from '../api/supabaseClient';
-import { frontendURL } from '../api/tidytrekAPI';
+import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
+import { validEmail, validPassword } from '@/features/auth/utils/auth-helpers';
+import { setFormInput } from '@/utils/formHelpers';
+import supabase from '@/api/supabaseClient';
+import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetAuthStatusQuery, useLoginMutation } from '../queries/userQueries';
+import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/userQueries';
 
-const ResetPassword = () => {
+export const ResetPassword = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { data } = useGetAuthStatusQuery();
@@ -81,8 +81,6 @@ const ResetPassword = () => {
 		/>
 	);
 };
-
-export default ResetPassword;
 
 // Defaults
 const initialState = {

@@ -2,11 +2,11 @@ import { type InputEvent } from '../../../types/formTypes';
 import { Link } from 'react-router-dom';
 import { Form, Segment } from 'semantic-ui-react';
 import { Button, Header } from '../../../components/ui/SemanticUI';
-import { FormContainer, FooterText, FormMessage } from '../FormComponents';
+import { FormContainer, FooterText, FormMessage } from './form-components';
 import { FormError } from '../../../types/formTypes';
-import RegisterFormSection from '../RegisterFormSection/RegisterFormSection';
+import RegisterFormSection from './register-form-section';
 import { RegisterUserFormData } from '../../../types/userTypes';
-import GoogleAuth from '../GoogleAuth';
+import GoogleAuth from './google-auth';
 import styled from 'styled-components';
 import { SubText } from '../../../components/ui/TidyUI';
 

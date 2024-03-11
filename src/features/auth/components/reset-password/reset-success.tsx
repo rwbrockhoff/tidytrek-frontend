@@ -1,6 +1,6 @@
 import { Form, Header, Segment } from 'semantic-ui-react';
-import { Button } from '../../../components/ui/SemanticUI';
-import { AuthContainer, FormContainer } from '../FormComponents';
+import { Button } from '../../../../components/ui/SemanticUI';
+import { AuthContainer, FormContainer } from '../form-components';
 import { useNavigate } from 'react-router-dom';
 
 const ResetSuccess = () => {

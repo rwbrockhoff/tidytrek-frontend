@@ -1,9 +1,9 @@
-import { FormError, type InputEvent } from '../../../types/formTypes';
+import { FormError, type InputEvent } from '../../../../types/formTypes';
 import { Form, Segment } from 'semantic-ui-react';
-import { Header, Button } from '../../../components/ui/SemanticUI';
+import { Header, Button } from '../../../../components/ui/SemanticUI';
 import { Link } from 'react-router-dom';
-import { FooterText, FormContainer, FormMessage } from '../FormComponents';
-import { AuthContainer } from '../FormComponents';
+import { FooterText, FormContainer, FormMessage } from '../form-components';
+import { AuthContainer } from '../form-components';
 
 type FormData = {
 	email: string;
@@ -21,7 +21,7 @@ type ResetPasswordFormProps = {
 	onResetConfirm: () => void;
 };
 
-const ResetPasswordForm = (props: ResetPasswordFormProps) => {
+export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	const {
 		formData,
 		formError,
@@ -117,8 +117,6 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 		</AuthContainer>
 	);
 };
-
-export default ResetPasswordForm;
 
 // defaults
 const resetInstructionMessage =
