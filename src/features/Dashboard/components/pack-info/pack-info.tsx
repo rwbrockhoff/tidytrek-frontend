@@ -15,7 +15,7 @@ import { PackModal } from '../pack-modal/pack-modal';
 import { DeleteModal, DisplayLink } from '@/components/ui';
 import { Panel } from '@/components/ui/TidyUI';
 import { ShareSettings } from './share-settings';
-import { PackLabels } from './pack-labels';
+import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info';
 
 type PackInfoProps = {

@@ -1,7 +1,7 @@
-import { Icon } from '../../../../components/ui/SemanticUI';
+import { Icon } from './ui/SemanticUI';
 import styled, { css } from 'styled-components';
 import { Label, type SemanticICONS } from 'semantic-ui-react';
-import { Pack } from '../../../../types/pack-types';
+import { Pack } from '../types/pack-types';
 import { isValidElement } from 'react';
 
 export const PackLabels = ({

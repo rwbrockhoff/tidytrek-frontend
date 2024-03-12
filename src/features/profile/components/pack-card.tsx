@@ -7,7 +7,7 @@ import {
 	Icon,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { PackLabels } from '@/features/dashboard/components/pack-info/pack-labels';
+import { PackLabels } from '@/components';
 import { type Pack } from '@/types/pack-types';
 import { Link } from '@/components/ui';
 import { encode } from '@/utils';
