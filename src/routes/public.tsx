@@ -1,13 +1,8 @@
-// import { lazyImport } from '@/utils/lazy-imports';
+import { lazyImport } from '@/utils/lazy-imports';
 import { GuestLayout } from '@/layout/guest-layout';
 import { AuthRoutes } from '@/features/auth';
-import { Dashboard } from '@/features/dashboard';
-import { Profile } from '@/features/profile';
-
-// const { Authentication } = lazyImport(
-// 	() => import('@/pages/Authentication/Authentication'),
-// 	'Authentication',
-// );
+const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
+const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
 
 export const publicRoutes = [
 	{

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import Sidebar from './sidebar/sidebar';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { MobileNavbar } from './mobile-navbar';
 import { SidebarButton } from './sidebar/components/sidebar-button';
+import { Fallback } from './fallback';
 
 export const UserLayout = () => {
 	const [showSidebar, setShowSidebar] = useState(true);
@@ -16,8 +17,10 @@ export const UserLayout = () => {
 				<MobileNavbar onClick={handleToggleSidebar} />
 				<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
 				<ViewLayoutContainer $showSidebar={showSidebar}>
-					<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
-					<Outlet />
+					<Suspense fallback={<Fallback />}>
+						<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
+						<Outlet />
+					</Suspense>
 				</ViewLayoutContainer>
 			</AppViewContainer>
 		</OuterContainer>

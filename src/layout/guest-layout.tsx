@@ -1,17 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import styled from 'styled-components';
-import { Loader } from 'semantic-ui-react';
+import { Fallback } from './fallback';
 
 export const GuestLayout = () => {
 	return (
 		<GuestViewContainer>
-			<Suspense
-				fallback={
-					<FallbackContainer>
-						<Loader size="big" />
-					</FallbackContainer>
-				}>
+			<Suspense fallback={<Fallback />}>
 				<Outlet />
 			</Suspense>
 		</GuestViewContainer>
@@ -28,10 +23,4 @@ const GuestViewContainer = styled.div`
 	padding-bottom: 2vh;
 	padding-top: 5vh;
 	${({ theme: t }) => t.mx.mobile(`padding: 25px 25px;`)}
-`;
-
-const FallbackContainer = styled.div`
-	width: 100%;
-	height: 100%;
-	${({ theme: t }) => t.mx.flexCenter()}
 `;

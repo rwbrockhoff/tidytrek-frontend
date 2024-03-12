@@ -1,12 +1,22 @@
 import { Navigate } from 'react-router-dom';
 import { UserLayout } from '../layout/user-layout';
 import { ResetPassword } from '@/features/auth/routes/reset-password';
-import { Dashboard } from '@/features/dashboard';
-import { GearCloset } from '@/features/gear-closet';
-import { Account, AccountSettings, ProfileSettings } from '@/features/account/routes';
-import { Profile } from '@/features/profile';
 import { Welcome } from '../features/auth/routes/welcome';
 import { ResetSuccess } from '../features/auth/routes/reset-success';
+import { lazyImport } from '@/utils';
+
+const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
+const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
+const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
+const { Account } = lazyImport(() => import('@/features/account/routes'), 'Account');
+const { AccountSettings } = lazyImport(
+	() => import('@/features/account/routes'),
+	'AccountSettings',
+);
+const { ProfileSettings } = lazyImport(
+	() => import('@/features/account/routes'),
+	'ProfileSettings',
+);
 
 export const protectedRoutes = [
 	{

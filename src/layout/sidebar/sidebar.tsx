@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLogoutMutation, useGetAuthStatusQuery } from '@/queries/user-queries';
@@ -9,15 +9,17 @@ import {
 	useMovePackMutation,
 } from '@/queries/pack-queries';
 import { Divider } from 'semantic-ui-react';
-import { encode } from '@/utils';
-import { PackList } from './components/pack-list';
+import { encode, lazyImport } from '@/utils';
 import { DragDropContext, type DropResult } from '@/components';
-import { PopupMenu } from './components/popup-menu';
-import { SidebarMenu } from './components/menus';
 import { SidebarButton } from './components/sidebar-button';
 import useCheckMobile from '@/hooks/use-check-mobile';
 import { Header } from '@/components/ui/SemanticUI';
 import supabase from '@/api/supabaseClient';
+import { SidebarFallback } from '../fallback';
+const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
+const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
+const { PopupMenu } = lazyImport(() => import('./components/popup-menu'), 'PopupMenu');
+
 declare const google: any;
 
 type SidebarProps = {
@@ -110,19 +112,25 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					<Logo as="h1">tidytrek</Logo>
 				</Link>
 
-				<PopupMenu
-					profilePhotoUrl={user?.profilePhotoUrl}
-					isMobile={isMobile}
-					logout={handleLogout}
-				/>
+				<Suspense fallback={<SidebarFallback />}>
+					<PopupMenu
+						profilePhotoUrl={user?.profilePhotoUrl}
+						isMobile={isMobile}
+						logout={handleLogout}
+					/>
 
-				<SidebarMenu />
+					<SidebarMenu />
 
-				<StyledDivider />
+					<StyledDivider />
 
-				<DragDropContext onDragEnd={handleOnDragEnd}>
-					<PackList packList={packList} getPack={handleGetPack} addPack={handleAddPack} />
-				</DragDropContext>
+					<DragDropContext onDragEnd={handleOnDragEnd}>
+						<PackList
+							packList={packList}
+							getPack={handleGetPack}
+							addPack={handleAddPack}
+						/>
+					</DragDropContext>
+				</Suspense>
 			</SidebarContainer>
 		</StyledSidebar>
 	);
@@ -171,6 +179,7 @@ const SidebarContainer = styled.div`
 	height: 100%;
 	padding: 3em 50px;
 	box-sizing: border-box;
+	position: relative;
 	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
 `;
 
