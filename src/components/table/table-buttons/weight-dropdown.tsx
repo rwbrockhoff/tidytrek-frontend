@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
+import { useUserContext } from '@/hooks/use-viewer-context';
 
 type WeightDropdownProps = {
 	unit: string;

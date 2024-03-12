@@ -7,10 +7,7 @@ import {
 	usePackCategoryHandlers,
 	type HeaderInfo,
 } from '@/features/dashboard/handlers/use-pack-category-handlers';
-import {
-	usePricingContext,
-	useUserContext,
-} from '@/features/dashboard/hooks/useViewerContext';
+import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;

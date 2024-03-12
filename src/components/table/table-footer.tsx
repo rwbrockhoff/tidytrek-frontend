@@ -1,10 +1,7 @@
 import { Table, Icon } from 'semantic-ui-react';
 import { Button } from '../ui/SemanticUI';
 import styled from 'styled-components';
-import {
-	usePricingContext,
-	useUserContext,
-} from '../../features/dashboard/hooks/useViewerContext';
+import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { TableText } from './table-header';
 
 type TableFooterProps = {

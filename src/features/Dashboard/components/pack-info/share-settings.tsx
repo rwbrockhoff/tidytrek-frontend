@@ -1,9 +1,8 @@
-import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { themeColor } from '../../../../styles/mixins';
-import { Button } from '../../../../components/ui/SemanticUI';
+import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
 import { useState } from 'react';
-import { useUserContext } from '../../hooks/useViewerContext';
+import { Button } from '@/components/ui/SemanticUI';
+import { useUserContext } from '@/hooks/use-viewer-context';
 import { frontendURL } from '@/api/tidytrekAPI';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };
@@ -89,6 +88,6 @@ const ShareText = styled(LightText)`
 	cursor: pointer;
 	&:hover {
 		opacity: 1;
-		${themeColor('primary')}
+		${({ theme: t }) => t.mx.themeColor('primary')}
 	}
 `;

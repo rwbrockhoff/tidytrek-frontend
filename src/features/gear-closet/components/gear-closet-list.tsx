@@ -17,7 +17,7 @@ import {
 } from '../../../queries/closetQueries';
 import { TableRow, StyledFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
-import { PricingContext } from '../../dashboard/hooks/useViewerContext';
+import { PricingContext } from '@/hooks/use-viewer-context';
 import { NotFoundMessage } from './not-found-message';
 
 export type GearClosetListProps = {

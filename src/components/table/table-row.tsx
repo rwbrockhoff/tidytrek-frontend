@@ -20,12 +20,9 @@ import {
 	PriceCell,
 	TableCell,
 } from '@/components/table/table-cells';
-import { useTableRowInput } from '../../features/dashboard/hooks/useTableRowInput';
+import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
-import {
-	usePricingContext,
-	useUserContext,
-} from '../../features/dashboard/hooks/useViewerContext';
+import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import useCheckMobile from '../../hooks/useCheckMobile';
 
 type TableRowProps = {

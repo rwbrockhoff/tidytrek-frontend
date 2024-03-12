@@ -1,8 +1,8 @@
-import { type InputEvent } from '../../../types/formTypes';
-import { Table } from 'semantic-ui-react';
-import { TableInput } from '../table-buttons/table-buttons';
+import { type InputEvent } from '@/types/formTypes';
 import { useState } from 'react';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
+import { Table } from 'semantic-ui-react';
+import { TableInput } from '../table-buttons';
+import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {
 	quantity: number;

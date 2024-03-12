@@ -1,8 +1,8 @@
-import { type InputEvent, type SelectEvent } from '../../../types/formTypes';
-import { Table, Input } from 'semantic-ui-react';
+import { type InputEvent, type SelectEvent } from '@/types/formTypes';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
+import { Table, Input } from 'semantic-ui-react';
+import { useUserContext } from '@/hooks/use-viewer-context';
 
 type TableCellProps = {
 	value: string | number;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
 import { AddCategoryButton } from '@/components/table';
-import { PricingContext, useUserContext } from '../hooks/useViewerContext';
+import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import {
 	InitialState as UserState,
 	type Category,
@@ -37,6 +37,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const packId = pack?.packId || null;
 
 	const { handlers, handlerState } = usePackCategoryHandlers();
+
 	const {
 		onDragEnd,
 		addCategory,

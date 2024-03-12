@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import {
 	List,
 	ListItem,
@@ -7,8 +8,7 @@ import {
 	Popup,
 	PopupContent,
 } from 'semantic-ui-react';
-import styled from 'styled-components';
-import { usePricingContext } from '../../hooks/useViewerContext';
+import { usePricingContext } from '@/hooks/use-viewer-context';
 
 type PackSummaryPanelProps = {
 	totalWeight: number;

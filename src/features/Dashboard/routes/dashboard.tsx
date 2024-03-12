@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { DashboardContainer } from '../components/dashboard-container';
-import { UserViewContext } from '../hooks/useViewerContext';
+import { UserViewContext } from '@/hooks/use-viewer-context';
+import { useGetAuthStatusQuery } from '@/queries/userQueries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/packQueries';
 import { useViewPackQuery } from '@/queries/guestQueries';
 import { HandlerWrapper as PackItemHandler } from '../handlers/use-pack-item-handlers';
-import { HandlerWrapper as PackCategoryHandler } from '../handlers/use-pack-item-handlers';
-import { useGetAuthStatusQuery } from '@/queries/userQueries';
+import { HandlerWrapper as PackCategoryHandler } from '../handlers/use-pack-category-handlers';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { packId: paramPackId } = useParams();

@@ -1,10 +1,10 @@
-import { type InputEvent, type SelectEvent } from '../../../../types/formTypes';
+import { type InputEvent, type SelectEvent } from '@/types/formTypes';
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { GripButton, MobileToggleButton } from '../../table-buttons/table-buttons';
-import { useUserContext } from '../../../../features/dashboard/hooks/useViewerContext';
-import { DisplayLink } from '../../../ui/Link';
+import { GripButton, MobileToggleButton } from '../../table-buttons';
+import { useUserContext } from '@/hooks/use-viewer-context';
+import { DisplayLink } from '@/components/ui';
 import { LinkPopup } from './link-popup';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;

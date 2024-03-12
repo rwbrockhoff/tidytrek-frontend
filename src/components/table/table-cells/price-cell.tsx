@@ -1,10 +1,9 @@
-import { type InputEvent, type SelectEvent } from '../../../types/formTypes';
+import { type InputEvent, type SelectEvent } from '@/types/formTypes';
 import styled from 'styled-components';
-import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
-import useCurrency from '../../../utils/useCurrency';
-import { flexCenter } from '../../../styles/mixins';
+import { Table, Input } from 'semantic-ui-react';
+import { useUserContext } from '@/hooks/use-viewer-context';
+import useCurrency from '@/utils/useCurrency';
 
 type PriceCellProps = {
 	price: number;
@@ -73,7 +72,7 @@ const StyledInput = styled(Input)<{ $toggleInput: boolean }>`
 
 const Text = styled.p`
 	height: 30px;
-	${flexCenter}
+	${({ theme: t }) => t.mx.flexCenter()}
 	justify-content: flex-start;
 	padding-left: 13px;
 `;

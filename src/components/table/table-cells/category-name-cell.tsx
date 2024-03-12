@@ -7,7 +7,7 @@ import {
 	Header as SemHeader,
 } from 'semantic-ui-react';
 import { ThemeButton, GripButton } from '../table-buttons';
-import { useUserContext } from '@/features/dashboard/hooks/useViewerContext';
+import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	usePackCategoryHandlers,
 	type HeaderInfo,

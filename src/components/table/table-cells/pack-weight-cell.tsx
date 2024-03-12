@@ -1,9 +1,9 @@
-import { type InputEvent, type SelectEvent } from '../../../types/formTypes';
+import { type InputEvent, type SelectEvent } from '@/types/formTypes';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Table, Input } from 'semantic-ui-react';
 import { WeightDropdown } from '../table-buttons/weight-dropdown';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
+import { useUserContext } from '@/hooks/use-viewer-context';
 
 type PackWeightCellProps = {
 	weight: string | number;

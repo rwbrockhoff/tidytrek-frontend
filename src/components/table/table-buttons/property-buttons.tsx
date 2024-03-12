@@ -1,7 +1,7 @@
-import { Table, Popup, Icon } from 'semantic-ui-react';
-import { type PackButtonSwitches } from '../../../types/packTypes';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
 import styled from 'styled-components';
+import { Table, Popup, Icon } from 'semantic-ui-react';
+import { type PackButtonSwitches } from '@/types/packTypes';
+import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {
 	size: number;
