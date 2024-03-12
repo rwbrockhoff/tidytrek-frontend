@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import Avatar from '../../../components/ui/Avatar';
-import { type UserProfile } from '../../../types/profileTypes';
+import { type UserProfile } from '@/types/profileTypes';
 import { Icon } from 'semantic-ui-react';
-import { Header } from '../../../components/ui/SemanticUI';
-import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
-import { useHandlers } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
+import { Avatar } from '@/components/ui';
+import { Header } from '@/components/ui/SemanticUI';
+import { SocialLinkList } from '../../account/components/profile-form/social-link-list';
+import { useHandlers } from '../../account/hooks/use-profile-handlers';
 import { useUserContext } from '../../dashboard/hooks/useViewerContext';
 import { BannerPhoto } from './banner-photo';
 

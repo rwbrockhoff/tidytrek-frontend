@@ -1,5 +1,7 @@
-import { type SocialLink, type ProfileInfo } from '../../../types/profileTypes';
-import { type InputEvent, type TextAreaEvent } from '../../../types/formTypes';
+import { type SocialLink, type ProfileInfo } from '@/types/profileTypes';
+import { type InputEvent, type TextAreaEvent } from '@/types/formTypes';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
 	SegmentGroup,
 	Segment as SemSegment,
@@ -9,22 +11,20 @@ import {
 	Icon,
 	Message,
 } from 'semantic-ui-react';
-import { Header, FormField } from '../../../components/ui/SemanticUI';
-import { SubText } from '../../../components/ui/TidyUI';
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Avatar from '../../../components/ui/Avatar';
-import { setFormInput } from '../../../utils/formHelpers';
-import SocialLinks from './SocialLinks';
-import { useHandlers } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
-import { useAxiosErrorMessage } from '../../../hooks/useAxiosError';
+import { Header, FormField } from '@/components/ui/SemanticUI';
+import { SubText } from '@/components/ui/TidyUI';
+import { Avatar } from '@/components/ui';
+import { setFormInput } from '@/utils/formHelpers';
+import { SocialLinks } from './social-links';
+import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useAxiosErrorMessage } from '@/hooks/useAxiosError';
 
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;
 	socialLinks: SocialLink[];
 };
 
-const ProfileForm = (props: ProfileFormProps) => {
+export const ProfileForm = (props: ProfileFormProps) => {
 	const { profileInfo, socialLinks } = props;
 
 	const [isProfileChanged, setIsProfileChanged] = useState(false);
@@ -149,8 +149,6 @@ const ProfileForm = (props: ProfileFormProps) => {
 		</SegmentGroup>
 	);
 };
-
-export default ProfileForm;
 
 export const Segment = styled(SemSegment)`
 	&&& {

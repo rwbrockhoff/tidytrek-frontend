@@ -10,7 +10,7 @@ import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
 } from '../../../../queries/packQueries';
-import PackGraphic from './pack-chart/pack-graphic';
+import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
 import { DeleteModal } from '../../../../components/ui/Modals';
 import { Panel } from '../../../../components/ui/TidyUI';

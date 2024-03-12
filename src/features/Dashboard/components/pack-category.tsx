@@ -1,18 +1,13 @@
-import {
-	type PackListItem,
-	type Category,
-	type PackItem,
-} from '../../../types/packTypes';
+import { type PackListItem, type Category, type PackItem } from '@/types/packTypes';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { TidyTable } from '@/components/ui';
+import { TidyTable, DeleteItemModal } from '@/components/ui';
 import { TableRow, TableHeader, TableFooter } from '@/components/table';
-import { DeleteItemModal } from '../../../components/ui/Modals';
 import { weightConverter, quantityConverter } from '@/utils/weightConverter';
 import { useUserContext } from '../hooks/useViewerContext';
 import { DropTableBody } from '@/components/drag-drop/drag-drop-wrapper';
-import { usePackItemHandlers } from '../handlers/usePackItemHandlers';
+import { usePackItemHandlers } from '../handlers/use-pack-item-handlers';
 import useCurrency from '@/utils/useCurrency';
 
 type PackCategoryProps = {

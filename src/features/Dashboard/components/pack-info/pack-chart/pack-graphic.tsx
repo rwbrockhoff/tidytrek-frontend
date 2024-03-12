@@ -1,12 +1,12 @@
-import { Category } from '../../../../../types/packTypes';
+import styled from 'styled-components';
+import { Category } from '@/types/packTypes';
 import { PackChart } from './pack-chart';
 import { Image, List, ListItem, Label, Divider } from 'semantic-ui-react';
-import { Icon } from '../../../../../components/ui/SemanticUI';
+import { Icon } from '@/components/ui/SemanticUI';
+import { Panel } from '@/components/ui/TidyUI';
 import CampGraphic from '@/assets/camping.svg';
-import { useCategoryInfo } from '../../../hooks/useCategoryInfo';
+import { useCategoryInfo } from '../../../hooks/use-category-info';
 import { PackSummaryPanel } from '../pack-summary-panel';
-import { Panel } from '../../../../../components/ui/TidyUI';
-import styled from 'styled-components';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -14,7 +14,7 @@ type PackGraphicProps = {
 	display: boolean;
 };
 
-const PackGraphic = (props: PackGraphicProps) => {
+export const PackGraphic = (props: PackGraphicProps) => {
 	const { packCategories, fetching, display } = props;
 	const {
 		chartCategoryInfo,
@@ -67,8 +67,6 @@ const PackGraphic = (props: PackGraphicProps) => {
 		);
 	} else return null;
 };
-
-export default PackGraphic;
 
 const OuterPanel = styled(Panel)<{ $display: boolean }>`
 	display: flex;

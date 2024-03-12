@@ -1,11 +1,11 @@
-import { Icon, Message, MessageHeader } from 'semantic-ui-react';
-import { Button } from '../../../components/ui/SemanticUI';
 import styled from 'styled-components';
-import { SubText } from '../../../components/ui/TidyUI';
+import { Icon, Message, MessageHeader } from 'semantic-ui-react';
+import { Button } from '@/components/ui/SemanticUI';
+import { SubText } from '@/components/ui/TidyUI';
 
 type ConfirmationFormProps = { sendConfirmation: () => void; confirmationSent: boolean };
 
-const ConfirmationForm = ({
+export const ConfirmationForm = ({
 	sendConfirmation,
 	confirmationSent,
 }: ConfirmationFormProps) => {
@@ -32,8 +32,6 @@ const ConfirmationForm = ({
 		</ConfirmationContainer>
 	);
 };
-
-export default ConfirmationForm;
 
 const ConfirmationContainer = styled.div`
 	margin: 2em 0em 2em 0em;

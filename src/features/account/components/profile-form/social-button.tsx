@@ -1,8 +1,7 @@
+import { type SocialLinkInfo } from '@/types/profileTypes';
 import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { flexCenter, wh } from '../../../styles/mixins';
-import { SocialLinkInfo } from '../../../types/profileTypes';
-import { Link } from '../../../components/ui/Link';
+import { Link } from '@/components/ui';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -65,8 +64,8 @@ export const SocialButtonPicker = ({
 
 const CircleButton = styled(Button)<{ $backgroundColor: string }>`
 	&&&& {
-		${wh('30px')}
-		${flexCenter}
+		${({ theme: t }) => t.mx.wh('30px')}
+		${({ theme: t }) => t.mx.flexCenter()}
 		border-radius: 15px;
 		background-color: ${(props) =>
 			props.$backgroundColor ? props.$backgroundColor : 'grey'};

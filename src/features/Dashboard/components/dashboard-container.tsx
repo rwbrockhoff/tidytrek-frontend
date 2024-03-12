@@ -1,25 +1,25 @@
+import { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
-import { AddCategoryButton } from '../../../components/table/table-buttons/table-buttons';
+import { AddCategoryButton } from '@/components/table';
 import { PricingContext, useUserContext } from '../hooks/useViewerContext';
 import {
 	InitialState as UserState,
 	type Category,
 	PackListItem,
-} from '../../../types/packTypes';
-import { InitialState as GuestState } from '../../../queries/guestQueries';
+} from '@/types/packTypes';
+import { InitialState as GuestState } from '@/queries/guestQueries';
 import { DashboardFooter } from './dashboard-footer';
 import {
 	DragDropContext,
 	Drop,
 	type DropResult,
 } from '@/components/drag-drop/drag-drop-wrapper';
-import { ThemeProvider } from 'styled-components';
-import styled from 'styled-components';
-import useGuestData from '../hooks/useGuestData';
+import { DeleteModal } from '@/components/ui';
+import { useGuestData } from '../hooks/use-guest-data';
 import { getThemeAsGuest } from '@/styles/theme/theme-utils';
-import { usePackCategoryHandlers } from '../handlers/usePackCategoryHandlers';
-import { DeleteModal } from '../../../components/ui/Modals';
+import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
 
 type DashboardProps = {
 	isAuthenticated: boolean;

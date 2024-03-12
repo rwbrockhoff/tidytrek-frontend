@@ -1,15 +1,14 @@
-import { type User } from '../../../types/userTypes';
-import { type PasswordInfo } from '../../../types/formTypes';
-import { type InputEvent } from '../../../types/formTypes';
-import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
-import { Header } from '../../../components/ui/SemanticUI';
-import PasswordForm from './PasswordForm';
-import { setFormInput } from '../../../utils/formHelpers';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { reauthenticateUser } from '../../../api/supabaseClient';
-import { ChangePassContext } from '../../../pages/Account/AccountSettings/AccountSettings';
-import Message from '../../../components/ui/Message';
+import { type User } from '@/types/userTypes';
+import { type PasswordInfo, type InputEvent } from '@/types/formTypes';
+import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
+import { Header } from '@/components/ui/SemanticUI';
+import { PasswordForm } from './password-form';
+import { setFormInput } from '@/utils/formHelpers';
+import { reauthenticateUser } from '@/api/supabaseClient';
+import { ChangePassContext } from '../../routes';
+import { Message } from '@/components/ui';
 
 type AccountFormProps = {
 	user: User | null;
@@ -27,7 +26,7 @@ const initialState = {
 
 export type FormSection = 'initial' | 'passwordForm' | 'confirmationForm';
 
-const AccountForm = ({
+export const AccountForm = ({
 	user,
 	resetFormError,
 	setError,
@@ -120,8 +119,6 @@ const AccountForm = ({
 		</SegmentGroup>
 	);
 };
-
-export default AccountForm;
 
 const MessageContainer = styled.div`
 	width: 50%;

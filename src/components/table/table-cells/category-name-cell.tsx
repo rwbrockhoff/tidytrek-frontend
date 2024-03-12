@@ -1,16 +1,17 @@
+import { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { type InputEvent } from '@/types/formTypes';
 import {
 	Table as SemTable,
 	Input as SemInput,
 	Header as SemHeader,
 } from 'semantic-ui-react';
-import { ThemeButton } from '../table-buttons/theme-button';
-import { GripButton } from '../table-buttons/table-buttons';
-import { useState } from 'react';
-import styled, { css } from 'styled-components';
-import { type InputEvent } from '../../../types/formTypes';
-import { type HeaderInfo } from '../../../features/dashboard/handlers/usePackCategoryHandlers';
-import { useUserContext } from '../../../features/dashboard/hooks/useViewerContext';
-import { usePackCategoryHandlers } from '../../../features/dashboard/handlers/usePackCategoryHandlers';
+import { ThemeButton, GripButton } from '../table-buttons';
+import { useUserContext } from '@/features/dashboard/hooks/useViewerContext';
+import {
+	usePackCategoryHandlers,
+	type HeaderInfo,
+} from '@/features/dashboard/handlers/use-pack-category-handlers';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;

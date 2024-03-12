@@ -1,9 +1,9 @@
 import { Form, Header, Segment } from 'semantic-ui-react';
-import { Button } from '../../../../components/ui/SemanticUI';
-import { AuthContainer, FormContainer } from '../form-components';
+import { Button } from '../../../components/ui/SemanticUI';
+import { AuthContainer, FormContainer } from '../components/form-components';
 import { useNavigate } from 'react-router-dom';
 
-const ResetSuccess = () => {
+export const ResetSuccess = () => {
 	const navigate = useNavigate();
 	return (
 		<AuthContainer>
@@ -26,5 +26,3 @@ const ResetSuccess = () => {
 		</AuthContainer>
 	);
 };
-
-export default ResetSuccess;

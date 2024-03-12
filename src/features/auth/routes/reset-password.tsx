@@ -69,6 +69,7 @@ export const ResetPassword = () => {
 	};
 
 	const showPasswordView = location.pathname === '/reset-password/confirm';
+	console.log('Show Pass ? ', showPasswordView);
 	return (
 		<ResetPasswordForm
 			formData={formData}

@@ -1,8 +1,7 @@
-import Avatar from '../../../components/ui/Avatar';
-import { Popup, PopupContent } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { Avatar, Link } from '@/components/ui';
+import { Popup, PopupContent } from 'semantic-ui-react';
 import { AvatarMenu } from './menus';
-import { Link } from '../../../components/ui/Link';
 
 type PopupMenuProps = {
 	profilePhotoUrl: string | undefined;

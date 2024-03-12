@@ -1,18 +1,18 @@
+import { type SocialLink } from '@/types/profileTypes';
 import { Icon } from 'semantic-ui-react';
-import { Button } from '../../../components/ui/SemanticUI';
-import AddLink from './AddLink';
-import styled from 'styled-components';
-import { SubText } from '../../../components/ui/TidyUI';
-import { SocialLink } from '../../../types/profileTypes';
 import { useState } from 'react';
-import { useHandlers } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
-import SocialLinkList from './SocialLinkList';
+import styled from 'styled-components';
+import { Button } from '@/components/ui/SemanticUI';
+import { SubText } from '@/components/ui/TidyUI';
+import { AddLink } from './add-link';
+import { useHandlers } from '../../hooks/use-profile-handlers';
+import { SocialLinkList } from './social-link-list';
 
 type SocialLinksProps = {
 	socialLinks: SocialLink[];
 };
 
-const SocialLinks = (props: SocialLinksProps) => {
+export const SocialLinks = (props: SocialLinksProps) => {
 	const { socialLinks } = props;
 	const { deleteSocialLink } = useHandlers().handlers;
 
@@ -46,8 +46,6 @@ const SocialLinks = (props: SocialLinksProps) => {
 		</>
 	);
 };
-
-export default SocialLinks;
 
 const Text = styled.p`
 	display: block;

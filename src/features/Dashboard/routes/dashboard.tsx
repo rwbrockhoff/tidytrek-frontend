@@ -3,8 +3,8 @@ import { DashboardContainer } from '../components/dashboard-container';
 import { UserViewContext } from '../hooks/useViewerContext';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/packQueries';
 import { useViewPackQuery } from '@/queries/guestQueries';
-import { HandlerWrapper as PackItemHandler } from '../handlers/usePackItemHandlers';
-import { HandlerWrapper as PackCategoryHandler } from '@/features/dashboard/handlers/usePackCategoryHandlers';
+import { HandlerWrapper as PackItemHandler } from '../handlers/use-pack-item-handlers';
+import { HandlerWrapper as PackCategoryHandler } from '../handlers/use-pack-item-handlers';
 import { useGetAuthStatusQuery } from '@/queries/userQueries';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import ProfileForm from '../../../features/Account/ProfileForm/ProfileForm';
+import { ProfileForm } from '../components/profile-form/profile-form';
 import { useGetProfileSettingsQuery } from '../../../queries/profileSettingsQueries';
-import { HandlerWrapper } from './useProfileHandlers';
+import { HandlerWrapper } from '../hooks/use-profile-handlers';
 
-const ProfileSettings = () => {
+export const ProfileSettings = () => {
 	const { data } = useGetProfileSettingsQuery();
 	const { profileInfo, socialLinks = [] } = data || {};
 
@@ -15,8 +15,6 @@ const ProfileSettings = () => {
 		</HandlerWrapper>
 	);
 };
-
-export default ProfileSettings;
 
 const Container = styled.div`
 	display: flex;

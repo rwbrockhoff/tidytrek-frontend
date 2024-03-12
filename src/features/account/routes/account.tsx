@@ -1,13 +1,13 @@
-import { useGetAuthStatusQuery } from '../../queries/userQueries';
+import { type User } from '@/types/userTypes';
+import { createContext } from 'react';
+import { useGetAuthStatusQuery } from '@/queries/userQueries';
 import { Header } from 'semantic-ui-react';
 import { Outlet } from 'react-router-dom';
-import { createContext } from 'react';
-import { User } from '../../types/userTypes';
-import AccountMenu from '../../features/Account/AccountMenu/AccountMenu';
+import { AccountMenu } from '../components/account-menu';
 
 export const UserContext = createContext<{ user: User | null }>({ user: null });
 
-const Account = () => {
+export const Account = () => {
 	const { data } = useGetAuthStatusQuery();
 	const user = data?.user || null;
 
@@ -25,5 +25,3 @@ const Account = () => {
 		</main>
 	);
 };
-
-export default Account;

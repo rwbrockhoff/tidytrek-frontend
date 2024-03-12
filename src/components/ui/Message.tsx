@@ -8,7 +8,7 @@ type MessageProps = {
 	successMessage: string;
 };
 
-const Message = ({ error, success, successMessage }: MessageProps) => {
+export const Message = ({ error, success, successMessage }: MessageProps) => {
 	const iconName = success ? 'thumbs up outline' : 'hand point right outline';
 
 	if (success) {
@@ -27,5 +27,3 @@ const Message = ({ error, success, successMessage }: MessageProps) => {
 		);
 	} else return null;
 };
-
-export default Message;

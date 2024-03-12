@@ -19,7 +19,7 @@ type AvatarProps = {
 	onDelete?: () => void;
 };
 
-const Avatar = (props: AvatarProps) => {
+export const Avatar = (props: AvatarProps) => {
 	const {
 		src,
 		size = 'big',
@@ -77,8 +77,6 @@ const Avatar = (props: AvatarProps) => {
 		</Link>
 	);
 };
-
-export default Avatar;
 
 type Size = 'small' | 'medium' | 'big' | 'large';
 const avatarBorderWidth = '3px';

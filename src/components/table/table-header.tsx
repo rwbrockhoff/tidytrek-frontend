@@ -2,19 +2,15 @@ import { useState } from 'react';
 import { Table } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
-import {
-	ActionButtons,
-	MinimizeButton,
-	DeleteButton,
-} from './table-buttons/table-buttons';
+import { ActionButtons, MinimizeButton, DeleteButton } from './table-buttons/';
 import {
 	usePackCategoryHandlers,
 	type HeaderInfo,
-} from '../../features/dashboard/handlers/usePackCategoryHandlers';
+} from '@/features/dashboard/handlers/use-pack-category-handlers';
 import {
 	usePricingContext,
 	useUserContext,
-} from '../../features/dashboard/hooks/useViewerContext';
+} from '@/features/dashboard/hooks/useViewerContext';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;

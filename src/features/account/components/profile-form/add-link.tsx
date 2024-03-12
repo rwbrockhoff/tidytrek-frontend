@@ -1,13 +1,13 @@
 import { Divider, Icon, Input, Popup, PopupContent } from 'semantic-ui-react';
-import { Button } from '../../../components/ui/SemanticUI';
+import { Button } from '../../../../components/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { SocialButton, SocialButtonPicker } from './SocialButton';
-import socialMediaUI from '../../../styles/theme/social-media-ui';
-import { type InputEvent } from '../../../types/formTypes';
-import { useHandlers } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
+import { SocialButton, SocialButtonPicker } from './social-button';
+import socialMediaUI from '../../../../styles/theme/social-media-ui';
+import { type InputEvent } from '../../../../types/formTypes';
+import { useHandlers } from '../../hooks/use-profile-handlers';
 
-const AddLink = () => {
+export const AddLink = () => {
 	const { addSocialLink } = useHandlers().handlers;
 	const {
 		addSocialLink: { isPending },
@@ -90,8 +90,6 @@ const AddLink = () => {
 		</>
 	);
 };
-
-export default AddLink;
 
 const SocialLinksContainer = styled.div`
 	display: flex;

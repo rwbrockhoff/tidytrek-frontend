@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 import { useState, createContext, useContext } from 'react';
-import { UserContext } from '../Account';
+import { UserContext } from './account';
 import { DeleteModal } from '../../../components/ui/Modals';
-import AccountForm from '../../../features/Account/AccountForm/AccountForm';
+import { AccountForm } from '../components/account-form/account-form';
 import { type PasswordInfo } from '../../../types/formTypes';
-import {
-	validPassword,
-	passwordRequirements,
-} from '../../../features/auth/utils/auth-helpers';
+import { validPassword, passwordRequirements } from '../../auth/utils/auth-helpers';
 import { useDeleteAccountMutation } from '../../../queries/userQueries';
 import supabase, { updatePassword } from '../../../api/supabaseClient';
 
@@ -16,7 +13,7 @@ export const ChangePassContext = createContext({
 	error: { error: false, message: '' },
 });
 
-const AccountSettings = () => {
+export const AccountSettings = () => {
 	const { user } = useContext(UserContext);
 
 	const { mutate: deleteAccount } = useDeleteAccountMutation();
@@ -75,8 +72,6 @@ const AccountSettings = () => {
 		</Container>
 	);
 };
-
-export default AccountSettings;
 
 const Container = styled.div`
 	display: flex;

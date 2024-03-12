@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { SocialButton } from './SocialButton';
-import { SocialLink } from '../../../types/profileTypes';
-import socialMediaUI from '../../../styles/theme/social-media-ui';
+import { SocialButton } from './social-button';
+import { SocialLink } from '../../../../types/profileTypes';
+import socialMediaUI from '../../../../styles/theme/social-media-ui';
 
 type SocialLinkListProps = {
 	socialLinks: SocialLink[];
@@ -9,7 +9,7 @@ type SocialLinkListProps = {
 	colorButton?: boolean;
 	onDelete?: (socialLinkId: number | undefined) => void | undefined;
 };
-const SocialLinkList = (props: SocialLinkListProps) => {
+export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false, colorButton, onDelete } = props;
 
 	return (
@@ -34,8 +34,6 @@ const SocialLinkList = (props: SocialLinkListProps) => {
 		</CurrentLinksContainer>
 	);
 };
-
-export default SocialLinkList;
 
 const CurrentLinksContainer = styled.div`
 	display: flex;

@@ -1,13 +1,12 @@
-import Avatar from '../../../../components/ui/Avatar';
+import styled from 'styled-components';
 import { Header } from 'semantic-ui-react';
 import {
 	type ProfileInfo as ProfileInfoType,
 	type SocialLink,
-} from '../../../../types/profileTypes';
-import SocialLinkList from '../../../Account/ProfileForm/SocialLinkList';
-import styled from 'styled-components';
-import { Link } from '../../../../components/ui/Link';
-import { encode } from '../../../../utils/generateDisplayId';
+} from '@/types/profileTypes';
+import { Avatar, Link } from '@/components/ui';
+import { SocialLinkList } from '../../../account/components/profile-form/social-link-list';
+import { encode } from '@/utils/generateDisplayId';
 
 type ProfileInfoProps = {
 	userInfo: ProfileInfoType | undefined;

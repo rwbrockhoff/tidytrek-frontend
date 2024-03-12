@@ -7,7 +7,7 @@ import { useGetProfileQuery } from '../../../queries/profileQueries';
 import { UserViewContext } from '../../dashboard/hooks/useViewerContext';
 import { useViewProfileQuery } from '../../../queries/guestQueries';
 import { useGetAuthStatusQuery } from '../../../queries/userQueries';
-import { HandlerWrapper } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
+import { HandlerWrapper } from '../../account/hooks/use-profile-handlers';
 import { getTheme } from '../../../styles/theme/theme-utils';
 
 export const Profile = ({ userView }: { userView: boolean }) => {

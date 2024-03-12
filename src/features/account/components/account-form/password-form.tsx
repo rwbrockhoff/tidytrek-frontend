@@ -1,12 +1,12 @@
-import { Form, Input, Icon, Header } from 'semantic-ui-react';
-import { Button, FormField } from '../../../components/ui/SemanticUI';
-import { Link } from '../../../components/ui/Link';
-import { type PasswordInfo, type InputEvent } from '../../../types/formTypes';
+import { type PasswordInfo, type InputEvent } from '@/types/formTypes';
 import { useContext } from 'react';
-import { ChangePassContext } from '../../../pages/Account/AccountSettings/AccountSettings';
-import { FormSection } from './AccountForm';
 import styled from 'styled-components';
-import ConfirmationForm from './ConfirmationForm';
+import { Form, Input, Icon, Header } from 'semantic-ui-react';
+import { Button, FormField } from '@/components/ui/SemanticUI';
+import { Link } from '@/components/ui';
+import { ChangePassContext } from '../../routes';
+import { FormSection } from './account-form';
+import { ConfirmationForm } from './confirmation-form';
 
 type PasswordFormProps = {
 	displayFormSection: FormSection;
@@ -19,7 +19,7 @@ type PasswordFormProps = {
 	changePassword: (passwordInfo: PasswordInfo) => void;
 };
 
-const PasswordForm = (props: PasswordFormProps) => {
+export const PasswordForm = (props: PasswordFormProps) => {
 	const {
 		displayFormSection,
 		confirmationSent,
@@ -101,8 +101,6 @@ const PasswordForm = (props: PasswordFormProps) => {
 		</>
 	);
 };
-
-export default PasswordForm;
 
 const ButtonContainer = styled.div`
 	width: 50%;
