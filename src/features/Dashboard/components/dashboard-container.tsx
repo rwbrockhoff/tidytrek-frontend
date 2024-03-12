@@ -9,7 +9,7 @@ import {
 	type Category,
 	PackListItem,
 } from '@/types/pack-types';
-import { InitialState as GuestState } from '@/queries/guestQueries';
+import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import {
 	DragDropContext,
@@ -77,12 +77,12 @@ export const DashboardContainer = (props: DashboardProps) => {
 					<DragDropContext onDragEnd={handleOnDragEnd}>
 						<Drop droppableId={'dashboard-drop-window'} type="category">
 							{packCategories.length > 0 &&
-								packCategories.map((category: Category, idx: number) => {
+								packCategories.map((category: Category, index: number) => {
 									return (
 										<PackCategory
 											category={category}
 											packList={packList}
-											index={idx}
+											index={index}
 											key={category.packCategoryId}
 										/>
 									);

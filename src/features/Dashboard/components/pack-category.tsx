@@ -82,11 +82,11 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 
 						<DropTableBody droppableId={packCategoryId} type="item">
 							{showCategoryItems &&
-								packItems.map((item: PackItem, idx) => (
+								packItems.map((item: PackItem, index) => (
 									<TableRow
 										item={item}
 										key={item.packItemId}
-										index={idx}
+										index={index}
 										packList={packList}
 										handleMoveItemToPack={moveItemToPack}
 										handleOnSave={editPackItem}

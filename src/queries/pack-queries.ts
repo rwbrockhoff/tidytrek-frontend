@@ -12,7 +12,7 @@ import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '@/utils';
 import { HeaderInfo } from '../features/dashboard/handlers/use-pack-category-handlers';
 
-export const getCategoryIdx = (categories: Category[], categoryId: number | string) => {
+export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
 		(item: Category) => item.packCategoryId === Number(categoryId),
 	);
@@ -212,13 +212,13 @@ export const useMovePackItemMutation = () => {
 
 			queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
 				const { categories } = old;
-				const prevIndex = getCategoryIdx(categories, prevPackCategoryId);
+				const prevIndex = getCategoryIndex(categories, prevPackCategoryId);
 				const [item] = categories[prevIndex].packItems.splice(prevPackItemIndex, 1);
 
 				const sameCategory = prevPackCategoryId === packCategoryId;
 				const newIndex = sameCategory
 					? prevIndex
-					: getCategoryIdx(categories, packCategoryId);
+					: getCategoryIndex(categories, packCategoryId);
 				categories[newIndex].packItems.splice(packItemIndex, 0, item);
 
 				return old;
