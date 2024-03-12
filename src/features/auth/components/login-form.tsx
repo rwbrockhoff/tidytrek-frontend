@@ -77,6 +77,7 @@ export const LogInForm = ({
 					<Button
 						$tidyColor="tidyPrimary"
 						fluid
+						role="button"
 						size="large"
 						onClick={onSubmit}
 						disabled={isLoading}>
@@ -87,7 +88,7 @@ export const LogInForm = ({
 						<FormMessage
 							messageType="error"
 							text={formError.message || 'Oops! There was an error.'}
-							id="login-form-message"
+							id="auth-message"
 						/>
 					)}
 
@@ -95,7 +96,7 @@ export const LogInForm = ({
 						<FormMessage
 							messageType="success"
 							text="Check your email for a link to sign in."
-							id="register-success-message"
+							id="auth-message"
 						/>
 					)}
 

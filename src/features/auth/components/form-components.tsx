@@ -9,11 +9,18 @@ type FormMessageProps = {
 
 export const FormMessage = (props: FormMessageProps) => {
 	const { messageType, text, id } = props;
+	const isSuccess = messageType === 'success';
 
-	const messageColor = messageType === 'success' ? 'green' : 'red';
-	const messageIcon = messageType === 'success' ? 'check' : 'hand point right outline';
+	const messageColor = isSuccess ? 'green' : 'red';
+	const messageIcon = isSuccess ? 'check' : 'hand point right outline';
 	return (
-		<Message color={messageColor} data-testid={`${id}-${messageType}`}>
+		<Message
+			color={messageColor}
+			data-testid={`${id}-${messageType}`}
+			role="alert"
+			aria-label="login form message alert"
+			aria-invalid={isSuccess ? 'false' : 'true'}
+			aria-errormessage={isSuccess ? '' : text}>
 			<Icon name={messageIcon} />
 			{text}
 		</Message>

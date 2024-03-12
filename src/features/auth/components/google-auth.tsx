@@ -33,8 +33,9 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	}, [isRegisterSuccess]);
 
 	useEffect(() => {
+		if (process.env.NODE_ENV === 'test') return;
 		// subscribe to google gsi and render button
-		if (google_button.current) {
+		if (google_button.current && google) {
 			google.accounts.id.initialize({
 				client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
 				callback: handleGoogleAuth,

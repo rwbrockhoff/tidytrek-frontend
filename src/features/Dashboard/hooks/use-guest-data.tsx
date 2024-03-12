@@ -1,6 +1,6 @@
 import { isGuestData } from '@/styles/theme/theme-utils';
 import { InitialState as PackState } from '@/types/pack-types';
-import { InitialState as GuestState } from '@/queries/guestQueries';
+import { InitialState as GuestState } from '@/queries/guest-queries';
 
 export const useGuestData = (data: PackState | GuestState | undefined) => {
 	const isGuest = isGuestData(data);
