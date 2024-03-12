@@ -11,11 +11,7 @@ import {
 } from '@/types/pack-types';
 import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
-import {
-	DragDropContext,
-	Drop,
-	type DropResult,
-} from '@/components/drag-drop/drag-drop-wrapper';
+import { DragDropContext, Drop, type DropResult } from '@/components';
 import { DeleteModal } from '@/components/ui';
 import { useGuestData } from '../hooks/use-guest-data';
 import { getThemeAsGuest } from '@/styles/theme/theme-utils';

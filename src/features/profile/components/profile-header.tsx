@@ -3,7 +3,7 @@ import { type UserProfile } from '@/types/profile-types';
 import { Icon } from 'semantic-ui-react';
 import { Avatar } from '@/components/ui';
 import { Header } from '@/components/ui/SemanticUI';
-import { SocialLinkList } from '../../account/components/profile-form/social-link-list';
+import { SocialLinkList } from '@/components';
 import { useHandlers } from '../../account/hooks/use-profile-handlers';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { BannerPhoto } from './banner-photo';

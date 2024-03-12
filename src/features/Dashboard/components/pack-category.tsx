@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { TidyTable, DeleteItemModal } from '@/components/ui';
 import { TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { DropTableBody } from '@/components/drag-drop/drag-drop-wrapper';
+import { DropTableBody } from '@/components';
 import { usePackItemHandlers } from '../handlers/use-pack-item-handlers';
 import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
 

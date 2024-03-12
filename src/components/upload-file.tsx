@@ -10,7 +10,7 @@ type UploadFileProps = {
 	onUpload: ((formData: FormData) => void) | undefined;
 };
 
-const UploadFile = (props: UploadFileProps) => {
+export const UploadFile = (props: UploadFileProps) => {
 	const {
 		fileId,
 		fileType = 'image/jpg, image/png',
@@ -64,8 +64,6 @@ const UploadFile = (props: UploadFileProps) => {
 		</div>
 	);
 };
-
-export default UploadFile;
 
 const UploadLabel = styled.label`
 	color: white;

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import UploadFile from '../../../components/upload-file';
 import { useState } from 'react';
-import Dimmer from '../../../components/ui/Dimmer';
-import { Loader } from '../../../components/ui/TidyUI';
+import { UploadFile } from '@/components';
+import { Dimmer } from '@/components/ui';
+import { Loader } from '@/components/ui/TidyUI';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;

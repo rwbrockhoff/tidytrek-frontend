@@ -5,7 +5,7 @@ import {
 	type SocialLink,
 } from '@/types/profile-types';
 import { Avatar, Link } from '@/components/ui';
-import { SocialLinkList } from '../../../account/components/profile-form/social-link-list';
+import { SocialLinkList } from '@/components';
 import { encode } from '@/utils';
 
 type ProfileInfoProps = {

@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import UploadFile from '../../../../components/upload-file';
 import { Button } from 'semantic-ui-react';
-import { Loader } from '../../../../components/ui/TidyUI';
-import { Dimmer } from '../../../../components/ui/Dimmer';
-import { defaultPackPhoto } from '../../../../components/ui/defaultPhotos';
-import { absoluteCenter } from '../../../../styles/mixins';
+import { Loader } from '@/components/ui/TidyUI';
+import { Dimmer, defaultPackPhoto } from '@/components/ui';
+import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
 	src: string;
@@ -72,7 +70,7 @@ const StyledDimmer = styled(Dimmer)`
 `;
 
 const UploadContainer = styled.div`
-	${absoluteCenter}
+	${({ theme: t }) => t.mx.absoluteCenter()}
 	z-index: 5;
 `;
 

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/SemanticUI';
 import { SubText } from '@/components/ui/TidyUI';
 import { AddLink } from './add-link';
 import { useHandlers } from '../../hooks/use-profile-handlers';
-import { SocialLinkList } from './social-link-list';
+import { SocialLinkList } from '@/components';
 
 type SocialLinksProps = {
 	socialLinks: SocialLink[];

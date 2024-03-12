@@ -4,8 +4,7 @@ import { Loader } from './TidyUI';
 import { Link } from './Link';
 import { useState } from 'react';
 import Dimmer from './Dimmer';
-import UploadFile from '../upload-file';
-import { absoluteCenter, flexCenter } from '../../styles/mixins';
+import { UploadFile } from '../upload-file';
 import { defaultAvatarPhoto } from './defaultPhotos';
 
 type AvatarProps = {
@@ -96,7 +95,7 @@ const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
 	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
 	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-	${flexCenter};
+	${({ theme: t }) => t.mx.flexCenter()}
 `;
 
 const OuterContainer = styled(InnerContainer)`
@@ -117,7 +116,7 @@ const StyledDimmer = styled(Dimmer)`
 `;
 
 const UploadContainer = styled.div`
-	${absoluteCenter}
+	${({ theme: t }) => t.mx.absoluteCenter()}
 `;
 
 const DeleteButton = styled(Button)`
