@@ -23,7 +23,7 @@ import {
 	useDeletePackPhotoMutation,
 } from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
-import { PackPhoto } from './pack-photo';
+import { PackPhoto } from '@/components';
 
 type PackModalProps = {
 	pack: Pack;

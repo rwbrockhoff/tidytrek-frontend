@@ -7,11 +7,10 @@ import {
 	Icon,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { PackLabels } from '@/components';
+import { PackLabels, PackPhoto } from '@/components';
 import { type Pack } from '@/types/pack-types';
 import { Link } from '@/components/ui';
 import { encode } from '@/utils';
-import { PackPhoto } from '@/features/dashboard/components/pack-modal/pack-photo';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
 
 type PackCardProps = {
