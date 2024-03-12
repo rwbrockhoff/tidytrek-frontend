@@ -1,9 +1,8 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { useMemo } from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import { Category } from '../../../../../types/pack-types';
+import { type Category } from '@/types/pack-types';
 import styled, { useTheme } from 'styled-components';
-import { flexCenter } from '../../../../../styles/mixins';
+import { useMemo } from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
 type PackChartProps = {
 	categories: Category[];
@@ -56,6 +55,6 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 };
 
 const ChartContainer = styled.div`
-	${flexCenter}
+	${({ theme: t }) => t.mx.flexCenter()}
 	width: 100%;
 `;

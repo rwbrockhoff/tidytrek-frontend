@@ -1,8 +1,8 @@
+import { type PackListItem, type PackItem, PackInfo } from '@/types/pack-types';
 import { Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Button, Table } from '@/components/ui/SemanticUI';
 import { TidyTable } from '@/components/ui';
-import { type PackListItem, type PackItem, PackInfo } from '../../../types/pack-types';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
 	useAddGearClosetItemMutation,
@@ -10,7 +10,7 @@ import {
 	useEditGearClosetItemMutation,
 	useMoveGearClosetItemMutation,
 	useMoveItemToPackMutation,
-} from '../../../queries/closet-queries';
+} from '@/queries/closet-queries';
 import { TableRow, StyledFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';

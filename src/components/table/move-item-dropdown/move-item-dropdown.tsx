@@ -1,9 +1,9 @@
 import { useState, type SyntheticEvent } from 'react';
 import { Dropdown, Icon, DropdownProps } from 'semantic-ui-react';
-import { type PackInfo } from '../../../types/pack-types';
+import { type PackInfo } from '@/types/pack-types';
 import styled from 'styled-components';
-import { Button, TableCell } from '../../ui/SemanticUI';
-import { PackItem, type PackListItem } from '../../../types/pack-types';
+import { Button, TableCell } from '@/components/ui/SemanticUI';
+import { PackItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 
 type SelectEvent = SyntheticEvent<HTMLElement, Event>;

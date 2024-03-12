@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { wrappedRender } from '../../../tests/test-utils';
+import { wrappedRender } from '@/tests/test-utils';
 import Sidebar from '../sidebar';
 
 it.skip('Should render the Sidebar component', () => {

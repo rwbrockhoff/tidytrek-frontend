@@ -1,7 +1,7 @@
 import { DropResult } from 'react-beautiful-dnd';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { createContext, useContext, useState } from 'react';
-import { Pack } from '../../../types/pack-types';
+import { Pack } from '@/types/pack-types';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 
 export type HeaderInfo = {

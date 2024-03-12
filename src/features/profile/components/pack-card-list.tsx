@@ -1,7 +1,7 @@
-import { CardGroup } from 'semantic-ui-react';
-import { Pack } from '../../../types/pack-types';
-import { PackCard } from './pack-card';
 import styled from 'styled-components';
+import { CardGroup } from 'semantic-ui-react';
+import { Pack } from '@/types/pack-types';
+import { PackCard } from './pack-card';
 import { useUserContext } from '@/hooks/use-viewer-context';
 
 type PackCardListProps = {

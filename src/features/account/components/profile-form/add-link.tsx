@@ -1,10 +1,10 @@
 import { Divider, Icon, Input, Popup, PopupContent } from 'semantic-ui-react';
-import { Button } from '../../../../components/ui/SemanticUI';
+import { Button } from '@/components/ui/SemanticUI';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './social-button';
-import socialMediaUI from '../../../../styles/theme/social-media-ui';
-import { type InputEvent } from '../../../../types/form-types';
+import socialMediaUI from '@/styles/theme/social-media-ui';
+import { type InputEvent } from '@/types/form-types';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 
 export const AddLink = () => {

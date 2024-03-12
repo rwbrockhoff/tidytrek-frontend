@@ -1,5 +1,5 @@
 import { Form, Header, Segment } from 'semantic-ui-react';
-import { Button } from '../../../components/ui/SemanticUI';
+import { Button } from '@/components/ui/SemanticUI';
 import { AuthContainer, FormContainer } from '../components/form-components';
 import { useNavigate } from 'react-router-dom';
 

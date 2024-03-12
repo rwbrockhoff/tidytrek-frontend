@@ -1,8 +1,8 @@
 import { Modal, ModalHeader, ModalContent, ModalActions, Icon } from 'semantic-ui-react';
 import { Button } from './SemanticUI';
 import styled from 'styled-components';
-import { absoluteCenter } from '../../styles/mixins';
-import { tidyTheme } from '../../styles/theme/tidy-theme';
+import { absoluteCenter } from '@/styles/mixins';
+import { tidyTheme } from '@/styles/theme/tidy-theme';
 
 type DeleteModalProps = {
 	open: boolean;

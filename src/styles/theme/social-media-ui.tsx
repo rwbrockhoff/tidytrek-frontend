@@ -1,5 +1,5 @@
 import { Icon } from 'semantic-ui-react';
-import { type SocialObject } from '../../types/profile-types';
+import { type SocialObject } from '@/types/profile-types';
 
 const socialMediaUI: SocialObject = {
 	custom: {

@@ -1,10 +1,9 @@
-import { FormError, type InputEvent } from '../../../../types/form-types';
+import { FormError, type InputEvent } from '@/types/form-types';
 import { Form, Segment } from 'semantic-ui-react';
-import { Header } from '../../../../components/ui/SemanticUI';
+import { Header, Button } from '@/components/ui/SemanticUI';
+import { SubText } from '@/components/ui/TidyUI';
+import { Link } from '@/components/ui';
 import { FooterText, FormContainer, FormMessage } from '../form-components';
-import { SubText } from '../../../../components/ui/TidyUI';
-import { Button } from '../../../../components/ui/SemanticUI';
-import { Link } from '../../../../components/ui/Link';
 
 type WelcomeFormProps = {
 	username: string;

@@ -1,4 +1,4 @@
-import { PackListItem as ListItem } from '../../../types/pack-types';
+import { PackListItem as ListItem } from '@/types/pack-types';
 import styled from 'styled-components';
 
 type PackListItemProps = {

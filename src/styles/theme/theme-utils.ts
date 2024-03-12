@@ -1,11 +1,7 @@
-import { InitialState as GuestQueryState } from '../../queries/guestQueries';
-import { InitialState as PackQueryState } from '../../types/pack-types';
+import { type InitialState as GuestQueryState } from '@/queries/guest-queries';
+import { type InitialState as PackQueryState } from '@/types/pack-types';
 import { useMemo } from 'react';
-import {
-	type ThemeColor,
-	type Settings,
-	type UserTheme,
-} from '../../types/settings-types';
+import { type ThemeColor, type Settings, type UserTheme } from '@/types/settings-types';
 import { tidyTheme } from './tidy-theme';
 import * as mixins from '../mixins';
 

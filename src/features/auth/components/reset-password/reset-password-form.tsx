@@ -1,6 +1,6 @@
-import { FormError, type InputEvent } from '../../../../types/form-types';
+import { FormError, type InputEvent } from '@/types/form-types';
 import { Form, Segment } from 'semantic-ui-react';
-import { Header, Button } from '../../../../components/ui/SemanticUI';
+import { Header, Button } from '@/components/ui/SemanticUI';
 import { Link } from 'react-router-dom';
 import { FooterText, FormContainer, FormMessage } from '../form-components';
 import { AuthContainer } from '../form-components';

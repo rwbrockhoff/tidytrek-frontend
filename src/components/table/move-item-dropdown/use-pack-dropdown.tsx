@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Category, PackListItem } from '../../../types/pack-types';
+import { Category, PackListItem } from '@/types/pack-types';
 
 export const usePackDropdown = (
 	availablePacks: PackListItem[],

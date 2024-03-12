@@ -9,7 +9,7 @@ import {
 	FormField as SemFormField,
 } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { TidyThemeColorName } from '../../styles/theme/tidy-theme';
+import { TidyThemeColorName } from '@/styles/theme/tidy-theme';
 
 export const Button = styled(SemButton)`
 	&&& {

@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { Button } from '../../../components/ui/SemanticUI';
+import { Button } from '@/components/ui/SemanticUI';
 import { Header } from 'semantic-ui-react';
-import { Link } from '../../../components/ui/Link';
-import { themeBgColor } from '../../../styles/mixins';
+import { Link } from '@/components/ui/Link';
 
 export const ProfileBanner = () => {
 	return (
@@ -29,7 +28,7 @@ const BannerContainer = styled.div`
 
 const StyledButton = styled(Button)`
 	&&& {
-		${themeBgColor('tidyPrimary', 'tidy')}
+		${({ theme: t }) => t.mx.themeBgColor('tidyPrimary', 'tidy')}
 		color: white;
 	}
 `;
