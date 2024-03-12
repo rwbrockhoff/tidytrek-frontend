@@ -14,7 +14,7 @@ import {
 import { Header, FormField } from '@/components/ui/SemanticUI';
 import { SubText } from '@/components/ui/TidyUI';
 import { Avatar } from '@/components/ui';
-import { setFormInput } from '@/utils/formHelpers';
+import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { useAxiosErrorMessage } from '@/hooks/use-axios-error';

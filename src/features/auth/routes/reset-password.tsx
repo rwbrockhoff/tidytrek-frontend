@@ -2,7 +2,7 @@ import { type InputEvent } from '@/types/form-types';
 import { useEffect, useState } from 'react';
 import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
 import { validEmail, validPassword } from '@/features/auth/utils/auth-helpers';
-import { setFormInput } from '@/utils/formHelpers';
+import { setFormInput } from '@/utils';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';

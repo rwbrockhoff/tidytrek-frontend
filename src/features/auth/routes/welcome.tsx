@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AuthContainer } from '../components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
-import { setFormInput } from '@/utils/formHelpers';
+import { setFormInput } from '@/utils';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
 import supabase from '@/api/supabaseClient';
 import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/user-queries';

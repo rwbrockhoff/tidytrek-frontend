@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Table, Input } from 'semantic-ui-react';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import useCurrency from '@/utils/useCurrency';
+import { convertCurrency } from '@/utils';
 
 type PriceCellProps = {
 	price: number;
@@ -28,7 +28,7 @@ export const PriceCell = (props: PriceCellProps) => {
 		}
 	};
 
-	const formattedPrice = useCurrency(price, 'USD');
+	const formattedPrice = convertCurrency(price, 'USD');
 
 	return (
 		<Table.Cell

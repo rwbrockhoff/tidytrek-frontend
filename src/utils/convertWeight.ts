@@ -1,10 +1,10 @@
-import { type PackItem } from '../types/pack-types';
+import { type PackItem } from '@/types/pack-types';
 
-// weightConverter sums the total weight of all pack items into one weight metric
+// convertWeight sums the total weight of all pack items into one weight metric
 // it also returns the total price, consumable weight, and wornWeight
 // useCategoryInfo is the more complex hook used to summarize a pack (this hook is for a pack category);
 
-export const weightConverter = (itemList: PackItem[], outputUnit: string) => {
+export const convertWeight = (itemList: PackItem[], outputUnit: string) => {
 	if (itemList[0]) {
 		let totalConsumableWeight = 0;
 		let totalWornWeight = 0;
@@ -116,6 +116,6 @@ function convertToGrams(weight: number, unit: string) {
 	}
 }
 
-export const quantityConverter = (items: PackItem[]) => {
+export const convertQuantity = (items: PackItem[]) => {
 	return items.reduce((acc, item) => (acc += item.packItemQuantity), 0);
 };

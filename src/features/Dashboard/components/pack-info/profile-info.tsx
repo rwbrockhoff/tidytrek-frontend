@@ -6,7 +6,7 @@ import {
 } from '@/types/profile-types';
 import { Avatar, Link } from '@/components/ui';
 import { SocialLinkList } from '../../../account/components/profile-form/social-link-list';
-import { encode } from '@/utils/generateDisplayId';
+import { encode } from '@/utils';
 
 type ProfileInfoProps = {
 	userInfo: ProfileInfoType | undefined;

@@ -1,4 +1,4 @@
-const useCurrency = (price: number, currency: string) => {
+export const convertCurrency = (price: number, currency: string = 'USD') => {
 	const currencyConverter = Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency,
@@ -6,5 +6,3 @@ const useCurrency = (price: number, currency: string) => {
 
 	return currencyConverter.format(price);
 };
-
-export default useCurrency;

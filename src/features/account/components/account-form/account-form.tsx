@@ -5,7 +5,7 @@ import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
 import { Header } from '@/components/ui/SemanticUI';
 import { PasswordForm } from './password-form';
-import { setFormInput } from '@/utils/formHelpers';
+import { setFormInput } from '@/utils';
 import { reauthenticateUser } from '@/api/supabaseClient';
 import { ChangePassContext } from '../../routes';
 import { Message } from '@/components/ui';

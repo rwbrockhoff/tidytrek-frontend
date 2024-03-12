@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { PackLabels } from '@/features/dashboard/components/pack-info/pack-labels';
 import { type Pack } from '@/types/pack-types';
 import { Link } from '@/components/ui';
-import { encode } from '@/utils/generateDisplayId';
+import { encode } from '@/utils';
 import { PackPhoto } from '@/features/dashboard/components/pack-modal/pack-photo';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
 

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { guestKeys } from './query-keys';
-import { decode } from '../utils/generateDisplayId';
+import { decode } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
 import { type UserProfileWithPack, type UserProfile } from '../types/profile-types';

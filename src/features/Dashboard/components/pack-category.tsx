@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { TidyTable, DeleteItemModal } from '@/components/ui';
 import { TableRow, TableHeader, TableFooter } from '@/components/table';
-import { weightConverter, quantityConverter } from '@/utils/weightConverter';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DropTableBody } from '@/components/drag-drop/drag-drop-wrapper';
 import { usePackItemHandlers } from '../handlers/use-pack-item-handlers';
-import useCurrency from '@/utils/useCurrency';
+import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
 
 type PackCategoryProps = {
 	category: Category;
@@ -43,13 +42,13 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 	const [isMinimized, setMinimized] = useState(false);
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
-	const { totalWeight: convertedCategoryWeight, totalPrice } = weightConverter(
+	const { totalWeight: convertedCategoryWeight, totalPrice } = convertWeight(
 		packItems,
 		'lb',
 	);
 
-	const formattedTotalPrice = useCurrency(totalPrice, 'USD');
-	const itemQuantity = packItems[0] ? quantityConverter(packItems) : 0; // todo: get from weight converter
+	const formattedTotalPrice = convertCurrency(totalPrice, 'USD');
+	const itemQuantity = packItems[0] ? convertQuantity(packItems) : 0; // todo: get from weight converter
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view
 	if (!userView && !showCategoryItems) return null;

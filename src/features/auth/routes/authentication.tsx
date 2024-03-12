@@ -1,9 +1,8 @@
 import { RegisterUserFormData } from '@/types/user-types';
 import { type InputEvent } from '@/types/form-types';
 import { useEffect, useState } from 'react';
-import { isInputEvent } from '@/utils/formHelpers';
+import { isInputEvent, setFormInput } from '@/utils';
 import { LogInForm } from '../components/login-form';
-import { setFormInput } from '@/utils/formHelpers';
 import { useValidateForm } from '../hooks/use-validate-form';
 import { useCombineErrors, type MutationError } from '../hooks/use-combine-errors';
 import {

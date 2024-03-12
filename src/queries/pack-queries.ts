@@ -1,16 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrekAPI';
 import {
 	type MovePackItemProps,
 	type InitialState,
 	type Pack,
 	type PackItem,
 	type PackListItem,
-} from '../types/pack-types';
+	type Category,
+} from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
-import { decode } from '../utils/generateDisplayId';
-import { getCategoryIdx } from '../utils/packUtils';
+import { decode } from '@/utils';
 import { HeaderInfo } from '../features/dashboard/handlers/use-pack-category-handlers';
+
+export const getCategoryIdx = (categories: Category[], categoryId: number | string) => {
+	return categories.findIndex(
+		(item: Category) => item.packCategoryId === Number(categoryId),
+	);
+};
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({

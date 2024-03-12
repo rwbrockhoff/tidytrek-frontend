@@ -9,7 +9,7 @@ import {
 	useMovePackMutation,
 } from '@/queries/pack-queries';
 import { Divider } from 'semantic-ui-react';
-import { encode } from '@/utils/generateDisplayId';
+import { encode } from '@/utils';
 import { PackList } from './components/pack-list';
 import {
 	DragDropContext,

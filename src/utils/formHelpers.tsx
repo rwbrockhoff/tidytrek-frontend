@@ -2,7 +2,7 @@ import {
 	type CheckboxEvent,
 	type InputEvent,
 	type TextAreaEvent,
-} from '../types/form-types';
+} from '@/types/form-types';
 
 export const isInputEvent = (e: InputEvent | CheckboxEvent): e is InputEvent => {
 	return e.type === 'change' || false;

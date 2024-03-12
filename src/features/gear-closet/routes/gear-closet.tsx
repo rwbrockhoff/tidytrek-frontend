@@ -7,7 +7,7 @@ import { GearClosetList } from '../components/gear-closet-list';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
-import { searchMatch } from '@/utils/formHelpers';
+import { searchMatch } from '@/utils';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
