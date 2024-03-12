@@ -1,5 +1,5 @@
-import { type SocialLink, type ProfileInfo } from '@/types/profileTypes';
-import { type InputEvent, type TextAreaEvent } from '@/types/formTypes';
+import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
+import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
@@ -17,7 +17,7 @@ import { Avatar } from '@/components/ui';
 import { setFormInput } from '@/utils/formHelpers';
 import { SocialLinks } from './social-links';
 import { useHandlers } from '../../hooks/use-profile-handlers';
-import { useAxiosErrorMessage } from '@/hooks/useAxiosError';
+import { useAxiosErrorMessage } from '@/hooks/use-axios-error';
 
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;

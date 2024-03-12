@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { useState, createContext, useContext } from 'react';
 import { UserContext } from './account';
-import { DeleteModal } from '../../../components/ui/Modals';
+import { DeleteModal } from '@/components/ui';
 import { AccountForm } from '../components/account-form/account-form';
-import { type PasswordInfo } from '../../../types/formTypes';
+import { type PasswordInfo } from '@/types/form-types';
 import { validPassword, passwordRequirements } from '../../auth/utils/auth-helpers';
-import { useDeleteAccountMutation } from '../../../queries/userQueries';
-import supabase, { updatePassword } from '../../../api/supabaseClient';
+import { useDeleteAccountMutation } from '@/queries/user-queries';
+import supabase, { updatePassword } from '@/api/supabaseClient';
 
 export const ChangePassContext = createContext({
 	isSuccess: false,

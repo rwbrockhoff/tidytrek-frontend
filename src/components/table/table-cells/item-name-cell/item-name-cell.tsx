@@ -1,4 +1,4 @@
-import { type InputEvent, type SelectEvent } from '@/types/formTypes';
+import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { Table, Input } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';

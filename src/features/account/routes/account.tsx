@@ -1,6 +1,6 @@
-import { type User } from '@/types/userTypes';
+import { type User } from '@/types/user-types';
 import { createContext } from 'react';
-import { useGetAuthStatusQuery } from '@/queries/userQueries';
+import { useGetAuthStatusQuery } from '@/queries/user-queries';
 import { Header } from 'semantic-ui-react';
 import { Outlet } from 'react-router-dom';
 import { AccountMenu } from '../components/account-menu';

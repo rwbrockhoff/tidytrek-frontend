@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Category } from '@/types/packTypes';
+import { Category } from '@/types/pack-types';
 import { PackChart } from './pack-chart';
 import { Image, List, ListItem, Label, Divider } from 'semantic-ui-react';
 import { Icon } from '@/components/ui/SemanticUI';

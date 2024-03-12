@@ -1,4 +1,4 @@
-import { type PackListItem, type Category, type PackItem } from '@/types/packTypes';
+import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';

@@ -10,19 +10,19 @@ import {
 	FormGroup,
 	Divider,
 } from 'semantic-ui-react';
-import { type InputEvent, type TextAreaEvent } from '../../../../types/formTypes';
-import { Button, ModalHeader, Checkbox } from '../../../../components/ui/SemanticUI';
+import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
+import { type Pack } from '@/types/pack-types';
+import { Button, ModalHeader, Checkbox } from '@/components/ui/SemanticUI';
+import { cleanUpLink } from '@/components/ui';
+import { SubText } from '@/components/ui/TidyUI';
 import {
 	useEditPackMutation,
 	useUploadPackPhotoMutation,
 	useDeletePackPhotoMutation,
-} from '../../../../queries/packQueries';
-import { Pack } from '../../../../types/packTypes';
+} from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
-import { cleanUpLink } from '../../../../components/ui/Link';
-import styled from 'styled-components';
-import { SubText } from '../../../../components/ui/TidyUI';
 import { PackPhoto } from './pack-photo';
 
 type PackModalProps = {

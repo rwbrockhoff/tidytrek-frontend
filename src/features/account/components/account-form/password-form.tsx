@@ -1,4 +1,4 @@
-import { type PasswordInfo, type InputEvent } from '@/types/formTypes';
+import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { Form, Input, Icon, Header } from 'semantic-ui-react';

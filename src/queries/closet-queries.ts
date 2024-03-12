@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { PackInfo, type PackItem } from '../types/packTypes';
-import { closetKeys, packKeys } from './queryKeys';
+import { PackInfo, type PackItem } from '../types/pack-types';
+import { closetKeys, packKeys } from './query-keys';
 
 type InitialState = {
 	gearClosetList: PackItem[];

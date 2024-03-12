@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { userKeys } from './queryKeys';
+import { userKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type RegisterUser, type User } from '../types/userTypes';
-import { type Settings } from '../types/settingsTypes';
+import { type RegisterUser, type User } from '../types/user-types';
+import { type Settings } from '../types/settings-types';
 
 type InitialState = {
 	isAuthenticated: boolean;

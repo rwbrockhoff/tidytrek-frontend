@@ -1,14 +1,14 @@
-import { type InputEvent } from '../../../types/formTypes';
+import { type InputEvent } from '@/types/form-types';
+import { type RegisterUserFormData } from '@/types/user-types';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, Segment } from 'semantic-ui-react';
-import { Button, Header } from '../../../components/ui/SemanticUI';
+import { Button, Header } from '@/components/ui/SemanticUI';
 import { FormContainer, FooterText, FormMessage } from './form-components';
-import { FormError } from '../../../types/formTypes';
-import RegisterFormSection from './register-form-section';
-import { RegisterUserFormData } from '../../../types/userTypes';
-import GoogleAuth from './google-auth';
-import styled from 'styled-components';
-import { SubText } from '../../../components/ui/TidyUI';
+import { FormError } from '@/types/form-types';
+import { RegisterFormSection } from './register-form-section';
+import { GoogleAuth } from './google-auth';
+import { SubText } from '@/components/ui/TidyUI';
 
 type FormProps = {
 	formData: RegisterUserFormData;
@@ -21,7 +21,7 @@ type FormProps = {
 	onSubmit: () => void;
 };
 
-const LogInForm = ({
+export const LogInForm = ({
 	formData,
 	isRegisterForm,
 	isRegisterSuccess,
@@ -123,8 +123,6 @@ const LogInForm = ({
 		</FormContainer>
 	);
 };
-
-export default LogInForm;
 
 const DividerText = styled.p`
 	margin: 1em 0em;

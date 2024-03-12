@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { type Session } from '@supabase/supabase-js';
-import supabase from '../api/supabaseClient.ts';
 import { Loader } from 'semantic-ui-react';
+import { ThemeProvider } from 'styled-components';
+import { type Session } from '@supabase/supabase-js';
+import supabase from '@/api/supabaseClient.ts';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
-import { useGetAuthStatusQuery } from '../queries/userQueries.ts';
-import { ThemeProvider } from 'styled-components';
-import { createTheme } from '../styles/theme/theme-utils.ts';
+import { useGetAuthStatusQuery } from '@/queries/user-queries.ts';
+import { createTheme } from '@/styles/theme/theme-utils.ts';
 
 export const AppRouter = () => {
 	const { isLoading, data } = useGetAuthStatusQuery();

@@ -1,15 +1,15 @@
-import { type UserProfile } from '@/types/profileTypes';
-import { type Category, type Pack } from '@/types/packTypes';
-import { type Settings } from '@/types/settingsTypes';
+import { type UserProfile } from '@/types/profile-types';
+import { type Category, type Pack } from '@/types/pack-types';
+import { type Settings } from '@/types/settings-types';
 import styled from 'styled-components';
-import { Header, Icon, Button } from 'semantic-ui-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Header, Icon, Button } from 'semantic-ui-react';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	useDeletePackMutation,
 	useDeletePackAndItemsMutation,
-} from '@/queries/packQueries';
+} from '@/queries/pack-queries';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
 import { DeleteModal, DisplayLink } from '@/components/ui';

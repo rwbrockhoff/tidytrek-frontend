@@ -1,4 +1,4 @@
-import { PackItem, Category, PackListItem } from '../types/packTypes';
+import { PackItem, Category, PackListItem } from '../types/pack-types';
 
 export const getCategoryIdx = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(

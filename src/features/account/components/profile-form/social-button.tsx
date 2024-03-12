@@ -1,4 +1,4 @@
-import { type SocialLinkInfo } from '@/types/profileTypes';
+import { type SocialLinkInfo } from '@/types/profile-types';
 import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
 import { Link } from '@/components/ui';

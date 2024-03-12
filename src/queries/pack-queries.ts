@@ -6,11 +6,11 @@ import {
 	type Pack,
 	type PackItem,
 	type PackListItem,
-} from '../types/packTypes';
-import { packKeys, packListKeys, closetKeys, profileKeys } from './queryKeys';
+} from '../types/pack-types';
+import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '../utils/generateDisplayId';
 import { getCategoryIdx } from '../utils/packUtils';
-import { HeaderInfo } from '../features/dashboard/handlers/usePackCategoryHandlers';
+import { HeaderInfo } from '../features/dashboard/handlers/use-pack-category-handlers';
 
 export const useGetDefaultPackQuery = () =>
 	useQuery<InitialState>({

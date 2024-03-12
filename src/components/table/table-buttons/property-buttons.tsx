@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Table, Popup, Icon } from 'semantic-ui-react';
-import { type PackButtonSwitches } from '@/types/packTypes';
+import { type PackButtonSwitches } from '@/types/pack-types';
 import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {

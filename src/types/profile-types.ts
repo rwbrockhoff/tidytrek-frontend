@@ -1,5 +1,5 @@
-import { Pack } from './packTypes';
-import { Settings } from './settingsTypes';
+import { Pack } from './pack-types';
+import { Settings } from './settings-types';
 
 export type InitialState = {
 	profileInfo: ProfileInfo;

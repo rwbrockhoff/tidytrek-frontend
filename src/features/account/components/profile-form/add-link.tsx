@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '../../../../styles/theme/social-media-ui';
-import { type InputEvent } from '../../../../types/formTypes';
+import { type InputEvent } from '../../../../types/form-types';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 
 export const AddLink = () => {

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ProfileForm } from '../components/profile-form/profile-form';
-import { useGetProfileSettingsQuery } from '../../../queries/profileSettingsQueries';
+import { useGetProfileSettingsQuery } from '../../../queries/profile-settings-queries';
 import { HandlerWrapper } from '../hooks/use-profile-handlers';
 
 export const ProfileSettings = () => {

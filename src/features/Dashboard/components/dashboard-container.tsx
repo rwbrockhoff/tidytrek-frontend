@@ -8,7 +8,7 @@ import {
 	InitialState as UserState,
 	type Category,
 	PackListItem,
-} from '@/types/packTypes';
+} from '@/types/pack-types';
 import { InitialState as GuestState } from '@/queries/guestQueries';
 import { DashboardFooter } from './dashboard-footer';
 import {

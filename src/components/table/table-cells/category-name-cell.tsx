@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { type InputEvent } from '@/types/formTypes';
+import { type InputEvent } from '@/types/form-types';
 import {
 	Table as SemTable,
 	Input as SemInput,

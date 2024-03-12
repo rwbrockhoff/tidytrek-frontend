@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { type ThemeColorName } from '../types/settingsTypes';
+import { type ThemeColorName } from '../types/settings-types';
 import { TidyThemeColorName } from './theme/tidy-theme';
 
 // export const fontSize = (size: number, base = 16) => `

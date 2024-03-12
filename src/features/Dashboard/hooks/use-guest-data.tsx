@@ -1,5 +1,5 @@
 import { isGuestData } from '@/styles/theme/theme-utils';
-import { InitialState as PackState } from '@/types/packTypes';
+import { InitialState as PackState } from '@/types/pack-types';
 import { InitialState as GuestState } from '@/queries/guestQueries';
 
 export const useGuestData = (data: PackState | GuestState | undefined) => {

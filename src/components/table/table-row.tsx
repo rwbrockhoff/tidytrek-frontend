@@ -6,7 +6,7 @@ import {
 	type PackButtonSwitches,
 	type PackListItem,
 	type PackInfo,
-} from '../../types/packTypes';
+} from '../../types/pack-types';
 import {
 	PropertyButtons,
 	ActionButtons,
@@ -23,7 +23,7 @@ import {
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
-import useCheckMobile from '../../hooks/useCheckMobile';
+import useCheckMobile from '../../hooks/use-check-mobile';
 
 type TableRowProps = {
 	index: number;

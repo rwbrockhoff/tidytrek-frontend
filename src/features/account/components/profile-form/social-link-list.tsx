@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SocialButton } from './social-button';
-import { SocialLink } from '../../../../types/profileTypes';
+import { SocialLink } from '../../../../types/profile-types';
 import socialMediaUI from '../../../../styles/theme/social-media-ui';
 
 type SocialLinkListProps = {

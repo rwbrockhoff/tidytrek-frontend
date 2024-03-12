@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import supabase from '../../../api/supabaseClient';
-declare const google: any;
-import { useRegisterMutation, useLoginMutation } from '../../../queries/userQueries';
+import supabase from '@/api/supabaseClient';
+import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
-import useCheckMobile from '../../../hooks/useCheckMobile';
+import useCheckMobile from '@/hooks/use-check-mobile';
+declare const google: any;
 
 type GoogleAuthProps = {
 	context: AuthContext;
@@ -12,7 +12,7 @@ type GoogleAuthProps = {
 };
 type AuthContext = 'signup' | 'signin';
 
-const GoogleAuth = (props: GoogleAuthProps) => {
+export const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
 	const google_button = useRef(null);
 	const isMobile = useCheckMobile();
@@ -84,8 +84,6 @@ const GoogleAuth = (props: GoogleAuthProps) => {
 		</GoogleContainer>
 	);
 };
-
-export default GoogleAuth;
 
 const GoogleContainer = styled.div`
 	margin: 1em 0em;

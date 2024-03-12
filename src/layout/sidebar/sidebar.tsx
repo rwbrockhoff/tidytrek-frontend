@@ -1,28 +1,26 @@
-import { useLogoutMutation } from '../../queries/userQueries';
 import { useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLogoutMutation, useGetAuthStatusQuery } from '@/queries/user-queries';
 import {
 	useGetPackListQuery,
 	useGetPackQuery,
 	useAddNewPackMutation,
 	useMovePackMutation,
-} from '../../queries/packQueries';
-import { useGetAuthStatusQuery } from '../../queries/userQueries';
+} from '@/queries/pack-queries';
 import { Divider } from 'semantic-ui-react';
-import { encode } from '../../utils/generateDisplayId';
+import { encode } from '@/utils/generateDisplayId';
 import { PackList } from './components/pack-list';
 import {
 	DragDropContext,
 	type DropResult,
-} from '../../components/drag-drop/drag-drop-wrapper';
+} from '@/components/drag-drop/drag-drop-wrapper';
 import { PopupMenu } from './components/popup-menu';
 import { SidebarMenu } from './components/menus';
 import { SidebarButton } from './components/sidebar-button';
-import useCheckMobile from '../../hooks/useCheckMobile';
-import { Header } from '../../components/ui/SemanticUI';
-import { mobile } from '../../styles/mixins';
-import supabase from '../../api/supabaseClient';
+import useCheckMobile from '@/hooks/use-check-mobile';
+import { Header } from '@/components/ui/SemanticUI';
+import supabase from '@/api/supabaseClient';
 declare const google: any;
 
 type SidebarProps = {
@@ -176,7 +174,7 @@ const SidebarContainer = styled.div`
 	height: 100%;
 	padding: 3em 50px;
 	box-sizing: border-box;
-	${mobile(`width: 100%;`)}
+	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
 `;
 
 const StyledDivider = styled(Divider)`

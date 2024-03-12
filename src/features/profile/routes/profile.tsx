@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { ProfileBanner } from '../components/profile-banner';
 import { ProfileHeader } from '../components/profile-header';
 import { PackCardList } from '../components/pack-card-list';
-import { useGetProfileQuery } from '@/queries/profileQueries';
+import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
-import { useViewProfileQuery } from '@/queries/guestQueries';
-import { useGetAuthStatusQuery } from '@/queries/userQueries';
+import { useViewProfileQuery } from '@/queries/guest-queries';
+import { useGetAuthStatusQuery } from '@/queries/user-queries';
 import { HandlerWrapper } from '../../account/hooks/use-profile-handlers';
 import { getTheme } from '@/styles/theme/theme-utils';
 

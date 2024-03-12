@@ -1,4 +1,4 @@
-import { type InputEvent } from '@/types/formTypes';
+import { type InputEvent } from '@/types/form-types';
 import { useEffect, useState } from 'react';
 import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
 import { validEmail, validPassword } from '@/features/auth/utils/auth-helpers';
@@ -6,7 +6,7 @@ import { setFormInput } from '@/utils/formHelpers';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/userQueries';
+import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/user-queries';
 
 export const ResetPassword = () => {
 	const location = useLocation();

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { type User } from '@/types/userTypes';
-import { type PasswordInfo, type InputEvent } from '@/types/formTypes';
+import { type User } from '@/types/user-types';
+import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
 import { Header } from '@/components/ui/SemanticUI';
 import { PasswordForm } from './password-form';

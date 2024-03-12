@@ -1,13 +1,16 @@
-import { type InputEvent } from '../../../types/formTypes';
+import { type InputEvent } from '@/types/form-types';
+import { type RegisterUserFormData } from '@/types/user-types';
 import { Form } from 'semantic-ui-react';
-import { RegisterUserFormData } from '../../../types/userTypes';
 
 type RegisterFormSectionProps = {
 	formData: RegisterUserFormData;
 	onFormChange: (e: InputEvent) => void;
 };
 
-const RegisterFormSection = ({ formData, onFormChange }: RegisterFormSectionProps) => {
+export const RegisterFormSection = ({
+	formData,
+	onFormChange,
+}: RegisterFormSectionProps) => {
 	return (
 		<Form.Group>
 			<Form.Input
@@ -35,5 +38,3 @@ const RegisterFormSection = ({ formData, onFormChange }: RegisterFormSectionProp
 		</Form.Group>
 	);
 };
-
-export default RegisterFormSection;

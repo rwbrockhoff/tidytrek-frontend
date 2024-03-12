@@ -1,4 +1,4 @@
-import { type InputEvent } from '@/types/formTypes';
+import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { Table } from 'semantic-ui-react';
 import { TableInput } from '../table-buttons';

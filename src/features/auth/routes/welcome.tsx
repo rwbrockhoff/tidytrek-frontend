@@ -1,13 +1,13 @@
-import { type InputEvent } from '../../../types/formTypes';
+import { type InputEvent } from '@/types/form-types';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { AuthContainer } from '../components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
-import { setFormInput } from '../../../utils/formHelpers';
-import { useEffect, useState } from 'react';
-import { useUpdateUsernameMutation } from '../../../queries/profileSettingsQueries';
-import { useNavigate } from 'react-router-dom';
-import supabase from '../../../api/supabaseClient';
-import { useGetAuthStatusQuery, useLoginMutation } from '../../../queries/userQueries';
-import { useMutationError } from '../../../hooks/useAxiosError';
+import { setFormInput } from '@/utils/formHelpers';
+import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
+import supabase from '@/api/supabaseClient';
+import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/user-queries';
+import { useMutationError } from '@/hooks/use-axios-error';
 
 export const Welcome = () => {
 	const navigate = useNavigate();

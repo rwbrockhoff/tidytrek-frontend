@@ -5,7 +5,7 @@ import {
 	useUploadProfilePhotoMutation,
 	useDeleteProfilePhotoMutation,
 	useUploadBannerPhotoMutation,
-} from '../../../queries/profileSettingsQueries';
+} from '../../../queries/profile-settings-queries';
 
 export const useProfileSettingsMutations = () => {
 	const addSocialLink = useAddSocialLinkMutation();

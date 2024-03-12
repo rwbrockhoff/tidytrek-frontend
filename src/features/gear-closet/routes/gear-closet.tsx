@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { type InputEvent } from '@/types/formTypes';
+import { type InputEvent } from '@/types/form-types';
+import { useState } from 'react';
 import { Header as SemHeader } from 'semantic-ui-react';
 import { Input } from '@/components/ui/SemanticUI';
-import { useState } from 'react';
 import { GearClosetList } from '../components/gear-closet-list';
-import { useGetGearClosetQuery } from '@/queries/closetQueries';
-import { useGetPackListQuery } from '@/queries/packQueries';
+import { useGetGearClosetQuery } from '@/queries/closet-queries';
+import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
-import { searchMatch } from '../../../utils/formHelpers';
+import { searchMatch } from '@/utils/formHelpers';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');

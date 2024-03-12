@@ -1,19 +1,19 @@
-import { RegisterUserFormData } from '../../../types/userTypes';
-import { type InputEvent } from '../../../types/formTypes';
-import { isInputEvent } from '../../../utils/formHelpers';
-import LogInForm from '../components/login-form';
+import { RegisterUserFormData } from '@/types/user-types';
+import { type InputEvent } from '@/types/form-types';
 import { useEffect, useState } from 'react';
-import { setFormInput } from '../../../utils/formHelpers';
+import { isInputEvent } from '@/utils/formHelpers';
+import { LogInForm } from '../components/login-form';
+import { setFormInput } from '@/utils/formHelpers';
 import { useValidateForm } from '../hooks/use-validate-form';
 import { useCombineErrors, type MutationError } from '../hooks/use-combine-errors';
 import {
 	useCombinePendingStatus,
 	type MutationPending,
 } from '../hooks/use-combine-status';
-import { useLoginMutation, useRegisterMutation } from '../../../queries/userQueries';
+import { useLoginMutation, useRegisterMutation } from '@/queries/user-queries';
 import { AuthContainer } from '../components/form-components';
-import supabase from '../../../api/supabaseClient';
-import { frontendURL } from '../../../api/tidytrekAPI';
+import supabase from '@/api/supabaseClient';
+import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';
 
 const initialFormState = {

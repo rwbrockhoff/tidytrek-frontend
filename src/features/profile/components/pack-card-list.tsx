@@ -1,5 +1,5 @@
 import { CardGroup } from 'semantic-ui-react';
-import { Pack } from '../../../types/packTypes';
+import { Pack } from '../../../types/pack-types';
 import { PackCard } from './pack-card';
 import styled from 'styled-components';
 import { useUserContext } from '@/hooks/use-viewer-context';

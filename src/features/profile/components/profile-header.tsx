@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { type UserProfile } from '@/types/profileTypes';
+import { type UserProfile } from '@/types/profile-types';
 import { Icon } from 'semantic-ui-react';
 import { Avatar } from '@/components/ui';
 import { Header } from '@/components/ui/SemanticUI';

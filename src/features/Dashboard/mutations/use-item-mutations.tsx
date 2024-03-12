@@ -4,9 +4,8 @@ import {
 	useEditPackItemMutation,
 	useDeletePackItemMutation,
 	useMoveItemToClosetMutation,
-} from '../../../queries/packQueries';
-
-import { useMoveItemToPackMutation } from '../../../queries/closetQueries';
+} from '@/queries/pack-queries';
+import { useMoveItemToPackMutation } from '@/queries/closet-queries';
 
 export const usePackItemMutations = () => {
 	const addPackItem = useAddNewPackItemMutation();

@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { profileSettingsKeys, profileKeys, userKeys } from './queryKeys';
+import { profileSettingsKeys, profileKeys, userKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { InitialState } from '../types/profileTypes';
-import { type UserInfo } from '../types/profileTypes';
+import { InitialState } from '../types/profile-types';
+import { type UserInfo } from '../types/profile-types';
 
 export const useGetProfileSettingsQuery = () =>
 	useQuery<InitialState>({

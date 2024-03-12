@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { profileKeys } from './queryKeys';
+import { profileKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type UserProfileWithPack } from '../types/profileTypes';
+import { type UserProfileWithPack } from '../types/profile-types';
 
 export const useGetProfileQuery = () =>
 	useQuery<UserProfileWithPack>({

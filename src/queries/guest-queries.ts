@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { guestKeys } from './queryKeys';
+import { guestKeys } from './query-keys';
 import { decode } from '../utils/generateDisplayId';
-import { type Pack, type Category } from '../types/packTypes';
-import { type Settings } from '../types/settingsTypes';
-import { type UserProfileWithPack, type UserProfile } from '../types/profileTypes';
+import { type Pack, type Category } from '../types/pack-types';
+import { type Settings } from '../types/settings-types';
+import { type UserProfileWithPack, type UserProfile } from '../types/profile-types';
 
 export type InitialState = {
 	pack: Pack;

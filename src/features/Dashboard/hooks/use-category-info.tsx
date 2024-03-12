@@ -1,4 +1,4 @@
-import { type Category } from '../../../types/packTypes';
+import { type Category } from '../../../types/pack-types';
 import useCurrency from '../../../utils/useCurrency';
 import { weightConverter } from '../../../utils/weightConverter';
 import { useMemo } from 'react';

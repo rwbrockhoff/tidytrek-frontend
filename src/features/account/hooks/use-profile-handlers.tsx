@@ -1,5 +1,5 @@
-import { type UserInfo } from '../../../types/profileTypes';
-import { type InternalMutation } from '../../../types/formTypes';
+import { type UserInfo } from '../../../types/profile-types';
+import { type InternalMutation } from '../../../types/form-types';
 import { useProfileSettingsMutations } from './use-profile-mutations';
 import { cleanUpLink } from '../../../components/ui/Link';
 import { createContext, useContext } from 'react';

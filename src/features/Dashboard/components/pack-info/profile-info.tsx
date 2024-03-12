@@ -3,7 +3,7 @@ import { Header } from 'semantic-ui-react';
 import {
 	type ProfileInfo as ProfileInfoType,
 	type SocialLink,
-} from '@/types/profileTypes';
+} from '@/types/profile-types';
 import { Avatar, Link } from '@/components/ui';
 import { SocialLinkList } from '../../../account/components/profile-form/social-link-list';
 import { encode } from '@/utils/generateDisplayId';

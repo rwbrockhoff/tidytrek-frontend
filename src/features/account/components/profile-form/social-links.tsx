@@ -1,4 +1,4 @@
-import { type SocialLink } from '@/types/profileTypes';
+import { type SocialLink } from '@/types/profile-types';
 import { Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';

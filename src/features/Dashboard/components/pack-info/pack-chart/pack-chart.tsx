@@ -1,7 +1,7 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useMemo } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { Category } from '../../../../../types/packTypes';
+import { Category } from '../../../../../types/pack-types';
 import styled, { useTheme } from 'styled-components';
 import { flexCenter } from '../../../../../styles/mixins';
 

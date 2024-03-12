@@ -1,4 +1,4 @@
-import { PackItem } from '../types/packTypes';
+import { PackItem } from '../types/pack-types';
 
 export const mockPackItems: PackItem[] = [
 	{

@@ -1,4 +1,4 @@
-import { type PackItem } from '../types/packTypes';
+import { type PackItem } from '../types/pack-types';
 
 // weightConverter sums the total weight of all pack items into one weight metric
 // it also returns the total price, consumable weight, and wornWeight
