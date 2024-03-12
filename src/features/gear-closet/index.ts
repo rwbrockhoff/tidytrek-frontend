@@ -1,1 +1,1 @@
-export { GearClosetList } from './components/gear-closet-list';
+export * from './routes/gear-closet';

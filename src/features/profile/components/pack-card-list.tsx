@@ -2,7 +2,7 @@ import { CardGroup } from 'semantic-ui-react';
 import { Pack } from '../../../types/packTypes';
 import { PackCard } from './pack-card';
 import styled from 'styled-components';
-import { useUserContext } from '../../Dashboard/hooks/useViewerContext';
+import { useUserContext } from '../../dashboard/hooks/useViewerContext';
 
 type PackCardListProps = {
 	packThumbnailList: Pack[] | undefined;

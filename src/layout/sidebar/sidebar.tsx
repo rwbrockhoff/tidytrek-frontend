@@ -12,7 +12,10 @@ import { useGetAuthStatusQuery } from '../../queries/userQueries';
 import { Divider } from 'semantic-ui-react';
 import { encode } from '../../utils/generateDisplayId';
 import { PackList } from './components/pack-list';
-import { DragDropContext, type DropResult } from '../../components/drag-drop-wrapper';
+import {
+	DragDropContext,
+	type DropResult,
+} from '../../components/drag-drop/drag-drop-wrapper';
 import { PopupMenu } from './components/popup-menu';
 import { SidebarMenu } from './components/menus';
 import { SidebarButton } from './components/sidebar-button';

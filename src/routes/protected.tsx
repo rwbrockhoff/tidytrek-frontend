@@ -1,12 +1,12 @@
 import { UserLayout } from '../layout/user-layout';
 import { ResetPassword } from '@/features/auth/routes/reset-password';
-import Dashboard from '../pages/dashboard';
+import { Dashboard } from '@/features/dashboard';
 import Account from '../pages/Account/Account';
-import GearCloset from '../pages/gear-closet';
+import { GearCloset } from '@/features/gear-closet';
 import { Navigate } from 'react-router-dom';
 import AccountSettings from '../pages/Account/AccountSettings/AccountSettings';
 import ProfileSettings from '../pages/Account/ProfileSettings/ProfileSettings';
-import Profile from '../pages/profile';
+import { Profile } from '@/features/profile';
 import { Welcome } from '../features/auth/routes/welcome';
 import ResetSuccess from '../features/auth/components/reset-password/reset-success';
 

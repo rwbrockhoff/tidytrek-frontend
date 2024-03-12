@@ -1,8 +1,8 @@
 // import { lazyImport } from '@/utils/lazy-imports';
-import { GuestLayout } from '../layout/guest-layout';
+import { GuestLayout } from '@/layout/guest-layout';
 import { AuthRoutes } from '@/features/auth';
-import Dashboard from '../pages/dashboard';
-import Profile from '../pages/profile';
+import { Dashboard } from '@/features/dashboard';
+import { Profile } from '@/features/profile';
 
 // const { Authentication } = lazyImport(
 // 	() => import('@/pages/Authentication/Authentication'),
@@ -24,9 +24,4 @@ export const publicRoutes = [
 		element: <GuestLayout />,
 		children: [{ path: '/pk/:packId', element: <Dashboard userView={false} /> }],
 	},
-	// {
-	// 	path: '/*',
-	// 	index: true,
-	// 	element: <Authentication isRegisterForm={false} />,
-	// },
 ];

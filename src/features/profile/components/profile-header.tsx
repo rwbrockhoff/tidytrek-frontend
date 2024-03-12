@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react';
 import { Header } from '../../../components/ui/SemanticUI';
 import SocialLinkList from '../../Account/ProfileForm/SocialLinkList';
 import { useHandlers } from '../../../pages/Account/ProfileSettings/useProfileHandlers';
-import { useUserContext } from '../../Dashboard/hooks/useViewerContext';
+import { useUserContext } from '../../dashboard/hooks/useViewerContext';
 import { BannerPhoto } from './banner-photo';
 
 type ProfileHeaderProps = {

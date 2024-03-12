@@ -7,11 +7,11 @@ import {
 	Icon,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import PackLabels from '../../Dashboard/PackInfo/PackLabels/PackLabels';
+import { PackLabels } from '@/features/dashboard/components/pack-info/pack-labels';
 import { type Pack } from '../../../types/packTypes';
 import { Link } from '../../../components/ui/Link';
 import { encode } from '../../../utils/generateDisplayId';
-import PackPhoto from '../../Dashboard/PackInfo/PackFormModal/PackPhoto';
+import { PackPhoto } from '@/features/dashboard/components/pack-modal/pack-photo';
 import { useUploadPackPhotoMutation } from '../../../queries/packQueries';
 
 type PackCardProps = {

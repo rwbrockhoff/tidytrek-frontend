@@ -1,7 +1,13 @@
 import { Icon } from 'semantic-ui-react';
-import TidyTable from '../../../components/ui/TidyTable';
-import { Button, Table } from '../../../components/ui/SemanticUI';
+import styled from 'styled-components';
+import { Button, Table } from '@/components/ui/SemanticUI';
+import { TidyTable } from '@/components/ui';
 import { type PackListItem, type PackItem, PackInfo } from '../../../types/packTypes';
+import {
+	DragDropContext,
+	DropResult,
+	DropTableBody,
+} from '@/components/drag-drop/drag-drop-wrapper';
 import {
 	useAddGearClosetItemMutation,
 	useDeleteGearClosetItemMutation,
@@ -9,16 +15,9 @@ import {
 	useMoveGearClosetItemMutation,
 	useMoveItemToPackMutation,
 } from '../../../queries/closetQueries';
-import TableRow from '../../Dashboard/PackCategory/TableRow/TableRow';
+import { TableRow, StyledFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
-import {
-	DragDropContext,
-	DropResult,
-	DropTableBody,
-} from '../../../components/drag-drop-wrapper';
-import { StyledFooter } from '../../Dashboard/PackCategory/TableFooter/TableFooter';
-import { PricingContext } from '../../Dashboard/hooks/useViewerContext';
-import styled from 'styled-components';
+import { PricingContext } from '../../dashboard/hooks/useViewerContext';
 import { NotFoundMessage } from './not-found-message';
 
 export type GearClosetListProps = {

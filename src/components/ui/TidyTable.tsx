@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components';
 
 const borderStyle = '1px solid rgba(34, 36, 38, 0.1)';
 
-const TidyTable = styled(Table)<{ $tableCellWidth?: string; $themeColor: string }>`
+export const TidyTable = styled(Table)<{ $tableCellWidth?: string; $themeColor: string }>`
 	&&& {
 		border: ${borderStyle};
 		border-top: 3px solid ${(props) => props.theme.user[props.$themeColor]};
@@ -63,5 +63,3 @@ const TidyTable = styled(Table)<{ $tableCellWidth?: string; $themeColor: string 
         `)}
 	}
 `;
-
-export default TidyTable;

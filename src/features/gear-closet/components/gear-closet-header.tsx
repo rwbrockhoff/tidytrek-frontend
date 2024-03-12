@@ -1,8 +1,5 @@
 import { Table } from 'semantic-ui-react';
-import {
-	HeaderCell,
-	TableText,
-} from '../../Dashboard/PackCategory/TableHeader/TableHeader';
+import { HeaderCell, TableText } from '../../../components/table/table-header';
 
 export const GearClosetHeader = () => {
 	return (
