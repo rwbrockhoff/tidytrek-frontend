@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { Header } from 'semantic-ui-react';
+import { Flex, Heading } from '@radix-ui/themes';
 import {
 	type ProfileInfo as ProfileInfoType,
 	type SocialLink,
@@ -20,37 +19,22 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 
 	const userBasedUrl = username || (userId && encode(userId));
 	return (
-		<ProfileInfoContainer>
+		<Flex>
 			<Link link={`/user/${userBasedUrl}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="medium" />
 			</Link>
-			<TextContainer>
-				<UsernameHeader as="h4">
+			<Flex direction="column" justify="center" ml="4">
+				<Heading as="h4" size="4" mb="2">
 					<Link link={`/user/${userBasedUrl}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}
 					</Link>
-				</UsernameHeader>
+				</Heading>
 				<SocialLinkList
 					socialLinks={socialLinks || []}
 					deleteEnabled={false}
 					colorButton={false}
 				/>
-			</TextContainer>
-		</ProfileInfoContainer>
+			</Flex>
+		</Flex>
 	);
 };
-
-const ProfileInfoContainer = styled.div`
-	display: flex;
-`;
-
-const TextContainer = styled.div`
-	padding-left: 15px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-`;
-
-const UsernameHeader = styled(Header)`
-	margin-bottom: 10px;
-`;

@@ -11,7 +11,7 @@ export const Panel = styled.div<{ $width: string }>`
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			width: 100%;
-	`)}
+	`)};
 `;
 
 export const Loader = styled(SemLoader)`

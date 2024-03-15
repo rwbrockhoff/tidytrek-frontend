@@ -8,12 +8,11 @@ import {
 	useAddNewPackMutation,
 	useMovePackMutation,
 } from '@/queries/pack-queries';
-import { Divider } from 'semantic-ui-react';
 import { encode, lazyImport } from '@/utils';
 import { DragDropContext, type DropResult } from '@/components';
 import { SidebarButton } from './components/sidebar-button';
 import useCheckMobile from '@/hooks/use-check-mobile';
-import { Header } from '@/components/ui/SemanticUI';
+import { Heading, Separator } from '@radix-ui/themes';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
 import { useGetAuth } from '@/hooks';
@@ -110,7 +109,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
-					<Logo as="h1">tidytrek</Logo>
+					<Heading as="h1">tidytrek</Heading>
 				</Link>
 
 				<Suspense fallback={<SidebarFallback />}>
@@ -122,7 +121,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<SidebarMenu />
 
-					<StyledDivider />
+					<StyledSeperator my="4" />
 
 					<DragDropContext onDragEnd={handleOnDragEnd}>
 						<PackList
@@ -138,12 +137,6 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 };
 
 export default Sidebar;
-
-const Logo = styled(Header)`
-	&&& {
-		margin-bottom: 1em;
-	}
-`;
 
 const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
 	width: 1280px;
@@ -184,8 +177,8 @@ const SidebarContainer = styled.div`
 	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
 `;
 
-const StyledDivider = styled(Divider)`
-	&& {
-		margin: 2em 0;
-	}
+const StyledSeperator = styled(Separator)`
+	background-color: white;
+	width: 100%;
+	opacity: 0.1;
 `;

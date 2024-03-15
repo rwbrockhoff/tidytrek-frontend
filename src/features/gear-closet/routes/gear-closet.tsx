@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
-import { Header as SemHeader } from 'semantic-ui-react';
 import { Input } from '@/components/ui/SemanticUI';
 import { GearClosetList } from '../components/gear-closet-list';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { searchMatch } from '@/utils';
+import { Heading } from '@radix-ui/themes';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
@@ -28,7 +28,9 @@ export const GearCloset = () => {
 	return (
 		<main>
 			<UserViewContext.Provider value={true}>
-				<Header as="h1">Gear Closet</Header>
+				<Heading align="center" size="6" mt="9" mb="5">
+					Gear Closet
+				</Heading>
 
 				<SearchContainer>
 					<Input
@@ -51,14 +53,6 @@ export const GearCloset = () => {
 		</main>
 	);
 };
-
-const Header = styled(SemHeader)`
-	&&& {
-		margin-top: 1.5em;
-		margin-bottom: 1.5em;
-		text-align: center;
-	}
-`;
 
 const SearchContainer = styled.div`
 	&&& {

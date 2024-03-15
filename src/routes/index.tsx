@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
 import { useGetAuth } from '@/hooks';
+import { Theme } from '@radix-ui/themes';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, session, theme } = useGetAuth();
@@ -16,7 +17,9 @@ export const AppRouter = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<RouterProvider router={appRouter} />
+			<Theme accentColor="jade" radius="small" scaling="90%">
+				<RouterProvider router={appRouter} />
+			</Theme>
 		</ThemeProvider>
 	);
 };

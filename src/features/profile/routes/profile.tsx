@@ -13,6 +13,7 @@ import { useGetAuth } from '@/hooks';
 export const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
 	const { isAuthenticated } = useGetAuth();
+	const isNotAuthenticated = !isAuthenticated;
 
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
 
@@ -26,7 +27,7 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 			<ThemeProvider theme={theme}>
 				<HandlerWrapper>
 					<ProfileContainer>
-						{isAuthenticated && <ProfileBanner />}
+						{isNotAuthenticated && <ProfileBanner />}
 						<ProfileHeader userProfile={userProfile} />
 						<PackCardList packThumbnailList={packThumbnailList} />
 					</ProfileContainer>

@@ -1,6 +1,6 @@
 import { type User } from '@/types/user-types';
 import { createContext } from 'react';
-import { Header } from 'semantic-ui-react';
+import { Heading } from '@radix-ui/themes';
 import { Outlet } from 'react-router-dom';
 import { useGetAuth } from '@/hooks';
 import { AccountMenu } from '../components/account-menu';
@@ -12,9 +12,9 @@ export const Account = () => {
 
 	return (
 		<main>
-			<Header as="h3" textAlign="center">
-				User Settings
-			</Header>
+			<Heading as="h3" align="center" size="6">
+				Account Settings
+			</Heading>
 
 			<AccountMenu />
 

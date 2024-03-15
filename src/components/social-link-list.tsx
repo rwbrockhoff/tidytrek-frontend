@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Flex } from '@radix-ui/themes';
 import { SocialButton } from '../features/account/components/profile-form/social-button';
 import { SocialLink } from '../types/profile-types';
 import socialMediaUI from '../styles/theme/social-media-ui';
@@ -35,8 +36,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	);
 };
 
-const CurrentLinksContainer = styled.div`
-	display: flex;
+const CurrentLinksContainer = styled(Flex)`
 	&&& {
 		div.ui.label {
 			margin: 5px 0px;

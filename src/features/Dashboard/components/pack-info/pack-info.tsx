@@ -4,7 +4,8 @@ import { type Settings } from '@/types/settings-types';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Header, Icon, Button } from 'semantic-ui-react';
+import { Flex, Heading, Button } from '@radix-ui/themes';
+import { Icon } from 'semantic-ui-react';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	useDeletePackMutation,
@@ -71,8 +72,8 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { publicProfile } = settings || {};
 
 	return (
-		<PackInfoContainer>
-			<InfoPanel
+		<PackInfoContainer align="center" display="inline-flex">
+			<Panel
 				$width={'50%'}
 				onMouseOver={() => setShowIcon(true)}
 				onMouseLeave={() => setShowIcon(false)}>
@@ -84,7 +85,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Header as="h1">
+				<Heading as="h1" size="6" mb="4">
 					{packName}
 
 					{userView && (
@@ -95,7 +96,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							$display={showIcon}
 						/>
 					)}
-				</Header>
+				</Heading>
 
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 
@@ -112,11 +113,15 @@ export const PackInfo = (props: PackInfoProps) => {
 
 				<PackLabels pack={currentPack} />
 
-				<ToggleChartButton basic onClick={handleTogglePackChart}>
+				<ToggleChartButton
+					variant="outline"
+					mt="6"
+					size="3"
+					onClick={handleTogglePackChart}>
 					<Icon name="pie chart" />
 					Show Pack Chart
 				</ToggleChartButton>
-			</InfoPanel>
+			</Panel>
 
 			{/* Right Hand Panel */}
 
@@ -142,11 +147,8 @@ export const PackInfo = (props: PackInfoProps) => {
 	);
 };
 
-const PackInfoContainer = styled.div`
+const PackInfoContainer = styled(Flex)`
 	height: 40vh;
-	display: inline-flex;
-	align-items: center;
-	margin-bottom: 2vh;
 	width: 100%;
 	${({ theme: t }) =>
 		t.mx.mobile(`
@@ -156,10 +158,6 @@ const PackInfoContainer = styled.div`
 			margin-top: 3vh;
 			margin-bottom: 0;
 	`)}
-`;
-
-const InfoPanel = styled(Panel)`
-	${({ theme: t }) => t.mx.mobile(`margin-bottom: 25px;`)}
 `;
 
 const EditIcon = styled(Icon)<{ $display: boolean }>`
@@ -175,10 +173,8 @@ const EditIcon = styled(Icon)<{ $display: boolean }>`
 `;
 
 const ToggleChartButton = styled(Button)`
-	&&& {
-		margin-top: 25px;
-		width: 100%;
-		display: none;
-		${({ theme: t }) => t.mx.mobile(`display: block;`)}
-	}
+	width: 100%;
+	display: none;
+	text-align: center;
+	${({ theme: t }) => t.mx.mobile(`display: block;`)}
 `;

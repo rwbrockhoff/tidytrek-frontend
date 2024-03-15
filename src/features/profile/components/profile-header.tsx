@@ -7,6 +7,7 @@ import { SocialLinkList } from '@/components';
 import { useHandlers } from '../../account/hooks/use-profile-handlers';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { BannerPhoto } from './banner-photo';
+import { Flex, Text } from '@radix-ui/themes';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | undefined;
@@ -53,18 +54,18 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				/>
 			</AvatarContainer>
 			<ProfileInfoContainer>
-				<ProfileTextContainer>
+				<ProfileTextContainer direction="column" justify="center">
 					<UsernameHeader as="h3">
 						{username || firstName || 'Tidy Hiker'}
 						{trailName && <span>({trailName})</span>}
 					</UsernameHeader>
 
-					<InnerContainer>
+					<Flex align="center" mb="2">
 						{userLocation && (
-							<LocationText>
+							<Text mr="4">
 								<Icon name="location arrow" />
 								{userLocation}
-							</LocationText>
+							</Text>
 						)}
 
 						<SocialLinkList
@@ -72,7 +73,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 							deleteEnabled={false}
 							colorButton={true}
 						/>
-					</InnerContainer>
+					</Flex>
 
 					<p>{userBio}</p>
 				</ProfileTextContainer>
@@ -107,14 +108,11 @@ const ProfileInfoContainer = styled.div`
 	border-bottom-right-radius: 25px;
 `;
 
-const ProfileTextContainer = styled.div`
+const ProfileTextContainer = styled(Flex)`
 	height: 100%;
 	width: 30vw;
 	margin-left: 250px;
 	margin-right: 250px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 
 	${({ theme: t }) =>
 		t.mx.mobile(`
@@ -130,15 +128,4 @@ const UsernameHeader = styled(Header)`
 		opacity: 0.7;
 		margin-left: 0.5rem;
 	}
-`;
-
-const LocationText = styled.p`
-	margin: 0;
-	margin-right: 15px;
-`;
-
-const InnerContainer = styled.div`
-	display: flex;
-	align-items: center;
-	margin-bottom: 0.5rem;
 `;

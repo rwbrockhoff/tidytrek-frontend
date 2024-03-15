@@ -18,7 +18,7 @@ export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { data: packListData } = userView
 		? useGetPackListQuery()
 		: { data: { packList: [] } };
-
+	// throw Error('bad error');
 	return (
 		<PackCategoryHandler>
 			<PackItemHandler>
