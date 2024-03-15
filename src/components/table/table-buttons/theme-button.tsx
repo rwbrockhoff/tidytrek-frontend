@@ -1,5 +1,5 @@
-import { Popup as SemPopup, PopupContent } from 'semantic-ui-react';
-import { Button } from '../../ui/SemanticUI';
+import { Flex, Popover } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 import styled, { useTheme } from 'styled-components';
 
 type ThemeButtonProps = {
@@ -13,56 +13,35 @@ export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 	const handleOnClick = (newColor: string) => onClick(newColor);
 
 	return (
-		<Popup
-			on="click"
-			hoverable
-			hideOnScroll
-			trigger={
-				<Container>
-					<CircleButton $themeColor={color} circular />
-				</Container>
-			}>
-			<PopupContent>
-				<PopupContainer>
+		<Popover.Root>
+			<Popover.Trigger>
+				<Flex align="center" justify="center" m="1">
+					<CircleButton $themeColor={color} />
+				</Flex>
+			</Popover.Trigger>
+
+			<Popover.Content side="top">
+				<Flex>
 					{Object.keys(userTheme).map((color, index) => (
 						<CircleButton
 							key={color || index}
 							$themeColor={color}
-							circular
 							onClick={() => handleOnClick(color)}
 						/>
 					))}
-				</PopupContainer>
-			</PopupContent>
-		</Popup>
+				</Flex>
+			</Popover.Content>
+		</Popover.Root>
 	);
 };
 
-const Container = styled.div`
-	margin: 0px 5px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
-
-const CircleButton = styled(Button)`
+const CircleButton = styled(Button)<{ $themeColor: string | undefined }>`
 	&&& {
 		padding: 0px;
+		${(props) => props.theme.mx.themeBgColor(props.$themeColor)};
 		${({ theme }) => theme.mx.wh('18px')}
-	}
-`;
-
-const PopupContainer = styled.div`
-	&&& {
-		display: flex;
-		button {
-			margin: 10px;
-		}
-	}
-`;
-
-const Popup = styled(SemPopup)`
-	&&&& {
-		margin-left: -12px;
+		margin: 5px 10px;
+		border-radius: 9px;
+		cursor: pointer;
 	}
 `;

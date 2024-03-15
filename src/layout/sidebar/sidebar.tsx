@@ -177,8 +177,8 @@ const SidebarContainer = styled.div`
 	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
 `;
 
-const StyledSeperator = styled(Separator)`
-	background-color: white;
+export const StyledSeperator = styled(Separator)`
+	background-color: #ffffffbd;
 	width: 100%;
 	opacity: 0.1;
 `;

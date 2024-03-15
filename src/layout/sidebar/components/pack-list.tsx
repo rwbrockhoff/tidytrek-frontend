@@ -1,9 +1,10 @@
-import { Divider, Icon, Button } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 import { Heading } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drop, Drag } from '@/components';
 import { PackListItem } from './pack-list-item';
+import { StyledSeperator } from '../sidebar';
 
 type PackListProps = {
 	packList: PackListItemType[];
@@ -28,7 +29,7 @@ export const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 				})}
 			</Drop>
 
-			<Divider />
+			<StyledSeperator my="4" />
 
 			<NewPackButton size="mini" onClick={addPack}>
 				<Icon name="add" />
