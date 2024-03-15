@@ -58,8 +58,8 @@ export type PackListItem = {
 
 export type PackInfo = {
 	packItemId: number;
-	packId: number;
-	packCategoryId: number;
+	packId: number | string;
+	packCategoryId: number | string;
 	packItemIndex: number;
 };
 

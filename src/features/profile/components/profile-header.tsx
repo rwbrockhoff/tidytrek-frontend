@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { type UserProfile } from '@/types/profile-types';
-import { Icon } from 'semantic-ui-react';
+import { FaLocationArrow } from 'react-icons/fa6';
 import { Avatar } from '@/components/ui';
-import { Header } from '@/components/ui/SemanticUI';
 import { SocialLinkList } from '@/components';
 import { useHandlers } from '../../account/hooks/use-profile-handlers';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { BannerPhoto } from './banner-photo';
-import { Flex, Text } from '@radix-ui/themes';
+import { Flex, Heading } from '@radix-ui/themes';
+import { Text } from '@/components/ui/text';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | undefined;
@@ -61,12 +61,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					</UsernameHeader>
 
 					<Flex align="center" mb="2">
-						{userLocation && (
-							<Text mr="4">
-								<Icon name="location arrow" />
-								{userLocation}
-							</Text>
-						)}
+						{userLocation && <Text icon={<FaLocationArrow />}>{userLocation}</Text>}
 
 						<SocialLinkList
 							socialLinks={socialLinks || []}
@@ -123,7 +118,7 @@ const ProfileTextContainer = styled(Flex)`
 	`)}
 `;
 
-const UsernameHeader = styled(Header)`
+const UsernameHeader = styled(Heading)`
 	span {
 		opacity: 0.7;
 		margin-left: 0.5rem;

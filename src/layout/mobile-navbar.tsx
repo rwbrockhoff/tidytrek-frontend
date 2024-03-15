@@ -1,11 +1,17 @@
-import { Button, Icon } from 'semantic-ui-react';
+import { Heading, Button } from '@radix-ui/themes';
+import { AiOutlineMenu } from 'react-icons/ai';
+
 import styled from 'styled-components';
 
 export const MobileNavbar = ({ onClick }: { onClick: () => void }) => {
 	return (
 		<Header>
-			<h1>tidytrek</h1>
-			<MenuButton icon={<Icon name="sidebar" />} onClick={onClick} />
+			<Heading as="h1" size="8">
+				tidytrek
+			</Heading>
+			<MenuButton onClick={onClick} size="4">
+				<AiOutlineMenu />
+			</MenuButton>
 		</Header>
 	);
 };
@@ -15,7 +21,7 @@ const Header = styled.header`
 	${({ theme: t }) => t.mx.mobile(`display: flex`)}
 	${({ theme: t }) => t.mx.themeBgColor('tidyPrimary', 'tidy')}
 	color: white;
-	padding: 3em 2em;
+	padding: 2.5em 2em;
 	width: 100%;
 	position: fixed;
 	z-index: 100;
@@ -28,8 +34,6 @@ const Header = styled.header`
 `;
 
 const MenuButton = styled(Button)`
-	&&& {
-		background: transparent;
-		color: white;
-	}
+	background: transparent;
+	color: white;
 `;

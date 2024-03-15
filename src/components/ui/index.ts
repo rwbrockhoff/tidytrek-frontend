@@ -7,3 +7,4 @@ export * from './Message';
 export * from './Modals';
 export * from './TidyTable';
 export * from './icon';
+export * from './text';
