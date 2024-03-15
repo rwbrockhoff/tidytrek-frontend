@@ -1,5 +1,6 @@
 import { Table, Button, Icon, Input } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
+import { Flex } from '@radix-ui/themes';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -17,9 +18,9 @@ export const ActionButtons = ({ header, size = 1, children }: ActionButtonsProps
 		);
 	} else {
 		return (
-			<StyledCell textAlign="center" colSpan={size}>
+			<Table.Cell textAlign="center" colSpan={size}>
 				{children}
-			</StyledCell>
+			</Table.Cell>
 		);
 	}
 };
@@ -37,8 +38,6 @@ const StyledHeaderCell = styled(Table.HeaderCell)`
 	`)}
 	}
 `;
-
-const StyledCell = styled(Table.Cell)``;
 
 type MobileToggleProps = {
 	onToggle: () => void;
@@ -114,7 +113,7 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 export const GripButton = ({ display }: { display: boolean }) => {
 	if (display) {
 		return (
-			<GripContainer>
+			<GripContainer align="center" justify="center">
 				<i className="fa-solid fa-grip-vertical" />
 			</GripContainer>
 		);
@@ -160,15 +159,12 @@ export const TableInput = styled(Input)`
 	height: 30px;
 `;
 
-const GripContainer = styled.div`
+const GripContainer = styled(Flex)`
 	position: absolute;
 	left: -60px;
 	opacity: 0.2;
 	width: 60px;
 	height: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	margin-left: 15px;
 	touch-action: manipulation;
 `;

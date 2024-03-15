@@ -1,7 +1,8 @@
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { Form, Input, Icon, Header } from 'semantic-ui-react';
+import { Flex, Heading } from '@radix-ui/themes';
+import { Form, Input, Icon } from 'semantic-ui-react';
 import { Button, FormField } from '@/components/ui/SemanticUI';
 import { Link } from '@/components/ui';
 import { ChangePassContext } from '../../routes';
@@ -41,7 +42,9 @@ export const PasswordForm = (props: PasswordFormProps) => {
 		(displayFormSection === 'passwordForm' && confirmationSent);
 	return (
 		<>
-			<Header as="h4">Update Your Password</Header>
+			<Heading as="h4" size="3" mb="4">
+				Update Your Password
+			</Heading>
 			{displayFormSection === 'initial' && (
 				<Button basic onClick={() => changeFormSection('confirmationForm')}>
 					<Icon name="key" />
@@ -90,7 +93,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 					<Link link="/reset-password">
 						<p>Reset Your Password</p>
 					</Link>
-					<ButtonContainer>
+					<ButtonContainer justify="end">
 						<Button onClick={resetForm}>{isSuccess ? 'Close' : 'Cancel'}</Button>
 						<Button $themeColor="primary" onClick={() => changePassword(passwordInfo)}>
 							Save Password
@@ -102,11 +105,8 @@ export const PasswordForm = (props: PasswordFormProps) => {
 	);
 };
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(Flex)`
 	width: 50%;
-	display: flex;
-	justify-content: flex-end;
-
 	&&& {
 		button {
 			margin: 5px;

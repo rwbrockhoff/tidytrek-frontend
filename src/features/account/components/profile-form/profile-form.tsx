@@ -2,6 +2,7 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Flex } from '@radix-ui/themes';
 import {
 	SegmentGroup,
 	Segment as SemSegment,
@@ -74,7 +75,8 @@ export const ProfileForm = (props: ProfileFormProps) => {
 				<Header as="h4" $marginBottom="2rem">
 					Profile Settings
 				</Header>
-				<PhotoContainer>
+
+				<PhotoContainer direction="column" justify="center">
 					<Header as="h5" $marginBottom="0">
 						Avatar
 					</Header>
@@ -164,11 +166,8 @@ const StyledForm = styled(Form)`
 	`)}
 `;
 
-const PhotoContainer = styled.div`
-	display: flex;
-	flex-direction: column;
+const PhotoContainer = styled(Flex)`
 	width: fit-content;
-	justify-content: center;
 	&&& {
 		button {
 			margin: 10px;
