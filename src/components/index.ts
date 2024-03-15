@@ -3,3 +3,4 @@ export * from './upload-file';
 export * from './drag-drop/drag-drop-wrapper';
 export * from './pack-labels';
 export * from './pack-photo';
+export * from './error-boundary';
