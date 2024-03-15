@@ -1,6 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { Icon } from 'semantic-ui-react';
+import { FaLink } from 'react-icons/fa';
+import { Icon } from '@/components/ui';
 import { themeColor } from '@/styles/mixins';
 
 type LinkProps = {
@@ -50,7 +51,11 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 				target="_blank"
 				rel="noopener noreferrer">
 				<p>
-					{showIcon && <Icon name="linkify" />}
+					{showIcon && (
+						<Icon>
+							<FaLink />
+						</Icon>
+					)}
 					{text}
 				</p>
 			</StyledBasicLink>
@@ -69,7 +74,7 @@ const StyledBasicLink = styled.a<{ $margin?: string }>`
 				margin: ${$margin};
 			`}
 	}
-	i {
+	span {
 		margin-right: 5px;
 	}
 `;

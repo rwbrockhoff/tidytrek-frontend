@@ -6,3 +6,4 @@ export * from './Link';
 export * from './Message';
 export * from './Modals';
 export * from './TidyTable';
+export * from './icon';
