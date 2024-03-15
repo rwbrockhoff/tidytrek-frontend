@@ -6,16 +6,16 @@ import { PackCardList } from '../components/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { useViewProfileQuery } from '@/queries/guest-queries';
-import { useGetAuthStatusQuery } from '@/queries/user-queries';
 import { HandlerWrapper } from '../../account/hooks/use-profile-handlers';
 import { getTheme } from '@/styles/theme/theme-utils';
+import { useGetAuth } from '@/hooks';
 
 export const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
-	const { data: authData } = useGetAuthStatusQuery();
+	const { isAuthenticated } = useGetAuth();
+
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
 
-	const isGuest = !authData?.isAuthenticated;
 	const theme = getTheme(data?.settings);
 
 	const userProfile = data?.userProfile;
@@ -26,7 +26,7 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 			<ThemeProvider theme={theme}>
 				<HandlerWrapper>
 					<ProfileContainer>
-						{isGuest && <ProfileBanner />}
+						{isAuthenticated && <ProfileBanner />}
 						<ProfileHeader userProfile={userProfile} />
 						<PackCardList packThumbnailList={packThumbnailList} />
 					</ProfileContainer>

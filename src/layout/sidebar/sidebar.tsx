@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useLogoutMutation, useGetAuthStatusQuery } from '@/queries/user-queries';
+import { useLogoutMutation } from '@/queries/user-queries';
 import {
 	useGetPackListQuery,
 	useGetPackQuery,
@@ -16,6 +16,7 @@ import useCheckMobile from '@/hooks/use-check-mobile';
 import { Header } from '@/components/ui/SemanticUI';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
+import { useGetAuth } from '@/hooks';
 const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
 const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
 const { PopupMenu } = lazyImport(() => import('./components/popup-menu'), 'PopupMenu');
@@ -31,7 +32,8 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
-	const { data: userData } = useGetAuthStatusQuery();
+	const { user } = useGetAuth();
+
 	const { data: packData } = useGetPackQuery(paramPackId);
 	const { data: packListData } = useGetPackListQuery();
 
@@ -44,7 +46,6 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const currentPackId = packData?.pack?.packId;
 	const defaultPackId = packListData?.packList[0].packId;
 	const encodedId = defaultPackId ? encode(defaultPackId) : '';
-	const user = userData?.user;
 
 	const isMobile = useCheckMobile();
 

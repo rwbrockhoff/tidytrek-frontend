@@ -6,12 +6,13 @@ import { WelcomeForm } from '../components/welcome/welcome-form';
 import { setFormInput } from '@/utils';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
 import supabase from '@/api/supabaseClient';
-import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/user-queries';
+import { useLoginMutation } from '@/queries/user-queries';
 import { useMutationError } from '@/hooks/use-axios-error';
+import { useGetAuth } from '@/hooks';
 
 export const Welcome = () => {
 	const navigate = useNavigate();
-	const { data } = useGetAuthStatusQuery();
+	const { isAuthenticated } = useGetAuth();
 
 	const { mutate: login } = useLoginMutation();
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
@@ -21,7 +22,7 @@ export const Welcome = () => {
 
 	useEffect(() => {
 		// subscribe to session change and log in user
-		if (data?.isAuthenticated === false) {
+		if (isAuthenticated === false) {
 			supabase.auth.getUser().then(({ data: { user } }) => {
 				const { id, email } = user || {};
 				if (id && email) login({ email, userId: id });

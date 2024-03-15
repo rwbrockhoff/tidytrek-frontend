@@ -6,12 +6,14 @@ import { setFormInput } from '@/utils';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetAuthStatusQuery, useLoginMutation } from '@/queries/user-queries';
+import { useLoginMutation } from '@/queries/user-queries';
+import { useGetAuth } from '@/hooks';
 
 export const ResetPassword = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { data } = useGetAuthStatusQuery();
+
+	const { isAuthenticated } = useGetAuth();
 	const { mutate: login } = useLoginMutation();
 
 	const [formData, setFormData] = useState(initialState);
@@ -20,7 +22,7 @@ export const ResetPassword = () => {
 
 	useEffect(() => {
 		// subscribe to session change and log in user
-		if (data?.isAuthenticated === false) {
+		if (isAuthenticated === false) {
 			supabase.auth.getUser().then(({ data: { user } }) => {
 				const { id, email } = user || {};
 				if (id && email) login({ email, userId: id });

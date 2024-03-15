@@ -1,17 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { DashboardContainer } from '../components/dashboard-container';
 import { UserViewContext } from '@/hooks/use-viewer-context';
-import { useGetAuthStatusQuery } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
 import { HandlerWrapper as PackItemHandler } from '../handlers/use-pack-item-handlers';
 import { HandlerWrapper as PackCategoryHandler } from '../handlers/use-pack-category-handlers';
+import { useGetAuth } from '@/hooks';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { packId: paramPackId } = useParams();
-	const { data: authData } = useGetAuthStatusQuery();
-
-	const isAuthenticated = authData?.isAuthenticated || false;
+	const { isAuthenticated } = useGetAuth();
 
 	const { data, isPending } = userView
 		? useGetPackQuery(paramPackId)
