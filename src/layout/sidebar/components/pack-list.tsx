@@ -1,5 +1,5 @@
-import { Icon, Button } from 'semantic-ui-react';
-import { Heading } from '@radix-ui/themes';
+import { Heading, Button } from '@radix-ui/themes';
+import { FaPlus as PlusIcon } from 'react-icons/fa';
 import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drop, Drag } from '@/components';
@@ -31,8 +31,8 @@ export const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 
 			<StyledSeperator my="4" />
 
-			<NewPackButton size="mini" onClick={addPack}>
-				<Icon name="add" />
+			<NewPackButton onClick={addPack}>
+				<PlusIcon />
 				Create New Pack
 			</NewPackButton>
 		</div>
@@ -40,15 +40,17 @@ export const PackList = ({ packList, getPack, addPack }: PackListProps) => {
 };
 
 const NewPackButton = styled(Button)`
-	&&& {
-		background-color: transparent;
-		color: white;
-		padding: 0;
+	background: transparent;
+	color: white;
+	padding: 0;
+	cursor: pointer;
+	&:hover {
+		opacity: 0.7;
+	}
 
-		${({ theme: t }) =>
-			t.mx.mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 				font-size: 1em;
 				margin-top: 1em;
 		`)}
-	}
 `;

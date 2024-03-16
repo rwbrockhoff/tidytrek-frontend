@@ -19,7 +19,7 @@ export const Message = (props: MessageProps) => {
 			size={'2'}
 			color={messageColor}
 			variant="surface"
-			mt="4"
+			my="4"
 			data-testid={`${id}-${messageType}`}
 			role="alert"
 			aria-invalid={isSuccess ? 'false' : 'true'}

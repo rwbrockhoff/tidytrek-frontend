@@ -2,8 +2,8 @@ import { FormError, type InputEvent } from '@/types/form-types';
 import { Form, Segment } from 'semantic-ui-react';
 import { Header, Button } from '@/components/ui/SemanticUI';
 import { SubText } from '@/components/ui/TidyUI';
-import { Link } from '@/components/ui';
-import { FooterText, FormContainer, FormMessage } from '../form-components';
+import { Link, Message } from '@/components/ui';
+import { FooterText, FormContainer } from '../form-components';
 
 type WelcomeFormProps = {
 	username: string;
@@ -58,7 +58,7 @@ export const WelcomeForm = (props: WelcomeFormProps) => {
 					</Button>
 
 					{error && (
-						<FormMessage
+						<Message
 							messageType="error"
 							text={message || 'Oops! There was an error.'}
 							id="welcome-form-error-message"

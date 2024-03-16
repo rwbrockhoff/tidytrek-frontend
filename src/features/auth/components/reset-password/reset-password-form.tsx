@@ -1,9 +1,9 @@
 import { FormError, type InputEvent } from '@/types/form-types';
 import { Form, Segment } from 'semantic-ui-react';
+import { Message } from '@/components/ui';
 import { Header, Button } from '@/components/ui/SemanticUI';
 import { Link } from 'react-router-dom';
-import { FooterText, FormContainer, FormMessage } from '../form-components';
-import { AuthContainer } from '../form-components';
+import { FooterText, FormContainer, AuthContainer } from '../form-components';
 
 type FormData = {
 	email: string;
@@ -93,18 +93,18 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						</Button>
 
 						{error && (
-							<FormMessage
+							<Message
 								messageType="error"
 								text={message || 'Oops! There was an error.'}
-								id="reset-password-error-message"
+								id="reset-password-message"
 							/>
 						)}
 
 						{emailSent && (
-							<FormMessage
+							<Message
 								messageType="success"
 								text={resetInstructionMessage}
-								id="reset-password-success-message"
+								id="reset-password-message"
 							/>
 						)}
 
