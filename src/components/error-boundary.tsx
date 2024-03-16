@@ -1,7 +1,7 @@
 import { useRouteError } from 'react-router-dom';
-import { Button, Icon } from 'semantic-ui-react';
-import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Flex, Text, Heading, Button } from '@radix-ui/themes';
 import styled from 'styled-components';
+import { BiSolidTree } from 'react-icons/bi';
 
 // react router is opinionated on error handling
 // this fn allows us to bubble errors outside of the router
@@ -19,7 +19,7 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 	const hasResetFunction = props?.resetErrorBoundary !== undefined;
 	return (
 		<ErrorContainer align="center" justify="center" direction="column">
-			<Icon name="tree" size="huge" />
+			<BiSolidTree size={100} />
 			<Heading as="h1" size="8" align="center">
 				Oops! There was an error.
 			</Heading>
@@ -28,10 +28,9 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 				fishing right now. But rest assured, they'll fix this up as soon as they can.
 			</Text>
 			{hasResetFunction && (
-				<Button primary onClick={() => props.resetErrorBoundary()}>
-					<Icon name="redo" />
+				<StyledButton size="2" color="jade" onClick={() => props.resetErrorBoundary()}>
 					Retry Request
-				</Button>
+				</StyledButton>
 			)}
 			<Text align="center">
 				If you're feeling social, you can reach out to our support team anyway:
@@ -46,13 +45,18 @@ const ErrorContainer = styled(Flex)`
 	max-width: 600px;
 	padding: 2em;
 	margin: 0 auto;
-
-	&&& {
-		h1 {
-			margin-bottom: 0.5em;
-		}
-		button {
-			margin: 2em 0em;
-		}
+	h1 {
+		font-size: 2em;
+		font-weight: bold;
+		margin: 1em 0em;
 	}
+	button {
+		margin: 1em 0em;
+	}
+`;
+
+const StyledButton = styled(Button)`
+	padding: 0.5em 1em;
+	border-radius: 0.25em;
+	cursor: pointer;
 `;
