@@ -1,7 +1,8 @@
 import { type PackListItem, type PackItem, PackInfo } from '@/types/pack-types';
-import { Icon } from 'semantic-ui-react';
+import { FaPlus as PlusIcon } from 'react-icons/fa';
+import { Button } from '@radix-ui/themes';
 import styled from 'styled-components';
-import { Button, Table } from '@/components/ui/SemanticUI';
+import { Table } from '@/components/ui/SemanticUI';
 import { TidyTable } from '@/components/ui';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
@@ -92,14 +93,12 @@ export const GearClosetList = (props: GearClosetListProps) => {
 					<Table.Row>
 						<Table.Cell colSpan="24">
 							<Button
-								size="mini"
-								floated="left"
-								compact
-								basic
-								$footerButton
+								variant="outline"
+								color="gray"
+								size="1"
 								disabled={isPendingAddItem}
 								onClick={() => addItem()}>
-								<Icon name="add" />
+								<PlusIcon />
 								Add Item
 							</Button>
 						</Table.Cell>

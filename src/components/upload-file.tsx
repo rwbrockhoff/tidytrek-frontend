@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon } from 'semantic-ui-react';
+import { MdCloudUpload as UploadIcon } from 'react-icons/md';
 import { ChangeEvent, FormEvent, useRef, useState, useEffect } from 'react';
 
 type UploadFileProps = {
@@ -51,7 +51,7 @@ export const UploadFile = (props: UploadFileProps) => {
 		<div>
 			<form encType="multipart/form-data" ref={formRef} onSubmit={handleSubmitForm}>
 				<UploadLabel htmlFor={fileId}>
-					<Icon name="cloud upload" />
+					<UploadIcon />
 				</UploadLabel>
 				<UploadInput
 					id={fileId}
@@ -69,7 +69,7 @@ const UploadLabel = styled.label`
 	color: white;
 	cursor: pointer;
 	font-size: 2em;
-	.icon {
+	svg {
 		margin: 0;
 	}
 `;

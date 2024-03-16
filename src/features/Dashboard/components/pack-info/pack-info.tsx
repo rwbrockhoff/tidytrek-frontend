@@ -1,11 +1,12 @@
 import { type UserProfile } from '@/types/profile-types';
 import { type Category, type Pack } from '@/types/pack-types';
 import { type Settings } from '@/types/settings-types';
+import { MdEdit as EditPencilIcon } from 'react-icons/md';
+import { FaChartPie as ChartIcon } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Flex, Heading, Button } from '@radix-ui/themes';
-import { Icon } from 'semantic-ui-react';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	useDeletePackMutation,
@@ -88,13 +89,8 @@ export const PackInfo = (props: PackInfoProps) => {
 				<Heading as="h1" size="6" mb="4">
 					{packName}
 
-					{userView && (
-						<EditIcon
-							name="pencil alternate"
-							color="grey"
-							onClick={handleToggleModal}
-							$display={showIcon}
-						/>
+					{userView && showIcon && (
+						<EditIcon name="pencil alternate" color="grey" onClick={handleToggleModal} />
 					)}
 				</Heading>
 
@@ -115,10 +111,10 @@ export const PackInfo = (props: PackInfoProps) => {
 
 				<ToggleChartButton
 					variant="outline"
-					mt="6"
+					my="6"
 					size="3"
 					onClick={handleTogglePackChart}>
-					<Icon name="pie chart" />
+					<ChartIcon />
 					Show Pack Chart
 				</ToggleChartButton>
 			</Panel>
@@ -160,21 +156,16 @@ const PackInfoContainer = styled(Flex)`
 	`)}
 `;
 
-const EditIcon = styled(Icon)<{ $display: boolean }>`
-	&&& {
-		font-size: 0.6em;
-		margin-left: 15px;
-		vertical-align: text-top;
-		height: 0.6em;
-		cursor: pointer;
-		opacity: ${({ $display }) => ($display ? 1 : 0)};
-		${({ theme: t }) => t.mx.mobile(`opacity: 1;`)}
-	}
+const EditIcon = styled(EditPencilIcon)<{ $display?: boolean }>`
+	font-size: 0.9em;
+	margin-left: 0.5em;
+	cursor: pointer;
+	${({ theme: t }) => t.mx.mobile(`opacity: 1;`)}
 `;
 
 const ToggleChartButton = styled(Button)`
 	width: 100%;
 	display: none;
 	text-align: center;
-	${({ theme: t }) => t.mx.mobile(`display: block;`)}
+	${({ theme: t }) => t.mx.mobile(`display: flex;`)}
 `;

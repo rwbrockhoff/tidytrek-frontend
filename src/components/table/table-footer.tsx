@@ -1,5 +1,6 @@
-import { Table, Icon } from 'semantic-ui-react';
-import { Button } from '../ui/SemanticUI';
+import { Table } from 'semantic-ui-react';
+import { Button } from '@radix-ui/themes';
+import { FaPlus as PlusIcon } from 'react-icons/fa';
 import styled from 'styled-components';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { TableText } from './table-header';
@@ -31,16 +32,15 @@ export const TableFooter = ({
 			<StyledRow>
 				<Table.Cell colSpan={firstCol}>
 					{userView && (
-						<StyledButton
-							size="mini"
-							floated="left"
-							compact
-							basic
-							$footerButton
+						<Button
+							variant="outline"
+							color="gray"
+							size="1"
+							ml="4"
 							onClick={handleAddItem}>
-							<Icon name="add" />
+							<PlusIcon />
 							Add Item
-						</StyledButton>
+						</Button>
 					)}
 				</Table.Cell>
 
@@ -109,12 +109,6 @@ const StyledRow = styled(Table.Row)`
 const StyledCell = styled(Table.Cell)`
 	&&& {
 		text-align: center;
-		font-size: 1em;
-	}
-`;
-
-const StyledButton = styled(Button)`
-	&&& {
 		font-size: 1em;
 	}
 `;
