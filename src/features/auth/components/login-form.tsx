@@ -3,8 +3,9 @@ import { type RegisterUserFormData } from '@/types/user-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, Segment } from 'semantic-ui-react';
+import { Message } from '@/components/ui';
 import { Button, Header } from '@/components/ui/SemanticUI';
-import { FormContainer, FooterText, FormMessage } from './form-components';
+import { FormContainer, FooterText } from './form-components';
 import { FormError } from '@/types/form-types';
 import { RegisterFormSection } from './register-form-section';
 import { GoogleAuth } from './google-auth';
@@ -85,7 +86,7 @@ export const LogInForm = ({
 					</Button>
 
 					{formError.error && (
-						<FormMessage
+						<Message
 							messageType="error"
 							text={formError.message || 'Oops! There was an error.'}
 							id="auth-message"
@@ -93,7 +94,7 @@ export const LogInForm = ({
 					)}
 
 					{isRegisterSuccess && (
-						<FormMessage
+						<Message
 							messageType="success"
 							text="Check your email for a link to sign in."
 							id="auth-message"

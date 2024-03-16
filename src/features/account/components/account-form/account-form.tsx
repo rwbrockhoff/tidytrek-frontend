@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { type User } from '@/types/user-types';
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { SegmentGroup, Segment as SemSegment, Button, Icon } from 'semantic-ui-react';
-import { Header } from '@/components/ui/SemanticUI';
+import { Heading } from '@radix-ui/themes';
+import { Message } from '@/components/ui';
 import { PasswordForm } from './password-form';
 import { setFormInput } from '@/utils';
 import { reauthenticateUser } from '@/api/supabaseClient';
 import { ChangePassContext } from '../../routes';
-import { Message } from '@/components/ui';
 
 type AccountFormProps = {
 	user: User | null;
@@ -68,14 +68,15 @@ export const AccountForm = ({
 
 	const { firstName, lastName, email } = user || {};
 	const fullName = `${firstName} ${lastName}`;
+
 	const showMessage = error.error || isSuccess;
 
 	return (
 		<SegmentGroup>
 			<Segment>
-				<Header as="h4" $marginBottom="2rem">
+				<Heading as="h4" size="3" mb="4">
 					Account Info
-				</Header>
+				</Heading>
 				<p>
 					<b>Name:</b> {fullName || 'A Tidy Hiker'}
 				</p>
@@ -98,15 +99,18 @@ export const AccountForm = ({
 				{showMessage && (
 					<MessageContainer>
 						<Message
-							error={error}
-							success={isSuccess}
-							successMessage="Your password has been updated!"
+							messageType={isSuccess ? 'success' : 'error'}
+							text={isSuccess ? 'Your password has been updated!' : error.message}
+							id="reset-password-message"
 						/>
 					</MessageContainer>
 				)}
 			</Segment>
 			<Segment stacked>
-				<Header as="h4">Delete Your Account</Header>
+				<Heading as="h4" size="3" mb="4">
+					Delete Your Account
+				</Heading>
+
 				<p>
 					Deleting your account will permanently delete all of your packs. Be sure to save
 					any important information first.
