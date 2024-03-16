@@ -1,7 +1,8 @@
-import styled from 'styled-components';
 import { Avatar, Link } from '@/components/ui';
-import { Popup, PopupContent } from 'semantic-ui-react';
 import { AvatarMenu } from './menus';
+import { Popover } from '@radix-ui/themes';
+import { HoverContext } from '@/contexts/mouse-over-context';
+import { useContext } from 'react';
 
 type PopupMenuProps = {
 	profilePhotoUrl: string | undefined;
@@ -11,30 +12,21 @@ type PopupMenuProps = {
 
 export const PopupMenu = (props: PopupMenuProps) => {
 	const { profilePhotoUrl, isMobile, logout } = props;
+	const isHovering = useContext(HoverContext);
+
 	return (
-		<Popup
-			pinned
-			position="bottom left"
-			openOnTriggerClick
-			openOnTriggerMouseEnter
-			hoverable
-			hideOnScroll
-			eventsEnabled
-			trigger={
-				<Container>
+		<Popover.Root open={isHovering}>
+			<Popover.Trigger>
+				<div>
 					<Link link="/profile" enabled={!isMobile}>
 						<Avatar src={profilePhotoUrl} size="small" />
 					</Link>
-				</Container>
-			}>
-			<PopupContent>
+				</div>
+			</Popover.Trigger>
+
+			<Popover.Content side="bottom" size={'1'} sideOffset={0}>
 				<AvatarMenu logout={logout} />
-			</PopupContent>
-		</Popup>
+			</Popover.Content>
+		</Popover.Root>
 	);
 };
-
-const Container = styled.div`
-	width: fit-content;
-	margin: 20px 0px;
-`;

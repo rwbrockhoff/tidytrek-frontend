@@ -69,7 +69,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 						<Select.Trigger placeholder="Choose a category..." />
 						<Select.Content style={{ height: 'fit-content' }}>
 							<Select.Group>
-								<Select.Label>Packs</Select.Label>
+								<Select.Label>Categories</Select.Label>
 								{categoryList.map((category, index) => (
 									<Select.Item value={`${category.value}`} key={category.key || index}>
 										{category.text}

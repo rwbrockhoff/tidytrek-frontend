@@ -22,7 +22,7 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 
 export const SidebarMenu = () => {
 	return (
-		<Menu>
+		<Menu style={{ marginTop: '2em' }}>
 			<li>
 				<Link to="/profile">
 					<Icon name="user outline" />
@@ -41,7 +41,8 @@ export const SidebarMenu = () => {
 
 const Menu = styled.menu`
 	padding-inline-start: 0;
-
+	margin: 0;
+	padding: 0 !important;
 	a {
 		color: black;
 		cursor: pointer;
@@ -51,8 +52,8 @@ const Menu = styled.menu`
 	li {
 		list-style: none;
 		cursor: pointer;
-		margin: 15px 0px;
-		margin-right: 30px;
+		margin: 10px 5px;
+		margin-right: 15px;
 		:hover {
 			opacity: 0.7;
 		}

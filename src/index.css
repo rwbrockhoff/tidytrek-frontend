@@ -31,6 +31,16 @@ a {
 }
 
 /* Changes to Semantic UI */
+
+h1:last-child,
+h2:last-child,
+h3:last-child,
+h4:last-child,
+h5:last-child {
+	margin-bottom: revert;
+	margin-top: revert;
+}
+
 .ui.form .field.field input:-webkit-autofill,
 .ui.form .field.field input:-webkit-autofill:focus,
 .ui.form .field.field input:autofill,

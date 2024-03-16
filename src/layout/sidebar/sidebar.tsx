@@ -16,6 +16,7 @@ import { Heading, Separator } from '@radix-ui/themes';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
 import { useGetAuth } from '@/hooks';
+import { MouseOver } from '@/contexts/mouse-over-context';
 const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
 const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
 const { PopupMenu } = lazyImport(() => import('./components/popup-menu'), 'PopupMenu');
@@ -109,15 +110,19 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
-					<Heading as="h1">tidytrek</Heading>
+					<Heading as="h1" mb="1">
+						tidytrek
+					</Heading>
 				</Link>
 
 				<Suspense fallback={<SidebarFallback />}>
-					<PopupMenu
-						profilePhotoUrl={user?.profilePhotoUrl}
-						isMobile={isMobile}
-						logout={handleLogout}
-					/>
+					<MouseOver>
+						<PopupMenu
+							profilePhotoUrl={user?.profilePhotoUrl}
+							isMobile={isMobile}
+							logout={handleLogout}
+						/>
+					</MouseOver>
 
 					<SidebarMenu />
 
