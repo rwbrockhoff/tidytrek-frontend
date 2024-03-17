@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons, MinimizeButton, DeleteButton } from './table-buttons/';
@@ -30,7 +30,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 		<Table.Header
 			{...dragProps}
 			onMouseOver={() => setToggleRow(true)}
-			onMouseLeave={() => setToggleRow(false)}>
+			onMouseLeave={() => setToggleRow(false)}
+			style={{ verticalAlign: 'middle' }}>
 			<TableRow $isMinimized={isMinimized}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
@@ -40,18 +41,18 @@ export const TableHeader = (props: TableHeaderProps) => {
 
 				{!isMinimized && (
 					<>
-						<HeaderCell textAlign="left" colSpan="2" $paddingLeft="15px">
+						<HeaderCell align="left" colSpan={2} $paddingLeft="15px">
 							Qty
 						</HeaderCell>
 
-						<HeaderCell textAlign="center" colSpan="3">
+						<HeaderCell align="center" colSpan={3}>
 							<TableText $width="100px" $paddingRight="5px">
 								Weight
 							</TableText>
 						</HeaderCell>
 
 						{showPrices && (
-							<HeaderCell textAlign="left" colSpan="3" $paddingLeft="15px">
+							<HeaderCell align="left" colSpan={3} $paddingLeft="15px">
 								<TableText $width="75px" $paddingLeft="13px">
 									Price
 								</TableText>
@@ -90,14 +91,12 @@ const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 `;
 
 // display:block !important deeply nested in Semantic css
-export const HeaderCell = styled(Table.HeaderCell)<{ $paddingLeft?: string }>`
-	&&&& {
-		padding-left: ${({ $paddingLeft }) => $paddingLeft};
-		${({ theme: t }) =>
-			t.mx.mobile(`
+export const HeaderCell = styled(Table.ColumnHeaderCell)<{ $paddingLeft?: string }>`
+	padding-left: ${({ $paddingLeft }) => $paddingLeft};
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			display: none !important;
 		`)}
-	}
 `;
 
 export const TableText = styled.p<{

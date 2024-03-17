@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { Button } from 'semantic-ui-react';
-import { Loader } from './TidyUI';
-import { Link } from './Link';
 import { useState } from 'react';
+import { DeleteButton, Link } from '@/components/ui';
+import { Loader } from './TidyUI';
 import Dimmer from './Dimmer';
 import { UploadFile } from '../upload-file';
 import { defaultAvatarPhoto } from './defaultPhotos';
@@ -44,15 +43,7 @@ export const Avatar = (props: AvatarProps) => {
 				$withBorder={withBorder}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
-				{displayDeleteButton && (
-					<DeleteButton
-						circular
-						icon="delete"
-						size="mini"
-						onClick={onDelete}
-						disabled={isPending}
-					/>
-				)}
+				{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
 				<InnerContainer $size={size} $withBorder={withBorder}>
 					<Loader active={isPending} inverted />
@@ -117,11 +108,4 @@ const StyledDimmer = styled(Dimmer)`
 
 const UploadContainer = styled.div`
 	${({ theme: t }) => t.mx.absoluteCenter()}
-`;
-
-const DeleteButton = styled(Button)`
-	position: absolute;
-	z-index: 1;
-	top: -10px;
-	left: 65px;
 `;

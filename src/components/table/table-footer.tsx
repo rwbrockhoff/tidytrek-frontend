@@ -1,6 +1,5 @@
-import { Table } from 'semantic-ui-react';
-import { Button } from '@radix-ui/themes';
-import { FaPlus as PlusIcon } from 'react-icons/fa';
+import { Button, Table } from '@radix-ui/themes';
+import { PlusIcon } from '../ui';
 import styled from 'styled-components';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { TableText } from './table-header';
@@ -49,12 +48,12 @@ export const TableFooter = ({
 						<StyledCell colSpan={2} style={{ textAlign: 'left' }}>
 							{itemQuantity} Items
 						</StyledCell>
-						<StyledCell textAlign="center" colSpan={3}>
+						<StyledCell align="center" colSpan={3}>
 							<TableText $width="100px">{`${weight} lbs`}</TableText>
 						</StyledCell>
 
 						{showPrices && (
-							<StyledCell textAlign="left" colSpan={3}>
+							<StyledCell align="left" colSpan={3}>
 								<TableText $width="75px" $paddingLeft="5px">
 									{price}
 								</TableText>
@@ -68,22 +67,19 @@ export const TableFooter = ({
 	);
 };
 
-export const StyledFooter = styled(Table.Footer)`
-	&& {
-		background-color: ${({ theme: t }) => t.tidy.tidyLightGrey};
-		font-size: 0.9em;
-		color: grey;
-		${({ theme: t }) =>
-			t.mx.mobile(`
+export const StyledFooter = styled.tfoot`
+	background-color: ${({ theme: t }) => t.tidy.tidyLightGrey};
+	font-size: 0.9em;
+	color: grey;
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			font-size: 1.1em;
 		`)}
-	}
 `;
 
 const StyledRow = styled(Table.Row)`
-	&&& {
-		${({ theme: t }) =>
-			t.mx.mobile(`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			display: flex !important;
 			position: relative;
 			height: 50px;
@@ -103,12 +99,9 @@ const StyledRow = styled(Table.Row)`
 				height: 40px;
 			}
 		`)}
-	}
 `;
 
 const StyledCell = styled(Table.Cell)`
-	&&& {
-		text-align: center;
-		font-size: 1em;
-	}
+	text-align: center;
+	font-size: 1em;
 `;

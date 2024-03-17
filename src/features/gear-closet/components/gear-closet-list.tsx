@@ -1,5 +1,5 @@
 import { type PackListItem, type PackItem, PackInfo } from '@/types/pack-types';
-import { FaPlus as PlusIcon } from 'react-icons/fa';
+import { PlusIcon } from '@/components/ui';
 import { Button } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { Table } from '@/components/ui/SemanticUI';

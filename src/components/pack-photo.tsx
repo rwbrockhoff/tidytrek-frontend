@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from 'semantic-ui-react';
+import { DeleteButton } from '@/components/ui';
 import { Loader } from '@/components/ui/TidyUI';
 import { Dimmer, defaultPackPhoto } from '@/components/ui';
 import { UploadFile } from '@/components';
@@ -28,15 +28,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 		<Container
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
-			{displayDeleteButton && (
-				<DeleteButton
-					circular
-					icon="delete"
-					size="mini"
-					onClick={onDelete}
-					disabled={isPending}
-				/>
-			)}
+			{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
 			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
@@ -78,11 +70,4 @@ const Container = styled.div`
 	position: relative;
 	width: 100%;
 	height: 200px;
-`;
-
-const DeleteButton = styled(Button)`
-	position: absolute;
-	z-index: 10;
-	top: -10px;
-	right: -10px;
 `;

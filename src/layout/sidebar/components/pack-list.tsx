@@ -1,5 +1,5 @@
 import { Heading, Button } from '@radix-ui/themes';
-import { FaPlus as PlusIcon } from 'react-icons/fa';
+import { PlusIcon } from '@/components/ui';
 import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drop, Drag } from '@/components';

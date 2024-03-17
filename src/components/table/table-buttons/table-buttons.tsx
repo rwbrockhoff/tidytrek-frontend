@@ -1,6 +1,12 @@
-import { Table, Button, Icon, Input } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Table, Button } from '@radix-ui/themes';
+import {
+	PlusIcon,
+	MinusIcon,
+	TrashIcon,
+	CaretDownIcon,
+	ShareIcon,
+} from '@/components/ui';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -12,31 +18,29 @@ export const ActionButtons = ({ header, size = 1, children }: ActionButtonsProps
 	// const ButtonCell = header ? Table.HeaderCell : Table.Cell;
 	if (header) {
 		return (
-			<StyledHeaderCell textAlign="center" colSpan={size}>
+			<StyledHeaderCell align="center" colSpan={size}>
 				{children}
 			</StyledHeaderCell>
 		);
 	} else {
 		return (
-			<Table.Cell textAlign="center" colSpan={size}>
+			<Table.Cell align="center" colSpan={size}>
 				{children}
 			</Table.Cell>
 		);
 	}
 };
 
-const StyledHeaderCell = styled(Table.HeaderCell)`
-	&&& {
-		${({ theme: t }) =>
-			t.mx.mobile(`
-		display: inline-flex;
-		border-radius: 0 !important;
-		width: fit-content;
-		.icon {
-			margin-right: 10px !important;
-		}
+const StyledHeaderCell = styled(Table.ColumnHeaderCell)`
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			display: inline-flex;
+			border-radius: 0 !important;
+			width: fit-content;
+			.icon {
+				margin-right: 10px !important;
+			}
 	`)}
-	}
 `;
 
 type MobileToggleProps = {
@@ -50,7 +54,7 @@ export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 			$mobileOnly
 			$marginLeft="15px"
 			style={{ fontSize: '1.1em' }}>
-			<Icon name="toggle down" />
+			<CaretDownIcon />
 		</TableButton>
 	);
 };
@@ -63,7 +67,7 @@ type MoveButtonProps = {
 export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	return (
 		<TableButton onClick={onToggle} $display={display}>
-			<Icon name="share" />
+			<ShareIcon />
 		</TableButton>
 	);
 };
@@ -76,7 +80,7 @@ type ButtonProps = {
 export const DeleteButton = ({ display, onClickDelete }: ButtonProps) => {
 	return (
 		<TableButton onClick={onClickDelete} $display={display} $marginLeft="15px">
-			<Icon name="trash" />
+			<TrashIcon />
 		</TableButton>
 	);
 };
@@ -94,19 +98,17 @@ export const MinimizeButton = ({
 }: MinimizeButtonProps) => {
 	return (
 		<TableButton onClick={minimize} $display={display}>
-			<Icon name={isMinimized ? 'plus' : 'minus'} />
+			{isMinimized ? <PlusIcon /> : <MinusIcon />}
 		</TableButton>
 	);
 };
 
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
-		<div>
-			<Button color="grey" basic size="small" onClick={onClick}>
-				<Icon name="tree" />
-				Add Category
-			</Button>
-		</div>
+		<Button variant="outline" color="gray" size="2" radius="medium" onClick={onClick}>
+			<PlusIcon />
+			Add Category
+		</Button>
 	);
 };
 
@@ -125,38 +127,33 @@ export const TableButton = styled(Button)<{
 	$marginLeft?: string;
 	$mobileOnly?: boolean;
 }>`
-	&&& {
-		${(props) =>
-			props.$mobileOnly &&
-			css`
-				display: none;
-				${({ theme: t }) =>
-					t.mx.mobile(`
+	${(props) =>
+		props.$mobileOnly &&
+		css`
+			display: none;
+			${({ theme: t }) =>
+				t.mx.mobile(`
 					display: block;
 				`)}
-			`}
-		background-color: transparent;
-		border: none;
-		cursor: pointer;
-		margin: 0px 0px;
-		margin-left: ${({ $marginLeft }) => ($marginLeft ? $marginLeft : 0)};
-		opacity: ${({ $display }) => ($display ? 1 : 0)};
-		padding: 5px;
-		icon:hover {
-			color: black;
-		}
-		input {
-			height: 30px;
-		}
-		${({ theme: t }) =>
-			t.mx.mobile(`
+		`}
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	color: grey;
+	margin: 0px 0px;
+	margin-left: ${({ $marginLeft }) => ($marginLeft ? $marginLeft : 0)};
+	opacity: ${({ $display }) => ($display ? 1 : 0)};
+	padding: 5px;
+	icon:hover {
+		color: black;
+	}
+	input {
+		height: 30px;
+	}
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			opacity: 1;
 		`)}
-	}
-`;
-
-export const TableInput = styled(Input)`
-	height: 30px;
 `;
 
 const GripContainer = styled(Flex)`
