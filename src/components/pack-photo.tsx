@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { DeleteButton } from '@/components/ui';
-import { Loader } from '@/components/ui/TidyUI';
-import { Dimmer, defaultPackPhoto } from '@/components/ui';
+import { Dimmer, defaultPackPhoto, Spinner, DeleteButton } from '@/components/ui';
 import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
@@ -32,7 +30,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 
 			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
-			{isPending && <Loader active={isPending} inverted />}
+			<Spinner active={true} absoluteCenter size="3" />
 
 			{uploadEnabled && showButton && (
 				<UploadContainer>

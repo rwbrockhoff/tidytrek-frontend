@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { UploadFile } from '@/components';
-import { Dimmer } from '@/components/ui';
-import { Loader } from '@/components/ui/TidyUI';
+import { Dimmer, Spinner } from '@/components/ui';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;
@@ -22,7 +21,7 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 			onMouseLeave={() => setShowUploadMode(false)}>
 			<BannerImage src={bannerPhotoUrl} alt="landscape profile banner photo" />
 
-			<Loader active={isPending} inverted size="big" />
+			<Spinner active={isPending} size="4" />
 
 			<StyledDimmer active={dimmerEnabled} />
 

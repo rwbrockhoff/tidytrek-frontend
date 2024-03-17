@@ -10,3 +10,4 @@ export * from './TidyTable';
 export * from './icon';
 export * from './icons';
 export * from './text';
+export * from './spinner';

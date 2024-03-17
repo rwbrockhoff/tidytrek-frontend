@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { DeleteButton, Link } from '@/components/ui';
-import { Loader } from './TidyUI';
+import { DeleteButton, Link, Spinner } from '@/components/ui';
 import Dimmer from './Dimmer';
 import { UploadFile } from '../upload-file';
 import { defaultAvatarPhoto } from './defaultPhotos';
@@ -46,7 +45,7 @@ export const Avatar = (props: AvatarProps) => {
 				{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
 				<InnerContainer $size={size} $withBorder={withBorder}>
-					<Loader active={isPending} inverted />
+					<Spinner active={isPending} absoluteCenter />
 
 					<StyledDimmer active={displayDimmer} />
 
@@ -72,21 +71,20 @@ type Size = 'small' | 'medium' | 'big' | 'large';
 const avatarBorderWidth = '3px';
 
 const sizeChart = {
-	large: { widthOrHeight: '150px', borderRadius: '75px' },
-	big: { widthOrHeight: '100px', borderRadius: '50px' },
-	medium: { widthOrHeight: '75px', borderRadius: '38px' },
-	small: { widthOrHeight: '50px', borderRadius: '25px' },
+	large: '150px',
+	big: '100px',
+	medium: '75px',
+	small: '50px',
 };
 
 // width and height based on Size type
 const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
 	position: relative;
 	overflow: hidden;
+	${(props) => props.theme.mx.wh(sizeChart[props.$size])};
 	border: ${(props) => (props.$withBorder ? `${avatarBorderWidth} solid white` : 'none')};
-	width: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
-	height: ${(props) => props.$size && sizeChart[props.$size].widthOrHeight};
-	border-radius: ${(props) => props.$size && sizeChart[props.$size].borderRadius};
-	${({ theme: t }) => t.mx.flexCenter()}
+	border-radius: 50%;
+	/* ${({ theme: t }) => t.mx.flexCenter()} */
 `;
 
 const OuterContainer = styled(InnerContainer)`

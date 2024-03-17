@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Loader } from 'semantic-ui-react';
 import { ThemeProvider } from 'styled-components';
+import { Flex, Theme } from '@radix-ui/themes';
+import { Spinner } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
 import { useGetAuth } from '@/hooks';
-import { Theme } from '@radix-ui/themes';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, session, theme } = useGetAuth();
@@ -13,7 +13,12 @@ export const AppRouter = () => {
 		session && isAuthenticated ? protectedRoutes : publicRoutes,
 	);
 
-	if (isLoading) return <Loader content="Loading..." />;
+	if (isLoading)
+		return (
+			<Flex align="center" justify="center" height={'100%'}>
+				<Spinner size="3" />
+			</Flex>
+		);
 
 	return (
 		<ThemeProvider theme={theme}>

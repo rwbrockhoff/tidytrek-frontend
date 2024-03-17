@@ -1,5 +1,5 @@
-/* :root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+:root {
+	/* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
 	color-scheme: light dark;
@@ -8,8 +8,10 @@
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-} */
+	-moz-osx-font-smoothing: grayscale; */
+	--spinner-outer-bg-color: #f3f3f3;
+	--spinner-inner-bg-color: #949494;
+}
 
 .radix-themes {
 	height: 100%;
