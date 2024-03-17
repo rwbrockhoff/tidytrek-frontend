@@ -1,8 +1,8 @@
 import { type SocialLink } from '@/types/profile-types';
-import { Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Button } from '@/components/ui/SemanticUI';
+import { PlusIcon } from '@/components/ui';
+import { Button } from '@radix-ui/themes';
 import { SubText } from '@/components/ui/TidyUI';
 import { AddLink } from './add-link';
 import { useHandlers } from '../../hooks/use-profile-handlers';
@@ -32,12 +32,8 @@ export const SocialLinks = (props: SocialLinksProps) => {
 			/>
 
 			{!showLinks && (
-				<Button
-					basic
-					$themeColor="primary"
-					style={{ margin: '10px 0px' }}
-					onClick={() => setShowLinks(true)}>
-					<Icon name="add" />
+				<Button variant="outline" size="3" my="4" onClick={() => setShowLinks(true)}>
+					<PlusIcon />
 					Add Link
 				</Button>
 			)}

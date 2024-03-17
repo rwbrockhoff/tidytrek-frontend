@@ -19,12 +19,12 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				<Popover.Trigger>
 					<StyledButton variant="ghost" m="2" $display={displayButton}>
 						<LinkIcon $active={packItemUrl ? true : false} />
-						{/* <Icon name="linkify" color={packItemUrl ? 'blue' : 'grey'} /> */}
 					</StyledButton>
 				</Popover.Trigger>
-				<Popover.Content style={{ width: 400 }} side="top">
+				<Popover.Content style={{ width: 400, height: 'fit-content' }} side="top">
 					<TextFieldInput
 						color="blue"
+						variant="surface"
 						name="packItemUrl"
 						value={packItemUrl ?? ''}
 						onChange={onChange}

@@ -1,7 +1,8 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Table, Input } from 'semantic-ui-react';
+import { Table } from '@radix-ui/themes';
+import { TableInput } from './table-input';
 import { WeightDropdown } from '../table-buttons/weight-dropdown';
 import { useUserContext } from '@/hooks/use-viewer-context';
 
@@ -40,9 +41,9 @@ export const PackWeightCell = (props: PackWeightCellProps) => {
 					<StyledInput
 						value={weight || ''}
 						name={itemName}
-						transparent={!toggleInput}
+						height={'30px'}
 						$toggleInput={toggleInput}
-						placeholder={placeholder}
+						placeholder={`${placeholder}`}
 						onChange={onChange}
 					/>
 
@@ -60,13 +61,8 @@ const CellContainer = styled.div`
 	width: 100px;
 `;
 
-const StyledInput = styled(Input)<{ $toggleInput: boolean }>`
-	&&& {
-		width: 55px;
-		height: 35px;
-		padding-right: ${(props) => (props.$toggleInput ? 0 : '13px')};
-		input {
-			text-align: right;
-		}
-	}
+const StyledInput = styled(TableInput)<{ $toggleInput: boolean }>`
+	width: 55px;
+	padding-right: 1em;
+	text-align: right;
 `;

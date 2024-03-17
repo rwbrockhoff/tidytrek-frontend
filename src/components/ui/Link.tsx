@@ -50,7 +50,7 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 				$margin={margin}
 				target="_blank"
 				rel="noopener noreferrer">
-				<p>
+				<p style={{ display: 'inline-flex' }}>
 					{showIcon && (
 						<Icon>
 							<FaLink />

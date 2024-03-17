@@ -5,3 +5,4 @@ export {
 	FaCaretDown as CaretDownIcon,
 	FaShare as ShareIcon,
 } from 'react-icons/fa';
+export { TfiMenu as SidebarIcon } from 'react-icons/tfi';

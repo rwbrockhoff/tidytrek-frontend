@@ -1,7 +1,8 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Table, Input } from 'semantic-ui-react';
+import { Table } from '@radix-ui/themes';
+import { TableInput } from './table-input';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { convertCurrency } from '@/utils';
 
@@ -32,7 +33,7 @@ export const PriceCell = (props: PriceCellProps) => {
 
 	return (
 		<Table.Cell
-			textAlign="center"
+			align="center"
 			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
@@ -40,17 +41,12 @@ export const PriceCell = (props: PriceCellProps) => {
 			onClick={toggleToEdit}
 			style={{ paddingLeft: '15px' }}>
 			{userView ? (
-				<div>
-					<StyledInput
-						fluid
-						value={toggleInput ? price : formattedPrice}
-						name={itemName}
-						transparent={!toggleInput}
-						placeholder={placeholder}
-						onChange={onChange}
-						$toggleInput={toggleInput}
-					/>
-				</div>
+				<TableInput
+					value={toggleInput ? price : formattedPrice}
+					name={itemName}
+					placeholder={`${placeholder}`}
+					onChange={onChange}
+				/>
 			) : (
 				<Text>{formattedPrice}</Text>
 			)}
@@ -58,21 +54,9 @@ export const PriceCell = (props: PriceCellProps) => {
 	);
 };
 
-const StyledInput = styled(Input)<{ $toggleInput: boolean }>`
-	&&& {
-		height: 30px;
-		padding-left: ${(props) => (props.$toggleInput ? 0 : '13px')};
-		max-width: 75px;
-		width: 75px;
-		input {
-			text-align: left;
-		}
-	}
-`;
-
 const Text = styled.p`
 	height: 30px;
 	${({ theme: t }) => t.mx.flexCenter()}
 	justify-content: flex-start;
-	padding-left: 13px;
+	padding-left: 1em;
 `;

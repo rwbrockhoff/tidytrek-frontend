@@ -1,7 +1,6 @@
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
-import { Table } from 'semantic-ui-react';
-import { TableInput } from '../table-buttons';
+import { Table, TextFieldInput } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {
@@ -26,25 +25,19 @@ export const QuantityCell = (props: ButtonProps) => {
 
 	return (
 		<Table.Cell
-			textAlign="center"
+			align="center"
 			colSpan={size}
-			disabled={!userView}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<TableInput
-				fluid
+			<TextFieldInput
 				name="packItemQuantity"
 				value={quantity}
 				type="number"
 				step={1}
-				transparent={!toggleInput}
+				disabled={!userView}
 				onChange={onChange}
-				style={{
-					paddingLeft: toggleInput ? '0px' : '12px',
-					width: '70px',
-				}}
 			/>
 		</Table.Cell>
 	);

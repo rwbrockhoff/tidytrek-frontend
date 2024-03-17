@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Divider } from 'semantic-ui-react';
+import { Separator, Flex } from '@radix-ui/themes';
 import { frontendURL } from '@/api/tidytrekAPI';
 
 type DashboardFooterProps = {
@@ -11,14 +11,14 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 	return (
 		<Footer>
 			{affiliate && (
-				<>
+				<Flex align="center" direction="column">
 					<AffiliateText>
 						{description ||
 							`Using the affiliate links in this pack helps support the creator of this pack
 						at no extra cost to you!`}
 					</AffiliateText>
-					<Divider />
-				</>
+					<Separator color="gray" size="3" />
+				</Flex>
 			)}
 			<a href={`${frontendURL}`}>
 				<LogoTag>
@@ -35,9 +35,6 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 const Footer = styled.footer`
 	margin-top: 2vh;
 	padding: 1vh 0vh;
-	.divider {
-		opacity: 0.5;
-	}
 	a {
 		color: black;
 	}

@@ -1,8 +1,8 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import styled from 'styled-components';
 import { useState } from 'react';
-import { Table, Input } from 'semantic-ui-react';
+import { Table } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
+import { TableInput } from './table-input';
 
 type TableCellProps = {
 	value: string | number;
@@ -36,13 +36,12 @@ export const TableCell = (props: TableCellProps) => {
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
 			{userView ? (
-				<StyledInput
+				<TableInput
 					value={value || ''}
 					name={itemName}
 					placeholder={placeholder}
 					onChange={onChange}
-					transparent={display}
-					$display={display}
+					color="gray"
 				/>
 			) : (
 				<p>{value}</p>
@@ -50,11 +49,3 @@ export const TableCell = (props: TableCellProps) => {
 		</Table.Cell>
 	);
 };
-
-const StyledInput = styled(Input)<{ $display: boolean }>`
-	&&& {
-		width: 100%;
-		height: 30px;
-		padding-left: ${({ $display }) => ($display ? '13px' : 0)};
-	}
-`;
