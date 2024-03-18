@@ -1,10 +1,10 @@
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { Flex, Heading } from '@radix-ui/themes';
-import { Form, Input, Icon } from 'semantic-ui-react';
-import { Button, FormField } from '@/components/ui/SemanticUI';
-import { Link } from '@/components/ui';
+import { Flex, Heading, Button } from '@radix-ui/themes';
+import { Form, Input } from 'semantic-ui-react';
+import { FormField } from '@/components/ui/SemanticUI';
+import { Link, PasswordIcon } from '@/components/ui';
 import { ChangePassContext } from '../../routes';
 import { FormSection } from './account-form';
 import { ConfirmationForm } from './confirmation-form';
@@ -46,8 +46,11 @@ export const PasswordForm = (props: PasswordFormProps) => {
 				Update Your Password
 			</Heading>
 			{displayFormSection === 'initial' && (
-				<Button basic onClick={() => changeFormSection('confirmationForm')}>
-					<Icon name="key" />
+				<Button
+					variant="outline"
+					color="gray"
+					onClick={() => changeFormSection('confirmationForm')}>
+					<PasswordIcon />
 					Change Password
 				</Button>
 			)}
@@ -95,9 +98,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 					</Link>
 					<ButtonContainer justify="end">
 						<Button onClick={resetForm}>{isSuccess ? 'Close' : 'Cancel'}</Button>
-						<Button $themeColor="primary" onClick={() => changePassword(passwordInfo)}>
-							Save Password
-						</Button>
+						<Button onClick={() => changePassword(passwordInfo)}>Save Password</Button>
 					</ButtonContainer>
 				</Form>
 			)}

@@ -2,10 +2,9 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { type User } from '@/types/user-types';
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
-import { FaRegTrashAlt as TrashIcon } from 'react-icons/fa';
 import { SegmentGroup, Segment as SemSegment } from 'semantic-ui-react';
 import { Heading, Button } from '@radix-ui/themes';
-import { Message } from '@/components/ui';
+import { Message, TrashIcon } from '@/components/ui';
 import { PasswordForm } from './password-form';
 import { setFormInput } from '@/utils';
 import { reauthenticateUser } from '@/api/supabaseClient';
@@ -116,7 +115,7 @@ export const AccountForm = ({
 					Deleting your account will permanently delete all of your packs. Be sure to save
 					any important information first.
 				</p>
-				<Button variant="outline" color="tomato" size="3" onClick={deleteAccount}>
+				<Button variant="outline" color="tomato" onClick={deleteAccount}>
 					<TrashIcon />
 					Delete Account
 				</Button>

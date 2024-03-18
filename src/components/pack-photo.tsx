@@ -30,7 +30,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 
 			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
 
-			<Spinner active={true} absoluteCenter size="3" />
+			<Spinner active={isPending} absoluteCenter size="3" />
 
 			{uploadEnabled && showButton && (
 				<UploadContainer>
