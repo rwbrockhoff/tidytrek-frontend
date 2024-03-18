@@ -1,20 +1,21 @@
 import { useState } from 'react';
-import { type PackInfo } from '@/types/pack-types';
 import styled from 'styled-components';
 import { PackItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 import { Button, Flex, Select, Table } from '@radix-ui/themes';
 import { MdOutlineMoveDown } from 'react-icons/md';
+import { useMoveItemToPackMutation } from '@/queries/closet-queries';
 
 type MoveItemDropdownProps = {
 	packItem: PackItem;
 	availablePacks: PackListItem[];
-	moveItemToPack: (packInfo: PackInfo) => void;
 };
 
 export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
-	const { packItem, availablePacks, moveItemToPack } = props;
+	const { packItem, availablePacks } = props;
 	const { packItemId, packItemIndex } = packItem;
+
+	const { mutate: moveItemToPack } = useMoveItemToPackMutation();
 
 	const [packId, setPackId] = useState<string | null>();
 	const [categoryId, setCategoryId] = useState<string | null>();

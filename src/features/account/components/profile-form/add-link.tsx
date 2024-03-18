@@ -1,11 +1,10 @@
-import { Divider, Icon, Input, Popup, PopupContent } from 'semantic-ui-react';
-import { Button } from '@/components/ui/SemanticUI';
+import { type InputEvent } from '@/types/form-types';
+import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/themes';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '@/styles/theme/social-media-ui';
-import { type InputEvent } from '@/types/form-types';
 import { useHandlers } from '../../hooks/use-profile-handlers';
+import { PlusIcon } from '@/components/ui';
 
 export const AddLink = () => {
 	const { addSocialLink } = useHandlers().handlers;
@@ -27,7 +26,7 @@ export const AddLink = () => {
 	};
 
 	const handleUpdateService = (value: string) => {
-		//update social service icon based on URL
+		// update social service icon based on URL
 		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
 			value.includes(social),
 		);
@@ -45,19 +44,16 @@ export const AddLink = () => {
 
 	return (
 		<>
-			<Divider style={{ marginBottom: 25 }} />
-			<SocialLinksContainer>
-				<Popup
-					on="click"
-					hoverable
-					hideOnScroll
-					trigger={
+			<Separator size="4" my="6" />
+			<Flex align="center">
+				<Popover.Root>
+					<Popover.Trigger>
 						<div>
 							<SocialButtonPicker currentSocial={currentSocial} />
 						</div>
-					}>
-					<PopupContent>
-						<PopupContainer>
+					</Popover.Trigger>
+					<Popover.Content side="top" style={{ width: '60%' }}>
+						<Flex wrap="wrap">
 							{Object.keys(socialMediaUI).map((key, index) => {
 								const { socialName, color, icon } = socialMediaUI[key];
 								return (
@@ -70,46 +66,23 @@ export const AddLink = () => {
 									/>
 								);
 							})}
-						</PopupContainer>
-					</PopupContent>
-				</Popup>
+						</Flex>
+					</Popover.Content>
+				</Popover.Root>
 
-				<Input
+				<TextFieldInput
+					width="50%"
+					mx="3"
+					size="3"
 					placeholder="Paste your link..."
 					value={socialLink}
 					onChange={handleInput}
 				/>
-				<Button
-					$themeColor="primary"
-					disabled={!socialLink || isPending}
-					onClick={handleAddLink}>
-					<Icon name="add" />
+				<Button size="3" disabled={!socialLink || isPending} onClick={handleAddLink}>
+					<PlusIcon />
 					Add Link
 				</Button>
-			</SocialLinksContainer>
+			</Flex>
 		</>
 	);
 };
-
-const SocialLinksContainer = styled.div`
-	display: flex;
-	align-items: center;
-	margin-bottom: 25px;
-	&&& {
-		input {
-			margin: 5px 5px;
-		}
-		button {
-			margin: 5px 5px;
-		}
-	}
-`;
-
-const PopupContainer = styled.div`
-	width: 40vw;
-	&&& {
-		div.ui.label {
-			margin: 10px;
-		}
-	}
-`;

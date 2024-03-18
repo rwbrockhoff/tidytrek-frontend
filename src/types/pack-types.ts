@@ -35,6 +35,7 @@ export type Category = {
 
 export type PackItem = {
 	packItemId: number;
+	packId: number;
 	packCategoryId: number;
 	packItemIndex: number;
 	packItemName: string;

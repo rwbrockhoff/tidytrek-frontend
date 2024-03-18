@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Category } from '@/types/pack-types';
 import { PackChart } from './pack-chart';
-import { Image, List, ListItem, Label, Divider } from 'semantic-ui-react';
-import { Icon } from '@/components/ui/SemanticUI';
+import { Badge, Flex, Separator } from '@radix-ui/themes';
+import { CircleIcon, DownArrowIcon } from '@/components/ui';
 import { Panel } from '@/components/ui/TidyUI';
 import CampGraphic from '@/assets/camping.svg';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
@@ -29,18 +29,20 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		return (
 			<OuterPanel $width="50%" $display={display}>
 				<SummaryPanel $width="50%">
-					<ChartList>
+					<ChartList role="list" direction="column">
 						{chartCategoryInfo.map((category) => {
 							return (
 								<ChartItem key={category.categoryId}>
-									<Icon name="circle" $themeColor={category.chartColor} />
+									<ThemeIcon $themeColor={category.chartColor} />
 									<p>{category.categoryName}: </p>
-									<Label>{category.totalWeight} lbs</Label>
+									<Badge color="gray" ml="auto">
+										{category.totalWeight} lbs
+									</Badge>
 								</ChartItem>
 							);
 						})}
 
-						<Divider />
+						<Separator size="4" mb="4" style={{ opacity: 0.5 }} />
 
 						<PackSummaryPanel
 							totalWeight={totalWeight}
@@ -58,11 +60,11 @@ export const PackGraphic = (props: PackGraphicProps) => {
 	if (!packHasWeight && !fetching) {
 		return (
 			<GraphicPanel $width="50%">
-				<Image src={CampGraphic} />
-				<p>
-					<Icon name="hand point down outline" />
+				<img src={CampGraphic} />
+				<GraphicText>
+					<DownArrowIcon />
 					Add items below to get started
-				</p>
+				</GraphicText>
 			</GraphicPanel>
 		);
 	} else return null;
@@ -102,10 +104,18 @@ const GraphicPanel = styled(Panel)`
 	img {
 		height: 100%;
 	}
-	p {
-		margin-right: 30px;
-	}
 	${({ theme: t }) => t.mx.mobile(`display:none;`)}
+`;
+
+const GraphicText = styled.p`
+	display: inline-flex;
+	align-items: center;
+	width: 50%;
+	text-align: center;
+	margin-right: 1.25em;
+	svg {
+		margin-right: 0.5em;
+	}
 `;
 
 const SummaryPanel = styled(Panel)`
@@ -120,25 +130,23 @@ const SummaryPanel = styled(Panel)`
 	`)}
 `;
 
-const ChartList = styled(List)`
-	&&& {
-		width: fit-content;
-		${({ theme: t }) =>
-			t.mx.mobile(`
+const ChartList = styled(Flex)`
+	width: fit-content;
+	${({ theme: t }) =>
+		t.mx.mobile(`
 				width: 75vw;
 		`)}
+`;
+const ChartItem = styled(Flex)`
+	font-size: 0.9em;
+	display: flex;
+	align-items: baseline;
+	p {
+		margin-right: 5px;
 	}
 `;
-const ChartItem = styled(ListItem)`
-	&&& {
-		font-size: 0.9em;
-		display: flex;
-		align-items: baseline;
-		p {
-			margin-right: 5px;
-		}
-		div.ui.label {
-			margin-left: auto;
-		}
-	}
+
+const ThemeIcon = styled(CircleIcon)<{ $themeColor: string }>`
+	${(props) => props.theme.mx.themeColor(props.$themeColor)};
+	margin-right: 0.5em;
 `;

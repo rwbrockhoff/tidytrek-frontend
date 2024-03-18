@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Table } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
-import { ActionButtons, MinimizeButton, DeleteButton } from './table-buttons/';
+import { ActionButtons } from './table-buttons/';
 import {
 	usePackCategoryHandlers,
 	type HeaderInfo,
 } from '@/features/dashboard/handlers/use-pack-category-handlers';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
+import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -17,10 +18,12 @@ type TableHeaderProps = {
 };
 
 export const TableHeader = (props: TableHeaderProps) => {
-	const { deleteCategoryPrompt } = usePackCategoryHandlers().handlers;
+	const { deleteCategory, deleteCategoryAndItems } = usePackCategoryHandlers().handlers;
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
+
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
+	const { packCategoryId } = categoryHeaderInfo;
 	const [toggleRow, setToggleRow] = useState(false);
 
 	const minSpanSize = isMinimized ? 22 : 14 + (showPrices ? 0 : 3);
@@ -61,24 +64,29 @@ export const TableHeader = (props: TableHeaderProps) => {
 					</>
 				)}
 				{userView && (
-					<ActionButtons header size={2}>
-						<MinimizeButton
-							display={toggleRow}
-							isMinimized={isMinimized}
-							minimize={minimizeCategory}
-						/>
-						<DeleteButton
-							display={toggleRow}
-							onClickDelete={() =>
-								deleteCategoryPrompt(categoryHeaderInfo.packCategoryId)
-							}
-						/>
+					<ActionButtons header size={2} display={toggleRow}>
+						<div onClick={minimizeCategory}>
+							{isMinimized ? <PlusIcon /> : <MinusIcon />}
+						</div>
+						<DeleteModal
+							header="Are you sure?"
+							message={deleteCategoryMessage}
+							onClickMove={() => deleteCategory(packCategoryId)}
+							onClickDelete={() => deleteCategoryAndItems(packCategoryId)}>
+							<div>
+								<TrashIcon />
+							</div>
+						</DeleteModal>
 					</ActionButtons>
 				)}
 			</TableRow>
 		</Table.Header>
 	);
 };
+
+// defaults
+const deleteCategoryMessage =
+	'You can permanently delete your category or move the items to your gear closet.';
 
 const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	opacity: ${(props) => (props.$isMinimized ? 0.5 : 1)};

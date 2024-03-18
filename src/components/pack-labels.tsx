@@ -1,67 +1,30 @@
-import { Icon } from './ui/SemanticUI';
-import styled, { css } from 'styled-components';
-import { Label, type SemanticICONS } from 'semantic-ui-react';
-import { Pack } from '../types/pack-types';
-import { isValidElement } from 'react';
+import { Badge, Flex } from '@radix-ui/themes';
+import { LocationIcon, SeasonIcon, DurationIcon, HikingIcon } from './ui';
+import { Pack } from '@/types/pack-types';
 
-export const PackLabels = ({
-	pack,
-	padded = false,
-}: {
-	pack: Pack;
-	padded?: boolean;
-}) => {
+export const PackLabels = ({ pack }: { pack: Pack }) => {
 	const { packLocationTag, packDurationTag, packSeasonTag, packDistanceTag } = pack;
 
 	return (
-		<PackLabelContainer $padded={padded}>
-			{packLocationTag && <PropertyLabel name={packLocationTag} icon="location arrow" />}
-			{packSeasonTag && <PropertyLabel name={packSeasonTag} icon="sun" />}
+		<Flex wrap="wrap" mt="3">
+			{packLocationTag && <PackLabel name={packLocationTag} icon={<LocationIcon />} />}
 
-			{packDurationTag && <PropertyLabel name={packDurationTag} icon="time" />}
+			{packSeasonTag && <PackLabel name={packSeasonTag} icon={<SeasonIcon />} />}
 
-			{packDistanceTag && (
-				<PropertyLabel
-					name={packDistanceTag}
-					icon={
-						<i className="fa-solid fa-person-hiking" style={{ paddingRight: '5px' }} />
-					}
-				/>
-			)}
-		</PackLabelContainer>
+			{packDurationTag && <PackLabel name={packDurationTag} icon={<DurationIcon />} />}
+
+			{packDistanceTag && <PackLabel name={packDistanceTag} icon={<HikingIcon />} />}
+		</Flex>
 	);
 };
 
-type PropertyLabelProps = { name: string; icon: SemanticICONS | React.ReactNode };
+type PackLabelProps = { name: string; icon: React.ReactNode };
 
-const PropertyLabel = ({ name, icon }: PropertyLabelProps) => {
-	const iconIsJsx = isValidElement(icon);
-
-	if (iconIsJsx) {
-		return (
-			<Label>
-				{icon}
-				{name}
-			</Label>
-		);
-	} else {
-		return (
-			<Label>
-				<Icon name={icon} />
-				{name}
-			</Label>
-		);
-	}
+const PackLabel = ({ name, icon }: PackLabelProps) => {
+	return (
+		<Badge mr="2" mb="2" color="gray" size="1">
+			{icon}
+			{name}
+		</Badge>
+	);
 };
-
-const PackLabelContainer = styled.div<{ $padded?: boolean }>`
-	${(props) =>
-		props.$padded &&
-		css`
-			margin-top: 15px;
-			.label {
-				margin-right: 5px;
-				margin-bottom: 10px;
-			}
-		`};
-`;

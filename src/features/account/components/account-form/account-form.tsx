@@ -4,7 +4,7 @@ import { type User } from '@/types/user-types';
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
 import { SegmentGroup, Segment as SemSegment } from 'semantic-ui-react';
 import { Heading, Button } from '@radix-ui/themes';
-import { Message, TrashIcon } from '@/components/ui';
+import { DeleteModal, Message, TrashIcon } from '@/components/ui';
 import { PasswordForm } from './password-form';
 import { setFormInput } from '@/utils';
 import { reauthenticateUser } from '@/api/supabaseClient';
@@ -26,13 +26,9 @@ const initialState = {
 
 export type FormSection = 'initial' | 'passwordForm' | 'confirmationForm';
 
-export const AccountForm = ({
-	user,
-	resetFormError,
-	setError,
-	changePassword,
-	deleteAccount,
-}: AccountFormProps) => {
+export const AccountForm = (props: AccountFormProps) => {
+	const { user, resetFormError, setError, changePassword, deleteAccount } = props;
+
 	const { isSuccess, error } = useContext(ChangePassContext);
 
 	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>(initialState);
@@ -115,10 +111,18 @@ export const AccountForm = ({
 					Deleting your account will permanently delete all of your packs. Be sure to save
 					any important information first.
 				</p>
-				<Button variant="outline" color="tomato" onClick={deleteAccount}>
-					<TrashIcon />
-					Delete Account
-				</Button>
+				<DeleteModal
+					simple
+					header="Delete Your Account"
+					message={deleteMessage}
+					onClickDelete={deleteAccount}>
+					<div>
+						<Button variant="outline" color="tomato">
+							<TrashIcon />
+							Delete Account
+						</Button>
+					</div>
+				</DeleteModal>
 			</Segment>
 		</SegmentGroup>
 	);
@@ -135,6 +139,9 @@ export const Segment = styled(SemSegment)`
 	}
 `;
 
-// defeaults
+// defaults
+const deleteMessage =
+	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";
+
 const confirmationErrorMessage =
 	'There was an error sending a confirmation code. Please try again later.';

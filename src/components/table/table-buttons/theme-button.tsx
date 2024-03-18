@@ -36,12 +36,10 @@ export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 };
 
 const CircleButton = styled(Button)<{ $themeColor: string | undefined }>`
-	&&& {
-		padding: 0px;
-		${(props) => props.theme.mx.themeBgColor(props.$themeColor)};
-		${({ theme }) => theme.mx.wh('18px')}
-		margin: 5px 10px;
-		border-radius: 9px;
-		cursor: pointer;
-	}
+	padding: 0px;
+	${(props) => props.theme.mx.themeBgColor(props.$themeColor)};
+	${({ theme }) => theme.mx.wh('18px')}
+	margin: 5px 10px;
+	border-radius: 9px;
+	cursor: pointer;
 `;

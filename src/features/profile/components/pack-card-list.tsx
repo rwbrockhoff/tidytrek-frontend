@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { CardGroup } from 'semantic-ui-react';
+import { Flex } from '@radix-ui/themes';
 import { Pack } from '@/types/pack-types';
 import { PackCard } from './pack-card';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -13,16 +12,10 @@ export const PackCardList = (props: PackCardListProps) => {
 	const { packThumbnailList } = props;
 	const packList = packThumbnailList || [];
 	return (
-		<ListContainer>
-			<CardGroup itemsPerRow={3} stackable>
-				{packList.map((pack, index) => {
-					return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
-				})}
-			</CardGroup>
-		</ListContainer>
+		<Flex wrap="wrap" gap="1" mt="8">
+			{packList.map((pack, index) => {
+				return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
+			})}
+		</Flex>
 	);
 };
-
-const ListContainer = styled.div`
-	margin: 5vh 0vh;
-`;

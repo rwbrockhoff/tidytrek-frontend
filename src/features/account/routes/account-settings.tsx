@@ -1,7 +1,6 @@
-import styled from 'styled-components';
 import { useState, createContext, useContext } from 'react';
+import { Flex } from '@radix-ui/themes';
 import { UserContext } from './account';
-import { DeleteModal } from '@/components/ui';
 import { AccountForm } from '../components/account-form/account-form';
 import { type PasswordInfo } from '@/types/form-types';
 import { validPassword, passwordRequirements } from '../../auth/utils/auth-helpers';
@@ -17,12 +16,9 @@ export const AccountSettings = () => {
 	const { user } = useContext(UserContext);
 
 	const { mutate: deleteAccount } = useDeleteAccountMutation();
-	const [showModal, setShowModal] = useState(false);
 
 	const [formError, setFormError] = useState({ error: false, message: '' });
 	const [formSuccess, setFormSuccess] = useState(false);
-
-	const handleToggleModal = () => setShowModal(!showModal);
 
 	const handleChangePassword = async (passwordInfo: PasswordInfo) => {
 		// Check passwords meet requirements
@@ -41,7 +37,7 @@ export const AccountSettings = () => {
 	};
 
 	const handleDeleteAccount = async () => {
-		await deleteAccount();
+		deleteAccount();
 		await supabase.auth.signOut();
 	};
 
@@ -51,32 +47,16 @@ export const AccountSettings = () => {
 	const handleResetFormError = () => setFormError({ error: false, message: '' });
 
 	return (
-		<Container>
+		<Flex direction="column">
 			<ChangePassContext.Provider value={{ isSuccess: formSuccess, error: formError }}>
 				<AccountForm
 					user={user}
 					setError={handleError}
 					resetFormError={handleResetFormError}
 					changePassword={handleChangePassword}
-					deleteAccount={handleToggleModal}
+					deleteAccount={handleDeleteAccount}
 				/>
 			</ChangePassContext.Provider>
-			<DeleteModal
-				simple
-				open={showModal}
-				header="Delete Your Account"
-				message={deleteMessage}
-				onClose={handleToggleModal}
-				onClickDelete={handleDeleteAccount}
-			/>
-		</Container>
+		</Flex>
 	);
 };
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
-const deleteMessage =
-	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";

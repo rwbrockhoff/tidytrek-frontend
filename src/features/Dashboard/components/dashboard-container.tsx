@@ -12,7 +12,6 @@ import {
 import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import { DragDropContext, Drop, type DropResult } from '@/components';
-import { DeleteModal } from '@/components/ui';
 import { useGuestData } from '../hooks/use-guest-data';
 import { getThemeAsGuest } from '@/styles/theme/theme-utils';
 import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
@@ -32,16 +31,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const packCategories = categories || [];
 	const packId = pack?.packId || null;
 
-	const { handlers, handlerState } = usePackCategoryHandlers();
-
-	const {
-		onDragEnd,
-		addCategory,
-		deleteCategory,
-		deleteCategoryAndItems,
-		toggleCategoryModal,
-	} = handlers;
-	const { showDeleteCategoryModal } = handlerState;
+	const { handlers } = usePackCategoryHandlers();
+	const { onDragEnd, addCategory } = handlers;
 
 	//--Guest View Data--//
 	const { userProfile, settings } = useGuestData(currentPack);
@@ -57,7 +48,10 @@ export const DashboardContainer = (props: DashboardProps) => {
 		packAffiliateDescription = '',
 		packPricing = false,
 	} = pack || {};
+
+	const isGuestView = !userView && !isAuthenticated;
 	if (!pack) return;
+
 	return (
 		<PricingContext.Provider value={packPricing}>
 			<ThemeProvider theme={theme}>
@@ -90,19 +84,12 @@ export const DashboardContainer = (props: DashboardProps) => {
 						<AddCategoryButton onClick={() => packId && addCategory(packId)} />
 					)}
 
-					{!userView && !isAuthenticated && (
+					{isGuestView && (
 						<DashboardFooter
 							affiliate={packAffiliate}
 							description={packAffiliateDescription}
 						/>
 					)}
-
-					<DeleteModal
-						open={showDeleteCategoryModal}
-						onClickMove={deleteCategory}
-						onClickDelete={deleteCategoryAndItems}
-						onClose={toggleCategoryModal}
-					/>
 				</Container>
 			</ThemeProvider>
 		</PricingContext.Provider>

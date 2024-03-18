@@ -2,7 +2,7 @@ import { type PackListItem, type Category, type PackItem } from '@/types/pack-ty
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { TidyTable, DeleteItemModal } from '@/components/ui';
+import { TidyTable } from '@/components/ui';
 import { TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DropTableBody } from '@/components';
@@ -18,19 +18,9 @@ type PackCategoryProps = {
 export const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
-	const { handlers, handlerState } = usePackItemHandlers();
+	const { handlers } = usePackItemHandlers();
 
-	const {
-		addPackItem,
-		moveItemToCloset,
-		moveItemToPack,
-		editPackItem,
-		deleteItemPrompt,
-		toggleItemModal,
-		deleteItem,
-	} = handlers;
-
-	const { packItemToChange, showDeleteItemModal } = handlerState;
+	const { addPackItem, moveItemToCloset, editPackItem, deleteItem } = handlers;
 
 	const handleAddItem = () => addPackItem({ packId, packCategoryId });
 
@@ -88,9 +78,9 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										key={item.packItemId}
 										index={index}
 										packList={packList}
-										handleMoveItemToPack={moveItemToPack}
+										moveToCloset={moveItemToCloset}
 										handleOnSave={editPackItem}
-										handleDelete={deleteItemPrompt}
+										handleDelete={deleteItem}
 									/>
 								))}
 						</DropTableBody>
@@ -104,14 +94,6 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 							/>
 						)}
 					</TidyTable>
-
-					<DeleteItemModal
-						id={packItemToChange}
-						open={showDeleteItemModal}
-						onClose={toggleItemModal}
-						onClickMove={moveItemToCloset}
-						onClickDelete={deleteItem}
-					/>
 				</TableContainer>
 			)}
 		</Draggable>

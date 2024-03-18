@@ -1,6 +1,6 @@
 import { DropResult } from 'react-beautiful-dnd';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { Pack } from '@/types/pack-types';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 
@@ -12,29 +12,21 @@ export type HeaderInfo = {
 
 type Handlers = {
 	addCategory: (packId: number) => void;
-	toggleCategoryModal: () => void;
 	editCategory: (categoryChanges: HeaderInfo) => void;
-	deleteCategoryPrompt: (packCategoryId: number) => void;
-	deleteCategory: () => void;
-	deleteCategoryAndItems: () => void;
+	deleteCategory: (packCategoryId: number) => void;
+	deleteCategoryAndItems: (packCategoryId: number) => void;
 	onDragEnd: (result: DropResult, pack: Pack, paramPackId: string | undefined) => void;
 };
 
 // Exposed mutations being used outside of handlers
 type Mutations = {};
 
-type HandlerState = { showDeleteCategoryModal: boolean };
-
 type HandlerData = {
 	handlers: Handlers;
 	mutations: Mutations;
-	handlerState: HandlerState;
 };
 
 const useCreateHandlers = () => {
-	const [packCategoryToDelete, setPackCategoryToDelete] = useState<number | null>(null);
-	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
-
 	const mutations = usePackCategoryMutations();
 	const { movePackItem } = usePackItemMutations();
 
@@ -48,26 +40,16 @@ const useCreateHandlers = () => {
 
 	//--Handlers--//
 
-	const handleToggleCategoryModal = () =>
-		setShowDeleteCategoryModal(!showDeleteCategoryModal);
-
-	const handleDeleteCategoryPrompt = (packCategoryId: number) => {
-		setPackCategoryToDelete(packCategoryId);
-		setShowDeleteCategoryModal(true);
-	};
-
 	const handleEditCategory = (categoryChanges: HeaderInfo) => {
 		editPackCategory.mutate(categoryChanges);
 	};
 
-	const handleDeleteCategoryAndItems = () => {
-		if (packCategoryToDelete) deletePackCategoryAndItems.mutate(packCategoryToDelete);
-		setShowDeleteCategoryModal(false);
+	const handleDeleteCategoryAndItems = (packCategoryId: number) => {
+		deletePackCategoryAndItems.mutate(packCategoryId);
 	};
 
-	const handleDeleteCategory = () => {
-		if (packCategoryToDelete) deletePackCategory.mutate(packCategoryToDelete);
-		setShowDeleteCategoryModal(false);
+	const handleDeleteCategory = (packCategoryId: number) => {
+		deletePackCategory.mutate(packCategoryId);
 	};
 
 	const handleAddPackCategory = (packId: number) => {
@@ -114,19 +96,13 @@ const useCreateHandlers = () => {
 
 	const handlers: Handlers = {
 		addCategory: handleAddPackCategory,
-		toggleCategoryModal: handleToggleCategoryModal,
 		editCategory: handleEditCategory,
-		deleteCategoryPrompt: handleDeleteCategoryPrompt,
 		deleteCategory: handleDeleteCategory,
 		deleteCategoryAndItems: handleDeleteCategoryAndItems,
 		onDragEnd: handleOnDragEnd,
 	};
 
-	const handlerState: HandlerState = {
-		showDeleteCategoryModal,
-	};
-
-	return { handlers, mutations, handlerState };
+	return { handlers, mutations };
 };
 
 export const HandlerContext = createContext<HandlerData | {}>({});

@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import { Icon, Popup, PopupContent, Header, Divider, Input } from 'semantic-ui-react';
+import {
+	CheckIcon,
+	PrivateIcon,
+	PublicIcon,
+	ShareIcon,
+	ShareLinkIcon,
+} from '@/components/ui';
+import { Popover, Heading, Flex, TextFieldInput, Button } from '@radix-ui/themes';
 import { useState } from 'react';
-import { Button } from '@/components/ui/SemanticUI';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { frontendURL } from '@/api/tidytrekAPI';
 
@@ -17,77 +23,74 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 		setLinkCopied(true);
 	};
 
-	const handleReset = () => setLinkCopied(false);
+	const handleReset = () => linkCopied && setLinkCopied(false);
 
 	if (!userView) return null;
 
 	if (packPublic) {
 		return (
-			<ShareSettingsContainer>
+			<Flex align="start">
 				<LightText>
-					<Icon name="binoculars" /> Public
+					<PublicIcon /> Public
 				</LightText>
-				<Popup
-					on="click"
-					flowing
-					hideOnScroll
-					onClose={handleReset}
-					trigger={
+				<Popover.Root
+					onOpenChange={handleReset}
+					// onClose={handleReset}
+				>
+					<Popover.Trigger>
 						<ShareText>
-							<Icon name="share alternate" />
+							<ShareLinkIcon />
 							Share Pack
 						</ShareText>
-					}>
-					<PopupContent>
-						<Header as="h4">Share Your Pack</Header>
-						<Divider />
-						<div>
-							<Input size="mini" value={packLink} />
-							<Button
-								$themeColor="primary"
-								size="mini"
-								attached="right"
-								toggle
-								onClick={handleCopyToClipboard}>
+					</Popover.Trigger>
+					<Popover.Content side="top" sideOffset={0}>
+						<Heading as="h4" size="4" mb="2">
+							Share Your Pack
+						</Heading>
+
+						<Flex>
+							<TextFieldInput value={packLink} readOnly />
+
+							<Button onClick={handleCopyToClipboard}>
 								{linkCopied ? (
 									<>
-										<Icon name="check" />
+										<CheckIcon />
 										Copied
 									</>
 								) : (
 									<>
-										<Icon name="share alternate" />
+										<ShareIcon />
 										Copy Link
 									</>
 								)}
 							</Button>
-						</div>
-					</PopupContent>
-				</Popup>
-			</ShareSettingsContainer>
+						</Flex>
+					</Popover.Content>
+				</Popover.Root>
+			</Flex>
 		);
 	} else {
 		return (
 			<LightText>
-				<Icon name="hide" /> Private
+				<PrivateIcon /> Private
 			</LightText>
 		);
 	}
 };
 
-const ShareSettingsContainer = styled.div`
-	display: flex;
-`;
-
 const LightText = styled.p`
-	opacity: 0.4;
+	color: var(--gray-9);
+	display: flex;
+	align-items: center;
+	svg {
+		margin-right: 0.5em;
+	}
 `;
 
 const ShareText = styled(LightText)`
-	margin-left: 15px;
+	margin-left: 1em;
 	cursor: pointer;
 	&:hover {
-		opacity: 1;
 		${({ theme: t }) => t.mx.themeColor('primary')}
 	}
 `;

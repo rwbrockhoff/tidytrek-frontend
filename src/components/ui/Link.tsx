@@ -27,10 +27,15 @@ export const Link = (props: LinkProps) => {
 };
 
 const StyledLink = styled(RouterLink)`
+	display: flex;
+	align-items: center;
 	${themeColor('primary')}
 	&:hover {
 		${themeColor('primary')}
-		opacity: 0.9;
+		filter: brightness(95%);
+	}
+	svg {
+		margin: 0px 5px;
 	}
 `;
 

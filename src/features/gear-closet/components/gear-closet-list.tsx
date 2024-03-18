@@ -1,4 +1,4 @@
-import { type PackListItem, type PackItem, PackInfo } from '@/types/pack-types';
+import { type PackListItem, type PackItem } from '@/types/pack-types';
 import { PlusIcon } from '@/components/ui';
 import { Button } from '@radix-ui/themes';
 import styled from 'styled-components';
@@ -10,7 +10,6 @@ import {
 	useDeleteGearClosetItemMutation,
 	useEditGearClosetItemMutation,
 	useMoveGearClosetItemMutation,
-	useMoveItemToPackMutation,
 } from '@/queries/closet-queries';
 import { TableRow, StyledFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
@@ -29,11 +28,9 @@ export const GearClosetList = (props: GearClosetListProps) => {
 
 	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
-	const { mutate: moveToPack } = useMoveItemToPackMutation();
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
 
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveToPack(packInfo);
 	const handleOnSave = (packItem: PackItem) => editItem(packItem);
 	const handleDelete = (packItemId: number) => deleteItem(packItemId);
 
@@ -78,7 +75,6 @@ export const GearClosetList = (props: GearClosetListProps) => {
 									disabled={dragDisabled}
 									key={item.packItemId}
 									index={index}
-									handleMoveItemToPack={handleMoveItemToPack}
 									handleOnSave={handleOnSave}
 									handleDelete={handleDelete}
 								/>

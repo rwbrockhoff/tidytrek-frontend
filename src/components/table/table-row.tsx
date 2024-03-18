@@ -5,14 +5,9 @@ import {
 	type PackItem,
 	type PackButtonSwitches,
 	type PackListItem,
-	type PackInfo,
 } from '@/types/pack-types';
-import {
-	PropertyButtons,
-	ActionButtons,
-	DeleteButton,
-	MoveItemButton,
-} from '@/components/table/table-buttons';
+import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
+import { PropertyButtons, ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
 	PackWeightCell,
@@ -30,9 +25,9 @@ type TableRowProps = {
 	item: PackItem;
 	packList: PackListItem[];
 	disabled?: boolean;
+	moveToCloset?: (packItemId: number) => void;
 	handleOnSave: (packItem: PackItem) => void;
 	handleDelete: (packItemId: number) => void;
-	handleMoveItemToPack: (packInfo: PackInfo) => void;
 };
 
 // Table Row is used in PackCategory + GearCloset
@@ -42,19 +37,31 @@ export const TableRow = (props: TableRowProps) => {
 	const showPrices = usePricingContext();
 	const isMobile = useCheckMobile();
 
-	const { item, index, disabled, handleMoveItemToPack, handleOnSave, handleDelete } =
-		props;
+	const { item, index, disabled } = props;
+	const { moveToCloset, handleOnSave, handleDelete } = props;
+
 	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
+
 	const [toggleRow, setToggleRow] = useState(false);
 	const [viewAllCells, setViewAllCells] = useState(false);
-
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
-	const availablePacks = props?.packList || [];
+
+	const handleToggle = () => packItemChanged && handleOnSave(packItem);
+
+	const handleToggleViewAllCells = () => setViewAllCells(!viewAllCells);
+
+	const handleClickPackButton = (property: PackButtonSwitches) =>
+		handleOnSave({ ...packItem, ...property });
+
+	const handleMoveItemToCloset = () => {
+		moveToCloset && moveToCloset(packItemId);
+	};
 
 	const {
 		packItemName,
 		packItemDescription,
 		packItemId,
+		packId,
 		packItemWeight,
 		packItemUnit,
 		packItemQuantity,
@@ -65,17 +72,12 @@ export const TableRow = (props: TableRowProps) => {
 		packItemPrice,
 	} = packItem;
 
-	const handleToggle = () => packItemChanged && handleOnSave(packItem);
-
-	const handleToggleViewAllCells = () => setViewAllCells(!viewAllCells);
-
-	const handleClickButton = (property: PackButtonSwitches) =>
-		handleOnSave({ ...packItem, ...property });
-
+	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
 	const packNameSize = (userView ? 5 : 7) + (showPrices ? 0 : 1);
 	const packDescriptionSize = showPrices ? 5 : 7;
 	const showAllCells = !isMobile || viewAllCells;
+	const hasPackId = packId !== null;
 
 	return (
 		<Draggable
@@ -118,7 +120,7 @@ export const TableRow = (props: TableRowProps) => {
 									wornWeight={wornWeight}
 									consumable={consumable}
 									favorite={favorite}
-									onClick={handleClickButton}
+									onClick={handleClickPackButton}
 									display={toggleRow}
 									size={4}
 								/>
@@ -151,15 +153,22 @@ export const TableRow = (props: TableRowProps) => {
 								)}
 
 								{userView && (
-									<ActionButtons size={2}>
-										<MoveItemButton
-											display={toggleRow}
-											onToggle={() => setToggleGearButtons(!toggleGearButtons)}
-										/>
-										<DeleteButton
-											display={toggleRow}
-											onClickDelete={() => handleDelete(packItemId)}
-										/>
+									<ActionButtons size={2} display={toggleRow}>
+										<div>
+											<ShareIcon
+												onClick={() => setToggleGearButtons(!toggleGearButtons)}
+											/>
+										</div>
+
+										<DeleteItemModal
+											id={packItemId}
+											hasPackId={hasPackId}
+											onClickMove={handleMoveItemToCloset}
+											onClickDelete={() => handleDelete(packItemId)}>
+											<div>
+												<TrashIcon />
+											</div>
+										</DeleteItemModal>
 									</ActionButtons>
 								)}
 							</>
@@ -167,11 +176,7 @@ export const TableRow = (props: TableRowProps) => {
 					</Row>
 
 					{toggleGearButtons && userView && (
-						<MoveItemDropdown
-							packItem={item}
-							availablePacks={availablePacks}
-							moveItemToPack={handleMoveItemToPack}
-						/>
+						<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
 					)}
 				</>
 			)}

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
-import {
-	List,
-	ListItem,
-	Label,
-	Icon,
-	Divider,
-	Popup,
-	PopupContent,
-} from 'semantic-ui-react';
+import { Flex, Badge, Separator, HoverCard } from '@radix-ui/themes';
 import { usePricingContext } from '@/hooks/use-viewer-context';
+import {
+	ConsumableIcon,
+	WeightIcon,
+	WornIcon,
+	MoneyIcon,
+	BackpackIcon,
+} from '@/components/ui';
 
 type PackSummaryPanelProps = {
 	totalWeight: number;
@@ -23,89 +22,76 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 
 	return (
 		<>
-			<Popup
-				mouseEnterDelay={700}
-				on="hover"
-				pinned
-				position="top center"
-				hideOnScroll
-				trigger={
+			<HoverCard.Root>
+				<HoverCard.Trigger>
 					<div>
 						<PopupListItem style={{ cursor: 'pointer' }}>
-							<LightIcon name="info circle" /> Total Weight:{' '}
-							<StyledLabel>{totalWeight} lbs</StyledLabel>
+							<BackpackIcon /> Total Weight:{' '}
+							<Badge color="gray" ml="auto">
+								{totalWeight} lbs
+							</Badge>
 						</PopupListItem>
 					</div>
-				}>
-				<PopupContent>
-					<List relaxed>
-						<PopupListItem>
-							<p>
-								<Icon color="teal" name="balance scale" />
-								Base Weight:
-							</p>
-							<StyledLabel>{baseWeight}</StyledLabel>
+				</HoverCard.Trigger>
+				<HoverCard.Content side="top">
+					<Flex direction="column">
+						<PopupListItem my="2">
+							<WeightIcon />
+							Base Weight:
+							<Badge color="gray" ml="auto">
+								{baseWeight}
+							</Badge>
 						</PopupListItem>
 
-						<PopupListItem>
-							<p>
-								<Icon name="food" color="olive" />
-								Consumables:
-							</p>
-							<StyledLabel>{consumables}</StyledLabel>
+						<PopupListItem my="2">
+							<ConsumableIcon />
+							Consumables:
+							<Badge color="gray" ml="auto">
+								{consumables}
+							</Badge>
 						</PopupListItem>
-						<PopupListItem>
-							<p>
-								<i className={`fa-solid fa-shirt`} />
-								Worn Weight:
-							</p>
-							<StyledLabel>{wornWeight}</StyledLabel>
+						<PopupListItem my="2">
+							<WornIcon />
+							Worn Weight:
+							<Badge color="gray" ml="auto">
+								{wornWeight}
+							</Badge>
 						</PopupListItem>
-						<Divider />
+
+						<Separator size="4" mb="4" mt="2" />
+
 						<PopupListItem>
-							<p>Total Weight: </p> <StyledLabel>{totalWeight} lbs</StyledLabel>
+							Total Weight:
+							<Badge color="gray" ml="auto">
+								{totalWeight} lbs
+							</Badge>
 						</PopupListItem>
-					</List>
-				</PopupContent>
-			</Popup>
+					</Flex>
+				</HoverCard.Content>
+			</HoverCard.Root>
 
 			{showPrices && (
-				<PopupListItem style={{ marginTop: 10 }}>
-					<LightIcon name="money" style={{ marginLeft: 0 }} /> Total Price:
-					<StyledLabel>{totalPackPrice}</StyledLabel>
+				<PopupListItem mt="4">
+					<MoneyIcon /> Total Price:
+					<Badge color="gray" ml="auto">
+						{totalPackPrice}
+					</Badge>
 				</PopupListItem>
 			)}
 		</>
 	);
 };
 
-const LightIcon = styled(Icon)`
-	&&& {
-		opacity: 0.2;
-		margin-right: 5px;
+const PopupListItem = styled(Flex)`
+	font-size: 0.9em;
+	align-items: center;
+	p {
+		margin-right: 0.5em;
+		text-align: left;
 	}
-`;
-
-const PopupListItem = styled(ListItem)`
-	&&& {
-		font-size: 0.9em;
-		display: flex;
-		align-items: baseline;
-		p {
-			margin-right: 10px;
-			text-align: left;
-			i {
-				margin-right: 10px;
-			}
-			.fa-solid.fa-shirt {
-				${({ theme }) => theme.mx.themeColor('tidyBlue')}
-			}
-		}
-	}
-`;
-
-const StyledLabel = styled(Label)`
-	&& {
-		margin-left: auto;
+	svg {
+		margin-right: 0.5em;
+		overflow: visible;
+		color: var(--gray-9);
 	}
 `;

@@ -1,7 +1,7 @@
 import { type SocialLinkInfo } from '@/types/profile-types';
-import { Label, Icon, Button } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
-import { Link } from '@/components/ui';
+import { Badge, IconButton } from '@radix-ui/themes';
+import { Link, CloseIcon } from '@/components/ui';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -37,18 +37,18 @@ export const SocialButton = (props: SocialButtonProps) => {
 	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl) : socialName;
 
 	return (
-		<StyledLabel
+		<StyledBadge
 			$backgroundColor={color}
 			$colorButton={colorButton}
+			m="2"
+			radius="large"
 			onClick={handleClick}>
 			<Link link={socialLinkUrl} enabled externalLink>
 				{icon}
 				{displayLink || 'Link'}
 			</Link>
-			{deleteEnabled && (
-				<Icon name="delete" style={{ marginLeft: 10 }} onClick={handleDelete} />
-			)}
-		</StyledLabel>
+			{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
+		</StyledBadge>
 	);
 };
 
@@ -59,19 +59,22 @@ export const SocialButtonPicker = ({
 }) => {
 	const { icon, color } = currentSocial;
 
-	return <CircleButton $backgroundColor={color} icon={icon} />;
+	return (
+		<CircleButton $backgroundColor={color} radius="full">
+			{icon}
+		</CircleButton>
+	);
 };
 
-const CircleButton = styled(Button)<{ $backgroundColor: string }>`
-	&&&& {
-		${({ theme: t }) => t.mx.wh('30px')}
-		${({ theme: t }) => t.mx.flexCenter()}
-		border-radius: 15px;
-		background-color: ${(props) =>
-			props.$backgroundColor ? props.$backgroundColor : 'grey'};
-		i {
-			color: white;
-		}
+const CircleButton = styled(IconButton)<{ $backgroundColor: string }>`
+	background-color: ${(props) =>
+		props.$backgroundColor ? props.$backgroundColor : 'grey'};
+	cursor: pointer;
+	&:hover {
+		filter: brightness(95%);
+	}
+	svg {
+		color: white;
 	}
 `;
 
@@ -80,24 +83,25 @@ const shortenLink = (link: string) => {
 	return link.split('').splice(slashIndex).join('');
 };
 
-const StyledLabel = styled(Label)`
-	&&& {
-		cursor: pointer;
-		a {
-			opacity: 1;
-			&:hover {
-				opacity: 0.8;
-			}
-		}
-		${(props) =>
-			props.$colorButton &&
-			css`
-				color: white;
-				background-color: ${props.$backgroundColor ? props.$backgroundColor : 'blue'};
-				i {
-					color: white;
-					margin-right: 5px;
-				}
-			`};
+const StyledBadge = styled(Badge)<{ $colorButton: boolean; $backgroundColor: string }>`
+	cursor: pointer;
+	padding: 0.75em;
+	display: flex;
+	align-items: center;
+	&:hover {
+		filter: brightness(105%);
 	}
+	a {
+		opacity: 1;
+		color: white;
+		&:hover {
+			color: white;
+		}
+	}
+	${(props) =>
+		props.$colorButton &&
+		css`
+			color: white;
+			background-color: ${props.$backgroundColor ? props.$backgroundColor : 'blue'};
+		`};
 `;

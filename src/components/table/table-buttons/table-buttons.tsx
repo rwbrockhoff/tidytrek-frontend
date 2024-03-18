@@ -1,31 +1,27 @@
 import styled, { css } from 'styled-components';
-import { Flex, Table, Button } from '@radix-ui/themes';
-import {
-	PlusIcon,
-	MinusIcon,
-	TrashIcon,
-	CaretDownIcon,
-	ShareIcon,
-} from '@/components/ui';
+import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
+import { PlusIcon, CaretDownIcon, ShareIcon } from '@/components/ui';
 
 type ActionButtonsProps = {
 	header?: boolean;
 	size?: number;
+	display?: boolean;
 	children: React.ReactNode;
 };
 
-export const ActionButtons = ({ header, size = 1, children }: ActionButtonsProps) => {
-	// const ButtonCell = header ? Table.HeaderCell : Table.Cell;
+export const ActionButtons = (props: ActionButtonsProps) => {
+	const { header, size = 1, display = true, children } = props;
+
 	if (header) {
 		return (
 			<StyledHeaderCell align="center" colSpan={size}>
-				{children}
+				{display && <StyledFlex>{children}</StyledFlex>}
 			</StyledHeaderCell>
 		);
 	} else {
 		return (
 			<Table.Cell align="center" colSpan={size}>
-				{children}
+				{display && <StyledFlex>{children}</StyledFlex>}
 			</Table.Cell>
 		);
 	}
@@ -41,6 +37,17 @@ const StyledHeaderCell = styled(Table.ColumnHeaderCell)`
 				margin-right: 10px !important;
 			}
 	`)}
+`;
+
+const StyledFlex = styled(Flex)`
+	justify-content: space-around;
+	svg {
+		cursor: pointer;
+		color: var(--gray-9);
+		&:hover {
+			filter: brightness(80%);
+		}
+	}
 `;
 
 type MobileToggleProps = {
@@ -72,37 +79,6 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	);
 };
 
-type ButtonProps = {
-	display: boolean;
-	onClickDelete: () => void;
-};
-
-export const DeleteButton = ({ display, onClickDelete }: ButtonProps) => {
-	return (
-		<TableButton onClick={onClickDelete} $display={display} $marginLeft="15px">
-			<TrashIcon />
-		</TableButton>
-	);
-};
-
-type MinimizeButtonProps = {
-	display: boolean;
-	isMinimized: boolean;
-	minimize: () => void;
-};
-
-export const MinimizeButton = ({
-	display,
-	isMinimized,
-	minimize,
-}: MinimizeButtonProps) => {
-	return (
-		<TableButton onClick={minimize} $display={display}>
-			{isMinimized ? <PlusIcon /> : <MinusIcon />}
-		</TableButton>
-	);
-};
-
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
 		<Button variant="outline" color="gray" size="2" radius="medium" onClick={onClick}>
@@ -122,7 +98,7 @@ export const GripButton = ({ display }: { display: boolean }) => {
 	} else return null;
 };
 
-export const TableButton = styled(Button)<{
+export const TableButton = styled(IconButton)<{
 	$display?: boolean;
 	$marginLeft?: string;
 	$mobileOnly?: boolean;
@@ -137,7 +113,6 @@ export const TableButton = styled(Button)<{
 				`)}
 		`}
 	background-color: transparent;
-	border: none;
 	cursor: pointer;
 	color: grey;
 	margin: 0px 0px;

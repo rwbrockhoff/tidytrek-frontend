@@ -1,6 +1,6 @@
 import { type InternalMutation } from '@/types/form-types';
-import { type MovePackItemProps, type PackInfo, type PackItem } from '@/types/pack-types';
-import { createContext, useContext, useState } from 'react';
+import { type MovePackItemProps, type PackItem } from '@/types/pack-types';
+import { createContext, useContext } from 'react';
 import { cleanUpLink } from '@/components/ui';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 
@@ -8,12 +8,9 @@ type AddItemInfo = { packId: number; packCategoryId: number };
 
 type Handlers = {
 	addPackItem: (addItemInfo: AddItemInfo) => void;
-	moveItemToCloset: () => void;
-	moveItemToPack: (packInfo: PackInfo) => void;
+	moveItemToCloset: (packItemId: number) => void;
 	editPackItem: (packItem: PackItem) => void;
-	toggleItemModal: () => void;
-	deleteItemPrompt: (packItemId: number) => void;
-	deleteItem: () => void;
+	deleteItem: (packItemId: number) => void;
 };
 
 // Exposed mutations being used outside of handlers
@@ -24,29 +21,14 @@ type Mutations = {
 	}>;
 };
 
-type HandlerState = {
-	packItemToChange: number | null;
-	showDeleteItemModal: boolean;
-};
-
 type HandlerData = {
 	handlers: Handlers;
 	mutations: Mutations;
-	handlerState: HandlerState;
 };
 
 const useCreateHandlers = () => {
-	const [packItemToChange, setPackItemToChange] = useState<number | null>(null);
-	const [showDeleteItemModal, setShowDeleteItemModal] = useState(false);
-
 	const mutations = usePackItemMutations();
-	const {
-		editPackItem,
-		deletePackItem,
-		movePackItemToCloset,
-		moveItemToPack,
-		addPackItem,
-	} = mutations;
+	const { editPackItem, deletePackItem, movePackItemToCloset, addPackItem } = mutations;
 
 	//-Handlers--//
 	const handleEditPackItem = (packItem: PackItem) => {
@@ -56,25 +38,14 @@ const useCreateHandlers = () => {
 		editPackItem.mutate({ packItemId, packItem: { ...packItem, packItemUrl: cleanUrl } });
 	};
 
-	const handleToggleItemModal = () => setShowDeleteItemModal(!showDeleteItemModal);
-
 	const handleAddItem = (addItemInfo: AddItemInfo) => addPackItem.mutate(addItemInfo);
 
-	const handleMoveItemToPack = (packInfo: PackInfo) => moveItemToPack.mutate(packInfo);
-
-	const handleMoveItemToCloset = () => {
-		if (packItemToChange) movePackItemToCloset.mutate(packItemToChange);
-		setShowDeleteItemModal(false);
+	const handleMoveItemToCloset = (packItemId: number) => {
+		movePackItemToCloset.mutate(packItemId);
 	};
 
-	const handleDeleteItemPrompt = (packItemId: number) => {
-		setPackItemToChange(packItemId);
-		setShowDeleteItemModal(true);
-	};
-
-	const handleDeleteItem = () => {
-		if (packItemToChange) deletePackItem.mutate(packItemToChange);
-		setShowDeleteItemModal(false);
+	const handleDeleteItem = (packItemId: number) => {
+		deletePackItem.mutate(packItemId);
 	};
 
 	//-Handlers--//
@@ -83,17 +54,10 @@ const useCreateHandlers = () => {
 		addPackItem: handleAddItem,
 		editPackItem: handleEditPackItem,
 		moveItemToCloset: handleMoveItemToCloset,
-		deleteItemPrompt: handleDeleteItemPrompt,
 		deleteItem: handleDeleteItem,
-		toggleItemModal: handleToggleItemModal,
-		moveItemToPack: handleMoveItemToPack,
 	};
 
-	const handlerState: HandlerState = {
-		packItemToChange,
-		showDeleteItemModal,
-	};
-	return { handlers, mutations, handlerState };
+	return { handlers, mutations };
 };
 
 export const HandlerContext = createContext<HandlerData | {}>({});
