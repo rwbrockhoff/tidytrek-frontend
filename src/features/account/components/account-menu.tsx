@@ -1,19 +1,23 @@
-import { MenuItem, Menu } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from '@/components/ui';
-import { useLocation } from 'react-router-dom';
+import { Tabs } from '@radix-ui/themes';
+
+// with onClick, user can click underneath button text and still navigate
+// between pages. So there is a link + navigate in place to ensure it works
+// no matter where they click
 
 export const AccountMenu = () => {
-	const { pathname } = useLocation();
-	const link = { account: '/account', profile: '/account/profile' };
+	const navigate = useNavigate();
 	return (
-		<Menu secondary>
-			<MenuItem active={pathname === link.account}>
-				<Link link={link.account}>Account</Link>
-			</MenuItem>
-
-			<MenuItem active={pathname === link.profile}>
-				<Link link={link.profile}>Profile</Link>
-			</MenuItem>
-		</Menu>
+		<Tabs.Root defaultValue="account">
+			<Tabs.List size="2">
+				<Tabs.Trigger value="account" onClick={() => navigate('/account')}>
+					<Link link="/account">Account</Link>
+				</Tabs.Trigger>
+				<Tabs.Trigger value="profile" onClick={() => navigate('/account/profile')}>
+					<Link link="/account/profile">Profile</Link>
+				</Tabs.Trigger>
+			</Tabs.List>
+		</Tabs.Root>
 	);
 };
