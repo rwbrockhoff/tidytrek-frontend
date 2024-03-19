@@ -8,7 +8,7 @@ declare const google: any;
 
 type GoogleAuthProps = {
 	context: AuthContext;
-	invalidForm: (message: string) => void;
+	updateServerError: (message: string) => void;
 };
 type AuthContext = 'signup' | 'signin';
 
@@ -16,7 +16,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
 	const google_button = useRef(null);
 	const isMobile = useCheckMobile();
-	const { context, invalidForm } = props;
+	const { context, updateServerError } = props;
 
 	const {
 		mutate: registerUser,
@@ -29,7 +29,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	useEffect(() => {
 		// subscribe to success/error for auth requests
 		if (isRegisterSuccess) navigate('/welcome');
-		if (isRegisterError || isLoginError) invalidForm(generalErrorMessage);
+		if (isRegisterError || isLoginError) updateServerError(generalErrorMessage);
 	}, [isRegisterSuccess]);
 
 	useEffect(() => {
@@ -51,7 +51,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 
 	const handleGoogleAuth = async (response: unknown, error: unknown) => {
 		// handle error from google auth flow
-		if (error) return invalidForm(googleErrorMessage);
+		if (error) return updateServerError(googleErrorMessage);
 		// pass token to supabase
 		const { data, error: supaError } = await supabase.auth.signInWithIdToken({
 			provider: 'google',
@@ -59,7 +59,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 			token: response.credential,
 		});
 		// handle supabase error
-		if (supaError || !data.session) return invalidForm(generalErrorMessage);
+		if (supaError || !data.session) return updateServerError(generalErrorMessage);
 		else {
 			// continue register/sign in process
 			const userId = data?.user?.id;

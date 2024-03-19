@@ -1,9 +1,6 @@
-import { RegisterUserFormData } from '@/types/user-types';
-import { type InputEvent } from '@/types/form-types';
-import { useEffect, useState } from 'react';
-import { isInputEvent, setFormInput } from '@/utils';
+import { type RegisterUserFormData, type LoginUserFormData } from '@/types/user-types';
+import { useEffect } from 'react';
 import { LogInForm } from '../components/login-form';
-import { useValidateForm } from '../hooks/use-validate-form';
 import { useCombineErrors, type MutationError } from '../hooks/use-combine-errors';
 import {
 	useCombinePendingStatus,
@@ -14,13 +11,20 @@ import { AuthContainer } from '../components/form-components';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';
+import { useMutationErrors, useZodError } from '@/hooks';
+import { z, emailSchema, passwordSchema } from '@/schemas';
 
-const initialFormState = {
-	firstName: '',
-	lastName: '',
-	email: '',
-	password: '',
-};
+const registerSchema = z.object({
+	firstName: z.string().min(2, { message: 'Please type in your name.' }),
+	lastName: z.string().min(2, { message: 'Please type in your last name.' }),
+	email: emailSchema,
+	password: passwordSchema,
+});
+
+const loginSchema = z.object({
+	email: emailSchema,
+	password: z.string().min(8, { message: 'Please type in your password' }),
+});
 
 export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) => {
 	const { pathname } = useLocation();
@@ -29,7 +33,17 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 	const { mutate: loginUser } = loginData;
 	const { mutate: registerUser, isSuccess: isRegisterSuccess } = registerData;
 
-	const [formError, setFormError] = useCombineErrors([
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+		'firstName',
+		'lastName',
+		'email',
+		'password',
+	]);
+
+	const { serverError, updateAxiosError, resetAxiosError, setAxiosError } =
+		useMutationErrors();
+
+	const [formError] = useCombineErrors([
 		loginData as MutationError,
 		registerData as MutationError,
 	]);
@@ -39,23 +53,25 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 		registerData as MutationPending,
 	]);
 
-	const { invalidForm, validateFormData } = useValidateForm(setFormError);
-
-	const [formData, setFormData] = useState<RegisterUserFormData>(initialFormState);
-
 	useEffect(() => {
-		// subscribe to view change and reset form errors
-		if (formError.error) setFormError({ error: false, message: '' });
+		// subscribe to view change and reset errors
+		if (formError.error) resetAxiosError();
 	}, [pathname]);
 
-	const handleFormChange = (e: InputEvent) => {
-		if (isInputEvent(e)) setFormInput<RegisterUserFormData>(e, setFormData);
-	};
+	useEffect(() => {
+		// subscribe to query errors
+		formError.error && updateAxiosError(formError.message);
+	}, [formError.error]);
 
-	const handleRegister = async () => {
-		const formIsValid = validateFormData(formData);
-		if (!formIsValid) return; // error messages automatically handled
+	const handleRegister = async (formData: RegisterUserFormData) => {
+		// validate register form
+		const schemaData = registerSchema.safeParse(formData);
+		if (!schemaData.success) {
+			const result = JSON.parse(schemaData.error.message);
+			return updateFormErrors(result);
+		}
 		const { email, password } = formData;
+		// sign up user using supabase
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
@@ -64,28 +80,35 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 			},
 		});
 		// handle supabase error
-		if (!data.user || error) return invalidForm(registerError);
+		if (!data.user || error) return setAxiosError(registerError);
 		// otherwise register account
 		const userId = data?.user && data.user.id;
 		if (userId) {
 			registerUser({ ...formData, userId });
-			setFormData(initialFormState);
 		}
 	};
 
-	const handleFormSubmit = async () => {
-		if (isRegisterForm) return await handleRegister();
+	const handleLogin = async (formData: LoginUserFormData) => {
+		const schemaData = loginSchema.safeParse(formData);
+		if (!schemaData.success) {
+			const result = JSON.parse(schemaData.error.message);
+			return updateFormErrors(result);
+		}
 		const { email, password } = formData;
-		if (!email || !password) return invalidForm(emptyFormError);
 		const { data, error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		});
 		// handle supabase error
-		if (!data.user || error) return invalidForm(signinError);
+		if (!data.user || error) return setAxiosError(signinError);
 		// otherwise log in
 		const userId = data?.user && data.user.id;
 		if (userId && !error) loginUser({ userId, email });
+	};
+
+	const handleClearErrors = (inputName?: string) => {
+		if (inputName) resetFormErrors(inputName);
+		if (serverError.error) resetAxiosError();
 	};
 
 	return (
@@ -93,12 +116,13 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 			<LogInForm
 				isRegisterForm={isRegisterForm}
 				isRegisterSuccess={isRegisterSuccess}
-				formData={formData}
 				isLoading={isPending}
-				formError={formError}
-				invalidForm={invalidForm}
-				onFormChange={handleFormChange}
-				onSubmit={handleFormSubmit}
+				registerUser={handleRegister}
+				loginUser={handleLogin}
+				formErrors={formErrors}
+				serverError={serverError}
+				resetFormErrors={handleClearErrors}
+				updateServerError={setAxiosError}
 			/>
 		</AuthContainer>
 	);
@@ -107,4 +131,3 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 // defaults
 const signinError = 'Invalid login credentials.';
 const registerError = 'There was an error registering your account.';
-const emptyFormError = 'Please provide your email and password.';
