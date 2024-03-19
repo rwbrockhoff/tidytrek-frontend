@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { type InputEvent } from '@/types/form-types';
-import {
-	Table as SemTable,
-	Input as SemInput,
-	Header as SemHeader,
-} from 'semantic-ui-react';
+import { Flex, Heading, Table, TextFieldInput } from '@radix-ui/themes';
 import { ThemeButton, GripButton } from '../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
@@ -72,61 +68,51 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			<GripButton display={showGrip && userView} />
 
 			{userView ? (
-				<Input
-					value={packCategoryName || 'Category'}
-					name="packCategoryName"
-					onChange={handleInput}
-					disabled={!userView}
-					// Show input background when user interacts
-					$displayInput={displayInput}>
+				<Flex>
 					<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
-					<input />
-				</Input>
+					<Input
+						size="3"
+						value={packCategoryName || 'Category'}
+						name="packCategoryName"
+						onChange={handleInput}
+						disabled={!userView}
+						// Show input background when user interacts
+						$displayInput={displayInput}
+					/>
+				</Flex>
 			) : (
-				<Header>{packCategoryName}</Header>
+				<Heading size="4" ml="2">
+					{packCategoryName}
+				</Heading>
 			)}
 		</HeaderCell>
 	);
 };
 
-const HeaderCell = styled(SemTable.HeaderCell)`
-	&&& {
-		position: relative;
-		overflow: visible;
-		${({ theme: t }) =>
-			t.mx.mobile(`
+const HeaderCell = styled(Table.ColumnHeaderCell)`
+	position: relative;
+	overflow: visible;
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			display: inline-flex;
 			flex: 1;
 		`)}
-	}
 `;
 
-const Input = styled(SemInput)`
-	&&& {
-		font-size: 1.2em;
-		height: 30px;
-		input {
-			padding-left: 0.5em;
-		}
-		${({ theme: t }) =>
-			t.mx.mobile(`
+const Input = styled(TextFieldInput)<{ $displayInput: boolean }>`
+	${({ theme: t }) =>
+		t.mx.mobile(`
 			height: 40px;
 			font-size: 1.3em;
 		`)}
-		${(props) =>
-			props.$displayInput &&
-			css`
-				input {
-					border-color: transparent;
-					background-color: transparent;
-					box-shadow: none;
-					border-radius: 0;
-				}
-			`};
-	}
-`;
-
-const Header = styled(SemHeader)`
-	margin-left: 15px;
-	opacity: 0.8;
+	${(props) =>
+		props.$displayInput &&
+		css`
+			input {
+				border-color: transparent;
+				background-color: transparent;
+				box-shadow: none;
+				border-radius: 0;
+			}
+		`};
 `;

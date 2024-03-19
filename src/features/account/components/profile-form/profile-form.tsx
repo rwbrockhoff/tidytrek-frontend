@@ -2,16 +2,9 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Segment, SegmentGroup, WarningMessage } from '@/components/ui';
 import { Flex } from '@radix-ui/themes';
-import {
-	SegmentGroup,
-	Segment as SemSegment,
-	Form,
-	Input,
-	TextArea,
-	Icon,
-	Message,
-} from 'semantic-ui-react';
+import { Form, Input, TextArea } from 'semantic-ui-react';
 import { Header, FormField } from '@/components/ui/SemanticUI';
 import { SubText } from '@/components/ui/TidyUI';
 import { Avatar } from '@/components/ui';
@@ -70,7 +63,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	const errorMessage = isError && useAxiosErrorMessage(error);
 
 	return (
-		<SegmentGroup>
+		<SegmentGroup direction="column">
 			<Segment>
 				<Header as="h4" $marginBottom="2rem">
 					Profile Settings
@@ -91,13 +84,15 @@ export const ProfileForm = (props: ProfileFormProps) => {
 					/>
 
 					{isUploadError && (
-						<Message warning size="mini" style={{ marginRight: 'auto' }}>
-							<Icon name="warning" /> We had an error uploading your photo. Oops!
-						</Message>
+						<WarningMessage
+							message="We had an error uploading your photo. Oops!"
+							mt="4"
+							mr="auto"
+						/>
 					)}
 				</PhotoContainer>
 			</Segment>
-			<Segment stacked>
+			<Segment>
 				<StyledForm onBlur={handleEditProfile}>
 					<FormField $width={inputWidth} error={isError}>
 						<label>Username</label>
@@ -137,26 +132,16 @@ export const ProfileForm = (props: ProfileFormProps) => {
 							placeholder="Bio for your profile"
 						/>
 					</FormField>
+					{isMaxLengthBio && (
+						<WarningMessage mt="4" width={inputWidth} message={warningMessage} />
+					)}
 				</StyledForm>
-
-				{isMaxLengthBio && (
-					<StyledMessage warning>
-						<Icon name="alarm" /> Woah there, partner. There's a 250 character limit to
-						keep things tidy.
-					</StyledMessage>
-				)}
 
 				<SocialLinks socialLinks={socialLinks} />
 			</Segment>
 		</SegmentGroup>
 	);
 };
-
-export const Segment = styled(SemSegment)`
-	&&& {
-		padding: 35px 25px;
-	}
-`;
 
 const StyledForm = styled(Form)`
 	width: 70%;
@@ -175,9 +160,6 @@ const PhotoContainer = styled(Flex)`
 	}
 `;
 
-const StyledMessage = styled(Message)`
-	width: fit-content;
-`;
-
 // defaults
 const inputWidth = '80%';
+const warningMessage = `Woah there, partner. There's a 250 character limit to keep things tidy.`;

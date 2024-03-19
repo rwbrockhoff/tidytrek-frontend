@@ -11,3 +11,4 @@ export * from './icon';
 export * from './icons';
 export * from './text';
 export * from './spinner';
+export * from './segment';

@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { type User } from '@/types/user-types';
 import { type PasswordInfo, type InputEvent } from '@/types/form-types';
-import { SegmentGroup, Segment as SemSegment } from 'semantic-ui-react';
+import { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Heading, Button } from '@radix-ui/themes';
-import { DeleteModal, Message, TrashIcon } from '@/components/ui';
+import { DeleteModal, Message, TrashIcon, Segment, SegmentGroup } from '@/components/ui';
 import { PasswordForm } from './password-form';
 import { setFormInput } from '@/utils';
 import { reauthenticateUser } from '@/api/supabaseClient';
@@ -68,7 +67,7 @@ export const AccountForm = (props: AccountFormProps) => {
 	const showMessage = error.error || isSuccess;
 
 	return (
-		<SegmentGroup>
+		<SegmentGroup direction="column">
 			<Segment>
 				<Heading as="h4" size="3" mb="4">
 					Account Info
@@ -80,7 +79,7 @@ export const AccountForm = (props: AccountFormProps) => {
 					<b>Email:</b> {email || 'No email here. Too busy hiking.'}
 				</p>
 			</Segment>
-			<Segment>
+			<Segment $stacked>
 				<PasswordForm
 					displayFormSection={displayFormSection}
 					confirmationSent={confirmationSent}
@@ -102,7 +101,7 @@ export const AccountForm = (props: AccountFormProps) => {
 					</MessageContainer>
 				)}
 			</Segment>
-			<Segment stacked>
+			<Segment>
 				<Heading as="h4" size="3" mb="4">
 					Delete Your Account
 				</Heading>
@@ -131,12 +130,6 @@ export const AccountForm = (props: AccountFormProps) => {
 const MessageContainer = styled.div`
 	width: 50%;
 	margin-top: 2em;
-`;
-
-export const Segment = styled(SemSegment)`
-	&&& {
-		padding: 3em 2em;
-	}
 `;
 
 // defaults

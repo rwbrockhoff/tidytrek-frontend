@@ -60,11 +60,9 @@ export const GearCloset = () => {
 };
 
 const SearchContainer = styled.div`
-	&&& {
-		width: 50%;
-		margin-bottom: 2em;
-		margin-left: auto;
-		margin-right: auto;
-		${({ theme: t }) => t.mx.mobile(`width: 90%;`)}
-	}
+	width: 50%;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	${({ theme: t }) => t.mx.mobile(`width: 90%;`)}
 `;
