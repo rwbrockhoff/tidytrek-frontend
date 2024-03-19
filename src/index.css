@@ -24,6 +24,11 @@ body > div#root {
 	margin: 0;
 }
 
+input[data-invalid='true'] {
+	border: 1px solid var(--tomato-8);
+	background-color: var(--tomato-1);
+}
+
 /* h1 {
 	margin: 0;
 } */

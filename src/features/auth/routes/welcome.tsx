@@ -1,14 +1,19 @@
-import { type InputEvent } from '@/types/form-types';
+import { type WelcomeFormData } from '../types/auth-types';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AuthContainer } from '../components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
-import { setFormInput } from '@/utils';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
 import supabase from '@/api/supabaseClient';
 import { useLoginMutation } from '@/queries/user-queries';
-import { useMutationError } from '@/hooks/use-axios-error';
-import { useGetAuth } from '@/hooks';
+import { useMutationErrors } from '@/hooks/use-axios-error';
+import { useGetAuth, useZodError } from '@/hooks';
+import { z, usernameSchema, trailNameSchema } from '@/schemas';
+
+const formSchema = z.object({
+	username: usernameSchema,
+	trailName: trailNameSchema,
+});
 
 export const Welcome = () => {
 	const navigate = useNavigate();
@@ -17,8 +22,12 @@ export const Welcome = () => {
 	const { mutate: login } = useLoginMutation();
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 
-	const [formData, setFormData] = useState(initialFormState);
-	const [formError, setFormError] = useState(initialErrorState);
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+		'username',
+		'trailName',
+	]);
+
+	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
 
 	useEffect(() => {
 		// subscribe to session change and log in user
@@ -30,42 +39,36 @@ export const Welcome = () => {
 		}
 	}, []);
 
-	const handleFormChange = (e: InputEvent) => {
-		if (formError.error) setFormError(initialErrorState);
-		setFormInput(e, setFormData);
+	const handleClearErrors = (inputName?: string) => {
+		if (inputName) resetFormErrors(inputName);
+		if (serverError.error) resetAxiosError();
 	};
 
-	const handleFormError = (message: string) => {
-		setFormError({ error: true, message });
-	};
-
-	const handleSaveUsername = async () => {
+	const handleSaveUsername = async (formData: WelcomeFormData) => {
+		const data = formSchema.safeParse(formData);
+		if (!data.success) {
+			const result = JSON.parse(data.error.message);
+			return updateFormErrors(result);
+		}
 		const { username, trailName } = formData;
 		if (!username && !trailName) navigate('/');
 		try {
 			await saveUsername(formData);
-			setFormData(initialFormState);
 			navigate('/');
 		} catch (error) {
-			useMutationError(error, handleFormError);
+			updateAxiosError(error);
 		}
 	};
 
-	const { username, trailName } = formData;
 	return (
 		<AuthContainer>
 			<WelcomeForm
-				username={username}
-				trailName={trailName}
 				isPending={isPending}
-				formError={formError}
-				onChange={handleFormChange}
+				formErrors={formErrors}
+				serverError={serverError}
+				resetFormErrors={handleClearErrors}
 				saveUsername={handleSaveUsername}
 			/>
 		</AuthContainer>
 	);
 };
-
-// Defaults //
-const initialFormState = { username: '', trailName: '' };
-const initialErrorState = { error: false, message: '' };

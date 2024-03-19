@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { useState } from 'react';
 
 // return nested axios error or a default error message
 export const useAxiosErrorMessage = (error: Error | null) => {
@@ -26,6 +27,22 @@ export const useMutationError = (error: unknown, cb: (message: string) => void) 
 	} else return cb(defaultErrorMessage);
 };
 
+export const useMutationErrors = () => {
+	const [serverError, setServerError] = useState(initialErrorState);
+
+	const updateAxiosError = (error: unknown) => {
+		if (isAxiosError(error)) {
+			const message = useAxiosErrorMessage(error);
+			setServerError({ error: true, message });
+		} else setServerError({ error: true, message: defaultErrorMessage });
+	};
+
+	const resetAxiosError = () => setServerError(initialErrorState);
+
+	return { serverError, updateAxiosError, resetAxiosError };
+};
+
 // defaults
 const defaultErrorMessage =
 	'There was an error handling your request at this time. Contact support if this continues.';
+const initialErrorState = { error: false, message: '' };

@@ -1,4 +1,3 @@
-import { Form } from 'semantic-ui-react';
 import { Segment } from '@/components/ui';
 import { Heading, Button, Text } from '@radix-ui/themes';
 import { AuthContainer, FormContainer } from '../components/form-components';
@@ -12,23 +11,18 @@ export const ResetSuccess = () => {
 				<Heading as="h1" mb="4">
 					tidytrek
 				</Heading>
-				<Form size="large">
-					<Segment $radius="2">
-						<Heading as="h2" size="6" color="jade" mb="4">
-							Success!
-						</Heading>
-						<Text>
-							Your password has been successfully updated and you are now logged in.
-						</Text>
-						<Button
-							size="3"
-							style={{ width: '100%' }}
-							mt="4"
-							onClick={() => navigate('/')}>
-							Go To Dashboard
-						</Button>
-					</Segment>
-				</Form>
+
+				<Segment $radius="2">
+					<Heading as="h2" size="6" color="jade" mb="4">
+						Success!
+					</Heading>
+					<Text>
+						Your password has been successfully updated and you are now logged in.
+					</Text>
+					<Button size="3" style={{ width: '100%' }} mt="4" onClick={() => navigate('/')}>
+						Go To Dashboard
+					</Button>
+				</Segment>
 			</FormContainer>
 		</AuthContainer>
 	);

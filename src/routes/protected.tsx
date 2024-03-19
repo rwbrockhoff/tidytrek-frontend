@@ -69,14 +69,15 @@ export const protectedRoutes = [
 		path: '/reset-password',
 		element: <ResetPassword />,
 		errorElement: <BubbleError />,
-		children: [
-			{ path: '/reset-password/success', element: <ResetSuccess /> },
-			{ path: '/reset-password/*', index: true, element: <ResetPassword /> },
-		],
+	},
+	{
+		path: '/reset-password/success',
+		element: <ResetSuccess />,
+		errorElement: <BubbleError />,
 	},
 	{
 		path: '/welcome',
-		errorElement: <BubbleError />,
 		element: <Welcome />,
+		errorElement: <BubbleError />,
 	},
 ];
