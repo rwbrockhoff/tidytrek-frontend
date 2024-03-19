@@ -2,14 +2,13 @@ import { type InputEvent } from '@/types/form-types';
 import { type RegisterUserFormData } from '@/types/user-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment } from 'semantic-ui-react';
-import { Message } from '@/components/ui';
-import { Button, Header } from '@/components/ui/SemanticUI';
-import { FormContainer, FooterText } from './form-components';
+import { Form } from 'semantic-ui-react';
+import { Segment, Message } from '@/components/ui';
+import { Heading, Button, Text, Flex } from '@radix-ui/themes';
+import { FormContainer } from './form-components';
 import { FormError } from '@/types/form-types';
 import { RegisterFormSection } from './register-form-section';
 import { GoogleAuth } from './google-auth';
-import { SubText } from '@/components/ui/TidyUI';
 
 type FormProps = {
 	formData: RegisterUserFormData;
@@ -34,12 +33,14 @@ export const LogInForm = ({
 }: FormProps) => {
 	return (
 		<FormContainer>
-			<Header as="h1">tidytrek</Header>
+			<Heading as="h1" mb="4">
+				tidytrek
+			</Heading>
 			<Form size="large">
-				<Segment stacked>
-					<Header as="h3" $marginBottom="1.5em" $tidyColor="tidyPrimary">
+				<Segment $radius="2">
+					<Heading as="h3" size="6" color="jade" mb="4">
 						{isRegisterForm ? 'Create your account' : 'Log in to your account'}
-					</Header>
+					</Heading>
 
 					<GoogleAuth
 						context={isRegisterForm ? 'signup' : 'signin'}
@@ -76,10 +77,9 @@ export const LogInForm = ({
 					/>
 
 					<Button
-						$tidyColor="tidyPrimary"
-						fluid
-						role="button"
-						size="large"
+						style={{ width: '100%' }}
+						size="3"
+						mb="4"
 						onClick={onSubmit}
 						disabled={isLoading}>
 						{isRegisterForm ? 'Create account' : 'Login'}
@@ -102,23 +102,23 @@ export const LogInForm = ({
 					)}
 
 					{isRegisterForm && (
-						<>
-							<StyledSubText>
+						<Flex direction="column">
+							<Text color="gray" size="2" my="4">
 								By clicking "Create account" or "Continue with Google", you agree to the
 								Tidytrek Terms of Service and Privacy Policy.
-							</StyledSubText>
+							</Text>
 
-							<FooterText style={{ marginTop: '2em' }}>
+							<Text size="3" color="gray">
 								Already have an account? <Link to={'/'}>Log In</Link>
-							</FooterText>
-						</>
+							</Text>
+						</Flex>
 					)}
 
 					{!isRegisterForm && (
-						<FooterText>
+						<Text size="3" mt="4">
 							<Link to={'/register'}>Sign Up</Link> |{' '}
 							<Link to={'/reset-password'}>Forgot Your Password</Link>
-						</FooterText>
+						</Text>
 					)}
 				</Segment>
 			</Form>
@@ -130,8 +130,4 @@ const DividerText = styled.p`
 	margin: 1em 0em;
 	opacity: 0.8;
 	font-size: 1.1rem;
-`;
-
-const StyledSubText = styled(SubText)`
-	margin-top: 2em;
 `;

@@ -21,7 +21,9 @@ export { MdPassword as PasswordIcon, MdClose as CloseIcon } from 'react-icons/md
 export { FaEye as ViewsIcon } from 'react-icons/fa';
 export { FaStar as FavoriteIcon, FaShirt as WornIcon } from 'react-icons/fa6';
 export { MdEmojiFoodBeverage as ConsumableIcon } from 'react-icons/md';
-
+export { MdEdit as EditPencilIcon } from 'react-icons/md';
+export { FaChartPie as ChartIcon } from 'react-icons/fa';
+export { FaGripVertical as GripIcon } from 'react-icons/fa';
 //--Global Icons--//
 
 //--Pack Label Icons--//

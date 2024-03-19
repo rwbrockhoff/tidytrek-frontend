@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Separator, Flex } from '@radix-ui/themes';
 import { frontendURL } from '@/api/tidytrekAPI';
+import { HikingIcon } from '@/components/ui';
 
 type DashboardFooterProps = {
 	affiliate: boolean;
@@ -24,7 +25,7 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 				<LogoTag>
 					<p>
 						tidytrek
-						<i className="fa-solid fa-person-hiking" /> Made in Colorado
+						<HikingIcon /> Made in Colorado
 					</p>
 				</LogoTag>
 			</a>

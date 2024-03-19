@@ -1,3 +1,4 @@
+import { GripIcon } from '@/components/ui';
 import { PackListItem as ListItem } from '@/types/pack-types';
 import styled from 'styled-components';
 
@@ -11,7 +12,7 @@ export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 		<div key={pack.packId} onClick={() => onClick(pack.packId)}>
 			<Text>
 				<GripContainer>
-					<i className="fa-solid fa-grip-vertical" />
+					<GripIcon />
 				</GripContainer>
 				{pack.packName}
 			</Text>
@@ -20,25 +21,23 @@ export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 };
 
 const Text = styled.p`
-	&& {
-		cursor: pointer;
-		margin: 1em 0;
-		position: relative;
-		opacity: 1;
-		i {
-			opacity: 0;
+	cursor: pointer;
+	margin: 1em 0;
+	position: relative;
+	opacity: 1;
+	svg {
+		opacity: 0;
+	}
+	&:hover {
+		opacity: 0.8;
+		svg {
+			opacity: 0.6;
 		}
-		&:hover {
-			opacity: 0.8;
-			i {
-				opacity: 0.6;
-			}
-		}
-		${({ theme: t }) =>
-			t.mx.mobile(`
+	}
+	${({ theme: t }) =>
+		t.mx.mobile(`
 				font-size: 1.2em;
 		`)}
-	}
 `;
 
 const GripContainer = styled.span`

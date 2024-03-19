@@ -1,9 +1,9 @@
 import { FormError, type InputEvent } from '@/types/form-types';
-import { Form, Segment } from 'semantic-ui-react';
-import { Message } from '@/components/ui';
-import { Header, Button } from '@/components/ui/SemanticUI';
+import { Form } from 'semantic-ui-react';
+import { Message, Segment } from '@/components/ui';
+import { Flex, Text, Heading, Button } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
-import { FooterText, FormContainer, AuthContainer } from '../form-components';
+import { FormContainer, AuthContainer } from '../form-components';
 
 type FormData = {
 	email: string;
@@ -37,10 +37,14 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Header as="h1">tidytrek</Header>
+				<Heading as="h1" mb="4">
+					tidytrek
+				</Heading>
 				<Form size="large">
-					<Segment stacked>
-						<Header as="h3">Reset Password</Header>
+					<Segment $radius="2">
+						<Heading as="h3" size="6" color="jade" mb="4">
+							Reset Password
+						</Heading>
 
 						{!hasResetToken && (
 							<Form.Input
@@ -85,9 +89,8 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						)}
 
 						<Button
-							$tidyColor="tidyPrimary"
-							fluid
-							size="large"
+							size="3"
+							style={{ width: '100%' }}
 							onClick={hasResetToken ? onResetConfirm : onResetRequest}>
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
@@ -107,10 +110,11 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 								id="reset-password-message"
 							/>
 						)}
-
-						<FooterText>
-							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
-						</FooterText>
+						<Flex justify="center" mt="4">
+							<Text size="3">
+								<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
+							</Text>
+						</Flex>
 					</Segment>
 				</Form>
 			</FormContainer>

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
-import { PlusIcon, CaretDownIcon, ShareIcon } from '@/components/ui';
+import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -92,7 +92,7 @@ export const GripButton = ({ display }: { display: boolean }) => {
 	if (display) {
 		return (
 			<GripContainer align="center" justify="center">
-				<i className="fa-solid fa-grip-vertical" />
+				<GripIcon />
 			</GripContainer>
 		);
 	} else return null;

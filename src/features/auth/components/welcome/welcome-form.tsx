@@ -1,9 +1,8 @@
 import { FormError, type InputEvent } from '@/types/form-types';
-import { Form, Segment } from 'semantic-ui-react';
-import { Header, Button } from '@/components/ui/SemanticUI';
-import { SubText } from '@/components/ui/TidyUI';
-import { Link, Message } from '@/components/ui';
-import { FooterText, FormContainer } from '../form-components';
+import { Form } from 'semantic-ui-react';
+import { Flex, Text, Heading, Button } from '@radix-ui/themes';
+import { Link, Message, Segment } from '@/components/ui';
+import { FormContainer } from '../form-components';
 
 type WelcomeFormProps = {
 	username: string;
@@ -19,17 +18,23 @@ export const WelcomeForm = (props: WelcomeFormProps) => {
 	const { error, message } = formError;
 	return (
 		<FormContainer>
-			<Header as="h1">tidytrek</Header>
-			<Form size="large" onSubmit={saveUsername}>
-				<Segment stacked>
-					<Header as="h3" $tidyColor="tidyPrimary">
-						Welcome to Tidytrek!
-					</Header>
-					<p>Go by a different name on the trail?</p>
-					<SubText style={{ lineHeight: '2em' }}>
-						A <strong>username</strong> has to be unique and helps people find your
-						profile. <br /> A <strong>trail name</strong> can be anything you'd like.
-					</SubText>
+			<Heading as="h1" mb="4">
+				tidytrek
+			</Heading>
+
+			<Segment $radius="2">
+				<Heading as="h3" size="6" color="jade" mb="4">
+					Welcome to Tidytrek!
+				</Heading>
+				<Text size="4" mb="4">
+					Go by a different name on the trail?
+				</Text>
+				<br />
+				<Text color="gray" size="3">
+					A <strong>username</strong> has to be unique and helps people find your profile.{' '}
+					<br /> A <strong>trail name</strong> can be anything you'd like.
+				</Text>
+				<Form size="large" onSubmit={saveUsername} style={{ marginTop: '1em' }}>
 					<Form.Input
 						fluid
 						placeholder="Username (optional)"
@@ -48,12 +53,7 @@ export const WelcomeForm = (props: WelcomeFormProps) => {
 						data-testid="welcome-form-trailname-input"
 					/>
 
-					<Button
-						$tidyColor="tidyPrimary"
-						fluid
-						size="large"
-						disabled={isPending}
-						type="submit">
+					<Button size="3" style={{ width: '100%' }} disabled={isPending} type="submit">
 						Save
 					</Button>
 
@@ -64,12 +64,14 @@ export const WelcomeForm = (props: WelcomeFormProps) => {
 							id="welcome-form-error-message"
 						/>
 					)}
+				</Form>
 
-					<FooterText>
-						<Link link={'/'}>Skip For Now</Link>
-					</FooterText>
-				</Segment>
-			</Form>
+				<Flex justify="center" mt="4">
+					<Link link={'/'}>
+						<Text size="3">Skip For Now</Text>
+					</Link>
+				</Flex>
+			</Segment>
 		</FormContainer>
 	);
 };

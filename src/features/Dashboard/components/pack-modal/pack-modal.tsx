@@ -1,21 +1,17 @@
-import {
-	Modal,
-	ModalContent,
-	ModalActions,
-	Form,
-	FormField,
-	Input,
-	Icon,
-	TextArea,
-	FormGroup,
-	Divider,
-} from 'semantic-ui-react';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
-import { Button, ModalHeader, Checkbox } from '@/components/ui/SemanticUI';
-import { cleanUpLink } from '@/components/ui';
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { Form, FormField, Input, TextArea, FormGroup } from 'semantic-ui-react';
+import {
+	LinkIcon,
+	MoneyIcon,
+	PublicIcon,
+	ShareLinkIcon,
+	TrashIcon,
+	cleanUpLink,
+} from '@/components/ui';
+import { Button, Dialog, Flex, Separator, Switch } from '@radix-ui/themes';
 import { SubText } from '@/components/ui/TidyUI';
 import {
 	useEditPackMutation,
@@ -26,9 +22,8 @@ import { PackTags } from './pack-tags';
 import { PackPhoto } from '@/components';
 
 type PackModalProps = {
+	children: React.ReactNode;
 	pack: Pack;
-	open: boolean;
-	onClose: () => void;
 	onClickDelete: () => void;
 };
 
@@ -39,7 +34,8 @@ export const PackModal = (props: PackModalProps) => {
 	const { mutate: deletePackPhoto, isPending: isPendingDelete } =
 		useDeletePackPhotoMutation();
 
-	const { pack, open, onClose, onClickDelete } = props;
+	const { children, pack, onClickDelete } = props;
+
 	const [packChanged, setPackChanged] = useState(false);
 	const [modifiedPack, setModifiedPack] = useState({
 		packName: '',
@@ -96,8 +92,7 @@ export const PackModal = (props: PackModalProps) => {
 			const { packUrl } = modifiedPack;
 			const cleanUrl = packUrl ? cleanUpLink(packUrl) : '';
 			editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
-			onClose();
-		} else onClose();
+		}
 	};
 
 	const handleUploadPhoto = (formData: FormData) => {
@@ -128,154 +123,162 @@ export const PackModal = (props: PackModalProps) => {
 	const { packPhotoUrl } = pack;
 	const photoPending = isPendingUpload || isPendingDelete;
 	return (
-		// change open={true} -> open={open}
-		<Modal size="small" closeIcon open={open} onClose={onClose}>
-			<ModalHeader $themeColor="primary">
-				{packName ?? pack.packName ?? 'Pack'}
-			</ModalHeader>
-			<StyledModalContent>
-				<RightPanel>
-					<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
-					<SubText>Upload a .jpg or .png file.</SubText>
-					<PackPhoto
-						src={packPhotoUrl}
-						uploadEnabled={!photoPending}
-						isPending={photoPending}
-						onUpload={handleUploadPhoto}
-						onDelete={handleDeletePhoto}
-					/>
-				</RightPanel>
-				<Form style={{ padding: '0 10px' }}>
-					<FormSection>
-						<LeftPanel>
-							<FormField>
-								<label>Pack Name</label>
+		<Dialog.Root>
+			<Dialog.Trigger>
+				<div>{children}</div>
+			</Dialog.Trigger>
+			<Dialog.Content style={{ width: '800px' }}>
+				<Dialog.Title color="jade" mb="4">
+					{packName ?? pack.packName ?? 'Pack'}
+				</Dialog.Title>
+
+				<StyledModalContent>
+					<RightPanel>
+						<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
+						<SubText>Upload a .jpg or .png file.</SubText>
+						<PackPhoto
+							src={packPhotoUrl}
+							uploadEnabled={!photoPending}
+							isPending={photoPending}
+							onUpload={handleUploadPhoto}
+							onDelete={handleDeletePhoto}
+						/>
+					</RightPanel>
+					<Form style={{ padding: '0 10px' }}>
+						<FormSection>
+							<LeftPanel>
+								<FormField>
+									<label>Pack Name</label>
+									<Input
+										name="packName"
+										value={packName ?? ''}
+										onChange={handleFormChange}
+										placeholder="Pack Name"
+									/>
+								</FormField>
+								<FormField>
+									<label>Pack Description</label>
+									<TextArea
+										name="packDescription"
+										value={packDescription ?? ''}
+										onChange={handleFormChange}
+										placeholder="Pack Description"
+									/>
+								</FormField>
+							</LeftPanel>
+						</FormSection>
+
+						<PackTags
+							packLocationTag={packLocationTag}
+							packDurationTag={packDurationTag}
+							packSeasonTag={packSeasonTag}
+							packDistanceTag={packDistanceTag}
+							handleFormChange={handleFormChange}
+						/>
+
+						<FormGroup>
+							<FormField width={6}>
+								<label>Display Text</label>
 								<Input
-									name="packName"
-									value={packName ?? ''}
+									name="packUrlName"
+									value={packUrlName ?? ''}
 									onChange={handleFormChange}
-									placeholder="Pack Name"
+									placeholder="Gear Loadout Video"
 								/>
 							</FormField>
+							<FormField width={10}>
+								<label>
+									<ShareLinkIcon />
+									Link
+								</label>
+								<Input
+									name="packUrl"
+									value={packUrl ?? ''}
+									onChange={handleFormChange}
+									placeholder="Blogpost, Youtube Video, etc."
+								/>
+							</FormField>
+						</FormGroup>
+
+						<Separator size="4" my="6" />
+
+						<StyledField width={16}>
+							<div>
+								<label>
+									<PublicIcon /> Public
+								</label>
+								<SubText>Choose whether you want your pack to be public.</SubText>
+							</div>
+							<Switch
+								radius="medium"
+								color="jade"
+								size="3"
+								checked={packPublic}
+								onClick={() => handleCheckBox({ packPublic: !packPublic })}
+							/>
+						</StyledField>
+
+						<StyledField width={16}>
+							<div>
+								<label>
+									<MoneyIcon /> Pack Prices
+								</label>
+								<SubText>Show a price column on your pack to track expenses.</SubText>
+							</div>
+							<Switch
+								radius="medium"
+								color="jade"
+								size="3"
+								checked={packPricing}
+								onClick={() => handleCheckBox({ packPricing: !packPricing })}
+							/>
+						</StyledField>
+
+						<StyledField width={16}>
+							<div>
+								<label>
+									<LinkIcon /> Affiliate Links
+								</label>
+								<SubText>
+									Enable if you use affiliate links for any of your pack items.
+								</SubText>
+							</div>
+							<Switch
+								radius="medium"
+								color="jade"
+								size="3"
+								checked={packAffiliate ?? false}
+								onClick={() => handleCheckBox({ packAffiliate: !packAffiliate })}
+							/>
+						</StyledField>
+
+						{packAffiliate && (
 							<FormField>
-								<label>Pack Description</label>
+								<label>Custom Affiliate Message</label>
 								<TextArea
-									name="packDescription"
-									value={packDescription ?? ''}
+									name="packAffiliateDescription"
+									value={packAffiliateDescription ?? ''}
 									onChange={handleFormChange}
-									placeholder="Pack Description"
+									placeholder={affiliateMessage}
 								/>
 							</FormField>
-						</LeftPanel>
-					</FormSection>
-
-					<PackTags
-						packLocationTag={packLocationTag}
-						packDurationTag={packDurationTag}
-						packSeasonTag={packSeasonTag}
-						packDistanceTag={packDistanceTag}
-						handleFormChange={handleFormChange}
-					/>
-
-					<FormGroup>
-						<FormField width={6}>
-							<label>Display Text</label>
-							<Input
-								name="packUrlName"
-								value={packUrlName ?? ''}
-								onChange={handleFormChange}
-								placeholder="Gear Loadout Video"
-							/>
-						</FormField>
-						<FormField width={10}>
-							<label>
-								<Icon name="linkify" />
-								Link
-							</label>
-							<Input
-								name="packUrl"
-								value={packUrl ?? ''}
-								onChange={handleFormChange}
-								placeholder="Blogpost, Youtube Video, etc."
-							/>
-						</FormField>
-					</FormGroup>
-
-					<Divider style={{ margin: '25px 0px' }} />
-
-					<StyledField width={16}>
-						<LabelContainer>
-							<label>
-								<Icon name="binoculars" /> Public
-							</label>
-							<SubText>Choose whether you want your pack to be public.</SubText>
-						</LabelContainer>
-						<Checkbox
-							$themeColor="primary"
-							toggle
-							checked={packPublic}
-							onClick={() => handleCheckBox({ packPublic: !packPublic })}
-						/>
-					</StyledField>
-
-					<StyledField width={16}>
-						<LabelContainer>
-							<label>
-								<Icon name="money" /> Pack Prices
-							</label>
-							<SubText>Show a price column on your pack to track expenses.</SubText>
-						</LabelContainer>
-						<Checkbox
-							$themeColor="primary"
-							toggle
-							checked={packPricing}
-							onClick={() => handleCheckBox({ packPricing: !packPricing })}
-						/>
-					</StyledField>
-
-					<StyledField width={16}>
-						<LabelContainer>
-							<label>
-								<Icon name="linkify" /> Affiliate Links
-							</label>
-							<SubText>
-								Enable if you use affiliate links for any of your pack items.
-							</SubText>
-						</LabelContainer>
-						<Checkbox
-							$themeColor="primary"
-							toggle
-							checked={packAffiliate ?? false}
-							onClick={() => handleCheckBox({ packAffiliate: !packAffiliate })}
-						/>
-					</StyledField>
-
-					{packAffiliate && (
-						<FormField>
-							<label>Custom Affiliate Message</label>
-							<TextArea
-								name="packAffiliateDescription"
-								value={packAffiliateDescription ?? ''}
-								onChange={handleFormChange}
-								placeholder="You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support the creator of this pack at no extra cost to you!"
-							/>
-						</FormField>
-					)}
-				</Form>
-			</StyledModalContent>
-			<ModalActions>
-				<Button color="red" floated="left" basic onClick={onClickDelete}>
-					<Icon name="trash" /> Delete Pack
-				</Button>
-				<Button $themeColor="primary" onClick={handleSubmitPack}>
-					<Icon name="save outline" /> Save Pack
-				</Button>
-			</ModalActions>
-		</Modal>
+						)}
+					</Form>
+				</StyledModalContent>
+				<Dialog.Close>
+					<Flex justify="end" gap="3" mt="6">
+						<Button color="tomato" onClick={onClickDelete}>
+							<TrashIcon /> Delete Pack
+						</Button>
+						<Button onClick={handleSubmitPack}>Save Pack</Button>
+					</Flex>
+				</Dialog.Close>
+			</Dialog.Content>
+		</Dialog.Root>
 	);
 };
 
-const StyledModalContent = styled(ModalContent)`
+const StyledModalContent = styled(Flex)`
 	position: relative;
 `;
 const StyledField = styled(FormField)`
@@ -310,4 +313,6 @@ const RightPanel = styled.div`
 	top: 1.5rem;
 `;
 
-const LabelContainer = styled.div``;
+// defaults
+const affiliateMessage =
+	'You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support the creator of this pack at no extra cost to you!';

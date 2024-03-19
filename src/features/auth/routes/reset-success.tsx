@@ -1,5 +1,6 @@
-import { Form, Header, Segment } from 'semantic-ui-react';
-import { Button } from '@/components/ui/SemanticUI';
+import { Form } from 'semantic-ui-react';
+import { Segment } from '@/components/ui';
+import { Heading, Button, Text } from '@radix-ui/themes';
 import { AuthContainer, FormContainer } from '../components/form-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,15 +9,21 @@ export const ResetSuccess = () => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Header as="h1">tidytrek</Header>
+				<Heading as="h1" mb="4">
+					tidytrek
+				</Heading>
 				<Form size="large">
-					<Segment stacked>
-						<Header as="h2">Success!</Header>
-						<p>Your password has been successfully updated and you are now logged in.</p>
+					<Segment $radius="2">
+						<Heading as="h2" size="6" color="jade" mb="4">
+							Success!
+						</Heading>
+						<Text>
+							Your password has been successfully updated and you are now logged in.
+						</Text>
 						<Button
-							$tidyColor="tidyPrimary"
-							fluid
-							size="large"
+							size="3"
+							style={{ width: '100%' }}
+							mt="4"
 							onClick={() => navigate('/')}>
 							Go To Dashboard
 						</Button>

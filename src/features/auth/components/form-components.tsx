@@ -9,10 +9,6 @@ export const FormContainer = styled.div`
 	`)}
 `;
 
-export const FooterText = styled.p`
-	margin-top: 1em;
-`;
-
 export const AuthContainer = styled.main`
 	${({ theme: t }) => t.mx.flexCenter}
 	text-align: center;

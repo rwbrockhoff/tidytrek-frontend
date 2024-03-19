@@ -1,4 +1,5 @@
-import { FormGroup, FormField, Input, Icon } from 'semantic-ui-react';
+import { DurationIcon, HikingIcon, LocationIcon, SeasonIcon } from '@/components/ui';
+import { FormGroup, FormField, Input } from 'semantic-ui-react';
 
 type PackTagsProps = {
 	packLocationTag: string;
@@ -23,7 +24,7 @@ export const PackTags = (props: PackTagsProps) => {
 			<FormGroup widths={'equal'}>
 				<FormField>
 					<label>
-						<Icon name="location arrow" />
+						<LocationIcon />
 						Location
 					</label>
 					<Input
@@ -35,7 +36,7 @@ export const PackTags = (props: PackTagsProps) => {
 				</FormField>
 				<FormField>
 					<label>
-						<Icon name="sun" />
+						<SeasonIcon />
 						Season
 					</label>
 					<Input
@@ -50,7 +51,7 @@ export const PackTags = (props: PackTagsProps) => {
 			<FormGroup widths={'equal'}>
 				<FormField>
 					<label>
-						<Icon name="time" />
+						<DurationIcon />
 						Trip Duration
 					</label>
 					<Input
@@ -62,7 +63,7 @@ export const PackTags = (props: PackTagsProps) => {
 				</FormField>
 				<FormField>
 					<label>
-						<i className="fa-solid fa-person-hiking" style={{ paddingRight: '5px' }} />
+						<HikingIcon />
 						Distance With Pack
 					</label>
 					<Input

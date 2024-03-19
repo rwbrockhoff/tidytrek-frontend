@@ -1,8 +1,7 @@
 import { type PackListItem, type PackItem } from '@/types/pack-types';
 import { PlusIcon } from '@/components/ui';
-import { Button } from '@radix-ui/themes';
+import { Button, Table } from '@radix-ui/themes';
 import styled from 'styled-components';
-import { Table } from '@/components/ui/SemanticUI';
 import { TidyTable } from '@/components/ui';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
@@ -87,7 +86,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 
 				<StyledFooter>
 					<Table.Row>
-						<Table.Cell colSpan="24">
+						<Table.Cell colSpan={24}>
 							<Button
 								variant="outline"
 								color="gray"

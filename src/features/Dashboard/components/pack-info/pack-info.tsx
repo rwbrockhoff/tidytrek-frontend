@@ -1,20 +1,19 @@
 import { type UserProfile } from '@/types/profile-types';
 import { type Category, type Pack } from '@/types/pack-types';
 import { type Settings } from '@/types/settings-types';
-import { MdEdit as EditPencilIcon } from 'react-icons/md';
-import { FaChartPie as ChartIcon } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { EditPencilIcon, ChartIcon } from '@/components/ui';
 import { Flex, Heading, Button } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
-	useDeletePackMutation,
+	// useDeletePackMutation,
 	useDeletePackAndItemsMutation,
 } from '@/queries/pack-queries';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
-import { DeleteModal, DisplayLink } from '@/components/ui';
+import { DisplayLink } from '@/components/ui';
 import { Panel } from '@/components/ui/TidyUI';
 import { ShareSettings } from './share-settings';
 import { PackLabels } from '@/components';
@@ -37,35 +36,28 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const navigate = useNavigate();
 
-	const { mutate: deletePack } = useDeletePackMutation();
+	// const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
 	const [showIcon, setShowIcon] = useState(false);
 	const [showPackModal, setShowPackModal] = useState(false);
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 	const [showPackChart, setShowPackChart] = useState(false);
 
 	const handleToggleModal = () => setShowPackModal(!showPackModal);
-	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
 
-	const handleShowDeleteModal = () => {
-		setShowPackModal(false);
-		setShowDeleteModal(true);
-	};
-
-	const handleDeletePack = () => {
-		const { packId } = currentPack;
-		deletePack(packId);
-		navigate('/');
-		setShowDeleteModal(false);
-	};
+	// const handleDeletePack = () => {
+	// 	const { packId } = currentPack;
+	// 	deletePack(packId);
+	// 	navigate('/');
+	// };
 
 	const handleDeletePackAndItems = () => {
 		const { packId } = currentPack;
 		deletePackAndItems(packId);
 		navigate('/');
-		setShowDeleteModal(false);
 	};
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
@@ -90,7 +82,13 @@ export const PackInfo = (props: PackInfoProps) => {
 					{packName}
 
 					{userView && showIcon && (
-						<EditIcon name="pencil alternate" color="grey" onClick={handleToggleModal} />
+						<PackModal onClickDelete={handleDeletePackAndItems} pack={currentPack}>
+							<EditIcon
+								name="pencil alternate"
+								color="grey"
+								onClick={handleToggleModal}
+							/>
+						</PackModal>
 					)}
 				</Heading>
 
@@ -127,18 +125,10 @@ export const PackInfo = (props: PackInfoProps) => {
 				display={showPackChart}
 			/>
 
-			<PackModal
-				open={showPackModal}
-				onClose={handleToggleModal}
-				onClickDelete={handleShowDeleteModal}
-				pack={currentPack}
-			/>
-			<DeleteModal
-				open={showDeleteModal}
-				onClose={handleToggleDeleteModal}
+			{/* <DeleteModal
 				onClickDelete={handleDeletePackAndItems}
 				onClickMove={handleDeletePack}
-			/>
+			/> */}
 		</PackInfoContainer>
 	);
 };
