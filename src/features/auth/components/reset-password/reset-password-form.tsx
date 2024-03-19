@@ -1,122 +1,139 @@
-import { FormError, type InputEvent } from '@/types/form-types';
-import { Form } from 'semantic-ui-react';
+import { type FormError, type InputEvent } from '@/types/form-types';
+import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
 import { Message, Segment } from '@/components/ui';
-import { Flex, Text, Heading, Button } from '@radix-ui/themes';
+import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components';
-
-type FormData = {
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
+import { type FormEvent } from 'react';
+import { FormErrors, type ResetPasswordData } from '../../types/auth-types';
 
 type ResetPasswordFormProps = {
-	formData: FormData;
-	formError: FormError;
-	emailSent: boolean;
 	hasResetToken: boolean;
-	onFormChange: (e: InputEvent) => void;
-	onResetRequest: () => void;
-	onResetConfirm: () => void;
+	emailSent: boolean;
+	formErrors: FormErrors;
+	serverError: FormError;
+	onResetRequest: (formData: ResetPasswordData) => void;
+	onResetConfirm: (formData: ResetPasswordData) => void;
+	resetFormErrors: (inputName?: string) => void;
 };
 
 export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
-	const {
-		formData,
-		formError,
-		emailSent,
-		hasResetToken,
-		onFormChange,
-		onResetRequest,
-		onResetConfirm,
-	} = props;
+	const { emailSent, hasResetToken, formErrors, serverError } = props;
+	const { onResetRequest, onResetConfirm, resetFormErrors } = props;
 
-	const { error, message } = formError;
-	const { email, password, confirmPassword } = formData;
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const data = Object.fromEntries(new FormData(e.currentTarget)) as ResetPasswordData;
+		hasResetToken ? onResetConfirm(data) : onResetRequest(data);
+	};
+
+	const handleClearErrors = (e: InputEvent) => {
+		if (formErrors[e.target.name].error) resetFormErrors(e.target.name);
+		if (serverError.error) resetFormErrors();
+	};
+
 	return (
 		<AuthContainer>
 			<FormContainer>
 				<Heading as="h1" mb="4">
 					tidytrek
 				</Heading>
-				<Form size="large">
-					<Segment $radius="2">
-						<Heading as="h3" size="6" color="jade" mb="4">
-							Reset Password
-						</Heading>
 
+				<Segment $radius="2">
+					<Heading as="h3" size="6" color="jade" mb="4">
+						Reset Password
+					</Heading>
+					<Form onSubmit={handleFormSubmit}>
 						{!hasResetToken && (
-							<Form.Input
-								fluid
-								icon="at"
-								type="email"
-								iconPosition="left"
-								placeholder="E-mail address"
-								name="email"
-								data-testid="email-input"
-								value={email}
-								onChange={onFormChange}
-							/>
+							<FormField name="email">
+								<FormControl asChild>
+									<TextField.Input
+										data-invalid={formErrors.email.error}
+										onChange={handleClearErrors}
+										radius="small"
+										my="4"
+										size="3"
+										placeholder="Email"
+									/>
+								</FormControl>
+								{formErrors.email.error && (
+									<FormMessage>
+										<Text mb="8" color="tomato" weight="light">
+											{formErrors.email.message}
+										</Text>
+									</FormMessage>
+								)}
+							</FormField>
 						)}
 
 						{hasResetToken && (
 							<>
-								<Form.Input
-									fluid
-									icon="lock"
-									iconPosition="left"
-									placeholder="Password"
-									type="password"
-									name="password"
-									data-testid="password-input"
-									value={password}
-									onChange={onFormChange}
-								/>
+								<FormField name="password">
+									<FormControl asChild>
+										<TextField.Input
+											data-invalid={formErrors.password.error}
+											onChange={handleClearErrors}
+											radius="small"
+											my="4"
+											size="3"
+											type="password"
+											placeholder="Password"
+										/>
+									</FormControl>
+									{formErrors.password.error && (
+										<FormMessage>
+											<Text mb="8" color="tomato" weight="light">
+												{formErrors.password.message}
+											</Text>
+										</FormMessage>
+									)}
+								</FormField>
 
-								<Form.Input
-									fluid
-									icon="lock"
-									iconPosition="left"
-									placeholder="Verify password"
-									type="password"
-									name="confirmPassword"
-									data-testid="verify-password-input"
-									value={confirmPassword}
-									onChange={onFormChange}
-								/>
+								<FormField name="confirmPassword">
+									<FormControl asChild>
+										<TextField.Input
+											data-invalid={formErrors.confirmPassword.error}
+											onChange={handleClearErrors}
+											radius="small"
+											my="4"
+											size="3"
+											type="password"
+											placeholder="Confirm Password"
+										/>
+									</FormControl>
+									{formErrors.confirmPassword.error && (
+										<FormMessage>
+											<Text mb="8" color="tomato" weight="light">
+												{formErrors.confirmPassword.message}
+											</Text>
+										</FormMessage>
+									)}
+								</FormField>
 							</>
 						)}
 
-						<Button
-							size="3"
-							style={{ width: '100%' }}
-							onClick={hasResetToken ? onResetConfirm : onResetRequest}>
+						{serverError.error && (
+							<Message messageType="error" text={serverError.message} />
+						)}
+
+						<Button size="3" mt="4" style={{ width: '100%' }} type="submit">
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
+					</Form>
 
-						{error && (
-							<Message
-								messageType="error"
-								text={message || 'Oops! There was an error.'}
-								id="reset-password-message"
-							/>
-						)}
-
-						{emailSent && (
-							<Message
-								messageType="success"
-								text={resetInstructionMessage}
-								id="reset-password-message"
-							/>
-						)}
-						<Flex justify="center" mt="4">
-							<Text size="3">
-								<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
-							</Text>
-						</Flex>
-					</Segment>
-				</Form>
+					{emailSent && (
+						<Message
+							messageType="success"
+							text={resetInstructionMessage}
+							id="reset-password-message"
+						/>
+					)}
+					<Flex justify="center" mt="4">
+						<Text size="3">
+							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
+						</Text>
+					</Flex>
+				</Segment>
 			</FormContainer>
 		</AuthContainer>
 	);

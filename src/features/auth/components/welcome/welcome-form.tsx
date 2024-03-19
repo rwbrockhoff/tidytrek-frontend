@@ -1,10 +1,10 @@
 import { type WelcomeFormData, type FormErrors } from '../../types/auth-types';
+import { type FormError, type InputEvent } from '@/types/form-types';
 import { type FormEvent } from 'react';
 import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link, Segment, Message } from '@/components/ui';
 import { FormContainer } from '../form-components';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
-import { FormError, InputEvent } from '@/types/form-types';
 
 type WelcomeFormProps = {
 	formErrors: FormErrors;

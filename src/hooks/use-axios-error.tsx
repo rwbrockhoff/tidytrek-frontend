@@ -37,9 +37,11 @@ export const useMutationErrors = () => {
 		} else setServerError({ error: true, message: defaultErrorMessage });
 	};
 
+	const setAxiosError = (message: string) => setServerError({ error: true, message });
+
 	const resetAxiosError = () => setServerError(initialErrorState);
 
-	return { serverError, updateAxiosError, resetAxiosError };
+	return { serverError, updateAxiosError, setAxiosError, resetAxiosError };
 };
 
 // defaults

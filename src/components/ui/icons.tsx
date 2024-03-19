@@ -17,6 +17,7 @@ export { RiErrorWarningLine as WarningIcon } from 'react-icons/ri';
 export { FaDownLong as DownArrowIcon } from 'react-icons/fa6';
 export { FaBinoculars as PublicIcon } from 'react-icons/fa6';
 export { IoMdEyeOff as PrivateIcon } from 'react-icons/io';
+export { MdAlternateEmail as EmailIcon } from 'react-icons/md';
 export { MdPassword as PasswordIcon, MdClose as CloseIcon } from 'react-icons/md';
 export { FaEye as ViewsIcon } from 'react-icons/fa';
 export { FaStar as FavoriteIcon, FaShirt as WornIcon } from 'react-icons/fa6';

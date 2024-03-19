@@ -66,7 +66,7 @@ export const protectedRoutes = [
 		],
 	},
 	{
-		path: '/reset-password',
+		path: '/reset-password/*',
 		element: <ResetPassword />,
 		errorElement: <BubbleError />,
 	},
