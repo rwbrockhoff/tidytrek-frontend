@@ -1,70 +1,26 @@
 import { type User } from '@/types/user-types';
-import { type PasswordInfo, type InputEvent } from '@/types/form-types';
-import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { type FormSection } from '../../types/account-types';
+import { useState } from 'react';
 import { Heading, Button } from '@radix-ui/themes';
-import { DeleteModal, Message, TrashIcon, Segment, SegmentGroup } from '@/components/ui';
+import { DeleteModal, TrashIcon, Segment, SegmentGroup } from '@/components/ui';
 import { PasswordForm } from './password-form';
-import { setFormInput } from '@/utils';
-import { reauthenticateUser } from '@/api/supabaseClient';
-import { ChangePassContext } from '../../routes';
 
 type AccountFormProps = {
 	user: User | null;
-	changePassword: (passwordInfo: PasswordInfo) => void;
-	setError: (message: string) => void;
-	resetFormError: () => void;
 	deleteAccount: () => void;
 };
 
-const initialState = {
-	newPassword: '',
-	confirmNewPassword: '',
-	emailCode: '',
-};
-
-export type FormSection = 'initial' | 'passwordForm' | 'confirmationForm';
-
 export const AccountForm = (props: AccountFormProps) => {
-	const { user, resetFormError, setError, changePassword, deleteAccount } = props;
+	const { user, deleteAccount } = props;
 
-	const { isSuccess, error } = useContext(ChangePassContext);
-
-	const [passwordInfo, setPasswordInfo] = useState<PasswordInfo>(initialState);
 	const [displayFormSection, setDisplayFormSection] = useState<FormSection>('initial');
-	const [confirmationSent, setConfirmationSent] = useState(false);
-
-	useEffect(() => {
-		// clear form on success
-		if (isSuccess && passwordInfo !== initialState) handleResetForm();
-	}, [isSuccess]);
+	// const [confirmationSent, setConfirmationSent] = useState(false);
 
 	const handleChangeFormSection = (section: FormSection) =>
 		setDisplayFormSection(section);
 
-	const handleOnChange = (e: InputEvent) =>
-		setFormInput<PasswordInfo>(e, setPasswordInfo);
-
-	const handleSendConfirmation = async () => {
-		try {
-			handleChangeFormSection('passwordForm');
-			const { error } = await reauthenticateUser();
-			if (!error) setConfirmationSent(true);
-		} catch (err) {
-			setError(confirmationErrorMessage);
-		}
-	};
-
-	const handleResetForm = () => {
-		setPasswordInfo(initialState);
-		resetFormError();
-		handleChangeFormSection('initial');
-	};
-
 	const { firstName, lastName, email } = user || {};
 	const fullName = `${firstName} ${lastName}`;
-
-	const showMessage = error.error || isSuccess;
 
 	return (
 		<SegmentGroup direction="column">
@@ -82,24 +38,8 @@ export const AccountForm = (props: AccountFormProps) => {
 			<Segment $stacked>
 				<PasswordForm
 					displayFormSection={displayFormSection}
-					confirmationSent={confirmationSent}
-					passwordInfo={passwordInfo}
 					changeFormSection={handleChangeFormSection}
-					sendConfirmation={handleSendConfirmation}
-					resetForm={handleResetForm}
-					onChange={handleOnChange}
-					changePassword={changePassword}
 				/>
-
-				{showMessage && (
-					<MessageContainer>
-						<Message
-							messageType={isSuccess ? 'success' : 'error'}
-							text={isSuccess ? 'Your password has been updated!' : error.message}
-							id="reset-password-message"
-						/>
-					</MessageContainer>
-				)}
 			</Segment>
 			<Segment>
 				<Heading as="h4" size="3" mb="4">
@@ -127,14 +67,6 @@ export const AccountForm = (props: AccountFormProps) => {
 	);
 };
 
-const MessageContainer = styled.div`
-	width: 50%;
-	margin-top: 2em;
-`;
-
 // defaults
 const deleteMessage =
 	"This action cannot be undone. Make sure to save any pack information before you proceed. We're sorry to see ya go!";
-
-const confirmationErrorMessage =
-	'There was an error sending a confirmation code. Please try again later.';

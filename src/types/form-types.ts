@@ -11,8 +11,8 @@ export type FormEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>;
 export type FormError = { error: boolean; message: string };
 
 export type PasswordInfo = {
-	newPassword: string;
-	confirmNewPassword: string;
+	password: string;
+	confirmPassword: string;
 	emailCode: string;
 };
 

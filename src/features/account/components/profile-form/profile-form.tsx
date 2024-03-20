@@ -2,10 +2,9 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Form, FormField, FormMessage, FormLabel } from '@radix-ui/react-form';
+import { TextField, TextArea, Heading, Text, Flex } from '@radix-ui/themes';
 import { Segment, SegmentGroup, WarningMessage } from '@/components/ui';
-import { Flex } from '@radix-ui/themes';
-import { Form, Input, TextArea } from 'semantic-ui-react';
-import { Header, FormField } from '@/components/ui/SemanticUI';
 import { SubText } from '@/components/ui/TidyUI';
 import { Avatar } from '@/components/ui';
 import { setFormInput } from '@/utils';
@@ -43,7 +42,12 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	useEffect(() => {
 		if (profileInfo) {
 			const { userBio, userLocation, username, trailName } = profileInfo;
-			setUserInfo({ userBio, userLocation, username, trailName });
+			setUserInfo({
+				userBio: userBio || '',
+				userLocation: userLocation || '',
+				username: username || '',
+				trailName: trailName || '',
+			});
 		}
 	}, [profileInfo]);
 
@@ -58,21 +62,21 @@ export const ProfileForm = (props: ProfileFormProps) => {
 
 	const { userBio, userLocation, username, trailName } = userInfo;
 
-	const isMaxLengthBio = userBio && userBio.length >= 250;
+	const isMaxLengthBio = userBio && userBio.length >= maxLength;
 
 	const errorMessage = isError && useAxiosErrorMessage(error);
 
 	return (
 		<SegmentGroup direction="column">
 			<Segment>
-				<Header as="h4" $marginBottom="2rem">
+				<Heading as="h4" size="3" mb="4">
 					Profile Settings
-				</Header>
+				</Heading>
 
 				<PhotoContainer direction="column" justify="center">
-					<Header as="h5" $marginBottom="0">
+					<Heading as="h5" size="3">
 						Avatar
-					</Header>
+					</Heading>
 					<SubText>You can upload .jpg or .png photos.</SubText>
 					<Avatar
 						src={profileInfo?.profilePhotoUrl}
@@ -94,49 +98,97 @@ export const ProfileForm = (props: ProfileFormProps) => {
 			</Segment>
 			<Segment>
 				<StyledForm onBlur={handleEditProfile}>
-					<FormField $width={inputWidth} error={isError}>
-						<label>Username</label>
-						<Input
+					<FormField name="username" style={{ marginBottom: '1em' }}>
+						<FormLabel>
+							<Text size="2" weight="bold" ml="2" color="gray">
+								Username
+							</Text>
+						</FormLabel>
+
+						<TextField.Input
 							name="username"
-							value={username || ''}
+							data-invalid={isError}
+							value={username}
 							onChange={handleInput}
-							placeholder=""
+							radius="small"
+							size="3"
+							mb="0"
+							placeholder="Username"
 						/>
-						{isError && <label>{errorMessage}</label>}
+
+						{isError && (
+							<FormMessage>
+								<Text ml="2" color="tomato" weight="light">
+									{errorMessage}
+								</Text>
+							</FormMessage>
+						)}
 					</FormField>
-					<FormField $width={inputWidth}>
-						<label>Trail Name</label>
-						<Input
+
+					<FormField name="trailName">
+						<FormLabel>
+							<Text size="2" weight="bold" ml="2" color="gray">
+								Trail Name
+							</Text>
+						</FormLabel>
+
+						<TextField.Input
 							name="trailName"
-							value={trailName || ''}
+							value={trailName}
 							onChange={handleInput}
-							placeholder=""
+							radius="small"
+							size="3"
+							mb="3"
+							placeholder="Trail Name"
 						/>
 					</FormField>
-					<FormField $width={inputWidth}>
-						<label>Based In</label>
-						<Input
+
+					<FormField name="userLocation">
+						<FormLabel>
+							<Text size="2" weight="bold" ml="2" color="gray">
+								Based In
+							</Text>
+						</FormLabel>
+
+						<TextField.Input
 							name="userLocation"
-							value={userLocation || ''}
+							value={userLocation}
 							onChange={handleInput}
-							placeholder="Denver, CO"
+							radius="small"
+							size="3"
+							mb="3"
+							placeholder="Durango, Colorado"
 						/>
 					</FormField>
-					<FormField $width={inputWidth}>
-						<label>Profile Bio</label>
+
+					<FormField name="userBio">
+						<FormLabel>
+							<Text size="2" weight="bold" ml="2" color="gray">
+								Profile Bio
+							</Text>
+						</FormLabel>
+
 						<TextArea
 							name="userBio"
-							maxLength="250"
-							value={userBio || ''}
-							onChange={handleInput}
+							value={userBio}
+							size="3"
+							mb="3"
+							maxLength={maxLength}
 							placeholder="Bio for your profile"
+							onChange={handleInput}
 						/>
-					</FormField>
-					{isMaxLengthBio && (
-						<WarningMessage mt="4" width={inputWidth} message={warningMessage} />
-					)}
-				</StyledForm>
 
+						{isMaxLengthBio && (
+							<FormMessage>
+								<Text mt="4" color="tomato" weight="light">
+									{warningMessage}
+								</Text>
+							</FormMessage>
+						)}
+					</FormField>
+				</StyledForm>
+			</Segment>
+			<Segment>
 				<SocialLinks socialLinks={socialLinks} />
 			</Segment>
 		</SegmentGroup>
@@ -144,7 +196,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 };
 
 const StyledForm = styled(Form)`
-	width: 70%;
+	width: 60%;
 	${({ theme: t }) =>
 		t.mx.mobile(`
 		width: 100%;
@@ -161,5 +213,5 @@ const PhotoContainer = styled(Flex)`
 `;
 
 // defaults
-const inputWidth = '80%';
+const maxLength = 250;
 const warningMessage = `Woah there, partner. There's a 250 character limit to keep things tidy.`;

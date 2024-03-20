@@ -8,19 +8,14 @@ import { AddLink } from './add-link';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { SocialLinkList } from '@/components';
 
-type SocialLinksProps = {
-	socialLinks: SocialLink[];
-};
-
-export const SocialLinks = (props: SocialLinksProps) => {
-	const { socialLinks } = props;
+export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 	const { deleteSocialLink } = useHandlers().handlers;
 
 	const [showLinks, setShowLinks] = useState(false);
 
 	return (
 		<>
-			<Text style={{ marginTop: 25 }}> Profile Links </Text>
+			<Text> Profile Links </Text>
 			<SubText>
 				Add links that others can see on your profile. 4 link maximum to keep things tidy.
 			</SubText>
