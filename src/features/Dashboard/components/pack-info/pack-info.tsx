@@ -40,11 +40,7 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
 	const [showIcon, setShowIcon] = useState(false);
-	const [showPackModal, setShowPackModal] = useState(false);
-
 	const [showPackChart, setShowPackChart] = useState(false);
-
-	const handleToggleModal = () => setShowPackModal(!showPackModal);
 
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
 
@@ -83,11 +79,7 @@ export const PackInfo = (props: PackInfoProps) => {
 
 					{userView && showIcon && (
 						<PackModal onClickDelete={handleDeletePackAndItems} pack={currentPack}>
-							<EditIcon
-								name="pencil alternate"
-								color="grey"
-								onClick={handleToggleModal}
-							/>
+							<EditIcon name="pencil alternate" color="grey" />
 						</PackModal>
 					)}
 				</Heading>

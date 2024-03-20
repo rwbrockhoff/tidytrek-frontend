@@ -2,16 +2,10 @@ import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { Form, FormField, Input, TextArea, FormGroup } from 'semantic-ui-react';
-import {
-	LinkIcon,
-	MoneyIcon,
-	PublicIcon,
-	ShareLinkIcon,
-	TrashIcon,
-	cleanUpLink,
-} from '@/components/ui';
-import { Button, Dialog, Flex, Separator, Switch } from '@radix-ui/themes';
+import { Form } from '@radix-ui/react-form';
+import { FormField } from '@/components/ui';
+import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
+import { Button, Dialog, Flex, Separator, Switch, TextArea } from '@radix-ui/themes';
 import { SubText } from '@/components/ui/TidyUI';
 import {
 	useEditPackMutation,
@@ -25,6 +19,12 @@ type PackModalProps = {
 	children: React.ReactNode;
 	pack: Pack;
 	onClickDelete: () => void;
+};
+
+type Checkboxes = {
+	packAffiliate?: boolean;
+	packPublic?: boolean;
+	packPricing?: boolean;
 };
 
 export const PackModal = (props: PackModalProps) => {
@@ -72,18 +72,12 @@ export const PackModal = (props: PackModalProps) => {
 		if (!packChanged) setPackChanged(true);
 	};
 
-	const handleCheckBox = (updatedCheckbox: {
-		packAffiliate?: boolean;
-		packPublic?: boolean;
-		packPricing?: boolean;
-	}) => {
-		setModifiedPack((prevFormData) => ({
-			...prevFormData,
+	const handleCheckBox = (updatedCheckbox: Checkboxes) => {
+		setModifiedPack((prev) => ({
+			...prev,
 			...updatedCheckbox,
 		}));
-		if (!packChanged) {
-			setPackChanged(true);
-		}
+		if (!packChanged) setPackChanged(true);
 	};
 
 	const handleSubmitPack = () => {
@@ -127,10 +121,8 @@ export const PackModal = (props: PackModalProps) => {
 			<Dialog.Trigger>
 				<div>{children}</div>
 			</Dialog.Trigger>
-			<Dialog.Content style={{ width: '800px' }}>
-				<Dialog.Title color="jade" mb="4">
-					{packName ?? pack.packName ?? 'Pack'}
-				</Dialog.Title>
+			<Dialog.Content style={{ maxWidth: '50vw' }}>
+				<Dialog.Title mb="4">{packName ?? pack.packName ?? 'Pack'}</Dialog.Title>
 
 				<StyledModalContent>
 					<RightPanel>
@@ -147,24 +139,21 @@ export const PackModal = (props: PackModalProps) => {
 					<Form style={{ padding: '0 10px' }}>
 						<FormSection>
 							<LeftPanel>
-								<FormField>
-									<label>Pack Name</label>
-									<Input
-										name="packName"
-										value={packName ?? ''}
-										onChange={handleFormChange}
-										placeholder="Pack Name"
-									/>
-								</FormField>
-								<FormField>
-									<label>Pack Description</label>
-									<TextArea
-										name="packDescription"
-										value={packDescription ?? ''}
-										onChange={handleFormChange}
-										placeholder="Pack Description"
-									/>
-								</FormField>
+								<FormField
+									name="packName"
+									value={packName ?? ''}
+									onChange={handleFormChange}
+									label="Pack Name"
+									placeholder="Pack Name"
+								/>
+
+								<FormField
+									name="packDescription"
+									value={packDescription ?? ''}
+									onChange={handleFormChange}
+									label="Pack Description"
+									placeholder="Pack Description"
+								/>
 							</LeftPanel>
 						</FormSection>
 
@@ -176,33 +165,27 @@ export const PackModal = (props: PackModalProps) => {
 							handleFormChange={handleFormChange}
 						/>
 
-						<FormGroup>
-							<FormField width={6}>
-								<label>Display Text</label>
-								<Input
-									name="packUrlName"
-									value={packUrlName ?? ''}
-									onChange={handleFormChange}
-									placeholder="Gear Loadout Video"
-								/>
-							</FormField>
-							<FormField width={10}>
-								<label>
-									<ShareLinkIcon />
-									Link
-								</label>
-								<Input
-									name="packUrl"
-									value={packUrl ?? ''}
-									onChange={handleFormChange}
-									placeholder="Blogpost, Youtube Video, etc."
-								/>
-							</FormField>
-						</FormGroup>
+						<div>
+							<FormField
+								name="packUrlName"
+								value={packUrlName ?? ''}
+								onChange={handleFormChange}
+								label="Display Text"
+								placeholder="Gear Loadout Video"
+							/>
+
+							<FormField
+								name="packUrl"
+								value={packUrl ?? ''}
+								onChange={handleFormChange}
+								label="Link"
+								placeholder="Blogpost, Youtube Video, etc."
+							/>
+						</div>
 
 						<Separator size="4" my="6" />
 
-						<StyledField width={16}>
+						<StyledField>
 							<div>
 								<label>
 									<PublicIcon /> Public
@@ -218,7 +201,7 @@ export const PackModal = (props: PackModalProps) => {
 							/>
 						</StyledField>
 
-						<StyledField width={16}>
+						<StyledField>
 							<div>
 								<label>
 									<MoneyIcon /> Pack Prices
@@ -234,7 +217,7 @@ export const PackModal = (props: PackModalProps) => {
 							/>
 						</StyledField>
 
-						<StyledField width={16}>
+						<StyledField>
 							<div>
 								<label>
 									<LinkIcon /> Affiliate Links
@@ -253,7 +236,7 @@ export const PackModal = (props: PackModalProps) => {
 						</StyledField>
 
 						{packAffiliate && (
-							<FormField>
+							<div>
 								<label>Custom Affiliate Message</label>
 								<TextArea
 									name="packAffiliateDescription"
@@ -261,7 +244,7 @@ export const PackModal = (props: PackModalProps) => {
 									onChange={handleFormChange}
 									placeholder={affiliateMessage}
 								/>
-							</FormField>
+							</div>
 						)}
 					</Form>
 				</StyledModalContent>
@@ -280,8 +263,9 @@ export const PackModal = (props: PackModalProps) => {
 
 const StyledModalContent = styled(Flex)`
 	position: relative;
+	padding: 1em;
 `;
-const StyledField = styled(FormField)`
+const StyledField = styled(Flex)`
 	display: flex;
 	align-items: center;
 	.checkbox {

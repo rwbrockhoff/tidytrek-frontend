@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { DeleteButton, Link, Spinner } from '@/components/ui';
 import Dimmer from './Dimmer';
 import { UploadFile } from '../upload-file';
-import { defaultAvatarPhoto } from './defaultPhotos';
+import { defaultAvatarPhoto } from '../../utils/defaultPhotos';
 
 type AvatarProps = {
 	src: string | undefined;

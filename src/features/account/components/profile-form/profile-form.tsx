@@ -9,6 +9,7 @@ import { SubText } from '@/components/ui/TidyUI';
 import { Avatar } from '@/components/ui';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
+import { FormField as CustomFormField } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { useAxiosErrorMessage } from '@/hooks/use-axios-error';
 
@@ -73,7 +74,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 					Profile Settings
 				</Heading>
 
-				<PhotoContainer direction="column" justify="center">
+				<Flex direction="column" justify="center" width="max-content">
 					<Heading as="h5" size="3">
 						Avatar
 					</Heading>
@@ -94,7 +95,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 							mr="auto"
 						/>
 					)}
-				</PhotoContainer>
+				</Flex>
 			</Segment>
 			<Segment>
 				<StyledForm onBlur={handleEditProfile}>
@@ -125,41 +126,21 @@ export const ProfileForm = (props: ProfileFormProps) => {
 						)}
 					</FormField>
 
-					<FormField name="trailName">
-						<FormLabel>
-							<Text size="2" weight="bold" ml="2" color="gray">
-								Trail Name
-							</Text>
-						</FormLabel>
+					<CustomFormField
+						name="trailName"
+						value={trailName}
+						placeholder="Trail Name"
+						onChange={handleInput}
+						label="Trail Name"
+					/>
 
-						<TextField.Input
-							name="trailName"
-							value={trailName}
-							onChange={handleInput}
-							radius="small"
-							size="3"
-							mb="3"
-							placeholder="Trail Name"
-						/>
-					</FormField>
-
-					<FormField name="userLocation">
-						<FormLabel>
-							<Text size="2" weight="bold" ml="2" color="gray">
-								Based In
-							</Text>
-						</FormLabel>
-
-						<TextField.Input
-							name="userLocation"
-							value={userLocation}
-							onChange={handleInput}
-							radius="small"
-							size="3"
-							mb="3"
-							placeholder="Durango, Colorado"
-						/>
-					</FormField>
+					<CustomFormField
+						name="userLocation"
+						value={userLocation}
+						placeholder="Durango, Colorado"
+						onChange={handleInput}
+						label="Based In"
+					/>
 
 					<FormField name="userBio">
 						<FormLabel>
@@ -201,15 +182,6 @@ const StyledForm = styled(Form)`
 		t.mx.mobile(`
 		width: 100%;
 	`)}
-`;
-
-const PhotoContainer = styled(Flex)`
-	width: fit-content;
-	&&& {
-		button {
-			margin: 10px;
-		}
-	}
 `;
 
 // defaults

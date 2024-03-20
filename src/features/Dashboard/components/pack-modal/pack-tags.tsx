@@ -1,5 +1,4 @@
-import { DurationIcon, HikingIcon, LocationIcon, SeasonIcon } from '@/components/ui';
-import { FormGroup, FormField, Input } from 'semantic-ui-react';
+import { FormField } from '@/components/ui';
 
 type PackTagsProps = {
 	packLocationTag: string;
@@ -21,59 +20,40 @@ export const PackTags = (props: PackTagsProps) => {
 	} = props;
 	return (
 		<>
-			<FormGroup widths={'equal'}>
-				<FormField>
-					<label>
-						<LocationIcon />
-						Location
-					</label>
-					<Input
-						name="packLocationTag"
-						value={packLocationTag ?? ''}
-						onChange={handleFormChange}
-						placeholder="Location"
-					/>
-				</FormField>
-				<FormField>
-					<label>
-						<SeasonIcon />
-						Season
-					</label>
-					<Input
-						name="packSeasonTag"
-						value={packSeasonTag ?? ''}
-						onChange={handleFormChange}
-						placeholder="Season"
-					/>
-				</FormField>
-			</FormGroup>
+			<div>
+				<FormField
+					name="packLocationTag"
+					value={packLocationTag ?? ''}
+					onChange={handleFormChange}
+					label="Location"
+					placeholder="Location"
+				/>
 
-			<FormGroup widths={'equal'}>
-				<FormField>
-					<label>
-						<DurationIcon />
-						Trip Duration
-					</label>
-					<Input
-						name="packDurationTag"
-						value={packDurationTag ?? ''}
-						onChange={handleFormChange}
-						placeholder="Trip Duration"
-					/>
-				</FormField>
-				<FormField>
-					<label>
-						<HikingIcon />
-						Distance With Pack
-					</label>
-					<Input
-						name="packDistanceTag"
-						value={packDistanceTag ?? ''}
-						onChange={handleFormChange}
-						placeholder="Location"
-					/>
-				</FormField>
-			</FormGroup>
+				<FormField
+					name="packSeasonTag"
+					value={packSeasonTag ?? ''}
+					onChange={handleFormChange}
+					label="Season"
+					placeholder="Season"
+				/>
+			</div>
+			<div>
+				<FormField
+					name="packDurationTag"
+					value={packDurationTag ?? ''}
+					onChange={handleFormChange}
+					label="Trip Duration"
+					placeholder="2-3 Nights"
+				/>
+
+				<FormField
+					name="packDistanceTag"
+					value={packDistanceTag ?? ''}
+					onChange={handleFormChange}
+					label="Distance with Pack"
+					placeholder="200 miles"
+				/>
+			</div>
 		</>
 	);
 };
