@@ -5,14 +5,13 @@ import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {
 	quantity: number;
-	size: number;
 	onChange: (e: InputEvent) => void;
 	onToggleOff: () => void;
 };
 
 export const QuantityCell = (props: ButtonProps) => {
 	const userView = useUserContext();
-	const { quantity, size, onChange, onToggleOff } = props;
+	const { quantity, onChange, onToggleOff } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
@@ -26,7 +25,6 @@ export const QuantityCell = (props: ButtonProps) => {
 	return (
 		<Table.Cell
 			align="center"
-			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

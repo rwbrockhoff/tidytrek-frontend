@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Flex } from '@radix-ui/themes';
 import { SocialButton } from '../features/account/components/profile-form/social-button';
 import { SocialLink } from '../types/profile-types';
@@ -14,7 +13,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false, colorButton, onDelete } = props;
 
 	return (
-		<CurrentLinksContainer>
+		<Flex>
 			{socialLinks.map((link, index) => {
 				const { socialName, color, icon } = socialMediaUI[link.socialLinkName];
 				const { socialLinkId: id } = link;
@@ -32,15 +31,6 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 					/>
 				);
 			})}
-		</CurrentLinksContainer>
+		</Flex>
 	);
 };
-
-const CurrentLinksContainer = styled(Flex)`
-	&&& {
-		div.ui.label {
-			margin: 5px 0px;
-			margin-right: 10px;
-		}
-	}
-`;

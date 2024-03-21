@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
-import 'semantic-ui-css/semantic.min.css';
-import './index.css';
 import '@radix-ui/themes/styles.css';
+import './index.css';
 import { AppRouter } from '@/routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

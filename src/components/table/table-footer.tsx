@@ -2,7 +2,6 @@ import { Button, Table } from '@radix-ui/themes';
 import { PlusIcon } from '../ui';
 import styled from 'styled-components';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
-import { TableText } from './table-header';
 
 type TableFooterProps = {
 	itemQuantity: number;
@@ -21,15 +20,10 @@ export const TableFooter = ({
 	const showPrices = usePricingContext();
 	const hasItems = itemQuantity > 0;
 
-	//calculate colSpans
-	const firstColumnSize =
-		(hasItems ? 14 : 19) + (userView ? 0 : 2) + (showPrices ? 0 : 3);
-	const firstCol = firstColumnSize + (!hasItems && showPrices ? 3 : 0);
-
 	return (
 		<StyledFooter>
 			<StyledRow>
-				<Table.Cell colSpan={firstCol}>
+				<Table.Cell>
 					{userView && (
 						<Button
 							variant="outline"
@@ -42,26 +36,18 @@ export const TableFooter = ({
 						</Button>
 					)}
 				</Table.Cell>
+				<Table.Cell />
+				<Table.Cell />
 
 				{hasItems && (
 					<>
-						<StyledCell colSpan={2} style={{ textAlign: 'left' }}>
-							{itemQuantity} Items
-						</StyledCell>
-						<StyledCell align="center" colSpan={3}>
-							<TableText $width="100px">{`${weight} lbs`}</TableText>
-						</StyledCell>
+						<StyledCell style={{ textAlign: 'left' }}>{itemQuantity} Items</StyledCell>
+						<StyledCell align="center">{`${weight} lbs`}</StyledCell>
 
-						{showPrices && (
-							<StyledCell align="left" colSpan={3}>
-								<TableText $width="75px" $paddingLeft="5px">
-									{price}
-								</TableText>
-							</StyledCell>
-						)}
+						{showPrices && <StyledCell align="left">{price}</StyledCell>}
 					</>
 				)}
-				{userView && <Table.Cell colSpan={2}></Table.Cell>}
+				{userView && <Table.Cell></Table.Cell>}
 			</StyledRow>
 		</StyledFooter>
 	);
@@ -71,6 +57,10 @@ export const StyledFooter = styled.tfoot`
 	background-color: ${({ theme: t }) => t.tidy.tidyLightGrey};
 	font-size: 0.9em;
 	color: grey;
+	vertical-align: top;
+	td {
+		box-shadow: none;
+	}
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			font-size: 1.1em;

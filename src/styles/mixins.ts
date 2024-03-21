@@ -46,6 +46,15 @@ export const themeColor = (
 	}};
 `;
 
+export const getThemeColor = (
+	color: ThemeColorName | TidyThemeColorName,
+	themeName: ThemeName = 'user',
+) => css`
+	${({ theme: t }) => {
+		return t[themeName] !== undefined ? t[themeName][color] : t.tidy.tidyPrimary;
+	}};
+`;
+
 export const themeBgColor = (
 	color: ThemeColorName | TidyThemeColorName,
 	themeName: ThemeName = 'user',

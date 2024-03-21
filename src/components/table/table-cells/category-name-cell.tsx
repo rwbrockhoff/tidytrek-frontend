@@ -11,7 +11,6 @@ import {
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
-	size: number;
 	disabled: boolean;
 };
 
@@ -19,7 +18,8 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
 	const { editCategory } = usePackCategoryHandlers().handlers;
 
-	const { size, disabled, categoryHeaderInfo } = props;
+	const { disabled, categoryHeaderInfo } = props;
+
 	const {
 		packCategoryName: categoryName,
 		packCategoryColor,
@@ -60,7 +60,6 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	return (
 		<HeaderCell
-			colSpan={size}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}

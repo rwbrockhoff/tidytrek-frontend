@@ -1,8 +1,7 @@
 import { type PackListItem, type PackItem } from '@/types/pack-types';
 import { PlusIcon } from '@/components/ui';
-import { Button, Table } from '@radix-ui/themes';
-import styled from 'styled-components';
-import { TidyTable } from '@/components/ui';
+import { Button, Table as RadixTable } from '@radix-ui/themes';
+import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
 	useAddGearClosetItemMutation,
@@ -52,13 +51,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 
 	return (
 		<PricingContext.Provider value={true}>
-			<StyledTidyTable
-				$tableCellWidth="5%"
-				$themeColor="primary"
-				unstackable
-				fixed
-				striped
-				size="small">
+			<Table>
 				<GearClosetHeader />
 
 				{listHasItems ? (
@@ -85,8 +78,8 @@ export const GearClosetList = (props: GearClosetListProps) => {
 				)}
 
 				<StyledFooter>
-					<Table.Row>
-						<Table.Cell colSpan={24}>
+					<RadixTable.Row>
+						<RadixTable.Cell colSpan={8}>
 							<Button
 								variant="outline"
 								color="gray"
@@ -96,25 +89,10 @@ export const GearClosetList = (props: GearClosetListProps) => {
 								<PlusIcon />
 								Add Item
 							</Button>
-						</Table.Cell>
-					</Table.Row>
+						</RadixTable.Cell>
+					</RadixTable.Row>
 				</StyledFooter>
-			</StyledTidyTable>
+			</Table>
 		</PricingContext.Provider>
 	);
 };
-
-const StyledTidyTable = styled(TidyTable)`
-	&&& {
-		${({ theme: t }) =>
-			t.mx.mobile(`
-				thead {
-					display: none;
-				}
-
-				tfoot button {
-					font-size: 1.1em;
-				}
-		`)}
-	}
-`;

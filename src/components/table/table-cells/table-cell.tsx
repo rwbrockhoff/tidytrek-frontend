@@ -8,14 +8,13 @@ type TableCellProps = {
 	value: string | number;
 	itemName: string;
 	placeholder?: string;
-	size: number;
 	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
 export const TableCell = (props: TableCellProps) => {
 	const userView = useUserContext();
-	const { value, itemName, placeholder, size, onChange, onToggleOff } = props;
+	const { value, itemName, placeholder, onChange, onToggleOff } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
 	const display = !toggleInput || !userView;
@@ -30,7 +29,6 @@ export const TableCell = (props: TableCellProps) => {
 
 	return (
 		<Table.Cell
-			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

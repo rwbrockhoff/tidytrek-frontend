@@ -7,6 +7,7 @@ import {
 	type PackListItem,
 } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
+import { Flex, Table } from '@radix-ui/themes';
 import { PropertyButtons, ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
@@ -74,8 +75,7 @@ export const TableRow = (props: TableRowProps) => {
 
 	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
-	const packNameSize = (userView ? 5 : 7) + (showPrices ? 0 : 1);
-	const packDescriptionSize = showPrices ? 5 : 7;
+
 	const showAllCells = !isMobile || viewAllCells;
 	const hasPackId = packId !== null;
 
@@ -102,7 +102,6 @@ export const TableRow = (props: TableRowProps) => {
 							onToggleOff={handleToggle}
 							itemName="packItemName"
 							placeholder="Name"
-							size={packNameSize}
 						/>
 
 						{showAllCells && (
@@ -113,7 +112,6 @@ export const TableRow = (props: TableRowProps) => {
 									onToggleOff={handleToggle}
 									itemName="packItemDescription"
 									placeholder="Description"
-									size={packDescriptionSize}
 								/>
 
 								<PropertyButtons
@@ -122,14 +120,12 @@ export const TableRow = (props: TableRowProps) => {
 									favorite={favorite}
 									onClick={handleClickPackButton}
 									display={toggleRow}
-									size={4}
 								/>
 
 								<QuantityCell
 									quantity={packItemQuantity}
 									onChange={handleInput}
 									onToggleOff={handleToggle}
-									size={2}
 								/>
 								<PackWeightCell
 									weight={packItemWeight}
@@ -138,7 +134,6 @@ export const TableRow = (props: TableRowProps) => {
 									onChange={handleInput}
 									onToggleOff={handleToggle}
 									itemName="packItemWeight"
-									size={3}
 								/>
 
 								{showPrices && (
@@ -148,26 +143,25 @@ export const TableRow = (props: TableRowProps) => {
 										placeholder={0}
 										onChange={handleInput}
 										onToggleOff={handleToggle}
-										size={3}
 									/>
 								)}
 
 								{userView && (
-									<ActionButtons size={2} display={toggleRow}>
-										<div>
+									<ActionButtons display={toggleRow}>
+										<Flex align="center">
 											<ShareIcon
 												onClick={() => setToggleGearButtons(!toggleGearButtons)}
 											/>
-										</div>
+										</Flex>
 
 										<DeleteItemModal
 											id={packItemId}
 											hasPackId={hasPackId}
 											onClickMove={handleMoveItemToCloset}
 											onClickDelete={() => handleDelete(packItemId)}>
-											<div>
+											<Flex align="center">
 												<TrashIcon />
-											</div>
+											</Flex>
 										</DeleteItemModal>
 									</ActionButtons>
 								)}
@@ -184,13 +178,14 @@ export const TableRow = (props: TableRowProps) => {
 	);
 };
 
-const Row = styled.tr`
-	&&& {
-		position: relative;
-		border: none;
-		background-color: white;
-		td:first-child {
-			overflow: visible;
-		}
+const Row = styled(Table.Row)`
+	position: relative;
+	border: none;
+	background-color: white;
+	td {
+		width: 5%;
+	}
+	td:first-child {
+		overflow: visible;
 	}
 `;

@@ -11,14 +11,13 @@ type PriceCellProps = {
 	unit?: string;
 	itemName: string;
 	placeholder: number;
-	size: number;
 	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
 export const PriceCell = (props: PriceCellProps) => {
 	const userView = useUserContext();
-	const { price, itemName, placeholder, size, onChange, onToggleOff } = props;
+	const { price, itemName, placeholder, onChange, onToggleOff } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
@@ -34,7 +33,6 @@ export const PriceCell = (props: PriceCellProps) => {
 	return (
 		<Table.Cell
 			align="center"
-			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

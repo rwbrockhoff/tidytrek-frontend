@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table } from '@radix-ui/themes';
+import { Flex, Table } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
@@ -23,70 +23,69 @@ export const TableHeader = (props: TableHeaderProps) => {
 	const showPrices = usePricingContext();
 
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
-	const { packCategoryId } = categoryHeaderInfo;
+	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;
 	const [toggleRow, setToggleRow] = useState(false);
 
-	const minSpanSize = isMinimized ? 22 : 14 + (showPrices ? 0 : 3);
-	const spanSize = userView ? minSpanSize : showPrices ? 16 : 19;
-
 	return (
-		<Table.Header
+		<StyledHeader
+			$borderColor={packCategoryColor || 'primary'}
 			{...dragProps}
 			onMouseOver={() => setToggleRow(true)}
-			onMouseLeave={() => setToggleRow(false)}
-			style={{ verticalAlign: 'middle' }}>
+			onMouseLeave={() => setToggleRow(false)}>
 			<TableRow $isMinimized={isMinimized}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
-					size={spanSize}
 					disabled={isMinimized}
 				/>
+				<HeaderCell />
+				<HeaderCell />
+
+				{isMinimized && (
+					<>
+						<HeaderCell />
+						<HeaderCell />
+						<HeaderCell />
+					</>
+				)}
 
 				{!isMinimized && (
 					<>
-						<HeaderCell align="left" colSpan={2} $paddingLeft="15px">
-							Qty
-						</HeaderCell>
+						<HeaderCell align="center">Qty</HeaderCell>
 
-						<HeaderCell align="center" colSpan={3}>
-							<TableText $width="100px" $paddingRight="5px">
-								Weight
-							</TableText>
-						</HeaderCell>
+						<HeaderCell align="left">Weight</HeaderCell>
 
-						{showPrices && (
-							<HeaderCell align="left" colSpan={3} $paddingLeft="15px">
-								<TableText $width="75px" $paddingLeft="13px">
-									Price
-								</TableText>
-							</HeaderCell>
-						)}
+						{showPrices && <HeaderCell align="center">Price</HeaderCell>}
 					</>
 				)}
 				{userView && (
-					<ActionButtons header size={2} display={toggleRow}>
-						<div onClick={minimizeCategory}>
+					<ActionButtons header display={toggleRow}>
+						<Flex align="center" onClick={minimizeCategory}>
 							{isMinimized ? <PlusIcon /> : <MinusIcon />}
-						</div>
+						</Flex>
 						<DeleteModal
 							header="Are you sure?"
 							message={deleteCategoryMessage}
 							onClickMove={() => deleteCategory(packCategoryId)}
 							onClickDelete={() => deleteCategoryAndItems(packCategoryId)}>
-							<div>
+							<Flex align="center">
 								<TrashIcon />
-							</div>
+							</Flex>
 						</DeleteModal>
 					</ActionButtons>
 				)}
 			</TableRow>
-		</Table.Header>
+		</StyledHeader>
 	);
 };
 
 // defaults
 const deleteCategoryMessage =
 	'You can permanently delete your category or move the items to your gear closet.';
+
+const StyledHeader = styled(Table.Header)<{ $borderColor: string }>`
+	vertical-align: middle;
+	border-top: 3px solid ${(props) => props.theme.mx.getThemeColor(props.$borderColor)};
+`;
 
 const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	opacity: ${(props) => (props.$isMinimized ? 0.5 : 1)};
@@ -98,9 +97,9 @@ const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	`)}
 `;
 
-// display:block !important deeply nested in Semantic css
 export const HeaderCell = styled(Table.ColumnHeaderCell)<{ $paddingLeft?: string }>`
 	padding-left: ${({ $paddingLeft }) => $paddingLeft};
+	vertical-align: middle;
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			display: none !important;

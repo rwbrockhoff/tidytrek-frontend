@@ -2,8 +2,7 @@ import { type PackListItem, type Category, type PackItem } from '@/types/pack-ty
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { TidyTable } from '@/components/ui';
-import { TableRow, TableHeader, TableFooter } from '@/components/table';
+import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DropTableBody } from '@/components';
 import { usePackItemHandlers } from '../handlers/use-pack-item-handlers';
@@ -54,15 +53,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					$isMinimized={isMinimized}>
-					<TidyTable
-						$tableCellWidth="5%"
-						$themeColor={packCategoryColor}
-						$minimalPadding
-						fixed
-						striped
-						compact
-						unstackable
-						size="small">
+					<Table>
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
 							categoryHeaderInfo={categoryHeaderInfo}
@@ -93,7 +84,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 								handleAddItem={handleAddItem}
 							/>
 						)}
-					</TidyTable>
+					</Table>
 				</TableContainer>
 			)}
 		</Draggable>
@@ -103,7 +94,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 const TableContainer = styled.div<{ $isMinimized: boolean }>`
 	width: 100%;
 	text-align: center;
-	margin: 5vh 0px;
+	margin-bottom: 3em;
 	display: flex;
 
 	${({ $isMinimized }) =>

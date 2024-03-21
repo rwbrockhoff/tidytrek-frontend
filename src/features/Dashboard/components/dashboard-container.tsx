@@ -101,6 +101,9 @@ const Container = styled.main`
 	align-items: center;
 	flex-direction: column;
 
+	& > div {
+		width: 100%;
+	}
 	footer {
 		width: 100%;
 		margin-top: auto;

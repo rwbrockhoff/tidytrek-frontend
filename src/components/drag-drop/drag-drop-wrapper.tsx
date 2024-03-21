@@ -5,6 +5,7 @@ import {
 	type DropResult as Result,
 } from 'react-beautiful-dnd';
 import { EmptyTableRow } from './empty-table-row';
+import { Table } from '@radix-ui/themes';
 
 export type DropResult = Result;
 
@@ -65,7 +66,7 @@ export const DropTableBody = ({
 	return (
 		<Droppable droppableId={`${droppableId}`} type={type} isDropDisabled={disabled}>
 			{(provided, { isDraggingOver }) => (
-				<tbody
+				<Table.Body
 					ref={provided.innerRef}
 					style={{ height: 10 }}
 					{...provided.droppableProps}>
@@ -79,7 +80,7 @@ export const DropTableBody = ({
 					)}
 
 					{provided.placeholder}
-				</tbody>
+				</Table.Body>
 			)}
 		</Droppable>
 	);

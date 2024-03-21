@@ -6,7 +6,6 @@ export * from './Dimmer';
 export * from './Link';
 export * from './Message';
 export * from './Modals';
-export * from './TidyTable';
 export * from './icon';
 export * from './icons';
 export * from './text';

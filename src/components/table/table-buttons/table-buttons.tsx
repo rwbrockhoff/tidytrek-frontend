@@ -10,18 +10,22 @@ type ActionButtonsProps = {
 };
 
 export const ActionButtons = (props: ActionButtonsProps) => {
-	const { header, size = 1, display = true, children } = props;
+	const { header, display = true, children } = props;
 
 	if (header) {
 		return (
-			<StyledHeaderCell align="center" colSpan={size}>
-				{display && <StyledFlex>{children}</StyledFlex>}
+			<StyledHeaderCell justify="center">
+				<StyledFlex style={{ opacity: display ? 1 : 1 }}>
+					{display && children}
+				</StyledFlex>
 			</StyledHeaderCell>
 		);
 	} else {
 		return (
-			<Table.Cell align="center" colSpan={size}>
-				{display && <StyledFlex>{children}</StyledFlex>}
+			<Table.Cell valign="middle">
+				<StyledFlex align="center" style={{ opacity: display ? 1 : 0 }}>
+					{children}
+				</StyledFlex>
 			</Table.Cell>
 		);
 	}
@@ -40,6 +44,7 @@ const StyledHeaderCell = styled(Table.ColumnHeaderCell)`
 `;
 
 const StyledFlex = styled(Flex)`
+	height: 100%;
 	justify-content: space-around;
 	svg {
 		cursor: pointer;

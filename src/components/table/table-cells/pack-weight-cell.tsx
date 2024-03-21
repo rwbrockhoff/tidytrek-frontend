@@ -11,14 +11,13 @@ type PackWeightCellProps = {
 	unit: string;
 	itemName: string;
 	placeholder: number;
-	size: number;
 	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
 export const PackWeightCell = (props: PackWeightCellProps) => {
 	const userView = useUserContext();
-	const { weight, unit, itemName, placeholder, size, onChange, onToggleOff } = props;
+	const { weight, unit, itemName, placeholder, onChange, onToggleOff } = props;
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
 	const toggleToCell = () => {
@@ -30,7 +29,6 @@ export const PackWeightCell = (props: PackWeightCellProps) => {
 
 	return (
 		<Table.Cell
-			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

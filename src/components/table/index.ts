@@ -1,3 +1,4 @@
+export * from './table';
 export * from './table-footer';
 export * from './table-header';
 export * from './table-row';

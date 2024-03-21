@@ -14,7 +14,6 @@ type ItemNameCellProps = {
 	value: string;
 	itemName: string;
 	placeholder?: string;
-	size: number;
 	displayIcon: boolean;
 	packItemUrl: string;
 	onChange: OnChange;
@@ -25,17 +24,9 @@ type ItemNameCellProps = {
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
 
-	const {
-		value,
-		itemName,
-		placeholder,
-		size,
-		packItemUrl,
-		displayIcon,
-		onChange,
-		onToggleOff,
-		toggleMobileView,
-	} = props;
+	const { value, itemName, placeholder, packItemUrl, displayIcon } = props;
+	const { onChange, onToggleOff, toggleMobileView } = props;
+
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
 	const toggleToCell = () => {
@@ -47,7 +38,6 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	// const display = !toggleInput || !userView;
 	return (
 		<StyledCell
-			colSpan={size}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}

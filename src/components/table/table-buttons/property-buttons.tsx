@@ -5,7 +5,6 @@ import { type PackButtonSwitches } from '@/types/pack-types';
 import { useUserContext } from '@/hooks/use-viewer-context';
 
 type ButtonProps = {
-	size: number;
 	wornWeight: boolean;
 	consumable: boolean;
 	favorite: boolean;
@@ -21,7 +20,7 @@ type ButtonTypes = {
 
 export const PropertyButtons = (props: ButtonProps) => {
 	const userView = useUserContext();
-	const { size, wornWeight, consumable, favorite, display, onClick } = props;
+	const { wornWeight, consumable, favorite, display, onClick } = props;
 
 	const handleOnClick = (buttonToChange: ButtonTypes) => {
 		if (userView) onClick(buttonToChange);
@@ -30,7 +29,7 @@ export const PropertyButtons = (props: ButtonProps) => {
 	const showOnHover = display && userView;
 
 	return (
-		<PropertyButtonsCell align="center" justify="center" colSpan={size}>
+		<PropertyButtonsCell align="center" justify="center">
 			<StyledFlex>
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
