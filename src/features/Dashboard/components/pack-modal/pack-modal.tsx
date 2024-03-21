@@ -7,13 +7,9 @@ import { FormField } from '@/components/ui';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
 import { Button, Dialog, Flex, Separator, Switch, TextArea } from '@radix-ui/themes';
 import { SubText } from '@/components/ui/TidyUI';
-import {
-	useEditPackMutation,
-	useUploadPackPhotoMutation,
-	useDeletePackPhotoMutation,
-} from '@/queries/pack-queries';
+import { useEditPackMutation } from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
-import { PackPhoto } from '@/components';
+import { PackPhotoPanel } from './pack-photo-panel';
 
 type PackModalProps = {
 	children: React.ReactNode;
@@ -29,10 +25,6 @@ type Checkboxes = {
 
 export const PackModal = (props: PackModalProps) => {
 	const { mutate: editPack } = useEditPackMutation();
-	const { mutate: uploadPackPhoto, isPending: isPendingUpload } =
-		useUploadPackPhotoMutation();
-	const { mutate: deletePackPhoto, isPending: isPendingDelete } =
-		useDeletePackPhotoMutation();
 
 	const { children, pack, onClickDelete } = props;
 
@@ -89,16 +81,6 @@ export const PackModal = (props: PackModalProps) => {
 		}
 	};
 
-	const handleUploadPhoto = (formData: FormData) => {
-		const { packId } = pack;
-		uploadPackPhoto({ packId, formData });
-	};
-
-	const handleDeletePhoto = () => {
-		const { packId } = pack;
-		deletePackPhoto(packId);
-	};
-
 	const {
 		packPublic,
 		packName,
@@ -115,7 +97,7 @@ export const PackModal = (props: PackModalProps) => {
 	} = modifiedPack;
 
 	const { packPhotoUrl } = pack;
-	const photoPending = isPendingUpload || isPendingDelete;
+
 	return (
 		<Dialog.Root>
 			<Dialog.Trigger>
@@ -125,17 +107,8 @@ export const PackModal = (props: PackModalProps) => {
 				<Dialog.Title mb="4">{packName ?? pack.packName ?? 'Pack'}</Dialog.Title>
 
 				<StyledModalContent>
-					<RightPanel>
-						<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
-						<SubText>Upload a .jpg or .png file.</SubText>
-						<PackPhoto
-							src={packPhotoUrl}
-							uploadEnabled={!photoPending}
-							isPending={photoPending}
-							onUpload={handleUploadPhoto}
-							onDelete={handleDeletePhoto}
-						/>
-					</RightPanel>
+					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />
+
 					<Form style={{ padding: '0 10px' }}>
 						<FormSection>
 							<LeftPanel>
@@ -286,15 +259,6 @@ const LeftPanel = styled.div`
 	textarea {
 		height: 150px;
 	}
-`;
-
-const RightPanel = styled.div`
-	width: 45%;
-	padding-top: 0;
-	position: absolute;
-	z-index: 1;
-	right: calc(1.5rem + 10px);
-	top: 1.5rem;
 `;
 
 // defaults
