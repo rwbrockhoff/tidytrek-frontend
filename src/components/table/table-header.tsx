@@ -37,16 +37,9 @@ export const TableHeader = (props: TableHeaderProps) => {
 					categoryHeaderInfo={categoryHeaderInfo}
 					disabled={isMinimized}
 				/>
-				<HeaderCell />
-				<HeaderCell />
 
-				{isMinimized && (
-					<>
-						<HeaderCell />
-						<HeaderCell />
-						<HeaderCell />
-					</>
-				)}
+				<HeaderCell colSpan={2} />
+				{isMinimized && <HeaderCell colSpan={showPrices ? 3 : 2} />}
 
 				{!isMinimized && (
 					<>

@@ -23,7 +23,7 @@ export const TableFooter = ({
 	return (
 		<StyledFooter>
 			<StyledRow>
-				<Table.Cell>
+				<Table.Cell colSpan={hasItems ? 3 : 6}>
 					{userView && (
 						<Button
 							variant="outline"
@@ -36,15 +36,12 @@ export const TableFooter = ({
 						</Button>
 					)}
 				</Table.Cell>
-				<Table.Cell />
-				<Table.Cell />
 
 				{hasItems && (
 					<>
 						<StyledCell style={{ textAlign: 'left' }}>{itemQuantity} Items</StyledCell>
-						<StyledCell align="center">{`${weight} lbs`}</StyledCell>
-
-						{showPrices && <StyledCell align="left">{price}</StyledCell>}
+						<StyledCell style={{ textAlign: 'left' }}>{`${weight} lbs`}</StyledCell>
+						{showPrices && <StyledCell>{price}</StyledCell>}
 					</>
 				)}
 				{userView && <Table.Cell></Table.Cell>}

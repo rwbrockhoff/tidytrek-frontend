@@ -59,9 +59,9 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { publicProfile } = settings || {};
-
+	const showEditIcon = userView && showIcon;
 	return (
-		<PackInfoContainer align="center" display="inline-flex">
+		<PackInfoContainer align="center" display="inline-flex" mt="6" mb="9">
 			<Panel
 				$width={'50%'}
 				onMouseOver={() => setShowIcon(true)}
@@ -74,14 +74,16 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Heading as="h1" size="6" mb="4">
-					{packName}
+				<Heading as="h1" size="6" mb="0">
+					<Flex>
+						{packName}
 
-					{userView && showIcon && (
-						<PackModal onClickDelete={handleDeletePackAndItems} pack={currentPack}>
-							<EditIcon name="pencil alternate" color="grey" />
-						</PackModal>
-					)}
+						{showEditIcon && (
+							<PackModal onClickDelete={handleDeletePackAndItems} pack={currentPack}>
+								<EditIcon name="pencil alternate" color="grey" />
+							</PackModal>
+						)}
+					</Flex>
 				</Heading>
 
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
@@ -126,7 +128,6 @@ export const PackInfo = (props: PackInfoProps) => {
 };
 
 const PackInfoContainer = styled(Flex)`
-	height: 40vh;
 	width: 100%;
 	${({ theme: t }) =>
 		t.mx.mobile(`

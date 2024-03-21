@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 import { Table as RadixTable } from '@radix-ui/themes';
-import { usePricingContext } from '@/hooks';
+import { usePricingContext, useUserContext } from '@/hooks';
 
 type TableProps = {
 	children: React.ReactNode;
 };
 export const Table = (props: TableProps) => {
 	const showPrices = usePricingContext() || false;
+	const isUser = useUserContext();
+
 	const { children } = props;
 	return (
-		<StyledTable variant="surface">
+		<StyledTable variant="surface" size="1">
 			<colgroup>
 				<col width={showPrices ? '25%' : '30%'} />
 				<col width={showPrices ? '25%' : '30%'} />
@@ -17,7 +19,7 @@ export const Table = (props: TableProps) => {
 				<col width="8%" />
 				<col width="10%" />
 				{showPrices && <col width="10%" />}
-				<col width="10%" />
+				{isUser && <col width="10%" />}
 			</colgroup>
 			{children}
 		</StyledTable>

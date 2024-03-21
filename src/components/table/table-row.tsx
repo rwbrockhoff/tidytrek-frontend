@@ -183,7 +183,7 @@ const Row = styled(Table.Row)`
 	border: none;
 	background-color: white;
 	td {
-		width: 5%;
+		vertical-align: middle;
 	}
 	td:first-child {
 		overflow: visible;

@@ -21,7 +21,7 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 			onMouseLeave={() => setShowUploadMode(false)}>
 			<BannerImage src={bannerPhotoUrl} alt="landscape profile banner photo" />
 
-			<Spinner active={isPending} size="4" />
+			<Spinner active={isPending} size="4" absoluteCenter />
 
 			<StyledDimmer active={dimmerEnabled} />
 

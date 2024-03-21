@@ -43,7 +43,9 @@ export const PackCard = (props: PackCardProps) => {
 					<CardMeta size="2" my="1">
 						{packPublic ? 'Public' : 'Private'}
 					</CardMeta>
-					<Text my="2">{packDescription}</Text>
+					<Text my="2" color="gray">
+						{packDescription}
+					</Text>
 					<PackLabels pack={pack} />
 				</Flex>
 				{userView && (
@@ -61,7 +63,7 @@ export const PackCard = (props: PackCardProps) => {
 };
 
 const StyledCard = styled(Card)`
-	width: 30%;
+	width: 100%;
 	max-width: 325px;
 	a {
 		${({ theme: t }) => t.mx.themeColor('primary')}

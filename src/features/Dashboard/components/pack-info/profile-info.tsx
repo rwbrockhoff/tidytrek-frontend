@@ -19,7 +19,7 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 
 	const userBasedUrl = username || (userId && encode(userId));
 	return (
-		<Flex>
+		<Flex mb="4">
 			<Link link={`/user/${userBasedUrl}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="medium" />
 			</Link>
