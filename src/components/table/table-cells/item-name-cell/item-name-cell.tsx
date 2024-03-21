@@ -12,10 +12,9 @@ export type OnChange = (e: InputEvent | SelectEvent) => void;
 
 type ItemNameCellProps = {
 	value: string;
-	itemName: string;
-	placeholder?: string;
-	displayIcon: boolean;
 	packItemUrl: string;
+	displayIcon: boolean;
+	dragProps: object;
 	onChange: OnChange;
 	onToggleOff: () => void;
 	toggleMobileView: () => void;
@@ -24,7 +23,7 @@ type ItemNameCellProps = {
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
 
-	const { value, itemName, placeholder, packItemUrl, displayIcon } = props;
+	const { value, packItemUrl, displayIcon, dragProps } = props;
 	const { onChange, onToggleOff, toggleMobileView } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
@@ -35,7 +34,6 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			onToggleOff();
 		}
 	};
-	// const display = !toggleInput || !userView;
 
 	return (
 		<StyledCell
@@ -43,14 +41,14 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
-			<GripButton display={displayIcon && userView} />
+			<GripButton display={displayIcon && userView} {...dragProps} />
 
 			{userView ? (
 				<TextField.Root>
 					<TextField.Input
 						value={value || ''}
-						name={itemName}
-						placeholder={placeholder}
+						name={'packItemName'}
+						placeholder={'Name'}
 						onChange={onChange}
 					/>
 					<TextField.Slot>

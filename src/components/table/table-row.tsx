@@ -91,17 +91,15 @@ export const TableRow = (props: TableRowProps) => {
 						onMouseOver={() => setToggleRow(true)}
 						onMouseLeave={() => setToggleRow(false)}
 						ref={provided.innerRef}
-						{...provided.draggableProps}
-						{...provided.dragHandleProps}>
+						{...provided.draggableProps}>
 						<ItemNameCell
 							value={packItemName}
 							packItemUrl={packItemUrl}
 							displayIcon={toggleRow}
+							dragProps={{ ...provided.dragHandleProps }}
 							onChange={handleInput}
 							toggleMobileView={handleToggleViewAllCells}
 							onToggleOff={handleToggle}
-							itemName="packItemName"
-							placeholder="Name"
 						/>
 
 						{showAllCells && (

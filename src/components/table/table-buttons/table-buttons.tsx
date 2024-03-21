@@ -93,10 +93,10 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	);
 };
 
-export const GripButton = ({ display }: { display: boolean }) => {
+export const GripButton = ({ display, ...props }: { display: boolean }) => {
 	if (display) {
 		return (
-			<GripContainer align="center" justify="center">
+			<GripContainer align="center" justify="center" {...props}>
 				<GripIcon />
 			</GripContainer>
 		);

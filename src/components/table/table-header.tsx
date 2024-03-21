@@ -29,13 +29,13 @@ export const TableHeader = (props: TableHeaderProps) => {
 	return (
 		<StyledHeader
 			$borderColor={packCategoryColor || 'primary'}
-			{...dragProps}
 			onMouseOver={() => setToggleRow(true)}
 			onMouseLeave={() => setToggleRow(false)}>
 			<TableRow $isMinimized={isMinimized}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
 					disabled={isMinimized}
+					dragProps={dragProps}
 				/>
 
 				<HeaderCell colSpan={2} />

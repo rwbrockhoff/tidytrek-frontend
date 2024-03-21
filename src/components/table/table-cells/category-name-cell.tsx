@@ -12,13 +12,14 @@ import {
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
 	disabled: boolean;
+	dragProps: object;
 };
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
 	const { editCategory } = usePackCategoryHandlers().handlers;
 
-	const { disabled, categoryHeaderInfo } = props;
+	const { disabled, categoryHeaderInfo, dragProps } = props;
 
 	const {
 		packCategoryName: categoryName,
@@ -64,7 +65,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}
 			onClick={!disabled ? toggleToEdit : undefined}>
-			<GripButton display={showGrip && userView} />
+			<GripButton display={showGrip && userView} {...dragProps} />
 
 			{userView ? (
 				<Flex>
