@@ -31,6 +31,7 @@ const StyledTable = styled(RadixTable.Root)`
 	border: none;
 	width: 100%;
 	min-width: 100%;
+
 	tr:nth-child(even) {
 		background-color: var(--gray-1);
 	}

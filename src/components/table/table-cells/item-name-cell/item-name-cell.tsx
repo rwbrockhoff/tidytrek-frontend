@@ -36,6 +36,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 		}
 	};
 	// const display = !toggleInput || !userView;
+
 	return (
 		<StyledCell
 			onMouseOver={toggleToEdit}

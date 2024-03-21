@@ -138,10 +138,12 @@ export const TableButton = styled(IconButton)<{
 
 const GripContainer = styled(Flex)`
 	position: absolute;
+	color: var(--gray-8);
+	top: 0px;
 	left: -60px;
-	opacity: 0.2;
+	z-index: 100;
 	width: 60px;
-	height: 30px;
+	height: 44px;
 	margin-left: 15px;
 	touch-action: manipulation;
 `;

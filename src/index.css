@@ -46,3 +46,19 @@ h5:last-child {
 	margin-bottom: revert;
 	margin-top: revert;
 }
+
+/* Override deeply nested inline styles from Radix  */
+.rt-ScrollAreaRoot {
+	overflow: visible;
+}
+div.rt-ScrollAreaViewport {
+	overflow: visible !important;
+}
+
+.rt-TableRoot {
+	overflow: visible !important;
+}
+.rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
+	overflow: visible !important;
+}
+/* Override deeply nested inline styles from Radix  */
