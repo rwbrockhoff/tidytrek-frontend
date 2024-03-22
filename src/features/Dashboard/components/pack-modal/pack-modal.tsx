@@ -21,7 +21,7 @@ import { PackPhotoPanel } from './pack-photo-panel';
 type PackModalProps = {
 	children: React.ReactNode;
 	pack: Pack;
-	onClickDelete: () => void;
+	showDeleteModal: () => void;
 };
 
 type Checkboxes = {
@@ -33,7 +33,7 @@ type Checkboxes = {
 export const PackModal = (props: PackModalProps) => {
 	const { mutate: editPack } = useEditPackMutation();
 
-	const { children, pack, onClickDelete } = props;
+	const { children, pack, showDeleteModal } = props;
 
 	const [packChanged, setPackChanged] = useState(false);
 	const [modifiedPack, setModifiedPack] = useState({
@@ -106,7 +106,7 @@ export const PackModal = (props: PackModalProps) => {
 	const { packPhotoUrl } = pack;
 
 	return (
-		<Dialog.Root defaultOpen>
+		<Dialog.Root>
 			<Dialog.Trigger>
 				<div>{children}</div>
 			</Dialog.Trigger>
@@ -240,9 +240,10 @@ export const PackModal = (props: PackModalProps) => {
 				</StyledModalContent>
 				<Dialog.Close>
 					<Flex justify="end" gap="3" mt="2">
-						<Button color="tomato" onClick={onClickDelete}>
+						<Button color="tomato" onClick={showDeleteModal}>
 							<TrashIcon /> Delete Pack
 						</Button>
+
 						<Button onClick={handleSubmitPack}>
 							<SaveIcon />
 							Save Pack

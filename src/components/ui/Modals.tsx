@@ -3,19 +3,31 @@ import React from 'react';
 import { ShareIcon, TrashIcon } from './icons';
 
 type DeleteModalProps = {
-	children: React.ReactNode;
+	children?: React.ReactNode;
 	simple?: boolean;
 	header?: string;
 	message?: string;
+	open?: boolean;
+	toggleOpen?: () => void;
 	onClickMove?: () => void;
 	onClickDelete: () => void;
 };
 
 export const DeleteModal = (props: DeleteModalProps) => {
-	const { children, simple, header, message, onClickDelete, onClickMove } = props;
+	const {
+		children,
+		simple,
+		header,
+		message,
+		open = false,
+		toggleOpen,
+		onClickDelete,
+		onClickMove,
+	} = props;
+	const hasChildren = children !== undefined;
 	return (
-		<Dialog.Root>
-			<Dialog.Trigger>{children}</Dialog.Trigger>
+		<Dialog.Root open={open} onOpenChange={toggleOpen}>
+			{hasChildren && <Dialog.Trigger>{children}</Dialog.Trigger>}
 			<Dialog.Content style={{ maxWidth: 400 }}>
 				<Dialog.Title>{header}</Dialog.Title>
 

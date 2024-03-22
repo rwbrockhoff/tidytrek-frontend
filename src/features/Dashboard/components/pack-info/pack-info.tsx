@@ -4,12 +4,13 @@ import { type Settings } from '@/types/settings-types';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon } from '@/components/ui';
+import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
 import { Flex, Heading, Button } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	// useDeletePackMutation,
 	useDeletePackAndItemsMutation,
+	useDeletePackMutation,
 } from '@/queries/pack-queries';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
@@ -36,19 +37,22 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const navigate = useNavigate();
 
-	// const { mutate: deletePack } = useDeletePackMutation();
+	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
 	const [showIcon, setShowIcon] = useState(false);
 	const [showPackChart, setShowPackChart] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
 
-	// const handleDeletePack = () => {
-	// 	const { packId } = currentPack;
-	// 	deletePack(packId);
-	// 	navigate('/');
-	// };
+	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
+
+	const handleDeletePack = () => {
+		const { packId } = currentPack;
+		deletePack(packId);
+		navigate('/');
+	};
 
 	const handleDeletePackAndItems = () => {
 		const { packId } = currentPack;
@@ -79,7 +83,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 
 						{showEditIcon && (
-							<PackModal onClickDelete={handleDeletePackAndItems} pack={currentPack}>
+							<PackModal showDeleteModal={handleToggleDeleteModal} pack={currentPack}>
 								<EditIcon name="pencil alternate" color="grey" />
 							</PackModal>
 						)}
@@ -119,10 +123,14 @@ export const PackInfo = (props: PackInfoProps) => {
 				display={showPackChart}
 			/>
 
-			{/* <DeleteModal
+			<DeleteModal
+				header={`Delete ${packName} Pack?`}
+				message={deletePackMessage}
+				open={showDeleteModal}
+				toggleOpen={handleToggleDeleteModal}
 				onClickDelete={handleDeletePackAndItems}
 				onClickMove={handleDeletePack}
-			/> */}
+			/>
 		</PackInfoContainer>
 	);
 };
@@ -152,3 +160,5 @@ const ToggleChartButton = styled(Button)`
 	text-align: center;
 	${({ theme: t }) => t.mx.mobile(`display: flex;`)}
 `;
+
+const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;
