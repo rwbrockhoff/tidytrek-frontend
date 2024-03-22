@@ -34,28 +34,30 @@ export const PackCard = (props: PackCardProps) => {
 						onUpload={handlePhotoUpload}
 					/>
 				</Inset>
+
 				<Flex direction="column">
 					<StyledCardHeader size="4">
 						<Link link={link} enabled={userView}>
 							{packName}
 						</Link>
 					</StyledCardHeader>
-					<CardMeta size="2" my="1">
+					<Text size="2" my="1" color="gray">
 						{packPublic ? 'Public' : 'Private'}
-					</CardMeta>
+					</Text>
 					<Text my="2" color="gray">
 						{packDescription}
 					</Text>
 					<PackLabels pack={pack} />
 				</Flex>
 				{userView && (
-					<CardFooter direction="column">
-						<Separator size="4" my="4" />
-						<p>
+					<Flex direction="column" style={{ marginTop: 'auto' }}>
+						<Separator size="4" mt="4" />
+
+						<CardFooterText color="gray" mt="2">
 							<ViewsIcon />
 							{packViews} Views
-						</p>
-					</CardFooter>
+						</CardFooterText>
+					</Flex>
 				)}
 			</StyledCard>
 		</Link>
@@ -74,18 +76,11 @@ const StyledCard = styled(Card)`
 	${({ theme: t }) => t.mx.mobile(`width: fit-content;`)}
 `;
 
-const CardMeta = styled(Text)`
-	color: var(--gray-9);
-`;
-
-const CardFooter = styled(Flex)`
-	color: var(--gray-9);
-	p {
-		display: flex;
-		align-items: center;
-		svg {
-			margin-right: 0.5em;
-		}
+const CardFooterText = styled(Text)`
+	display: flex;
+	align-items: center;
+	svg {
+		margin-right: 0.5em;
 	}
 `;
 
