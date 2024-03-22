@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Separator, Flex } from '@radix-ui/themes';
+import { Separator, Flex, Text } from '@radix-ui/themes';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { HikingIcon } from '@/components/ui';
 
@@ -13,20 +13,20 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 		<Footer>
 			{affiliate && (
 				<Flex align="center" direction="column">
-					<AffiliateText>
+					<Text align="center" weight="light" color="gray" size="2">
 						{description ||
 							`Using the affiliate links in this pack helps support the creator of this pack
 						at no extra cost to you!`}
-					</AffiliateText>
-					<Separator color="gray" size="3" />
+					</Text>
+					<Separator color="gray" size="3" mt="4" />
 				</Flex>
 			)}
 			<a href={`${frontendURL}`}>
-				<LogoTag>
-					<p>
+				<LogoTag justify="center">
+					<Text size="2">
 						tidytrek
 						<HikingIcon /> Made in Colorado
-					</p>
+					</Text>
 				</LogoTag>
 			</a>
 		</Footer>
@@ -34,32 +34,17 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 };
 
 const Footer = styled.footer`
-	margin-top: 2vh;
-	padding: 1vh 0vh;
-	a {
-		color: black;
-	}
+	padding: 1em 0vh;
 `;
 
-const LogoTag = styled.div`
-	display: flex;
-	justify-content: center;
-	opacity: 0.5;
-	margin-top: 2vh;
-
-	.logo-text {
-		font-weight: 900;
-	}
-	i {
-		margin: 0px 15px;
-	}
+const LogoTag = styled(Flex)`
+	margin-top: 1em;
+	color: var(--gray-9);
+	font-weight: 500;
 	&:hover {
-		opacity: 0.8;
+		filter: var(--hover-dark);
 	}
-`;
-
-const AffiliateText = styled.p`
-	font-style: italic;
-	opacity: 0.8;
-	text-align: center;
+	svg {
+		margin: 0 0.5em;
+	}
 `;

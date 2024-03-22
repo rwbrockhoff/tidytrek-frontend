@@ -29,6 +29,7 @@ export const Link = (props: LinkProps) => {
 const StyledLink = styled(RouterLink)`
 	display: flex;
 	align-items: center;
+	height: 100%;
 	${themeColor('primary')}
 	&:hover {
 		${themeColor('primary')}

@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { ProfileBanner } from '../components/profile-banner';
 import { ProfileHeader } from '../components/profile-header';
@@ -26,17 +26,13 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 		<UserViewContext.Provider value={userView}>
 			<ThemeProvider theme={theme}>
 				<HandlerWrapper>
-					<ProfileContainer>
+					<main>
 						{isNotAuthenticated && <ProfileBanner />}
 						<ProfileHeader userProfile={userProfile} />
 						<PackCardList packThumbnailList={packThumbnailList} />
-					</ProfileContainer>
+					</main>
 				</HandlerWrapper>
 			</ThemeProvider>
 		</UserViewContext.Provider>
 	);
 };
-
-const ProfileContainer = styled.main`
-	position: relative;
-`;

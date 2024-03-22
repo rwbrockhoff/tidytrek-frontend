@@ -11,6 +11,9 @@
 	-moz-osx-font-smoothing: grayscale; */
 	--spinner-outer-bg-color: #f3f3f3;
 	--spinner-inner-bg-color: #949494;
+	--hover-dark: brightness(80%);
+	--hover-light: brightness(120%);
+	--max-width: 1280px;
 }
 
 .radix-themes {
@@ -29,13 +32,13 @@ input[data-invalid='true'] {
 	background-color: var(--tomato-1);
 }
 
-/* h1 {
-	margin: 0;
-} */
-
 a {
 	cursor: pointer;
 	text-decoration: none;
+	color: var(--cyan-9);
+	&:hover {
+		filter: var(--hover);
+	}
 }
 
 h1:last-child,

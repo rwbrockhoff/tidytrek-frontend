@@ -10,7 +10,7 @@ type SocialLinkListProps = {
 	onDelete?: (socialLinkId: number | undefined) => void | undefined;
 };
 export const SocialLinkList = (props: SocialLinkListProps) => {
-	const { socialLinks, deleteEnabled = false, colorButton, onDelete } = props;
+	const { socialLinks, deleteEnabled = false, colorButton = true, onDelete } = props;
 
 	return (
 		<Flex>

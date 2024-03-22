@@ -21,5 +21,11 @@ const GuestViewContainer = styled.div`
 	padding-right: 10vw;
 	padding-bottom: 2vh;
 	padding-top: 5vh;
-	${({ theme: t }) => t.mx.mobile(`padding: 25px 25px;`)}
+	${({ theme: t }) => t.mx.mobile(`padding: 2em 1em;`)}
+	main {
+		margin: 0 auto;
+		min-height: 100%;
+		max-width: var(--max-width);
+		position: relative;
+	}
 `;

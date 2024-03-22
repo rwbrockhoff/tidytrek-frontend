@@ -35,7 +35,7 @@ export const PackCard = (props: PackCardProps) => {
 					/>
 				</Inset>
 
-				<Flex direction="column">
+				<Flex direction="column" mb="6">
 					<StyledCardHeader size="4">
 						<Link link={link} enabled={userView}>
 							{packName}
@@ -49,24 +49,34 @@ export const PackCard = (props: PackCardProps) => {
 					</Text>
 					<PackLabels pack={pack} />
 				</Flex>
+
 				{userView && (
-					<Flex direction="column" style={{ marginTop: 'auto' }}>
+					<CardFooter direction="column">
 						<Separator size="4" mt="4" />
 
 						<CardFooterText color="gray" mt="2">
 							<ViewsIcon />
 							{packViews} Views
 						</CardFooterText>
-					</Flex>
+					</CardFooter>
 				)}
 			</StyledCard>
 		</Link>
 	);
 };
 
+const CardFooter = styled(Flex)`
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - (var(--card-padding) * 2));
+`;
 const StyledCard = styled(Card)`
+	display: flex;
 	width: 100%;
 	max-width: 325px;
+	height: 100%;
+	position: relative;
+	padding-bottom: 1em;
 	a {
 		${({ theme: t }) => t.mx.themeColor('primary')}
 		&:hover {

@@ -89,19 +89,22 @@ const StyledBadge = styled(Badge)<{ $colorButton: boolean; $backgroundColor: str
 	display: flex;
 	align-items: center;
 	&:hover {
-		filter: brightness(105%);
+		filter: brightness(95%);
 	}
-	a {
+	a,
+	a:hover {
 		opacity: 1;
-		color: white;
-		&:hover {
-			color: white;
-		}
+		color: black;
 	}
+	background-color: var(--gray-5);
 	${(props) =>
 		props.$colorButton &&
 		css`
+			background-color: ${props.$backgroundColor ? props.$backgroundColor : '#000'};
 			color: white;
-			background-color: ${props.$backgroundColor ? props.$backgroundColor : 'blue'};
+			a,
+			a:hover {
+				color: white;
+			}
 		`};
 `;
