@@ -1,4 +1,4 @@
-import { Button } from '@radix-ui/themes';
+import { IconButton } from '@radix-ui/themes';
 import { MdOutlineClose as DeleteIcon } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -9,21 +9,19 @@ type DeleteButtonProps = {
 
 export const DeleteButton = ({ disabled, onClick }: DeleteButtonProps) => {
 	return (
-		<StyledButton color="gray" disabled={disabled} onClick={onClick}>
+		<StyledButton color="gray" radius="full" disabled={disabled} onClick={onClick}>
 			<DeleteIcon />
 		</StyledButton>
 	);
 };
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(IconButton)`
 	position: absolute;
 	z-index: 10;
-	top: -10px;
-	right: -10px;
-	${({ theme: t }) => t.mx.wh('30px')};
-	border-radius: 15px;
+	top: -5px;
+	right: -5px;
 	cursor: pointer;
-	${({ theme: t }) => t.mx.themeBgColor('tidyLightGrey', 'tidy')};
+	background-color: var(--gray-5);
 	color: black;
 	&:hover {
 		filter: brightness(95%);

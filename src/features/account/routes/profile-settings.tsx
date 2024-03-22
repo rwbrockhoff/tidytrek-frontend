@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { Flex } from '@radix-ui/themes';
 import { ProfileForm } from '../components/profile-form/profile-form';
 import { useGetProfileSettingsQuery } from '@/queries/profile-settings-queries';
 import { HandlerWrapper } from '../hooks/use-profile-handlers';
@@ -9,14 +9,9 @@ export const ProfileSettings = () => {
 
 	return (
 		<HandlerWrapper>
-			<Container>
+			<Flex direction="column">
 				<ProfileForm profileInfo={profileInfo} socialLinks={socialLinks} />
-			</Container>
+			</Flex>
 		</HandlerWrapper>
 	);
 };
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-`;

@@ -5,7 +5,7 @@ export * from '../../utils/defaultPhotos';
 export * from './Dimmer';
 export * from './Link';
 export * from './Message';
-export * from './modals';
+export * from './Modals';
 export * from './icon';
 export * from './icons';
 export * from './text';

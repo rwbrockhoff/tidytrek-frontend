@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Form, FormField, FormMessage, FormLabel } from '@radix-ui/react-form';
 import { TextField, TextArea, Heading, Text, Flex } from '@radix-ui/themes';
 import { Segment, SegmentGroup, WarningMessage } from '@/components/ui';
-import { SubText } from '@/components/ui/TidyUI';
 import { Avatar } from '@/components/ui';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
@@ -78,7 +77,9 @@ export const ProfileForm = (props: ProfileFormProps) => {
 					<Heading as="h5" size="3">
 						Avatar
 					</Heading>
-					<SubText>You can upload .jpg or .png photos.</SubText>
+					<Text size="2" color="gray" mt="1" mb="4">
+						You can upload .jpg or .png photos.
+					</Text>
 					<Avatar
 						src={profileInfo?.profilePhotoUrl}
 						size="big"
