@@ -8,6 +8,7 @@ export {
 	FaShareAlt as ShareLinkIcon,
 	FaCheck as CheckIcon,
 	FaLink as LinkIcon,
+	FaRegSave as SaveIcon,
 } from 'react-icons/fa';
 export { TfiMenu as SidebarIcon } from 'react-icons/tfi';
 export { BsFillSendFill as SendIcon } from 'react-icons/bs';

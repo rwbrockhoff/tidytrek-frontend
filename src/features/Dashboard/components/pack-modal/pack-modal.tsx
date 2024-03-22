@@ -3,10 +3,17 @@ import { type Pack } from '@/types/pack-types';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { Form } from '@radix-ui/react-form';
-import { FormField } from '@/components/ui';
+import { FormField, FormTextArea, SaveIcon } from '@/components/ui';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
-import { Button, Dialog, Flex, Separator, Switch, TextArea } from '@radix-ui/themes';
-import { SubText } from '@/components/ui/TidyUI';
+import {
+	Button,
+	Dialog,
+	Flex,
+	Separator,
+	Switch,
+	Text,
+	TextArea,
+} from '@radix-ui/themes';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
 import { PackPhotoPanel } from './pack-photo-panel';
@@ -99,36 +106,37 @@ export const PackModal = (props: PackModalProps) => {
 	const { packPhotoUrl } = pack;
 
 	return (
-		<Dialog.Root>
+		<Dialog.Root defaultOpen>
 			<Dialog.Trigger>
 				<div>{children}</div>
 			</Dialog.Trigger>
-			<Dialog.Content style={{ maxWidth: '50vw' }}>
-				<Dialog.Title mb="4">{packName ?? pack.packName ?? 'Pack'}</Dialog.Title>
+			<Dialog.Content style={{ maxWidth: '700px' }}>
+				<Dialog.Title mb="4" ml="4">
+					{packName ?? pack.packName ?? 'Pack'}
+				</Dialog.Title>
 
 				<StyledModalContent>
 					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />
 
-					<Form style={{ padding: '0 10px' }}>
-						<FormSection>
-							<LeftPanel>
-								<FormField
-									name="packName"
-									value={packName ?? ''}
-									onChange={handleFormChange}
-									label="Pack Name"
-									placeholder="Pack Name"
-								/>
+					<Form style={{ width: '100%' }}>
+						<LeftPanel direction="column">
+							<FormField
+								name="packName"
+								value={packName ?? ''}
+								onChange={handleFormChange}
+								label="Pack Name"
+								placeholder="Pack Name"
+								width="100%"
+							/>
 
-								<FormField
-									name="packDescription"
-									value={packDescription ?? ''}
-									onChange={handleFormChange}
-									label="Pack Description"
-									placeholder="Pack Description"
-								/>
-							</LeftPanel>
-						</FormSection>
+							<FormTextArea
+								name="packDescription"
+								value={packDescription ?? ''}
+								label="Pack Description"
+								placeholder="Pack Description"
+								onChange={handleFormChange}
+							/>
+						</LeftPanel>
 
 						<PackTags
 							packLocationTag={packLocationTag}
@@ -138,13 +146,14 @@ export const PackModal = (props: PackModalProps) => {
 							handleFormChange={handleFormChange}
 						/>
 
-						<div>
+						<Flex justify="between">
 							<FormField
 								name="packUrlName"
 								value={packUrlName ?? ''}
 								onChange={handleFormChange}
 								label="Display Text"
 								placeholder="Gear Loadout Video"
+								width="30%"
 							/>
 
 							<FormField
@@ -153,60 +162,68 @@ export const PackModal = (props: PackModalProps) => {
 								onChange={handleFormChange}
 								label="Link"
 								placeholder="Blogpost, Youtube Video, etc."
+								width="67%"
 							/>
-						</div>
+						</Flex>
 
-						<Separator size="4" my="6" />
+						<Separator size="4" my="4" />
 
-						<StyledField>
-							<div>
+						<Flex align="center" my="4">
+							<Flex justify="center" direction="column">
 								<label>
 									<PublicIcon /> Public
 								</label>
-								<SubText>Choose whether you want your pack to be public.</SubText>
-							</div>
+								<Text size="2" color="gray">
+									Choose whether you want your pack to be public.
+								</Text>
+							</Flex>
 							<Switch
 								radius="medium"
 								color="jade"
 								size="3"
+								ml="auto"
 								checked={packPublic}
 								onClick={() => handleCheckBox({ packPublic: !packPublic })}
 							/>
-						</StyledField>
+						</Flex>
 
-						<StyledField>
-							<div>
+						<Flex align="center" my="4">
+							<Flex justify="center" direction="column">
 								<label>
 									<MoneyIcon /> Pack Prices
 								</label>
-								<SubText>Show a price column on your pack to track expenses.</SubText>
-							</div>
+								<Text size="2" color="gray">
+									Show a price column on your pack to track expenses.
+								</Text>
+							</Flex>
 							<Switch
 								radius="medium"
 								color="jade"
 								size="3"
+								ml="auto"
 								checked={packPricing}
 								onClick={() => handleCheckBox({ packPricing: !packPricing })}
 							/>
-						</StyledField>
+						</Flex>
 
-						<StyledField>
-							<div>
+						<Flex align="center" my="4">
+							<Flex justify="center" direction="column">
 								<label>
 									<LinkIcon /> Affiliate Links
 								</label>
-								<SubText>
+								<Text size="2" color="gray">
 									Enable if you use affiliate links for any of your pack items.
-								</SubText>
-							</div>
+								</Text>
+							</Flex>
 							<Switch
 								radius="medium"
 								color="jade"
 								size="3"
+								ml="auto"
 								checked={packAffiliate ?? false}
 								onClick={() => handleCheckBox({ packAffiliate: !packAffiliate })}
 							/>
-						</StyledField>
+						</Flex>
 
 						{packAffiliate && (
 							<div>
@@ -222,11 +239,14 @@ export const PackModal = (props: PackModalProps) => {
 					</Form>
 				</StyledModalContent>
 				<Dialog.Close>
-					<Flex justify="end" gap="3" mt="6">
+					<Flex justify="end" gap="3" mt="2">
 						<Button color="tomato" onClick={onClickDelete}>
 							<TrashIcon /> Delete Pack
 						</Button>
-						<Button onClick={handleSubmitPack}>Save Pack</Button>
+						<Button onClick={handleSubmitPack}>
+							<SaveIcon />
+							Save Pack
+						</Button>
 					</Flex>
 				</Dialog.Close>
 			</Dialog.Content>
@@ -236,26 +256,13 @@ export const PackModal = (props: PackModalProps) => {
 
 const StyledModalContent = styled(Flex)`
 	position: relative;
-	padding: 1em;
-`;
-const StyledField = styled(Flex)`
-	display: flex;
-	align-items: center;
-	.checkbox {
-		padding-top: 10px;
-		margin-left: auto;
-	}
+	padding: 0.5em;
 `;
 
-const FormSection = styled.div`
-	display: flex;
+const LeftPanel = styled(Flex)`
 	height: 250px;
-	margin-bottom: 25px;
-`;
-
-const LeftPanel = styled.div`
 	width: 50%;
-	padding-right: 25px;
+	margin-bottom: 1em;
 	textarea {
 		height: 150px;
 	}

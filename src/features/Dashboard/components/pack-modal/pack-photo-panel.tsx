@@ -1,9 +1,9 @@
 import { PackPhoto } from '@/components';
-import { SubText } from '@/components/ui/TidyUI';
 import {
 	useDeletePackPhotoMutation,
 	useUploadPackPhotoMutation,
 } from '@/queries/pack-queries';
+import { Flex, Text } from '@radix-ui/themes';
 import styled from 'styled-components';
 
 type PackPhotoPanel = {
@@ -27,9 +27,13 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 
 	const photoPending = isPendingUpload || isPendingDelete;
 	return (
-		<RightPanel>
-			<label style={{ fontWeight: 700, fontSize: '0.95em' }}>Pack Photo</label>
-			<SubText>Upload a .jpg or .png file.</SubText>
+		<RightPanel direction="column">
+			<Text size="2" weight="bold" color="gray">
+				Pack Photo
+			</Text>
+			<Text size="2" color="gray" mb="2">
+				Upload a .jpg or .png file.
+			</Text>
 			<PackPhoto
 				src={packPhotoUrl}
 				uploadEnabled={!photoPending}
@@ -41,11 +45,10 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 	);
 };
 
-const RightPanel = styled.div`
+const RightPanel = styled(Flex)`
 	width: 45%;
-	padding-top: 0;
 	position: absolute;
 	z-index: 1;
-	right: calc(1.5rem + 10px);
-	top: 1.5rem;
+	right: 1em;
+	top: 1em;
 `;
