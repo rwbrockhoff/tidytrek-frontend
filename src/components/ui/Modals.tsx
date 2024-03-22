@@ -25,8 +25,10 @@ export const DeleteModal = (props: DeleteModalProps) => {
 		onClickMove,
 	} = props;
 	const hasChildren = children !== undefined;
+	// modal can be controlled within children or uncontrolled by default (radix modal primitive)
+	const controlledProps = hasChildren ? {} : { open, onOpenChange: toggleOpen };
 	return (
-		<Dialog.Root open={open} onOpenChange={toggleOpen}>
+		<Dialog.Root {...controlledProps}>
 			{hasChildren && <Dialog.Trigger>{children}</Dialog.Trigger>}
 			<Dialog.Content style={{ maxWidth: 400 }}>
 				<Dialog.Title>{header}</Dialog.Title>
