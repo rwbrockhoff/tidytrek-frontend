@@ -94,13 +94,11 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 };
 
 export const GripButton = ({ display, ...props }: { display: boolean }) => {
-	if (display) {
-		return (
-			<GripContainer align="center" justify="center" {...props}>
-				<GripIcon />
-			</GripContainer>
-		);
-	} else return null;
+	return (
+		<GripContainer align="center" justify="center" $display={display} {...props}>
+			<GripIcon />
+		</GripContainer>
+	);
 };
 
 export const TableButton = styled(IconButton)<{
@@ -136,7 +134,7 @@ export const TableButton = styled(IconButton)<{
 		`)}
 `;
 
-const GripContainer = styled(Flex)`
+const GripContainer = styled(Flex)<{ $display: boolean }>`
 	position: absolute;
 	color: var(--gray-8);
 	top: 0px;
@@ -146,4 +144,11 @@ const GripContainer = styled(Flex)`
 	height: 44px;
 	margin-left: 15px;
 	touch-action: manipulation;
+	opacity: 0;
+	${({ $display }) =>
+		$display &&
+		css`
+			opacity: 1;
+			cursor: pointer;
+		`}
 `;

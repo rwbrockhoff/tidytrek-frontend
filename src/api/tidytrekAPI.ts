@@ -1,4 +1,5 @@
 import axios from 'axios';
+import supabase from './supabaseClient';
 
 export const frontendURL =
 	process.env.NODE_ENV === 'production'
@@ -16,8 +17,8 @@ export const tidyTrekAPI = axios.create({
 });
 
 tidyTrekAPI.interceptors.request.use(
-	(config) => {
-		const token = getToken();
+	async (config) => {
+		const token = await getToken();
 		config.headers['Authorization'] = `Bearer ${token || ''}`;
 		return config;
 	},
@@ -26,12 +27,24 @@ tidyTrekAPI.interceptors.request.use(
 	},
 );
 
-const getToken = () => {
+const getToken = async () => {
 	// Fetch token stored in localStorage by Supabase
 	const storageKey = import.meta.env.VITE_STORAGE_KEY;
 	const sessionDataString = localStorage.getItem(storageKey);
 	const sessionData = JSON.parse(sessionDataString || 'null');
-	const token = sessionData?.access_token;
+	const isExpired = getExpiration(sessionData?.expires_at);
+	// refetch new token if expired before request
+	if (isExpired) {
+		const {
+			data: { session },
+		} = await supabase.auth.getSession();
+		return session?.access_token;
+	} else {
+		return sessionData?.access_token;
+	}
+};
 
-	return token;
+const getExpiration = (expiresAt: number) => {
+	const expires = expiresAt ? new Date(expiresAt * 1000) : null;
+	return expires ? expires < new Date() : '3';
 };
