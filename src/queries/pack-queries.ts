@@ -295,10 +295,11 @@ export const useMovePackCategoryMutation = () => {
 			prevIndex: number;
 			paramPackId: string | undefined;
 		}) => {
-			const { packCategoryId, prevIndex, newIndex } = categoryInfo;
+			const { packCategoryId, packId, prevIndex, newIndex } = categoryInfo;
 			return tidyTrekAPI.put(`/packs/categories/index/${packCategoryId}`, {
 				prevIndex,
 				newIndex,
+				packId,
 			});
 		},
 		onMutate: async (categoryInfo) => {

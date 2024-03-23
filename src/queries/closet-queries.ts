@@ -55,9 +55,8 @@ export const useMoveGearClosetItemMutation = () => {
 			const prevClosetList = queryClient.getQueryData(closetKeys.all);
 
 			queryClient.setQueryData(closetKeys.all, (old: any) => {
-				const { gearClosetList } = old;
-				const [item] = gearClosetList.splice(prevPackItemIndex, 1);
-				gearClosetList.splice(packItemIndex, 0, item);
+				const [item] = old.gearClosetList.splice(prevPackItemIndex, 1);
+				old.gearClosetList.splice(packItemIndex, 0, item);
 				return old;
 			});
 			return { prevClosetList };

@@ -37,11 +37,9 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		if (!destination) return;
 
 		const sameIndex = destination.index === source.index;
-		const sameCategory = destination.droppableId === source.droppableId;
+		if (sameIndex) return;
 
-		if (sameIndex && sameCategory) return;
 		const dragId = draggableId.replace(/\D/g, '');
-
 		moveGearClosetItem({
 			packItemId: dragId,
 			packItemIndex: destination.index,

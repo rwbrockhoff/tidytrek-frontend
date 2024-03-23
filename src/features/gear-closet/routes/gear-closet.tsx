@@ -11,8 +11,10 @@ import { searchMatch } from '@/utils';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
+
 	const { data } = useGetGearClosetQuery();
 	const { gearClosetList } = data || { gearClosetList: [] };
+
 	const { data: packListData } = useGetPackListQuery();
 	const { packList } = packListData || { packList: [] };
 
@@ -22,9 +24,10 @@ export const GearCloset = () => {
 		searchMatch(searchInput, item.packItemName, 'i'),
 	);
 
-	const dragDisabled = searchInput.length ? true : false;
+	const isSearching = searchInput.length > 0;
+	const dragDisabled = isSearching ? true : false;
 	const listHasItems = filteredClosetList.length ? true : false;
-
+	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
 	return (
 		<main>
 			<UserViewContext.Provider value={true}>
@@ -49,7 +52,7 @@ export const GearCloset = () => {
 				</SearchContainer>
 
 				<GearClosetList
-					gearClosetList={filteredClosetList}
+					gearClosetList={listToDisplay}
 					packList={packList}
 					listHasItems={listHasItems}
 					dragDisabled={dragDisabled}
