@@ -72,8 +72,9 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
 					<Input
 						size="3"
-						value={packCategoryName || 'Category'}
+						value={packCategoryName}
 						name="packCategoryName"
+						placeholder="Category"
 						onChange={handleInput}
 						disabled={!userView}
 						// Show input background when user interacts

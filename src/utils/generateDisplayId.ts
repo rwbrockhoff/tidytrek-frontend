@@ -2,7 +2,8 @@ import Hashids from 'hashids';
 
 const hashids = new Hashids('tidytrekpack', 6);
 
-export const encode = (packId: number) => {
+export const encode = (packId: number | undefined) => {
+	if (packId === undefined) return '';
 	return hashids.encode(packId);
 };
 

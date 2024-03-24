@@ -2,14 +2,8 @@ import { Suspense, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLogoutMutation } from '@/queries/user-queries';
-import {
-	useGetPackListQuery,
-	useGetPackQuery,
-	useAddNewPackMutation,
-	useMovePackMutation,
-} from '@/queries/pack-queries';
+import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, lazyImport } from '@/utils';
-import { DragDropContext, type DropResult } from '@/components';
 import { SidebarButton } from './components/sidebar-button';
 import useCheckMobile from '@/hooks/use-check-mobile';
 import { Heading, Separator } from '@radix-ui/themes';
@@ -34,40 +28,30 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const { packId: paramPackId } = useParams();
 	const { user } = useGetAuth();
 
-	const { data: packData } = useGetPackQuery(paramPackId);
 	const { data: packListData } = useGetPackListQuery();
 
-	const { mutate: movePack } = useMovePackMutation();
-	const addNewPackData = useAddNewPackMutation();
-	const { mutate: addPack } = addNewPackData;
 	const { mutate: logout } = useLogoutMutation();
 
 	const packList = packListData?.packList || [];
-	const currentPackId = packData?.pack?.packId;
 	const defaultPackId = packListData?.packList[0].packId;
-	const encodedId = defaultPackId ? encode(defaultPackId) : '';
+
+	const encodedId = paramPackId || encode(defaultPackId);
+	const { data: packData } = useGetPackQuery(encodedId);
+
+	const defaultPackUrl = `/pack/${encodedId}`;
+	const currentPackId = packData?.pack?.packId;
 
 	const isMobile = useCheckMobile();
 
 	useEffect(() => {
-		// subscribe to new pack created event, redirect to new pack
-		if (addNewPackData.isSuccess && addNewPackData.data) {
-			if ('pack' in addNewPackData.data && paramPackId) {
-				const { packId } = addNewPackData.data.pack;
-				const encodedId = encode(packId);
-				if (paramPackId !== encodedId) {
-					addNewPackData.reset();
-					navigate(`/pack/${encodedId}`);
-				}
-			}
-		}
-	}, [addNewPackData, paramPackId, navigate]);
-
-	useEffect(() => {
+		const { pathname } = location;
+		const isNotDisplayingPack = currentPackId && !paramPackId;
 		// subscribe to user clicking on a different pack
-		if (location.pathname.includes('pack') && currentPackId && !paramPackId) {
+		// subscribe to user loading default dashboard and load packId in url
+		if ((pathname.includes('pack') || pathname === '/') && isNotDisplayingPack) {
 			const encodedId = encode(currentPackId);
-			navigate(`/pack/${encodedId}`);
+			return navigate(`/pack/${encodedId}`);
+			// query disabled until ID, so this does not fetch twice
 		}
 	}, [currentPackId]);
 
@@ -76,32 +60,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		if (isMobile && !showSidebar) onToggle();
 	}, [location.pathname]);
 
-	const handleGetPack = async (packId: number) => {
-		const { pathname } = location;
-		if (currentPackId === undefined) navigate('/');
-		const encodedId = encode(packId);
-		if (packId !== currentPackId) navigate(`/pack/${encodedId}`);
-		if (pathname !== '/') navigate(`/pack/${encodedId}`);
-	};
-
-	const handleAddPack = () => addPack();
-
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
 		await google.accounts.id.disableAutoSelect();
 		logout();
-	};
-
-	const handleOnDragEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
-		movePack({
-			packId: draggableId,
-			newIndex: destination.index,
-			prevIndex: source.index,
-		});
 	};
 
 	return (
@@ -109,7 +71,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			<SidebarContainer>
 				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
-				<Link to={`/pack/${encodedId}`} onClick={() => isMobile && onToggle}>
+				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
 					<Heading as="h1" mb="1">
 						tidytrek
 					</Heading>
@@ -128,13 +90,11 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<StyledSeperator my="4" />
 
-					<DragDropContext onDragEnd={handleOnDragEnd}>
-						<PackList
-							packList={packList}
-							getPack={handleGetPack}
-							addPack={handleAddPack}
-						/>
-					</DragDropContext>
+					<Heading as="h3" size="5" mb="2">
+						<Link to={defaultPackUrl}>Packs</Link>
+					</Heading>
+
+					<PackList currentPackId={currentPackId} packList={packList} />
 				</Suspense>
 			</SidebarContainer>
 		</StyledSidebar>

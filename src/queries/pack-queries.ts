@@ -18,28 +18,20 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 	);
 };
 
-export const useGetDefaultPackQuery = () =>
-	useQuery<InitialState>({
-		queryKey: packKeys.all,
-		queryFn: () => tidyTrekAPI.get('/packs').then((res) => res.data),
-	});
-
 export const useGetPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
 	return useQuery<InitialState>({
 		queryKey: packKeys.packId(decodedId as number | null),
-		queryFn: () => {
-			if (packId) {
-				const decodedId = decode(packId);
-				return tidyTrekAPI.get(`/packs/${decodedId}`).then((res) => res.data);
-			} else return tidyTrekAPI.get('/packs').then((res) => res.data);
-		},
+		enabled: packId ? true : false,
+		staleTime: 1000,
+		queryFn: () => tidyTrekAPI.get(`/packs/${decodedId}`).then((res) => res.data),
 	});
 };
 
 export const useGetPackListQuery = () => {
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,
+		staleTime: 1000,
 		queryFn: () => tidyTrekAPI.get('/packs/pack-list').then((res) => res.data),
 	});
 };
@@ -146,8 +138,8 @@ export const useDeletePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/${packId}`),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, packId) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
@@ -158,10 +150,9 @@ export const useDeletePackAndItemsMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/items/${packId}`),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, packId) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
-			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
@@ -173,8 +164,8 @@ export const useAddNewPackItemMutation = () => {
 			const { packId, packCategoryId } = packItem;
 			return tidyTrekAPI.post('/packs/pack-items', { packId, packCategoryId });
 		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, { packId }) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 		},
 	});
 };
@@ -186,8 +177,8 @@ export const useEditPackItemMutation = () => {
 			const { packItemId, packItem } = packInfo;
 			return tidyTrekAPI.put(`/packs/pack-items/${packItemId}`, packItem);
 		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, { packItem }) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packItem.packId) });
 		},
 	});
 };
@@ -231,8 +222,8 @@ export const useMovePackItemMutation = () => {
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, data) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(data.packId) });
 		},
 	});
 };
@@ -263,8 +254,8 @@ export const useAddPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packId: number) => tidyTrekAPI.post(`/packs/categories/${packId}`),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, packId) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
@@ -339,8 +330,8 @@ export const useMovePackCategoryMutation = () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, { packId }) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 		},
 	});

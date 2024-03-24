@@ -1,5 +1,6 @@
 import { GripIcon } from '@/components/ui';
 import { PackListItem as ListItem } from '@/types/pack-types';
+import { Text } from '@radix-ui/themes';
 import styled from 'styled-components';
 
 type PackListItemProps = {
@@ -9,30 +10,36 @@ type PackListItemProps = {
 
 export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 	return (
-		<div key={pack.packId} onClick={() => onClick(pack.packId)}>
-			<Text>
+		<ItemContainer key={pack.packId} onClick={() => onClick(pack.packId)}>
+			<StyledText size="3">
 				<GripContainer>
 					<GripIcon />
 				</GripContainer>
 				{pack.packName}
-			</Text>
-		</div>
+			</StyledText>
+		</ItemContainer>
 	);
 };
 
-const Text = styled.p`
+const ItemContainer = styled.div`
+	padding: 0.5em 0;
 	cursor: pointer;
-	margin: 1em 0;
+	&:hover svg {
+		opacity: 0.6;
+	}
+`;
+
+const StyledText = styled(Text)`
 	position: relative;
 	opacity: 1;
 	svg {
 		opacity: 0;
-	}
-	&:hover {
-		opacity: 0.8;
-		svg {
+		&:hover {
 			opacity: 0.6;
 		}
+	}
+	&:hover {
+		filter: var(--hover-dark);
 	}
 	${({ theme: t }) =>
 		t.mx.mobile(`
@@ -41,9 +48,9 @@ const Text = styled.p`
 `;
 
 const GripContainer = styled.span`
-	height: 1.5em;
+	height: 1em;
 	position: absolute;
-	left: -1.8em;
+	left: -2em;
 	padding: 0 0.5em;
 	cursor: grab;
 `;

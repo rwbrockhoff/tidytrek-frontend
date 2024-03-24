@@ -15,6 +15,7 @@ import { DragDropContext, Drop, type DropResult } from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
 import { getThemeAsGuest } from '@/styles/theme/theme-utils';
 import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
+import { Flex } from '@radix-ui/themes';
 
 type DashboardProps = {
 	isAuthenticated: boolean;
@@ -81,7 +82,9 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</DragDropContext>
 
 					{userView && (
-						<AddCategoryButton onClick={() => packId && addCategory(packId)} />
+						<Flex justify="center" width="100%">
+							<AddCategoryButton onClick={() => packId && addCategory(packId)} />
+						</Flex>
 					)}
 
 					{isGuestView && (
