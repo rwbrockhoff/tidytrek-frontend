@@ -6,12 +6,12 @@ import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link, Segment, Message } from '@/components/ui';
 import { FormContainer } from '../form-components';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
-import { z, usernameSchema, trailNameSchema } from '@/schemas';
+import { z, flexibleUsernameSchema, trailNameSchema } from '@/schemas';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
 import { useMutationErrors, useZodError } from '@/hooks';
 
 const formSchema = z.object({
-	username: usernameSchema,
+	username: flexibleUsernameSchema,
 	trailName: trailNameSchema,
 });
 

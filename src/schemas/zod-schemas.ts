@@ -7,15 +7,14 @@ const passwordRequirements =
 export const usernameSchema = z
 	.string()
 	.trim()
-	.min(2, {
-		message: 'Username must be at least 2 characters.',
+	.min(4, {
+		message: 'Username must be at least 4 characters.',
 	})
 	.max(20, { message: 'Username has a maximum of 20 characters.' })
 	.refine((val) => validateNoSpaces(val), {
 		message:
 			'Usernames cannot contain spaces. You can use _ or - if you would like instead.',
-	})
-	.or(z.literal(''));
+	});
 
 export const trailNameSchema = z
 	.string()
@@ -52,6 +51,21 @@ export const basicInputSchema = (inputName: string, max?: number) => {
 		.max(40 || max, { message: `${inputName} has a maximum of 40 characters.` })
 		.or(z.literal(''));
 };
+
+// todo: figure out to extend or add z.literal to existing username schema
+// WelcomeForm allows empty username input, ProfileSettings does not
+export const flexibleUsernameSchema = z
+	.string()
+	.trim()
+	.min(4, {
+		message: 'Username must be at least 4 characters.',
+	})
+	.max(20, { message: 'Username has a maximum of 20 characters.' })
+	.refine((val) => validateNoSpaces(val), {
+		message:
+			'Usernames cannot contain spaces. You can use _ or - if you would like instead.',
+	})
+	.or(z.literal(''));
 
 const validateNoSpaces = (input: string) => {
 	let filterSpaces = /^\S*$/;
