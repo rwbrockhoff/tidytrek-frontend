@@ -72,7 +72,9 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 							<Select.Group>
 								<Select.Label>Categories</Select.Label>
 								{categoryList.map((category, index) => (
-									<Select.Item value={`${category.value}`} key={category.key || index}>
+									<Select.Item
+										value={`${category.value || 'Default Category'}`}
+										key={category.key || index}>
 										{category.text}
 									</Select.Item>
 								))}

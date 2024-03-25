@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { UploadFile } from '@/components';
 import { Dimmer, Spinner } from '@/components/ui';
+import { defaultBannerPhoto } from '@/components/ui';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;
@@ -19,7 +20,10 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 		<BannerContainer
 			onMouseOver={() => setShowUploadMode(true)}
 			onMouseLeave={() => setShowUploadMode(false)}>
-			<BannerImage src={bannerPhotoUrl} alt="landscape profile banner photo" />
+			<BannerImage
+				src={bannerPhotoUrl || defaultBannerPhoto}
+				alt="landscape profile banner photo"
+			/>
 
 			<Spinner active={isPending} size="4" absoluteCenter />
 

@@ -31,17 +31,9 @@ export const useViewPackQuery = (packId: string | undefined) => {
 	});
 };
 
-export const useViewProfileQuery = (userId: string | undefined) => {
-	const decodedId = userId ? decode(userId) : null;
-	const decodedUserName = !decodedId ? userId : null;
-
+export const useViewProfileQuery = (username: string | undefined) => {
 	return useQuery<GuestProfileViewState>({
-		queryKey: guestKeys.packId(decodedId as number | null),
-		queryFn: () => {
-			const decodedUserId = userId && decode(userId);
-			return tidyTrekAPI
-				.get(`/guests/user/${decodedUserId}/${decodedUserName}`)
-				.then((res) => res.data);
-		},
+		queryKey: guestKeys.username(username),
+		queryFn: () => tidyTrekAPI.get(`/guests/user/${username}`).then((res) => res.data),
 	});
 };
