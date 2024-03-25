@@ -26,7 +26,7 @@ export const trailNameSchema = z
 	.max(20, { message: 'Trail name has a maximum of 20 characters.' })
 	.or(z.literal(''));
 
-export const emailSchema = z.string().email('Please provide a valid email.');
+export const emailSchema = z.string().trim().email('Please provide a valid email.');
 
 export const passwordSchema = z
 	.string()
@@ -43,6 +43,15 @@ export const passwordSchema = z
 			});
 		}
 	});
+
+export const basicInputSchema = (inputName: string, max?: number) => {
+	return z
+		.string()
+		.trim()
+		.min(2, { message: `${inputName} must be at least 2 characters.` })
+		.max(40 || max, { message: `${inputName} has a maximum of 40 characters.` })
+		.or(z.literal(''));
+};
 
 const validateNoSpaces = (input: string) => {
 	let filterSpaces = /^\S*$/;

@@ -1,21 +1,38 @@
 import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import styled from 'styled-components';
-import { Form, FormField, FormMessage, FormLabel } from '@radix-ui/react-form';
-import { TextField, TextArea, Heading, Text, Flex } from '@radix-ui/themes';
-import { Segment, SegmentGroup, WarningMessage } from '@/components/ui';
-import { Avatar } from '@/components/ui';
+import { Button, Flex } from '@radix-ui/themes';
+import { Form } from '@radix-ui/react-form';
+import { Message, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
+import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
-import { FormField as CustomFormField } from '@/components/ui';
+import { FormField, FormTextArea } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
-import { useAxiosErrorMessage } from '@/hooks/use-axios-error';
+import { useMutationErrors } from '@/hooks/use-axios-error';
+
+import { AvatarSettings } from './avatar-settings';
+
+import { useZodError } from '@/hooks';
 
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;
 	socialLinks: SocialLink[];
 };
+
+const maxLength = 250;
+
+const userBioSchema = z.string().trim().max(maxLength, {
+	message: `Woah there, partner. There's a 250 character limit to keep things tidy.`,
+});
+
+const formSchema = z.object({
+	username: usernameSchema,
+	userBio: userBioSchema,
+	trailName: basicInputSchema('Trail Name'),
+	userLocation: basicInputSchema('Location'),
+});
 
 export const ProfileForm = (props: ProfileFormProps) => {
 	const { profileInfo, socialLinks } = props;
@@ -28,16 +45,17 @@ export const ProfileForm = (props: ProfileFormProps) => {
 		trailName: '',
 	});
 
-	const { handlers, mutations } = useHandlers();
-	const { deleteProfilePhoto } = handlers;
 	const {
-		uploadProfilePhoto: {
-			mutate: uploadProfilePhoto,
-			isPending: isUploadingPhoto,
-			isError: isUploadError,
-		},
-		editProfile: { mutate: editProfile, error, isError },
-	} = mutations;
+		editProfile: { mutateAsync: editProfile, isSuccess, reset: resetEditProfileState },
+	} = useHandlers().mutations;
+
+	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+		'username',
+		'userBio',
+		'trailName',
+		'userLocation',
+	]);
 
 	useEffect(() => {
 		if (profileInfo) {
@@ -54,120 +72,85 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	const handleInput = (e: InputEvent | TextAreaEvent) => {
 		if (!isProfileChanged) setIsProfileChanged(true);
 		setFormInput(e, setUserInfo);
+		handleClearErrors(e);
+		resetEditProfileState();
 	};
 
-	const handleEditProfile = () => {
-		if (isProfileChanged) editProfile(userInfo);
+	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
+		if (formErrors[e.target.name] && formErrors[e.target.name].error)
+			resetFormErrors(e.target.name);
+		if (serverError.error) resetAxiosError();
+	};
+
+	const handleEditProfile = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		try {
+			const data = formSchema.safeParse(userInfo);
+			if (!data.success) {
+				const result = JSON.parse(data.error.message);
+				return updateFormErrors(result);
+			} else editProfile(userInfo);
+		} catch (err) {
+			updateAxiosError(err);
+		}
 	};
 
 	const { userBio, userLocation, username, trailName } = userInfo;
-
-	const isMaxLengthBio = userBio && userBio.length >= maxLength;
-
-	const errorMessage = isError && useAxiosErrorMessage(error);
+	const { profilePhotoUrl } = profileInfo || {};
 
 	return (
 		<SegmentGroup direction="column">
+			<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
 			<Segment>
-				<Heading as="h4" size="3" mb="4">
-					Profile Settings
-				</Heading>
-
-				<Flex direction="column" justify="center" width="max-content">
-					<Heading as="h5" size="3">
-						Avatar
-					</Heading>
-					<Text size="2" color="gray" mt="1" mb="4">
-						You can upload .jpg or .png photos.
-					</Text>
-					<Avatar
-						src={profileInfo?.profilePhotoUrl}
-						size="big"
-						uploadEnabled
-						onDelete={deleteProfilePhoto}
-						isPending={isUploadingPhoto}
-						onUpload={uploadProfilePhoto}
+				<StyledForm onSubmit={handleEditProfile}>
+					<FormField
+						name="username"
+						label="Username"
+						value={username}
+						onChange={handleInput}
+						placeholder="Username"
+						error={formErrors.username}
 					/>
 
-					{isUploadError && (
-						<WarningMessage
-							message="We had an error uploading your photo. Oops!"
-							mt="4"
-							mr="auto"
-						/>
-					)}
-				</Flex>
-			</Segment>
-			<Segment>
-				<StyledForm onBlur={handleEditProfile}>
-					<FormField name="username" style={{ marginBottom: '1em' }}>
-						<FormLabel>
-							<Text size="2" weight="bold" ml="2" color="gray">
-								Username
-							</Text>
-						</FormLabel>
-
-						<TextField.Input
-							name="username"
-							data-invalid={isError}
-							value={username}
-							onChange={handleInput}
-							radius="small"
-							size="3"
-							mb="0"
-							placeholder="Username"
-						/>
-
-						{isError && (
-							<FormMessage>
-								<Text ml="2" color="tomato" weight="light">
-									{errorMessage}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
-
-					<CustomFormField
+					<FormField
 						name="trailName"
 						value={trailName}
 						placeholder="Trail Name"
 						onChange={handleInput}
 						label="Trail Name"
+						error={formErrors.trailName}
 					/>
 
-					<CustomFormField
+					<FormField
 						name="userLocation"
 						value={userLocation}
 						placeholder="Durango, Colorado"
 						onChange={handleInput}
 						label="Based In"
+						error={formErrors.userLocation}
 					/>
 
-					<FormField name="userBio">
-						<FormLabel>
-							<Text size="2" weight="bold" ml="2" color="gray">
-								Profile Bio
-							</Text>
-						</FormLabel>
+					<FormTextArea
+						name="userBio"
+						value={userBio}
+						placeholder="Bio for your profile"
+						onChange={handleInput}
+						maxLength={maxLength}
+						error={formErrors.userBio}
+					/>
 
-						<TextArea
-							name="userBio"
-							value={userBio}
-							size="3"
-							mb="3"
-							maxLength={maxLength}
-							placeholder="Bio for your profile"
-							onChange={handleInput}
-						/>
+					{serverError.error && (
+						<Message messageType="error" text={serverError.message} />
+					)}
 
-						{isMaxLengthBio && (
-							<FormMessage>
-								<Text mt="4" color="tomato" weight="light">
-									{warningMessage}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
+					{isSuccess && <Message messageType="success" text="Profile updated!" />}
+
+					<Flex justify="end">
+						<Button mt="4" type="submit" disabled={!isProfileChanged}>
+							<SaveIcon />
+							Save Profile
+						</Button>
+					</Flex>
 				</StyledForm>
 			</Segment>
 			<Segment>
@@ -184,7 +167,3 @@ const StyledForm = styled(Form)`
 		width: 100%;
 	`)}
 `;
-
-// defaults
-const maxLength = 250;
-const warningMessage = `Woah there, partner. There's a 250 character limit to keep things tidy.`;
