@@ -2,6 +2,7 @@ import { PackItem } from '../types/pack-types';
 
 export const mockPackItems: PackItem[] = [
 	{
+		packId: 1,
 		packItemId: 1,
 		packCategoryId: 1,
 		packItemName: 'Backpack',
@@ -17,6 +18,7 @@ export const mockPackItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 2,
 		packCategoryId: 1,
 		packItemName: '',
@@ -32,6 +34,7 @@ export const mockPackItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 3,
 		packCategoryId: 1,
 		packItemName: '',
@@ -47,6 +50,7 @@ export const mockPackItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 4,
 		packCategoryId: 1,
 		packItemName: '',
@@ -65,6 +69,7 @@ export const mockPackItems: PackItem[] = [
 
 export const mockPackItemsWithMultipleItems: PackItem[] = [
 	{
+		packId: 1,
 		packItemId: 1,
 		packCategoryId: 1,
 		packItemName: 'Backpack',
@@ -80,6 +85,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 2,
 		packCategoryId: 1,
 		packItemName: '',
@@ -95,6 +101,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 3,
 		packCategoryId: 1,
 		packItemName: '',
@@ -110,6 +117,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		packItemPrice: 0,
 	},
 	{
+		packId: 1,
 		packItemId: 4,
 		packCategoryId: 1,
 		packItemName: '',
