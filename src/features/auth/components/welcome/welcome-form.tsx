@@ -1,31 +1,54 @@
-import { type WelcomeFormData, type FormErrors } from '../../types/auth-types';
-import { type FormError, type InputEvent } from '@/types/form-types';
+import { type WelcomeFormData } from '../../types/auth-types';
+import { type InputEvent } from '@/types/form-types';
 import { type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link, Segment, Message } from '@/components/ui';
 import { FormContainer } from '../form-components';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
+import { z, usernameSchema, trailNameSchema } from '@/schemas';
+import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
+import { useMutationErrors, useZodError } from '@/hooks';
 
-type WelcomeFormProps = {
-	formErrors: FormErrors;
-	serverError: FormError;
-	resetFormErrors: (inputName?: string) => void;
-	isPending: boolean;
-	saveUsername: (formData: WelcomeFormData) => void;
-};
+const formSchema = z.object({
+	username: usernameSchema,
+	trailName: trailNameSchema,
+});
 
-export const WelcomeForm = (props: WelcomeFormProps) => {
-	const { resetFormErrors, formErrors, serverError, isPending, saveUsername } = props;
+export const WelcomeForm = () => {
+	const navigate = useNavigate();
+	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 
-	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+		'username',
+		'trailName',
+	]);
+
+	const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = Object.fromEntries(new FormData(e.currentTarget)) as WelcomeFormData;
-		saveUsername(data);
+		// validate form data
+		const formData = Object.fromEntries(new FormData(e.currentTarget)) as WelcomeFormData;
+		const data = formSchema.safeParse(formData);
+		if (!data.success) {
+			const result = JSON.parse(data.error.message);
+			return updateFormErrors(result);
+		}
+		// allow empty input and navigate to dashboard
+		const { username, trailName } = formData;
+		if (!username && !trailName) navigate('/');
+		try {
+			await saveUsername(formData);
+			navigate('/');
+		} catch (error) {
+			// catch + display errors (already taken username)
+			updateAxiosError(error);
+		}
 	};
 
 	const handleClearErrors = (e: InputEvent) => {
 		if (formErrors[e.target.name].error) resetFormErrors(e.target.name);
-		if (serverError.error) resetFormErrors();
+		if (serverError.error) resetAxiosError();
 	};
 
 	return (

@@ -6,14 +6,20 @@ const passwordRequirements =
 
 export const usernameSchema = z
 	.string()
+	.trim()
 	.min(2, {
 		message: 'Username must be at least 2 characters.',
 	})
 	.max(20, { message: 'Username has a maximum of 20 characters.' })
+	.refine((val) => validateNoSpaces(val), {
+		message:
+			'Usernames cannot contain spaces. You can use _ or - if you would like instead.',
+	})
 	.or(z.literal(''));
 
 export const trailNameSchema = z
 	.string()
+	.trim()
 	.min(2, {
 		message: 'Trail name must be at least 2 characters.',
 	})
@@ -24,6 +30,7 @@ export const emailSchema = z.string().email('Please provide a valid email.');
 
 export const passwordSchema = z
 	.string()
+	.trim()
 	.min(8, {
 		message: passwordRequirements,
 	})
@@ -36,3 +43,9 @@ export const passwordSchema = z
 			});
 		}
 	});
+
+const validateNoSpaces = (input: string) => {
+	let filterSpaces = /^\S*$/;
+	const regex = new RegExp(filterSpaces);
+	return regex.test(input);
+};
