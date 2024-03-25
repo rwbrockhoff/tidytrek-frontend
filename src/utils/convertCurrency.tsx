@@ -3,6 +3,7 @@ export const convertCurrency = (price: number, currency: string = 'USD') => {
 		style: 'currency',
 		currency,
 	});
-
-	return currencyConverter.format(price);
+	const isInvalid = isNaN(price);
+	if (isInvalid) return price;
+	else return currencyConverter.format(price);
 };

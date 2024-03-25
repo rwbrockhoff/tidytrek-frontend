@@ -33,8 +33,6 @@ export const PriceCell = (props: PriceCellProps) => {
 	return (
 		<Table.Cell
 			align="center"
-			onMouseOver={toggleToEdit}
-			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}
 			style={{ paddingLeft: '15px' }}>
