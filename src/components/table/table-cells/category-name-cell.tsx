@@ -95,8 +95,8 @@ const HeaderCell = styled(Table.ColumnHeaderCell)`
 	overflow: visible;
 	${({ theme: t }) =>
 		t.mx.mobile(`
-			display: inline-flex;
 			flex: 1;
+			height: fit-content;
 		`)}
 `;
 

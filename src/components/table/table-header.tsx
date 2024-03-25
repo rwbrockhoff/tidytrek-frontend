@@ -78,6 +78,11 @@ const deleteCategoryMessage =
 const StyledHeader = styled(Table.Header)<{ $borderColor: string }>`
 	vertical-align: middle;
 	border-top: 3px solid ${(props) => props.theme.mx.getThemeColor(props.$borderColor)};
+	& th {
+		height: 55px;
+		box-shadow: none;
+		border-bottom: 1px solid var(--gray-4);
+	}
 `;
 
 const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
@@ -86,7 +91,7 @@ const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
 	${({ theme: t }) =>
 		t.mx.mobile(`
 		opacity: 1;
-		display: flex !important;
+		display: flex;
 	`)}
 `;
 
@@ -95,7 +100,7 @@ export const HeaderCell = styled(Table.ColumnHeaderCell)<{ $paddingLeft?: string
 	vertical-align: middle;
 	${({ theme: t }) =>
 		t.mx.mobile(`
-			display: none !important;
+			display: none;
 		`)}
 `;
 

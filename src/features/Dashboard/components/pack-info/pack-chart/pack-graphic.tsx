@@ -79,6 +79,7 @@ const OuterPanel = styled(Panel)<{ $display: boolean }>`
 			max-height: ${props.$display ? '150vh' : 0};
 			overflow: hidden;
 			flex-direction: column-reverse;
+			margin-bottom: ${props.$display ? '3em' : 0};
 	`)}
 `;
 
@@ -92,6 +93,7 @@ const ChartPanel = styled(Panel)`
 			width: 75vw;
 			margin-left: 0;
 			margin-bottom: 25px;
+			
 	`)}
 `;
 

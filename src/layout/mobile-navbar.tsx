@@ -18,7 +18,6 @@ export const MobileNavbar = ({ onClick }: { onClick: () => void }) => {
 
 const Header = styled.header`
 	display: none;
-	${({ theme: t }) => t.mx.mobile(`display: flex`)}
 	${({ theme: t }) => t.mx.themeBgColor('tidyPrimary', 'tidy')}
 	color: white;
 	padding: 2.5em 2em;
@@ -31,6 +30,12 @@ const Header = styled.header`
 	button {
 		margin-left: auto !important;
 	}
+	// width 90% for Radix scaling
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			display: flex;
+			width: 90%;
+	`)}
 `;
 
 const MenuButton = styled(Button)`

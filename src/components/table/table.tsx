@@ -39,4 +39,21 @@ const StyledTable = styled(RadixTable.Root)`
 		border-top: 3px solid var(--jade-9);
 		/* box-shadow: inset 0px -4px 0px -2px var(--gray-3); */
 	}
+
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			col {
+				width: 100%;
+			}
+			tbody tr {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				min-height: 60px;
+				td {
+					height: 60px;
+				}
+			}
+
+		`)}
 `;

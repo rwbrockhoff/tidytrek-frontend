@@ -22,7 +22,7 @@ export const TableFooter = ({
 
 	return (
 		<StyledFooter>
-			<StyledRow>
+			<Table.Row>
 				<Table.Cell colSpan={hasItems ? 3 : 6}>
 					{userView && (
 						<Button
@@ -45,7 +45,7 @@ export const TableFooter = ({
 					</>
 				)}
 				{userView && <Table.Cell></Table.Cell>}
-			</StyledRow>
+			</Table.Row>
 		</StyledFooter>
 	);
 };
@@ -61,30 +61,7 @@ export const StyledFooter = styled.tfoot`
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			font-size: 1.1em;
-		`)}
-`;
-
-const StyledRow = styled(Table.Row)`
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			display: flex !important;
-			position: relative;
-			height: 50px;
-			padding-top: 10px;
-			td:first-child {
-				position: absolute;
-				top: 50px;
-				left: -10px;
-			}
-			td:last-child {
-				display: none !important;
-			}
-			td {
-				border: none !important;
-			}
-			td:not(:first-child) {
-				height: 40px;
-			}
+			display: flex;
 		`)}
 `;
 

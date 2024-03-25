@@ -15,15 +15,13 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 	if (header) {
 		return (
 			<StyledHeaderCell justify="center">
-				<StyledFlex style={{ opacity: display ? 1 : 1 }}>
-					{display && children}
-				</StyledFlex>
+				<StyledFlex $display={display}>{children}</StyledFlex>
 			</StyledHeaderCell>
 		);
 	} else {
 		return (
 			<Table.Cell valign="middle">
-				<StyledFlex align="center" style={{ opacity: display ? 1 : 0 }}>
+				<StyledFlex align="center" $display={display}>
 					{children}
 				</StyledFlex>
 			</Table.Cell>
@@ -34,18 +32,14 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 const StyledHeaderCell = styled(Table.ColumnHeaderCell)`
 	${({ theme: t }) =>
 		t.mx.mobile(`
-			display: inline-flex;
-			border-radius: 0 !important;
-			width: fit-content;
-			.icon {
-				margin-right: 10px !important;
-			}
+			width: 25%;	
 	`)}
 `;
 
-const StyledFlex = styled(Flex)`
+const StyledFlex = styled(Flex)<{ $display: boolean }>`
 	height: 100%;
 	justify-content: space-around;
+	opacity: ${({ $display }) => ($display ? 1 : 0)};
 	svg {
 		cursor: pointer;
 		color: var(--gray-9);
@@ -53,6 +47,11 @@ const StyledFlex = styled(Flex)`
 			filter: brightness(80%);
 		}
 	}
+	${({ theme: t }) =>
+		t.mx.mobile(`
+			opacity: 1;
+			width: 100%;
+	`)}
 `;
 
 type MobileToggleProps = {

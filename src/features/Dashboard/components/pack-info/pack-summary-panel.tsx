@@ -12,7 +12,7 @@ import {
 type PackSummaryPanelProps = {
 	totalWeight: number;
 	descriptivePackWeight: { baseWeight: string; consumables: string; wornWeight: string };
-	totalPackPrice: string;
+	totalPackPrice: string | number;
 };
 
 export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
