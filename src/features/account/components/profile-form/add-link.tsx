@@ -55,12 +55,11 @@ export const AddLink = () => {
 					<Popover.Content side="top" style={{ width: '60%' }}>
 						<Flex wrap="wrap">
 							{Object.keys(socialMediaUI).map((key, index) => {
-								const { socialName, color, icon } = socialMediaUI[key];
+								const { socialName, icon } = socialMediaUI[key];
 								return (
 									<SocialButton
 										key={index}
 										socialName={socialName}
-										color={color}
 										icon={icon}
 										onClick={handleChangeButton}
 									/>

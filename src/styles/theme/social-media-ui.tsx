@@ -13,7 +13,7 @@ import { FaPatreon as PatreonIcon } from 'react-icons/fa';
 const socialMediaUI: SocialObject = {
 	custom: {
 		socialName: 'custom',
-		color: 'grey',
+		color: 'var(--slate-9)',
 		icon: <LinkIcon />,
 	},
 	facebook: { socialName: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },

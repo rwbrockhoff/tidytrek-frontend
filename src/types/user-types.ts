@@ -16,6 +16,16 @@ export type RegisterUser = {
 	avatarUrl?: string | null;
 };
 
+// used for google login to gracefully handle
+// non-registered users "signing up"
+export type LoginUser = {
+	email: string;
+	userId: string;
+	firstName?: string;
+	lastName?: string;
+	avatarUrl?: string | null;
+};
+
 export type RegisterUserFormData = {
 	firstName: string;
 	lastName: string;

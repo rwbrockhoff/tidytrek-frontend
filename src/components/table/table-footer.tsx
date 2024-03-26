@@ -6,7 +6,7 @@ import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 type TableFooterProps = {
 	itemQuantity: number;
 	weight: number;
-	price: string;
+	price: string | number;
 	handleAddItem: () => void;
 };
 

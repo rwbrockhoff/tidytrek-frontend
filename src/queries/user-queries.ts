@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type RegisterUser, type User } from '../types/user-types';
+import { LoginUser, type RegisterUser, type User } from '../types/user-types';
 import { type Settings } from '../types/settings-types';
 
 type InitialState = {
@@ -19,8 +19,7 @@ export const useGetAuthStatusQuery = () =>
 export const useLoginMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (info: { email: string; userId: string }) =>
-			tidyTrekAPI.post('/auth/login', info),
+		mutationFn: (info: LoginUser) => tidyTrekAPI.post('/auth/login', info),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},

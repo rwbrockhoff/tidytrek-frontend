@@ -1,9 +1,11 @@
+import { type Session, type User } from '@supabase/supabase-js';
 import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import supabase from '@/api/supabaseClient';
 import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
 import useCheckMobile from '@/hooks/use-check-mobile';
+
 declare const google: any;
 
 type GoogleAuthProps = {
@@ -24,13 +26,27 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 		isSuccess: isRegisterSuccess,
 	} = useRegisterMutation();
 
-	const { mutate: loginUser, isError: isLoginError } = useLoginMutation();
+	const {
+		mutate: loginUser,
+		isError: isLoginError,
+		isSuccess: isLoginSuccess,
+		data: loginData,
+	} = useLoginMutation();
 
 	useEffect(() => {
-		// subscribe to success/error for auth requests
+		// subscribe to register mutation
 		if (isRegisterSuccess) navigate('/welcome');
-		if (isRegisterError || isLoginError) updateServerError(generalErrorMessage);
+		if (isRegisterError) updateServerError(generalErrorMessage);
 	}, [isRegisterSuccess]);
+
+	useEffect(() => {
+		// subscribe to login mutation
+		if (isLoginSuccess) {
+			const { data } = loginData;
+			if (data?.newUser) navigate('/welcome');
+		}
+		if (isLoginError) updateServerError(generalErrorMessage);
+	}, [isLoginSuccess]);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'test') return;
@@ -49,6 +65,19 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 		}
 	}, [google_button.current]);
 
+	const createUserInfo = (data: { user: User; session: Session }) => {
+		const { email, avatar_url, full_name } = data?.user?.user_metadata;
+		const splitName = full_name.split(' ');
+		const resizedPhoto = resizeGoogleAvatar(avatar_url);
+		return {
+			userId: data?.user?.id,
+			email,
+			firstName: splitName[0] || '',
+			lastName: splitName[1] || '',
+			avatarUrl: resizedPhoto,
+		};
+	};
+
 	const handleGoogleAuth = async (response: unknown, error: unknown) => {
 		// handle error from google auth flow
 		if (error) return updateServerError(googleErrorMessage);
@@ -60,23 +89,12 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 		});
 		// handle supabase error
 		if (supaError || !data.session) return updateServerError(generalErrorMessage);
-		else {
-			// continue register/sign in process
-			const userId = data?.user?.id;
-			const userInfo = data?.user?.user_metadata;
-			const { email, avatar_url, full_name } = userInfo;
-			if (context === 'signup') {
-				const splitName = full_name.split(' ');
-				const resizedPhoto = resizeGoogleAvatar(avatar_url);
-				registerUser({
-					userId,
-					email,
-					firstName: splitName[0] || '',
-					lastName: splitName[1] || '',
-					avatarUrl: resizedPhoto,
-				});
-			} else loginUser({ userId, email });
-		}
+
+		// continue register/sign in process
+		const user = createUserInfo(data);
+		if (context === 'signup') {
+			registerUser(user);
+		} else loginUser(user);
 	};
 
 	return (

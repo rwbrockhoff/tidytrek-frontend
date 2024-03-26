@@ -5,12 +5,9 @@ import { PlusIcon } from '@/components/ui';
 import { Button } from '@radix-ui/themes';
 import { SubText } from '@/components/ui/TidyUI';
 import { AddLink } from './add-link';
-import { useHandlers } from '../../hooks/use-profile-handlers';
 import { SocialLinkList } from '@/components';
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
-	const { deleteSocialLink } = useHandlers().handlers;
-
 	const [showLinks, setShowLinks] = useState(false);
 
 	return (
@@ -20,11 +17,7 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 				Add links that others can see on your profile. 4 link maximum to keep things tidy.
 			</SubText>
 
-			<SocialLinkList
-				socialLinks={socialLinks}
-				deleteEnabled
-				onDelete={deleteSocialLink}
-			/>
+			<SocialLinkList socialLinks={socialLinks} deleteEnabled />
 
 			{!showLinks && (
 				<Button variant="outline" size="3" my="4" onClick={() => setShowLinks(true)}>
