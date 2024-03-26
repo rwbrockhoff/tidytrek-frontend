@@ -1,30 +1,36 @@
 import axios, { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 // return nested axios error or a default error message
-export const useAxiosErrorMessage = (error: Error | null) => {
-	const defaultError = 'Oops! There was an error.';
-	if (axios.isAxiosError(error)) {
-		return error?.response ? error.response.data?.error : defaultError;
-	} else {
-		return defaultError;
-	}
+export const useAxiosErrorMessage = (error: Error | unknown | null) => {
+	return useMemo(() => {
+		const defaultError = 'Oops! There was an error.';
+		if (axios.isAxiosError(error)) {
+			return error?.response ? error.response.data?.error : defaultError;
+		} else {
+			return defaultError;
+		}
+	}, [error]);
 };
 
 export const useAxiosErrorStatus = (error: Error | null) => {
-	if (axios.isAxiosError(error)) {
-		return error?.response ? error.response?.status : null;
-	} else return null;
+	return useMemo(() => {
+		if (axios.isAxiosError(error)) {
+			return error?.response ? error.response?.status : null;
+		} else return null;
+	}, [error]);
 };
 
 export const isAxiosError = (error: unknown): error is AxiosError =>
-	axios.isAxiosError(error);
+	useMemo(() => axios.isAxiosError(error), [error]);
 
 export const useMutationError = (error: unknown, cb: (message: string) => void) => {
-	if (isAxiosError(error)) {
-		const errorMessage = useAxiosErrorMessage(error);
-		return cb(errorMessage);
-	} else return cb(defaultErrorMessage);
+	return useMemo(() => {
+		if (isAxiosError(error)) {
+			const errorMessage = useAxiosErrorMessage(error);
+			return cb(errorMessage);
+		} else return cb(defaultErrorMessage);
+	}, [error]);
 };
 
 export const useMutationErrors = () => {

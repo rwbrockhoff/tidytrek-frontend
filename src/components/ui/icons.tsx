@@ -9,7 +9,10 @@ export {
 	FaCheck as CheckIcon,
 	FaLink as LinkIcon,
 	FaRegSave as SaveIcon,
+	FaTree as TreeIcon,
 } from 'react-icons/fa';
+export { IoMdRefresh as RefreshIcon } from 'react-icons/io';
+export { RiInformationFill as InfoIcon } from 'react-icons/ri';
 export { TfiMenu as SidebarIcon } from 'react-icons/tfi';
 export { BsFillSendFill as SendIcon } from 'react-icons/bs';
 export { FaSearch as SearchIcon } from 'react-icons/fa';

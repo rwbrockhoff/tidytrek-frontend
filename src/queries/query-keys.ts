@@ -34,4 +34,5 @@ export const profileKeys = {
 
 export const profileSettingsKeys = {
 	all: [ProfileSettings] as const,
+	username: [ProfileSettings, 'username'] as const,
 };

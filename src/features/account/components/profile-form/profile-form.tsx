@@ -1,20 +1,28 @@
 import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import styled from 'styled-components';
-import { Button, Flex } from '@radix-ui/themes';
+import { Button, Flex, IconButton } from '@radix-ui/themes';
 import { Form } from '@radix-ui/react-form';
-import { Message, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
+import {
+	Message,
+	RefreshIcon,
+	SaveIcon,
+	Segment,
+	SegmentGroup,
+	Tooltip,
+} from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
 import { FormField, FormTextArea } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
-import { useMutationErrors } from '@/hooks/use-axios-error';
-
+import { useAxiosErrorMessage } from '@/hooks/use-axios-error';
 import { AvatarSettings } from './avatar-settings';
-
 import { useZodError } from '@/hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import { profileSettingsKeys } from '@/queries/query-keys';
+import { tidyTrekAPI } from '@/api/tidytrekAPI';
 
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;
@@ -36,6 +44,7 @@ const formSchema = z.object({
 
 export const ProfileForm = (props: ProfileFormProps) => {
 	const { profileInfo, socialLinks } = props;
+	const queryClient = useQueryClient();
 
 	const [isProfileChanged, setIsProfileChanged] = useState(false);
 	const [userInfo, setUserInfo] = useState({
@@ -46,10 +55,15 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	});
 
 	const {
-		editProfile: { mutateAsync: editProfile, isSuccess, reset: resetEditProfileState },
+		editProfile: {
+			mutate: editProfile,
+			isSuccess,
+			isError,
+			error,
+			reset: resetEditProfileState,
+		},
 	} = useHandlers().mutations;
 
-	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
 	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
 		'username',
 		'userBio',
@@ -79,25 +93,35 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
 		if (formErrors[e.target.name] && formErrors[e.target.name].error)
 			resetFormErrors(e.target.name);
-		if (serverError.error) resetAxiosError();
 	};
 
 	const handleEditProfile = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		try {
-			const data = formSchema.safeParse(userInfo);
-			if (!data.success) {
-				const result = JSON.parse(data.error.message);
-				return updateFormErrors(result);
-			} else editProfile(userInfo);
-		} catch (err) {
-			updateAxiosError(err);
+		const data = formSchema.safeParse(userInfo);
+		if (!data.success) {
+			const result = JSON.parse(data.error.message);
+			return updateFormErrors(result);
 		}
+		editProfile(userInfo);
+	};
+
+	const handleGenerateUsername = async () => {
+		const { username } = await generateUsername();
+		setUserInfo((prev) => ({ ...prev, username }));
+		setIsProfileChanged(true);
+	};
+
+	const generateUsername = async () => {
+		return await queryClient.fetchQuery({
+			queryKey: profileSettingsKeys.username,
+			queryFn: () =>
+				tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
+		});
 	};
 
 	const { userBio, userLocation, username, trailName } = userInfo;
 	const { profilePhotoUrl } = profileInfo || {};
-
+	const serverErrorMessage = useAxiosErrorMessage(error);
 	return (
 		<SegmentGroup direction="column">
 			<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
@@ -110,6 +134,16 @@ export const ProfileForm = (props: ProfileFormProps) => {
 						onChange={handleInput}
 						placeholder="Username"
 						error={formErrors.username}
+						tooltip={<Tooltip content={usernameInfo} />}
+						icon={
+							<IconButton
+								radius="medium"
+								size="1"
+								type="button"
+								onClick={handleGenerateUsername}>
+								<RefreshIcon />
+							</IconButton>
+						}
 					/>
 
 					<FormField
@@ -119,6 +153,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 						onChange={handleInput}
 						label="Trail Name"
 						error={formErrors.trailName}
+						tooltip={<Tooltip content={trailNameInfo} />}
 					/>
 
 					<FormField
@@ -133,15 +168,14 @@ export const ProfileForm = (props: ProfileFormProps) => {
 					<FormTextArea
 						name="userBio"
 						value={userBio}
+						label="Your Bio"
 						placeholder="Bio for your profile"
 						onChange={handleInput}
 						maxLength={maxLength}
 						error={formErrors.userBio}
 					/>
 
-					{serverError.error && (
-						<Message messageType="error" text={serverError.message} />
-					)}
+					{isError && <Message messageType="error" text={serverErrorMessage} />}
 
 					{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
@@ -167,3 +201,8 @@ const StyledForm = styled(Form)`
 		width: 100%;
 	`)}
 `;
+
+// defaults
+const usernameInfo =
+	'You can choose your own username or use our magical username generator. A username is required.';
+const trailNameInfo = 'Trail names are commonly bestowed upon someone during a thruhike.';

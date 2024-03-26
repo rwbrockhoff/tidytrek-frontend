@@ -60,7 +60,7 @@ export const flexibleUsernameSchema = z
 	.min(4, {
 		message: 'Username must be at least 4 characters.',
 	})
-	.max(20, { message: 'Username has a maximum of 20 characters.' })
+	.max(30, { message: 'Username has a maximum of 30 characters.' })
 	.refine((val) => validateNoSpaces(val), {
 		message:
 			'Usernames cannot contain spaces. You can use _ or - if you would like instead.',

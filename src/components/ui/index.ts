@@ -12,3 +12,4 @@ export * from './text';
 export * from './spinner';
 export * from './segment';
 export * from './form';
+export * from './tooltip';

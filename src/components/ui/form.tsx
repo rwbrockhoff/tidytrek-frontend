@@ -5,7 +5,15 @@ import {
 	FormMessage,
 	FormLabel,
 } from '@radix-ui/react-form';
-import { TextFieldInput, Text, TextArea, type Responsive } from '@radix-ui/themes';
+import {
+	TextFieldInput,
+	Text,
+	TextArea,
+	Flex,
+	Box,
+	type Responsive,
+} from '@radix-ui/themes';
+import styled from 'styled-components';
 
 type FormFieldProps = {
 	value?: string;
@@ -16,6 +24,8 @@ type FormFieldProps = {
 	label?: string;
 	size?: Responsive<'3' | '1' | '2'> | undefined;
 	width?: string;
+	tooltip?: React.ReactNode;
+	icon?: React.ReactNode;
 	onChange?: (e: InputEvent) => void;
 };
 
@@ -29,6 +39,8 @@ export const FormField = (props: FormFieldProps) => {
 		width = '100%',
 		label,
 		error,
+		tooltip,
+		icon,
 		onChange,
 	} = props;
 	const hasLabel = label !== undefined || '';
@@ -39,21 +51,30 @@ export const FormField = (props: FormFieldProps) => {
 				<FormLabel>
 					<Text size="2" weight="bold" ml="1" color="gray">
 						{label}
+						{tooltip}
 					</Text>
 				</FormLabel>
 			)}
-			<FormControl asChild>
-				<TextFieldInput
-					value={value}
-					data-invalid={error?.error}
-					onChange={onChange}
-					radius="small"
-					mb="3"
-					size={size}
-					type={type}
-					placeholder={placeholder}
-				/>
-			</FormControl>
+			<Box position="relative">
+				<FormControl asChild>
+					<TextFieldInput
+						value={value}
+						data-invalid={error?.error}
+						onChange={onChange}
+						radius="small"
+						mb="3"
+						size={size}
+						type={type}
+						placeholder={placeholder}
+					/>
+				</FormControl>
+				{icon && (
+					<IconContainer align="center" p="2">
+						{icon}
+					</IconContainer>
+				)}
+			</Box>
+
 			{error?.error && (
 				<FormMessage>
 					<Text mb="4" color="tomato" weight="light">
@@ -64,6 +85,13 @@ export const FormField = (props: FormFieldProps) => {
 		</RadixFormField>
 	);
 };
+
+const IconContainer = styled(Flex)`
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+`;
 
 type FormTextAreaProps = {
 	name: string;
