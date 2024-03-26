@@ -9,13 +9,13 @@ import { Tabs } from '@radix-ui/themes';
 export const AccountMenu = () => {
 	const navigate = useNavigate();
 	return (
-		<Tabs.Root defaultValue="account">
+		<Tabs.Root defaultValue="profile">
 			<Tabs.List size="2">
-				<Tabs.Trigger value="account" onClick={() => navigate('/account')}>
-					<Link link="/account">Account Settings</Link>
+				<Tabs.Trigger value="profile" onClick={() => navigate('/account')}>
+					<Link link="/account">Profile Settings</Link>
 				</Tabs.Trigger>
-				<Tabs.Trigger value="profile" onClick={() => navigate('/account/profile')}>
-					<Link link="/account/profile">Profile Settings</Link>
+				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings')}>
+					<Link link="/account/settings">Account Settings</Link>
 				</Tabs.Trigger>
 			</Tabs.List>
 		</Tabs.Root>

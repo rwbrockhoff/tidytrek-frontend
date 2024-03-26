@@ -52,10 +52,14 @@ export const protectedRoutes = [
 				children: [
 					{
 						path: '/account',
-						element: <AccountSettings />,
+						element: <ProfileSettings />,
 					},
-					{ path: '/account/profile', element: <ProfileSettings /> },
-					{ path: '/account/*', index: true, element: <Navigate to="/account" /> },
+					{ path: '/account/settings', element: <AccountSettings /> },
+					{
+						path: '/account/*',
+						index: true,
+						element: <Navigate to="/account" />,
+					},
 				],
 			},
 			{

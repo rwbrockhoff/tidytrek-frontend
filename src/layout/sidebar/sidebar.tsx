@@ -64,6 +64,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		await supabase.auth.signOut();
 		await google.accounts.id.disableAutoSelect();
 		logout();
+		navigate('/');
 	};
 
 	return (
