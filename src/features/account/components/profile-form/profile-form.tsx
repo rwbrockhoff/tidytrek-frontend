@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
-import { setFormInput } from '@/utils';
+import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { SocialLinks } from './social-links';
 import { FormField, FormTextArea } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
@@ -201,8 +201,3 @@ const StyledForm = styled(Form)`
 		width: 100%;
 	`)}
 `;
-
-// defaults
-const usernameInfo =
-	'You can choose your own username or use our magical username generator. A username is required.';
-const trailNameInfo = 'Trail names are commonly bestowed upon someone during a thruhike.';

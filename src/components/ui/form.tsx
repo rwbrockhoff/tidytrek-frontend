@@ -46,7 +46,7 @@ export const FormField = (props: FormFieldProps) => {
 	const hasLabel = label !== undefined || '';
 
 	return (
-		<RadixFormField name={name} style={{ width }}>
+		<RadixFormField name={name} style={{ width, textAlign: 'left' }}>
 			{hasLabel && (
 				<FormLabel>
 					<Text size="2" weight="bold" ml="1" color="gray">

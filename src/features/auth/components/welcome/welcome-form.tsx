@@ -1,22 +1,35 @@
-import { type WelcomeFormData } from '../../types/auth-types';
 import { type InputEvent } from '@/types/form-types';
-import { type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
-import { Link, Segment, Message } from '@/components/ui';
+import { Flex, Text, Heading, Button, IconButton } from '@radix-ui/themes';
+import { Link, Segment, FormField, Tooltip, RefreshIcon } from '@/components/ui';
 import { FormContainer } from '../form-components';
-import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
-import { z, flexibleUsernameSchema, trailNameSchema } from '@/schemas';
+import { Form } from '@radix-ui/react-form';
+import { z, usernameSchema, trailNameSchema } from '@/schemas';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
 import { useMutationErrors, useZodError } from '@/hooks';
+import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { profileSettingsKeys } from '@/queries/query-keys';
+import { tidyTrekAPI } from '@/api/tidytrekAPI';
 
 const formSchema = z.object({
-	username: flexibleUsernameSchema,
+	username: usernameSchema,
 	trailName: trailNameSchema,
 });
 
-export const WelcomeForm = () => {
+type WelcomeFormProps = {
+	defaultUsername: string | undefined;
+};
+
+export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
+	const [formData, setFormData] = useState({
+		username: defaultUsername || '',
+		trailName: '',
+	});
+
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 
 	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
@@ -25,10 +38,27 @@ export const WelcomeForm = () => {
 		'trailName',
 	]);
 
+	const handleInput = (e: InputEvent) => {
+		setFormInput(e, setFormData);
+		handleClearErrors(e);
+	};
+
+	const handleGenerateUsername = async () => {
+		const { username } = await generateUsername();
+		setFormData((prev) => ({ ...prev, username }));
+	};
+
+	const generateUsername = async () => {
+		return await queryClient.fetchQuery({
+			queryKey: profileSettingsKeys.username,
+			queryFn: () =>
+				tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
+		});
+	};
+
 	const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// validate form data
-		const formData = Object.fromEntries(new FormData(e.currentTarget)) as WelcomeFormData;
 		const data = formSchema.safeParse(formData);
 		if (!data.success) {
 			const result = JSON.parse(data.error.message);
@@ -51,6 +81,8 @@ export const WelcomeForm = () => {
 		if (serverError.error) resetAxiosError();
 	};
 
+	const { username, trailName } = formData;
+
 	return (
 		<FormContainer>
 			<Heading as="h1" mb="4">
@@ -61,69 +93,50 @@ export const WelcomeForm = () => {
 				<Heading as="h3" size="6" color="jade" mb="4">
 					Welcome to Tidytrek!
 				</Heading>
-				<Text size="4" mb="4">
-					Go by a different name on the trail?
-				</Text>
-				<br />
-				<Text color="gray" size="3">
-					A <strong>username</strong> has to be unique and helps people find your profile.{' '}
-					<br /> A <strong>trail name</strong> can be anything you'd like.
-				</Text>
+
 				<Form onSubmit={handleFormSubmit}>
-					<FormField name="username">
-						<FormControl asChild>
-							<TextField.Input
-								data-invalid={formErrors.username.error}
-								onChange={handleClearErrors}
-								radius="small"
-								my="4"
-								size="3"
-								placeholder="Username (optional)"
-							/>
-						</FormControl>
-						{formErrors.username.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.username.message}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
-					<FormField name="trailName">
-						<FormControl asChild>
-							<TextField.Input
-								data-invalid={formErrors.trailName.error}
-								onChange={handleClearErrors}
-								radius="small"
-								my="4"
-								size="3"
-								placeholder="Trail Name (optional)"
-							/>
-						</FormControl>
-						{formErrors.trailName.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.trailName.message}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
-					{serverError.error && (
-						<Message messageType="error" text={serverError.message} />
-					)}
+					<FormField
+						name="username"
+						label="Username"
+						value={username}
+						onChange={handleInput}
+						placeholder="Username"
+						error={formErrors.username}
+						tooltip={<Tooltip content={usernameInfo} />}
+						icon={
+							<IconButton
+								radius="medium"
+								size="1"
+								type="button"
+								onClick={handleGenerateUsername}>
+								<RefreshIcon />
+							</IconButton>
+						}
+					/>
+
+					<FormField
+						name="trailName"
+						value={trailName}
+						placeholder="Trail Name"
+						onChange={handleInput}
+						label="Trail Name"
+						error={formErrors.trailName}
+						tooltip={<Tooltip content={trailNameInfo} />}
+					/>
+
 					<Button
 						type="submit"
 						disabled={isPending}
 						size="3"
 						mt="4"
 						style={{ width: '100%', cursor: 'pointer' }}>
-						Submit
+						Save
 					</Button>
 				</Form>
 
 				<Flex justify="center" mt="4">
 					<Link link={'/'}>
-						<Text size="3">Skip For Now</Text>
+						<Text size="3">Keep default username</Text>
 					</Link>
 				</Flex>
 			</Segment>

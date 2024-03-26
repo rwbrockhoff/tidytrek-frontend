@@ -11,9 +11,9 @@ export const FormContainer = styled.div`
 
 export const AuthContainer = styled.main`
 	${({ theme: t }) => t.mx.flexCenter}
-	text-align: center;
 	flex-direction: column;
+	text-align: center;
 	min-height: 100%;
 	width: 100%;
-	${({ theme: t }) => t.mx.themeBgColor(`tidyLightGrey`, 'tidy')}
+	background-color: var(--slate-3);
 `;

@@ -6,7 +6,7 @@ import { useLoginMutation } from '@/queries/user-queries';
 import { useGetAuth } from '@/hooks';
 
 export const Welcome = () => {
-	const { isAuthenticated } = useGetAuth();
+	const { isAuthenticated, user } = useGetAuth();
 	const { mutate: login } = useLoginMutation();
 
 	useEffect(() => {
@@ -21,7 +21,7 @@ export const Welcome = () => {
 
 	return (
 		<AuthContainer>
-			<WelcomeForm />
+			<WelcomeForm defaultUsername={user?.username} />
 		</AuthContainer>
 	);
 };
