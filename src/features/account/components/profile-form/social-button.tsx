@@ -23,7 +23,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 		onClick,
 	} = props;
 
-	const { deleteSocialLink } = useHandlers().handlers;
+	const { deleteSocialLink } = useHandlers().handlers || {};
 
 	const handleClick = () => onClick && onClick(socialName);
 

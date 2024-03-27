@@ -12,7 +12,12 @@ export const PackCardList = (props: PackCardListProps) => {
 	const { packThumbnailList } = props;
 	const packList = packThumbnailList || [];
 	return (
-		<Flex wrap="wrap" gap="1" mt="8">
+		<Flex
+			wrap="wrap"
+			gap="4"
+			mt="8"
+			direction={{ initial: 'column', sm: 'row' }}
+			align={{ initial: 'center', sm: 'stretch' }}>
 			{packList.map((pack, index) => {
 				return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
 			})}

@@ -70,11 +70,13 @@ const CardFooter = styled(Flex)`
 	bottom: 0;
 	width: calc(100% - (var(--card-padding) * 2));
 `;
+
 const StyledCard = styled(Card)`
-	display: flex;
-	width: 100%;
-	max-width: 325px;
-	height: 100%;
+	// individual props to override radix css instead of flex 0 0 30%
+	flex-shrink: 0;
+	flex-grow: 0;
+	flex-basis: 30%;
+
 	position: relative;
 	padding-bottom: 1em;
 	a {
@@ -83,7 +85,7 @@ const StyledCard = styled(Card)`
 			filter: brightness(80%);
 		}
 	}
-	${({ theme: t }) => t.mx.mobile(`width: fit-content;`)}
+	${({ theme: t }) => t.mx.mobile(`width: 95%;`)}
 `;
 
 const CardFooterText = styled(Text)`
