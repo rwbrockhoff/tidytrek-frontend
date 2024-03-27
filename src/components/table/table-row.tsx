@@ -20,6 +20,7 @@ import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input
 import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import useCheckMobile from '@/hooks/use-check-mobile';
+import { TableRowContext } from './context/table-row-context';
 
 type TableRowProps = {
 	index: number;
@@ -59,14 +60,12 @@ export const TableRow = (props: TableRowProps) => {
 	};
 
 	const {
-		packItemName,
 		packItemDescription,
 		packItemId,
 		packId,
 		packItemWeight,
 		packItemUnit,
 		packItemQuantity,
-		packItemUrl,
 		wornWeight,
 		consumable,
 		favorite,
@@ -80,99 +79,98 @@ export const TableRow = (props: TableRowProps) => {
 	const hasPackId = packId !== null;
 
 	return (
-		<Draggable
-			key={dropId}
-			draggableId={dropId}
-			index={index}
-			isDragDisabled={!userView || disabled}>
-			{(provided) => (
-				<>
-					<Row
-						onMouseOver={() => setToggleRow(true)}
-						onMouseLeave={() => setToggleRow(false)}
-						ref={provided.innerRef}
-						{...provided.draggableProps}>
-						<ItemNameCell
-							value={packItemName}
-							packItemUrl={packItemUrl}
-							displayIcon={toggleRow}
-							dragProps={{ ...provided.dragHandleProps }}
-							onChange={handleInput}
-							toggleMobileView={handleToggleViewAllCells}
-							onToggleOff={handleToggle}
-						/>
+		<TableRowContext.Provider value={{ packItem, onChange: handleInput }}>
+			<Draggable
+				key={dropId}
+				draggableId={dropId}
+				index={index}
+				isDragDisabled={!userView || disabled}>
+				{(provided) => (
+					<>
+						<Row
+							onMouseOver={() => setToggleRow(true)}
+							onMouseLeave={() => setToggleRow(false)}
+							ref={provided.innerRef}
+							{...provided.draggableProps}>
+							<ItemNameCell
+								displayIcon={toggleRow}
+								dragProps={{ ...provided.dragHandleProps }}
+								toggleMobileView={handleToggleViewAllCells}
+								onToggleOff={handleToggle}
+							/>
 
-						{showAllCells && (
-							<>
-								<TableCell
-									value={packItemDescription}
-									onChange={handleInput}
-									onToggleOff={handleToggle}
-									itemName="packItemDescription"
-									placeholder="Description"
-								/>
+							{showAllCells && (
+								<>
+									<TableCell
+										value={packItemDescription}
+										onChange={handleInput}
+										onToggleOff={handleToggle}
+										itemName="packItemDescription"
+										placeholder="Description"
+									/>
 
-								<PropertyButtons
-									wornWeight={wornWeight}
-									consumable={consumable}
-									favorite={favorite}
-									onClick={handleClickPackButton}
-									display={toggleRow}
-								/>
+									<PropertyButtons
+										wornWeight={wornWeight}
+										consumable={consumable}
+										favorite={favorite}
+										onClick={handleClickPackButton}
+										display={toggleRow}
+									/>
 
-								<QuantityCell
-									quantity={packItemQuantity}
-									onChange={handleInput}
-									onToggleOff={handleToggle}
-								/>
-								<PackWeightCell
-									weight={packItemWeight}
-									unit={packItemUnit}
-									placeholder={0}
-									onChange={handleInput}
-									onToggleOff={handleToggle}
-									itemName="packItemWeight"
-								/>
-
-								{showPrices && (
-									<PriceCell
-										price={packItemPrice}
-										itemName="packItemPrice"
-										placeholder={0}
+									<QuantityCell
+										quantity={packItemQuantity}
 										onChange={handleInput}
 										onToggleOff={handleToggle}
 									/>
-								)}
+									<PackWeightCell
+										weight={packItemWeight}
+										unit={packItemUnit}
+										placeholder={0}
+										onChange={handleInput}
+										onToggleOff={handleToggle}
+										itemName="packItemWeight"
+									/>
 
-								{userView && (
-									<ActionButtons display={toggleRow}>
-										<Flex align="center">
-											<ShareIcon
-												onClick={() => setToggleGearButtons(!toggleGearButtons)}
-											/>
-										</Flex>
+									{showPrices && (
+										<PriceCell
+											price={packItemPrice}
+											itemName="packItemPrice"
+											placeholder={0}
+											onChange={handleInput}
+											onToggleOff={handleToggle}
+										/>
+									)}
 
-										<DeleteItemModal
-											id={packItemId}
-											hasPackId={hasPackId}
-											onClickMove={handleMoveItemToCloset}
-											onClickDelete={() => handleDelete(packItemId)}>
+									{userView && (
+										<ActionButtons display={toggleRow}>
 											<Flex align="center">
-												<TrashIcon />
+												<ShareIcon
+													onClick={() => setToggleGearButtons(!toggleGearButtons)}
+												/>
 											</Flex>
-										</DeleteItemModal>
-									</ActionButtons>
-								)}
-							</>
-						)}
-					</Row>
 
-					{toggleGearButtons && userView && (
-						<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
-					)}
-				</>
-			)}
-		</Draggable>
+											<DeleteItemModal
+												id={packItemId}
+												hasPackId={hasPackId}
+												onClickMove={handleMoveItemToCloset}
+												onClickDelete={() => handleDelete(packItemId)}>
+												<Flex align="center">
+													<TrashIcon />
+												</Flex>
+											</DeleteItemModal>
+										</ActionButtons>
+									)}
+								</>
+							)}
+						</Row>
+
+						{toggleGearButtons && userView && (
+							<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
+						)}
+					</>
+				)}
+			</Draggable>
+		</TableRowContext.Provider>
 	);
 };
 

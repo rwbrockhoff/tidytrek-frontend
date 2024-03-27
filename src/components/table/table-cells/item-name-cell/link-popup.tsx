@@ -6,23 +6,46 @@ import {
 	Flex,
 	TextField,
 } from '@radix-ui/themes';
-import { ShareIcon } from '@/components/ui';
-import { OnChange } from './item-name-cell';
+import { CheckIcon, SaveIcon } from '@/components/ui';
 import styled from 'styled-components';
 import { FaLink } from 'react-icons/fa';
-import { Link } from '@/components/ui';
+import { useContext, useState } from 'react';
+import { type InputEvent } from '@/types/form-types';
+import { TableRowContext } from '../../context/table-row-context';
+import { useEditPackItemMutation } from '@/queries/pack-queries';
+import { useUserContext } from '@/hooks';
 
 type LinkPopupProps = {
-	userView: boolean;
-	packItemUrl: string;
 	displayIcon: boolean;
-	onChange: OnChange;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
-	const { userView, packItemUrl, displayIcon, onChange } = props;
+	const userView = useUserContext();
+	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
+
+	const { packItem } = useContext(TableRowContext);
+	const { packItemUrl } = packItem || {};
+
+	const { displayIcon } = props;
+	const [packUrl, setPackUrl] = useState(packItemUrl || '');
+
 	const displayButton = displayIcon || packItemUrl ? true : false;
 	const hasLink = packItemUrl !== '' || undefined;
+
+	const handleOnChange = (e: InputEvent) => {
+		setPackUrl(e.target.value);
+		if (isSuccess) reset();
+	};
+
+	const handleOnSave = () => {
+		if (packUrl !== packItemUrl && packItem && packItem.packItemId) {
+			editPackItem({
+				packItemId: packItem.packItemId,
+				packItem: { ...packItem, packItemUrl: packUrl },
+			});
+		}
+	};
+
 	if (userView) {
 		return (
 			<Popover.Root>
@@ -33,24 +56,21 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between">
-						<TextField.Root style={{ width: hasLink ? '70%' : '100%' }}>
+						<TextField.Root style={{ width: hasLink ? '100%' : '100%' }}>
 							<TextFieldInput
 								color="jade"
 								variant="classic"
 								name="packItemUrl"
-								value={packItemUrl ?? ''}
-								onChange={onChange}
+								value={packUrl}
+								onChange={handleOnChange}
 								placeholder="Item link"
 							/>
 						</TextField.Root>
-						{packItemUrl && (
-							<Link link={packItemUrl} externalLink>
-								<Button color="jade">
-									<ShareIcon />
-									Visit Link
-								</Button>
-							</Link>
-						)}
+
+						<Button color="jade" onClick={handleOnSave}>
+							{isSuccess ? <CheckIcon /> : <SaveIcon />}
+							{isSuccess ? 'Saved' : 'Save'}
+						</Button>
 					</Flex>
 				</Popover.Content>
 			</Popover.Root>

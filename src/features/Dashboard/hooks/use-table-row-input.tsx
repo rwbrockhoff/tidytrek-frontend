@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { type PackItem } from '@/types/pack-types';
+import { type InputEvent, type SelectEvent } from '@/types/form-types';
 
 export const useTableRowInput = (item: PackItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
@@ -24,9 +25,7 @@ export const useTableRowInput = (item: PackItem) => {
 		setPackItem({ ...item });
 	}, [item]);
 
-	const handleInput = (
-		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
-	) => {
+	const handleInput = (e: InputEvent | SelectEvent) => {
 		setPackItem((prevFormData) => ({
 			...prevFormData,
 			[e.target?.name]: e.target?.value,

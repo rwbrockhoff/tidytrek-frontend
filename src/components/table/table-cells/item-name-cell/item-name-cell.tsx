@@ -1,5 +1,5 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { TextField } from '@radix-ui/themes';
 import { Table } from '@radix-ui/themes';
@@ -7,24 +7,24 @@ import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DisplayLink } from '@/components/ui';
 import { LinkPopup } from './link-popup';
+import { TableRowContext } from '../../context/table-row-context';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
 type ItemNameCellProps = {
-	value: string;
-	packItemUrl: string;
 	displayIcon: boolean;
 	dragProps: object;
-	onChange: OnChange;
 	onToggleOff: () => void;
 	toggleMobileView: () => void;
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
+	const { packItem, onChange } = useContext(TableRowContext);
+	const { packItemName, packItemUrl } = packItem || {};
 
-	const { value, packItemUrl, displayIcon, dragProps } = props;
-	const { onChange, onToggleOff, toggleMobileView } = props;
+	const { displayIcon, dragProps } = props;
+	const { onToggleOff, toggleMobileView } = props;
 
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
@@ -46,24 +46,19 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			{userView ? (
 				<TextField.Root>
 					<TextField.Input
-						value={value || ''}
+						value={packItemName || ''}
 						name={'packItemName'}
 						placeholder={'Name'}
 						onChange={onChange}
 					/>
 					<TextField.Slot>
 						<MobileToggleButton onToggle={toggleMobileView} />
-						<LinkPopup
-							userView={userView}
-							packItemUrl={packItemUrl}
-							displayIcon={displayIcon}
-							onChange={onChange}
-						/>
+						<LinkPopup displayIcon={displayIcon} />
 					</TextField.Slot>
 				</TextField.Root>
 			) : (
 				<LinkContainer>
-					<DisplayLink url={packItemUrl} text={value} showIcon />
+					<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
 				</LinkContainer>
 			)}
 		</StyledCell>
