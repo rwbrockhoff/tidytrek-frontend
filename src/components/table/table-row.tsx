@@ -63,8 +63,6 @@ export const TableRow = (props: TableRowProps) => {
 		packItemDescription,
 		packItemId,
 		packId,
-		packItemWeight,
-		packItemUnit,
 		packItemQuantity,
 		wornWeight,
 		consumable,
@@ -121,14 +119,8 @@ export const TableRow = (props: TableRowProps) => {
 										onChange={handleInput}
 										onToggleOff={handleToggle}
 									/>
-									<PackWeightCell
-										weight={packItemWeight}
-										unit={packItemUnit}
-										placeholder={0}
-										onChange={handleInput}
-										onToggleOff={handleToggle}
-										itemName="packItemWeight"
-									/>
+
+									<PackWeightCell onToggleOff={handleToggle} />
 
 									{showPrices && <PriceCell onToggleOff={handleToggle} />}
 

@@ -1,23 +1,22 @@
-import { type InputEvent, type SelectEvent } from '@/types/form-types';
+import { SelectEvent, type InputEvent } from '@/types/form-types';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { Table } from '@radix-ui/themes';
+import { useContext, useState } from 'react';
+import { Flex, Table } from '@radix-ui/themes';
 import { TableInput } from './table-input';
 import { WeightDropdown } from '../table-buttons/weight-dropdown';
 import { useUserContext } from '@/hooks/use-viewer-context';
+import { TableRowContext } from '../context/table-row-context';
 
 type PackWeightCellProps = {
-	weight: string | number;
-	unit: string;
-	itemName: string;
-	placeholder: number;
-	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
-export const PackWeightCell = (props: PackWeightCellProps) => {
+export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
+	const { packItem, onChange } = useContext(TableRowContext);
+	const { packItemWeight, packItemUnit } = packItem || {};
+
 	const userView = useUserContext();
-	const { weight, unit, itemName, placeholder, onChange, onToggleOff } = props;
+
 	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => !toggleInput && setToggleInput(true);
 	const toggleToCell = () => {
@@ -25,6 +24,15 @@ export const PackWeightCell = (props: PackWeightCellProps) => {
 			setToggleInput(false);
 			onToggleOff();
 		}
+	};
+
+	const handleOnChange = (e: InputEvent) => {
+		if (!e.target.value) e.target.value = '0';
+		onChange && onChange(e);
+	};
+
+	const handleSelect = (e: SelectEvent) => {
+		onChange && onChange(e);
 	};
 
 	return (
@@ -35,29 +43,24 @@ export const PackWeightCell = (props: PackWeightCellProps) => {
 			onClick={toggleToEdit}
 			style={{ paddingLeft: userView ? 0 : '38px' }}>
 			{userView ? (
-				<CellContainer>
+				<Flex display="inline-flex" width="100%">
 					<StyledInput
-						value={weight || ''}
-						name={itemName}
+						value={packItemWeight || ''}
+						name={'packItemWeight'}
 						height={'30px'}
 						$toggleInput={toggleInput}
-						placeholder={`${placeholder}`}
-						onChange={onChange}
+						placeholder={`0`}
+						onChange={handleOnChange}
 					/>
 
-					<WeightDropdown unit={unit} onChange={onChange} />
-				</CellContainer>
+					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleSelect} />
+				</Flex>
 			) : (
-				<p>{`${weight}  ${unit}`}</p>
+				<p>{`${packItemWeight}  ${packItemUnit}`}</p>
 			)}
 		</Table.Cell>
 	);
 };
-
-const CellContainer = styled.div`
-	display: inline-flex;
-	width: 100px;
-`;
 
 const StyledInput = styled(TableInput)<{ $toggleInput: boolean }>`
 	width: 55px;
