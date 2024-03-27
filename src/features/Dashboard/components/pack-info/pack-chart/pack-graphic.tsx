@@ -140,9 +140,10 @@ const ChartList = styled(Flex)`
 		`)}
 `;
 const ChartItem = styled(Flex)`
+	height: 2.5em;
 	font-size: 0.9em;
 	display: flex;
-	align-items: baseline;
+	align-items: center;
 	p {
 		margin-right: 5px;
 	}
