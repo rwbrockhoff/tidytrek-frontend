@@ -69,7 +69,6 @@ export const TableRow = (props: TableRowProps) => {
 		wornWeight,
 		consumable,
 		favorite,
-		packItemPrice,
 	} = packItem;
 
 	const availablePacks = props?.packList || [];
@@ -131,15 +130,7 @@ export const TableRow = (props: TableRowProps) => {
 										itemName="packItemWeight"
 									/>
 
-									{showPrices && (
-										<PriceCell
-											price={packItemPrice}
-											itemName="packItemPrice"
-											placeholder={0}
-											onChange={handleInput}
-											onToggleOff={handleToggle}
-										/>
-									)}
+									{showPrices && <PriceCell onToggleOff={handleToggle} />}
 
 									{userView && (
 										<ActionButtons display={toggleRow}>
