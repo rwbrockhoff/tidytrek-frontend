@@ -45,7 +45,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 					<>
 						<HeaderCell align="center">Qty</HeaderCell>
 
-						<HeaderCell align="left">Weight</HeaderCell>
+						<HeaderCell align="center">Weight</HeaderCell>
 
 						{showPrices && <HeaderCell align="center">Price</HeaderCell>}
 					</>

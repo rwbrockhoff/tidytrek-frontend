@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import {
@@ -14,7 +14,7 @@ import {
 	PackWeightCell,
 	QuantityCell,
 	PriceCell,
-	TableCell,
+	DescriptionCell,
 } from '@/components/table/table-cells';
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
@@ -59,15 +59,7 @@ export const TableRow = (props: TableRowProps) => {
 		moveToCloset && moveToCloset(packItemId);
 	};
 
-	const {
-		packItemDescription,
-		packItemId,
-		packId,
-		packItemQuantity,
-		wornWeight,
-		consumable,
-		favorite,
-	} = packItem;
+	const { packItemId, packId } = packItem;
 
 	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
@@ -76,95 +68,94 @@ export const TableRow = (props: TableRowProps) => {
 	const hasPackId = packId !== null;
 
 	return (
-		<TableRowContext.Provider value={{ packItem, onChange: handleInput }}>
-			<Draggable
-				key={dropId}
-				draggableId={dropId}
-				index={index}
-				isDragDisabled={!userView || disabled}>
-				{(provided) => (
-					<>
-						<Row
-							onMouseOver={() => setToggleRow(true)}
-							onMouseLeave={() => setToggleRow(false)}
-							ref={provided.innerRef}
-							{...provided.draggableProps}>
-							<ItemNameCell
-								displayIcon={toggleRow}
-								dragProps={{ ...provided.dragHandleProps }}
-								toggleMobileView={handleToggleViewAllCells}
-								onToggleOff={handleToggle}
-							/>
+		<Draggable
+			key={dropId}
+			draggableId={dropId}
+			index={index}
+			isDragDisabled={!userView || disabled}>
+			{(provided, { isDragging }) => {
+				return (
+					<TableRowContext.Provider
+						value={{ packItem, onChange: handleInput, isDragging }}>
+						<>
+							<Row
+								onMouseOver={() => setToggleRow(true)}
+								onMouseLeave={() => setToggleRow(false)}
+								ref={provided.innerRef}
+								$isDragging={isDragging}
+								{...provided.draggableProps}>
+								<ItemNameCell
+									displayIcon={toggleRow}
+									dragProps={{ ...provided.dragHandleProps }}
+									toggleMobileView={handleToggleViewAllCells}
+									onToggleOff={handleToggle}
+								/>
 
-							{showAllCells && (
-								<>
-									<TableCell
-										value={packItemDescription}
-										onChange={handleInput}
-										onToggleOff={handleToggle}
-										itemName="packItemDescription"
-										placeholder="Description"
-									/>
+								{showAllCells && (
+									<>
+										<DescriptionCell onToggleOff={handleToggle} />
 
-									<PropertyButtons
-										wornWeight={wornWeight}
-										consumable={consumable}
-										favorite={favorite}
-										onClick={handleClickPackButton}
-										display={toggleRow}
-									/>
+										<PropertyButtons
+											onClick={handleClickPackButton}
+											display={toggleRow}
+										/>
 
-									<QuantityCell
-										quantity={packItemQuantity}
-										onChange={handleInput}
-										onToggleOff={handleToggle}
-									/>
+										<QuantityCell onToggleOff={handleToggle} />
 
-									<PackWeightCell onToggleOff={handleToggle} />
+										<PackWeightCell onToggleOff={handleToggle} />
 
-									{showPrices && <PriceCell onToggleOff={handleToggle} />}
+										{showPrices && <PriceCell onToggleOff={handleToggle} />}
 
-									{userView && (
-										<ActionButtons display={toggleRow}>
-											<Flex align="center">
-												<ShareIcon
-													onClick={() => setToggleGearButtons(!toggleGearButtons)}
-												/>
-											</Flex>
-
-											<DeleteItemModal
-												id={packItemId}
-												hasPackId={hasPackId}
-												onClickMove={handleMoveItemToCloset}
-												onClickDelete={() => handleDelete(packItemId)}>
+										{userView && (
+											<ActionButtons display={toggleRow}>
 												<Flex align="center">
-													<TrashIcon />
+													<ShareIcon
+														onClick={() => setToggleGearButtons(!toggleGearButtons)}
+													/>
 												</Flex>
-											</DeleteItemModal>
-										</ActionButtons>
-									)}
-								</>
-							)}
-						</Row>
 
-						{toggleGearButtons && userView && (
-							<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
-						)}
-					</>
-				)}
-			</Draggable>
-		</TableRowContext.Provider>
+												<DeleteItemModal
+													id={packItemId}
+													hasPackId={hasPackId}
+													onClickMove={handleMoveItemToCloset}
+													onClickDelete={() => handleDelete(packItemId)}>
+													<Flex align="center">
+														<TrashIcon />
+													</Flex>
+												</DeleteItemModal>
+											</ActionButtons>
+										)}
+									</>
+								)}
+							</Row>
+							{toggleGearButtons && userView && (
+								<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
+							)}
+						</>
+					</TableRowContext.Provider>
+				);
+			}}
+		</Draggable>
 	);
 };
 
-const Row = styled(Table.Row)`
+const Row = styled(Table.Row)<{ $isDragging: boolean }>`
 	position: relative;
 	border: none;
 	background-color: white;
+	transition:
+		background-color,
+		box-shadow 200ms ease-in-out;
 	td {
 		vertical-align: middle;
 	}
 	td:first-child {
 		overflow: visible;
 	}
+
+	${({ $isDragging }) =>
+		$isDragging &&
+		css`
+			box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.2);
+		`}
 `;

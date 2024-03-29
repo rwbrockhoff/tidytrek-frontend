@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { FaLink } from 'react-icons/fa';
 import { Icon } from '@/components/ui';
 import { themeColor } from '@/styles/mixins';
+import { Text } from '@radix-ui/themes';
 
 type LinkProps = {
 	link: string | undefined;
@@ -56,14 +57,14 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 				$margin={margin}
 				target="_blank"
 				rel="noopener noreferrer">
-				<p style={{ display: 'inline-flex' }}>
+				<Text style={{ display: 'inline-flex' }}>
 					{showIcon && (
 						<Icon>
 							<FaLink />
 						</Icon>
 					)}
 					{text}
-				</p>
+				</Text>
 			</StyledBasicLink>
 		);
 	} else {
@@ -72,7 +73,7 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 };
 
 const StyledBasicLink = styled.a<{ $margin?: string }>`
-	p {
+	span {
 		${themeColor('primary')}
 		${({ $margin }) =>
 			$margin &&
@@ -80,8 +81,8 @@ const StyledBasicLink = styled.a<{ $margin?: string }>`
 				margin: ${$margin};
 			`}
 	}
-	span {
-		margin-right: 5px;
+	&:hover {
+		filter: var(--hover-dark);
 	}
 `;
 

@@ -1,25 +1,23 @@
 import { type InputEvent } from '@/types/form-types';
-import styled from 'styled-components';
 import { useContext, useState } from 'react';
-import { Table } from '@radix-ui/themes';
+import { Table, Text } from '@radix-ui/themes';
 import { TableInput } from './table-input';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { convertCurrency } from '@/utils';
 import { TableRowContext } from '../context/table-row-context';
+import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type PriceCellProps = {
-	unit?: string;
 	onToggleOff: () => void;
 };
 
-export const PriceCell = (props: PriceCellProps) => {
-	const { packItem, onChange } = useContext(TableRowContext);
-	const { packItemPrice = 0 } = packItem || {};
-	const { onToggleOff } = props;
-
+export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 	const userView = useUserContext();
-	const [toggleInput, setToggleInput] = useState(false);
+	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItemPrice = 0 } = packItem || {};
+	const { ref, width } = useCellWidth(isDragging);
 
+	const [toggleInput, setToggleInput] = useState(false);
 	const toggleToEdit = () => {
 		!toggleInput && setToggleInput(true);
 	};
@@ -40,10 +38,11 @@ export const PriceCell = (props: PriceCellProps) => {
 	const inputPrice = packItemPrice === 0 ? '' : packItemPrice;
 	return (
 		<Table.Cell
+			ref={ref}
 			align="center"
 			onBlur={toggleToCell}
-			onClick={toggleToEdit}
-			style={{ paddingLeft: '15px' }}>
+			onFocus={toggleToEdit}
+			style={{ width }}>
 			{userView ? (
 				<TableInput
 					value={toggleInput ? inputPrice : formattedPrice}
@@ -52,15 +51,8 @@ export const PriceCell = (props: PriceCellProps) => {
 					onChange={handleOnChange}
 				/>
 			) : (
-				<Text>{formattedPrice}</Text>
+				<Text align="center">{formattedPrice}</Text>
 			)}
 		</Table.Cell>
 	);
 };
-
-const Text = styled.p`
-	height: 30px;
-	${({ theme: t }) => t.mx.flexCenter()}
-	justify-content: flex-start;
-	padding-left: 1em;
-`;

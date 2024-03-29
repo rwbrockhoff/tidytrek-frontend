@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
+import { useContext } from 'react';
+import { TableRowContext } from '../context/table-row-context';
+import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ActionButtonsProps = {
 	header?: boolean;
@@ -12,6 +15,9 @@ type ActionButtonsProps = {
 export const ActionButtons = (props: ActionButtonsProps) => {
 	const { header, display = true, children } = props;
 
+	const { isDragging } = useContext(TableRowContext);
+	const { ref, width } = useCellWidth(isDragging);
+
 	if (header) {
 		return (
 			<StyledHeaderCell justify="center">
@@ -20,10 +26,8 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 		);
 	} else {
 		return (
-			<Table.Cell valign="middle">
-				<StyledFlex align="center" $display={display}>
-					{children}
-				</StyledFlex>
+			<Table.Cell valign="middle" ref={ref} style={{ width }}>
+				<StyledFlex $display={display}>{children}</StyledFlex>
 			</Table.Cell>
 		);
 	}

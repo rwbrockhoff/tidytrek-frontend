@@ -1,20 +1,27 @@
 import styled from 'styled-components';
 import { Table as RadixTable } from '@radix-ui/themes';
 import { usePricingContext, useUserContext } from '@/hooks';
+import React, { useMemo } from 'react';
 
-type TableProps = {
-	children: React.ReactNode;
-};
-export const Table = (props: TableProps) => {
+export const Table = ({ children }: { children: React.ReactNode }) => {
 	const showPrices = usePricingContext() || false;
 	const isUser = useUserContext();
 
-	const { children } = props;
+	const generateWidth = () =>
+		useMemo(() => {
+			let cellWidth = 30;
+			if (showPrices) cellWidth -= 5;
+			if (!isUser) cellWidth += 5;
+			return `${cellWidth}%`;
+		}, [isUser, showPrices]);
+
+	const mainCellWidth = generateWidth();
+
 	return (
 		<StyledTable variant="surface" size="1">
 			<colgroup>
-				<col width={showPrices ? '25%' : '30%'} />
-				<col width={showPrices ? '25%' : '30%'} />
+				<col width={mainCellWidth} />
+				<col width={mainCellWidth} />
 				<col width="12%" />
 				<col width="8%" />
 				<col width="10%" />
@@ -37,7 +44,6 @@ const StyledTable = styled(RadixTable.Root)`
 	}
 	thead.withPrimaryBorder {
 		border-top: 3px solid var(--jade-9);
-		/* box-shadow: inset 0px -4px 0px -2px var(--gray-3); */
 	}
 
 	${({ theme: t }) =>

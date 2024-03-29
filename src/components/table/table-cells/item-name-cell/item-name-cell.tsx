@@ -1,13 +1,14 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { TextField } from '@radix-ui/themes';
+import { Box, TextField } from '@radix-ui/themes';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DisplayLink } from '@/components/ui';
 import { LinkPopup } from './link-popup';
 import { TableRowContext } from '../../context/table-row-context';
+import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
@@ -20,8 +21,9 @@ type ItemNameCellProps = {
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange } = useContext(TableRowContext);
+	const { packItem, onChange, isDragging } = useContext(TableRowContext);
 	const { packItemName, packItemUrl } = packItem || {};
+	const { ref, width } = useCellWidth(isDragging);
 
 	const { displayIcon, dragProps } = props;
 	const { onToggleOff, toggleMobileView } = props;
@@ -37,10 +39,12 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 
 	return (
 		<StyledCell
+			ref={ref}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
-			onClick={toggleToEdit}>
+			onClick={toggleToEdit}
+			style={{ width }}>
 			<GripButton display={displayIcon && userView} {...dragProps} />
 
 			{userView ? (
@@ -57,9 +61,9 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					</TextField.Slot>
 				</TextField.Root>
 			) : (
-				<LinkContainer>
+				<Box ml="2">
 					<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
-				</LinkContainer>
+				</Box>
 			)}
 		</StyledCell>
 	);
@@ -74,8 +78,4 @@ const StyledCell = styled(Table.Cell)`
 				height: 40px;
 			`)}
 	}
-`;
-
-const LinkContainer = styled.div`
-	margin-left: 10px;
 `;

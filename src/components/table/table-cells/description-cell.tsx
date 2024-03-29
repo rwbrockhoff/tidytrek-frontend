@@ -1,20 +1,22 @@
-import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import { useState } from 'react';
-import { Table } from '@radix-ui/themes';
+import { useContext, useState } from 'react';
+import { Table, Text } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TableInput } from './table-input';
+import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { TableRowContext } from '../context/table-row-context';
 
 type TableCellProps = {
-	value: string | number;
-	itemName: string;
-	placeholder?: string;
-	onChange: (e: InputEvent | SelectEvent) => void;
 	onToggleOff: () => void;
 };
 
-export const TableCell = (props: TableCellProps) => {
+export const DescriptionCell = (props: TableCellProps) => {
 	const userView = useUserContext();
-	const { value, itemName, placeholder, onChange, onToggleOff } = props;
+	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItemDescription } = packItem || {};
+
+	const { onToggleOff } = props;
+
+	const { width, ref } = useCellWidth(isDragging);
 
 	const [toggleInput, setToggleInput] = useState(false);
 	const display = !toggleInput || !userView;
@@ -29,20 +31,22 @@ export const TableCell = (props: TableCellProps) => {
 
 	return (
 		<Table.Cell
+			ref={ref}
+			style={{ width }}
 			onMouseOver={toggleToEdit}
 			onMouseLeave={toggleToCell}
 			onBlur={toggleToCell}
 			onClick={toggleToEdit}>
 			{userView ? (
 				<TableInput
-					value={value || ''}
-					name={itemName}
-					placeholder={placeholder}
+					value={packItemDescription || ''}
+					name={'packItemDescription'}
+					placeholder={'Description'}
 					onChange={onChange}
 					color="gray"
 				/>
 			) : (
-				<p>{value}</p>
+				<Text ml="2">{packItemDescription}</Text>
 			)}
 		</Table.Cell>
 	);

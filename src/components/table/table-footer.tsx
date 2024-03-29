@@ -39,8 +39,8 @@ export const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<StyledCell style={{ textAlign: 'left' }}>{itemQuantity} Items</StyledCell>
-						<StyledCell style={{ textAlign: 'left' }}>{`${weight} lbs`}</StyledCell>
+						<StyledCell style={{ textAlign: 'center' }}>{itemQuantity} Items</StyledCell>
+						<StyledCell style={{ textAlign: 'center' }}>{`${weight} lbs`}</StyledCell>
 						{showPrices && <StyledCell>{price}</StyledCell>}
 					</>
 				)}

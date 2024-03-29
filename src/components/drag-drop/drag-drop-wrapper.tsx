@@ -3,6 +3,8 @@ import {
 	Droppable,
 	DragDropContext as Context,
 	type DropResult as Result,
+	DragUpdate,
+	ResponderProvided,
 } from 'react-beautiful-dnd';
 import { EmptyTableRow } from './empty-table-row';
 import { Table } from '@radix-ui/themes';
@@ -57,18 +59,14 @@ type DropTableBodyProps = {
 	disabled?: boolean;
 };
 
-export const DropTableBody = ({
-	droppableId,
-	type,
-	disabled,
-	children,
-}: DropTableBodyProps) => {
+export const DropTableBody = (props: DropTableBodyProps) => {
+	const { droppableId, type, disabled, children } = props;
 	return (
 		<Droppable droppableId={`${droppableId}`} type={type} isDropDisabled={disabled}>
 			{(provided, { isDraggingOver }) => (
 				<Table.Body
 					ref={provided.innerRef}
-					style={{ height: 10 }}
+					style={{ minHeight: 10 }}
 					{...provided.droppableProps}>
 					{children ? (
 						children
@@ -88,17 +86,19 @@ export const DropTableBody = ({
 
 type DragDropContext = {
 	onDragStart?: () => void;
+	onDragUpdate?: (update: DragUpdate, provided: ResponderProvided) => void;
 	onDragEnd: (result: Result) => void;
 	children: React.ReactNode;
 };
 
 export const DragDropContext = ({
 	children,
+	onDragUpdate,
 	onDragEnd,
 	onDragStart,
 }: DragDropContext) => {
 	return (
-		<Context onDragStart={onDragStart} onDragEnd={onDragEnd}>
+		<Context onDragStart={onDragStart} onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
 			{children}
 		</Context>
 	);
