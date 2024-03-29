@@ -54,6 +54,11 @@ const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
 	padding: 3em 4em 6em 4em;
 	transition: all 500ms ease;
 	transition-property: margin-left, width;
+	@media only screen and (max-width: 1280px) {
+		width: 100%;
+		margin: 0;
+		padding: 3em 4em 6em 4em;
+	}
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			width: 100%;

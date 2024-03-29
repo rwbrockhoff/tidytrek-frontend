@@ -5,11 +5,10 @@ import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, lazyImport } from '@/utils';
 import { SidebarButton } from './components/sidebar-button';
-import useCheckMobile from '@/hooks/use-check-mobile';
 import { Heading, Separator } from '@radix-ui/themes';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth, useCheckScreen } from '@/hooks';
 import { MouseOver } from '@/contexts/mouse-over-context';
 const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
 const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
@@ -41,7 +40,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const defaultPackUrl = `/pack/${encodedId}`;
 	const currentPackId = packData?.pack?.packId;
 
-	const isMobile = useCheckMobile();
+	const { isMobile, isTablet } = useCheckScreen();
 
 	useEffect(() => {
 		const { pathname } = location;
@@ -70,7 +69,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	return (
 		<StyledSidebar $showSidebar={showSidebar}>
 			<SidebarContainer>
-				{isMobile && <SidebarButton isSidebar={true} onClick={onToggle} />}
+				{(isMobile || isTablet) && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
 					<Heading as="h1" mb="1">
@@ -120,6 +119,14 @@ const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
 	a,
 	a:visited {
 		color: white;
+	}
+
+	@media only screen and (max-width: 1280px) {
+		z-index: 100;
+		width: 20%;
+		left: 0;
+		opacity: 1;
+		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
 	}
 
 	@media only screen and (max-width: 768px) {

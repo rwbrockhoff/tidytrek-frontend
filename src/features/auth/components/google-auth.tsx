@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import supabase from '@/api/supabaseClient';
 import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
-import useCheckMobile from '@/hooks/use-check-mobile';
+import { useCheckScreen } from '@/hooks';
 
 declare const google: any;
 
@@ -17,7 +17,7 @@ type AuthContext = 'signup' | 'signin';
 export const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
 	const google_button = useRef(null);
-	const isMobile = useCheckMobile();
+	const { isMobile } = useCheckScreen();
 	const { context, updateServerError } = props;
 
 	const {

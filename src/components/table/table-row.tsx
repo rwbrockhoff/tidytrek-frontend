@@ -16,7 +16,7 @@ import {
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
-import useCheckMobile from '@/hooks/use-check-mobile';
+import { useCheckScreen } from '@/hooks';
 import { TableRowContext } from './context/table-row-context';
 
 type TableRowProps = {
@@ -34,7 +34,7 @@ type TableRowProps = {
 export const TableRow = (props: TableRowProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
-	const isMobile = useCheckMobile();
+	const { isMobile } = useCheckScreen();
 
 	const { item, index, disabled } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
