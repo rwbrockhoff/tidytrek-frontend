@@ -24,7 +24,6 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 				<TableInput
 					value={packItemDescription || ''}
 					name={'packItemDescription'}
-					placeholder={'Description'}
 					onChange={onChange}
 					color="gray"
 				/>

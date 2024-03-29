@@ -1,4 +1,4 @@
-import { Button, Table } from '@radix-ui/themes';
+import { Badge, Button, Table } from '@radix-ui/themes';
 import { PlusIcon } from '../ui';
 import styled from 'styled-components';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
@@ -39,7 +39,11 @@ export const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<StyledCell style={{ textAlign: 'center' }}>{itemQuantity} Items</StyledCell>
+						<StyledCell style={{ textAlign: 'center' }}>
+							<Badge color="gray" highContrast>
+								x{itemQuantity}
+							</Badge>
+						</StyledCell>
 						<StyledCell style={{ textAlign: 'center' }}>{`${weight} lbs`}</StyledCell>
 						{showPrices && <StyledCell>{price}</StyledCell>}
 					</>

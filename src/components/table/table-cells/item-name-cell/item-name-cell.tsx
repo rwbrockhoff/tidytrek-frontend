@@ -1,7 +1,7 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { Box, Flex, TextField } from '@radix-ui/themes';
+import { Box, Flex, Text, TextField } from '@radix-ui/themes';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -47,7 +47,11 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 				</Flex>
 			) : (
 				<Box ml="2">
-					<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
+					{packItemUrl ? (
+						<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
+					) : (
+						<Text>{packItemName}</Text>
+					)}
 				</Box>
 			)}
 		</StyledCell>

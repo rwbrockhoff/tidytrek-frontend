@@ -1,11 +1,7 @@
 import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import {
-	type PackItem,
-	type PackButtonSwitches,
-	type PackListItem,
-} from '@/types/pack-types';
+import { type PackItem, type PackListItem, PackItemProperty } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
 import { Flex, Table } from '@radix-ui/themes';
 import { ActionButtons } from '@/components/table/table-buttons';
@@ -53,7 +49,7 @@ export const TableRow = (props: TableRowProps) => {
 
 	const handleToggleViewAllCells = () => setViewAllCells(!viewAllCells);
 
-	const handleClickPackButton = (property: PackButtonSwitches) =>
+	const handleChangeProperty = (property: PackItemProperty) =>
 		handleOnSave({ ...packItem, ...property });
 
 	const handleMoveItemToCloset = () => {
@@ -96,11 +92,14 @@ export const TableRow = (props: TableRowProps) => {
 									<>
 										<DescriptionCell onToggleOff={handleToggle} />
 
-										<PropertiesCell onClick={handleClickPackButton} display={toggleRow} />
+										<PropertiesCell onClick={handleChangeProperty} display={toggleRow} />
 
 										<QuantityCell onToggleOff={handleToggle} />
 
-										<PackWeightCell onToggleOff={handleToggle} />
+										<PackWeightCell
+											onToggleOff={handleToggle}
+											onSelect={handleChangeProperty}
+										/>
 
 										{showPrices && <PriceCell onToggleOff={handleToggle} />}
 

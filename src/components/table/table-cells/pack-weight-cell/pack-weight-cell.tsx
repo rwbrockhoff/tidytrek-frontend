@@ -1,18 +1,20 @@
-import { SelectEvent, type InputEvent } from '@/types/form-types';
+import { type InputEvent } from '@/types/form-types';
+import { type PackItemProperty } from '@/types/pack-types';
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { Flex, Table, Badge } from '@radix-ui/themes';
-import { TableInput } from './table-input';
-import { WeightDropdown } from '../table-buttons/weight-dropdown';
+import { TableInput } from '../table-input';
+import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { TableRowContext } from '../context/table-row-context';
+import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type PackWeightCellProps = {
 	onToggleOff: () => void;
+	onSelect: (property: PackItemProperty) => void;
 };
 
-export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
+export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) => {
 	const userView = useUserContext();
 
 	const { packItem, onChange, isDragging } = useContext(TableRowContext);
@@ -26,22 +28,23 @@ export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
 		onChange && onChange(e);
 	};
 
-	const handleSelect = (e: SelectEvent) => {
-		onChange && onChange(e);
+	const handleWeightUnit = (unit: string) => {
+		onChange && onSelect({ packItemUnit: unit });
 	};
 
 	return (
-		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
+		<StyledCell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
-				<Flex display="inline-flex">
+				<Flex display="inline-flex" align="baseline">
 					<StyledInput
 						value={packItemWeight || ''}
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleOnChange}
+						mr="3"
 					/>
 
-					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleSelect} />
+					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleWeightUnit} />
 				</Flex>
 			) : (
 				<Flex justify="center">
@@ -51,9 +54,11 @@ export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
 						highContrast>{`${packItemWeight}  ${packItemUnit}`}</Badge>
 				</Flex>
 			)}
-		</Table.Cell>
+		</StyledCell>
 	);
 };
+
+const StyledCell = styled(Table.Cell)``;
 
 const StyledInput = styled(TableInput)`
 	padding-right: 0.25em;

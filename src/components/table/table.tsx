@@ -23,9 +23,9 @@ export const Table = ({ children }: { children: React.ReactNode }) => {
 				<col width={mainCellWidth} />
 				<col width={mainCellWidth} />
 				<col width="12%" />
-				<col width="8%" />
+				<col width="6%" />
 				<col width="10%" />
-				{showPrices && <col width="10%" />}
+				{showPrices && <col width="12%" />}
 				{isUser && <col width="10%" />}
 			</colgroup>
 			{children}

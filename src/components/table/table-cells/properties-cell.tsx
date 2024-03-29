@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { type PackItemProperty } from '@/types/pack-types';
 import { Flex, IconButton, Table, Tooltip } from '@radix-ui/themes';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
-import { type PackButtonSwitches } from '@/types/pack-types';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { useContext } from 'react';
 import { TableRowContext } from '../context/table-row-context';
@@ -9,7 +9,7 @@ import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ButtonProps = {
 	display: boolean;
-	onClick: (property: PackButtonSwitches) => void;
+	onClick: (property: PackItemProperty) => void;
 };
 
 type ButtonTypes = {

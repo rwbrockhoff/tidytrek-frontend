@@ -64,10 +64,8 @@ export type PackInfo = {
 	packItemIndex: number;
 };
 
-export type PackButtonSwitches = {
-	consumable?: boolean;
-	wornWeight?: boolean;
-	favorite?: boolean;
+export type PackItemProperty = {
+	[Property in keyof PackItem]?: PackItem[Property];
 };
 
 export type MovePackItemProps = {
