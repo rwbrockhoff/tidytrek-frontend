@@ -18,7 +18,7 @@ type ButtonTypes = {
 	favorite?: boolean;
 };
 
-export const PropertyButtons = (props: ButtonProps) => {
+export const PropertiesCell = (props: ButtonProps) => {
 	const { display, onClick } = props;
 
 	const userView = useUserContext();
@@ -33,7 +33,7 @@ export const PropertyButtons = (props: ButtonProps) => {
 	const showOnHover = (display && userView) || isDragging;
 
 	return (
-		<PropertyButtonsCell align="center" justify="center" ref={ref} style={{ width }}>
+		<PropertiesButtonCell align="center" justify="center" ref={ref} style={{ width }}>
 			<StyledFlex>
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
@@ -65,11 +65,11 @@ export const PropertyButtons = (props: ButtonProps) => {
 					</IconButton>
 				</Tooltip>
 			</StyledFlex>
-		</PropertyButtonsCell>
+		</PropertiesButtonCell>
 	);
 };
 
-const PropertyButtonsCell = styled(Table.Cell)`
+const PropertiesButtonCell = styled(Table.Cell)`
 	svg {
 		padding: 5px;
 		${({ theme: t }) => t.mx.wh('15px')}

@@ -4,3 +4,4 @@ export * from './pack-weight-cell';
 export * from './price-cell';
 export * from './quantity-cell';
 export * from './description-cell';
+export * from './properties-cell';

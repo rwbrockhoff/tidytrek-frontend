@@ -1,7 +1,7 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import { Box, TextField } from '@radix-ui/themes';
+import { Box, Flex, TextField } from '@radix-ui/themes';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -28,38 +28,23 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	const { displayIcon, dragProps } = props;
 	const { onToggleOff, toggleMobileView } = props;
 
-	const [toggleInput, setToggleInput] = useState(false);
-	const toggleToEdit = () => !toggleInput && setToggleInput(true);
-	const toggleToCell = () => {
-		if (toggleInput) {
-			setToggleInput(false);
-			onToggleOff();
-		}
-	};
+	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<StyledCell
-			ref={ref}
-			onMouseOver={toggleToEdit}
-			onMouseLeave={toggleToCell}
-			onBlur={toggleToCell}
-			onClick={toggleToEdit}
-			style={{ width }}>
+		<StyledCell ref={ref} onBlur={handleToggleOff} style={{ width }}>
 			<GripButton display={displayIcon && userView} {...dragProps} />
 
 			{userView ? (
-				<TextField.Root>
+				<Flex display="inline-flex" width="100%">
 					<TextField.Input
 						value={packItemName || ''}
 						name={'packItemName'}
 						placeholder={'Name'}
 						onChange={onChange}
 					/>
-					<TextField.Slot>
-						<MobileToggleButton onToggle={toggleMobileView} />
-						<LinkPopup displayIcon={displayIcon} />
-					</TextField.Slot>
-				</TextField.Root>
+					<MobileToggleButton onToggle={toggleMobileView} />
+					<LinkPopup displayIcon={displayIcon} />
+				</Flex>
 			) : (
 				<Box ml="2">
 					<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
@@ -71,8 +56,10 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 
 const StyledCell = styled(Table.Cell)`
 	position: relative;
+	.rt-TextFieldRoot {
+		flex-grow: 1;
+	}
 	input {
-		margin-left: 10px;
 		${({ theme: t }) =>
 			t.mx.mobile(`
 				height: 40px;

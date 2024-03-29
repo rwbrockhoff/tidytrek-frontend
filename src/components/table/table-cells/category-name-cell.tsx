@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { type InputEvent } from '@/types/form-types';
 import { Flex, Heading, Table, TextFieldInput } from '@radix-ui/themes';
 import { ThemeButton, GripButton } from '../table-buttons';
@@ -57,8 +57,6 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
-	const displayInput = !toggleInput || !userView;
-
 	return (
 		<HeaderCell
 			onMouseOver={handleOnMouseOver}
@@ -72,13 +70,13 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
 					<Input
 						size="3"
+						variant="soft"
+						color="gray"
 						value={packCategoryName}
 						name="packCategoryName"
 						placeholder="Category"
 						onChange={handleInput}
 						disabled={!userView}
-						// Show input background when user interacts
-						$displayInput={displayInput}
 					/>
 				</Flex>
 			) : (
@@ -100,20 +98,12 @@ const HeaderCell = styled(Table.ColumnHeaderCell)`
 		`)}
 `;
 
-const Input = styled(TextFieldInput)<{ $displayInput: boolean }>`
+const Input = styled(TextFieldInput)`
+	background-color: var(--gray-2) !important;
+	font-weight: 500;
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			height: 40px;
 			font-size: 1.3em;
 		`)}
-	${(props) =>
-		props.$displayInput &&
-		css`
-			input {
-				border-color: transparent;
-				background-color: transparent;
-				box-shadow: none;
-				border-radius: 0;
-			}
-		`};
 `;

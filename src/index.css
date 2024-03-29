@@ -22,6 +22,14 @@
 	height: 100%;
 }
 
+.rt-TextAreaInput {
+	border: var(--text-area-border-width) solid var(--slate-6);
+}
+
+/* .rt-TableRoot:where(.rt-r-size-1) {
+	--table-cell-padding: var(--space-1);
+} */
+
 html,
 body,
 body > div#root {

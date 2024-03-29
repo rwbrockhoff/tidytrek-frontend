@@ -118,6 +118,7 @@ export const FormTextArea = (props: FormTextAreaProps) => {
 			<TextArea
 				name={name}
 				value={value}
+				variant="surface"
 				size="3"
 				mb="3"
 				maxLength={maxLength}

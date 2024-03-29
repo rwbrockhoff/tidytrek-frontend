@@ -51,7 +51,11 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	return (
 		<TableRow>
 			<Table.Cell colSpan={24}>
-				<StyledFlex justify="end" align="center" ml="auto">
+				<Flex
+					justify="end"
+					align="center"
+					ml="auto"
+					direction={{ initial: 'column', sm: 'row' }}>
 					<Select.Root onValueChange={handleSelectPack}>
 						<Select.Trigger placeholder="Choose a pack..." />
 						<Select.Content style={{ height: 'fit-content' }}>
@@ -83,7 +87,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 						<MdOutlineMoveDown />
 						Move Item
 					</Button>
-				</StyledFlex>
+				</Flex>
 			</Table.Cell>
 		</TableRow>
 	);
@@ -102,11 +106,4 @@ const TableRow = styled(Table.Row)`
 	button:not(:last-child) {
 		min-width: 150px;
 	}
-`;
-
-const StyledFlex = styled(Flex)`
-	${({ theme: t }) =>
-		t.mx.mobile(`
-		flex-direction: column;
-	`)}
 `;

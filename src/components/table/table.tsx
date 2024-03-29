@@ -39,9 +39,13 @@ const StyledTable = styled(RadixTable.Root)`
 	width: 100%;
 	min-width: 100%;
 
-	tr:nth-child(even) {
-		background-color: var(--gray-1);
+	.rt-TextFieldInput {
+		background-color: white;
+		&:hover {
+			background-color: transparent;
+		}
 	}
+
 	thead.withPrimaryBorder {
 		border-top: 3px solid var(--jade-9);
 	}

@@ -1,6 +1,6 @@
 import { SelectEvent, type InputEvent } from '@/types/form-types';
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Flex, Table, Badge } from '@radix-ui/themes';
 import { TableInput } from './table-input';
 import { WeightDropdown } from '../table-buttons/weight-dropdown';
@@ -13,20 +13,13 @@ type PackWeightCellProps = {
 };
 
 export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
+	const userView = useUserContext();
+
 	const { packItem, onChange, isDragging } = useContext(TableRowContext);
 	const { packItemWeight, packItemUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
-	const userView = useUserContext();
-
-	const [toggleInput, setToggleInput] = useState(false);
-	const toggleToEdit = () => !toggleInput && setToggleInput(true);
-	const toggleToCell = () => {
-		if (toggleInput) {
-			setToggleInput(false);
-			onToggleOff();
-		}
-	};
+	const handleToggleOff = () => userView && onToggleOff();
 
 	const handleOnChange = (e: InputEvent) => {
 		if (!e.target.value) e.target.value = '0';
@@ -38,13 +31,12 @@ export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
 	};
 
 	return (
-		<Table.Cell ref={ref} onBlur={toggleToCell} onFocus={toggleToEdit} style={{ width }}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
 				<Flex display="inline-flex">
 					<StyledInput
 						value={packItemWeight || ''}
 						name={'packItemWeight'}
-						$toggleInput={toggleInput}
 						placeholder={`0`}
 						onChange={handleOnChange}
 					/>
@@ -63,7 +55,8 @@ export const PackWeightCell = ({ onToggleOff }: PackWeightCellProps) => {
 	);
 };
 
-const StyledInput = styled(TableInput)<{ $toggleInput: boolean }>`
-	padding-right: 0.5em;
+const StyledInput = styled(TableInput)`
+	padding-right: 0.25em;
+	padding-left: 0;
 	text-align: right;
 `;

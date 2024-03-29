@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Table, Text } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TableInput } from './table-input';
@@ -9,34 +9,17 @@ type TableCellProps = {
 	onToggleOff: () => void;
 };
 
-export const DescriptionCell = (props: TableCellProps) => {
+export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 	const userView = useUserContext();
 	const { packItem, onChange, isDragging } = useContext(TableRowContext);
 	const { packItemDescription } = packItem || {};
 
-	const { onToggleOff } = props;
-
 	const { width, ref } = useCellWidth(isDragging);
 
-	const [toggleInput, setToggleInput] = useState(false);
-	const display = !toggleInput || !userView;
-
-	const toggleToEdit = () => display && setToggleInput(true);
-	const toggleToCell = () => {
-		if (!display) {
-			setToggleInput(false);
-			onToggleOff();
-		}
-	};
+	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<Table.Cell
-			ref={ref}
-			style={{ width }}
-			onMouseOver={toggleToEdit}
-			onMouseLeave={toggleToCell}
-			onBlur={toggleToCell}
-			onClick={toggleToEdit}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
 				<TableInput
 					value={packItemDescription || ''}

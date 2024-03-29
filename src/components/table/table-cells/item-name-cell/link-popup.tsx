@@ -82,6 +82,8 @@ const StyledButton = styled(IconButton)<{ $display: boolean }>`
 	opacity: ${({ $display }) => ($display ? 100 : 0)};
 	background-color: transparent;
 	box-shadow: none;
+	margin-left: auto;
+	padding-left: 1em;
 	cursor: pointer;
 	${({ theme: t }) =>
 		t.mx.mobile(`

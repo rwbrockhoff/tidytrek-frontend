@@ -8,10 +8,11 @@ import {
 } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
 import { Flex, Table } from '@radix-ui/themes';
-import { PropertyButtons, ActionButtons } from '@/components/table/table-buttons';
+import { ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
 	PackWeightCell,
+	PropertiesCell,
 	QuantityCell,
 	PriceCell,
 	DescriptionCell,
@@ -95,10 +96,7 @@ export const TableRow = (props: TableRowProps) => {
 									<>
 										<DescriptionCell onToggleOff={handleToggle} />
 
-										<PropertyButtons
-											onClick={handleClickPackButton}
-											display={toggleRow}
-										/>
+										<PropertiesCell onClick={handleClickPackButton} display={toggleRow} />
 
 										<QuantityCell onToggleOff={handleToggle} />
 
