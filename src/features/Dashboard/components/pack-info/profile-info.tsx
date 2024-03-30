@@ -5,6 +5,7 @@ import {
 } from '@/types/profile-types';
 import { Avatar, Link } from '@/components/ui';
 import { SocialLinkList } from '@/components';
+import styled from 'styled-components';
 
 type ProfileInfoProps = {
 	userInfo: ProfileInfoType | undefined;
@@ -14,19 +15,20 @@ type ProfileInfoProps = {
 
 export const ProfileInfo = (props: ProfileInfoProps) => {
 	const { userInfo, socialLinks, publicProfile } = props;
-	const { username, firstName, profilePhotoUrl } = userInfo || {};
+	const { username, trailName, firstName, profilePhotoUrl } = userInfo || {};
 
 	return (
-		<Flex mb="4">
+		<Flex mb="4" align="center">
 			<Link link={`/user/${username}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="medium" />
 			</Link>
 			<Flex direction="column" justify="center" ml="4">
-				<Heading as="h4" size="4" mb="2">
+				<UsernameHeader as="h4" size="4">
 					<Link link={`/user/${username}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}
+						{trailName && <span className="trailName">{trailName}</span>}
 					</Link>
-				</Heading>
+				</UsernameHeader>
 				<SocialLinkList
 					socialLinks={socialLinks || []}
 					deleteEnabled={false}
@@ -36,3 +38,11 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 		</Flex>
 	);
 };
+
+const UsernameHeader = styled(Heading)`
+	margin: 0;
+	span.trailName {
+		color: var(--gray-10);
+		margin-left: 0.5em;
+	}
+`;
