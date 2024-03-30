@@ -20,9 +20,9 @@ export const GearCloset = () => {
 
 	const handleInputChange = (e: InputEvent) => setSearchInput(e.target.value);
 
-	const filteredClosetList = gearClosetList.filter((item) =>
-		searchMatch(searchInput, item.packItemName, 'i'),
-	);
+	const filteredClosetList =
+		gearClosetList.filter((item) => searchMatch(searchInput, item.packItemName, 'i')) ||
+		[];
 
 	const isSearching = searchInput.length > 0;
 	const dragDisabled = isSearching ? true : false;

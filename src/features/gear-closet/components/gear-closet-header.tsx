@@ -5,14 +5,14 @@ export const GearClosetHeader = () => {
 	return (
 		<Table.Header className="withPrimaryBorder">
 			<Table.Row>
-				<HeaderCell $paddingLeft="25px">Item</HeaderCell>
+				<HeaderCell $paddingLeft="1.5em">Item</HeaderCell>
 
-				<HeaderCell $paddingLeft="25px">Description</HeaderCell>
+				<HeaderCell $paddingLeft="1.5em">Description</HeaderCell>
 
 				<Table.ColumnHeaderCell />
 				<HeaderCell align="center">Qty</HeaderCell>
 
-				<HeaderCell align="left">Weight</HeaderCell>
+				<HeaderCell align="center">Weight</HeaderCell>
 
 				<HeaderCell align="center">Price</HeaderCell>
 

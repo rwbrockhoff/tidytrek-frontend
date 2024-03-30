@@ -91,7 +91,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					<StyledSeperator my="4" />
 
 					<Heading as="h3" size="5" mb="2">
-						<Link to={defaultPackUrl}>Packs</Link>
+						Packs
 					</Heading>
 
 					<PackList currentPackId={currentPackId} packList={packList} />

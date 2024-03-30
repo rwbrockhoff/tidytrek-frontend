@@ -25,7 +25,7 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 				<LogoTag justify="center">
 					<Text size="2">
 						tidytrek
-						<HikingIcon /> Made in Colorado
+						<HikingIcon /> Made in Durango, CO
 					</Text>
 				</LogoTag>
 			</a>

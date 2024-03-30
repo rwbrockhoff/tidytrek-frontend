@@ -25,6 +25,7 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 					value={packItemQuantity}
 					type="number"
 					step={1}
+					style={{ textAlign: 'center' }}
 					disabled={!userView}
 					onChange={onChange}
 				/>

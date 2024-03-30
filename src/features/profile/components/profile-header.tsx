@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { type UserProfile } from '@/types/profile-types';
-import { FaLocationArrow } from 'react-icons/fa6';
+import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
 import { SocialLinkList } from '@/components';
 import { useHandlers } from '../../account/hooks/use-profile-handlers';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { BannerPhoto } from './banner-photo';
-import { Flex, Heading, Text as DefaultText } from '@radix-ui/themes';
-import { Text } from '@/components/ui/text';
+import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | undefined;
@@ -37,7 +36,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
 	return (
-		<ProfileHeaderContainer>
+		<Box position="relative" mt="8">
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}
@@ -62,8 +61,12 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 						{trailName && <span className="trailName">({trailName})</span>}
 					</UsernameHeader>
 
-					<Flex align="center" mb="2">
-						{userLocation && <Text icon={<FaLocationArrow />}>{userLocation}</Text>}
+					<Flex align="center">
+						{userLocation && (
+							<LocationText mr="4">
+								<LocationIcon /> {userLocation}
+							</LocationText>
+						)}
 
 						{hasSocialLinks && (
 							<SocialLinkList
@@ -74,17 +77,12 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 						)}
 					</Flex>
 
-					<DefaultText>{userBio}</DefaultText>
+					<Text mt="0">{userBio}</Text>
 				</ProfileTextContainer>
 			</ProfileInfoContainer>
-		</ProfileHeaderContainer>
+		</Box>
 	);
 };
-
-const ProfileHeaderContainer = styled.div`
-	position: relative;
-	margin-top: 25px;
-`;
 
 const AvatarContainer = styled.div`
 	width: fit-content;
@@ -109,23 +107,33 @@ const ProfileInfoContainer = styled.div`
 
 const ProfileTextContainer = styled(Flex)`
 	height: 100%;
-	width: 30vw;
+	width: 50%;
 	margin-left: 250px;
-	margin-right: 250px;
 
 	${({ theme: t }) =>
 		t.mx.mobile(`
 			margin: 0px 20px;
 			margin-top: 75px;
-			width: 80vw;
+			width: 80%;
 			justify-content: flex-start;
 	`)}
 `;
 
+const LocationText = styled(Text)`
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+
+	svg {
+		margin-right: 0.25em;
+		color: var(--gray-9);
+	}
+`;
+
 const UsernameHeader = styled(Heading)`
-	margin-bottom: 0.5em;
+	margin-bottom: 0.25em;
 	span.trailName {
-		opacity: 0.7;
-		/* margin-left: 0.5rem; */
+		color: var(--gray-10);
+		margin-left: 0.5em;
 	}
 `;
