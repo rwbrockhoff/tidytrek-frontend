@@ -42,12 +42,16 @@ input[data-invalid='true'] {
 	background-color: var(--tomato-1);
 }
 
+button {
+	cursor: pointer;
+}
+
 a {
 	cursor: pointer;
 	text-decoration: none;
 	color: var(--cyan-9);
 	&:hover {
-		filter: var(--hover);
+		filter: var(--hover-dark-1);
 	}
 }
 

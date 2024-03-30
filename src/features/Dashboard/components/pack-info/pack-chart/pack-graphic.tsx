@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Category } from '@/types/pack-types';
 import { PackChart } from './pack-chart';
-import { Badge, Flex, Separator } from '@radix-ui/themes';
+import { Badge, Flex, Separator, Text } from '@radix-ui/themes';
 import { CircleIcon, DownArrowIcon } from '@/components/ui';
-import { Panel } from '@/components/ui/TidyUI';
 import CampGraphic from '@/assets/camping.svg';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
 import { PackSummaryPanel } from '../pack-summary-panel';
+import { useUserContext } from '@/hooks';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -15,6 +15,8 @@ type PackGraphicProps = {
 };
 
 export const PackGraphic = (props: PackGraphicProps) => {
+	const userView = useUserContext();
+
 	const { packCategories, fetching, display } = props;
 	const {
 		chartCategoryInfo,
@@ -25,16 +27,20 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		totalPackPrice,
 	} = useCategoryInfo(packCategories, 'lb');
 
-	if (packHasWeight && !fetching) {
+	const noPackWeight = userView && !packHasWeight;
+
+	if (fetching) return null;
+
+	if (packHasWeight) {
 		return (
-			<OuterPanel $width="50%" $display={display}>
-				<SummaryPanel $width="50%">
+			<OuterPanel align="center" $display={display}>
+				<SummaryPanel direction="column" align="end">
 					<ChartList role="list" direction="column">
 						{chartCategoryInfo.map((category) => {
 							return (
-								<ChartItem key={category.categoryId}>
+								<ChartItem align="center" key={category.categoryId}>
 									<ThemeIcon $themeColor={category.chartColor} />
-									<p>{category.categoryName}: </p>
+									<p>{category.categoryName || 'Category'} </p>
 									<Badge color="gray" ml="auto">
 										{category.totalWeight} lbs
 									</Badge>
@@ -51,31 +57,33 @@ export const PackGraphic = (props: PackGraphicProps) => {
 						/>
 					</ChartList>
 				</SummaryPanel>
-				<ChartPanel $width="50%">
+				<ChartPanel align="center" justify="end">
 					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
 				</ChartPanel>
 			</OuterPanel>
 		);
 	}
-	if (!packHasWeight && !fetching) {
+	if (noPackWeight) {
 		return (
-			<GraphicPanel $width="50%">
-				<img src={CampGraphic} />
-				<GraphicText>
-					<DownArrowIcon />
-					Add items below to get started
-				</GraphicText>
+			<GraphicPanel align="center" justify="end">
+				<Flex direction="column" height="auto">
+					<img src={CampGraphic} />
+					<GraphicText align="center">
+						<DownArrowIcon />
+						Add items below to get started
+					</GraphicText>
+				</Flex>
 			</GraphicPanel>
 		);
 	} else return null;
 };
 
-const OuterPanel = styled(Panel)<{ $display: boolean }>`
-	display: flex;
-	align-items: center;
+const OuterPanel = styled(Flex)<{ $display: boolean }>`
+	width: 50%;
 	transition: max-height 350ms ease-in-out;
 	${(props) =>
 		props.theme.mx.mobile(`
+		width: 100%;
 			max-height: ${props.$display ? '150vh' : 0};
 			overflow: hidden;
 			flex-direction: column-reverse;
@@ -83,10 +91,8 @@ const OuterPanel = styled(Panel)<{ $display: boolean }>`
 	`)}
 `;
 
-const ChartPanel = styled(Panel)`
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+const ChartPanel = styled(Flex)`
+	width: 50%;
 	margin-left: 25px;
 	${({ theme: t }) =>
 		t.mx.mobile(`
@@ -97,11 +103,8 @@ const ChartPanel = styled(Panel)`
 	`)}
 `;
 
-const GraphicPanel = styled(Panel)`
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	justify-content: flex-end;
+const GraphicPanel = styled(Flex)`
+	width: 50%;
 	height: 30vh;
 	img {
 		height: 100%;
@@ -109,21 +112,15 @@ const GraphicPanel = styled(Panel)`
 	${({ theme: t }) => t.mx.mobile(`display:none;`)}
 `;
 
-const GraphicText = styled.p`
-	display: inline-flex;
-	align-items: center;
-	width: 50%;
-	text-align: center;
-	margin-right: 1.25em;
+const GraphicText = styled(Text)`
+	${({ theme }) => theme.mx.flexCenter()}
 	svg {
 		margin-right: 0.5em;
 	}
 `;
 
-const SummaryPanel = styled(Panel)`
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
+const SummaryPanel = styled(Flex)`
+	width: 50%;
 	padding-right: 15px;
 	${({ theme: t }) =>
 		t.mx.mobile(`
@@ -142,8 +139,6 @@ const ChartList = styled(Flex)`
 const ChartItem = styled(Flex)`
 	height: 2.5em;
 	font-size: 0.9em;
-	display: flex;
-	align-items: center;
 	p {
 		margin-right: 5px;
 	}

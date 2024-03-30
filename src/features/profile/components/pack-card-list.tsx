@@ -1,7 +1,7 @@
 import { Flex } from '@radix-ui/themes';
 import { Pack } from '@/types/pack-types';
 import { PackCard } from './pack-card';
-import { useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks';
 
 type PackCardListProps = {
 	packThumbnailList: Pack[] | undefined;

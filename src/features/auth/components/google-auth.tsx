@@ -68,13 +68,12 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	const createUserInfo = (data: { user: User; session: Session }) => {
 		const { email, avatar_url, full_name } = data?.user?.user_metadata;
 		const splitName = full_name.split(' ');
-		const resizedPhoto = resizeGoogleAvatar(avatar_url);
 		return {
 			userId: data?.user?.id,
 			email,
 			firstName: splitName[0] || '',
 			lastName: splitName[1] || '',
-			avatarUrl: resizedPhoto,
+			avatarUrl: avatar_url,
 		};
 	};
 
@@ -111,15 +110,6 @@ const GoogleContainer = styled.div`
 	display: flex;
 	justify-content: center;
 `;
-
-const resizeGoogleAvatar = (url: string) => {
-	if (!url) return null;
-	const index = url.indexOf('=s96');
-	const validIndex = index >= 0;
-	return (
-		url.substring(0, validIndex ? index : url.length) + (validIndex ? '=s200-c' : '')
-	);
-};
 
 // defaults
 const googleErrorMessage = 'There was an error connecting with Google at this time.';

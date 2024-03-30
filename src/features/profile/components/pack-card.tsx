@@ -24,8 +24,8 @@ export const PackCard = (props: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<Link link={link} enabled={!userView}>
-			<StyledCard m="2">
+		<StyledCard m="2">
+			<Link link={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
 						src={packPhotoUrl}
@@ -60,8 +60,8 @@ export const PackCard = (props: PackCardProps) => {
 						</CardFooterText>
 					</CardFooter>
 				)}
-			</StyledCard>
-		</Link>
+			</Link>
+		</StyledCard>
 	);
 };
 
@@ -76,15 +76,15 @@ const StyledCard = styled(Card)`
 	flex-shrink: 0;
 	flex-grow: 0;
 	flex-basis: 30%;
-
 	position: relative;
 	padding-bottom: 1em;
-	a {
-		${({ theme: t }) => t.mx.themeColor('primary')}
-		&:hover {
-			filter: brightness(80%);
-		}
+
+	.profilePackLink {
+		flex-direction: column;
+		align-items: inherit;
+		width: 100%;
 	}
+
 	${({ theme: t }) => t.mx.mobile(`width: 95%;`)}
 `;
 

@@ -10,20 +10,29 @@ type LinkProps = {
 	children: React.ReactNode;
 	externalLink?: boolean;
 	enabled?: boolean;
+	className?: string;
 };
 
 export const Link = (props: LinkProps) => {
-	const { link, externalLink, enabled = true, children } = props;
+	const { link, externalLink, enabled = true, className = '', children } = props;
 
 	if (!enabled || !link) return children;
 	if (externalLink) {
 		return (
-			<StyledLink to={link} target="_blank" rel="noopener noreferrer">
+			<StyledLink
+				to={link}
+				target="_blank"
+				rel="noopener noreferrer"
+				className={className}>
 				{children}
 			</StyledLink>
 		);
 	} else {
-		return <StyledLink to={link}>{children}</StyledLink>;
+		return (
+			<StyledLink to={link} className={className} onClick={() => window.scrollTo(0, 0)}>
+				{children}
+			</StyledLink>
+		);
 	}
 };
 
@@ -31,10 +40,11 @@ const StyledLink = styled(RouterLink)`
 	display: flex;
 	align-items: center;
 	height: 100%;
-	${themeColor('primary')}
+	color: var(--jade-10);
+
 	&:hover {
-		${themeColor('primary')}
-		filter: brightness(95%);
+		color: var(--jade-10);
+		filter: var(--hover-dark-1);
 	}
 	svg {
 		margin: 0px 5px;

@@ -36,7 +36,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
 	return (
-		<Box position="relative" mt="8">
+		<Box position="relative" mt={userView ? '8' : '4'}>
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}
@@ -58,10 +58,10 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				<ProfileTextContainer direction="column" justify="center">
 					<UsernameHeader as="h3">
 						{username || firstName || 'Tidy Hiker'}
-						{trailName && <span className="trailName">({trailName})</span>}
+						{trailName && <span className="trailName">{trailName}</span>}
 					</UsernameHeader>
 
-					<Flex align="center">
+					<Flex align="center" wrap="wrap">
 						{userLocation && (
 							<LocationText mr="4">
 								<LocationIcon /> {userLocation}
@@ -114,7 +114,7 @@ const ProfileTextContainer = styled(Flex)`
 		t.mx.mobile(`
 			margin: 0px 20px;
 			margin-top: 75px;
-			width: 80%;
+			width: 90%;
 			justify-content: flex-start;
 	`)}
 `;

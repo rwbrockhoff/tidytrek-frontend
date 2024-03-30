@@ -48,7 +48,11 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			) : (
 				<Box ml="2">
 					{packItemUrl ? (
-						<DisplayLink url={packItemUrl || ''} text={packItemUrl || ''} showIcon />
+						<DisplayLink
+							url={packItemUrl || ''}
+							text={packItemName || packItemUrl || 'Pack Item'}
+							showIcon
+						/>
 					) : (
 						<Text>{packItemName}</Text>
 					)}
