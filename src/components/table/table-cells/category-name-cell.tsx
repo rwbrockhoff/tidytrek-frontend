@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { Flex, Heading, Table, TextFieldInput } from '@radix-ui/themes';
 import { ThemeButton, GripButton } from '../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import {
-	usePackCategoryHandlers,
-	type HeaderInfo,
-} from '@/features/dashboard/handlers/use-pack-category-handlers';
+import { usePackCategoryHandlers } from '../../../features/dashboard/handlers/use-pack-category-handlers';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
