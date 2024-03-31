@@ -1,14 +1,8 @@
-import { DropResult } from 'react-beautiful-dnd';
+import { type DropResult } from 'react-beautiful-dnd';
+import { type HeaderInfo, type Pack } from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { createContext, useContext } from 'react';
-import { Pack } from '@/types/pack-types';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
-
-export type HeaderInfo = {
-	packCategoryId: number;
-	packCategoryName?: string;
-	packCategoryColor?: string;
-};
 
 type Handlers = {
 	addCategory: (packId: number) => void;
@@ -18,12 +12,8 @@ type Handlers = {
 	onDragEnd: (result: DropResult, pack: Pack, paramPackId: string | undefined) => void;
 };
 
-// Exposed mutations being used outside of handlers
-type Mutations = {};
-
 type HandlerData = {
 	handlers: Handlers;
-	mutations: Mutations;
 };
 
 const useCreateHandlers = () => {
