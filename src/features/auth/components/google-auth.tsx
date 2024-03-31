@@ -1,10 +1,10 @@
 import { type Session, type User } from '@supabase/supabase-js';
 import { useRef, useEffect } from 'react';
-import styled from 'styled-components';
 import supabase from '@/api/supabaseClient';
 import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
 import { useCheckScreen } from '@/hooks';
+import { Flex } from '@radix-ui/themes';
 
 declare const google: any;
 
@@ -97,19 +97,11 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	};
 
 	return (
-		<GoogleContainer>
+		<Flex justify="center" width="100%" height="8">
 			<div ref={google_button} />
-		</GoogleContainer>
+		</Flex>
 	);
 };
-
-const GoogleContainer = styled.div`
-	margin: 1em 0em;
-	height: 3em;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-`;
 
 // defaults
 const googleErrorMessage = 'There was an error connecting with Google at this time.';

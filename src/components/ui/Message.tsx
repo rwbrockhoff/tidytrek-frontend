@@ -23,6 +23,7 @@ export const Message = (props: MessageProps) => {
 			variant="surface"
 			my="4"
 			data-testid={`${id}-${messageType}`}
+			aria-label="error warning"
 			role="alert"
 			aria-invalid={isSuccess ? 'false' : 'true'}
 			aria-errormessage={isSuccess ? '' : text}>

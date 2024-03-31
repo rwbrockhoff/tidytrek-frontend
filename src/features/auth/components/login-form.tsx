@@ -1,6 +1,5 @@
 import { type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
 import { Segment, Message } from '@/components/ui';
@@ -54,7 +53,7 @@ export const LogInForm = (props: FormProps) => {
 					updateServerError={updateServerError}
 				/>
 
-				<DividerText>or</DividerText>
+				<Text>or</Text>
 
 				<Form onSubmit={handleFormSubmit}>
 					{isRegisterForm && (
@@ -62,12 +61,13 @@ export const LogInForm = (props: FormProps) => {
 							<FormField name="firstName">
 								<FormControl asChild>
 									<TextField.Input
-										data-invalid={formErrors.firstName.error}
+										placeholder="First Name"
 										onChange={handleClearErrors}
 										radius="small"
 										my="4"
 										size="3"
-										placeholder="First Name"
+										data-invalid={formErrors.firstName.error}
+										data-testid="first-name-input"
 									/>
 								</FormControl>
 								{formErrors.firstName.error && (
@@ -81,12 +81,13 @@ export const LogInForm = (props: FormProps) => {
 							<FormField name="lastName">
 								<FormControl asChild>
 									<TextField.Input
-										data-invalid={formErrors.lastName.error}
+										placeholder="Last Name"
 										onChange={handleClearErrors}
 										radius="small"
 										my="4"
 										size="3"
-										placeholder="Last Name"
+										data-invalid={formErrors.lastName.error}
+										data-testid="last-name-input"
 									/>
 								</FormControl>
 								{formErrors.lastName.error && (
@@ -103,12 +104,13 @@ export const LogInForm = (props: FormProps) => {
 					<FormField name="email">
 						<FormControl asChild>
 							<TextField.Input
-								data-invalid={formErrors.email.error}
+								placeholder="Email"
 								onChange={handleClearErrors}
 								radius="small"
 								my="4"
 								size="3"
-								placeholder="Email"
+								data-invalid={formErrors.email.error}
+								data-testid="email-input"
 							/>
 						</FormControl>
 						{formErrors.email.error && (
@@ -134,7 +136,17 @@ export const LogInForm = (props: FormProps) => {
 						</FormControl>
 						{formErrors.password.error && (
 							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
+								<Text
+									mb="8"
+									color="tomato"
+									weight="light"
+									aria-label="error warning"
+									role="alert"
+									aria-invalid={formErrors.password.error ? 'true' : 'false'}
+									aria-errormessage={
+										formErrors.password.error ? formErrors.password.message : ''
+									}
+									data-testid="auth-message-error">
 									{formErrors.password.message}
 								</Text>
 							</FormMessage>
@@ -189,9 +201,3 @@ export const LogInForm = (props: FormProps) => {
 		</FormContainer>
 	);
 };
-
-const DividerText = styled.p`
-	margin: 1em 0em;
-	opacity: 0.8;
-	font-size: 1.1rem;
-`;
