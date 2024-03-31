@@ -1,16 +1,17 @@
 import { type FormError, type InputEvent } from '@/types/form-types';
+import { clearZodErrors, type ZodFormErrors } from '@/hooks';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
 import { Message, Segment } from '@/components/ui';
 import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components';
 import { type FormEvent } from 'react';
-import { FormErrors, type ResetPasswordData } from '../../types/auth-types';
+import { type ResetPasswordData } from '../../types/auth-types';
 
 type ResetPasswordFormProps = {
 	hasResetToken: boolean;
 	emailSent: boolean;
-	formErrors: FormErrors;
+	formErrors: ZodFormErrors<ResetPasswordData>;
 	serverError: FormError;
 	onResetRequest: (formData: ResetPasswordData) => void;
 	onResetConfirm: (formData: ResetPasswordData) => void;
@@ -28,7 +29,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	};
 
 	const handleClearErrors = (e: InputEvent) => {
-		if (formErrors[e.target.name].error) resetFormErrors(e.target.name);
+		clearZodErrors(e, formErrors, resetFormErrors);
 		if (serverError.error) resetFormErrors();
 	};
 

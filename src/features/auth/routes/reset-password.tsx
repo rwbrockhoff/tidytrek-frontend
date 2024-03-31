@@ -1,3 +1,4 @@
+import { type ResetPasswordData } from '../types/auth-types';
 import { useEffect, useState } from 'react';
 import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
 import supabase from '@/api/supabaseClient';
@@ -5,7 +6,6 @@ import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '@/queries/user-queries';
 import { useGetAuth, useMutationErrors, useZodError } from '@/hooks';
-import { ResetPasswordData } from '../types/auth-types';
 import { z, emailSchema, passwordSchema } from '@/schemas';
 
 export const ResetPassword = () => {
@@ -16,11 +16,9 @@ export const ResetPassword = () => {
 	const { mutate: login } = useLoginMutation();
 	const [emailSent, setEmailSent] = useState(false);
 
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
-		'email',
-		'password',
-		'confirmPassword',
-	]);
+	const { formErrors, updateFormErrors, resetFormErrors } =
+		useZodError<ResetPasswordData>(['email', 'password', 'confirmPassword']);
+
 	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
 
 	useEffect(() => {

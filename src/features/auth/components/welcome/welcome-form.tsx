@@ -7,7 +7,7 @@ import { FormContainer } from '../form-components';
 import { Form } from '@radix-ui/react-form';
 import { z, usernameSchema, trailNameSchema } from '@/schemas';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
-import { useMutationErrors, useZodError } from '@/hooks';
+import { clearZodErrors, useMutationErrors, useZodError } from '@/hooks';
 import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys } from '@/queries/query-keys';
@@ -18,12 +18,17 @@ const formSchema = z.object({
 	trailName: trailNameSchema,
 });
 
+type ZodInputs = {
+	username: string;
+	trailName: string;
+};
+
 type WelcomeFormProps = {
 	defaultUsername: string | undefined;
 };
 
 export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<ZodInputs>({
 		username: defaultUsername || '',
 		trailName: '',
 	});
@@ -33,7 +38,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 
 	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<ZodInputs>([
 		'username',
 		'trailName',
 	]);
@@ -77,7 +82,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 	};
 
 	const handleClearErrors = (e: InputEvent) => {
-		if (formErrors[e.target.name].error) resetFormErrors(e.target.name);
+		clearZodErrors<ZodInputs>(e, formErrors, resetFormErrors);
 		if (serverError.error) resetAxiosError();
 	};
 

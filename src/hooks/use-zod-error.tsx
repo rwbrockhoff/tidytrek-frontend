@@ -1,18 +1,20 @@
-import { type FormErrors as FormErrorsType } from '@/features/auth/types/auth-types';
+import { FormError, TextAreaEvent, InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { z } from 'zod';
 
-export const useZodError = (formInputs: string[]) => {
-	const mappedInputs = createFormErrorShape(formInputs);
-	const [formErrors, setFormErrors] = useState<FormErrorsType>(mappedInputs);
+export type ZodFormErrors<T> = { [Property in keyof T]: FormError };
+
+export function useZodError<T>(formInputs: (keyof T)[]) {
+	const mappedInputs = createFormErrorShape<T>(formInputs);
+	const [formErrors, setFormErrors] = useState(mappedInputs);
 
 	const updateFormErrors = (result: z.ZodIssue[]) => {
-		let errorObject: FormErrorsType = {};
-		result.map((error: z.ZodIssue) => {
-			const name = error.path[0];
+		let errorObject: ZodFormErrors<T> = result.reduce((acc, error: z.ZodIssue) => {
+			const name = error.path[0] as keyof T;
 			const message = error.message;
-			errorObject[name] = { error: true, message };
-		});
+			return { ...acc, [name]: { error: true, message } };
+		}, {} as ZodFormErrors<T>);
+
 		setFormErrors((prev) => ({ ...prev, ...errorObject }));
 	};
 
@@ -24,10 +26,25 @@ export const useZodError = (formInputs: string[]) => {
 	};
 
 	return { formErrors, updateFormErrors, resetFormErrors };
-};
+}
 
-const createFormErrorShape = (formInputs: string[]) => {
-	let errorObject: FormErrorsType = {};
-	formInputs.map((inputName) => (errorObject[inputName] = { error: false, message: '' }));
+function createFormErrorShape<T>(formInputs: (keyof T)[]) {
+	const errorObject: ZodFormErrors<T> = formInputs.reduce((acc, inputName) => {
+		acc[inputName] = { error: false, message: '' };
+		return acc;
+	}, {} as ZodFormErrors<T>);
+
 	return errorObject;
-};
+}
+
+export function clearZodErrors<T extends Record<keyof T, string>>(
+	e: InputEvent | TextAreaEvent,
+	formErrors: Record<keyof T, FormError>,
+	reset: (property: keyof T) => void,
+) {
+	if (e.target && 'name' in e.target) {
+		const propertyName = e.target.name as keyof T;
+		const hasError = formErrors[propertyName]?.error;
+		if (hasError) reset(propertyName);
+	}
+}

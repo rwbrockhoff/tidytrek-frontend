@@ -16,11 +16,17 @@ import { Link, Message, PasswordIcon } from '@/components/ui';
 import { ConfirmationForm } from './confirmation-form';
 import { reauthenticateUser, updatePassword } from '@/api/supabaseClient';
 import { z, passwordSchema } from '@/schemas';
-import { useZodError } from '@/hooks';
+import { useZodError, clearZodErrors } from '@/hooks';
 
 type PasswordFormProps = {
 	displayFormSection: FormSection;
 	changeFormSection: (section: FormSection) => void;
+};
+
+type ZodInputs = {
+	password: string;
+	confirmPassword: string;
+	emailCode: string;
 };
 
 export const PasswordForm = (props: PasswordFormProps) => {
@@ -31,7 +37,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 	const [formSuccess, setFormSuccess] = useState(false);
 
 	const [serverError, setServerError] = useState({ error: false, message: '' });
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<ZodInputs>([
 		'password',
 		'confirmPassword',
 		'emailCode',
@@ -69,8 +75,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 	};
 
 	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
-		const hasError = formErrors[e.target.name]?.error;
-		if (hasError) resetFormErrors(e.target.name);
+		clearZodErrors<ZodInputs>(e, formErrors, resetFormErrors);
 		if (serverError.error) setServerError({ error: false, message: '' });
 	};
 
@@ -116,7 +121,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						<FormLabel>New Password</FormLabel>
 						<FormControl asChild>
 							<TextFieldInput
-								data-invalid={formErrors.password.error}
+								data-invalid={formErrors.password?.error}
 								onChange={handleClearErrors}
 								radius="small"
 								mt="1"
@@ -126,7 +131,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 								placeholder="New Password"
 							/>
 						</FormControl>
-						{formErrors.password.error && (
+						{formErrors?.password?.error && (
 							<FormMessage>
 								<Text mb="8" color="tomato" weight="light">
 									{formErrors.password.message}
@@ -139,7 +144,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						<FormLabel>Confirm Password</FormLabel>
 						<FormControl asChild>
 							<TextFieldInput
-								data-invalid={formErrors.confirmPassword.error}
+								data-invalid={formErrors?.confirmPassword?.error}
 								onChange={handleClearErrors}
 								radius="small"
 								mt="1"
@@ -149,7 +154,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 								placeholder="New Password"
 							/>
 						</FormControl>
-						{formErrors.confirmPassword.error && (
+						{formErrors?.confirmPassword?.error && (
 							<FormMessage>
 								<Text mb="8" color="tomato" weight="light">
 									{formErrors.confirmPassword.message}
@@ -162,7 +167,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						<FormLabel>Email Code</FormLabel>
 						<FormControl asChild>
 							<TextFieldInput
-								data-invalid={formErrors.emailCode.error}
+								data-invalid={formErrors?.emailCode?.error}
 								onChange={handleClearErrors}
 								radius="small"
 								my="2"
@@ -170,7 +175,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 								placeholder="Email Code"
 							/>
 						</FormControl>
-						{formErrors.emailCode.error && (
+						{formErrors.emailCode?.error && (
 							<FormMessage>
 								<Text mb="8" color="tomato" weight="light">
 									{formErrors.emailCode.message}

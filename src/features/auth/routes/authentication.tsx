@@ -33,12 +33,8 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 	const { mutate: loginUser } = loginData;
 	const { mutate: registerUser, isSuccess: isRegisterSuccess } = registerData;
 
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
-		'firstName',
-		'lastName',
-		'email',
-		'password',
-	]);
+	const { formErrors, updateFormErrors, resetFormErrors } =
+		useZodError<RegisterUserFormData>(['firstName', 'lastName', 'email', 'password']);
 
 	const { serverError, updateAxiosError, resetAxiosError, setAxiosError } =
 		useMutationErrors();

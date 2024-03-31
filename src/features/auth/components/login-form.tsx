@@ -1,3 +1,5 @@
+import { type FormEvent } from 'react';
+import { type FormError, type InputEvent } from '@/types/form-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
@@ -5,16 +7,14 @@ import { Segment, Message } from '@/components/ui';
 import { Heading, Button, Text, Flex, TextField } from '@radix-ui/themes';
 import { FormContainer } from './form-components';
 import { GoogleAuth } from './google-auth';
-import { FormErrors } from '../types/auth-types';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
-import { type FormEvent } from 'react';
-import { FormError, type InputEvent } from '@/types/form-types';
+import { clearZodErrors, type ZodFormErrors } from '@/hooks';
 
 type FormProps = {
 	isRegisterForm: boolean;
 	isRegisterSuccess: boolean;
 	isLoading: boolean;
-	formErrors: FormErrors;
+	formErrors: ZodFormErrors<RegisterUserFormData>;
 	serverError: FormError;
 	registerUser: (formData: RegisterUserFormData) => void;
 	loginUser: (formData: LoginUserFormData) => void;
@@ -35,7 +35,7 @@ export const LogInForm = (props: FormProps) => {
 	};
 
 	const handleClearErrors = (e: InputEvent) => {
-		if (formErrors[e.target.name].error) resetFormErrors(e.target.name);
+		clearZodErrors(e, formErrors, resetFormErrors);
 		if (serverError.error) resetFormErrors();
 	};
 

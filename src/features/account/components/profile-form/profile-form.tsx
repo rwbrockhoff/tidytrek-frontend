@@ -17,9 +17,8 @@ import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { SocialLinks } from './social-links';
 import { FormField, FormTextArea } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
-import { useAxiosErrorMessage } from '@/hooks/use-axios-error';
 import { AvatarSettings } from './avatar-settings';
-import { useZodError } from '@/hooks';
+import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys } from '@/queries/query-keys';
 import { tidyTrekAPI } from '@/api/tidytrekAPI';
@@ -27,6 +26,13 @@ import { tidyTrekAPI } from '@/api/tidytrekAPI';
 type ProfileFormProps = {
 	profileInfo: ProfileInfo | undefined;
 	socialLinks: SocialLink[];
+};
+
+type FormInputs = {
+	username: string;
+	trailName: string;
+	userBio: string;
+	userLocation: string;
 };
 
 const maxLength = 250;
@@ -47,7 +53,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	const queryClient = useQueryClient();
 
 	const [isProfileChanged, setIsProfileChanged] = useState(false);
-	const [userInfo, setUserInfo] = useState({
+	const [userInfo, setUserInfo] = useState<FormInputs>({
 		userBio: '',
 		userLocation: '',
 		username: '',
@@ -64,7 +70,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 		},
 	} = useHandlers().mutations;
 
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError([
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<FormInputs>([
 		'username',
 		'userBio',
 		'trailName',
@@ -91,8 +97,7 @@ export const ProfileForm = (props: ProfileFormProps) => {
 	};
 
 	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
-		if (formErrors[e.target.name] && formErrors[e.target.name].error)
-			resetFormErrors(e.target.name);
+		clearZodErrors<FormInputs>(e, formErrors, resetFormErrors);
 	};
 
 	const handleEditProfile = async (e: FormEvent<HTMLFormElement>) => {
