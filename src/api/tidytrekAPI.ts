@@ -29,7 +29,7 @@ tidyTrekAPI.interceptors.request.use(
 
 const getToken = async () => {
 	// Fetch token stored in localStorage by Supabase
-	const storageKey = import.meta.env.VITE_STORAGE_KEY;
+	const storageKey = 'sb-pnfcatjvbwxdkapaprsb-auth-token';
 	const sessionDataString = localStorage.getItem(storageKey);
 	const sessionData = JSON.parse(sessionDataString || 'null');
 	const isExpired = getExpiration(sessionData?.expires_at);

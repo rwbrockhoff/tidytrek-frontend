@@ -12,7 +12,11 @@ type GoogleAuthProps = {
 	context: AuthContext;
 	updateServerError: (message: string) => void;
 };
+
 type AuthContext = 'signup' | 'signin';
+
+const googlePublicId =
+	'778562703378-b8d69qdpjgvtcgmd0u7b3odot2gmsi6j.apps.googleusercontent.com';
 
 export const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
@@ -53,7 +57,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 		// subscribe to google gsi and render button
 		if (google_button.current && google) {
 			google.accounts.id.initialize({
-				client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+				client_id: googlePublicId,
 				callback: handleGoogleAuth,
 			});
 			google.accounts.id.renderButton(google_button.current, {
