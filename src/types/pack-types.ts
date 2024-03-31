@@ -84,3 +84,9 @@ export type MovePackCategoryProps = {
 	prevIndex: number;
 	paramPackId: string | undefined;
 };
+
+export type HeaderInfo = {
+	packCategoryId: number;
+	packCategoryName?: string;
+	packCategoryColor?: string;
+};

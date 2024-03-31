@@ -1,3 +1,4 @@
+import { type HeaderInfo } from '@/types/pack-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '@/api/tidytrekAPI';
 import {
@@ -10,7 +11,6 @@ import {
 } from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '@/utils';
-import { HeaderInfo } from '../features/dashboard/handlers/use-pack-category-handlers';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
