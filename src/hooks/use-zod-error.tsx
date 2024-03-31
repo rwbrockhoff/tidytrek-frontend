@@ -1,4 +1,4 @@
-import { FormError, TextAreaEvent, InputEvent } from '@/types/form-types';
+import { FormError, TextAreaEvent, InputEvent, SelectEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -7,6 +7,10 @@ export type ZodFormErrors<T> = { [Property in keyof T]: FormError };
 export function useZodError<T>(formInputs: (keyof T)[]) {
 	const mappedInputs = createFormErrorShape<T>(formInputs);
 	const [formErrors, setFormErrors] = useState(mappedInputs);
+	const [primaryError, setPrimaryError] = useState<FormError>({
+		error: false,
+		message: '',
+	});
 
 	const updateFormErrors = (result: z.ZodIssue[]) => {
 		let errorObject: ZodFormErrors<T> = result.reduce((acc, error: z.ZodIssue) => {
@@ -16,6 +20,10 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 		}, {} as ZodFormErrors<T>);
 
 		setFormErrors((prev) => ({ ...prev, ...errorObject }));
+
+		if (!primaryError.error && result.length >= 1) {
+			setPrimaryError({ error: true, message: result[0].message });
+		}
 	};
 
 	const resetFormErrors = (inputName: string) => {
@@ -23,9 +31,10 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 			...prev,
 			...{ [inputName]: { error: false, message: '' } },
 		}));
+		setPrimaryError({ error: false, message: '' });
 	};
 
-	return { formErrors, updateFormErrors, resetFormErrors };
+	return { formErrors, updateFormErrors, resetFormErrors, primaryError };
 }
 
 function createFormErrorShape<T>(formInputs: (keyof T)[]) {
@@ -38,7 +47,7 @@ function createFormErrorShape<T>(formInputs: (keyof T)[]) {
 }
 
 export function clearZodErrors<T extends Record<keyof T, string>>(
-	e: InputEvent | TextAreaEvent,
+	e: InputEvent | TextAreaEvent | SelectEvent,
 	formErrors: Record<keyof T, FormError>,
 	reset: (property: keyof T) => void,
 ) {

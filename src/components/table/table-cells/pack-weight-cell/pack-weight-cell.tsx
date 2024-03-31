@@ -17,7 +17,7 @@ type PackWeightCellProps = {
 export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) => {
 	const userView = useUserContext();
 
-	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemWeight, packItemUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
@@ -41,6 +41,7 @@ export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) =
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleOnChange}
+						data-invalid={formErrors?.packItemWeight.error}
 						mr="3"
 					/>
 

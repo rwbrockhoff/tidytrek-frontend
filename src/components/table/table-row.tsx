@@ -18,6 +18,8 @@ import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { useCheckScreen } from '@/hooks';
 import { TableRowContext } from './context/table-row-context';
+import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
+import { TableErrorRow } from './table-error-row';
 
 type TableRowProps = {
 	index: number;
@@ -29,6 +31,12 @@ type TableRowProps = {
 	handleDelete: (packItemId: number) => void;
 };
 
+const packItemSchema = z.object({
+	packItemWeight: weightSchema,
+	packItemQuantity: quantitySchema,
+	packItemPrice: priceSchema,
+});
+
 // Table Row is used in PackCategory + GearCloset
 
 export const TableRow = (props: TableRowProps) => {
@@ -39,13 +47,31 @@ export const TableRow = (props: TableRowProps) => {
 	const { item, index, disabled } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
 
-	const { packItem, handleInput, packItemChanged } = useTableRowInput(item);
+	const {
+		packItem,
+		handleInput,
+		packItemChanged,
+		formErrors,
+		updateFormErrors,
+		primaryError,
+	} = useTableRowInput(item);
 
 	const [toggleRow, setToggleRow] = useState(false);
 	const [viewAllCells, setViewAllCells] = useState(false);
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 
-	const handleToggle = () => packItemChanged && handleOnSave(packItem);
+	const handleToggle = () => {
+		if (packItemChanged) {
+			// validation
+			const data = packItemSchema.safeParse(packItem);
+			if (!data.success) {
+				const result = JSON.parse(data.error.message);
+				return updateFormErrors(result);
+			}
+			// save valid pack item
+			handleOnSave(packItem);
+		}
+	};
 
 	const handleToggleViewAllCells = () => setViewAllCells(!viewAllCells);
 
@@ -73,7 +99,7 @@ export const TableRow = (props: TableRowProps) => {
 			{(provided, { isDragging }) => {
 				return (
 					<TableRowContext.Provider
-						value={{ packItem, onChange: handleInput, isDragging }}>
+						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
 						<>
 							<Row
 								onMouseOver={() => setToggleRow(true)}
@@ -128,6 +154,8 @@ export const TableRow = (props: TableRowProps) => {
 							{toggleGearButtons && userView && (
 								<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
 							)}
+
+							<TableErrorRow error={primaryError} />
 						</>
 					</TableRowContext.Provider>
 				);

@@ -28,7 +28,9 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	const { displayIcon, dragProps } = props;
 	const { onToggleOff, toggleMobileView } = props;
 
-	const handleToggleOff = () => userView && onToggleOff();
+	const handleToggleOff = () => {
+		userView && onToggleOff();
+	};
 
 	return (
 		<StyledCell ref={ref} onBlur={handleToggleOff} style={{ width }}>

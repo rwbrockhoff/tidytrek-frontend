@@ -43,6 +43,28 @@ export const passwordSchema = z
 		}
 	});
 
+// table row schemas
+
+export const weightSchema = z.coerce
+	.number({ invalid_type_error: 'Please include a valid number for pack weight.' })
+	.nonnegative({ message: 'Make sure your pack weight is a positive number.' })
+	.lte(10000, { message: 'Please include a valid weight for your pack item.' })
+	.safe();
+
+export const quantitySchema = z.coerce
+	.number({ invalid_type_error: 'Please include a valid number for item quantity.' })
+	.nonnegative({ message: 'Make sure your quantity is a positive number.' })
+	.lte(100, { message: 'Please include a valid quantity for your pack item.' })
+	.safe();
+
+export const priceSchema = z.coerce
+	.number({ invalid_type_error: 'Please include a valid price.' })
+	.nonnegative({ message: 'Make sure your price is a positive number.' })
+	.lte(10000, { message: 'Please include a valid price for your pack item.' })
+	.safe();
+
+// table row schemas
+
 export const basicInputSchema = (inputName: string, max?: number) => {
 	return z
 		.string()

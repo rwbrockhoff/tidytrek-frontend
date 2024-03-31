@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { type PackItem } from '@/types/pack-types';
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
+import { clearZodErrors, useZodError } from '@/hooks';
 
 export const useTableRowInput = (item: PackItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
@@ -21,6 +22,9 @@ export const useTableRowInput = (item: PackItem) => {
 		packItemPrice: 0,
 	});
 
+	const { formErrors, updateFormErrors, resetFormErrors, primaryError } =
+		useZodError<PackItem>(['packItemQuantity', 'packItemWeight', 'packItemPrice']);
+
 	useEffect(() => {
 		setPackItem({ ...item });
 	}, [item]);
@@ -31,7 +35,16 @@ export const useTableRowInput = (item: PackItem) => {
 			[e.target?.name]: e.target?.value,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
+		// clear errors
+		clearZodErrors(e, formErrors, resetFormErrors);
 	};
 
-	return { packItem, handleInput, packItemChanged };
+	return {
+		packItem,
+		handleInput,
+		packItemChanged,
+		formErrors,
+		updateFormErrors,
+		primaryError,
+	};
 };

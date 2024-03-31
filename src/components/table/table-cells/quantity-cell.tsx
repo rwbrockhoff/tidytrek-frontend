@@ -11,7 +11,7 @@ type ButtonProps = {
 export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 	const userView = useUserContext();
 
-	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemQuantity } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
@@ -25,9 +25,11 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 					value={packItemQuantity}
 					type="number"
 					step={1}
-					style={{ textAlign: 'center' }}
+					inputMode="numeric"
 					disabled={!userView}
+					data-invalid={formErrors?.packItemQuantity.error}
 					onChange={onChange}
+					style={{ textAlign: 'center' }}
 				/>
 			) : (
 				<Flex justify="center">

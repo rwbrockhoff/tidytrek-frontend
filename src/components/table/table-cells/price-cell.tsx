@@ -13,7 +13,7 @@ type PriceCellProps = {
 
 export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemPrice = 0 } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
@@ -49,6 +49,7 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 					name="packItemPrice"
 					placeholder={'0'}
 					onChange={handleOnChange}
+					data-invalid={formErrors?.packItemPrice.error}
 				/>
 			) : (
 				<Text align="center">{formattedPrice}</Text>
