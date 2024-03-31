@@ -1,12 +1,10 @@
+import { type HeaderInfo } from '@/types/pack-types';
 import { useState } from 'react';
 import { Flex, Table } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
-import {
-	usePackCategoryHandlers,
-	type HeaderInfo,
-} from '@/features/dashboard/handlers/use-pack-category-handlers';
+import { usePackCategoryHandlers } from '@/features/dashboard/handlers/use-pack-category-handlers';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
 
