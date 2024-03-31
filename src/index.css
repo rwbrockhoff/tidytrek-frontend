@@ -1,5 +1,6 @@
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	/* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
 	color-scheme: light dark;
@@ -8,60 +9,73 @@
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-moz-osx-font-smoothing: grayscale; */
+	--spinner-outer-bg-color: #f3f3f3;
+	--spinner-inner-bg-color: #949494;
+	--hover-dark: brightness(80%);
+	--hover-dark-1: brightness(95%);
+	--hover-light: brightness(120%);
+	--max-width: 1280px;
 }
+
+.radix-themes {
+	height: 100%;
+}
+
+.rt-TextAreaInput {
+	border: var(--text-area-border-width) solid var(--slate-6);
+}
+
+/* .rt-TableRoot:where(.rt-r-size-1) {
+	--table-cell-padding: var(--space-1);
+} */
 
 html,
-body {
+body,
+body > div#root {
+	height: 100%;
 	margin: 0;
 }
 
-h1 {
-	margin: 0;
+input[data-invalid='true'] {
+	border: 1px solid var(--tomato-8);
+	background-color: var(--tomato-1);
+}
+
+button {
+	cursor: pointer;
 }
 
 a {
 	cursor: pointer;
-}
-
-#app-view-container {
-	background-color: #f0f0f0;
-	height: 100vh;
-	display: flex;
-}
-
-/* Changes to Semantic UI */
-.ui.form .field.field input:-webkit-autofill,
-.ui.form .field.field input:-webkit-autofill:focus,
-.ui.form .field.field input:autofill,
-.ui.form .field.field input:autofill:focus {
-	/* box-shadow: 0 0 0 100px rgb(240, 240, 240) inset; */
-	-webkit-text-fill-color: black;
-	border: 1px solid rgb(240, 240, 240);
-}
-
-.ui.dimmer {
-	background-color: rgba(0, 0, 0, 0.25);
-}
-
-.ui.mini.modal {
-	left: calc(50% - 38px);
-	.close {
-		color: grey;
+	text-decoration: none;
+	color: var(--cyan-9);
+	&:hover {
+		filter: var(--hover-dark-1);
 	}
 }
 
-.ui.small.modal {
-	left: 37.5%;
+h1:last-child,
+h2:last-child,
+h3:last-child,
+h4:last-child,
+h5:last-child {
+	margin-bottom: revert;
+	margin-top: revert;
 }
 
-.ui.modal > i.close.icon {
-	top: 10px;
-	right: 10px;
+/* Override deeply nested inline styles from Radix  */
+.rt-ScrollAreaRoot {
+	overflow: visible;
+}
+div.rt-ScrollAreaViewport {
+	overflow: visible !important;
 }
 
-.ui.list > .item > i.icon {
-	margin: 0px 5px;
+.rt-TableRoot {
+	overflow: visible !important;
 }
-
-/* Changes to Semantic UI */
+.rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
+	overflow: visible !important;
+}
+/* Override deeply nested inline styles from Radix  */
