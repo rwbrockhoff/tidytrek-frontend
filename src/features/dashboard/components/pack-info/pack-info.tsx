@@ -63,7 +63,7 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	return (
 		<PackInfoContainer align="center" display="inline-flex" mt="6" mb="9">
-			<UserInfoPanel $width={'50%'} $user={userView}>
+			<UserInfoPanel $width={'50%'}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -72,12 +72,17 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Heading as="h1" size="6" mb="0">
+				<Heading as="h1" size="6" mb="2">
 					<Flex>
 						{packName}
 
 						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
-							<EditIcon name="pencil alternate" color="grey" className="editIcon" />
+							<EditIcon
+								$user={userView}
+								className="editIcon"
+								name="pencil alternate"
+								color="grey"
+							/>
 						</PackModal>
 					</Flex>
 				</Heading>
@@ -89,7 +94,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						url={packUrl}
 						text={packUrlName || packUrl || 'Pack Link'}
 						showIcon
-						margin="0 0 10px 0"
+						margin="0 0 0 0"
 					/>
 				)}
 
@@ -139,8 +144,7 @@ const PackInfoContainer = styled(Flex)`
 	`)}
 `;
 
-const UserInfoPanel = styled(Panel)<{ $user: boolean }>`
-	display: ${({ $user }) => ($user ? 'visible' : 'none')};
+const UserInfoPanel = styled(Panel)`
 	&:hover {
 		.editIcon {
 			opacity: 1;
@@ -148,7 +152,8 @@ const UserInfoPanel = styled(Panel)<{ $user: boolean }>`
 	}
 `;
 
-const EditIcon = styled(EditPencilIcon)`
+const EditIcon = styled(EditPencilIcon)<{ $user: boolean }>`
+	display: ${({ $user }) => ($user ? 'visible' : 'none')};
 	font-size: 0.9em;
 	margin-left: 0.5em;
 	cursor: pointer;
