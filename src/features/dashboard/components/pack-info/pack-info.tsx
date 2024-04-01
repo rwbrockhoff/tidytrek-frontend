@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
-import { Flex, Heading, Button } from '@radix-ui/themes';
+import { Flex, Heading, Button, Text } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
 	useDeletePackAndItemsMutation,
@@ -98,7 +98,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<p>{packDescription}</p>
+				<DescriptionText my="2">{packDescription}</DescriptionText>
 
 				<PackLabels pack={currentPack} />
 
@@ -150,6 +150,11 @@ const UserInfoPanel = styled(Panel)`
 			opacity: 1;
 		}
 	}
+`;
+
+const DescriptionText = styled(Text)`
+	display: flex;
+	max-width: 60ch;
 `;
 
 const EditIcon = styled(EditPencilIcon)<{ $user: boolean }>`

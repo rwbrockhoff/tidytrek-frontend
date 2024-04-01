@@ -1,13 +1,13 @@
 import { Flex } from '@radix-ui/themes';
 import styled from 'styled-components';
 
-type Radius = 'none' | '1' | '2' | '100%';
+type Radius = 'none' | '1' | '2' | '50%';
 
 const radiusChart = {
 	none: 'none',
 	'1': '.25rem',
 	'2': '1rem',
-	'100%': '100%',
+	'50%': '50%',
 };
 
 export const Segment = styled.div<{ $stacked?: boolean; $radius?: Radius }>`

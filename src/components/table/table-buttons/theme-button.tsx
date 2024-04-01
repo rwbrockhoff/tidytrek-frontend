@@ -40,6 +40,6 @@ const CircleButton = styled(Button)<{ $themeColor: string | undefined }>`
 	${(props) => props.theme.mx.themeBgColor(props.$themeColor)};
 	${({ theme }) => theme.mx.wh('18px')}
 	margin: 5px 10px;
-	border-radius: 9px;
+	border-radius: 50%;
 	cursor: pointer;
 `;

@@ -1,6 +1,6 @@
 import { ThemeProvider } from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { ProfileBanner } from '../components/profile-banner';
+import { ProfileBanner } from '@/components';
 import { ProfileHeader } from '../components/profile-header';
 import { PackCardList } from '../components/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';

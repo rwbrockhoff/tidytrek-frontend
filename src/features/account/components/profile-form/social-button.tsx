@@ -67,12 +67,14 @@ const CircleButton = styled(IconButton)<{ $backgroundColor: string }>`
 `;
 
 const shortenLink = (link: string, socialName: string) => {
+	const baseLink = link.replace(/^https?\:\/\//i, '');
 	// handle custom links
-	if (socialName === 'custom') return link.replace(/^https?\:\/\//i, '');
+	if (socialName === 'custom') return baseLink;
 	// handle social media links
-	const initialIndex = link.indexOf('/');
+	const initialIndex = baseLink.indexOf('/');
 	const index = initialIndex >= 0 ? initialIndex : 0;
-	return link.slice(index);
+
+	return baseLink.slice(index);
 };
 
 const StyledBadge = styled(Badge)`

@@ -83,6 +83,12 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 };
 
 const StyledBasicLink = styled.a<{ $margin?: string }>`
+	display: flex;
+	align-items: center;
+
+	svg {
+		margin-right: 0.25em;
+	}
 	span {
 		${themeColor('primary')}
 		${({ $margin }) =>

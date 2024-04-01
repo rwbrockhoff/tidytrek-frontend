@@ -84,7 +84,6 @@ const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
 	${(props) => props.theme.mx.wh(sizeChart[props.$size])};
 	border: ${(props) => (props.$withBorder ? `${avatarBorderWidth} solid white` : 'none')};
 	border-radius: 50%;
-	/* ${({ theme: t }) => t.mx.flexCenter()} */
 `;
 
 const OuterContainer = styled(InnerContainer)`
