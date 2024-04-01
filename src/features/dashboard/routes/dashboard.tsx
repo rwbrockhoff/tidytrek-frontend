@@ -6,6 +6,7 @@ import { useViewPackQuery } from '@/queries/guest-queries';
 import { HandlerWrapper as PackItemHandler } from '../handlers/use-pack-item-handlers';
 import { HandlerWrapper as PackCategoryHandler } from '../handlers/use-pack-category-handlers';
 import { useGetAuth } from '@/hooks';
+import { ProfileBanner } from '@/components';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { packId: paramPackId } = useParams();
@@ -23,6 +24,7 @@ export const Dashboard = ({ userView }: { userView: boolean }) => {
 		<PackCategoryHandler>
 			<PackItemHandler>
 				<UserViewContext.Provider value={userView}>
+					{!userView && <ProfileBanner />}
 					<DashboardContainer
 						isPending={isPending}
 						isAuthenticated={isAuthenticated}
