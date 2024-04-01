@@ -8,7 +8,6 @@ import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
 import { Flex, Heading, Button } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import {
-	// useDeletePackMutation,
 	useDeletePackAndItemsMutation,
 	useDeletePackMutation,
 } from '@/queries/pack-queries';
@@ -29,18 +28,16 @@ type PackInfoProps = {
 };
 
 export const PackInfo = (props: PackInfoProps) => {
-	const { fetching, currentPack, packCategories, userProfile, settings } = props;
-	const { profileInfo, socialLinks } = userProfile || {};
-
+	const navigate = useNavigate();
 	const userView = useUserContext();
 	const { packId: paramPackId } = useParams();
 
-	const navigate = useNavigate();
+	const { fetching, currentPack, packCategories, userProfile, settings } = props;
+	const { profileInfo, socialLinks } = userProfile || {};
 
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
 
-	const [showIcon, setShowIcon] = useState(false);
 	const [showPackChart, setShowPackChart] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -63,13 +60,10 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { publicProfile } = settings || {};
-	const showEditIcon = userView && showIcon;
+
 	return (
 		<PackInfoContainer align="center" display="inline-flex" mt="6" mb="9">
-			<Panel
-				$width={'50%'}
-				onMouseOver={() => setShowIcon(true)}
-				onMouseLeave={() => setShowIcon(false)}>
+			<UserInfoPanel $width={'50%'} $user={userView}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -82,11 +76,9 @@ export const PackInfo = (props: PackInfoProps) => {
 					<Flex>
 						{packName}
 
-						{showEditIcon && (
-							<PackModal showDeleteModal={handleToggleDeleteModal} pack={currentPack}>
-								<EditIcon name="pencil alternate" color="grey" />
-							</PackModal>
-						)}
+						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
+							<EditIcon name="pencil alternate" color="grey" className="editIcon" />
+						</PackModal>
 					</Flex>
 				</Heading>
 
@@ -113,7 +105,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					<ChartIcon />
 					Show Pack Chart
 				</ToggleChartButton>
-			</Panel>
+			</UserInfoPanel>
 
 			{/* Right Hand Panel */}
 
@@ -147,10 +139,20 @@ const PackInfoContainer = styled(Flex)`
 	`)}
 `;
 
-const EditIcon = styled(EditPencilIcon)<{ $display?: boolean }>`
+const UserInfoPanel = styled(Panel)<{ $user: boolean }>`
+	display: ${({ $user }) => ($user ? 'visible' : 'none')};
+	&:hover {
+		.editIcon {
+			opacity: 1;
+		}
+	}
+`;
+
+const EditIcon = styled(EditPencilIcon)`
 	font-size: 0.9em;
 	margin-left: 0.5em;
 	cursor: pointer;
+	opacity: 0;
 	${({ theme: t }) => t.mx.mobile(`opacity: 1;`)}
 `;
 

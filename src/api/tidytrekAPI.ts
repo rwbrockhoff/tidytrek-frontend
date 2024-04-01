@@ -2,9 +2,7 @@ import axios from 'axios';
 import supabase from './supabaseClient';
 
 export const frontendURL =
-	process.env.NODE_ENV === 'production'
-		? 'https://api.tidytrek.co'
-		: 'http://localhost:5173';
+	process.env.NODE_ENV === 'production' ? 'https://tidytrek.co' : 'http://localhost:5173';
 
 const baseURL =
 	process.env.NODE_ENV === 'production'
