@@ -70,8 +70,9 @@ const shortenLink = (link: string, socialName: string) => {
 	// handle custom links
 	if (socialName === 'custom') return link.replace(/^https?\:\/\//i, '');
 	// handle social media links
-	let slashIndex = link.lastIndexOf('/');
-	return link.split('').splice(slashIndex).join('');
+	const initialIndex = link.indexOf('/');
+	const index = initialIndex >= 0 ? initialIndex : 0;
+	return link.slice(index);
 };
 
 const StyledBadge = styled(Badge)`

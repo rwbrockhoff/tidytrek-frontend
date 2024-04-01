@@ -6,7 +6,7 @@ import { MdLogout as LogoutIcon } from 'react-icons/md';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
-		<Menu>
+		<Menu $darkText>
 			<li>
 				<Link to="/account">
 					<UserIcon />
@@ -41,13 +41,13 @@ export const SidebarMenu = () => {
 	);
 };
 
-const Menu = styled.menu`
+const Menu = styled.menu<{ $darkText?: boolean }>`
 	padding-inline-start: 0;
 	margin: 0;
-	padding: 0 !important;
+	padding: 0;
+
 	a {
-		color: black;
-		cursor: pointer;
+		color: ${({ $darkText }) => ($darkText ? 'black' : 'inherit')};
 		text-decoration: none;
 	}
 

@@ -15,7 +15,7 @@ export const GuestLayout = () => {
 
 const GuestViewContainer = styled.div`
 	min-height: 100%;
-	height: 100%;
+	box-sizing: border-box;
 	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
 	overflow-y: scroll;
 	padding-left: 10vw;
@@ -26,6 +26,7 @@ const GuestViewContainer = styled.div`
 	main {
 		margin: 0 auto;
 		min-height: 100%;
+		box-sizing: border-box;
 		max-width: var(--max-width);
 		position: relative;
 	}
