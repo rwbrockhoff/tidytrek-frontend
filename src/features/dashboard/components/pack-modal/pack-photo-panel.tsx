@@ -36,6 +36,7 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 			</Text>
 			<PackPhoto
 				src={packPhotoUrl}
+				packId={packId}
 				uploadEnabled={!photoPending}
 				isPending={photoPending}
 				onUpload={handleUploadPhoto}
