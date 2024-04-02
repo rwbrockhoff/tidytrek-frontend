@@ -47,7 +47,7 @@ const UploadLabel = styled.label`
 	color: white;
 	cursor: pointer;
 	font-size: 2em;
-	padding: 2em;
+	padding: 1em;
 	svg {
 		margin: 0;
 	}
