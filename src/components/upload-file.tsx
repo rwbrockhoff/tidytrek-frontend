@@ -28,20 +28,18 @@ export const UploadFile = (props: UploadFileProps) => {
 	};
 
 	return (
-		<div>
-			<form encType="multipart/form-data" ref={formRef}>
-				<UploadLabel htmlFor={fileId}>
-					<UploadIcon />
-				</UploadLabel>
-				<UploadInput
-					id={fileId}
-					type="file"
-					accept={fileType}
-					onChange={handleFile}
-					disabled={isPending}
-				/>
-			</form>
-		</div>
+		<form encType="multipart/form-data" ref={formRef} className="uploadFileForm">
+			<UploadLabel htmlFor={fileId}>
+				<UploadIcon />
+			</UploadLabel>
+			<UploadInput
+				id={fileId}
+				type="file"
+				accept={fileType}
+				onChange={handleFile}
+				disabled={isPending}
+			/>
+		</form>
 	);
 };
 
@@ -49,6 +47,7 @@ const UploadLabel = styled.label`
 	color: white;
 	cursor: pointer;
 	font-size: 2em;
+	padding: 2em;
 	svg {
 		margin: 0;
 	}
