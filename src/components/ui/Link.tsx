@@ -98,7 +98,7 @@ const StyledBasicLink = styled.a<{ $margin?: string }>`
 			`}
 	}
 	&:hover {
-		filter: var(--hover-dark);
+		filter: var(--hover-dark-2);
 	}
 `;
 

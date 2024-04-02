@@ -1,7 +1,6 @@
 //--Global Icons--//
 export {
 	FaMinus as MinusIcon,
-	FaPlus as PlusIcon,
 	FaTrash as TrashIcon,
 	FaCaretDown as CaretDownIcon,
 	FaShare as ShareIcon,
@@ -11,6 +10,7 @@ export {
 	FaRegSave as SaveIcon,
 	FaTree as TreeIcon,
 } from 'react-icons/fa';
+export { MdOutlineAdd as PlusIcon } from 'react-icons/md';
 export { IoMdRefresh as RefreshIcon } from 'react-icons/io';
 export { RiInformationFill as InfoIcon } from 'react-icons/ri';
 export { TfiMenu as SidebarIcon } from 'react-icons/tfi';
@@ -29,6 +29,7 @@ export { MdEmojiFoodBeverage as ConsumableIcon } from 'react-icons/md';
 export { MdEdit as EditPencilIcon } from 'react-icons/md';
 export { FaChartPie as ChartIcon } from 'react-icons/fa';
 export { FaGripVertical as GripIcon } from 'react-icons/fa';
+export { CgImport as ImportIcon } from 'react-icons/cg';
 //--Global Icons--//
 
 //--Pack Label Icons--//

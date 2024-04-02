@@ -1,12 +1,12 @@
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaRegUser as UserIcon } from 'react-icons/fa';
 import { BiCloset as ClosetIcon } from 'react-icons/bi';
 import { MdLogout as LogoutIcon } from 'react-icons/md';
+import { StyledMenu } from './styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
-		<Menu $darkText>
+		<StyledMenu $darkText>
 			<li>
 				<Link to="/account">
 					<UserIcon />
@@ -18,13 +18,13 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 				<LogoutIcon />
 				Log Out
 			</li>
-		</Menu>
+		</StyledMenu>
 	);
 };
 
 export const SidebarMenu = () => {
 	return (
-		<Menu style={{ marginTop: '2em' }}>
+		<StyledMenu style={{ marginTop: '2em' }}>
 			<li>
 				<Link to="/profile">
 					<UserIcon />
@@ -37,40 +37,6 @@ export const SidebarMenu = () => {
 					Gear Closet
 				</Link>
 			</li>
-		</Menu>
+		</StyledMenu>
 	);
 };
-
-const Menu = styled.menu<{ $darkText?: boolean }>`
-	padding-inline-start: 0;
-	margin: 0;
-	padding: 0;
-
-	a {
-		color: ${({ $darkText }) => ($darkText ? 'black' : 'inherit')};
-		text-decoration: none;
-	}
-
-	li {
-		list-style: none;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-
-		margin: 10px 5px;
-		margin-right: 15px;
-
-		:hover {
-			opacity: 0.7;
-		}
-
-		svg {
-			margin-right: 5px;
-		}
-
-		${({ theme: t }) =>
-			t.mx.mobile(`
-				font-size: 1.2rem;
-		`)}
-	}
-`;

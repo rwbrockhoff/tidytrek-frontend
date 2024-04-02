@@ -1,15 +1,14 @@
-import { Button } from '@radix-ui/themes';
-import { useNavigate, useParams } from 'react-router-dom';
-import { PlusIcon } from '@/components/ui';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drag, DragDropContext, DropResult } from '@/components';
 import { Droppable } from 'react-beautiful-dnd';
 import { PackListItem } from './pack-list-item';
 import { StyledSeperator } from '../sidebar';
-import { useAddNewPackMutation, useMovePackMutation } from '@/queries/pack-queries';
-import { useEffect } from 'react';
+import { useMovePackMutation } from '@/queries/pack-queries';
+
 import { encode } from '@/utils';
+import { CreatePackMenu } from './create-pack-menu';
 
 type PackListProps = {
 	currentPackId: number | undefined;
@@ -18,25 +17,8 @@ type PackListProps = {
 
 export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	const navigate = useNavigate();
-	const { packId: paramPackId } = useParams();
 
 	const { mutate: movePack } = useMovePackMutation();
-	const addNewPackData = useAddNewPackMutation();
-	const { mutate: addPack } = addNewPackData;
-
-	useEffect(() => {
-		// subscribe to new pack created event, redirect to new pack
-		if (addNewPackData.isSuccess && addNewPackData.data) {
-			if ('pack' in addNewPackData.data && paramPackId) {
-				const { packId } = addNewPackData.data.pack;
-				const encodedId = encode(packId);
-				if (paramPackId !== encodedId) {
-					addNewPackData.reset();
-					navigate(`/pack/${encodedId}`);
-				}
-			}
-		}
-	}, [addNewPackData, paramPackId, navigate]);
 
 	const handleGetPack = async (packId: number) => {
 		const { pathname } = location;
@@ -94,28 +76,11 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 			</DragDropContext>
 			<StyledSeperator my="4" />
 
-			<NewPackButton variant="ghost" onClick={() => addPack()}>
-				<PlusIcon />
-				Create New Pack
-			</NewPackButton>
+			<CreatePackMenu />
 		</div>
 	);
 };
 
 const StyledContainer = styled.div`
 	color: white;
-`;
-
-const NewPackButton = styled(Button)`
-	background: transparent;
-	color: white;
-	cursor: pointer;
-	&:hover {
-		filter: var(--hover-dark);
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-				font-size: 1em;
-				margin-top: 1em;
-		`)}
 `;
