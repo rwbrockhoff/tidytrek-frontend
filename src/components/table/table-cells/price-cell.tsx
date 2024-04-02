@@ -31,6 +31,7 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 
 	const handleOnChange = (e: InputEvent) => {
 		if (!e.target.value) e.target.value = '0';
+		e.target.value = e.target.value.replace(/[^0-9\.-]+/g, '');
 		onChange && onChange(e);
 	};
 
