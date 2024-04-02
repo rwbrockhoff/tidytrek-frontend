@@ -32,7 +32,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 
 			<Spinner active={isPending} absoluteCenter size="3" />
 
-			{uploadEnabled && showButton && (
+			{uploadEnabled && (
 				<UploadContainer>
 					<UploadFile
 						fileId="pack-photo-upload"
