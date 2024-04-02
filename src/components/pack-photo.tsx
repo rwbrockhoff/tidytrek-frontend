@@ -5,6 +5,7 @@ import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
 	src: string;
+	packId: number;
 	uploadEnabled: boolean;
 	isPending: boolean;
 	onUpload: (formData: FormData) => void;
@@ -12,7 +13,7 @@ type PackPhotoProps = {
 };
 
 export const PackPhoto = (props: PackPhotoProps) => {
-	const { src, uploadEnabled = false, isPending, onUpload, onDelete } = props;
+	const { src, packId, uploadEnabled = false, isPending, onUpload, onDelete } = props;
 	const [showButton, setShowButton] = useState(false);
 
 	useEffect(() => {
@@ -35,7 +36,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 			{uploadEnabled && (
 				<UploadContainer>
 					<UploadFile
-						fileId="pack-photo-upload"
+						fileId={`pack-photo-upload-${packId}`}
 						fileName="packPhoto"
 						isPending={isPending}
 						onUpload={onUpload}

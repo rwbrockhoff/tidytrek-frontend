@@ -11,7 +11,7 @@ import {
 } from '@/types/pack-types';
 import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
-import { DragDropContext, Drop, type DropResult } from '@/components';
+import { DragDropContext, Drop, ProfileBanner, type DropResult } from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
 import { getThemeAsGuest } from '@/styles/theme/theme-utils';
 import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
@@ -57,6 +57,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 		<PricingContext.Provider value={packPricing}>
 			<ThemeProvider theme={theme}>
 				<Container>
+					{!userView && <ProfileBanner />}
 					<PackInfo
 						currentPack={pack}
 						packCategories={packCategories}

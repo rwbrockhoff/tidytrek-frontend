@@ -6,7 +6,7 @@ import {
 	Flex,
 	TextField,
 } from '@radix-ui/themes';
-import { CheckIcon, SaveIcon } from '@/components/ui';
+import { CheckIcon, SaveIcon, cleanUpLink } from '@/components/ui';
 import styled from 'styled-components';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
@@ -27,7 +27,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const { packItemUrl } = packItem || {};
 
 	const { displayIcon } = props;
-	const [packUrl, setPackUrl] = useState(packItemUrl || '');
+	const [newPackUrl, setPackUrl] = useState(packItemUrl || '');
 
 	const displayButton = displayIcon || packItemUrl ? true : false;
 	const hasLink = packItemUrl !== '' || undefined;
@@ -38,10 +38,11 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	};
 
 	const handleOnSave = () => {
-		if (packUrl !== packItemUrl && packItem && packItem.packItemId) {
+		if (newPackUrl !== packItemUrl && packItem && packItem.packItemId) {
+			const cleanUrl = cleanUpLink(newPackUrl);
 			editPackItem({
 				packItemId: packItem.packItemId,
-				packItem: { ...packItem, packItemUrl: packUrl },
+				packItem: { ...packItem, packItemUrl: cleanUrl },
 			});
 		}
 	};
@@ -61,7 +62,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 								color="jade"
 								variant="classic"
 								name="packItemUrl"
-								value={packUrl}
+								value={newPackUrl}
 								onChange={handleOnChange}
 								placeholder="Item link"
 							/>

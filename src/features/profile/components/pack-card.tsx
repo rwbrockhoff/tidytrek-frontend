@@ -29,6 +29,7 @@ export const PackCard = (props: PackCardProps) => {
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
 						src={packPhotoUrl}
+						packId={packId}
 						uploadEnabled={!isPending && userView}
 						isPending={isPending}
 						onUpload={handlePhotoUpload}
