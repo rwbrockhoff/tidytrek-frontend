@@ -49,7 +49,7 @@ export const Avatar = (props: AvatarProps) => {
 
 					<StyledDimmer active={displayDimmer} />
 
-					{uploadEnabled && showButton && (
+					{uploadEnabled && (
 						<UploadContainer>
 							<UploadFile
 								fileId="profile-photo-upload"
@@ -90,6 +90,15 @@ const OuterContainer = styled(InnerContainer)`
 	overflow: visible;
 	border: none;
 	border-radius: 0px;
+
+	.uploadFileForm {
+		display: none;
+	}
+	&:hover {
+		.uploadFileForm {
+			display: inherit;
+		}
+	}
 `;
 
 const StyledAvatar = styled.img<{ $size?: Size }>`

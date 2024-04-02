@@ -29,7 +29,7 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 
 			<StyledDimmer active={dimmerEnabled} />
 
-			{showUploadMode && uploadEnabled && (
+			{uploadEnabled && (
 				<UploadContainer>
 					<UploadFile
 						fileId="profile-banner-photo"
@@ -47,6 +47,15 @@ const BannerContainer = styled.div`
 	position: relative;
 	width: 100%;
 	height: 250px;
+
+	.uploadFileForm {
+		display: none;
+	}
+	&:hover {
+		.uploadFileForm {
+			display: inherit;
+		}
+	}
 `;
 const BannerImage = styled.img`
 	width: 100%;
@@ -59,8 +68,8 @@ const BannerImage = styled.img`
 
 const UploadContainer = styled.div`
 	position: absolute;
-	bottom: 15px;
-	right: 25px;
+	bottom: 1em;
+	right: 1em;
 `;
 
 const StyledDimmer = styled(Dimmer)`
