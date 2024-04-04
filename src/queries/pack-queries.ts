@@ -53,7 +53,6 @@ export const useImportPackMutation = () => {
 		mutationFn: (packUrl: string) =>
 			tidyTrekAPI.post(`/packs/import`, { packUrl }).then((res) => res.data),
 		onSuccess: () => {
-			console.log('Success!');
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 		},
 	});
