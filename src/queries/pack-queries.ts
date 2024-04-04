@@ -47,6 +47,18 @@ export const useAddNewPackMutation = () => {
 	});
 };
 
+export const useImportPackMutation = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (packUrl: string) =>
+			tidyTrekAPI.post(`/packs/import`, { packUrl }).then((res) => res.data),
+		onSuccess: () => {
+			console.log('Success!');
+			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+		},
+	});
+};
+
 export const useEditPackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({

@@ -19,7 +19,9 @@ export const convertWeight = (itemList: PackItem[], outputUnit: string) => {
 					wornWeight,
 					consumable,
 					packItemPrice,
-				} = item;
+				} = item || {};
+
+				if (!item) return 0;
 
 				// handle pricing first
 				if (packItemPrice) totalPrice += packItemPrice * packItemQuantity;

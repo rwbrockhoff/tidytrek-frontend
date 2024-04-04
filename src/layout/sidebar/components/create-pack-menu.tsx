@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { PlusIcon, ImportIcon } from '@/components/ui';
-import { useAddNewPackMutation } from '@/queries/pack-queries';
+import { useAddNewPackMutation, useImportPackMutation } from '@/queries/pack-queries';
 import { Button, Flex, Popover, Text } from '@radix-ui/themes';
 import { encode } from '@/utils';
 import { StyledMenu } from './styled-menu';
@@ -13,6 +13,8 @@ export const CreatePackMenu = () => {
 
 	const addNewPackData = useAddNewPackMutation();
 	const { mutate: addPack } = addNewPackData;
+
+	const { mutate: importPack } = useImportPackMutation();
 
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
@@ -46,7 +48,7 @@ export const CreatePackMenu = () => {
 							</Flex>
 						</Text>
 					</li>
-					<li>
+					<li onClick={() => importPack('https://lighterpack.com/r/jbknlg')}>
 						<Text>
 							<Flex display="inline-flex" align="center">
 								<ImportIcon />
