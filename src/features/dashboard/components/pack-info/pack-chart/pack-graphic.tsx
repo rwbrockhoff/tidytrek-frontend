@@ -40,7 +40,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 							return (
 								<ChartItem align="center" key={category.categoryId}>
 									<ThemeIcon $themeColor={category.chartColor} />
-									<p>{category.categoryName || 'Category'} </p>
+									<StyledText>{category.categoryName || 'Category'} </StyledText>
 									<Badge color="gray" ml="auto">
 										{category.totalWeight} lbs
 									</Badge>
@@ -119,6 +119,14 @@ const GraphicText = styled(Text)`
 	}
 `;
 
+const StyledText = styled(Text)`
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 15ch;
+	margin-right: 0.5em;
+`;
+
 const SummaryPanel = styled(Flex)`
 	width: 50%;
 	padding-right: 15px;
@@ -146,5 +154,6 @@ const ChartItem = styled(Flex)`
 
 const ThemeIcon = styled(CircleIcon)<{ $themeColor: string }>`
 	${(props) => props.theme.mx.themeColor(props.$themeColor)};
-	margin-right: 0.5em;
+	width: 1.5rem;
+	margin-right: 0.25em;
 `;
