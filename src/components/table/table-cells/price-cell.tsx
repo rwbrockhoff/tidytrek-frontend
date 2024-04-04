@@ -1,11 +1,12 @@
 import { type InputEvent } from '@/types/form-types';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Table, Text } from '@radix-ui/themes';
 import { TableInput } from './table-input';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { convertCurrency } from '@/utils';
 import { TableRowContext } from '../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useToggle } from '@/hooks';
 
 type PriceCellProps = {
 	onToggleOff: () => void;
@@ -16,15 +17,13 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemPrice = 0 } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
+	const { isToggled, toggle } = useToggle();
 
-	const [toggleInput, setToggleInput] = useState(false);
-	const toggleToEdit = () => {
-		!toggleInput && setToggleInput(true);
-	};
+	const toggleToEdit = () => !isToggled && toggle();
 
 	const toggleToCell = () => {
-		if (toggleInput) {
-			setToggleInput(false);
+		if (isToggled) {
+			toggle();
 			onToggleOff();
 		}
 	};
@@ -46,7 +45,7 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 			style={{ width, padding: '0 1em' }}>
 			{userView ? (
 				<TableInput
-					value={toggleInput ? inputPrice : formattedPrice}
+					value={isToggled ? inputPrice : formattedPrice}
 					name="packItemPrice"
 					placeholder={'0'}
 					onChange={handleOnChange}

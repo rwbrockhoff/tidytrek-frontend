@@ -57,7 +57,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between">
-						<TextField.Root style={{ width: hasLink ? '100%' : '100%' }}>
+						<TextField.Root style={{ width: '100%' }}>
 							<TextFieldInput
 								color="jade"
 								variant="classic"

@@ -1,5 +1,4 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { useState } from 'react';
 import { Flex, Table } from '@radix-ui/themes';
 import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
@@ -22,13 +21,9 @@ export const TableHeader = (props: TableHeaderProps) => {
 
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;
-	const [toggleRow, setToggleRow] = useState(false);
 
 	return (
-		<StyledHeader
-			$borderColor={packCategoryColor || 'primary'}
-			onMouseOver={() => setToggleRow(true)}
-			onMouseLeave={() => setToggleRow(false)}>
+		<StyledHeader $borderColor={packCategoryColor || 'primary'}>
 			<TableRow $isMinimized={isMinimized}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
@@ -49,7 +44,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 					</>
 				)}
 				{userView && (
-					<ActionButtons header display={toggleRow}>
+					<ActionButtons header>
 						<Flex align="center" onClick={minimizeCategory}>
 							{isMinimized ? <PlusIcon /> : <MinusIcon />}
 						</Flex>
@@ -76,6 +71,14 @@ const deleteCategoryMessage =
 const StyledHeader = styled(Table.Header)<{ $borderColor: string }>`
 	vertical-align: middle;
 	border-top: 3px solid ${(props) => props.theme.mx.getThemeColor(props.$borderColor)};
+	svg {
+		opacity: 0;
+	}
+	&:hover {
+		svg {
+			opacity: 1;
+		}
+	}
 	& th {
 		height: 55px;
 		box-shadow: none;
