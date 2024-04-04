@@ -1,5 +1,14 @@
 import styled, { css, keyframes } from 'styled-components';
 
+const spinCenter = keyframes` 
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg)
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+`;
+
 const spin = keyframes` 
   0% {
     transform: rotate(0deg)
@@ -40,7 +49,9 @@ export const StyledSpinner = styled.div<{
 	border-top: calc(${({ $size }) => sizes[$size]} / 12) solid
 		var(--spinner-inner-bg-color);
 	border-radius: 50%;
-	animation: ${spin} 1s linear infinite;
+	transform: translate(-50%, -50%);
+	animation: ${({ $absoluteCenter }) => ($absoluteCenter ? spinCenter : spin)} 1s linear
+		infinite;
 	/* absolute center */
 	${(props) =>
 		props.$absoluteCenter &&

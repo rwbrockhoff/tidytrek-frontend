@@ -76,7 +76,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 			<Dialog.Content style={{ maxWidth: 450 }}>
 				<Dialog.Title>Import Pack</Dialog.Title>
 				<Dialog.Description size="2" mb="4">
-					You can import a public pack from Lighterpack below.
+					You can import a shareable pack link from Lighterpack below.
 				</Dialog.Description>
 				<Form onSubmit={handleSubmit}>
 					<Flex direction="column">
@@ -99,7 +99,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 					<Flex gap="3" mt="6" justify="end">
 						<Dialog.Close>
 							<Button variant="soft" color="gray">
-								Cancel
+								{isSuccessImport ? 'Close' : 'Cancel'}
 							</Button>
 						</Dialog.Close>
 

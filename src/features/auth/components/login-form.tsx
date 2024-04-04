@@ -1,4 +1,4 @@
-import { type FormEvent } from 'react';
+import { useRef, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
@@ -26,6 +26,8 @@ export const LogInForm = (props: FormProps) => {
 	const { registerUser, loginUser, resetFormErrors, updateServerError } = props;
 	const { formErrors, serverError } = props;
 
+	const formRef = useRef<HTMLFormElement | null>(null);
+
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = Object.fromEntries(new FormData(e.currentTarget));
@@ -37,6 +39,8 @@ export const LogInForm = (props: FormProps) => {
 		clearZodErrors(e, formErrors, resetFormErrors);
 		if (serverError.error) resetFormErrors();
 	};
+
+	if (isRegisterSuccess) formRef?.current?.reset();
 
 	return (
 		<FormContainer>
@@ -55,7 +59,7 @@ export const LogInForm = (props: FormProps) => {
 
 				<Text>or</Text>
 
-				<Form onSubmit={handleFormSubmit}>
+				<Form ref={formRef} onSubmit={handleFormSubmit}>
 					{isRegisterForm && (
 						<>
 							<FormField name="firstName">
