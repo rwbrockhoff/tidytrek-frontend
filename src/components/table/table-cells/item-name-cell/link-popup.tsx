@@ -52,7 +52,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 			<Popover.Root>
 				<Popover.Trigger>
 					<StyledButton variant="ghost" m="2" $display={displayButton}>
-						<StyledLinkIcon $active={packItemUrl ? true : false} />
+						<StyledLinkIcon $active={hasLink ? true : false} />
 					</StyledButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
