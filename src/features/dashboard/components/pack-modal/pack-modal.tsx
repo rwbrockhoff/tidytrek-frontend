@@ -80,7 +80,7 @@ export const PackModal = (props: PackModalProps) => {
 	};
 
 	const handleSubmitPack = () => {
-		if (packChanged && modifiedPack.packUrl) {
+		if (packChanged) {
 			const { packId } = props.pack;
 			const { packUrl } = modifiedPack;
 			const cleanUrl = cleanUpLink(packUrl);

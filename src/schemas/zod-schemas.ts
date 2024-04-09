@@ -43,6 +43,13 @@ export const passwordSchema = z
 		}
 	});
 
+export const packUrlSchema = z
+	.string()
+	.trim()
+	.refine((val) => val.includes('https://lighterpack.com/r/'), {
+		message: 'Please include a valid pack URL we can import.',
+	});
+
 // table row schemas
 
 export const weightSchema = z.coerce

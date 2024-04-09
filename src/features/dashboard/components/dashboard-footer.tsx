@@ -42,7 +42,7 @@ const LogoTag = styled(Flex)`
 	color: var(--gray-9);
 	font-weight: 500;
 	&:hover {
-		filter: var(--hover-dark);
+		filter: var(--hover-dark-2);
 	}
 	svg {
 		margin: 0 0.5em;

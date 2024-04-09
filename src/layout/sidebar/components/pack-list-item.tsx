@@ -39,7 +39,7 @@ const StyledText = styled(Text)`
 		}
 	}
 	&:hover {
-		filter: var(--hover-dark);
+		filter: var(--hover-dark-2);
 	}
 	${({ theme: t }) =>
 		t.mx.mobile(`
