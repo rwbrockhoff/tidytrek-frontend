@@ -2,16 +2,9 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect, type FormEvent } from 'react';
 import styled from 'styled-components';
-import { Button, Flex, IconButton } from '@radix-ui/themes';
+import { IconButton } from '@radix-ui/themes';
 import { Form } from '@radix-ui/react-form';
-import {
-	Message,
-	RefreshIcon,
-	SaveIcon,
-	Segment,
-	SegmentGroup,
-	Tooltip,
-} from '@/components/ui';
+import { Message, RefreshIcon, Segment, SegmentGroup, Tooltip } from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { SocialLinks } from './social-links';
@@ -48,8 +41,7 @@ const formSchema = z.object({
 	userLocation: basicInputSchema('Location'),
 });
 
-export const ProfileForm = (props: ProfileFormProps) => {
-	const { profileInfo, socialLinks } = props;
+export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 	const queryClient = useQueryClient();
 
 	const [isProfileChanged, setIsProfileChanged] = useState(false);
@@ -184,12 +176,12 @@ export const ProfileForm = (props: ProfileFormProps) => {
 
 					{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-					<Flex justify="end">
+					{/* <Flex justify="end">
 						<Button mt="4" type="submit" disabled={!isProfileChanged}>
 							<SaveIcon />
 							Save Profile
 						</Button>
-					</Flex>
+					</Flex> */}
 				</StyledForm>
 			</Segment>
 			<Segment>
