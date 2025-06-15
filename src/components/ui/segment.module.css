@@ -1,0 +1,7 @@
+.segment {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--gray-4);
+	padding: var(--space-xl);
+	box-shadow: 0px 8px 0px -6px rgba(0, 0, 0, 0.1);
+	border-radius: var(--segment-radius, 0);
+}

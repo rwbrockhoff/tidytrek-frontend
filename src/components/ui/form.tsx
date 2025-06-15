@@ -13,7 +13,7 @@ import {
 	Box,
 	type Responsive,
 } from '@radix-ui/themes';
-import styled from 'styled-components';
+import styles from './form.module.css';
 
 type FormFieldProps = {
 	value?: string;
@@ -69,9 +69,9 @@ export const FormField = (props: FormFieldProps) => {
 					/>
 				</FormControl>
 				{icon && (
-					<IconContainer align="center" p="2">
+					<Flex align="center" className={styles.iconContainer}>
 						{icon}
-					</IconContainer>
+					</Flex>
 				)}
 			</Box>
 
@@ -85,13 +85,6 @@ export const FormField = (props: FormFieldProps) => {
 		</RadixFormField>
 	);
 };
-
-const IconContainer = styled(Flex)`
-	position: absolute;
-	right: 0;
-	top: 0;
-	height: 100%;
-`;
 
 type FormTextAreaProps = {
 	name: string;

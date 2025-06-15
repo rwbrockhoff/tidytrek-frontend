@@ -1,5 +1,5 @@
 import { Text as RadixText, Flex } from '@radix-ui/themes';
-import styled from 'styled-components';
+import styles from './text.module.css';
 
 type TextProps = {
 	children: React.ReactNode;
@@ -11,13 +11,9 @@ export const Text = (props: TextProps) => {
 	return (
 		<RadixText mr="4">
 			<Flex align="center">
-				<IconContainer align="center">{icon}</IconContainer>
+				<div className={styles.iconContainer}>{icon}</div>
 				{children}
 			</Flex>
 		</RadixText>
 	);
 };
-
-const IconContainer = styled(Flex)`
-	margin-right: 0.5em;
-`;
