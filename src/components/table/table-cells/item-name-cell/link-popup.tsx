@@ -7,7 +7,7 @@ import {
 	TextField,
 } from '@radix-ui/themes';
 import { CheckIcon, SaveIcon, cleanUpLink } from '@/components/ui';
-import styled from 'styled-components';
+import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
@@ -51,9 +51,13 @@ export const LinkPopup = (props: LinkPopupProps) => {
 		return (
 			<Popover.Root>
 				<Popover.Trigger>
-					<StyledButton variant="ghost" m="2" $display={displayButton}>
-						<StyledLinkIcon $active={hasLink ? true : false} />
-					</StyledButton>
+					<IconButton 
+						variant="ghost" 
+						m="2" 
+						className={`${styles.linkButton} ${displayButton ? styles.linkButtonVisible : styles.linkButtonHidden}`}
+					>
+						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
+					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between">
@@ -79,19 +83,3 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	} else return null;
 };
 
-const StyledButton = styled(IconButton)<{ $display: boolean }>`
-	opacity: ${({ $display }) => ($display ? 100 : 0)};
-	background-color: transparent;
-	box-shadow: none;
-	margin-left: auto;
-	padding-left: 1em;
-	cursor: pointer;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			display: none;
-		`)}
-`;
-
-const StyledLinkIcon = styled(FaLink)<{ $active: boolean }>`
-	color: ${({ $active }) => ($active ? 'var(--cyan-9)' : 'grey')};
-`;

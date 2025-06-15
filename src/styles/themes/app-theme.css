@@ -35,6 +35,11 @@
 	--yellow-500: #eab308;
 	--yellow-600: #ca8a04;
 
+	/* Icon accent colors */
+	--amber-acccent: #ffc53d;
+	--indigo-accent: #3e63dd;
+	--teal-accent: #00a2c7;
+
 	/* -- Typography -- */
 	--font-size-xs: 0.75rem; /* 12px */
 	--font-size-sm: 0.875rem; /* 14px */
@@ -72,43 +77,43 @@
 
 	--transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* -- Default theme variables (light theme as default) -- */
-  --color-primary: var(--sage-500);
-  --color-primary-hover: var(--sage-600);
-  --color-primary-light: var(--sage-100);
-  --color-primary-dark: var(--sage-700);
+	/* -- Default theme variables (light theme as default) -- */
+	--color-primary: var(--sage-500);
+	--color-primary-hover: var(--sage-600);
+	--color-primary-light: var(--sage-100);
+	--color-primary-dark: var(--sage-700);
 
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: var(--gray-50);
-  --color-bg-tertiary: var(--gray-100);
-  --color-bg-overlay: rgba(255, 255, 255, 0.9);
+	--color-bg-primary: #ffffff;
+	--color-bg-secondary: var(--gray-50);
+	--color-bg-tertiary: var(--gray-100);
+	--color-bg-overlay: rgba(255, 255, 255, 0.9);
 
-  --color-text-primary: var(--gray-900);
-  --color-text-secondary: var(--gray-700);
-  --color-text-tertiary: var(--gray-500);
-  --color-text-inverse: #ffffff;
+	--color-text-primary: var(--gray-900);
+	--color-text-secondary: var(--gray-700);
+	--color-text-tertiary: var(--gray-500);
+	--color-text-inverse: #ffffff;
 
-  --color-border-primary: var(--gray-200);
-  --color-border-secondary: var(--gray-300);
-  --color-border-focus: var(--sage-500);
+	--color-border-primary: var(--gray-200);
+	--color-border-secondary: var(--gray-300);
+	--color-border-focus: var(--sage-500);
 
-  --color-success: var(--sage-500);
-  --color-success-bg: var(--sage-50);
-  --color-error: var(--red-500);
-  --color-error-bg: #fef2f2;
-  --color-warning: var(--yellow-500);
-  --color-warning-bg: #fefce8;
-  --color-info: var(--blue-500);
-  --color-info-bg: #eff6ff;
+	--color-success: var(--sage-500);
+	--color-success-bg: var(--sage-50);
+	--color-error: var(--red-500);
+	--color-error-bg: #fef2f2;
+	--color-warning: var(--yellow-500);
+	--color-warning-bg: #fefce8;
+	--color-info: var(--blue-500);
+	--color-info-bg: #eff6ff;
 
-  --color-hover: var(--gray-100);
-  --color-active: var(--gray-200);
-  --color-focus: var(--sage-100);
+	--color-hover: var(--gray-100);
+	--color-active: var(--gray-200);
+	--color-focus: var(--sage-100);
 
-  --tidy-primary: var(--sage-500);
-  --tidy-bg: var(--gray-100);
-  --tidy-light-grey: var(--gray-100);
-  --tidy-blue: var(--blue-500);
+	--tidy-primary: var(--sage-500);
+	--tidy-bg: var(--gray-100);
+	--tidy-light-grey: var(--gray-100);
+	--tidy-blue: var(--blue-500);
 }
 
 /* Light theme (default) */

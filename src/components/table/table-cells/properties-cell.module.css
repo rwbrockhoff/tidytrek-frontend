@@ -1,0 +1,30 @@
+.propertiesCell svg {
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+	color: var(--gray-600);
+}
+
+.propertiesCell svg:hover {
+	filter: brightness(80%);
+}
+
+.propertiesCell .favorite-active {
+	color: var(--amber-accent);
+}
+
+.propertiesCell .worn-weight-active {
+	color: var(--teal-accent);
+}
+
+.propertiesCell .consumable-active {
+	color: var(--indigo-accent);
+}
+
+.flexContainer {
+	justify-content: space-evenly;
+}
+
+.flexContainer button {
+	background: transparent;
+}

@@ -1,0 +1,20 @@
+.tableRow {
+	position: relative;
+	border: none;
+	background-color: var(--color-bg-primary);
+	transition:
+		background-color,
+		box-shadow 200ms ease-in-out;
+}
+
+.tableRow td {
+	vertical-align: middle;
+}
+
+.tableRow td:first-child {
+	overflow: visible;
+}
+
+.tableRowDragging {
+	box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.2);
+}

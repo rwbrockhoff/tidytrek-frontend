@@ -51,7 +51,7 @@ button {
 a {
 	cursor: pointer;
 	text-decoration: none;
-	color: var(--cyan-9);
+	color: var(--teal-accent);
 	&:hover {
 		filter: var(--hover-dark-1);
 	}

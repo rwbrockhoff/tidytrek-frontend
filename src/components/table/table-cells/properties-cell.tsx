@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './properties-cell.module.css';
 import { type PackItemProperty } from '@/types/pack-types';
 import { Flex, IconButton, Table, Tooltip } from '@radix-ui/themes';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
@@ -33,8 +33,8 @@ export const PropertiesCell = (props: ButtonProps) => {
 	const showOnHover = (display && userView) || isDragging;
 
 	return (
-		<PropertiesButtonCell align="center" justify="center" ref={ref} style={{ width }}>
-			<StyledFlex>
+		<Table.Cell className={styles.propertiesCell} align="center" justify="center" ref={ref} style={{ width }}>
+			<Flex className={styles.flexContainer}>
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
 						name="favorite"
@@ -64,35 +64,8 @@ export const PropertiesCell = (props: ButtonProps) => {
 						/>
 					</IconButton>
 				</Tooltip>
-			</StyledFlex>
-		</PropertiesButtonCell>
+			</Flex>
+		</Table.Cell>
 	);
 };
 
-const PropertiesButtonCell = styled(Table.Cell)`
-	svg {
-		width: 15px;
-		height: 15px;
-		cursor: pointer;
-		color: rgba(0, 0, 0, 0.5);
-		&:hover {
-			filter: brightness(80%);
-		}
-	}
-	.favorite-active {
-		color: var(--amber-9);
-	}
-	.worn-weight-active {
-		color: var(--cyan-9);
-	}
-	.consumable-active {
-		color: var(--indigo-9);
-	}
-`;
-
-const StyledFlex = styled(Flex)`
-	justify-content: space-evenly;
-	button {
-		background: transparent;
-	}
-`;
