@@ -1,31 +1,26 @@
 import { type FormError } from '@/types/form-types';
-import styled from 'styled-components';
 import { Table, Flex, Text } from '@radix-ui/themes';
 import { WarningIcon } from '../ui';
+import { cn } from '@/styles/utils/cn';
+import styles from './table-error-row.module.css';
 
 export const TableErrorRow = ({ error }: { error: FormError }) => {
+	const hasError = error.error;
+
 	return (
-		<ErrorRow $hasError={error.error}>
-			<ErrorCell $hasError={error.error} colSpan={24} valign="middle">
+		<Table.Row className={cn(styles.errorRow, hasError ? styles.hasError : styles.noError)}>
+			<Table.Cell 
+				className={cn(styles.errorCell, hasError ? styles.hasError : styles.noError)}
+				colSpan={24} 
+				valign="middle"
+			>
 				<Flex justify="center" align="center" height="100%">
 					<WarningIcon />
 					<Text trim="both" ml="2" weight="light">
 						{error.message}
 					</Text>
 				</Flex>
-			</ErrorCell>
-		</ErrorRow>
+			</Table.Cell>
+		</Table.Row>
 	);
 };
-
-const ErrorRow = styled(Table.Row)<{ $hasError: boolean }>`
-	height: ${({ $hasError }) => ($hasError ? '35px' : '0px')};
-	visibility: ${({ $hasError }) => ($hasError ? 'visible' : 'collapse')};
-`;
-
-const ErrorCell = styled(Table.Cell)<{ $hasError: boolean }>`
-	background-color: var(--tomato-4);
-	border: ${({ $hasError }) =>
-		$hasError ? '1px solid var(--tomato-7)' : '0px solid transparent'};
-	transition: border 250ms ease-in;
-`;

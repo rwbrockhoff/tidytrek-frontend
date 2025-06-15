@@ -71,8 +71,8 @@ export const PropertiesCell = (props: ButtonProps) => {
 
 const PropertiesButtonCell = styled(Table.Cell)`
 	svg {
-		padding: 5px;
-		${({ theme: t }) => t.mx.wh('15px')}
+		width: 15px;
+		height: 15px;
 		cursor: pointer;
 		color: rgba(0, 0, 0, 0.5);
 		&:hover {

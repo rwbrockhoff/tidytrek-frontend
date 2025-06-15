@@ -1,0 +1,25 @@
+/* Hide borders by making them match background color */
+.tableInput {
+	border: var(--text-field-border-width) solid var(--color-bg-primary);
+	transition: all var(--transition);
+}
+
+.tableInput:hover:not(:focus) {
+	border-color: var(--color-primary);
+}
+
+/* Higher specificity to override Radix */
+.tableInput.tableInput:focus {
+	border-color: var(--color-primary);
+
+	outline: none;
+}
+
+/* Keep input border hidden when disabled */
+.tableInput:disabled {
+	border-color: var(--color-bg-primary);
+}
+
+.tableInput:disabled:hover {
+	border-color: var(--color-bg-primary);
+}

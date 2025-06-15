@@ -1,0 +1,26 @@
+.errorRow {
+  transition: height 250ms ease-in, visibility 250ms ease-in;
+}
+
+.errorRow.hasError {
+  height: 35px;
+  visibility: visible;
+}
+
+.errorRow.noError {
+  height: 0px;
+  visibility: collapse;
+}
+
+.errorCell {
+  background-color: var(--red-200);
+  transition: border 250ms ease-in;
+}
+
+.errorCell.hasError {
+  border: 1px solid var(--red-600);
+}
+
+.errorCell.noError {
+  border: 0px solid transparent;
+}

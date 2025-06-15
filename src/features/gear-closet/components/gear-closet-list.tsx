@@ -1,6 +1,4 @@
 import { type PackListItem, type PackItem } from '@/types/pack-types';
-import { PlusIcon } from '@/components/ui';
-import { Button, Table as RadixTable } from '@radix-ui/themes';
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
@@ -9,7 +7,7 @@ import {
 	useEditGearClosetItemMutation,
 	useMoveGearClosetItemMutation,
 } from '@/queries/closet-queries';
-import { TableRow, StyledFooter } from '@/components/table';
+import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';
 import { NotFoundMessage } from './not-found-message';
@@ -24,7 +22,7 @@ export type GearClosetListProps = {
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
 
-	const { mutate: addItem, isPending: isPendingAddItem } = useAddGearClosetItemMutation();
+	const { mutate: addItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
@@ -75,21 +73,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 					<NotFoundMessage />
 				)}
 
-				<StyledFooter>
-					<RadixTable.Row>
-						<RadixTable.Cell colSpan={8}>
-							<Button
-								variant="outline"
-								color="gray"
-								size="1"
-								disabled={isPendingAddItem}
-								onClick={() => addItem()}>
-								<PlusIcon />
-								Add Item
-							</Button>
-						</RadixTable.Cell>
-					</RadixTable.Row>
-				</StyledFooter>
+				<TableFooter handleAddItem={() => addItem()} showTotals={false} />
 			</Table>
 		</PricingContext.Provider>
 	);

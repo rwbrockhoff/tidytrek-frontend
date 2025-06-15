@@ -1,0 +1,44 @@
+.table {
+	table-layout: fixed;
+	border: none;
+	width: 100%;
+	min-width: 100%;
+}
+
+.table :global(.rt-TextFieldInput) {
+	background-color: var(--color-bg-primary);
+	transition: background-color var(--transition);
+}
+
+.table :global(.rt-TextFieldInput):hover {
+	background-color: transparent;
+}
+
+.table :global(thead.withPrimaryBorder) {
+	border-top: 3px solid var(--color-primary);
+}
+
+/* Improved mobile approach - preserve table structure but enhance UX */
+@media (max-width: 48rem) {
+	.table {
+		font-size: var(--font-size-sm);
+	}
+
+	/* Hide less critical columns on small screens */
+	.table :global(.hide-mobile) {
+		display: none;
+	}
+
+	/* Reduce padding on mobile */
+	.table :global(th),
+	.table :global(td) {
+		padding: var(--space-xs);
+	}
+}
+
+/* Very small screens - hide more columns */
+@media (max-width: 32rem) {
+	.table :global(.hide-small) {
+		display: none;
+	}
+}

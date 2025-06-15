@@ -1,6 +1,35 @@
 import { TextField } from '@radix-ui/themes';
-import styled from 'styled-components';
+import { cn } from '@/styles/utils/cn';
+import styles from './table-input.module.css';
 
-export const TableInput = styled(TextField.Input)`
-	padding-left: 0.25em;
-`;
+type TableInputProps = {
+	value?: string;
+	placeholder?: string;
+	name?: string;
+	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+	disabled?: boolean;
+	className?: string;
+};
+
+export const TableInput = ({ 
+	value, 
+	placeholder, 
+	name, 
+	onChange, 
+	onBlur, 
+	disabled = false, 
+	className 
+}: TableInputProps) => {
+	return (
+		<TextField.Input
+			value={value || ''}
+			placeholder={placeholder}
+			name={name}
+			onChange={onChange}
+			onBlur={onBlur}
+			disabled={disabled}
+			className={cn(styles.tableInput, disabled && styles.disabled, className)}
+		/>
+	);
+};

@@ -78,10 +78,11 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 
 						{!isMinimized && (
 							<TableFooter
+								handleAddItem={handleAddItem}
+								showTotals={true}
 								itemQuantity={itemQuantity}
 								weight={convertedCategoryWeight}
 								price={formattedTotalPrice}
-								handleAddItem={handleAddItem}
 							/>
 						)}
 					</Table>
