@@ -1,0 +1,168 @@
+/* App UI Theme - Light/Dark modes with sage primary */
+
+:root {
+	/* Base sage color scale */
+	--sage-50: #f0f9f4;
+	--sage-100: #daf1e3;
+	--sage-200: #b8e2cc;
+	--sage-300: #8acbad;
+	--sage-400: #59ae89;
+	--sage-500: #338866;
+	--sage-600: #267557;
+	--sage-700: #1f5d48;
+	--sage-800: #1a4b3a;
+	--sage-900: #173d30;
+	--sage-950: #0c221b;
+
+	/* Neutral grays */
+	--gray-50: #f9fafb;
+	--gray-100: #f3f4f6;
+	--gray-200: #e5e7eb;
+	--gray-300: #d1d5db;
+	--gray-400: #9ca3af;
+	--gray-500: #6b7280;
+	--gray-600: #4b5563;
+	--gray-700: #374151;
+	--gray-800: #1f2937;
+	--gray-900: #111827;
+	--gray-950: #030712;
+
+	/* Accent colors */
+	--blue-500: #3b82f6;
+	--blue-600: #2563eb;
+	--red-500: #ef4444;
+	--red-600: #dc2626;
+	--yellow-500: #eab308;
+	--yellow-600: #ca8a04;
+
+	/* -- Typography -- */
+	--font-size-xs: 0.75rem; /* 12px */
+	--font-size-sm: 0.875rem; /* 14px */
+	--font-size-base: 1rem; /* 16px */
+	--font-size-lg: 1.125rem; /* 18px */
+	--font-size-xl: 1.25rem; /* 20px */
+	--font-size-2xl: 1.5rem; /* 24px */
+	--font-size-3xl: 1.875rem; /* 30px */
+
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	--line-height-tight: 1.25;
+	--line-height-normal: 1.5;
+	--line-height-relaxed: 1.75;
+
+	/* -- Spacing -- */
+	--space-min: 0.25rem; /* 4px */
+	--space-xs: 0.5rem; /* 8px */
+	--space-sm: 0.75rem; /* 12px */
+	--space-md: 1rem; /* 16px */
+	--space-lg: 1.5rem; /* 24px */
+	--space-xl: 2rem; /* 32px */
+	--space-xxl: 3rem; /* 48px */
+
+	/* -- Border radius -- */
+	--radius: 0.25rem; /* 4px - primary radius */
+	--radius-lg: 0.5rem; /* 8px - larger elements */
+
+	/* -- Effects -- */
+	--shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+	--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+	--transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme (default) */
+[data-theme='light'] {
+	/* Primary colors */
+	--color-primary: var(--eucalyptus-500);
+	--color-primary-hover: var(--eucalyptus-600);
+	--color-primary-light: var(--eucalyptus-100);
+	--color-primary-dark: var(--eucalyptus-700);
+
+	/* Background colors */
+	--color-bg-primary: #ffffff;
+	--color-bg-secondary: var(--gray-50);
+	--color-bg-tertiary: var(--gray-100);
+	--color-bg-overlay: rgba(255, 255, 255, 0.9);
+
+	/* Text colors */
+	--color-text-primary: var(--gray-900);
+	--color-text-secondary: var(--gray-700);
+	--color-text-tertiary: var(--gray-500);
+	--color-text-inverse: #ffffff;
+
+	/* Border colors */
+	--color-border-primary: var(--gray-200);
+	--color-border-secondary: var(--gray-300);
+	--color-border-focus: var(--eucalyptus-500);
+
+	/* State colors */
+	--color-success: var(--eucalyptus-500);
+	--color-success-bg: var(--eucalyptus-50);
+	--color-error: var(--red-500);
+	--color-error-bg: #fef2f2;
+	--color-warning: var(--yellow-500);
+	--color-warning-bg: #fefce8;
+	--color-info: var(--blue-500);
+	--color-info-bg: #eff6ff;
+
+	/* Interactive colors */
+	--color-hover: var(--gray-100);
+	--color-active: var(--gray-200);
+	--color-focus: var(--eucalyptus-100);
+
+	/* Legacy tidytrek colors for transition */
+	--tidy-primary: var(--eucalyptus-500);
+	--tidy-bg: var(--gray-100);
+	--tidy-light-grey: var(--gray-100);
+	--tidy-blue: var(--blue-500);
+}
+
+/* Dark theme */
+[data-theme='dark'] {
+	/* Primary colors */
+	--color-primary: var(--eucalyptus-400);
+	--color-primary-hover: var(--eucalyptus-300);
+	--color-primary-light: var(--eucalyptus-900);
+	--color-primary-dark: var(--eucalyptus-200);
+
+	/* Background colors */
+	--color-bg-primary: var(--gray-900);
+	--color-bg-secondary: var(--gray-800);
+	--color-bg-tertiary: var(--gray-700);
+	--color-bg-overlay: rgba(17, 24, 39, 0.9);
+
+	/* Text colors */
+	--color-text-primary: var(--gray-50);
+	--color-text-secondary: var(--gray-300);
+	--color-text-tertiary: var(--gray-400);
+	--color-text-inverse: var(--gray-900);
+
+	/* Border colors */
+	--color-border-primary: var(--gray-700);
+	--color-border-secondary: var(--gray-600);
+	--color-border-focus: var(--eucalyptus-400);
+
+	/* State colors */
+	--color-success: var(--eucalyptus-400);
+	--color-success-bg: var(--eucalyptus-950);
+	--color-error: #f87171;
+	--color-error-bg: #7f1d1d;
+	--color-warning: #facc15;
+	--color-warning-bg: #78350f;
+	--color-info: #60a5fa;
+	--color-info-bg: #1e3a8a;
+
+	/* Interactive colors */
+	--color-hover: var(--gray-700);
+	--color-active: var(--gray-600);
+	--color-focus: var(--eucalyptus-900);
+
+	/* Legacy tidytrek colors for transition */
+	--tidy-primary: var(--eucalyptus-400);
+	--tidy-bg: var(--gray-800);
+	--tidy-light-grey: var(--gray-700);
+	--tidy-blue: var(--blue-500);
+}

@@ -1,0 +1,63 @@
+@import './app-theme.css';
+@import './app-palettes.css';
+@import '../utils/mixins.module.css';
+
+/* Base CSS reset and global styles */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: var(--color-bg-primary);
+	color: var(--color-text-primary);
+	line-height: var(--line-height-normal);
+	font-size: var(--font-size-base);
+	margin: 0;
+	transition:
+		background-color var(--transition),
+		color var(--transition);
+}
+
+/* Focus styles */
+*:focus-visible {
+	outline: 2px solid var(--color-border-focus);
+	outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+	background-color: var(--color-primary);
+	color: var(--color-text-inverse);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+}

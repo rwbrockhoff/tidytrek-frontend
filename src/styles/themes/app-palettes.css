@@ -1,0 +1,14 @@
+/* Chart/Data Visualization Color Palettes */
+/* Used for user's pack chart visualization and accent color for pack category */
+
+/* Earth Tones Palette */
+[data-theme-palette='earth-tones'] {
+	--palette-primary: #338866;
+	--palette-one: #78b87a;
+	--palette-two: #5f84a2;
+	--palette-three: #7bb8c0;
+	--palette-four: #a7b5fe;
+	--palette-five: #f36f3b;
+	--palette-six: #feb737;
+	--palette-seven: #dabb9f;
+}
