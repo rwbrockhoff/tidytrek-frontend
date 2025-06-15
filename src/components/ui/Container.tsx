@@ -1,9 +1,17 @@
-import styled, { css } from 'styled-components';
+import { ReactNode } from 'react';
+import { cn } from '@/styles/utils/cn';
+import styles from './container.module.css';
 
-export const Container = styled.div<{ $flexCenter?: boolean }>`
-	${({ $flexCenter }) =>
-		$flexCenter &&
-		css`
-			${({ theme: t }) => t.mx.flexCenter()}
-		`};
-`;
+type ContainerProps = {
+	children: ReactNode;
+	flexCenter?: boolean;
+	className?: string;
+};
+
+export const Container = ({ children, flexCenter, className }: ContainerProps) => {
+	return (
+		<div className={cn(styles.container, flexCenter && styles.flexCenter, className)}>
+			{children}
+		</div>
+	);
+};

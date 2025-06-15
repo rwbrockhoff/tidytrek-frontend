@@ -1,0 +1,59 @@
+@keyframes spinCenter {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 1s linear infinite;
+}
+
+.absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  animation: spinCenter 1s linear infinite;
+}
+
+.size1 {
+  width: 1rem;
+  height: 1rem;
+  border: calc(1rem / 12) solid var(--color-border-primary);
+  border-top: calc(1rem / 12) solid var(--color-primary);
+}
+
+.size2 {
+  width: 2rem;
+  height: 2rem;
+  border: calc(2rem / 12) solid var(--color-border-primary);
+  border-top: calc(2rem / 12) solid var(--color-primary);
+}
+
+.size3 {
+  width: 3rem;
+  height: 3rem;
+  border: calc(3rem / 12) solid var(--color-border-primary);
+  border-top: calc(3rem / 12) solid var(--color-primary);
+}
+
+.size4 {
+  width: 4rem;
+  height: 4rem;
+  border: calc(4rem / 12) solid var(--color-border-primary);
+  border-top: calc(4rem / 12) solid var(--color-primary);
+}

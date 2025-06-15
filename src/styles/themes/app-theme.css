@@ -76,10 +76,10 @@
 /* Light theme (default) */
 [data-theme='light'] {
 	/* Primary colors */
-	--color-primary: var(--eucalyptus-500);
-	--color-primary-hover: var(--eucalyptus-600);
-	--color-primary-light: var(--eucalyptus-100);
-	--color-primary-dark: var(--eucalyptus-700);
+	--color-primary: var(--sage-500);
+	--color-primary-hover: var(--sage-600);
+	--color-primary-light: var(--sage-100);
+	--color-primary-dark: var(--sage-700);
 
 	/* Background colors */
 	--color-bg-primary: #ffffff;
@@ -96,11 +96,11 @@
 	/* Border colors */
 	--color-border-primary: var(--gray-200);
 	--color-border-secondary: var(--gray-300);
-	--color-border-focus: var(--eucalyptus-500);
+	--color-border-focus: var(--sage-500);
 
 	/* State colors */
-	--color-success: var(--eucalyptus-500);
-	--color-success-bg: var(--eucalyptus-50);
+	--color-success: var(--sage-500);
+	--color-success-bg: var(--sage-50);
 	--color-error: var(--red-500);
 	--color-error-bg: #fef2f2;
 	--color-warning: var(--yellow-500);
@@ -111,10 +111,10 @@
 	/* Interactive colors */
 	--color-hover: var(--gray-100);
 	--color-active: var(--gray-200);
-	--color-focus: var(--eucalyptus-100);
+	--color-focus: var(--sage-100);
 
 	/* Legacy tidytrek colors for transition */
-	--tidy-primary: var(--eucalyptus-500);
+	--tidy-primary: var(--sage-500);
 	--tidy-bg: var(--gray-100);
 	--tidy-light-grey: var(--gray-100);
 	--tidy-blue: var(--blue-500);
@@ -123,10 +123,10 @@
 /* Dark theme */
 [data-theme='dark'] {
 	/* Primary colors */
-	--color-primary: var(--eucalyptus-400);
-	--color-primary-hover: var(--eucalyptus-300);
-	--color-primary-light: var(--eucalyptus-900);
-	--color-primary-dark: var(--eucalyptus-200);
+	--color-primary: var(--sage-400);
+	--color-primary-hover: var(--sage-300);
+	--color-primary-light: var(--sage-900);
+	--color-primary-dark: var(--sage-200);
 
 	/* Background colors */
 	--color-bg-primary: var(--gray-900);
@@ -143,11 +143,11 @@
 	/* Border colors */
 	--color-border-primary: var(--gray-700);
 	--color-border-secondary: var(--gray-600);
-	--color-border-focus: var(--eucalyptus-400);
+	--color-border-focus: var(--sage-400);
 
 	/* State colors */
-	--color-success: var(--eucalyptus-400);
-	--color-success-bg: var(--eucalyptus-950);
+	--color-success: var(--sage-400);
+	--color-success-bg: var(--sage-950);
 	--color-error: #f87171;
 	--color-error-bg: #7f1d1d;
 	--color-warning: #facc15;
@@ -158,10 +158,10 @@
 	/* Interactive colors */
 	--color-hover: var(--gray-700);
 	--color-active: var(--gray-600);
-	--color-focus: var(--eucalyptus-900);
+	--color-focus: var(--sage-900);
 
 	/* Legacy tidytrek colors for transition */
-	--tidy-primary: var(--eucalyptus-400);
+	--tidy-primary: var(--sage-400);
 	--tidy-bg: var(--gray-800);
 	--tidy-light-grey: var(--gray-700);
 	--tidy-blue: var(--blue-500);

@@ -1,9 +1,10 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { DeleteButton, Link, Spinner } from '@/components/ui';
 import Dimmer from './Dimmer';
 import { UploadFile } from '../upload-file';
 import { defaultAvatarPhoto } from '../../utils/defaultPhotos';
+import { cn } from '@/styles/utils/cn';
+import styles from './avatar.module.css';
 
 type AvatarProps = {
 	src: string | undefined;
@@ -37,81 +38,33 @@ export const Avatar = (props: AvatarProps) => {
 
 	return (
 		<Link link={link} enabled={hasLink}>
-			<OuterContainer
-				$size={size}
-				$withBorder={withBorder}
+			<div
+				className={cn(styles.outerContainer, styles[size])}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
 				{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
-				<InnerContainer $size={size} $withBorder={withBorder}>
+				<div className={cn(styles.innerContainer, styles[size], withBorder && styles.withBorder)}>
 					<Spinner active={isPending} absoluteCenter />
 
-					<StyledDimmer active={displayDimmer} />
+					<Dimmer active={displayDimmer} className={styles.dimmer} />
 
 					{uploadEnabled && (
-						<UploadContainer>
+						<div className={styles.uploadContainer}>
 							<UploadFile
 								fileId="profile-photo-upload"
 								fileName="profilePhoto"
 								isPending={isPending}
 								onUpload={onUpload}
 							/>
-						</UploadContainer>
+						</div>
 					)}
 
-					<StyledAvatar src={photoSource} $size={size} alt="user profile photo" />
-				</InnerContainer>
-			</OuterContainer>
+					<img src={photoSource} className={styles.avatar} alt="user profile photo" />
+				</div>
+			</div>
 		</Link>
 	);
 };
 
 type Size = 'small' | 'medium' | 'big' | 'large';
-const avatarBorderWidth = '3px';
-
-const sizeChart = {
-	large: '150px',
-	big: '100px',
-	medium: '75px',
-	small: '50px',
-};
-
-// width and height based on Size type
-const InnerContainer = styled.div<{ $size: Size; $withBorder: boolean }>`
-	position: relative;
-	overflow: hidden;
-	${(props) => props.theme.mx.wh(sizeChart[props.$size])};
-	border: ${(props) => (props.$withBorder ? `${avatarBorderWidth} solid white` : 'none')};
-	border-radius: 50%;
-`;
-
-const OuterContainer = styled(InnerContainer)`
-	overflow: visible;
-	border: none;
-	border-radius: 0px;
-
-	.uploadFileForm {
-		display: none;
-	}
-	&:hover {
-		.uploadFileForm {
-			display: inherit;
-		}
-	}
-`;
-
-const StyledAvatar = styled.img<{ $size?: Size }>`
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-`;
-
-const StyledDimmer = styled(Dimmer)`
-	width: 100%;
-	height: 100%;
-`;
-
-const UploadContainer = styled.div`
-	${({ theme: t }) => t.mx.absoluteCenter()}
-`;
