@@ -1,0 +1,17 @@
+.footer {
+	padding: var(--space-md) 0;
+}
+
+.logoTag {
+	margin-top: var(--space-md);
+	color: var(--gray-9);
+	font-weight: 500;
+}
+
+.logoTag:hover {
+	filter: var(--hover-dark-2);
+}
+
+.logoTag svg {
+	margin: 0 var(--space-xs);
+}

@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'styled-components';
-import styled from 'styled-components';
+import styles from './dashboard-container.module.css';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
 import { AddCategoryButton } from '@/components/table';
@@ -56,7 +56,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	return (
 		<PricingContext.Provider value={packPricing}>
 			<ThemeProvider theme={theme}>
-				<Container>
+				<main className={styles.container}>
 					{!userView && <ProfileBanner />}
 					<PackInfo
 						currentPack={pack}
@@ -94,14 +94,9 @@ export const DashboardContainer = (props: DashboardProps) => {
 							description={packAffiliateDescription}
 						/>
 					)}
-				</Container>
+				</main>
 			</ThemeProvider>
 		</PricingContext.Provider>
 	);
 };
 
-const Container = styled.main`
-	& > div {
-		width: 100%;
-	}
-`;
