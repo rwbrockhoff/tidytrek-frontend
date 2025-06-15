@@ -1,6 +1,6 @@
 import { type InputEvent } from '@/types/form-types';
 import { type PackItemProperty } from '@/types/pack-types';
-import styled from 'styled-components';
+import styles from './pack-weight-cell.module.css';
 import { useContext } from 'react';
 import { Flex, Table, Badge } from '@radix-ui/themes';
 import { TableInput } from '../table-input';
@@ -33,16 +33,16 @@ export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) =
 	};
 
 	return (
-		<StyledCell ref={ref} style={{ width }} onBlur={handleToggleOff}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
 				<Flex display="inline-flex" align="baseline">
-					<StyledInput
-						value={packItemWeight || ''}
+					<TableInput
+						className={styles.input}
+						value={packItemWeight?.toString() || ''}
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleOnChange}
 						data-invalid={formErrors?.packItemWeight.error}
-						mr="3"
 					/>
 
 					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleWeightUnit} />
@@ -55,14 +55,6 @@ export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) =
 						highContrast>{`${packItemWeight}  ${packItemUnit}`}</Badge>
 				</Flex>
 			)}
-		</StyledCell>
+		</Table.Cell>
 	);
 };
-
-const StyledCell = styled(Table.Cell)``;
-
-const StyledInput = styled(TableInput)`
-	padding-right: 0.25em;
-	padding-left: 0;
-	text-align: right;
-`;

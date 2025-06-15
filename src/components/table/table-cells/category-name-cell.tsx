@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { Flex, Heading, Table, TextFieldInput } from '@radix-ui/themes';
@@ -56,7 +56,8 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	return (
-		<HeaderCell
+		<Table.ColumnHeaderCell
+			className={styles.headerCell}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}
 			onBlur={!disabled ? toggleToCell : undefined}
@@ -66,7 +67,8 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			{userView ? (
 				<Flex>
 					<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
-					<Input
+					<TextFieldInput
+						className={styles.input}
 						size="3"
 						variant="soft"
 						color="gray"
@@ -82,26 +84,6 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					{packCategoryName}
 				</Heading>
 			)}
-		</HeaderCell>
+		</Table.ColumnHeaderCell>
 	);
 };
-
-const HeaderCell = styled(Table.ColumnHeaderCell)`
-	position: relative;
-	overflow: visible;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			flex: 1;
-			height: fit-content;
-		`)}
-`;
-
-const Input = styled(TextFieldInput)`
-	background-color: var(--gray-2) !important;
-	font-weight: 500;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			height: 40px;
-			font-size: 1.3em;
-		`)}
-`;

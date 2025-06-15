@@ -34,8 +34,8 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 		onChange && onChange(e);
 	};
 
-	const formattedPrice = convertCurrency(packItemPrice, 'USD');
-	const inputPrice = packItemPrice === 0 ? '' : packItemPrice;
+	const formattedPrice = convertCurrency(packItemPrice, 'USD').toString();
+	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();
 	return (
 		<Table.Cell
 			ref={ref}
@@ -47,7 +47,7 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 				<TableInput
 					value={isToggled ? inputPrice : formattedPrice}
 					name="packItemPrice"
-					placeholder={'0'}
+					placeholder="0"
 					onChange={handleOnChange}
 					data-invalid={formErrors?.packItemPrice.error}
 				/>

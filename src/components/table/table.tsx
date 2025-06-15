@@ -1,6 +1,5 @@
 import { Table as RadixTable } from '@radix-ui/themes';
 import { usePricingContext, useUserContext } from '@/hooks';
-import { cn } from '@/styles/utils/cn';
 import styles from './table.module.css';
 
 export const Table = ({ children }: { children: React.ReactNode }) => {

@@ -1,5 +1,6 @@
-import styled, { css } from 'styled-components';
 import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
+import { cn } from '@/styles/utils/cn';
+import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
 import { useContext } from 'react';
 import { TableRowContext } from '../context/table-row-context';
@@ -20,43 +21,30 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 
 	if (header) {
 		return (
-			<StyledHeaderCell justify="center">
-				<StyledFlex $display={display}>{children}</StyledFlex>
-			</StyledHeaderCell>
+			<Table.ColumnHeaderCell className={styles.headerCell} justify="center">
+				<Flex
+					className={cn(
+						styles.flexContainer,
+						display ? styles.flexVisible : styles.flexHidden,
+					)}>
+					{children}
+				</Flex>
+			</Table.ColumnHeaderCell>
 		);
 	} else {
 		return (
 			<Table.Cell valign="middle" ref={ref} style={{ width }}>
-				<StyledFlex $display={display}>{children}</StyledFlex>
+				<Flex
+					className={cn(
+						styles.flexContainer,
+						display ? styles.flexVisible : styles.flexHidden,
+					)}>
+					{children}
+				</Flex>
 			</Table.Cell>
 		);
 	}
 };
-
-const StyledHeaderCell = styled(Table.ColumnHeaderCell)`
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			width: 25%;	
-	`)}
-`;
-
-const StyledFlex = styled(Flex)<{ $display: boolean }>`
-	height: 100%;
-	justify-content: space-around;
-	opacity: ${({ $display }) => ($display ? 1 : 0)};
-	svg {
-		cursor: pointer;
-		color: var(--gray-9);
-		&:hover {
-			filter: brightness(80%);
-		}
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			opacity: 1;
-			width: 100%;
-	`)}
-`;
 
 type MobileToggleProps = {
 	onToggle: () => void;
@@ -64,13 +52,16 @@ type MobileToggleProps = {
 
 export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 	return (
-		<TableButton
+		<IconButton
 			onClick={onToggle}
-			$mobileOnly
-			$marginLeft="15px"
-			style={{ fontSize: '1.1em' }}>
+			className={cn(
+				styles.tableButton,
+				styles.tableButtonMobileOnly,
+				styles.tableButtonMarginLeft,
+			)}
+			style={{ fontSize: '1.1em', '--margin-left': '15px' } as React.CSSProperties}>
 			<CaretDownIcon />
-		</TableButton>
+		</IconButton>
 	);
 };
 
@@ -81,9 +72,11 @@ type MoveButtonProps = {
 
 export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	return (
-		<TableButton onClick={onToggle} $display={display}>
+		<IconButton
+			onClick={onToggle}
+			className={cn(styles.tableButton, !display && styles.tableButtonHidden)}>
 			<ShareIcon />
-		</TableButton>
+		</IconButton>
 	);
 };
 
@@ -98,60 +91,12 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 
 export const GripButton = ({ display, ...props }: { display: boolean }) => {
 	return (
-		<GripContainer align="center" justify="center" $display={display} {...props}>
+		<Flex
+			align="center"
+			justify="center"
+			className={cn(styles.gripContainer, display && styles.gripContainerVisible)}
+			{...props}>
 			<GripIcon />
-		</GripContainer>
+		</Flex>
 	);
 };
-
-export const TableButton = styled(IconButton)<{
-	$display?: boolean;
-	$marginLeft?: string;
-	$mobileOnly?: boolean;
-}>`
-	${(props) =>
-		props.$mobileOnly &&
-		css`
-			display: none;
-			${({ theme: t }) =>
-				t.mx.mobile(`
-					display: block;
-				`)}
-		`}
-	background-color: transparent;
-	cursor: pointer;
-	color: grey;
-	margin: 0px 0px;
-	margin-left: ${({ $marginLeft }) => ($marginLeft ? $marginLeft : 0)};
-	opacity: ${({ $display }) => ($display ? 1 : 0)};
-	padding: 5px;
-	icon:hover {
-		color: black;
-	}
-	input {
-		height: 30px;
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			opacity: 1;
-		`)}
-`;
-
-const GripContainer = styled(Flex)<{ $display: boolean }>`
-	position: absolute;
-	color: var(--gray-8);
-	top: 0px;
-	left: -60px;
-	z-index: 100;
-	width: 60px;
-	height: 44px;
-	margin-left: 15px;
-	touch-action: manipulation;
-	opacity: 0;
-	${({ $display }) =>
-		$display &&
-		css`
-			opacity: 1;
-			cursor: pointer;
-		`}
-`;

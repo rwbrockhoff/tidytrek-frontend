@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './move-item-dropdown.module.css';
 import { PackItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 import { Button, Flex, Select, Table } from '@radix-ui/themes';
@@ -49,7 +49,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	};
 
 	return (
-		<TableRow>
+		<Table.Row className={styles.tableRow}>
 			<Table.Cell colSpan={24}>
 				<Flex
 					justify="end"
@@ -89,21 +89,6 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 					</Button>
 				</Flex>
 			</Table.Cell>
-		</TableRow>
+		</Table.Row>
 	);
 };
-
-const TableRow = styled(Table.Row)`
-	min-height: 60px;
-	button {
-		margin: 0 0.5em;
-		${({ theme: t }) =>
-			t.mx.mobile(`
-				width: 90%;
-				margin: 1em 0em;
-	`)}
-	}
-	button:not(:last-child) {
-		min-width: 150px;
-	}
-`;
