@@ -1,0 +1,5 @@
+.separator {
+	background-color: var(--color-bg-primary);
+	width: 100%;
+	opacity: 0.1;
+}

@@ -1,0 +1,28 @@
+.header {
+	display: none;
+	background-color: var(--tidy-primary);
+	color: white;
+	padding: 2.5em 2em;
+	width: 100%;
+	position: fixed;
+	z-index: 100;
+	-webkit-box-shadow: inset 0px 1px 14px -7px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: inset 0px 1px 14px -7px rgba(0, 0, 0, 0.75);
+	box-shadow: inset 0px 1px 14px -7px rgba(0, 0, 0, 0.75);
+}
+
+.header button {
+	margin-left: auto !important;
+}
+
+@media (max-width: 768px) {
+	.header {
+		display: flex;
+		width: 90%;
+	}
+}
+
+.menuButton {
+	background: transparent;
+	color: white;
+}

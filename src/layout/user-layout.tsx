@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './user-layout.module.css';
 import Sidebar from './sidebar/sidebar';
 import { Outlet } from 'react-router-dom';
 import { Suspense, useState } from 'react';
@@ -12,57 +12,24 @@ export const UserLayout = () => {
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 
 	return (
-		<OuterContainer>
-			<AppViewContainer>
+		<div className={styles.outerContainer}>
+			<div className={styles.appViewContainer}>
 				<MobileNavbar onClick={handleToggleSidebar} />
 				<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
-				<ViewLayoutContainer $showSidebar={showSidebar}>
+				<div 
+					className={styles.viewLayoutContainer}
+					style={{
+						'--view-width': showSidebar ? '80%' : '100%',
+						'--view-margin-left': showSidebar ? '250px' : '0%'
+					} as React.CSSProperties}
+				>
 					<Suspense fallback={<Fallback />}>
 						<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
 						<Outlet />
 					</Suspense>
-				</ViewLayoutContainer>
-			</AppViewContainer>
-		</OuterContainer>
+				</div>
+			</div>
+		</div>
 	);
 };
 
-const OuterContainer = styled.div`
-	width: 100%;
-	height: 100%;
-	overflow-y: scroll;
-	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
-	${({ theme: t }) => t.mx.mobile(`overflow-y: auto;`)}
-`;
-
-const AppViewContainer = styled.div`
-	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
-	min-height: 100%;
-	max-width: var(--max-width);
-	width: 100%;
-	margin: 0 auto;
-	position: relative;
-	display: flex;
-`;
-
-const ViewLayoutContainer = styled.div<{ $showSidebar: boolean }>`
-	width: ${(props) => (props.$showSidebar ? '80%' : '100%')};
-	margin-left: ${(props) => (props.$showSidebar ? '250px' : '0%')};
-	min-height: 100%;
-	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
-	position: relative;
-	padding: 3em 4em 6em 4em;
-	transition: all 500ms ease;
-	transition-property: margin-left, width;
-	@media only screen and (max-width: 1280px) {
-		width: 100%;
-		margin: 0;
-		padding: 3em 4em 6em 4em;
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			width: 100%;
-			margin: 0;
-			padding: 10em 1em 3em 1em;
-	`)}
-`;

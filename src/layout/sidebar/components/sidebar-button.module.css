@@ -1,0 +1,23 @@
+.sidebarButton {
+	opacity: 0.4;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.sidebarButton:hover {
+	filter: brightness(95%);
+}
+
+.sidebarButton.isSidebar {
+	color: white;
+	position: absolute;
+	right: var(--space-xxl);
+	top: var(--space-xxl);
+	opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+	.sidebarButton:not(.isSidebar) {
+		display: none;
+	}
+}

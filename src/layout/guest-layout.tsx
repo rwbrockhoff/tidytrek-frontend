@@ -1,33 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
-import styled from 'styled-components';
+import styles from './guest-layout.module.css';
 import { Fallback } from './fallback';
 
 export const GuestLayout = () => {
 	return (
-		<GuestViewContainer>
+		<div className={styles.guestViewContainer}>
 			<Suspense fallback={<Fallback />}>
 				<Outlet />
 			</Suspense>
-		</GuestViewContainer>
+		</div>
 	);
 };
 
-const GuestViewContainer = styled.div`
-	min-height: 100%;
-	box-sizing: border-box;
-	${({ theme: t }) => t.mx.themeBgColor('tidyBg', 'tidy')}
-	overflow-y: scroll;
-	padding-left: 10vw;
-	padding-right: 10vw;
-	padding-bottom: 2vh;
-	padding-top: 5vh;
-	${({ theme: t }) => t.mx.mobile(`padding: 2em 1em;`)}
-	main {
-		margin: 0 auto;
-		min-height: 100%;
-		box-sizing: border-box;
-		max-width: var(--max-width);
-		position: relative;
-	}
-`;

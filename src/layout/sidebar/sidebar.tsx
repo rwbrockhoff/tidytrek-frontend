@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styles from './sidebar.module.css';
 import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, lazyImport } from '@/utils';
@@ -67,8 +67,14 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	};
 
 	return (
-		<StyledSidebar $showSidebar={showSidebar}>
-			<SidebarContainer>
+		<aside 
+			className={styles.sidebar}
+			style={{
+				'--sidebar-opacity': showSidebar ? '1' : '0',
+				'--sidebar-transform': showSidebar ? '0' : 'inherit'
+			} as React.CSSProperties}
+		>
+			<div className={styles.sidebarContainer}>
 				{(isMobile || isTablet) && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
@@ -88,7 +94,7 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<SidebarMenu />
 
-					<StyledSeperator my="4" />
+					<Separator my="4" className={styles.separator} />
 
 					<Heading as="h3" size="5" mb="2">
 						Packs
@@ -96,62 +102,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<PackList currentPackId={currentPackId} packList={packList} />
 				</Suspense>
-			</SidebarContainer>
-		</StyledSidebar>
+			</div>
+		</aside>
 	);
 };
 
 export default Sidebar;
 
-const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
-	width: 1280px;
-	position: fixed;
-	right: 50%;
-	transform: translateX(calc(50% - 1030px));
-	opacity: ${({ $showSidebar }) => ($showSidebar ? 1 : 0)};
-	background: #514f59;
-	color: white;
-	height: 100%;
-	display: flex;
-	justify-content: flex-end;
-	transition: all 500ms ease;
-
-	a,
-	a:visited {
-		color: white;
-	}
-
-	@media only screen and (max-width: 1280px) {
-		z-index: 100;
-		width: 20%;
-		left: 0;
-		opacity: 1;
-		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
-	}
-
-	@media only screen and (max-width: 768px) {
-		z-index: 100;
-		width: 100%;
-		right: 0%;
-		opacity: 1;
-		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
-		h3 {
-			font-size: 2rem;
-		}
-	}
-`;
-
-const SidebarContainer = styled.div`
-	width: 250px;
-	height: 100%;
-	padding: 3em 50px;
-	box-sizing: border-box;
-	position: relative;
-	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
-`;
-
-export const StyledSeperator = styled(Separator)`
-	background-color: #ffffffbd;
-	width: 100%;
-	opacity: 0.1;
-`;
