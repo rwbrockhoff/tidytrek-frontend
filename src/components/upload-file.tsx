@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './upload-file.module.css';
 import { MdCloudUpload as UploadIcon } from 'react-icons/md';
 import { ChangeEvent, useRef } from 'react';
 
@@ -29,30 +29,18 @@ export const UploadFile = (props: UploadFileProps) => {
 
 	return (
 		<form encType="multipart/form-data" ref={formRef} className="uploadFileForm">
-			<UploadLabel htmlFor={fileId}>
+			<label htmlFor={fileId} className={styles.uploadLabel}>
 				<UploadIcon />
-			</UploadLabel>
-			<UploadInput
+			</label>
+			<input
 				id={fileId}
 				type="file"
 				accept={fileType}
 				onChange={handleFile}
 				disabled={isPending}
+				className={styles.uploadInput}
 			/>
 		</form>
 	);
 };
 
-const UploadLabel = styled.label`
-	color: white;
-	cursor: pointer;
-	font-size: 2em;
-	padding: 1em;
-	svg {
-		margin: 0;
-	}
-`;
-
-const UploadInput = styled.input`
-	display: none;
-`;

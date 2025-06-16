@@ -1,6 +1,6 @@
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
-import styled from 'styled-components';
+import styles from './pack-modal.module.css';
 import { useState, useEffect } from 'react';
 import { Form } from '@radix-ui/react-form';
 import { FormField, FormTextArea, SaveIcon } from '@/components/ui';
@@ -115,11 +115,11 @@ export const PackModal = (props: PackModalProps) => {
 					{packName ?? pack.packName ?? 'Pack'}
 				</Dialog.Title>
 
-				<StyledModalContent>
+				<Flex className={styles.modalContent}>
 					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />
 
 					<Form style={{ width: '100%' }}>
-						<LeftPanel direction="column">
+						<Flex direction="column" className={styles.leftPanel}>
 							<FormField
 								name="packName"
 								value={packName ?? ''}
@@ -136,7 +136,7 @@ export const PackModal = (props: PackModalProps) => {
 								placeholder="Pack Description"
 								onChange={handleFormChange}
 							/>
-						</LeftPanel>
+						</Flex>
 
 						<PackTags
 							packLocationTag={packLocationTag}
@@ -237,7 +237,7 @@ export const PackModal = (props: PackModalProps) => {
 							</div>
 						)}
 					</Form>
-				</StyledModalContent>
+				</Flex>
 				<Dialog.Close>
 					<Flex justify="end" gap="3" mt="2">
 						<Button color="tomato" onClick={showDeleteModal}>
@@ -255,19 +255,6 @@ export const PackModal = (props: PackModalProps) => {
 	);
 };
 
-const StyledModalContent = styled(Flex)`
-	position: relative;
-	padding: 0.5em;
-`;
-
-const LeftPanel = styled(Flex)`
-	height: 250px;
-	width: 50%;
-	margin-bottom: 1em;
-	textarea {
-		height: 150px;
-	}
-`;
 
 // defaults
 const affiliateMessage =

@@ -1,0 +1,14 @@
+.modalContent {
+	position: relative;
+	padding: var(--space-xs);
+}
+
+.leftPanel {
+	height: 250px;
+	width: 50%;
+	margin-bottom: var(--space-md);
+}
+
+.leftPanel textarea {
+	height: 150px;
+}
