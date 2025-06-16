@@ -45,12 +45,6 @@ body {
 	outline-offset: 2px;
 }
 
-/* Selection styles */
-::selection {
-	background-color: var(--color-primary);
-	color: var(--color-text-inverse);
-}
-
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
 	* {

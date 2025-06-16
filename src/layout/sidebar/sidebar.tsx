@@ -56,8 +56,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	}, [currentPackId]);
 
 	useEffect(() => {
-		// toggle sidebar menu for mobile link clicks
-		if (isMobile && !showSidebar) onToggle();
+		// Hide sidebar when navigating on mobile/tablet
+		if ((isMobile || isTablet) && showSidebar) {
+			onToggle();
+		}
 	}, [location.pathname]);
 
 	const handleLogout = async () => {
@@ -78,22 +80,25 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		>
 			<aside>
 				<div className={styles.sidebarContainer}>
-				{(isMobile || isTablet) && <SidebarButton isSidebar={true} onClick={onToggle} />}
-
-				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
-					<Heading as="h1" mb="1">
-						tidytrek
-					</Heading>
-				</Link>
+				<div className={styles.sidebarHeader}>
+					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
+						<Heading as="h1" mb="1">
+							tidytrek
+						</Heading>
+					</Link>
+					{showSidebar && <SidebarButton isSidebar={true} onClick={onToggle} />}
+				</div>
 
 				<Suspense fallback={<SidebarFallback />}>
-					<MouseOver>
-						<PopupMenu
-							profilePhotoUrl={user?.profilePhotoUrl}
-							isMobile={isMobile}
-							logout={handleLogout}
-						/>
-					</MouseOver>
+					<div className={styles.avatarSection}>
+						<MouseOver>
+							<PopupMenu
+								profilePhotoUrl={user?.profilePhotoUrl}
+								isMobile={isMobile}
+								logout={handleLogout}
+							/>
+						</MouseOver>
+					</div>
 
 					<SidebarMenu />
 

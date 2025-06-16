@@ -12,7 +12,7 @@ export const Account = () => {
 
 	return (
 		<main>
-			<Heading as="h3" align="center" size="6">
+			<Heading as="h3" align="center" size="6" mt="9">
 				Account Settings
 			</Heading>
 

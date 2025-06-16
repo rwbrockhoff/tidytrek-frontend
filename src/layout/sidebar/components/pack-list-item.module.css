@@ -1,5 +1,5 @@
 .itemContainer {
-	padding: var(--space-xs) 0;
+	padding: var(--space-min) 0;
 	cursor: pointer;
 }
 
@@ -31,9 +31,17 @@
 }
 
 .gripContainer {
-	height: 1em;
 	position: absolute;
-	left: calc(-1 * var(--space-xl));
-	padding: 0 var(--space-xs);
+	left: calc(-1 * var(--space-lg));
 	cursor: grab;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	top: 0;
+	padding-right: var(--space-xs);
+}
+
+.gripContainer svg {
+	width: 0.8rem;
+	height: 0.8rem;
 }

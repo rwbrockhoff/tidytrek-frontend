@@ -16,14 +16,18 @@
 	align-items: center;
 	margin: var(--space-xs) var(--space-xs);
 	margin-right: var(--space-md);
+	transition: all 0.15s ease;
 }
 
 .styledMenu li:hover {
-	filter: var(--hover-light-3);
+	transform: translateX(2px);
 }
 
 .styledMenu li svg {
 	margin-right: var(--space-xs);
+	width: 0.9rem;
+	height: 0.9rem;
+	filter: var(--brightness-dark-1);
 }
 
 .styledMenuWithTopMargin {

@@ -2,7 +2,7 @@
 	width: 100%;
 	height: 100%;
 	overflow-y: scroll;
-	background-color: var(--color-bg-dark);
+	background-color: var(--color-bg-secondary);
 }
 
 @media (max-width: 768px) {
@@ -12,7 +12,7 @@
 }
 
 .appViewContainer {
-	background-color: var(--color-bg-dark);
+	background-color: var(--color-bg-secondary);
 	min-height: 100%;
 	max-width: var(--max-width);
 	width: 100%;
@@ -23,17 +23,25 @@
 }
 
 .viewLayoutContainer {
-	width: var(--view-width);
-	margin-left: var(--view-margin-left);
 	flex: 1;
-	background-color: var(--color-bg-dark);
+	background-color: var(--color-bg-secondary);
 	position: relative;
 	padding: var(--space-xxl) 4em 6em 4em;
-	transition: all 500ms ease;
+	transition: all 300ms ease;
 	transition-property: margin-left, width;
 }
 
-@media only screen and (max-width: 1280px) {
+.viewLayoutSidebarVisible {
+	width: 80%;
+	margin-left: 250px;
+}
+
+.viewLayoutSidebarHidden {
+	width: 100%;
+	margin-left: 0;
+}
+
+@media (max-width: 1280px) {
 	.viewLayoutContainer {
 		width: 100%;
 		margin: 0;

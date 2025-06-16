@@ -54,3 +54,9 @@ div.rt-ScrollAreaViewport {
 .rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
 	overflow: visible !important;
 }
+
+/* Override Radix selection styles */
+.radix-themes *::selection {
+	background-color: var(--sage-400);
+	color: var(--color-constant-white);
+}

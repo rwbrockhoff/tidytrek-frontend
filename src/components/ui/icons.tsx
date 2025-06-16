@@ -10,7 +10,7 @@ export {
 	FaRegSave as SaveIcon,
 	FaTree as TreeIcon,
 } from 'react-icons/fa';
-export { MdOutlineAdd as PlusIcon } from 'react-icons/md';
+export { FaPlus as PlusIcon } from 'react-icons/fa';
 export { IoMdRefresh as RefreshIcon } from 'react-icons/io';
 export { RiInformationFill as InfoIcon } from 'react-icons/ri';
 export { TfiMenu as SidebarIcon } from 'react-icons/tfi';
@@ -18,7 +18,7 @@ export { BsFillSendFill as SendIcon } from 'react-icons/bs';
 export { FaSearch as SearchIcon } from 'react-icons/fa';
 export { FaCircle as CircleIcon } from 'react-icons/fa';
 export { RiErrorWarningLine as WarningIcon } from 'react-icons/ri';
-export { FaDownLong as DownArrowIcon } from 'react-icons/fa6';
+export { FaDownLong as DownArrowIcon, FaAnglesLeft as LeftDoubleChevronIcon } from 'react-icons/fa6';
 export { FaBinoculars as PublicIcon } from 'react-icons/fa6';
 export { IoMdEyeOff as PrivateIcon } from 'react-icons/io';
 export { MdAlternateEmail as EmailIcon } from 'react-icons/md';
@@ -30,6 +30,8 @@ export { MdEdit as EditPencilIcon } from 'react-icons/md';
 export { FaChartPie as ChartIcon } from 'react-icons/fa';
 export { FaGripVertical as GripIcon } from 'react-icons/fa';
 export { CgImport as ImportIcon } from 'react-icons/cg';
+export { FaRegUser as UserIcon } from 'react-icons/fa';
+export { FaBox as ClosetIcon } from 'react-icons/fa';
 //--Global Icons--//
 
 //--Pack Label Icons--//

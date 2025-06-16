@@ -4,15 +4,25 @@
 	cursor: pointer;
 }
 
+.sidebarButton:not(.isSidebar) {
+	position: absolute;
+	top: var(--space-xl);
+	left: var(--space-xxl);
+	z-index: 10;
+	margin-top: var(--space-xxl);
+	margin-left: var(--space-xxs);
+	transform: translateY(-50%);
+}
+
 .sidebarButton:hover {
 	filter: var(--brightness-dark-1);
 }
 
 .sidebarButton.isSidebar {
-	color: var(--color-constant-white);
-	position: absolute;
-	right: var(--space-xxl);
-	top: var(--space-xxl);
+	color: var(--gray-300);
 	opacity: 0.8;
+	padding: var(--space-sm);
+	min-width: 32px;
+	min-height: 32px;
+	margin: 0;
 }
-

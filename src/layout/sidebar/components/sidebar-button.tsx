@@ -1,7 +1,7 @@
 import { cn, mixins } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
 import { Button } from '@radix-ui/themes';
-import { SidebarIcon } from '@/components/ui';
+import { SidebarIcon, LeftDoubleChevronIcon } from '@/components/ui';
 
 type SidebarButtonProps = {
 	onClick: () => void;
@@ -19,9 +19,8 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 			onClick={onClick}
 			variant="ghost"
 			color="gray"
-			size="3"
-			mt="6">
-			<SidebarIcon />
+			size="3">
+			{isSidebar ? <LeftDoubleChevronIcon /> : <SidebarIcon />}
 		</Button>
 	);
 };

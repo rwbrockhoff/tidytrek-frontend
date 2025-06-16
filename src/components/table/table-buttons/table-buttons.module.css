@@ -13,9 +13,14 @@
 	justify-content: space-around;
 }
 
+.flexContainer > * {
+	padding: var(--space-xs);
+	cursor: pointer;
+}
+
 .flexContainer svg {
 	cursor: pointer;
-	color: var(--gray-900);
+	color: var(--gray-500);
 }
 
 .flexContainer svg:hover {
