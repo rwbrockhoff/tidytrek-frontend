@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './container.module.css';
 
 type ContainerProps = {

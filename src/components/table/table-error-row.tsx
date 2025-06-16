@@ -1,7 +1,7 @@
 import { type FormError } from '@/types/form-types';
 import { Table, Flex, Text } from '@radix-ui/themes';
 import { WarningIcon } from '../ui';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './table-error-row.module.css';
 
 export const TableErrorRow = ({ error }: { error: FormError }) => {

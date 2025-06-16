@@ -1,8 +1,11 @@
-/* App UI Theme - Light/Dark modes with sage primary */
+/* App UI Theme - Light/Dark modes with Sage Primary */
 
 :root {
+	/* -- Base font and layout -- */
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	--max-width: 1280px;
+
 	/* Base sage color scale */
-	--sage-50: #f0f9f4;
 	--sage-100: #daf1e3;
 	--sage-200: #b8e2cc;
 	--sage-300: #8acbad;
@@ -12,10 +15,8 @@
 	--sage-700: #1f5d48;
 	--sage-800: #1a4b3a;
 	--sage-900: #173d30;
-	--sage-950: #0c221b;
 
 	/* Neutral grays */
-	--gray-50: #f9fafb;
 	--gray-100: #f3f4f6;
 	--gray-200: #e5e7eb;
 	--gray-300: #d1d5db;
@@ -25,7 +26,10 @@
 	--gray-700: #374151;
 	--gray-800: #1f2937;
 	--gray-900: #111827;
-	--gray-950: #030712;
+
+	/* Constant Text */
+	--color-constant-white: #ffffff;
+	--color-constant-black: #000000;
 
 	/* Accent colors */
 	--blue-500: #3b82f6;
@@ -36,7 +40,7 @@
 	--yellow-600: #ca8a04;
 
 	/* Icon accent colors */
-	--amber-acccent: #ffc53d;
+	--amber-accent: #ffc53d;
 	--indigo-accent: #3e63dd;
 	--teal-accent: #00a2c7;
 
@@ -77,46 +81,16 @@
 
 	--transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-	/* -- Default theme variables (light theme as default) -- */
-	--color-primary: var(--sage-500);
-	--color-primary-hover: var(--sage-600);
-	--color-primary-light: var(--sage-100);
-	--color-primary-dark: var(--sage-700);
+	/* -- Brightness filters -- */
+	--brightness-dark-2: brightness(80%);
+	--brightness-dark-1: brightness(95%);
+	--brightness-light-1: brightness(105%);
+	--brightness-light-2: brightness(120%);
 
-	--color-bg-primary: #ffffff;
-	--color-bg-secondary: var(--gray-50);
-	--color-bg-tertiary: var(--gray-100);
-	--color-bg-overlay: rgba(255, 255, 255, 0.9);
-
-	--color-text-primary: var(--gray-900);
-	--color-text-secondary: var(--gray-700);
-	--color-text-tertiary: var(--gray-500);
-	--color-text-inverse: #ffffff;
-
-	--color-border-primary: var(--gray-200);
-	--color-border-secondary: var(--gray-300);
+	/* -- Focus color -- */
 	--color-border-focus: var(--sage-500);
-
-	--color-success: var(--sage-500);
-	--color-success-bg: var(--sage-50);
-	--color-error: var(--red-500);
-	--color-error-bg: #fef2f2;
-	--color-warning: var(--yellow-500);
-	--color-warning-bg: #fefce8;
-	--color-info: var(--blue-500);
-	--color-info-bg: #eff6ff;
-
-	--color-hover: var(--gray-100);
-	--color-active: var(--gray-200);
-	--color-focus: var(--sage-100);
-
-	--tidy-primary: var(--sage-500);
-	--tidy-bg: var(--gray-100);
-	--tidy-light-grey: var(--gray-100);
-	--tidy-blue: var(--blue-500);
 }
 
-/* Light theme (default) */
 [data-theme='light'] {
 	/* Primary colors */
 	--color-primary: var(--sage-500);
@@ -126,20 +100,18 @@
 
 	/* Background colors */
 	--color-bg-primary: #ffffff;
-	--color-bg-secondary: var(--gray-50);
-	--color-bg-tertiary: var(--gray-100);
+	--color-bg-secondary: var(--gray-100);
+	--color-bg-tertiary: var(--gray-200);
 	--color-bg-overlay: rgba(255, 255, 255, 0.9);
 
 	/* Text colors */
 	--color-text-primary: var(--gray-900);
 	--color-text-secondary: var(--gray-700);
-	--color-text-tertiary: var(--gray-500);
 	--color-text-inverse: #ffffff;
 
 	/* Border colors */
 	--color-border-primary: var(--gray-200);
 	--color-border-secondary: var(--gray-300);
-	--color-border-focus: var(--sage-500);
 
 	/* State colors */
 	--color-success: var(--sage-500);
@@ -155,12 +127,6 @@
 	--color-hover: var(--gray-100);
 	--color-active: var(--gray-200);
 	--color-focus: var(--sage-100);
-
-	/* Legacy tidytrek colors for transition */
-	--tidy-primary: var(--sage-500);
-	--tidy-bg: var(--gray-100);
-	--tidy-light-grey: var(--gray-100);
-	--tidy-blue: var(--blue-500);
 }
 
 /* Dark theme */
@@ -178,19 +144,17 @@
 	--color-bg-overlay: rgba(17, 24, 39, 0.9);
 
 	/* Text colors */
-	--color-text-primary: var(--gray-50);
+	--color-text-primary: var(--gray-100);
 	--color-text-secondary: var(--gray-300);
-	--color-text-tertiary: var(--gray-400);
 	--color-text-inverse: var(--gray-900);
 
 	/* Border colors */
 	--color-border-primary: var(--gray-700);
 	--color-border-secondary: var(--gray-600);
-	--color-border-focus: var(--sage-400);
 
 	/* State colors */
 	--color-success: var(--sage-400);
-	--color-success-bg: var(--sage-950);
+	--color-success-bg: var(--sage-900);
 	--color-error: #f87171;
 	--color-error-bg: #7f1d1d;
 	--color-warning: #facc15;
@@ -202,10 +166,4 @@
 	--color-hover: var(--gray-700);
 	--color-active: var(--gray-600);
 	--color-focus: var(--sage-900);
-
-	/* Legacy tidytrek colors for transition */
-	--tidy-primary: var(--sage-400);
-	--tidy-bg: var(--gray-800);
-	--tidy-light-grey: var(--gray-700);
-	--tidy-blue: var(--blue-500);
 }

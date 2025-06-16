@@ -1,4 +1,4 @@
-import { cn } from '@/styles/utils/cn';
+import { cn, mixins } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
 import { Button } from '@radix-ui/themes';
 import { SidebarIcon } from '@/components/ui';
@@ -11,7 +11,11 @@ type SidebarButtonProps = {
 export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 	return (
 		<Button
-			className={cn(styles.sidebarButton, isSidebar && styles.isSidebar)}
+			className={cn(
+				styles.sidebarButton, 
+				isSidebar && styles.isSidebar,
+				!isSidebar && mixins.mobileHidden
+			)}
 			onClick={onClick}
 			variant="ghost"
 			color="gray"

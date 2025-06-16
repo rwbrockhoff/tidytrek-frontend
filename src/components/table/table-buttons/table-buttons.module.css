@@ -15,11 +15,11 @@
 
 .flexContainer svg {
 	cursor: pointer;
-	color: var(--gray-9);
+	color: var(--gray-900);
 }
 
 .flexContainer svg:hover {
-	filter: brightness(80%);
+	filter: var(--brightness-dark-2);
 }
 
 @media (max-width: 768px) {
@@ -58,27 +58,22 @@
 	opacity: 0;
 }
 
-.tableButtonMobileOnly {
-	display: none;
-}
-
 @media (max-width: 768px) {
 	.tableButton {
 		opacity: 1;
 	}
+}
 
-	.tableButtonMobileOnly {
-		display: block;
-	}
+.mobileToggleButton {
+	font-size: var(--font-size-lg);
 }
 
 .tableButtonMarginLeft {
-	margin-left: var(--margin-left, 0);
+	margin-left: var(--space-md);
 }
 
 .gripContainer {
 	position: absolute;
-	color: var(--gray-8);
 	top: 0px;
 	left: -60px;
 	z-index: 100;
@@ -87,6 +82,10 @@
 	margin-left: 15px;
 	touch-action: manipulation;
 	opacity: 0;
+}
+
+.gripContainer svg {
+	color: var(--gray-400);
 }
 
 .gripContainerVisible {

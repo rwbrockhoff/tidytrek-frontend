@@ -4,13 +4,6 @@
 	height: 200px;
 }
 
-.container .uploadFileForm {
-	display: none;
-}
-
-.container:hover .uploadFileForm {
-	display: inherit;
-}
 
 .packPhoto {
 	width: 100%;

@@ -5,7 +5,7 @@ import { ActionButtons } from './table-buttons/';
 import { usePackCategoryHandlers } from '@/features/dashboard/handlers/use-pack-category-handlers';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
 
 type TableHeaderProps = {

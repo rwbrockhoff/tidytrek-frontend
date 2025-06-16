@@ -94,7 +94,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 				tidytrek
 			</Heading>
 
-			<Segment $radius="2">
+			<Segment radius="2">
 				<Heading as="h3" size="6" color="jade" mb="4">
 					Welcome to Tidytrek!
 				</Heading>

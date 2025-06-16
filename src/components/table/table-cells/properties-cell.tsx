@@ -38,7 +38,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
 						name="favorite"
-						className={`favorite${favorite ? '-active' : ''}`}
+						className={favorite ? styles.favoriteActive : ''}
 						style={{ opacity: showOnHover || favorite ? 100 : 0 }}
 						onClick={() => handleOnClick({ favorite: !favorite })}
 					/>
@@ -48,7 +48,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<ConsumableIcon
 							name="food"
-							className={`consumable${consumable ? '-active' : ''}`}
+							className={consumable ? styles.consumableActive : ''}
 							style={{ opacity: showOnHover || consumable ? 100 : 0 }}
 							onClick={() => handleOnClick({ consumable: !consumable })}
 						/>
@@ -58,7 +58,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<WornIcon
 							name="wornWeight"
-							className={`worn-weight${wornWeight ? '-active' : ''}`}
+							className={wornWeight ? styles.wornWeightActive : ''}
 							style={{ opacity: showOnHover || wornWeight ? 100 : 0 }}
 							onClick={() => handleOnClick({ wornWeight: !wornWeight })}
 						/>

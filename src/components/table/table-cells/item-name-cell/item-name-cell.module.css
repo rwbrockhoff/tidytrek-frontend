@@ -6,19 +6,6 @@
 	flex-grow: 1;
 }
 
-.styledCell :global(.rt-TextFieldInput) {
-	border: var(--text-field-border-width) solid var(--color-bg-primary);
-}
-
-.styledCell :global(.rt-TextFieldInput):hover:not(:focus) {
-	border-color: var(--color-primary);
-}
-
-.styledCell.styledCell :global(.rt-TextFieldInput):focus {
-	border-color: var(--color-primary);
-	box-shadow: none;
-	outline: none;
-}
 
 @media only screen and (max-width: 768px) {
 	.styledCell :global(input) {

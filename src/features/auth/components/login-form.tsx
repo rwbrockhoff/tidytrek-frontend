@@ -47,7 +47,7 @@ export const LogInForm = (props: FormProps) => {
 			<Heading as="h1" mb="4">
 				tidytrek
 			</Heading>
-			<Segment $radius="2">
+			<Segment radius="2">
 				<Heading as="h3" size="6" color="jade" mb="4">
 					{isRegisterForm ? 'Create your account' : 'Log in to your account'}
 				</Heading>

@@ -1,7 +1,7 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
 import { useState } from 'react';
 import styles from './pack-category.module.css';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import { Draggable } from 'react-beautiful-dnd';
 import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';

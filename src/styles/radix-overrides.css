@@ -1,0 +1,56 @@
+/* Radix UI Component Overrides */
+
+.radix-themes {
+	height: 100%;
+}
+
+/* Match TextArea border thickness to TextField */
+.rt-TextAreaInput {
+	border-width: 2px;
+}
+
+/* Global input styling - prevent double borders */
+.rt-TextFieldInput:hover:not(:focus) {
+	border-color: var(--color-primary);
+}
+
+.rt-TextFieldInput:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+	transition: none;
+}
+
+.rt-TextAreaInput:hover:not(:focus) {
+	border-color: var(--color-primary);
+}
+
+.rt-TextAreaInput:focus {
+	border-color: var(--color-primary);
+	box-shadow: none;
+	outline: none;
+	transition: none;
+}
+
+/* Form validation styling */
+input[data-invalid='true'] {
+	border: 1px solid var(--red-500);
+	background-color: var(--color-error-bg);
+}
+
+/* Override deeply nested inline styles from Radix */
+.rt-ScrollAreaRoot {
+	overflow: visible;
+}
+
+div.rt-ScrollAreaViewport {
+	overflow: visible !important;
+}
+
+.rt-TableRoot {
+	overflow: visible !important;
+}
+
+.rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
+	overflow: visible !important;
+}

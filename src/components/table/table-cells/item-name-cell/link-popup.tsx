@@ -7,6 +7,7 @@ import {
 	TextField,
 } from '@radix-ui/themes';
 import { CheckIcon, SaveIcon, cleanUpLink } from '@/components/ui';
+import { cn, mixins } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
@@ -54,7 +55,11 @@ export const LinkPopup = (props: LinkPopupProps) => {
 					<IconButton 
 						variant="ghost" 
 						m="2" 
-						className={`${styles.linkButton} ${displayButton ? styles.linkButtonVisible : styles.linkButtonHidden}`}
+						className={cn(
+							styles.linkButton,
+							mixins.mobileHidden,
+							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden
+						)}
 					>
 						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
 					</IconButton>

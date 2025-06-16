@@ -4,13 +4,6 @@
 	height: 250px;
 }
 
-.bannerContainer :global(.uploadFileForm) {
-	display: none;
-}
-
-.bannerContainer:hover :global(.uploadFileForm) {
-	display: inherit;
-}
 
 .bannerImage {
 	width: 100%;

@@ -2,22 +2,23 @@
 	width: 15px;
 	height: 15px;
 	cursor: pointer;
-	color: var(--gray-600);
+	color: var(--gray-500);
+	fill: currentColor;
 }
 
 .propertiesCell svg:hover {
-	filter: brightness(80%);
+	filter: var(--brightness-dark-2);
 }
 
-.propertiesCell .favorite-active {
+.propertiesCell .favoriteActive {
 	color: var(--amber-accent);
 }
 
-.propertiesCell .worn-weight-active {
+.propertiesCell .wornWeightActive {
 	color: var(--teal-accent);
 }
 
-.propertiesCell .consumable-active {
+.propertiesCell .consumableActive {
 	color: var(--indigo-accent);
 }
 

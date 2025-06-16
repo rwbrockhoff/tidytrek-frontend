@@ -40,7 +40,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 					tidytrek
 				</Heading>
 
-				<Segment $radius="2">
+				<Segment radius="2">
 					<Heading as="h3" size="6" color="jade" mb="4">
 						Reset Password
 					</Heading>

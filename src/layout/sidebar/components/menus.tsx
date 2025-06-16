@@ -24,7 +24,7 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 
 export const SidebarMenu = () => {
 	return (
-		<StyledMenu style={{ marginTop: 'var(--space-xl)' }}>
+		<StyledMenu className="styledMenuWithTopMargin">
 			<li>
 				<Link to="/profile">
 					<UserIcon />

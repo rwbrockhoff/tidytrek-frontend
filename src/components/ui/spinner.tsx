@@ -1,4 +1,4 @@
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './spinner.module.css';
 
 type SpinnerSize = '1' | '2' | '3' | '4';

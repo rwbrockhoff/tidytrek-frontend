@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { cn, mixins } from '@/styles/utils';
 import styles from './pack-photo.module.css';
 import { Dimmer, defaultPackPhoto, Spinner, DeleteButton } from '@/components/ui';
 import { UploadFile } from '@/components';
@@ -25,7 +26,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
 		<div
-			className={styles.container}
+			className={cn(styles.container, mixins.uploadHoverContainer)}
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
 			{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}

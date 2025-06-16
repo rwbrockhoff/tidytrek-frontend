@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { FaLink } from 'react-icons/fa';
 import { Icon } from '@/components/ui';
 import { Text } from '@radix-ui/themes';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './link.module.css';
 
 type LinkProps = {

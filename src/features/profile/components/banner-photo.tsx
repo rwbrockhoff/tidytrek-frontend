@@ -1,5 +1,6 @@
 import styles from './banner-photo.module.css';
 import { useState } from 'react';
+import { cn, mixins } from '@/styles/utils';
 import { UploadFile } from '@/components';
 import { Dimmer, Spinner } from '@/components/ui';
 import { defaultBannerPhoto } from '@/components/ui';
@@ -18,7 +19,7 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 	const dimmerEnabled = uploadEnabled && (isPending || showUploadMode);
 	return (
 		<div
-			className={styles.bannerContainer}
+			className={cn(styles.bannerContainer, mixins.uploadHoverContainer)}
 			onMouseOver={() => setShowUploadMode(true)}
 			onMouseLeave={() => setShowUploadMode(false)}
 		>

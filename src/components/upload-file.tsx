@@ -1,4 +1,5 @@
 import styles from './upload-file.module.css';
+import { cn, mixins } from '@/styles/utils';
 import { MdCloudUpload as UploadIcon } from 'react-icons/md';
 import { ChangeEvent, useRef } from 'react';
 
@@ -38,7 +39,7 @@ export const UploadFile = (props: UploadFileProps) => {
 				accept={fileType}
 				onChange={handleFile}
 				disabled={isPending}
-				className={styles.uploadInput}
+				className={mixins.hidden}
 			/>
 		</form>
 	);

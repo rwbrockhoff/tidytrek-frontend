@@ -1,6 +1,7 @@
 @import './app-theme.css';
 @import './app-palettes.css';
 @import '../utils/mixins.module.css';
+@import '../radix-overrides.css';
 
 /* Base CSS reset and global styles */
 *,

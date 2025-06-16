@@ -1,7 +1,7 @@
 .guestViewContainer {
 	min-height: 100%;
 	box-sizing: border-box;
-	background-color: var(--tidy-bg);
+	background-color: var(--color-bg-dark);
 	overflow-y: scroll;
 	padding-left: 10vw;
 	padding-right: 10vw;

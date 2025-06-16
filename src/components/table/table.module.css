@@ -7,21 +7,15 @@
 
 .table :global(.rt-TextFieldInput) {
 	background-color: var(--color-bg-primary);
-	border: var(--text-field-border-width) solid var(--color-bg-primary);
 	transition: background-color var(--transition);
 }
 
 .table :global(.rt-TextFieldInput):hover:not(:focus) {
 	background-color: transparent;
-	border-color: var(--color-primary);
 }
 
 .table :global(.rt-TextFieldInput):focus {
 	background-color: transparent;
-	border-color: var(--color-primary);
-	box-shadow: none;
-	outline: none;
-	transition: none;
 }
 
 .table :global(thead.withPrimaryBorder) {

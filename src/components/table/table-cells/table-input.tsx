@@ -1,5 +1,5 @@
 import { TextField } from '@radix-ui/themes';
-import { cn } from '@/styles/utils/cn';
+import { cn } from '@/styles/utils';
 import styles from './table-input.module.css';
 
 type TableInputProps = {

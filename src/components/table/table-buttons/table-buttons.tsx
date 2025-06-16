@@ -1,5 +1,5 @@
 import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
-import { cn } from '@/styles/utils/cn';
+import { cn, mixins } from '@/styles/utils';
 import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
 import { useContext } from 'react';
@@ -56,10 +56,11 @@ export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 			onClick={onToggle}
 			className={cn(
 				styles.tableButton,
-				styles.tableButtonMobileOnly,
+				styles.mobileToggleButton,
 				styles.tableButtonMarginLeft,
-			)}
-			style={{ fontSize: '1.1em', '--margin-left': '15px' } as React.CSSProperties}>
+				mixins.hidden,
+				mixins.mobileBlock,
+			)}>
 			<CaretDownIcon />
 		</IconButton>
 	);

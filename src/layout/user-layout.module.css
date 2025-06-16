@@ -1,8 +1,8 @@
 .outerContainer {
 	width: 100%;
-	min-height: 100vh;
+	height: 100%;
 	overflow-y: scroll;
-	background-color: var(--tidy-bg);
+	background-color: var(--color-bg-dark);
 }
 
 @media (max-width: 768px) {
@@ -12,20 +12,21 @@
 }
 
 .appViewContainer {
-	background-color: var(--tidy-bg);
+	background-color: var(--color-bg-dark);
 	min-height: 100%;
 	max-width: var(--max-width);
 	width: 100%;
 	margin: 0 auto;
 	position: relative;
 	display: flex;
+	align-items: stretch;
 }
 
 .viewLayoutContainer {
 	width: var(--view-width);
 	margin-left: var(--view-margin-left);
-	min-height: 100%;
-	background-color: var(--tidy-bg);
+	flex: 1;
+	background-color: var(--color-bg-dark);
 	position: relative;
 	padding: var(--space-xxl) 4em 6em 4em;
 	transition: all 500ms ease;

@@ -4,6 +4,7 @@ import { Spinner } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
 import { useGetAuth } from '@/hooks';
+import { mixins } from '@/styles/utils';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, session } = useGetAuth();
@@ -20,7 +21,7 @@ export const AppRouter = () => {
 		);
 
 	return (
-		<div data-theme-palette="earth-tones">
+		<div data-theme="light" data-theme-palette="earth-tones" className={mixins.fullHeight}>
 			<Theme accentColor="jade" radius="small" scaling="90%">
 				<RouterProvider router={appRouter} />
 			</Theme>

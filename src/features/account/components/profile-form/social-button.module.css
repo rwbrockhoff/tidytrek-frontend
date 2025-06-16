@@ -4,25 +4,25 @@
 }
 
 .circleButton:hover {
-	filter: var(--hover-dark-1);
+	filter: var(--brightness-dark-1);
 }
 
 .circleButton svg {
-	color: white;
+	color: var(--color-constant-white);
 }
 
 .styledBadge {
 	cursor: pointer;
-	padding: 0.75em;
-	background-color: var(--gray-5);
-	color: var(--sage-900);
+	padding: var(--space-xs);
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-primary);
 }
 
 .styledBadge:hover {
-	filter: var(--hover-dark-1);
+	box-shadow: var(--shadow);
 }
 
 .styledBadge a,
 .styledBadge a:hover {
-	color: black;
+	color: var(--color-text-primary);
 }

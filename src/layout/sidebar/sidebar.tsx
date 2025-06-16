@@ -5,7 +5,8 @@ import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, lazyImport } from '@/utils';
 import { SidebarButton } from './components/sidebar-button';
-import { Heading, Separator } from '@radix-ui/themes';
+import { cn } from '@/styles/utils';
+import { Heading, Separator, Flex } from '@radix-ui/themes';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
 import { useGetAuth, useCheckScreen } from '@/hooks';
@@ -67,14 +68,16 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	};
 
 	return (
-		<aside 
-			className={styles.sidebar}
-			style={{
-				'--sidebar-opacity': showSidebar ? '1' : '0',
-				'--sidebar-transform': showSidebar ? '0' : 'inherit'
-			} as React.CSSProperties}
+		<Flex
+			asChild
+			justify="end"
+			className={cn(
+				styles.sidebar,
+				showSidebar ? styles.sidebarVisible : styles.sidebarHidden
+			)}
 		>
-			<div className={styles.sidebarContainer}>
+			<aside>
+				<div className={styles.sidebarContainer}>
 				{(isMobile || isTablet) && <SidebarButton isSidebar={true} onClick={onToggle} />}
 
 				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
@@ -102,8 +105,9 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<PackList currentPackId={currentPackId} packList={packList} />
 				</Suspense>
-			</div>
-		</aside>
+				</div>
+			</aside>
+		</Flex>
 	);
 };
 
