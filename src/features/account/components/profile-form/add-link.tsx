@@ -2,7 +2,7 @@ import { type InputEvent } from '@/types/form-types';
 import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/themes';
 import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
-import socialMediaUI from '@/styles/theme/social-media-ui';
+import socialMediaUI from '@/constants/social-media-ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { PlusIcon } from '@/components/ui';
 

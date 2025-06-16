@@ -1,7 +1,7 @@
 import styles from './theme-button.module.css';
 import { Flex, Popover } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
-import { paletteList } from '@/styles/themes/palette-constants';
+import { paletteList } from '@/styles/theme/palette-constants';
 
 type ThemeButtonProps = {
 	color: string | undefined;

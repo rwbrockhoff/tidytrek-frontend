@@ -5,6 +5,11 @@
 	margin-right: auto;
 }
 
+.searchContainer :global(.rt-TextFieldInput):focus {
+	box-shadow: none;
+	outline: none;
+}
+
 @media (max-width: 768px) {
 	.searchContainer {
 		width: 90%;

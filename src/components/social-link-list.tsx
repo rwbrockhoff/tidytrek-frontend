@@ -1,7 +1,7 @@
 import { Flex } from '@radix-ui/themes';
 import { SocialButton } from '../features/account/components/profile-form/social-button';
 import { SocialLink } from '../types/profile-types';
-import socialMediaUI from '../styles/theme/social-media-ui';
+import socialMediaUI from '@/constants/social-media-ui';
 import styles from './social-link-list.module.css';
 
 type SocialLinkListProps = {
