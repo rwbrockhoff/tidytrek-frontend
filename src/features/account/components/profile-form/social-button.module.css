@@ -13,7 +13,7 @@
 
 .styledBadge {
 	cursor: pointer;
-	padding: var(--space-xs);
+	padding: var(--space-xs) var(--space-min);
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-primary);
 }

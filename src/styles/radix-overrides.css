@@ -9,27 +9,37 @@
 	border-width: 2px;
 }
 
-/* Global input styling - prevent double borders */
+/* TextField - Clean approach that works in all contexts */
+.rt-TextFieldInput {
+	border: 1px solid transparent;
+}
+
 .rt-TextFieldInput:hover:not(:focus) {
-	border-color: var(--color-primary);
+	border: 1px solid transparent;
+	outline: 1px solid var(--color-primary);
 }
 
 .rt-TextFieldInput:focus {
-	border-color: var(--color-primary);
+	border: 1px solid var(--color-primary);
 	box-shadow: none;
 	outline: none;
 	transition: none;
 }
 
-.rt-TextAreaInput:hover:not(:focus) {
-	border-color: var(--color-primary);
+/* TextArea */
+.rt-TextAreaRoot > textarea.rt-TextAreaInput {
+	border: 2px solid transparent;
 }
 
-.rt-TextAreaInput:focus {
-	border-color: var(--color-primary);
-	box-shadow: none;
+.rt-TextAreaRoot > textarea.rt-TextAreaInput:hover:not(:focus) {
+	border: 2px solid transparent;
+	outline: 1px solid var(--color-primary);
+}
+
+.rt-TextAreaRoot > textarea.rt-TextAreaInput:focus {
+	border: 2px solid var(--color-primary);
 	outline: none;
-	transition: none;
+	box-shadow: none;
 }
 
 /* Form validation styling */

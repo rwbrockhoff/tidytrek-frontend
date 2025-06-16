@@ -48,7 +48,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 							Share Your Pack
 						</Heading>
 
-						<Flex>
+						<Flex gap="2">
 							<TextFieldInput value={packLink} readOnly />
 
 							<Button onClick={handleCopyToClipboard}>

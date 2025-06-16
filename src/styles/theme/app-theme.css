@@ -89,6 +89,9 @@
 
 	/* -- Focus color -- */
 	--color-border-focus: var(--sage-500);
+
+	/* -- Radix Portal Variables -- */
+	--color-primary: var(--sage-400);
 }
 
 [data-theme='light'] {
