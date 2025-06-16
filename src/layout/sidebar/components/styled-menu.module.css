@@ -1,0 +1,33 @@
+.styledMenu {
+	padding-inline-start: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.styledMenu a {
+	color: var(--menu-text-color);
+	text-decoration: none;
+}
+
+.styledMenu li {
+	list-style: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	margin: var(--space-xs) var(--space-xs);
+	margin-right: var(--space-md);
+}
+
+.styledMenu li:hover {
+	filter: var(--hover-light-3);
+}
+
+.styledMenu li svg {
+	margin-right: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+	.styledMenu li {
+		font-size: var(--font-size-xl);
+	}
+}

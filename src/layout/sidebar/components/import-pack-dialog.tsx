@@ -7,7 +7,7 @@ import { Spinner } from '@/components/ui';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
 import { clearZodErrors, useAxiosErrorMessage, useZodError } from '@/hooks';
-import styled from 'styled-components';
+import styles from './import-pack-dialog.module.css';
 
 const importPackUrlSchema = z
 	.object({
@@ -103,7 +103,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 							</Button>
 						</Dialog.Close>
 
-						<StyledImportButton type="submit" disabled={isPendingImport}>
+						<Button type="submit" disabled={isPendingImport} className={styles.importButton}>
 							{isPendingImport ? (
 								<Spinner active size="1" />
 							) : (
@@ -111,7 +111,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 									<BackpackIcon /> Import Pack
 								</>
 							)}
-						</StyledImportButton>
+						</Button>
 					</Flex>
 				</Form>
 			</Dialog.Content>
@@ -119,7 +119,3 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 	);
 };
 
-const StyledImportButton = styled(Button)`
-	background-color: var(--jade-9);
-	min-width: 100px;
-`;

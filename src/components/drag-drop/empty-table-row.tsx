@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { tidyTheme } from '@/styles/theme/tidy-theme';
+import styles from './empty-table-row.module.css';
 
 type EmptyTableRowProps = {
 	isDraggingOver: boolean;
@@ -9,13 +8,14 @@ export const EmptyTableRow = ({ isDraggingOver, noChildren }: EmptyTableRowProps
 	const isTransparent = isDraggingOver && noChildren;
 
 	return (
-		<TableRow $transparent={isTransparent}>
+		<tr 
+			className={styles.tableRow}
+			style={{
+				'--row-bg-color': isTransparent ? 'white' : 'var(--color-bg-tertiary)'
+			} as React.CSSProperties}
+		>
 			<td colSpan={24} />
-		</TableRow>
+		</tr>
 	);
 };
 
-const TableRow = styled.tr<{ $transparent: boolean }>`
-	background-color: ${({ $transparent }) =>
-		$transparent ? 'white' : `${tidyTheme.tidyLightGrey}`};
-`;

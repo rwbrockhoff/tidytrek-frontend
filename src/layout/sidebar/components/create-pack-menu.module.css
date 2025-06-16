@@ -1,0 +1,16 @@
+.newPackButton {
+	background: transparent;
+	color: white;
+	cursor: pointer;
+}
+
+.newPackButton:hover {
+	filter: var(--hover-dark-2);
+}
+
+@media (max-width: 768px) {
+	.newPackButton {
+		font-size: var(--font-size-base);
+		margin-top: var(--space-md);
+	}
+}

@@ -6,7 +6,7 @@ import { StyledMenu } from './styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
-		<StyledMenu $darkText>
+		<StyledMenu darkText>
 			<li>
 				<Link to="/account">
 					<UserIcon />
@@ -24,7 +24,7 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 
 export const SidebarMenu = () => {
 	return (
-		<StyledMenu style={{ marginTop: '2em' }}>
+		<StyledMenu style={{ marginTop: 'var(--space-xl)' }}>
 			<li>
 				<Link to="/profile">
 					<UserIcon />

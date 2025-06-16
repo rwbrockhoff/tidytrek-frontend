@@ -1,0 +1,39 @@
+.itemContainer {
+	padding: var(--space-xs) 0;
+	cursor: pointer;
+}
+
+.itemContainer:hover svg {
+	opacity: 0.6;
+}
+
+.styledText {
+	position: relative;
+	opacity: 1;
+}
+
+.styledText svg {
+	opacity: 0;
+}
+
+.styledText svg:hover {
+	opacity: 0.6;
+}
+
+.styledText:hover {
+	filter: var(--hover-dark-2);
+}
+
+@media (max-width: 768px) {
+	.styledText {
+		font-size: var(--font-size-xl);
+	}
+}
+
+.gripContainer {
+	height: 1em;
+	position: absolute;
+	left: calc(-1 * var(--space-xl));
+	padding: 0 var(--space-xs);
+	cursor: grab;
+}
