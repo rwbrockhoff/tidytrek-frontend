@@ -1,4 +1,3 @@
-import { useTheme } from 'styled-components';
 import styles from './pack-graphic.module.css';
 import { cn } from '@/styles/utils/cn';
 import { Category } from '@/types/pack-types';
@@ -18,7 +17,6 @@ type PackGraphicProps = {
 
 export const PackGraphic = (props: PackGraphicProps) => {
 	const userView = useUserContext();
-	const theme = useTheme();
 
 	const { packCategories, fetching, display } = props;
 	const {
@@ -36,10 +34,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 
 	if (packHasWeight) {
 		return (
-			<Flex
-				align="center"
-				className={cn(styles.outerPanel, !display && styles.hidden)}
-			>
+			<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
 				<Flex direction="column" align="end" className={styles.summaryPanel}>
 					<Flex role="list" direction="column" className={styles.chartList}>
 						{chartCategoryInfo.map((category) => {
@@ -50,7 +45,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 									className={styles.chartItem}>
 									<CircleIcon
 										className={styles.themeIcon}
-										style={{ color: theme.user[category.chartColor] }}
+										style={{ color: `var(--${category.chartColor})` }}
 									/>
 									<Text className={styles.styledText}>
 										{category.categoryName || 'Category'}

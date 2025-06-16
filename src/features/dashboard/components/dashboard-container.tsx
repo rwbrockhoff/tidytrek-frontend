@@ -1,4 +1,3 @@
-import { ThemeProvider } from 'styled-components';
 import styles from './dashboard-container.module.css';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
@@ -13,7 +12,6 @@ import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import { DragDropContext, Drop, ProfileBanner, type DropResult } from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
-import { getThemeAsGuest } from '@/styles/theme/theme-utils';
 import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
 import { Flex } from '@radix-ui/themes';
 
@@ -37,7 +35,6 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	//--Guest View Data--//
 	const { userProfile, settings } = useGuestData(currentPack);
-	const theme = getThemeAsGuest(currentPack);
 	//--Guest View Data--//
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -55,8 +52,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	return (
 		<PricingContext.Provider value={packPricing}>
-			<ThemeProvider theme={theme}>
-				<main className={styles.container}>
+			<main className={styles.container}>
 					{!userView && <ProfileBanner />}
 					<PackInfo
 						currentPack={pack}
@@ -94,8 +90,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 							description={packAffiliateDescription}
 						/>
 					)}
-				</main>
-			</ThemeProvider>
+			</main>
 		</PricingContext.Provider>
 	);
 };

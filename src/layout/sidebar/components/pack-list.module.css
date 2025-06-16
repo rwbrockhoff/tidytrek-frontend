@@ -1,3 +1,7 @@
+.styledContainer {
+	color: white;
+}
+
 .separator {
 	background-color: var(--color-bg-primary);
 	width: 100%;

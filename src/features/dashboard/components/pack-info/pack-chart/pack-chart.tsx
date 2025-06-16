@@ -1,5 +1,4 @@
 import { type Category } from '@/types/pack-types';
-import { useTheme } from 'styled-components';
 import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -11,7 +10,6 @@ type PackChartProps = {
 };
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
-	const theme = useTheme();
 
 	ChartJS.register(ArcElement, Tooltip, Legend);
 	ChartJS.overrides.doughnut.plugins.legend.display = false;
@@ -32,7 +30,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	const categoryColors = useMemo(
 		() =>
 			categories.map((category) => {
-				return theme.user[category.packCategoryColor];
+				return `var(--${category.packCategoryColor})`;
 			}),
 		[categories],
 	);

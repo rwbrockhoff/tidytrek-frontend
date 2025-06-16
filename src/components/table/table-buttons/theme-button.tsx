@@ -1,7 +1,7 @@
-import { useTheme } from 'styled-components';
 import styles from './theme-button.module.css';
 import { Flex, Popover } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
+import { paletteList } from '@/styles/themes/palette-constants';
 
 type ThemeButtonProps = {
 	color: string | undefined;
@@ -9,8 +9,6 @@ type ThemeButtonProps = {
 };
 
 export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
-	const { user: userTheme } = useTheme() || {};
-
 	const handleOnClick = (newColor: string) => onClick(newColor);
 
 	return (
@@ -20,7 +18,7 @@ export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 					<Button
 						className={styles.circleButton}
 						style={{
-							backgroundColor: userTheme?.[color as keyof typeof userTheme] || 'inherit',
+							backgroundColor: color ? `var(--${color})` : 'inherit',
 						}}
 					/>
 				</Flex>
@@ -28,13 +26,12 @@ export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 
 			<Popover.Content side="top">
 				<Flex>
-					{Object.keys(userTheme || {}).map((themeColor, index) => (
+					{paletteList.map((themeColor, index) => (
 						<Button
 							key={themeColor || index}
 							className={styles.circleButton}
 							style={{
-								backgroundColor:
-									userTheme?.[themeColor as keyof typeof userTheme] || 'inherit',
+								backgroundColor: `var(--${themeColor})`,
 							}}
 							onClick={() => handleOnClick(themeColor)}
 						/>

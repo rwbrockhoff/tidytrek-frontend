@@ -2,12 +2,12 @@ import styles from './dimmer.module.css';
 
 type DimmerProps = {
 	active: boolean;
-	className?: string; // from styled-components
+	className?: string;
 };
 
 export const Dimmer = ({ active, className }: DimmerProps) => {
 	return (
-		<div 
+		<div
 			className={`${styles.dimmer} ${className || ''}`}
 			style={{ '--dimmer-opacity': active ? '0.2' : '0' } as React.CSSProperties}
 		/>
@@ -15,4 +15,3 @@ export const Dimmer = ({ active, className }: DimmerProps) => {
 };
 
 export default Dimmer;
-

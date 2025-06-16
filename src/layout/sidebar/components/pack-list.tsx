@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import styles from './pack-list.module.css';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drag, DragDropContext, DropResult } from '@/components';
@@ -53,12 +52,14 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 						const index = rubric.source.index;
 						const pack = packList[index];
 						return (
-							<StyledContainer
+							<div
+								className={styles.styledContainer}
 								{...provided.draggableProps}
 								{...provided.dragHandleProps}
-								ref={provided.innerRef}>
+								ref={provided.innerRef}
+							>
 								<PackListItem pack={pack} onClick={handleGetPack} />
-							</StyledContainer>
+							</div>
 						);
 					}}>
 					{(provided) => (
@@ -82,6 +83,3 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	);
 };
 
-const StyledContainer = styled.div`
-	color: white;
-`;
