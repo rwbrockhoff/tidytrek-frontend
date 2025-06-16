@@ -1,0 +1,12 @@
+.searchContainer {
+	width: 50%;
+	margin-bottom: var(--space-xl);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (max-width: 768px) {
+	.searchContainer {
+		width: 90%;
+	}
+}

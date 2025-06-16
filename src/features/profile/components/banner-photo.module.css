@@ -1,0 +1,36 @@
+.bannerContainer {
+	position: relative;
+	width: 100%;
+	height: 250px;
+}
+
+.bannerContainer :global(.uploadFileForm) {
+	display: none;
+}
+
+.bannerContainer:hover :global(.uploadFileForm) {
+	display: inherit;
+}
+
+.bannerImage {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	margin-bottom: -5px;
+}
+
+.uploadContainer {
+	position: absolute;
+	bottom: var(--space-md);
+	right: var(--space-md);
+}
+
+.styledDimmer {
+	top: 0px;
+	width: 100%;
+	height: 250px;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+}

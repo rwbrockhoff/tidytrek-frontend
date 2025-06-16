@@ -1,6 +1,6 @@
 import { type SocialLinkInfo } from '@/types/profile-types';
-import styled from 'styled-components';
-import { Badge, IconButton } from '@radix-ui/themes';
+import styles from './social-button.module.css';
+import { Badge, IconButton, Flex } from '@radix-ui/themes';
 import { Link, CloseIcon } from '@/components/ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 
@@ -34,13 +34,21 @@ export const SocialButton = (props: SocialButtonProps) => {
 	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl, socialName) : socialName;
 
 	return (
-		<StyledBadge m="2" radius="large" variant="soft" onClick={handleClick}>
-			<Link link={socialLinkUrl} enabled externalLink>
-				{icon}
-				{displayLink || 'Link'}
-			</Link>
-			{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
-		</StyledBadge>
+		<Flex 
+			asChild
+			align="center"
+			m="2" 
+			className={styles.styledBadge}
+			onClick={handleClick}
+		>
+			<Badge radius="large" variant="soft">
+				<Link link={socialLinkUrl} enabled externalLink>
+					{icon}
+					{displayLink || 'Link'}
+				</Link>
+				{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
+			</Badge>
+		</Flex>
 	);
 };
 
@@ -48,23 +56,15 @@ export const SocialButtonPicker = (props: { currentSocial: SocialLinkInfo }) => 
 	const { icon, color } = props.currentSocial;
 
 	return (
-		<CircleButton $backgroundColor={color} radius="full">
+		<IconButton 
+			radius="full" 
+			className={styles.circleButton}
+			style={{ '--button-bg-color': color || 'grey' } as React.CSSProperties}
+		>
 			{icon}
-		</CircleButton>
+		</IconButton>
 	);
 };
-
-const CircleButton = styled(IconButton)<{ $backgroundColor: string }>`
-	background-color: ${(props) =>
-		props.$backgroundColor ? props.$backgroundColor : 'grey'};
-	cursor: pointer;
-	&:hover {
-		filter: var(--hover-dark-1);
-	}
-	svg {
-		color: white;
-	}
-`;
 
 const shortenLink = (link: string, socialName: string) => {
 	const baseLink = link.replace(/^https?\:\/\//i, '');
@@ -76,19 +76,3 @@ const shortenLink = (link: string, socialName: string) => {
 
 	return baseLink.slice(index);
 };
-
-const StyledBadge = styled(Badge)`
-	cursor: pointer;
-	padding: 0.75em;
-	display: flex;
-	align-items: center;
-	&:hover {
-		filter: var(--hover-dark-1);
-	}
-	a,
-	a:hover {
-		color: black;
-	}
-	background-color: var(--gray-5);
-	color: var(--jade-9);
-`;

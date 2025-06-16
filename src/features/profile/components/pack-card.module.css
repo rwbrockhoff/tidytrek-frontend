@@ -1,0 +1,33 @@
+.cardFooter {
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - (var(--card-padding) * 2));
+}
+
+.styledCard {
+	flex-shrink: 0;
+	flex-grow: 0;
+	flex-basis: 30%;
+	position: relative;
+	padding-bottom: var(--space-md);
+}
+
+.styledCard :global(.profilePackLink) {
+	flex-direction: column;
+	align-items: inherit;
+	width: 100%;
+}
+
+@media (max-width: 768px) {
+	.styledCard {
+		width: 95%;
+	}
+}
+
+.cardFooterText svg {
+	margin-right: var(--space-xs);
+}
+
+.styledCardHeader {
+	color: var(--sage-900);
+}

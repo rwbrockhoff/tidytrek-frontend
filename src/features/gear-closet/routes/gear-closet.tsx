@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './gear-closet.module.css';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { SearchIcon } from '@/components/ui';
@@ -38,7 +38,7 @@ export const GearCloset = () => {
 					Gear Closet
 				</Heading>
 
-				<SearchContainer>
+				<div className={styles.searchContainer}>
 					<TextField.Root>
 						<TextField.Slot>
 							<SearchIcon />
@@ -52,7 +52,7 @@ export const GearCloset = () => {
 							onChange={handleInputChange}
 						/>
 					</TextField.Root>
-				</SearchContainer>
+				</div>
 
 				<GearClosetList
 					gearClosetList={listToDisplay}
@@ -65,10 +65,3 @@ export const GearCloset = () => {
 	);
 };
 
-const SearchContainer = styled.div`
-	width: 50%;
-	margin-bottom: 2em;
-	margin-left: auto;
-	margin-right: auto;
-	${({ theme: t }) => t.mx.mobile(`width: 90%;`)}
-`;

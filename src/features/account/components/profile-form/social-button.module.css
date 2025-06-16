@@ -1,0 +1,28 @@
+.circleButton {
+	background-color: var(--button-bg-color);
+	cursor: pointer;
+}
+
+.circleButton:hover {
+	filter: var(--hover-dark-1);
+}
+
+.circleButton svg {
+	color: white;
+}
+
+.styledBadge {
+	cursor: pointer;
+	padding: 0.75em;
+	background-color: var(--gray-5);
+	color: var(--sage-900);
+}
+
+.styledBadge:hover {
+	filter: var(--hover-dark-1);
+}
+
+.styledBadge a,
+.styledBadge a:hover {
+	color: black;
+}

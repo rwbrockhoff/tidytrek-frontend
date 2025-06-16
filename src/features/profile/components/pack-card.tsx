@@ -1,7 +1,7 @@
 import { type Pack } from '@/types/pack-types';
 import { Card, Flex, Heading, Inset, Separator, Text } from '@radix-ui/themes';
 import { ViewsIcon, Link } from '@/components/ui';
-import styled from 'styled-components';
+import styles from './pack-card.module.css';
 import { PackLabels, PackPhoto } from '@/components';
 import { encode } from '@/utils';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
@@ -24,7 +24,7 @@ export const PackCard = (props: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<StyledCard m="2">
+		<Card m="2" className={styles.styledCard}>
 			<Link link={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
@@ -37,11 +37,11 @@ export const PackCard = (props: PackCardProps) => {
 				</Inset>
 
 				<Flex direction="column" mb="6">
-					<StyledCardHeader size="4">
+					<Heading size="4" className={styles.styledCardHeader}>
 						<Link link={link} enabled={userView}>
 							{packName}
 						</Link>
-					</StyledCardHeader>
+					</Heading>
 					<Text size="2" my="1" color="gray">
 						{packPublic ? 'Public' : 'Private'}
 					</Text>
@@ -52,51 +52,17 @@ export const PackCard = (props: PackCardProps) => {
 				</Flex>
 
 				{userView && (
-					<CardFooter direction="column">
+					<Flex direction="column" className={styles.cardFooter}>
 						<Separator size="4" mt="4" />
 
-						<CardFooterText color="gray" mt="2">
+						<Flex align="center" color="gray" mt="2" className={styles.cardFooterText}>
 							<ViewsIcon />
-							{packViews} Views
-						</CardFooterText>
-					</CardFooter>
+							<Text>{packViews} Views</Text>
+						</Flex>
+					</Flex>
 				)}
 			</Link>
-		</StyledCard>
+		</Card>
 	);
 };
 
-const CardFooter = styled(Flex)`
-	position: absolute;
-	bottom: 0;
-	width: calc(100% - (var(--card-padding) * 2));
-`;
-
-const StyledCard = styled(Card)`
-	// individual props to override radix css instead of flex 0 0 30%
-	flex-shrink: 0;
-	flex-grow: 0;
-	flex-basis: 30%;
-	position: relative;
-	padding-bottom: 1em;
-
-	.profilePackLink {
-		flex-direction: column;
-		align-items: inherit;
-		width: 100%;
-	}
-
-	${({ theme: t }) => t.mx.mobile(`width: 95%;`)}
-`;
-
-const CardFooterText = styled(Text)`
-	display: flex;
-	align-items: center;
-	svg {
-		margin-right: 0.5em;
-	}
-`;
-
-const StyledCardHeader = styled(Heading)`
-	${({ theme: t }) => t.mx.themeColor('primary')}
-`;
