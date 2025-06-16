@@ -1,0 +1,60 @@
+.avatarContainer {
+	width: fit-content;
+	position: absolute;
+	top: 200px;
+	left: var(--space-xxl);
+}
+
+@media (max-width: 768px) {
+	.avatarContainer {
+		top: 175px;
+		left: calc(50% - 75px);
+	}
+}
+
+.profileInfoContainer {
+	min-height: 175px;
+	height: fit-content;
+	padding: var(--space-lg) 0px;
+	background-color: #e8e8e8;
+	border-bottom-left-radius: var(--space-lg);
+	border-bottom-right-radius: var(--space-lg);
+}
+
+.profileTextContainer {
+	height: 100%;
+	width: 50%;
+	margin-left: 250px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+@media (max-width: 768px) {
+	.profileTextContainer {
+		margin: 0px var(--space-md);
+		margin-top: 75px;
+		width: 90%;
+		justify-content: flex-start;
+	}
+}
+
+.locationText {
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+}
+
+.locationText svg {
+	margin-right: var(--space-min);
+	color: var(--gray-600);
+}
+
+.usernameHeader {
+	margin-bottom: var(--space-min);
+}
+
+.usernameHeader .trailName {
+	color: var(--gray-600);
+	margin-left: var(--space-xs);
+}
