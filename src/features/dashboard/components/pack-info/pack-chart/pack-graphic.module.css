@@ -1,0 +1,95 @@
+.outerPanel {
+	width: 50%;
+	transition: max-height 350ms ease-in-out;
+}
+
+@media (max-width: 768px) {
+	.outerPanel {
+		width: 100%;
+		overflow: hidden;
+		flex-direction: column-reverse;
+		max-height: 150vh;
+		margin-bottom: var(--space-xxl);
+	}
+	
+	.outerPanel.hidden {
+		max-height: 0;
+		margin-bottom: 0;
+	}
+}
+
+.chartPanel {
+	width: 50%;
+	margin-left: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+	.chartPanel {
+		width: 75vw;
+		margin-left: 0;
+		margin-bottom: var(--space-xl);
+	}
+}
+
+.graphicPanel {
+	width: 50%;
+	height: 30vh;
+}
+
+.graphicPanel img {
+	height: 100%;
+}
+
+@media (max-width: 768px) {
+	.graphicPanel {
+		display: none;
+	}
+}
+
+.styledText {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 15ch;
+	margin-right: var(--space-xs);
+}
+
+.summaryPanel {
+	width: 50%;
+	padding-right: var(--space-md);
+}
+
+@media (max-width: 768px) {
+	.summaryPanel {
+		padding-right: 0;
+		align-items: center;
+	}
+}
+
+.chartList {
+	width: fit-content;
+}
+
+@media (max-width: 768px) {
+	.chartList {
+		width: 75vw;
+	}
+}
+
+.chartItem {
+	height: 2.5em;
+	font-size: var(--font-size-sm);
+}
+
+.chartItem p {
+	margin-right: var(--space-xs);
+}
+
+.themeIcon {
+	width: 1.5rem;
+	margin-right: var(--space-xs);
+}
+
+.graphicPanel svg {
+	margin-right: var(--space-xs);
+}

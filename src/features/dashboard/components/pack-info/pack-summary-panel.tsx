@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './pack-summary-panel.module.css';
 import { Flex, Badge, Separator, HoverCard } from '@radix-ui/themes';
 import { usePricingContext } from '@/hooks/use-viewer-context';
 import {
@@ -25,73 +25,60 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 			<HoverCard.Root>
 				<HoverCard.Trigger>
 					<div>
-						<PopupListItem style={{ cursor: 'pointer' }}>
+						<Flex className={styles.popupListItem} style={{ cursor: 'pointer' }}>
 							<BackpackIcon /> Total Weight:{' '}
 							<Badge color="gray" ml="auto">
 								{totalWeight} lbs
 							</Badge>
-						</PopupListItem>
+						</Flex>
 					</div>
 				</HoverCard.Trigger>
 				<HoverCard.Content side="top">
 					<Flex direction="column">
-						<PopupListItem my="2">
+						<Flex my="2" className={styles.popupListItem}>
 							<WeightIcon />
 							Base Weight:
 							<Badge color="gray" ml="auto">
 								{baseWeight}
 							</Badge>
-						</PopupListItem>
+						</Flex>
 
-						<PopupListItem my="2">
+						<Flex my="2" className={styles.popupListItem}>
 							<ConsumableIcon />
 							Consumables:
 							<Badge color="gray" ml="auto">
 								{consumables}
 							</Badge>
-						</PopupListItem>
-						<PopupListItem my="2">
+						</Flex>
+						<Flex my="2" className={styles.popupListItem}>
 							<WornIcon />
 							Worn Weight:
 							<Badge color="gray" ml="auto">
 								{wornWeight}
 							</Badge>
-						</PopupListItem>
+						</Flex>
 
 						<Separator size="4" mb="4" mt="2" />
 
-						<PopupListItem>
+						<Flex className={styles.popupListItem}>
 							Total Weight:
 							<Badge color="gray" ml="auto">
 								{totalWeight} lbs
 							</Badge>
-						</PopupListItem>
+						</Flex>
 					</Flex>
 				</HoverCard.Content>
 			</HoverCard.Root>
 
 			{showPrices && (
-				<PopupListItem mt="4">
+				<Flex mt="4" className={styles.popupListItem}>
 					<MoneyIcon /> Total Price:
 					<Badge color="gray" ml="auto">
 						{totalPackPrice}
 					</Badge>
-				</PopupListItem>
+				</Flex>
 			)}
 		</>
 	);
 };
 
-const PopupListItem = styled(Flex)`
-	font-size: 0.9em;
-	align-items: center;
-	p {
-		margin-right: 0.5em;
-		text-align: left;
-	}
-	svg {
-		margin-right: 0.5em;
-		overflow: visible;
-		color: var(--gray-9);
-	}
-`;
