@@ -7,7 +7,8 @@ body > div#root {
 }
 
 /* Global element styling */
-button {
+button,
+.rt-Button {
 	cursor: pointer;
 }
 

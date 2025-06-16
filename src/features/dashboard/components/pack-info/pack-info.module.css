@@ -22,7 +22,7 @@
 }
 
 .editIcon {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-lg);
 	margin-left: var(--space-xs);
 	cursor: pointer;
 	opacity: 0;

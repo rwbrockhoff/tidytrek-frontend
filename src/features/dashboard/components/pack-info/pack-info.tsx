@@ -63,13 +63,12 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { publicProfile } = settings || {};
 
 	return (
-		<Flex 
-			align="center" 
-			display="inline-flex" 
-			mt="6" 
+		<Flex
+			align="center"
+			display="inline-flex"
+			mt="6"
 			mb="9"
-			className={styles.packInfoContainer}
-		>
+			className={styles.packInfoContainer}>
 			<Panel width={'50%'} className={styles.userInfoPanel}>
 				{!userView && (
 					<ProfileInfo
@@ -104,7 +103,9 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Text my="2" className={styles.descriptionText}>{packDescription}</Text>
+				<Text my="2" className={styles.descriptionText}>
+					{packDescription}
+				</Text>
 
 				<PackLabels pack={currentPack} />
 
@@ -113,8 +114,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					my="6"
 					size="3"
 					onClick={handleTogglePackChart}
-					className={styles.toggleChartButton}
-				>
+					className={styles.toggleChartButton}>
 					<ChartIcon />
 					Show Pack Chart
 				</Button>
@@ -139,6 +139,5 @@ export const PackInfo = (props: PackInfoProps) => {
 		</Flex>
 	);
 };
-
 
 const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;
