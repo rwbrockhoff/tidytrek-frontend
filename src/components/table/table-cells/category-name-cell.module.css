@@ -1,23 +1,55 @@
 .headerCell {
-  position: relative;
-  overflow: visible;
+	position: relative;
+	overflow: visible;
+}
+
+/* -- Radix Overrides Unique to Header Cell -- */
+:global(.rt-TableColumnHeaderCell) {
+	background-color: var(--color-bg-accent);
+}
+
+:global(.rt-TableHeader) {
+	border-left: 1px solid var(--gray-200);
+	border-right: 1px solid var(--gray-200);
+}
+
+:global(.rt-TextFieldInput).input {
+	font-weight: var(--font-weight-medium);
+	/* --font-size-md/lg didn't fit proportions here -- */
+	font-size: 1.05rem;
+	background-color: var(--color-bg-accent);
+	border: 1px solid var(--color-bg-accent);
+}
+
+:global(.rt-TextFieldInput).input:hover:not(:focus) {
+	background-color: var(--color-bg-accent);
+	border-color: var(--gray-400);
+}
+
+:global(.rt-TextFieldInput).input:focus {
+	background-color: var(--color-bg-accent);
+	border-color: var(--color-primary);
+}
+
+/* -- Hide hover styles for disabled input -- */
+:global(.rt-TextFieldInput).input:disabled:hover:not(:focus) {
+	background-color: var(--color-bg-accent);
+	border-color: var(--color-bg-accent);
+}
+
+.headerCell :global(.rt-TextFieldInput):disabled {
+	color: var(--color-text-primary);
+	-webkit-text-fill-color: var(--color-text-primary);
 }
 
 @media (max-width: 768px) {
-  .headerCell {
-    flex: 1;
-    height: fit-content;
-  }
-}
+	.headerCell {
+		flex: 1;
+		height: fit-content;
+	}
 
-.input {
-  background-color: var(--gray-2) !important;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .input {
-    height: 40px;
-    font-size: 1.3em;
-  }
+	:global(.rt-TextFieldInput).input {
+		height: 40px;
+		font-size: var(--font-size-lg);
+	}
 }
