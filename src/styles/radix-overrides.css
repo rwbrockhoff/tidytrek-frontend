@@ -9,9 +9,10 @@
 	border-width: 2px;
 }
 
-/* TextField - Clean approach that works in all contexts */
+/* TextField */
 .rt-TextFieldInput {
 	border: 1px solid transparent;
+	text-indent: var(--space-xs);
 }
 
 .rt-TextFieldInput:hover:not(:focus) {

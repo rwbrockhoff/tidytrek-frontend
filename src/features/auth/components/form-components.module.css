@@ -1,17 +1,13 @@
 .formContainer {
-	width: 30vw;
-	min-width: fit-content;
-}
-
-@media (max-width: 768px) {
-	.formContainer {
-		width: 90vw;
-	}
+	width: 100%;
+	max-width: 420px;
+	margin: 0 auto;
 }
 
 .authContainer {
 	text-align: center;
 	min-height: 100%;
 	width: 100%;
-	background-color: var(--slate-3);
+	background-color: var(--color-bg-tertiary);
+	padding: 0 var(--space-md);
 }
