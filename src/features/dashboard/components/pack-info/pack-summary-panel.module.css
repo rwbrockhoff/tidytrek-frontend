@@ -1,6 +1,7 @@
 .popupListItem {
 	font-size: var(--font-size-sm);
 	align-items: center;
+	color: var(--color-text-secondary);
 }
 
 .popupListItem p {
@@ -11,5 +12,5 @@
 .popupListItem svg {
 	margin-right: var(--space-xs);
 	overflow: visible;
-	color: var(--gray-900);
+	color: var(--color-text-secondary);
 }

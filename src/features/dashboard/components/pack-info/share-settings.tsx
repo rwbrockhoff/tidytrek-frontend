@@ -77,4 +77,3 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 		);
 	}
 };
-

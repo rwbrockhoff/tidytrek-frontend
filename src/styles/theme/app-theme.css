@@ -89,9 +89,6 @@
 
 	/* -- Focus color -- */
 	--color-border-focus: var(--sage-500);
-
-	/* -- Radix Portal Variables -- */
-	--color-primary: var(--sage-400);
 }
 
 [data-theme='light'] {
@@ -109,8 +106,9 @@
 	--color-bg-accent: #f2f5f4;
 
 	/* Text colors */
-	--color-text-primary: var(--gray-900);
+	--color-text-primary: #000000;
 	--color-text-secondary: var(--gray-700);
+	--color-text-tertiary: var(--gray-500);
 	--color-text-inverse: #ffffff;
 
 	/* Border colors */
@@ -143,14 +141,15 @@
 
 	/* Background colors */
 	--color-bg-primary: var(--gray-900);
-	--color-bg-secondary: var(--gray-800);
-	--color-bg-tertiary: var(--gray-700);
+	--color-bg-secondary: var(--gray-700);
+	--color-bg-tertiary: var(--gray-500);
 	--color-bg-overlay: rgba(17, 24, 39, 0.9);
 	--color-bg-accent: #1d2b28;
 
 	/* Text colors */
-	--color-text-primary: var(--gray-100);
+	--color-text-primary: #ffffff;
 	--color-text-secondary: var(--gray-300);
+	--color-text-tertiary: var(--gray-400);
 	--color-text-inverse: var(--gray-900);
 
 	/* Border colors */

@@ -5,6 +5,7 @@
 }
 
 .styledCard {
+	background-color: var(--color-bg-secondary);
 	flex-shrink: 0;
 	flex-grow: 0;
 	flex-basis: 30%;
@@ -18,10 +19,8 @@
 	width: 100%;
 }
 
-@media (max-width: 768px) {
-	.styledCard {
-		width: 95%;
-	}
+.cardFooterText {
+	color: var(--color-text-tertiary);
 }
 
 .cardFooterText svg {
@@ -30,4 +29,10 @@
 
 .styledCardHeader {
 	color: var(--sage-900);
+}
+
+@media (max-width: 768px) {
+	.styledCard {
+		width: 95%;
+	}
 }

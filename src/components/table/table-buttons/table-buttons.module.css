@@ -1,7 +1,3 @@
-.headerCell {
-	/* To do: Mobile styles */
-}
-
 @media (max-width: 768px) {
 	.headerCell {
 		width: 25%;
@@ -27,13 +23,6 @@
 	filter: var(--brightness-dark-2);
 }
 
-@media (max-width: 768px) {
-	.flexContainer {
-		opacity: 1;
-		width: 100%;
-	}
-}
-
 .flexVisible {
 	opacity: 1;
 }
@@ -45,14 +34,14 @@
 .tableButton {
 	background-color: transparent;
 	cursor: pointer;
-	color: grey;
+	color: var(--color-text-secondary);
 	margin: 0px 0px;
 	padding: 5px;
 	opacity: 1;
 }
 
 .tableButton:hover {
-	color: black;
+	color: var(--color-text-primary);
 }
 
 .tableButton input {
@@ -61,12 +50,6 @@
 
 .tableButtonHidden {
 	opacity: 0;
-}
-
-@media (max-width: 768px) {
-	.tableButton {
-		opacity: 1;
-	}
 }
 
 .mobileToggleButton {
@@ -96,4 +79,15 @@
 .gripContainerVisible {
 	opacity: 1;
 	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.tableButton {
+		opacity: 1;
+	}
+
+	.flexContainer {
+		opacity: 1;
+		width: 100%;
+	}
 }

@@ -37,7 +37,11 @@ export const DeleteModal = (props: DeleteModalProps) => {
 
 				<Flex gap="3" mt="4" justify="end">
 					<Dialog.Close>
-						<Button variant="soft" color="tomato" size="3" onClick={onClickDelete}>
+						<Button
+							// variant="soft"
+							color="tomato"
+							size="3"
+							onClick={onClickDelete}>
 							<TrashIcon /> Delete
 						</Button>
 					</Dialog.Close>

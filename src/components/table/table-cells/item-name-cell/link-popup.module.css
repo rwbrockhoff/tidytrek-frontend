@@ -16,7 +16,7 @@
 
 
 .linkIcon {
-	color: grey;
+	color: var(--color-text-secondary);
 }
 
 .linkIconActive {

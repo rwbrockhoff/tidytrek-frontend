@@ -32,7 +32,7 @@ export const CreatePackMenu = () => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
-				<Button variant="ghost" className={styles.newPackButton}>
+				<Button variant="ghost" color="gray" className={styles.newPackButton}>
 					<PlusIcon />
 					Create New Pack
 				</Button>
@@ -62,4 +62,3 @@ export const CreatePackMenu = () => {
 		</Popover.Root>
 	);
 };
-

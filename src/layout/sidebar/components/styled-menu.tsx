@@ -1,4 +1,5 @@
 import styles from './styled-menu.module.css';
+import { cn } from '@/styles/utils';
 
 interface StyledMenuProps {
 	darkText?: boolean;
@@ -9,11 +10,8 @@ interface StyledMenuProps {
 
 export const StyledMenu = ({ darkText, children, style, className, ...props }: StyledMenuProps) => (
 	<menu 
-		className={`${styles.styledMenu} ${className || ''}`}
-		style={{
-			'--menu-text-color': darkText ? 'black' : 'inherit',
-			...style
-		} as React.CSSProperties}
+		className={cn(styles.styledMenu, darkText && styles.darkText, className)}
+		style={style}
 		{...props}
 	>
 		{children}

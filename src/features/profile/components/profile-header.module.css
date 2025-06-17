@@ -16,7 +16,7 @@
 	min-height: 175px;
 	height: fit-content;
 	padding: var(--space-lg) 0px;
-	background-color: var(--color-bg-tertiary);
+	background-color: var(--color-bg-secondary);
 	border-bottom-left-radius: var(--space-lg);
 	border-bottom-right-radius: var(--space-lg);
 }
@@ -47,7 +47,7 @@
 
 .locationText svg {
 	margin-right: var(--space-min);
-	color: var(--gray-600);
+	color: var(--color-text-secondary);
 }
 
 .usernameHeader {
@@ -55,6 +55,6 @@
 }
 
 .usernameHeader .trailName {
-	color: var(--gray-600);
+	color: var(--color-text-secondary);
 	margin-left: var(--space-xs);
 }

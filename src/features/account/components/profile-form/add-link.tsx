@@ -77,7 +77,12 @@ export const AddLink = () => {
 					value={socialLink}
 					onChange={handleInput}
 				/>
-				<Button size="3" disabled={!socialLink || isPending} onClick={handleAddLink}>
+				<Button
+					size="3"
+					color="gray"
+					variant="outline"
+					disabled={!socialLink || isPending}
+					onClick={handleAddLink}>
 					<PlusIcon />
 					Add Link
 				</Button>

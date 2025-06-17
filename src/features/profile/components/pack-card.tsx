@@ -42,12 +42,10 @@ export const PackCard = (props: PackCardProps) => {
 							{packName}
 						</Link>
 					</Heading>
-					<Text size="2" my="1" color="gray">
+					<Text size="2" my="1">
 						{packPublic ? 'Public' : 'Private'}
 					</Text>
-					<Text my="2" color="gray">
-						{packDescription}
-					</Text>
+					<Text my="2">{packDescription}</Text>
 					<PackLabels pack={pack} />
 				</Flex>
 
@@ -55,7 +53,7 @@ export const PackCard = (props: PackCardProps) => {
 					<Flex direction="column" className={styles.cardFooter}>
 						<Separator size="4" mt="4" />
 
-						<Flex align="center" color="gray" mt="2" className={styles.cardFooterText}>
+						<Flex align="center" mt="2" className={styles.cardFooterText}>
 							<ViewsIcon />
 							<Text>{packViews} Views</Text>
 						</Flex>
@@ -65,4 +63,3 @@ export const PackCard = (props: PackCardProps) => {
 		</Card>
 	);
 };
-

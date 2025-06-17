@@ -1,7 +1,9 @@
-.newPackButton {
+button.newPackButton {
 	background: transparent;
-	color: white;
+	color: var(--color-constant-white);
 	cursor: pointer;
+	border: none !important;
+	box-shadow: none;
 }
 
 .newPackButton:hover {

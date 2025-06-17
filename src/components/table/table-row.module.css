@@ -1,10 +1,15 @@
 .tableRow {
 	position: relative;
 	border: none;
-	background-color: var(--color-bg-primary);
+	background-color: var(--color-bg-secondary);
 	transition:
 		background-color,
 		box-shadow 200ms ease-in-out;
+}
+
+.tableRow input {
+	background-color: var(--color-bg-secondary) !important;
+	border-color: var(--color-bg-secondary) !important;
 }
 
 .tableRow td {

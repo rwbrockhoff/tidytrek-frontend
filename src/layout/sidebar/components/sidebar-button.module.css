@@ -4,7 +4,7 @@
 	cursor: pointer;
 }
 
-.sidebarButton:not(.isSidebar) {
+button.sidebarButton:not(.isSidebar) {
 	position: absolute;
 	top: var(--space-xl);
 	left: var(--space-xxl);
@@ -14,7 +14,7 @@
 	transform: translateY(-50%);
 }
 
-.sidebarButton:hover {
+button.sidebarButton:hover {
 	filter: var(--brightness-dark-1);
 }
 

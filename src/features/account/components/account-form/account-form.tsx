@@ -35,7 +35,7 @@ export const AccountForm = (props: AccountFormProps) => {
 					<b>Email:</b> {email || 'No email here. Too busy hiking.'}
 				</p>
 			</Segment>
-			<Segment $stacked>
+			<Segment stacked>
 				<PasswordForm
 					displayFormSection={displayFormSection}
 					changeFormSection={handleChangeFormSection}
@@ -56,7 +56,7 @@ export const AccountForm = (props: AccountFormProps) => {
 					message={deleteMessage}
 					onClickDelete={deleteAccount}>
 					<div>
-						<Button variant="outline" color="tomato">
+						<Button color="tomato" mt="4">
 							<TrashIcon />
 							Delete Account
 						</Button>

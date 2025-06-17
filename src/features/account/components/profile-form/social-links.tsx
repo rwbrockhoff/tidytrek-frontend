@@ -20,7 +20,12 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 			<SocialLinkList socialLinks={socialLinks} deleteEnabled />
 
 			{!showLinks && (
-				<Button variant="outline" size="3" my="4" onClick={() => setShowLinks(true)}>
+				<Button
+					variant="outline"
+					color="gray"
+					size="3"
+					my="4"
+					onClick={() => setShowLinks(true)}>
 					<PlusIcon />
 					Add Link
 				</Button>
@@ -30,4 +35,3 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 		</>
 	);
 };
-

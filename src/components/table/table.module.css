@@ -10,13 +10,13 @@
 	transition: background-color var(--transition);
 }
 
-.table :global(.rt-TextFieldInput):hover:not(:focus) {
+/* .table :global(.rt-TextFieldInput):hover:not(:focus) {
 	background-color: transparent;
 }
 
 .table :global(.rt-TextFieldInput):focus {
 	background-color: transparent;
-}
+} */
 
 .table :global(thead.withPrimaryBorder) {
 	border-top: 3px solid var(--color-primary);

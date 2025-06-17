@@ -255,7 +255,6 @@ export const PackModal = (props: PackModalProps) => {
 	);
 };
 
-
 // defaults
 const affiliateMessage =
 	'You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support the creator of this pack at no extra cost to you!';
