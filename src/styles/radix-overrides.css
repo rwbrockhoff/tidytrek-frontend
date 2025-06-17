@@ -26,6 +26,32 @@
 	transition: none;
 }
 
+/* Override Radix input defaults to minimal styles with hidden borders */
+.input-minimal {
+	border: var(--text-field-border-width, 1px) solid var(--color-bg-primary);
+	box-shadow: none;
+	outline: none;
+	background-color: transparent;
+}
+
+.input-minimal:hover:not(:focus) {
+	border-color: var(--gray-400);
+	outline: none;
+	box-shadow: none;
+}
+
+.input-minimal:focus {
+	border-color: var(--color-primary);
+	outline: none;
+	box-shadow: none;
+}
+
+/* -- Hide hover styles for disabled input -- */
+.rt-TextFieldInput.input-minimal:disabled:hover:not(:focus) {
+	background-color: var(--color-bg-primary);
+	border-color: var(--color-bg-primary);
+}
+
 /* TextArea */
 .rt-TextAreaRoot > textarea.rt-TextAreaInput {
 	border: 2px solid transparent;

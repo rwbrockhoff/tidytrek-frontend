@@ -1,6 +1,5 @@
 import { TextField } from '@radix-ui/themes';
 import { cn } from '@/styles/utils';
-import styles from './table-input.module.css';
 
 type TableInputProps = {
 	value?: string;
@@ -12,24 +11,24 @@ type TableInputProps = {
 	className?: string;
 };
 
-export const TableInput = ({ 
-	value, 
-	placeholder, 
-	name, 
-	onChange, 
-	onBlur, 
-	disabled = false, 
-	className 
+export const TableInput = ({
+	value,
+	placeholder,
+	name,
+	onChange,
+	onBlur,
+	disabled = false,
+	className,
 }: TableInputProps) => {
 	return (
 		<TextField.Input
 			value={value || ''}
-			placeholder={placeholder}
+			placeholder={!disabled ? placeholder : ''}
 			name={name}
 			onChange={onChange}
 			onBlur={onBlur}
 			disabled={disabled}
-			className={cn(styles.tableInput, disabled && styles.disabled, className)}
+			className={cn('input-minimal', className)}
 		/>
 	);
 };

@@ -96,7 +96,7 @@
 
 [data-theme='light'] {
 	/* Primary colors */
-	--color-primary: var(--sage-500);
+	--color-primary: var(--sage-400);
 	--color-primary-hover: var(--sage-600);
 	--color-primary-light: var(--sage-100);
 	--color-primary-dark: var(--sage-700);

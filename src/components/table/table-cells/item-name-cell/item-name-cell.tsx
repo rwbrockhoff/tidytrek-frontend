@@ -43,6 +43,8 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						name={'packItemName'}
 						placeholder={'Name'}
 						onChange={onChange}
+						disabled={!userView}
+						className="input-minimal"
 					/>
 					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />

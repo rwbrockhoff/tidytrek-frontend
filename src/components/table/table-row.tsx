@@ -118,7 +118,11 @@ export const TableRow = (props: TableRowProps) => {
 									<>
 										<DescriptionCell onToggleOff={handleToggle} />
 
-										<PropertiesCell onClick={handleChangeProperty} display={toggleRow} />
+										<PropertiesCell
+											onClick={handleChangeProperty}
+											isDisabled={!!disabled}
+											display={toggleRow}
+										/>
 
 										<QuantityCell onToggleOff={handleToggle} />
 
@@ -163,4 +167,3 @@ export const TableRow = (props: TableRowProps) => {
 		</Draggable>
 	);
 };
-

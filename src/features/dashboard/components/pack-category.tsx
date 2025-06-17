@@ -53,8 +53,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 				<div
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					className={cn(styles.tableContainer, isMinimized && styles.minimized)}
-				>
+					className={cn(styles.tableContainer, isMinimized && styles.minimized)}>
 					<Table>
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
@@ -71,6 +70,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										key={item.packItemId}
 										index={index}
 										packList={packList}
+										disabled={!userView}
 										moveToCloset={moveItemToCloset}
 										handleOnSave={editPackItem}
 										handleDelete={deleteItem}
@@ -93,4 +93,3 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		</Draggable>
 	);
 };
-

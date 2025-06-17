@@ -21,7 +21,10 @@ export const AppRouter = () => {
 		);
 
 	return (
-		<div data-theme="light" data-theme-palette="earth-tones" className={mixins.fullHeight}>
+		<div
+			data-theme="light"
+			data-theme-palette="earth-tones"
+			className={mixins.fullHeight}>
 			<Theme accentColor="jade" radius="small" scaling="90%">
 				<RouterProvider router={appRouter} />
 			</Theme>

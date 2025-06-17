@@ -29,3 +29,14 @@
 .flexContainer button {
 	background: transparent;
 }
+
+.disabledIcon {
+	cursor: default;
+	pointer-events: none;
+}
+
+.disabledIcon:hover {
+	opacity: inherit;
+	color: inherit;
+	background-color: transparent;
+}
