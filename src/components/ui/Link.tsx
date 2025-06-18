@@ -15,9 +15,9 @@ type LinkProps = {
 
 export const Link = (props: LinkProps) => {
 	const { link, externalLink, enabled = true, className = '', children } = props;
-	
+
 	if (!enabled || !link) return children;
-	
+
 	if (externalLink) {
 		return (
 			<RouterLink
@@ -30,11 +30,10 @@ export const Link = (props: LinkProps) => {
 		);
 	} else {
 		return (
-			<RouterLink 
-				to={link} 
-				className={cn(styles.link, className)} 
-				onClick={() => window.scrollTo(0, 0)}
-			>
+			<RouterLink
+				to={link}
+				className={cn(styles.link, className)}
+				onClick={() => window.scrollTo(0, 0)}>
 				{children}
 			</RouterLink>
 		);

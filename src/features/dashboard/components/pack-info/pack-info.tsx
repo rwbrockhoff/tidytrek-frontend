@@ -99,7 +99,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						url={packUrl}
 						text={packUrlName || packUrl || 'Pack Link'}
 						showIcon
-						margin="0 0 0 0"
+						margin="var(--space-xs)0 0 0"
 					/>
 				)}
 

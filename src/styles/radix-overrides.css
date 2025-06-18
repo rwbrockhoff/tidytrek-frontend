@@ -24,7 +24,8 @@
 	opacity: 0.7;
 }
 
-.rt-Text[data-accent-color] {
+/* Lighter text color for placeholders and input labels */
+.rt-TextFieldRoot .rt-Text[data-accent-color] {
 	color: var(--color-text-tertiary);
 }
 
@@ -178,8 +179,65 @@ button.rt-Button.rt-variant-outline {
 	border-radius: none;
 }
 
+/* Ensures table background matches theme for drag and drop */
 table {
 	background-color: var(--color-bg-secondary);
+}
+
+/* HoverCard */
+.rt-HoverCardContent {
+	background-color: var(--color-bg-secondary);
+}
+
+/* Dropdown Menus */
+.rt-SelectTrigger.dropdown-primary {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+}
+
+.rt-SelectTrigger.dropdown-primary:hover {
+	border-color: var(--color-primary);
+}
+
+.rt-SelectTrigger.dropdown-secondary {
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+}
+
+.rt-SelectTrigger.dropdown-secondary:hover {
+	border-color: var(--color-primary);
+}
+
+/* Removes excessive border emphasis on focus-active for Radix Select */
+.rt-SelectTrigger.dropdown-primary:focus-visible,
+.rt-SelectTrigger.dropdown-secondary:focus-visible {
+	outline-offset: 0;
+}
+
+/* Select Content */
+.rt-SelectContent {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-bg-tertiary);
+	box-shadow: var(--shadow-lg);
+}
+
+.rt-SelectItem {
+	color: var(--color-text-primary);
+}
+
+.rt-SelectItem:hover {
+	background-color: var(--color-bg-secondary);
+}
+
+.rt-SelectItem[data-highlighted] {
+	background-color: var(--color-bg-secondary);
+	outline: none;
+}
+
+.rt-SelectLabel {
+	color: var(--color-text-secondary);
 }
 
 /* Form validation styling */
