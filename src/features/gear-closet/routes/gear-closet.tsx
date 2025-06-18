@@ -29,7 +29,10 @@ export const GearCloset = () => {
 
 	const isSearching = searchInput.length > 0;
 	const dragDisabled = isSearching ? true : false;
-	const listHasItems = filteredClosetList.length ? true : false;
+	const originalListHasItems = gearClosetList.length > 0;
+	const displayListHasItems = isSearching
+		? filteredClosetList.length > 0
+		: originalListHasItems;
 	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
 	return (
 		<main>
@@ -44,9 +47,9 @@ export const GearCloset = () => {
 					<Heading size="6">Gear Closet</Heading>
 				</Flex>
 
-				{!listHasItems && (
+				{!originalListHasItems && (
 					<p className={styles.descriptionText}>
-						Keep track of other pack items that don't have a pack list yet!{' '}
+						Keep track of other pack items that don't have a pack list yet!
 					</p>
 				)}
 
@@ -62,6 +65,7 @@ export const GearCloset = () => {
 							name="searchInput"
 							value={searchInput}
 							onChange={handleInputChange}
+							className="input-with-icon"
 						/>
 					</TextField.Root>
 				</div>
@@ -69,7 +73,7 @@ export const GearCloset = () => {
 				<GearClosetList
 					gearClosetList={listToDisplay}
 					packList={packList}
-					listHasItems={listHasItems}
+					listHasItems={displayListHasItems}
 					dragDisabled={dragDisabled}
 				/>
 			</UserViewContext.Provider>

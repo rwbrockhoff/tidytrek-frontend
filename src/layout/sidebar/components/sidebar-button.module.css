@@ -4,6 +4,10 @@
 	cursor: pointer;
 }
 
+.sidebarButton svg {
+	color: var(--color-text-secondary);
+}
+
 button.sidebarButton:not(.isSidebar) {
 	position: absolute;
 	top: var(--space-xl);

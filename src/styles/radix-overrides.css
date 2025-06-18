@@ -4,12 +4,11 @@
 	height: 100%;
 }
 
-/* Match TextArea border thickness to TextField */
+/* Match TextArea to TextField Input */
 .rt-TextAreaInput {
 	background: var(--color-bg-primary);
 	color: var(--color-text-primary);
-	border: 2px solid var(--color-bg-tertiary);
-	border-width: 2px;
+	border: 1px solid var(--color-bg-tertiary);
 }
 
 /* TextField */
@@ -36,35 +35,41 @@
 
 .rt-TextFieldInput:focus {
 	border: 1px solid var(--color-primary);
+	border-radius: var(--radius);
 	box-shadow: none;
 	outline: none;
 	transition: none;
 }
 
 /* Override Radix input defaults to minimal styles with hidden borders */
-.input-minimal {
-	border: var(--text-field-border-width, 1px) solid var(--color-bg-primary);
+.rt-TableBody .rt-TextFieldInput.input-minimal,
+.rt-TextFieldInput.input-minimal {
+	border: var(--text-field-border-width, 1px) solid var(--color-bg-secondary);
 	box-shadow: none;
 	outline: none;
-	background-color: var(--color-bg-primary);
+	background-color: var(--color-bg-secondary);
 	color: var(--color-text-primary);
 }
 
-.input-minimal::placeholder {
+.rt-TableBody .rt-TextFieldInput.input-minimal::placeholder,
+.rt-TextFieldInput.input-minimal::placeholder {
 	color: var(--color-text-secondary);
 	opacity: 0.7;
 }
 
-.input-minimal:hover:not(:focus) {
-	background-color: var(--color-bg-primary);
+.rt-TableBody .rt-TextFieldInput.input-minimal:hover:not(:focus),
+.rt-TextFieldInput.input-minimal:hover:not(:focus) {
+	background-color: var(--color-bg-secondary);
 	border-color: var(--color-bg-tertiary);
 	outline: none;
 	box-shadow: none;
 }
 
-.input-minimal:focus {
-	background-color: var(--color-bg-primary);
+.rt-TableBody .rt-TextFieldInput.input-minimal:focus,
+.rt-TextFieldInput.input-minimal:focus {
+	background-color: var(--color-bg-secondary);
 	border-color: var(--color-primary);
+	border-radius: var(--radius);
 	outline: none;
 	box-shadow: none;
 }
@@ -101,13 +106,9 @@ button.rt-Button.rt-variant-outline {
 	box-shadow: var(--shadow-2);
 }
 
-/* TextArea */
-.rt-TextAreaRoot > textarea.rt-TextAreaInput {
-	border: 2px solid transparent;
-}
-
+/* TextArea states */
 .rt-TextAreaRoot > textarea.rt-TextAreaInput:hover:not(:focus) {
-	border: 2px solid transparent;
+	border: 1px solid transparent;
 	outline: 1px solid var(--color-primary);
 }
 
@@ -128,6 +129,53 @@ button.rt-Button.rt-variant-outline {
 /* Match theme background on drag & drop */
 .rt-TableRootTable tbody {
 	background-color: var(--color-bg-secondary);
+}
+
+.rt-TextFieldSlot {
+	color: var(--color-text-primary);
+	height: 90%;
+	margin: auto;
+	margin-left: var(--space-min);
+}
+
+/* TextField with icons - specific class for search inputs */
+.rt-TextFieldRoot:has(.input-with-icon),
+.rt-TextFieldRoot:has(.input-with-icon) > * {
+	background-color: var(--color-bg-primary);
+}
+
+.rt-TextFieldRoot:has(.input-with-icon) {
+	border: 1px solid var(--color-bg-tertiary);
+	border-radius: var(--radius);
+}
+
+.rt-TextFieldRoot:has(.input-with-icon):hover:not(:focus-within) {
+	border: 1px solid var(--color-bg-tertiary);
+}
+
+.rt-TextFieldRoot:has(.input-with-icon):focus-within {
+	border: 1px solid var(--color-primary);
+	border-radius: var(--radius);
+}
+
+.rt-TextFieldInput.input-with-icon {
+	border: none;
+	background-color: transparent;
+	outline: none;
+	text-indent: var(--space-xs);
+}
+
+.rt-TextFieldInput.input-with-icon:hover:not(:focus) {
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.rt-TextFieldInput.input-with-icon:focus {
+	border: none;
+	outline: none;
+	box-shadow: none;
+	border-radius: none;
 }
 
 table {

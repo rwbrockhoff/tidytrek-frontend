@@ -19,13 +19,6 @@
 	color: var(--color-text-tertiary);
 }
 
-/* Prevents extra border around search icon */
-.searchContainer :global(.rt-TextFieldInput),
-.searchContainer :global(.rt-TextFieldInput):hover:not(:focus) {
-	border: none;
-	background-color: transparent;
-	outline: none;
-}
 
 @media (max-width: 768px) {
 	.searchContainer {
