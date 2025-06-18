@@ -129,6 +129,16 @@
 	color: var(--color-text-tertiary);
 }
 
+/* Apply secondary text color to Radix Gray Text */
+.rt-Text[color='gray'],
+.rt-DialogContent .rt-Text[color='gray'],
+.rt-Text[data-accent-color='gray'],
+.rt-Text:where([data-accent-color='gray']),
+.rt-DialogContent .rt-Text[data-accent-color] {
+	color: var(--color-text-secondary);
+}
+
+/* Ensures input icon doesn't cover input border/outline */
 .rt-TextFieldSlot {
 	color: var(--color-text-primary);
 	height: 90%;
