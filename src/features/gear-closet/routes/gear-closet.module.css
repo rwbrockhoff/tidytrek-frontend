@@ -1,3 +1,11 @@
+.headerText {
+	color: var(--color-text-primary);
+}
+
+.headerText svg {
+	font-size: 1rem;
+}
+
 .searchContainer {
 	width: 50%;
 	margin-bottom: var(--space-xl);

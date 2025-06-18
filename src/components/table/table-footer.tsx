@@ -31,7 +31,7 @@ export const TableFooter = ({
 							variant="outline"
 							color="gray"
 							size="1"
-							ml="4"
+							ml="2"
 							onClick={handleAddItem}>
 							<PlusIcon />
 							Add Item
@@ -41,13 +41,15 @@ export const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<Table.Cell className={styles.cell}>
+						<Table.Cell className={styles.summaryCell}>
 							<Badge color="gray" highContrast>
 								x{itemQuantity}
 							</Badge>
 						</Table.Cell>
-						<Table.Cell className={styles.cell}>{`${weight} lbs`}</Table.Cell>
-						{showPrices && <Table.Cell className={styles.cell}>{price}</Table.Cell>}
+						<Table.Cell className={styles.summaryCell}>{`${weight} lbs`}</Table.Cell>
+						{showPrices && (
+							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
+						)}
 					</>
 				)}
 				{userView && <Table.Cell></Table.Cell>}

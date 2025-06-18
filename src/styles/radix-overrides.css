@@ -124,6 +124,16 @@ button.rt-Button.rt-variant-outline {
 	margin: inherit 1rem;
 }
 
+/* Table */
+/* Match theme background on drag & drop */
+.rt-TableRootTable tbody {
+	background-color: var(--color-bg-secondary);
+}
+
+table {
+	background-color: var(--color-bg-secondary);
+}
+
 /* Form validation styling */
 input[data-invalid='true'] {
 	border: 1px solid var(--red-500);
@@ -145,6 +155,17 @@ div.rt-ScrollAreaViewport {
 
 .rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
 	overflow: visible !important;
+}
+
+/* React Beautiful DnD placeholder styling */
+.rt-TableBody tr:has([data-rbd-placeholder-context-id]),
+.rt-TableBody tr[data-rbd-placeholder-context-id] {
+	background-color: var(--color-bg-secondary) !important;
+}
+
+.rt-TableBody tr:has([data-rbd-placeholder-context-id]) td,
+.rt-TableBody tr[data-rbd-placeholder-context-id] td {
+	background-color: var(--color-bg-secondary) !important;
 }
 
 /* Override Radix selection styles */

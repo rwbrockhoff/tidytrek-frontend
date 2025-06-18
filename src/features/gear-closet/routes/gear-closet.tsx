@@ -34,11 +34,14 @@ export const GearCloset = () => {
 	return (
 		<main>
 			<UserViewContext.Provider value={true}>
-				<Flex align="center" justify="center" gap="3" mt="9">
-					<ClosetIcon size={'1rem'} />
-					<Heading align="center" size="6">
-						Gear Closet
-					</Heading>
+				<Flex
+					className={styles.headerText}
+					align="center"
+					justify="center"
+					gap="3"
+					mt="9">
+					<ClosetIcon />
+					<Heading size="6">Gear Closet</Heading>
 				</Flex>
 
 				{!listHasItems && (

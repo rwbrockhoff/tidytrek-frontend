@@ -6,17 +6,17 @@ export const Table = ({ children }: { children: React.ReactNode }) => {
 	const showPrices = usePricingContext() || false;
 	const isUser = useUserContext();
 
-	// Simplified width calculation - more readable
+	// Simplified width calculation
 	const getColumnWidths = () => {
 		const baseWidth = isUser ? 25 : 30; // Main columns wider when no actions
 		const adjustedWidth = showPrices ? baseWidth - 3 : baseWidth;
-		
+
 		return {
 			main: `${adjustedWidth}%`,
 			qty: '6%',
 			weight: '12%',
 			price: '10%',
-			actions: '10%'
+			actions: '10%',
 		};
 	};
 

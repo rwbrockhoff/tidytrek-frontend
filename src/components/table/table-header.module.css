@@ -33,6 +33,7 @@
 
 .headerCell {
 	vertical-align: middle;
+	color: var(--color-text-primary);
 }
 
 @media (max-width: 768px) {
