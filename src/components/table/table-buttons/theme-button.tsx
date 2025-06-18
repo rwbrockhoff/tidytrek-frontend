@@ -27,14 +27,15 @@ export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
 			<Popover.Content side="top">
 				<Flex>
 					{paletteList.map((themeColor, index) => (
-						<Button
-							key={themeColor || index}
-							className={styles.circleButton}
-							style={{
-								backgroundColor: `var(--${themeColor})`,
-							}}
-							onClick={() => handleOnClick(themeColor)}
-						/>
+						<Popover.Close key={themeColor || index}>
+							<Button
+								className={styles.circleButton}
+								style={{
+									backgroundColor: `var(--${themeColor})`,
+								}}
+								onClick={() => handleOnClick(themeColor)}
+							/>
+						</Popover.Close>
 					))}
 				</Flex>
 			</Popover.Content>
