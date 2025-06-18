@@ -8,8 +8,8 @@
 }
 
 .tableRow input {
-	background-color: var(--color-bg-secondary) !important;
-	border-color: var(--color-bg-secondary) !important;
+	background-color: var(--color-bg-secondary);
+	border-color: var(--color-bg-secondary);
 }
 
 .tableRow td {

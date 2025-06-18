@@ -5,10 +5,17 @@
 	margin-right: auto;
 }
 
-.searchContainer :global(.rt-TextFieldInput):hover,
-.searchContainer :global(.rt-TextFieldInput):focus {
+.descriptionText {
+	margin-bottom: var(--space-xl);
+	text-align: center;
+	color: var(--color-text-tertiary);
+}
+
+/* Prevents extra border around search icon */
+.searchContainer :global(.rt-TextFieldInput),
+.searchContainer :global(.rt-TextFieldInput):hover:not(:focus) {
 	border: none;
-	box-shadow: none;
+	background-color: transparent;
 	outline: none;
 }
 

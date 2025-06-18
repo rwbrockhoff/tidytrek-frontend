@@ -1,13 +1,7 @@
-button.newPackButton {
+/* Hides button styles for popover menu  */
+.newPackButton:hover,
+.newPackButton:active {
 	background: transparent;
-	color: var(--color-constant-white);
-	cursor: pointer;
-	border: none !important;
-	box-shadow: none;
-}
-
-.newPackButton:hover {
-	filter: var(--hover-dark-2);
 }
 
 @media (max-width: 768px) {

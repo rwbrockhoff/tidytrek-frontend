@@ -9,7 +9,7 @@
 }
 
 .header button {
-	margin-left: auto !important;
+	margin-left: auto;
 }
 
 @media (max-width: 768px) {

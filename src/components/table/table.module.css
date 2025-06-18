@@ -5,24 +5,27 @@
 	min-width: 100%;
 }
 
+/* Modify input styles to be bg-secondary to blend in with table */
 .table :global(.rt-TextFieldInput) {
-	background-color: var(--color-bg-primary);
-	transition: background-color var(--transition);
+	background-color: var(--color-bg-secondary);
 }
 
-/* .table :global(.rt-TextFieldInput):hover:not(:focus) {
-	background-color: transparent;
+/* Maintain bg-secondary in different states */
+.table :global(.rt-TextFieldInput):focus,
+.table :global(.rt-TextFieldInput):hover {
+	background-color: var(--color-bg-secondary);
 }
 
-.table :global(.rt-TextFieldInput):focus {
-	background-color: transparent;
-} */
+/* Unique border for light/dark on hover for table */
+.table :global(.rt-TextFieldInput):hover:not(:focus) {
+	border-color: var(--gray-400);
+}
 
+/* Dynamically use palette color for top border for each category */
 .table :global(thead.withPrimaryBorder) {
 	border-top: 3px solid var(--color-primary);
 }
 
-/* Improved mobile approach - preserve table structure but enhance UX */
 @media (max-width: 48rem) {
 	.table {
 		font-size: var(--font-size-sm);
@@ -37,12 +40,5 @@
 	.table :global(th),
 	.table :global(td) {
 		padding: var(--space-xs);
-	}
-}
-
-/* Very small screens - hide more columns */
-@media (max-width: 32rem) {
-	.table :global(.hide-small) {
-		display: none;
 	}
 }

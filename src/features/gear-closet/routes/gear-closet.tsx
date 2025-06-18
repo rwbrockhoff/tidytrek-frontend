@@ -1,8 +1,8 @@
 import styles from './gear-closet.module.css';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
-import { SearchIcon } from '@/components/ui';
-import { Heading, TextField } from '@radix-ui/themes';
+import { ClosetIcon, SearchIcon } from '@/components/ui';
+import { Flex, Heading, TextField } from '@radix-ui/themes';
 import { GearClosetList } from '../components/gear-closet-list';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
@@ -34,9 +34,18 @@ export const GearCloset = () => {
 	return (
 		<main>
 			<UserViewContext.Provider value={true}>
-				<Heading align="center" size="6" mt="9" mb="5">
-					Gear Closet
-				</Heading>
+				<Flex align="center" justify="center" gap="3" mt="9">
+					<ClosetIcon size={'1rem'} />
+					<Heading align="center" size="6">
+						Gear Closet
+					</Heading>
+				</Flex>
+
+				{!listHasItems && (
+					<p className={styles.descriptionText}>
+						Keep track of other pack items that don't have a pack list yet!{' '}
+					</p>
+				)}
 
 				<div className={styles.searchContainer}>
 					<TextField.Root>
@@ -64,4 +73,3 @@ export const GearCloset = () => {
 		</main>
 	);
 };
-

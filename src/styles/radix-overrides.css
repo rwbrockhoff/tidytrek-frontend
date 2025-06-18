@@ -98,10 +98,7 @@ button.rt-Button.rt-variant-outline {
 /* -- Popovers -- */
 .rt-PopoverContent {
 	background-color: var(--color-bg-primary);
-}
-
-[data-theme='dark'] .rt-PopoverContent {
-	background-color: var(--color-bg-secondary);
+	box-shadow: var(--shadow-2);
 }
 
 /* TextArea */

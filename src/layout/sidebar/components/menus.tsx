@@ -5,7 +5,7 @@ import { StyledMenu } from './styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
-		<StyledMenu darkText>
+		<StyledMenu>
 			<li>
 				<Link to="/account">
 					<UserIcon />
