@@ -1,11 +1,12 @@
 import { type DropResult } from 'react-beautiful-dnd';
-import { type HeaderInfo, type Pack } from '@/types/pack-types';
+import { type HeaderInfo, type Pack, type Category } from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { createContext, useContext } from 'react';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
+import { paletteList } from '@/styles/theme/palette-constants';
 
 type Handlers = {
-	addCategory: (packId: number) => void;
+	addCategory: (packId: number, categories: Category[]) => void;
 	editCategory: (categoryChanges: HeaderInfo) => void;
 	deleteCategory: (packCategoryId: number) => void;
 	deleteCategoryAndItems: (packCategoryId: number) => void;
@@ -42,8 +43,12 @@ const useCreateHandlers = () => {
 		deletePackCategory.mutate(packCategoryId);
 	};
 
-	const handleAddPackCategory = (packId: number) => {
-		addPackCategory.mutate(packId);
+	const handleAddPackCategory = (packId: number, categories: Category[]) => {
+		// Calculate next palette color based on current categories length
+		const nextColorIndex = categories.length % paletteList.length;
+		const categoryColor = paletteList[nextColorIndex];
+		
+		addPackCategory.mutate({ packId, categoryColor });
 	};
 
 	const handleOnDragEnd = (

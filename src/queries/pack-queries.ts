@@ -11,6 +11,7 @@ import {
 } from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '@/utils';
+import { paletteList } from '@/styles/theme/palette-constants';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
@@ -51,7 +52,7 @@ export const useImportPackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packUrl: string) =>
-			tidyTrekAPI.post(`/packs/import`, { packUrl }).then((res) => res.data),
+			tidyTrekAPI.post(`/packs/import`, { packUrl, paletteList }).then((res) => res.data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 		},
@@ -264,8 +265,11 @@ export const useDeletePackItemMutation = () => {
 export const useAddPackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packId: number) => tidyTrekAPI.post(`/packs/categories/${packId}`),
-		onSuccess: (_response, packId) => {
+		mutationFn: (categoryData: { packId: number; categoryColor: string }) => {
+			const { packId, categoryColor } = categoryData;
+			return tidyTrekAPI.post(`/packs/categories/${packId}`, { categoryColor });
+		},
+		onSuccess: (_response, { packId }) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},

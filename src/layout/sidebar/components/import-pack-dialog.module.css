@@ -1,4 +1,8 @@
 .importButton {
-	background-color: var(--sage-900);
+	background-color: var(--color-primary);
 	min-width: 100px;
+}
+
+.importButton:disabled {
+	opacity: 0.8;
 }

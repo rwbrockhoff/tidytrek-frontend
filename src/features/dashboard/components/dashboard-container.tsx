@@ -80,7 +80,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 					{userView && (
 						<Flex justify="center" width="100%">
-							<AddCategoryButton onClick={() => packId && addCategory(packId)} />
+							<AddCategoryButton onClick={() => packId && addCategory(packId, packCategories)} />
 						</Flex>
 					)}
 

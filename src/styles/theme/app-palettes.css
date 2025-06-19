@@ -1,14 +1,14 @@
-/* Chart/Data Visualization Color Palettes */
+/* User Accent Color Theme Options */
 /* Used for user's pack chart visualization and accent color for pack category */
 
 /* Earth Tones Palette */
 [data-theme-palette='earth-tones'] {
-	--palette-primary: #338866;
-	--palette-one: #78b87a;
-	--palette-two: #5f84a2;
-	--palette-three: #7bb8c0;
-	--palette-four: #a7b5fe;
-	--palette-five: #f36f3b;
-	--palette-six: #feb737;
-	--palette-seven: #dabb9f;
+	--palette-01: #338866;
+	--palette-02: #78b87a;
+	--palette-03: #5f84a2;
+	--palette-04: #7bb8c0;
+	--palette-05: #a7b5fe;
+	--palette-06: #f36f3b;
+	--palette-07: #feb737;
+	--palette-08: #dabb9f;
 }
