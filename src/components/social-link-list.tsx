@@ -16,7 +16,8 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	return (
 		<Flex className={styles.socialLinks}>
 			{socialLinks.map((link, index) => {
-				const { socialName, icon } = socialMediaUI[link.socialLinkName];
+				const socialInfo = socialMediaUI[link.platformName] || socialMediaUI.custom;
+				const { socialName, icon } = socialInfo;
 				const { socialLinkId: id } = link;
 				return (
 					<SocialButton

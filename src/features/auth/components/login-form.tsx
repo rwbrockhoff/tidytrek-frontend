@@ -1,4 +1,4 @@
-import { useRef, type FormEvent } from 'react';
+import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
@@ -40,7 +40,11 @@ export const LogInForm = (props: FormProps) => {
 		if (serverError.error) resetFormErrors();
 	};
 
-	if (isRegisterSuccess) formRef?.current?.reset();
+	useEffect(() => {
+		if (isRegisterSuccess) {
+			formRef?.current?.reset();
+		}
+	}, [isRegisterSuccess]);
 
 	return (
 		<FormContainer>

@@ -1,5 +1,5 @@
 import styles from './upload-file.module.css';
-import { cn, mixins } from '@/styles/utils';
+import { mixins } from '@/styles/utils';
 import { MdCloudUpload as UploadIcon } from 'react-icons/md';
 import { ChangeEvent, useRef } from 'react';
 
@@ -44,4 +44,3 @@ export const UploadFile = (props: UploadFileProps) => {
 		</form>
 	);
 };
-

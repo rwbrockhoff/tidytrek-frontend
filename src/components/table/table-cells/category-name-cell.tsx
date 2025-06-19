@@ -64,7 +64,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					placeholder={userView ? 'Category' : ''}
 					onChange={handleInput}
 					onBlur={userView ? handleBlur : undefined}
-					disabled={!userView}
+					disabled={disabled || !userView}
 				/>
 			</Flex>
 		</Table.ColumnHeaderCell>

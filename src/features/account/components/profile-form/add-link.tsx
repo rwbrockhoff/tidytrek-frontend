@@ -5,6 +5,7 @@ import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '@/constants/social-media-ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { PlusIcon } from '@/components/ui';
+import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
 export const AddLink = () => {
 	const { addSocialLink } = useHandlers().handlers;
@@ -26,13 +27,8 @@ export const AddLink = () => {
 	};
 
 	const handleUpdateService = (value: string) => {
-		// update social service icon based on URL
-		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
-			value.includes(social),
-		);
-		if (socialService === service) return;
-		if (socialService && socialService !== service) return setService(socialService);
-		if (service !== 'custom') setService('custom');
+		const detectedPlatform = detectPlatformFromUrl(value);
+		if (detectedPlatform !== service) setService(detectedPlatform);
 	};
 
 	const handleInput = (e: InputEvent) => {

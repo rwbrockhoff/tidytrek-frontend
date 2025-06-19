@@ -46,9 +46,8 @@ export type SocialObject = {
 };
 
 export type SocialLink = {
-	socialLinkName: string;
 	socialLinkUrl: string;
-	socialLinkListId: number;
+	platformName: string;
 	socialLinkId: number;
 	userId: number;
 };

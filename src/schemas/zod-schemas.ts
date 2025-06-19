@@ -10,7 +10,7 @@ export const usernameSchema = z
 	.min(4, {
 		message: 'Username must be at least 4 characters.',
 	})
-	.max(30, { message: 'Username has a maximum of 20 characters.' })
+	.max(50, { message: 'Username has a maximum of 50 characters.' })
 	.refine((val) => validateNoSpaces(val), {
 		message:
 			'Usernames cannot contain spaces. You can use _ or - if you would like instead.',
@@ -22,7 +22,7 @@ export const trailNameSchema = z
 	.min(2, {
 		message: 'Trail name must be at least 2 characters.',
 	})
-	.max(20, { message: 'Trail name has a maximum of 20 characters.' })
+	.max(100, { message: 'Trail name has a maximum of 100 characters.' })
 	.or(z.literal(''));
 
 export const emailSchema = z.string().trim().email('Please provide a valid email.');
@@ -77,9 +77,58 @@ export const basicInputSchema = (inputName: string, max?: number) => {
 		.string()
 		.trim()
 		.min(2, { message: `${inputName} must be at least 2 characters.` })
-		.max(40 || max, { message: `${inputName} has a maximum of 40 characters.` })
+		.max(max || 40, { message: `${inputName} has a maximum of ${max || 40} characters.` })
 		.or(z.literal(''));
 };
+
+// New field-specific schemas based on database limits
+export const firstNameSchema = z
+	.string()
+	.trim()
+	.min(1, { message: 'First name is required.' })
+	.max(100, { message: 'First name has a maximum of 100 characters.' });
+
+export const lastNameSchema = z
+	.string()
+	.trim()
+	.min(1, { message: 'Last name is required.' })
+	.max(100, { message: 'Last name has a maximum of 100 characters.' });
+
+export const packNameSchema = z
+	.string()
+	.trim()
+	.min(1, { message: 'Pack name is required.' })
+	.max(100, { message: 'Pack name has a maximum of 100 characters.' });
+
+export const packUrlNameSchema = z
+	.string()
+	.trim()
+	.max(100, { message: 'Pack URL name has a maximum of 100 characters.' })
+	.or(z.literal(''));
+
+export const packTagSchema = z
+	.string()
+	.trim()
+	.max(50, { message: 'Tag has a maximum of 50 characters.' })
+	.or(z.literal(''));
+
+export const packCategoryNameSchema = z
+	.string()
+	.trim()
+	.max(100, { message: 'Category name has a maximum of 100 characters.' })
+	.or(z.literal(''));
+
+export const packItemNameSchema = z
+	.string()
+	.trim()
+	.min(1, { message: 'Item name is required.' })
+	.max(100, { message: 'Item name has a maximum of 100 characters.' });
+
+export const userLocationSchema = z
+	.string()
+	.trim()
+	.max(100, { message: 'Location has a maximum of 100 characters.' })
+	.or(z.literal(''));
 
 const validateNoSpaces = (input: string) => {
 	let filterSpaces = /^\S*$/;
