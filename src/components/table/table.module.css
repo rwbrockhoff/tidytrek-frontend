@@ -26,7 +26,7 @@
 	border-top: 3px solid var(--color-primary);
 }
 
-@media (max-width: 48rem) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.table {
 		font-size: var(--font-size-sm);
 	}

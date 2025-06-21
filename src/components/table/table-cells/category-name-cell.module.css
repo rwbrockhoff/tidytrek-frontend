@@ -37,7 +37,7 @@
 	-webkit-text-fill-color: var(--color-text-primary);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.headerCell {
 		flex: 1;
 		height: fit-content;
