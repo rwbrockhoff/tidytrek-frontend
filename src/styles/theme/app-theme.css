@@ -71,6 +71,10 @@
 	--space-xl: 2rem; /* 32px */
 	--space-xxl: 3rem; /* 48px */
 
+	/* -- Breakpoints -- */
+	--breakpoint-mobile: 768px;
+	--breakpoint-desktop: 1280px;
+
 	/* -- Border radius -- */
 	--radius: 0.25rem; /* 4px - primary radius */
 	--radius-lg: 0.5rem; /* 8px - larger elements */
