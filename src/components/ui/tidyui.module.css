@@ -7,7 +7,7 @@
 	width: var(--panel-width);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.panel {
 		width: 100%;
 	}

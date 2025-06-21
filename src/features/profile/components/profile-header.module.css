@@ -5,13 +5,6 @@
 	left: var(--space-xxl);
 }
 
-@media (max-width: 768px) {
-	.avatarContainer {
-		top: 175px;
-		left: calc(50% - 75px);
-	}
-}
-
 .profileInfoContainer {
 	min-height: 175px;
 	height: fit-content;
@@ -28,15 +21,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-}
-
-@media (max-width: 768px) {
-	.profileTextContainer {
-		margin: 0px var(--space-md);
-		margin-top: 75px;
-		width: 90%;
-		justify-content: flex-start;
-	}
 }
 
 .locationText {
@@ -57,4 +41,18 @@
 .usernameHeader .trailName {
 	color: var(--color-text-secondary);
 	margin-left: var(--space-xs);
+}
+
+@media (max-width: var(--breakpoint-mobile)) {
+	.avatarContainer {
+		top: 175px;
+		left: calc(50% - 75px);
+	}
+
+	.profileTextContainer {
+		margin: 0px var(--space-md);
+		margin-top: 75px;
+		width: 90%;
+		justify-content: flex-start;
+	}
 }

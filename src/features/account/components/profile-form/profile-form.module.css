@@ -2,7 +2,7 @@
 	width: 60%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.form {
 		width: 100%;
 	}

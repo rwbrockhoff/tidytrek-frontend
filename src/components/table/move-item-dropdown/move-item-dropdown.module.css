@@ -1,18 +1,18 @@
 .tableRow {
-  min-height: 60px;
+	min-height: 60px;
 }
 
 .tableRow button {
-  margin: 0 0.5em;
+	margin: 0 0.5em;
 }
 
 .tableRow button:not(:last-child) {
-  min-width: 150px;
+	min-width: 150px;
 }
 
-@media (max-width: 768px) {
-  .tableRow button {
-    width: 90%;
-    margin: 1em 0em;
-  }
+@media (max-width: var(--breakpoint-mobile)) {
+	.tableRow button {
+		width: 90%;
+		margin: 1em 0em;
+	}
 }

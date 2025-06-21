@@ -24,12 +24,6 @@
 	filter: var(--hover-dark-2);
 }
 
-@media (max-width: 768px) {
-	.styledText {
-		font-size: var(--font-size-xl);
-	}
-}
-
 .gripContainer {
 	position: absolute;
 	left: calc(-1 * var(--space-lg));
@@ -44,4 +38,10 @@
 .gripContainer svg {
 	width: 0.8rem;
 	height: 0.8rem;
+}
+
+@media (max-width: var(--breakpoint-mobile)) {
+	.styledText {
+		font-size: var(--font-size-xl);
+	}
 }
