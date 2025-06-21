@@ -3,32 +3,9 @@
 	transition: max-height 350ms ease-in-out;
 }
 
-@media (max-width: 768px) {
-	.outerPanel {
-		width: 100%;
-		overflow: hidden;
-		flex-direction: column-reverse;
-		max-height: 150vh;
-		margin-bottom: var(--space-xxl);
-	}
-	
-	.outerPanel.hidden {
-		max-height: 0;
-		margin-bottom: 0;
-	}
-}
-
 .chartPanel {
 	width: 50%;
 	margin-left: var(--space-xl);
-}
-
-@media (max-width: 768px) {
-	.chartPanel {
-		width: 75vw;
-		margin-left: 0;
-		margin-bottom: var(--space-xl);
-	}
 }
 
 .graphicPanel {
@@ -39,7 +16,6 @@
 .graphicPanel img {
 	height: 100%;
 }
-
 
 .styledText {
 	white-space: nowrap;
@@ -54,18 +30,35 @@
 	padding-right: var(--space-md);
 }
 
-@media (max-width: 768px) {
-	.summaryPanel {
-		padding-right: 0;
-		align-items: center;
-	}
-}
-
 .chartList {
 	width: fit-content;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
+	.outerPanel {
+		width: 100%;
+		overflow: hidden;
+		flex-direction: column-reverse;
+		max-height: 150vh;
+		margin-bottom: var(--space-xxl);
+	}
+	
+	.outerPanel.hidden {
+		max-height: 0;
+		margin-bottom: 0;
+	}
+
+	.chartPanel {
+		width: 75vw;
+		margin-left: 0;
+		margin-bottom: var(--space-xl);
+	}
+
+	.summaryPanel {
+		padding-right: 0;
+		align-items: center;
+	}
+
 	.chartList {
 		width: 75vw;
 	}

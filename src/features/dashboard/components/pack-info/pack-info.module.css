@@ -3,16 +3,6 @@
 	color: var(--color-text-primary);
 }
 
-@media (max-width: 768px) {
-	.packInfoContainer {
-		width: 95%;
-		height: fit-content;
-		flex-direction: column;
-		margin-top: 3vh;
-		margin-bottom: 0;
-	}
-}
-
 .userInfoPanel:hover .editIcon {
 	opacity: 1;
 }
@@ -33,19 +23,25 @@
 	display: none;
 }
 
-@media (max-width: 768px) {
-	.editIcon {
-		opacity: 1;
-	}
-}
-
 .toggleChartButton {
 	width: 100%;
 	display: none;
 	text-align: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
+	.packInfoContainer {
+		width: 95%;
+		height: fit-content;
+		flex-direction: column;
+		margin-top: 3vh;
+		margin-bottom: 0;
+	}
+
+	.editIcon {
+		opacity: 1;
+	}
+
 	.toggleChartButton {
 		display: flex;
 	}
