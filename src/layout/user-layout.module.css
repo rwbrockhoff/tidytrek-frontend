@@ -5,7 +5,7 @@
 	background-color: var(--color-bg-primary);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.outerContainer {
 		overflow-y: auto;
 	}
@@ -41,7 +41,7 @@
 	margin-left: 0;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: var(--breakpoint-desktop)) {
 	.viewLayoutContainer {
 		width: 100%;
 		margin: 0;
@@ -49,7 +49,7 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.viewLayoutContainer {
 		width: 100%;
 		margin: 0;

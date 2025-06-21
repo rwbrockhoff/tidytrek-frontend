@@ -9,7 +9,7 @@
 	padding-top: 5vh;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile)) {
 	.guestViewContainer {
 		padding: 2em 1em;
 	}
