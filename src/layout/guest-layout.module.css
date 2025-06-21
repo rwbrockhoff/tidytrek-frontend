@@ -11,7 +11,7 @@
 
 @media (max-width: var(--breakpoint-mobile)) {
 	.guestViewContainer {
-		padding: 2em 1em;
+		padding: var(--space-xl) var(--space-md);
 	}
 }
 

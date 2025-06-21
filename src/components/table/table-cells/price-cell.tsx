@@ -42,7 +42,7 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 			align="center"
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}
-			style={{ width, padding: '0 1em' }}>
+			style={{ width, padding: '0 var(--space-md)' }}>
 			{userView ? (
 				<TableInput
 					value={isToggled ? inputPrice : formattedPrice}

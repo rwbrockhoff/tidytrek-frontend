@@ -12,7 +12,7 @@
 }
 
 .link svg {
-  margin: 0px 5px;
+  margin: 0 var(--space-min);
 }
 
 .displayLink {
@@ -21,7 +21,7 @@
 }
 
 .displayLink svg {
-  margin-right: 0.25em;
+  margin-right: var(--space-min);
 }
 
 .displayLink span {

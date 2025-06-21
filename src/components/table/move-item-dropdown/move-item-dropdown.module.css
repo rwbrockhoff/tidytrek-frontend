@@ -3,7 +3,7 @@
 }
 
 .tableRow button {
-	margin: 0 0.5em;
+	margin: 0 var(--space-xs);
 }
 
 .tableRow button:not(:last-child) {
@@ -13,6 +13,6 @@
 @media (max-width: var(--breakpoint-mobile)) {
 	.tableRow button {
 		width: 90%;
-		margin: 1em 0em;
+		margin: var(--space-md) 0;
 	}
 }
