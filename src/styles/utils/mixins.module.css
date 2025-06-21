@@ -119,6 +119,14 @@
 	aspect-ratio: 16/9;
 }
 
+.halfWidth {
+	width: 50%;
+}
+
+.responsivePanel {
+	width: 50%;
+}
+
 /* Text utilities */
 .textCenter {
 	text-align: center;
@@ -141,6 +149,15 @@
 }
 .textNoWrap {
 	white-space: nowrap;
+}
+
+.textSm {
+	font-size: var(--font-size-sm);
+}
+
+.textSubtle {
+	font-size: var(--font-size-sm);
+	opacity: 0.7;
 }
 
 /* Spacing utilities using theme variables */
@@ -288,5 +305,9 @@
 	}
 	.mobileMxs {
 		margin: var(--space-xs);
+	}
+
+	.responsivePanel {
+		width: 100%;
 	}
 }
