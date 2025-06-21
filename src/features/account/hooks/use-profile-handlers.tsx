@@ -5,14 +5,14 @@ import { cleanUpLink } from '@/components/ui';
 import { createContext, useContext } from 'react';
 
 type Handlers = {
-	addSocialLink: (service: string, socialLink: string) => void;
+	addSocialLink: (platformName: string, socialLinkUrl: string) => void;
 	deleteSocialLink: (socialLinkId: number | undefined) => void;
 	editProfile: (userInfo: UserInfo) => void;
 	deleteProfilePhoto: () => void;
 };
 
 type Mutations = {
-	addSocialLink: InternalMutation<{ service: string; socialLink: string }>;
+	addSocialLink: InternalMutation<{ platformName: string; socialLinkUrl: string }>;
 	deleteSocialLink: InternalMutation<{ socialLinkId: number | undefined }>;
 	editProfile: InternalMutation<UserInfo>;
 	uploadProfilePhoto: InternalMutation<FormData>;
@@ -27,9 +27,9 @@ const useCreateHandlers = () => {
 
 	const { addSocialLink, deleteSocialLink, editProfile, deleteProfilePhoto } = mutations;
 
-	const handleAddSocialLink = (service: string, socialLink: string) => {
-		const cleanLink = cleanUpLink(socialLink);
-		addSocialLink.mutate({ service, socialLink: cleanLink });
+	const handleAddSocialLink = (platformName: string, socialLinkUrl: string) => {
+		const cleanLink = cleanUpLink(socialLinkUrl);
+		addSocialLink.mutate({ platformName, socialLinkUrl: cleanLink });
 	};
 
 	const handleDeleteSocialLink = (socialLinkId: number | undefined) => {

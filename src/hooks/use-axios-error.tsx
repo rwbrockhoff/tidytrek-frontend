@@ -22,7 +22,7 @@ export const useAxiosErrorStatus = (error: Error | null) => {
 };
 
 export const isAxiosError = (error: unknown): error is AxiosError =>
-	useMemo(() => axios.isAxiosError(error), [error]);
+	axios.isAxiosError(error);
 
 export const useMutationError = (error: unknown, cb: (message: string) => void) => {
 	return useMemo(() => {

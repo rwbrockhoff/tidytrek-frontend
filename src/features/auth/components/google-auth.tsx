@@ -3,7 +3,6 @@ import { useRef, useEffect } from 'react';
 import supabase from '@/api/supabaseClient';
 import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
-import { useCheckScreen } from '@/hooks';
 import { Flex } from '@radix-ui/themes';
 
 declare const google: any;
@@ -21,7 +20,6 @@ const googlePublicId =
 export const GoogleAuth = (props: GoogleAuthProps) => {
 	const navigate = useNavigate();
 	const google_button = useRef(null);
-	const { isMobile } = useCheckScreen();
 	const { context, updateServerError } = props;
 
 	const {
@@ -62,9 +60,8 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 			});
 			google.accounts.id.renderButton(google_button.current, {
 				text: 'continue_with',
-				width: isMobile ? 300 : 400,
 				logo_alignment: 'center',
-				size: 'medium',
+				size: 'large',
 			});
 		}
 	}, [google_button.current]);
@@ -101,7 +98,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	};
 
 	return (
-		<Flex justify="center" width="100%" height="8">
+		<Flex justify="center" width="100%" height="8" mb="4">
 			<div ref={google_button} />
 		</Flex>
 	);

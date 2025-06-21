@@ -2,9 +2,10 @@ import { type InputEvent } from '@/types/form-types';
 import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/themes';
 import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
-import socialMediaUI from '@/styles/theme/social-media-ui';
+import socialMediaUI from '@/constants/social-media-ui';
 import { useHandlers } from '../../hooks/use-profile-handlers';
 import { PlusIcon } from '@/components/ui';
+import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
 export const AddLink = () => {
 	const { addSocialLink } = useHandlers().handlers;
@@ -26,13 +27,8 @@ export const AddLink = () => {
 	};
 
 	const handleUpdateService = (value: string) => {
-		// update social service icon based on URL
-		const [socialService] = Object.keys(socialMediaUI).filter((social) =>
-			value.includes(social),
-		);
-		if (socialService === service) return;
-		if (socialService && socialService !== service) return setService(socialService);
-		if (service !== 'custom') setService('custom');
+		const detectedPlatform = detectPlatformFromUrl(value);
+		if (detectedPlatform !== service) setService(detectedPlatform);
 	};
 
 	const handleInput = (e: InputEvent) => {
@@ -77,7 +73,12 @@ export const AddLink = () => {
 					value={socialLink}
 					onChange={handleInput}
 				/>
-				<Button size="3" disabled={!socialLink || isPending} onClick={handleAddLink}>
+				<Button
+					size="3"
+					color="gray"
+					variant="outline"
+					disabled={!socialLink || isPending}
+					onClick={handleAddLink}>
 					<PlusIcon />
 					Add Link
 				</Button>

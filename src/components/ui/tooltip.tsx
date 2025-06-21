@@ -1,14 +1,14 @@
 import { Flex, HoverCard, Text } from '@radix-ui/themes';
 import { InfoIcon, TreeIcon } from './icons';
-import styled from 'styled-components';
+import styles from './tooltip.module.css';
 
 export const Tooltip = ({ content }: { content: string }) => {
 	return (
 		<HoverCard.Root>
 			<HoverCard.Trigger>
-				<StyledSpan>
+				<span className={styles.tooltipSpan}>
 					<InfoIcon />
-				</StyledSpan>
+				</span>
 			</HoverCard.Trigger>
 			<HoverCard.Content style={{ maxWidth: 300 }} side="top">
 				<Flex align="center">
@@ -20,10 +20,3 @@ export const Tooltip = ({ content }: { content: string }) => {
 	);
 };
 
-const StyledSpan = styled.span`
-	height: 50%;
-	svg {
-		color: var(--gray-8);
-		margin-left: 0.5em;
-	}
-`;

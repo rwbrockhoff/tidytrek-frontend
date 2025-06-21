@@ -1,37 +1,4 @@
-:root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-	/* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #f0f0f0;
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale; */
-	--spinner-outer-bg-color: #f3f3f3;
-	--spinner-inner-bg-color: #949494;
-	--hover-dark-2: brightness(80%);
-	--hover-dark-1: brightness(95%);
-	--hover-light-1: brightness(105%);
-	--hover-light-2: brightness(120%);
-	--hover-light-3: brightness(150%);
-	--max-width: 1280px;
-}
-
-.radix-themes {
-	height: 100%;
-}
-
-.rt-TextAreaInput {
-	border: var(--text-area-border-width) solid var(--slate-6);
-}
-
-/* .rt-TableRoot:where(.rt-r-size-1) {
-	--table-cell-padding: var(--space-1);
-} */
-
+/* Global HTML/body layout */
 html,
 body,
 body > div#root {
@@ -39,24 +6,39 @@ body > div#root {
 	margin: 0;
 }
 
-input[data-invalid='true'] {
-	border: 1px solid var(--tomato-8);
-	background-color: var(--tomato-1);
-}
-
-button {
+/* Global element styling */
+button,
+.rt-Button {
 	cursor: pointer;
 }
 
-a {
+a,
+a:visited {
 	cursor: pointer;
 	text-decoration: none;
-	color: var(--cyan-9);
+	color: var(--color-primary);
 	&:hover {
-		filter: var(--hover-dark-1);
+		filter: var(--brightness-dark-1);
 	}
 }
 
+/* Global text elements */
+p,
+li,
+span {
+	color: var(--color-text-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--color-text-primary);
+}
+
+/* Reset heading margins for last child elements */
 h1:last-child,
 h2:last-child,
 h3:last-child,
@@ -65,19 +47,3 @@ h5:last-child {
 	margin-bottom: revert;
 	margin-top: revert;
 }
-
-/* Override deeply nested inline styles from Radix  */
-.rt-ScrollAreaRoot {
-	overflow: visible;
-}
-div.rt-ScrollAreaViewport {
-	overflow: visible !important;
-}
-
-.rt-TableRoot {
-	overflow: visible !important;
-}
-.rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
-	overflow: visible !important;
-}
-/* Override deeply nested inline styles from Radix  */

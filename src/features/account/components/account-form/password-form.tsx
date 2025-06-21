@@ -2,7 +2,7 @@ import { useRef, type FormEvent } from 'react';
 import { FormSection } from '../../types/account-types';
 import { InputEvent, TextAreaEvent, type PasswordInfo } from '@/types/form-types';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './password-form.module.css';
 import { Flex, Heading, Button, Text } from '@radix-ui/themes';
 import {
 	Form,
@@ -194,25 +194,18 @@ export const PasswordForm = (props: PasswordFormProps) => {
 
 					{formSuccess && <Message messageType="success" text={successMessage} />}
 
-					<ButtonContainer justify="end" gap="3">
+					<Flex justify="end" gap="3" className={styles.buttonContainer}>
 						<Button variant="outline" color="gray" onClick={handleCloseForm}>
 							{formSuccess ? 'Close' : 'Cancel'}
 						</Button>
 						<Button type="submit">Save Password</Button>
-					</ButtonContainer>
+					</Flex>
 				</Form>
 			)}
 		</>
 	);
 };
 
-const ButtonContainer = styled(Flex)`
-	${({ theme: t }) =>
-		t.mx.mobile(`
-		width: 100%;
-		margin-top: 2em;
-	`)}
-`;
 
 // schemas
 const changePasswordSchema = z

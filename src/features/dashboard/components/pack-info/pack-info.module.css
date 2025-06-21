@@ -1,0 +1,52 @@
+.packInfoContainer {
+	width: 100%;
+	color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+	.packInfoContainer {
+		width: 95%;
+		height: fit-content;
+		flex-direction: column;
+		margin-top: 3vh;
+		margin-bottom: 0;
+	}
+}
+
+.userInfoPanel:hover .editIcon {
+	opacity: 1;
+}
+
+.descriptionText {
+	display: flex;
+	max-width: 60ch;
+}
+
+.editIcon {
+	font-size: var(--font-size-lg);
+	margin-left: var(--space-xs);
+	cursor: pointer;
+	opacity: 0;
+}
+
+.editIcon.hidden {
+	display: none;
+}
+
+@media (max-width: 768px) {
+	.editIcon {
+		opacity: 1;
+	}
+}
+
+.toggleChartButton {
+	width: 100%;
+	display: none;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.toggleChartButton {
+		display: flex;
+	}
+}

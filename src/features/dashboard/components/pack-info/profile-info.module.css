@@ -1,0 +1,8 @@
+.usernameHeader {
+	margin: 0;
+}
+
+.usernameHeader .trailName {
+	color: var(--color-text-primary);
+	margin-left: var(--space-xs);
+}

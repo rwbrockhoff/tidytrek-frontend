@@ -1,6 +1,7 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './pack-category.module.css';
+import { cn } from '@/styles/utils';
 import { Draggable } from 'react-beautiful-dnd';
 import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -49,10 +50,10 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
-				<TableContainer
+				<div
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					$isMinimized={isMinimized}>
+					className={cn(styles.tableContainer, isMinimized && styles.minimized)}>
 					<Table>
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}
@@ -69,6 +70,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										key={item.packItemId}
 										index={index}
 										packList={packList}
+										disabled={!userView}
 										moveToCloset={moveItemToCloset}
 										handleOnSave={editPackItem}
 										handleDelete={deleteItem}
@@ -78,29 +80,16 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 
 						{!isMinimized && (
 							<TableFooter
+								handleAddItem={handleAddItem}
+								showTotals={true}
 								itemQuantity={itemQuantity}
 								weight={convertedCategoryWeight}
 								price={formattedTotalPrice}
-								handleAddItem={handleAddItem}
 							/>
 						)}
 					</Table>
-				</TableContainer>
+				</div>
 			)}
 		</Draggable>
 	);
 };
-
-const TableContainer = styled.div<{ $isMinimized: boolean }>`
-	width: 100%;
-	text-align: center;
-	margin-bottom: 3em;
-	display: flex;
-
-	${({ $isMinimized }) =>
-		({ theme: t }) =>
-			t.mx.mobile(`
-		height: fit-content;
-		margin-bottom: ${$isMinimized ? '0px' : '75px'};
-	`)}
-`;

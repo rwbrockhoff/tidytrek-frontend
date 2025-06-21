@@ -3,7 +3,7 @@ import { Link } from '@/components/ui/Link';
 
 export const ProfileBanner = () => {
 	return (
-		<Flex align="center">
+		<Flex align="center" mb="4">
 			<Link link="/">
 				<Heading as="h2" ml="6">
 					tidytrek

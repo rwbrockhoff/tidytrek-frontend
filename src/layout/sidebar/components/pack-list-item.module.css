@@ -1,0 +1,47 @@
+.itemContainer {
+	padding: var(--space-min) 0;
+	cursor: pointer;
+}
+
+.itemContainer:hover svg {
+	opacity: 0.6;
+}
+
+.styledText {
+	position: relative;
+	opacity: 1;
+}
+
+.styledText svg {
+	opacity: 0;
+}
+
+.styledText svg:hover {
+	opacity: 0.6;
+}
+
+.styledText:hover {
+	filter: var(--hover-dark-2);
+}
+
+@media (max-width: 768px) {
+	.styledText {
+		font-size: var(--font-size-xl);
+	}
+}
+
+.gripContainer {
+	position: absolute;
+	left: calc(-1 * var(--space-lg));
+	cursor: grab;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	top: 0;
+	padding-right: var(--space-xs);
+}
+
+.gripContainer svg {
+	width: 0.8rem;
+	height: 0.8rem;
+}

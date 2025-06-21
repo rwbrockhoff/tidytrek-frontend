@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styles from './create-pack-menu.module.css';
 import { PlusIcon, ImportIcon } from '@/components/ui';
 import { useAddNewPackMutation } from '@/queries/pack-queries';
 import { Button, Flex, Popover, Text } from '@radix-ui/themes';
@@ -32,10 +32,10 @@ export const CreatePackMenu = () => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
-				<NewPackButton variant="ghost">
+				<Button variant="ghost" color="gray" className={styles.newPackButton}>
 					<PlusIcon />
 					Create New Pack
-				</NewPackButton>
+				</Button>
 			</Popover.Trigger>
 			<Popover.Content>
 				<StyledMenu>
@@ -62,17 +62,3 @@ export const CreatePackMenu = () => {
 		</Popover.Root>
 	);
 };
-
-const NewPackButton = styled(Button)`
-	background: transparent;
-	color: white;
-	cursor: pointer;
-	&:hover {
-		filter: var(--hover-dark-2);
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-				font-size: 1em;
-				margin-top: 1em;
-		`)}
-`;

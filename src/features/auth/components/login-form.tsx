@@ -1,9 +1,9 @@
-import { useRef, type FormEvent } from 'react';
+import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
 import { Segment, Message } from '@/components/ui';
-import { Heading, Button, Text, Flex, TextField } from '@radix-ui/themes';
+import { Heading, Button, Text, Flex, TextField, Box } from '@radix-ui/themes';
 import { FormContainer } from './form-components';
 import { GoogleAuth } from './google-auth';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
@@ -40,15 +40,19 @@ export const LogInForm = (props: FormProps) => {
 		if (serverError.error) resetFormErrors();
 	};
 
-	if (isRegisterSuccess) formRef?.current?.reset();
+	useEffect(() => {
+		if (isRegisterSuccess) {
+			formRef?.current?.reset();
+		}
+	}, [isRegisterSuccess]);
 
 	return (
 		<FormContainer>
-			<Heading as="h1" mb="4">
+			<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
 				tidytrek
 			</Heading>
-			<Segment $radius="2">
-				<Heading as="h3" size="6" color="jade" mb="4">
+			<Segment radius="2">
+				<Heading as="h3" size="7" color="jade" mb="6">
 					{isRegisterForm ? 'Create your account' : 'Log in to your account'}
 				</Heading>
 
@@ -59,128 +63,131 @@ export const LogInForm = (props: FormProps) => {
 
 				<Text>or</Text>
 
-				<Form ref={formRef} onSubmit={handleFormSubmit}>
-					{isRegisterForm && (
-						<>
-							<FormField name="firstName">
-								<FormControl asChild>
-									<TextField.Input
-										placeholder="First Name"
-										onChange={handleClearErrors}
-										radius="small"
-										my="4"
-										size="3"
-										data-invalid={formErrors.firstName.error}
-										data-testid="first-name-input"
-									/>
-								</FormControl>
-								{formErrors.firstName.error && (
-									<FormMessage>
-										<Text mb="8" color="tomato" weight="light">
-											{formErrors.firstName.message}
-										</Text>
-									</FormMessage>
-								)}
-							</FormField>
-							<FormField name="lastName">
-								<FormControl asChild>
-									<TextField.Input
-										placeholder="Last Name"
-										onChange={handleClearErrors}
-										radius="small"
-										my="4"
-										size="3"
-										data-invalid={formErrors.lastName.error}
-										data-testid="last-name-input"
-									/>
-								</FormControl>
-								{formErrors.lastName.error && (
-									<FormMessage>
-										<Text mb="8" color="tomato" weight="light">
-											{formErrors.lastName.message}
-										</Text>
-									</FormMessage>
-								)}
-							</FormField>
-						</>
-					)}
-
-					<FormField name="email">
-						<FormControl asChild>
-							<TextField.Input
-								placeholder="Email"
-								onChange={handleClearErrors}
-								radius="small"
-								my="4"
-								size="3"
-								data-invalid={formErrors.email.error}
-								data-testid="email-input"
-							/>
-						</FormControl>
-						{formErrors.email.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.email.message}
-								</Text>
-							</FormMessage>
+				<Box px="4">
+					<Form ref={formRef} onSubmit={handleFormSubmit}>
+						{isRegisterForm && (
+							<>
+								<FormField name="firstName">
+									<FormControl asChild>
+										<TextField.Input
+											placeholder="First Name"
+											onChange={handleClearErrors}
+											radius="small"
+											my="4"
+											size="3"
+											data-invalid={formErrors.firstName.error}
+											data-testid="first-name-input"
+										/>
+									</FormControl>
+									{formErrors.firstName.error && (
+										<FormMessage>
+											<Text mb="8" color="tomato" weight="light">
+												{formErrors.firstName.message}
+											</Text>
+										</FormMessage>
+									)}
+								</FormField>
+								<FormField name="lastName">
+									<FormControl asChild>
+										<TextField.Input
+											placeholder="Last Name"
+											onChange={handleClearErrors}
+											radius="small"
+											my="4"
+											size="3"
+											data-invalid={formErrors.lastName.error}
+											data-testid="last-name-input"
+										/>
+									</FormControl>
+									{formErrors.lastName.error && (
+										<FormMessage>
+											<Text mb="8" color="tomato" weight="light">
+												{formErrors.lastName.message}
+											</Text>
+										</FormMessage>
+									)}
+								</FormField>
+							</>
 						)}
-					</FormField>
 
-					<FormField name="password">
-						<FormControl asChild>
-							<TextField.Input
-								data-invalid={formErrors.password.error}
-								onChange={handleClearErrors}
-								radius="small"
-								my="4"
-								size="3"
-								type="password"
-								placeholder="Password"
+						<FormField name="email">
+							<FormControl asChild>
+								<TextField.Input
+									placeholder="Email"
+									onChange={handleClearErrors}
+									radius="small"
+									my="4"
+									size="3"
+									data-invalid={formErrors.email.error}
+									data-testid="email-input"
+									style={{ boxSizing: 'border-box' }}
+								/>
+							</FormControl>
+							{formErrors.email.error && (
+								<FormMessage>
+									<Text mb="8" color="tomato" weight="light">
+										{formErrors.email.message}
+									</Text>
+								</FormMessage>
+							)}
+						</FormField>
+
+						<FormField name="password">
+							<FormControl asChild>
+								<TextField.Input
+									data-invalid={formErrors.password.error}
+									onChange={handleClearErrors}
+									radius="small"
+									my="4"
+									size="3"
+									type="password"
+									placeholder="Password"
+								/>
+							</FormControl>
+							{formErrors.password.error && (
+								<FormMessage>
+									<Text
+										mb="8"
+										color="tomato"
+										weight="light"
+										aria-label="error warning"
+										role="alert"
+										aria-invalid={formErrors.password.error ? 'true' : 'false'}
+										aria-errormessage={
+											formErrors.password.error ? formErrors.password.message : ''
+										}
+										data-testid="auth-message-error">
+										{formErrors.password.message}
+									</Text>
+								</FormMessage>
+							)}
+						</FormField>
+
+						{serverError.error && (
+							<Message
+								messageType="error"
+								text={serverError.message || 'Oops! There was an error.'}
+								id="auth-message"
 							/>
-						</FormControl>
-						{formErrors.password.error && (
-							<FormMessage>
-								<Text
-									mb="8"
-									color="tomato"
-									weight="light"
-									aria-label="error warning"
-									role="alert"
-									aria-invalid={formErrors.password.error ? 'true' : 'false'}
-									aria-errormessage={
-										formErrors.password.error ? formErrors.password.message : ''
-									}
-									data-testid="auth-message-error">
-									{formErrors.password.message}
-								</Text>
-							</FormMessage>
 						)}
-					</FormField>
 
-					{serverError.error && (
-						<Message
-							messageType="error"
-							text={serverError.message || 'Oops! There was an error.'}
-							id="auth-message"
-						/>
-					)}
-
-					{isRegisterSuccess && (
-						<Message
-							messageType="success"
-							text="Check your email for a link to sign in."
-							id="auth-message"
-						/>
-					)}
-					<Button
-						type="submit"
-						style={{ width: '100%' }}
-						size="3"
-						my="4"
-						disabled={isLoading}>
-						{isRegisterForm ? 'Create account' : 'Login'}
-					</Button>
-				</Form>
+						{isRegisterSuccess && (
+							<Message
+								messageType="success"
+								text="Check your email for a link to sign in."
+								id="auth-message"
+							/>
+						)}
+						<Button
+							type="submit"
+							style={{ width: '100%' }}
+							size="3"
+							my="4"
+							disabled={isLoading}>
+							{isRegisterForm ? 'Create account' : 'Login'}
+						</Button>
+					</Form>
+				</Box>
 
 				{isRegisterForm && (
 					<Flex direction="column">

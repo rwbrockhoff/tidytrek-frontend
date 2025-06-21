@@ -1,0 +1,12 @@
+.confirmationContainer {
+	width: 40%;
+	margin: var(--space-xl) 0;
+}
+
+.confirmationContainer button {
+	cursor: pointer;
+}
+
+.styledHeading svg {
+	margin-right: var(--space-xs);
+}

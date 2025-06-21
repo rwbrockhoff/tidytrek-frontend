@@ -1,0 +1,32 @@
+.sidebarButton {
+	opacity: 0.4;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.sidebarButton svg {
+	color: var(--color-text-secondary);
+}
+
+button.sidebarButton:not(.isSidebar) {
+	position: absolute;
+	top: var(--space-xl);
+	left: var(--space-xxl);
+	z-index: 10;
+	margin-top: var(--space-xxl);
+	margin-left: var(--space-xxs);
+	transform: translateY(-50%);
+}
+
+button.sidebarButton:hover {
+	filter: var(--brightness-dark-1);
+}
+
+.sidebarButton.isSidebar {
+	color: var(--gray-300);
+	opacity: 0.8;
+	padding: var(--space-sm);
+	min-width: 32px;
+	min-height: 32px;
+	margin: 0;
+}

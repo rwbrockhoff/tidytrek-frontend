@@ -1,9 +1,9 @@
 import { Link as RouterLink } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 import { FaLink } from 'react-icons/fa';
 import { Icon } from '@/components/ui';
-import { themeColor } from '@/styles/mixins';
 import { Text } from '@radix-ui/themes';
+import { cn } from '@/styles/utils';
+import styles from './link.module.css';
 
 type LinkProps = {
 	link: string | undefined;
@@ -17,39 +17,28 @@ export const Link = (props: LinkProps) => {
 	const { link, externalLink, enabled = true, className = '', children } = props;
 
 	if (!enabled || !link) return children;
+
 	if (externalLink) {
 		return (
-			<StyledLink
+			<RouterLink
 				to={link}
 				target="_blank"
 				rel="noopener noreferrer"
-				className={className}>
+				className={cn(styles.link, className)}>
 				{children}
-			</StyledLink>
+			</RouterLink>
 		);
 	} else {
 		return (
-			<StyledLink to={link} className={className} onClick={() => window.scrollTo(0, 0)}>
+			<RouterLink
+				to={link}
+				className={cn(styles.link, className)}
+				onClick={() => window.scrollTo(0, 0)}>
 				{children}
-			</StyledLink>
+			</RouterLink>
 		);
 	}
 };
-
-const StyledLink = styled(RouterLink)`
-	display: flex;
-	align-items: center;
-	height: 100%;
-	color: var(--jade-10);
-
-	&:hover {
-		color: var(--jade-10);
-		filter: var(--hover-dark-1);
-	}
-	svg {
-		margin: 0px 5px;
-	}
-`;
 
 type DisplayLinkProps = {
 	url: string;
@@ -62,11 +51,12 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 	const { url, text, showIcon = false, margin } = props;
 	if (url) {
 		return (
-			<StyledBasicLink
+			<a
 				href={url}
-				$margin={margin}
+				className={styles.displayLink}
 				target="_blank"
-				rel="noopener noreferrer">
+				rel="noopener noreferrer"
+				style={{ margin }}>
 				<Text style={{ display: 'inline-flex' }}>
 					{showIcon && (
 						<Icon>
@@ -75,32 +65,12 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 					)}
 					{text}
 				</Text>
-			</StyledBasicLink>
+			</a>
 		);
 	} else {
 		return <p>{text}</p>;
 	}
 };
-
-const StyledBasicLink = styled.a<{ $margin?: string }>`
-	display: flex;
-	align-items: center;
-
-	svg {
-		margin-right: 0.25em;
-	}
-	span {
-		${themeColor('primary')}
-		${({ $margin }) =>
-			$margin &&
-			css`
-				margin: ${$margin};
-			`}
-	}
-	&:hover {
-		filter: var(--hover-dark-2);
-	}
-`;
 
 export const cleanUpLink = (link: string) => {
 	if (!link) return '';

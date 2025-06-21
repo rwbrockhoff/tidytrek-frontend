@@ -1,27 +1,29 @@
 import { Badge, Button, Table } from '@radix-ui/themes';
 import { PlusIcon } from '../ui';
-import styled from 'styled-components';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
+import styles from './table-footer.module.css';
 
 type TableFooterProps = {
-	itemQuantity: number;
-	weight: number;
-	price: string | number;
 	handleAddItem: () => void;
+	showTotals?: boolean;
+	itemQuantity?: number;
+	weight?: number;
+	price?: string | number;
 };
 
 export const TableFooter = ({
-	itemQuantity,
-	weight,
-	price,
 	handleAddItem,
+	showTotals = false,
+	itemQuantity = 0,
+	weight = 0,
+	price = 0,
 }: TableFooterProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
-	const hasItems = itemQuantity > 0;
+	const hasItems = showTotals && itemQuantity > 0;
 
 	return (
-		<StyledFooter>
+		<tfoot className={styles.footer}>
 			<Table.Row>
 				<Table.Cell colSpan={hasItems ? 3 : 6}>
 					{userView && (
@@ -29,7 +31,7 @@ export const TableFooter = ({
 							variant="outline"
 							color="gray"
 							size="1"
-							ml="4"
+							ml="2"
 							onClick={handleAddItem}>
 							<PlusIcon />
 							Add Item
@@ -39,37 +41,19 @@ export const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<StyledCell style={{ textAlign: 'center' }}>
+						<Table.Cell className={styles.summaryCell}>
 							<Badge color="gray" highContrast>
 								x{itemQuantity}
 							</Badge>
-						</StyledCell>
-						<StyledCell style={{ textAlign: 'center' }}>{`${weight} lbs`}</StyledCell>
-						{showPrices && <StyledCell>{price}</StyledCell>}
+						</Table.Cell>
+						<Table.Cell className={styles.summaryCell}>{`${weight} lbs`}</Table.Cell>
+						{showPrices && (
+							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
+						)}
 					</>
 				)}
 				{userView && <Table.Cell></Table.Cell>}
 			</Table.Row>
-		</StyledFooter>
+		</tfoot>
 	);
 };
-
-export const StyledFooter = styled.tfoot`
-	background-color: ${({ theme: t }) => t.tidy.tidyLightGrey};
-	font-size: 0.9em;
-	color: grey;
-	vertical-align: top;
-	td {
-		box-shadow: none;
-	}
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			font-size: 1.1em;
-			display: flex;
-		`)}
-`;
-
-const StyledCell = styled(Table.Cell)`
-	text-align: center;
-	font-size: 1em;
-`;

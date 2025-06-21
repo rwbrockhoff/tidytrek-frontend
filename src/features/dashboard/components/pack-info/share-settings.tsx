@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './share-settings.module.css';
 import {
 	CheckIcon,
 	PrivateIcon,
@@ -30,25 +30,25 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 	if (packPublic) {
 		return (
 			<Flex align="start">
-				<LightText>
+				<p className={styles.lightText}>
 					<PublicIcon /> Public
-				</LightText>
+				</p>
 				<Popover.Root
 					onOpenChange={handleReset}
 					// onClose={handleReset}
 				>
 					<Popover.Trigger>
-						<ShareText>
+						<p className={styles.shareText}>
 							<ShareLinkIcon />
 							Share Pack
-						</ShareText>
+						</p>
 					</Popover.Trigger>
 					<Popover.Content side="top" sideOffset={0}>
 						<Heading as="h4" size="4" mb="2">
 							Share Your Pack
 						</Heading>
 
-						<Flex>
+						<Flex gap="2">
 							<TextFieldInput value={packLink} readOnly />
 
 							<Button onClick={handleCopyToClipboard}>
@@ -71,26 +71,9 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 		);
 	} else {
 		return (
-			<LightText>
+			<p className={styles.lightText}>
 				<PrivateIcon /> Private
-			</LightText>
+			</p>
 		);
 	}
 };
-
-const LightText = styled.p`
-	color: var(--gray-9);
-	display: flex;
-	align-items: center;
-	svg {
-		margin-right: 0.5em;
-	}
-`;
-
-const ShareText = styled(LightText)`
-	margin-left: 1em;
-	cursor: pointer;
-	&:hover {
-		${({ theme: t }) => t.mx.themeColor('primary')}
-	}
-`;

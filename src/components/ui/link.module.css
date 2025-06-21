@@ -1,0 +1,33 @@
+.link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: var(--color-primary);
+  transition: color var(--transition), filter var(--transition);
+}
+
+.link:hover {
+  color: var(--color-primary-hover);
+  filter: brightness(90%);
+}
+
+.link svg {
+  margin: 0px 5px;
+}
+
+.displayLink {
+  display: flex;
+  align-items: center;
+}
+
+.displayLink svg {
+  margin-right: 0.25em;
+}
+
+.displayLink span {
+  color: var(--color-primary);
+}
+
+.displayLink:hover {
+  filter: brightness(85%);
+}

@@ -1,0 +1,43 @@
+.header {
+	vertical-align: middle;
+}
+
+.header :global(svg) {
+	opacity: 0;
+	transition: opacity var(--transition);
+	width: 0.75rem;
+	height: 0.75rem;
+}
+
+.header:hover :global(svg) {
+	opacity: 1;
+}
+
+.header :global(th) {
+	height: 55px;
+	box-shadow: none;
+	border-bottom: 1px solid var(--color-border-primary);
+}
+
+.tableRow {
+	transition: opacity 250ms ease;
+}
+
+.tableRow.minimized {
+	opacity: 0.5;
+}
+
+.tableRow.normal {
+	opacity: 1;
+}
+
+.headerCell {
+	vertical-align: middle;
+	color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+	.tableRow.minimized {
+		opacity: 1;
+	}
+}

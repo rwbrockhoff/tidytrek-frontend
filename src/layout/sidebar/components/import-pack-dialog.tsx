@@ -7,7 +7,7 @@ import { Spinner } from '@/components/ui';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
 import { clearZodErrors, useAxiosErrorMessage, useZodError } from '@/hooks';
-import styled from 'styled-components';
+import styles from './import-pack-dialog.module.css';
 
 const importPackUrlSchema = z
 	.object({
@@ -69,6 +69,10 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 	};
 
 	const serverErrorMessage = useAxiosErrorMessage(importError);
+
+	// Ensure valid link
+	const invalidLink = !packUrl.length || !packUrl.includes('lighterpack');
+
 	return (
 		<Dialog.Root onOpenChange={handleClearDialog}>
 			<Dialog.Trigger>{children}</Dialog.Trigger>
@@ -76,7 +80,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 			<Dialog.Content style={{ maxWidth: 450 }}>
 				<Dialog.Title>Import Pack</Dialog.Title>
 				<Dialog.Description size="2" mb="4">
-					You can import a shareable pack link from Lighterpack below.
+					You can import a shareable pack link from Lighterpack below:
 				</Dialog.Description>
 				<Form onSubmit={handleSubmit}>
 					<Flex direction="column">
@@ -98,12 +102,13 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 					<Flex gap="3" mt="6" justify="end">
 						<Dialog.Close>
-							<Button variant="soft" color="gray">
-								{isSuccessImport ? 'Close' : 'Cancel'}
-							</Button>
+							<Button color="gray">{isSuccessImport ? 'Close' : 'Cancel'}</Button>
 						</Dialog.Close>
 
-						<StyledImportButton type="submit" disabled={isPendingImport}>
+						<Button
+							type="submit"
+							disabled={isPendingImport || invalidLink}
+							className={styles.importButton}>
 							{isPendingImport ? (
 								<Spinner active size="1" />
 							) : (
@@ -111,15 +116,10 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 									<BackpackIcon /> Import Pack
 								</>
 							)}
-						</StyledImportButton>
+						</Button>
 					</Flex>
 				</Form>
 			</Dialog.Content>
 		</Dialog.Root>
 	);
 };
-
-const StyledImportButton = styled(Button)`
-	background-color: var(--jade-9);
-	min-width: 100px;
-`;

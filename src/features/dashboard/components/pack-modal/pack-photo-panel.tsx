@@ -4,7 +4,7 @@ import {
 	useUploadPackPhotoMutation,
 } from '@/queries/pack-queries';
 import { Flex, Text } from '@radix-ui/themes';
-import styled from 'styled-components';
+import styles from './pack-photo-panel.module.css';
 
 type PackPhotoPanel = {
 	packPhotoUrl: string;
@@ -27,7 +27,7 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 
 	const photoPending = isPendingUpload || isPendingDelete;
 	return (
-		<RightPanel direction="column">
+		<Flex direction="column" className={styles.rightPanel}>
 			<Text size="2" weight="bold" color="gray">
 				Pack Photo
 			</Text>
@@ -42,14 +42,7 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 				onUpload={handleUploadPhoto}
 				onDelete={handleDeletePhoto}
 			/>
-		</RightPanel>
+		</Flex>
 	);
 };
 
-const RightPanel = styled(Flex)`
-	width: 45%;
-	position: absolute;
-	z-index: 1;
-	right: 1em;
-	top: 1em;
-`;

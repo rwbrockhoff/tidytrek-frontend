@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './profile-header.module.css';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
@@ -36,7 +36,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
 	return (
-		<Box position="relative" mt={userView ? '8' : '4'}>
+		<Box position="relative" mt={userView ? '9' : '4'}>
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}
@@ -44,7 +44,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				onUpload={uploadBannerPhoto}
 			/>
 
-			<AvatarContainer>
+			<div className={styles.avatarContainer}>
 				<Avatar
 					withBorder
 					uploadEnabled={userView}
@@ -53,19 +53,19 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					isPending={isPendingProfilePhoto}
 					onUpload={uploadProfilePhoto}
 				/>
-			</AvatarContainer>
-			<ProfileInfoContainer>
-				<ProfileTextContainer direction="column" justify="center">
-					<UsernameHeader as="h3">
+			</div>
+			<div className={styles.profileInfoContainer}>
+				<div className={styles.profileTextContainer}>
+					<Heading as="h3" className={styles.usernameHeader}>
 						{username || firstName || 'Tidy Hiker'}
-						{trailName && <span className="trailName">{trailName}</span>}
-					</UsernameHeader>
+						{trailName && <span className={styles.trailName}>{trailName}</span>}
+					</Heading>
 
 					<Flex align="center" wrap="wrap">
 						{userLocation && (
-							<LocationText mr="4">
+							<Text mr="4" className={styles.locationText}>
 								<LocationIcon /> {userLocation}
-							</LocationText>
+							</Text>
 						)}
 
 						{hasSocialLinks && (
@@ -78,62 +78,9 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					</Flex>
 
 					<Text mt="0">{userBio}</Text>
-				</ProfileTextContainer>
-			</ProfileInfoContainer>
+				</div>
+			</div>
 		</Box>
 	);
 };
 
-const AvatarContainer = styled.div`
-	width: fit-content;
-	position: absolute;
-	top: 200px;
-	left: 50px;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			top: 175px;
-			left: calc(50% - 75px);
-	`)}
-`;
-
-const ProfileInfoContainer = styled.div`
-	min-height: 175px;
-	height: fit-content;
-	padding: 25px 0px;
-	background-color: #e8e8e8;
-	border-bottom-left-radius: 25px;
-	border-bottom-right-radius: 25px;
-`;
-
-const ProfileTextContainer = styled(Flex)`
-	height: 100%;
-	width: 50%;
-	margin-left: 250px;
-
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			margin: 0px 20px;
-			margin-top: 75px;
-			width: 90%;
-			justify-content: flex-start;
-	`)}
-`;
-
-const LocationText = styled(Text)`
-	white-space: nowrap;
-	display: inline-flex;
-	align-items: center;
-
-	svg {
-		margin-right: 0.25em;
-		color: var(--gray-9);
-	}
-`;
-
-const UsernameHeader = styled(Heading)`
-	margin-bottom: 0.25em;
-	span.trailName {
-		color: var(--gray-10);
-		margin-left: 0.5em;
-	}
-`;

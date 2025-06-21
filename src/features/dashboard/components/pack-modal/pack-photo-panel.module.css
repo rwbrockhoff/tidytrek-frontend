@@ -1,0 +1,7 @@
+.rightPanel {
+	width: 45%;
+	position: absolute;
+	z-index: 1;
+	right: var(--space-md);
+	top: var(--space-md);
+}

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styles from './table-row.module.css';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { type PackItem, type PackListItem, PackItemProperty } from '@/types/pack-types';
@@ -101,11 +101,11 @@ export const TableRow = (props: TableRowProps) => {
 					<TableRowContext.Provider
 						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
 						<>
-							<Row
+							<Table.Row
 								onMouseOver={() => setToggleRow(true)}
 								onMouseLeave={() => setToggleRow(false)}
 								ref={provided.innerRef}
-								$isDragging={isDragging}
+								className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
 								{...provided.draggableProps}>
 								<ItemNameCell
 									displayIcon={toggleRow}
@@ -118,7 +118,11 @@ export const TableRow = (props: TableRowProps) => {
 									<>
 										<DescriptionCell onToggleOff={handleToggle} />
 
-										<PropertiesCell onClick={handleChangeProperty} display={toggleRow} />
+										<PropertiesCell
+											onClick={handleChangeProperty}
+											isDisabled={!!disabled}
+											display={toggleRow}
+										/>
 
 										<QuantityCell onToggleOff={handleToggle} />
 
@@ -150,7 +154,7 @@ export const TableRow = (props: TableRowProps) => {
 										)}
 									</>
 								)}
-							</Row>
+							</Table.Row>
 							{toggleGearButtons && userView && (
 								<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
 							)}
@@ -163,24 +167,3 @@ export const TableRow = (props: TableRowProps) => {
 		</Draggable>
 	);
 };
-
-const Row = styled(Table.Row)<{ $isDragging: boolean }>`
-	position: relative;
-	border: none;
-	background-color: white;
-	transition:
-		background-color,
-		box-shadow 200ms ease-in-out;
-	td {
-		vertical-align: middle;
-	}
-	td:first-child {
-		overflow: visible;
-	}
-
-	${({ $isDragging }) =>
-		$isDragging &&
-		css`
-			box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.2);
-		`}
-`;

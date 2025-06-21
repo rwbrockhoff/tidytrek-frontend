@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styles from './pack-graphic.module.css';
+import { cn, mixins } from '@/styles/utils';
 import { Category } from '@/types/pack-types';
 import { PackChart } from './pack-chart';
 import { Badge, Flex, Separator, Text } from '@radix-ui/themes';
@@ -33,18 +34,26 @@ export const PackGraphic = (props: PackGraphicProps) => {
 
 	if (packHasWeight) {
 		return (
-			<OuterPanel align="center" $display={display}>
-				<SummaryPanel direction="column" align="end">
-					<ChartList role="list" direction="column">
+			<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
+				<Flex direction="column" align="end" className={styles.summaryPanel}>
+					<Flex role="list" direction="column" className={styles.chartList}>
 						{chartCategoryInfo.map((category) => {
 							return (
-								<ChartItem align="center" key={category.categoryId}>
-									<ThemeIcon $themeColor={category.chartColor} />
-									<StyledText>{category.categoryName || 'Category'} </StyledText>
+								<Flex
+									align="center"
+									key={category.categoryId}
+									className={styles.chartItem}>
+									<CircleIcon
+										className={styles.themeIcon}
+										style={{ color: `var(--${category.chartColor})` }}
+									/>
+									<Text className={styles.styledText}>
+										{category.categoryName || 'Category'}
+									</Text>
 									<Badge color="gray" ml="auto">
 										{category.totalWeight} lbs
 									</Badge>
-								</ChartItem>
+								</Flex>
 							);
 						})}
 
@@ -55,105 +64,25 @@ export const PackGraphic = (props: PackGraphicProps) => {
 							descriptivePackWeight={descriptivePackWeight}
 							totalPackPrice={totalPackPrice}
 						/>
-					</ChartList>
-				</SummaryPanel>
-				<ChartPanel align="center" justify="end">
+					</Flex>
+				</Flex>
+				<Flex align="center" justify="end" className={styles.chartPanel}>
 					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</ChartPanel>
-			</OuterPanel>
+				</Flex>
+			</Flex>
 		);
 	}
 	if (noPackWeight) {
 		return (
-			<GraphicPanel align="center" justify="end">
+			<Flex align="center" justify="end" className={cn(styles.graphicPanel, mixins.mobileHidden)}>
 				<Flex direction="column" height="auto">
 					<img src={CampGraphic} />
-					<GraphicText align="center">
+					<Flex justify="center" align="center">
 						<DownArrowIcon />
-						Add items below to get started
-					</GraphicText>
+						<Text>Add items below to get started</Text>
+					</Flex>
 				</Flex>
-			</GraphicPanel>
+			</Flex>
 		);
 	} else return null;
 };
-
-const OuterPanel = styled(Flex)<{ $display: boolean }>`
-	width: 50%;
-	transition: max-height 350ms ease-in-out;
-	${(props) =>
-		props.theme.mx.mobile(`
-		width: 100%;
-			max-height: ${props.$display ? '150vh' : 0};
-			overflow: hidden;
-			flex-direction: column-reverse;
-			margin-bottom: ${props.$display ? '3em' : 0};
-	`)}
-`;
-
-const ChartPanel = styled(Flex)`
-	width: 50%;
-	margin-left: 25px;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			width: 75vw;
-			margin-left: 0;
-			margin-bottom: 25px;
-			
-	`)}
-`;
-
-const GraphicPanel = styled(Flex)`
-	width: 50%;
-	height: 30vh;
-	img {
-		height: 100%;
-	}
-	${({ theme: t }) => t.mx.mobile(`display:none;`)}
-`;
-
-const GraphicText = styled(Text)`
-	${({ theme }) => theme.mx.flexCenter()}
-	svg {
-		margin-right: 0.5em;
-	}
-`;
-
-const StyledText = styled(Text)`
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 15ch;
-	margin-right: 0.5em;
-`;
-
-const SummaryPanel = styled(Flex)`
-	width: 50%;
-	padding-right: 15px;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			padding-right: 0;
-			align-items: center;
-	`)}
-`;
-
-const ChartList = styled(Flex)`
-	width: fit-content;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-				width: 75vw;
-		`)}
-`;
-const ChartItem = styled(Flex)`
-	height: 2.5em;
-	font-size: 0.9em;
-	p {
-		margin-right: 5px;
-	}
-`;
-
-const ThemeIcon = styled(CircleIcon)<{ $themeColor: string }>`
-	${(props) => props.theme.mx.themeColor(props.$themeColor)};
-	width: 1.5rem;
-	margin-right: 0.25em;
-`;

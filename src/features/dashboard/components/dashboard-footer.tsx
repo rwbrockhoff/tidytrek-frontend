@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styles from './dashboard-footer.module.css';
 import { Separator, Flex, Text } from '@radix-ui/themes';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { HikingIcon } from '@/components/ui';
@@ -10,7 +10,7 @@ type DashboardFooterProps = {
 
 export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps) => {
 	return (
-		<Footer>
+		<footer className={styles.footer}>
 			{affiliate && (
 				<Flex align="center" direction="column">
 					<Text align="center" weight="light" color="gray" size="2">
@@ -22,29 +22,13 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 				</Flex>
 			)}
 			<a href={`${frontendURL}`}>
-				<LogoTag justify="center">
+				<Flex justify="center" className={styles.logoTag}>
 					<Text size="2">
 						tidytrek
 						<HikingIcon /> Made in Durango, CO
 					</Text>
-				</LogoTag>
+				</Flex>
 			</a>
-		</Footer>
+		</footer>
 	);
 };
-
-const Footer = styled.footer`
-	padding: 1em 0vh;
-`;
-
-const LogoTag = styled(Flex)`
-	margin-top: 1em;
-	color: var(--gray-9);
-	font-weight: 500;
-	&:hover {
-		filter: var(--hover-dark-2);
-	}
-	svg {
-		margin: 0 0.5em;
-	}
-`;

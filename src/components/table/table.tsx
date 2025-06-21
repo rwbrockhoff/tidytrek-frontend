@@ -1,69 +1,39 @@
-import styled from 'styled-components';
 import { Table as RadixTable } from '@radix-ui/themes';
 import { usePricingContext, useUserContext } from '@/hooks';
-import React, { useMemo } from 'react';
+import styles from './table.module.css';
 
 export const Table = ({ children }: { children: React.ReactNode }) => {
 	const showPrices = usePricingContext() || false;
 	const isUser = useUserContext();
 
-	const generateWidth = () =>
-		useMemo(() => {
-			let cellWidth = 30;
-			if (showPrices) cellWidth -= 5;
-			if (!isUser) cellWidth += 5;
-			return `${cellWidth}%`;
-		}, [isUser, showPrices]);
+	// Simplified width calculation
+	const getColumnWidths = () => {
+		const baseWidth = isUser ? 25 : 30; // Main columns wider when no actions
+		const adjustedWidth = showPrices ? baseWidth - 3 : baseWidth;
 
-	const mainCellWidth = generateWidth();
+		return {
+			main: `${adjustedWidth}%`,
+			qty: '6%',
+			weight: '12%',
+			price: '10%',
+			actions: '10%',
+		};
+	};
+
+	const widths = getColumnWidths();
 
 	return (
-		<StyledTable variant="surface" size="1">
+		<RadixTable.Root variant="surface" size="1" className={styles.table}>
 			<colgroup>
-				<col width={mainCellWidth} />
-				<col width={mainCellWidth} />
+				<col width={widths.main} />
+				<col width={widths.main} />
 				<col width="12%" />
-				<col width="6%" />
-				<col width="12%" />
-				{showPrices && <col width="10%" />}
-				{isUser && <col width="10%" />}
+				<col width={widths.qty} />
+				<col width={widths.weight} />
+				{showPrices && <col width={widths.price} />}
+				{isUser && <col width={widths.actions} />}
 			</colgroup>
 			{children}
-		</StyledTable>
+		</RadixTable.Root>
 	);
 };
-
-const StyledTable = styled(RadixTable.Root)`
-	table-layout: fixed;
-	border: none;
-	width: 100%;
-	min-width: 100%;
-
-	.rt-TextFieldInput {
-		background-color: white;
-		&:hover {
-			background-color: transparent;
-		}
-	}
-
-	thead.withPrimaryBorder {
-		border-top: 3px solid var(--jade-9);
-	}
-
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			col {
-				width: 100%;
-			}
-			tbody tr {
-				width: 100%;
-				display: flex;
-				flex-direction: column;
-				min-height: 60px;
-				td {
-					height: 60px;
-				}
-			}
-
-		`)}
-`;

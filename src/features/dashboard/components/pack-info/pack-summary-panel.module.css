@@ -1,0 +1,16 @@
+.popupListItem {
+	font-size: var(--font-size-sm);
+	align-items: center;
+	color: var(--color-text-secondary);
+}
+
+.popupListItem p {
+	margin-right: var(--space-xs);
+	text-align: left;
+}
+
+.popupListItem svg {
+	margin-right: var(--space-xs);
+	overflow: visible;
+	color: var(--color-text-secondary);
+}

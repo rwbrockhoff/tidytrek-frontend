@@ -1,11 +1,12 @@
 import { Suspense, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styles from './sidebar.module.css';
 import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, lazyImport } from '@/utils';
 import { SidebarButton } from './components/sidebar-button';
-import { Heading, Separator } from '@radix-ui/themes';
+import { cn } from '@/styles/utils';
+import { Heading, Separator, Flex } from '@radix-ui/themes';
 import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
 import { useGetAuth, useCheckScreen } from '@/hooks';
@@ -55,8 +56,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	}, [currentPackId]);
 
 	useEffect(() => {
-		// toggle sidebar menu for mobile link clicks
-		if (isMobile && !showSidebar) onToggle();
+		// Hide sidebar when navigating on mobile/tablet
+		if ((isMobile || isTablet) && showSidebar) {
+			onToggle();
+		}
 	}, [location.pathname]);
 
 	const handleLogout = async () => {
@@ -67,28 +70,39 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	};
 
 	return (
-		<StyledSidebar $showSidebar={showSidebar}>
-			<SidebarContainer>
-				{(isMobile || isTablet) && <SidebarButton isSidebar={true} onClick={onToggle} />}
-
-				<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
-					<Heading as="h1" mb="1">
-						tidytrek
-					</Heading>
-				</Link>
+		<Flex
+			asChild
+			justify="end"
+			className={cn(
+				styles.sidebar,
+				showSidebar ? styles.sidebarVisible : styles.sidebarHidden
+			)}
+		>
+			<aside>
+				<div className={styles.sidebarContainer}>
+				<div className={styles.sidebarHeader}>
+					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
+						<Heading as="h1" mb="1">
+							tidytrek
+						</Heading>
+					</Link>
+					{showSidebar && <SidebarButton isSidebar={true} onClick={onToggle} />}
+				</div>
 
 				<Suspense fallback={<SidebarFallback />}>
-					<MouseOver>
-						<PopupMenu
-							profilePhotoUrl={user?.profilePhotoUrl}
-							isMobile={isMobile}
-							logout={handleLogout}
-						/>
-					</MouseOver>
+					<div className={styles.avatarSection}>
+						<MouseOver>
+							<PopupMenu
+								profilePhotoUrl={user?.profilePhotoUrl}
+								isMobile={isMobile}
+								logout={handleLogout}
+							/>
+						</MouseOver>
+					</div>
 
 					<SidebarMenu />
 
-					<StyledSeperator my="4" />
+					<Separator my="4" className={styles.separator} />
 
 					<Heading as="h3" size="5" mb="2">
 						Packs
@@ -96,62 +110,11 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 					<PackList currentPackId={currentPackId} packList={packList} />
 				</Suspense>
-			</SidebarContainer>
-		</StyledSidebar>
+				</div>
+			</aside>
+		</Flex>
 	);
 };
 
 export default Sidebar;
 
-const StyledSidebar = styled.aside<{ $showSidebar: boolean }>`
-	width: 1280px;
-	position: fixed;
-	right: 50%;
-	transform: translateX(calc(50% - 1030px));
-	opacity: ${({ $showSidebar }) => ($showSidebar ? 1 : 0)};
-	background: #514f59;
-	color: white;
-	height: 100%;
-	display: flex;
-	justify-content: flex-end;
-	transition: all 500ms ease;
-
-	a,
-	a:visited {
-		color: white;
-	}
-
-	@media only screen and (max-width: 1280px) {
-		z-index: 100;
-		width: 20%;
-		left: 0;
-		opacity: 1;
-		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
-	}
-
-	@media only screen and (max-width: 768px) {
-		z-index: 100;
-		width: 100%;
-		right: 0%;
-		opacity: 1;
-		transform: ${({ $showSidebar }) => ($showSidebar ? 0 : 'inherit')};
-		h3 {
-			font-size: 2rem;
-		}
-	}
-`;
-
-const SidebarContainer = styled.div`
-	width: 250px;
-	height: 100%;
-	padding: 3em 50px;
-	box-sizing: border-box;
-	position: relative;
-	${({ theme: t }) => t.mx.mobile(`width: 100%;`)}
-`;
-
-export const StyledSeperator = styled(Separator)`
-	background-color: #ffffffbd;
-	width: 100%;
-	opacity: 0.1;
-`;

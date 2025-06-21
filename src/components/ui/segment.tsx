@@ -1,5 +1,5 @@
 import { Flex } from '@radix-ui/themes';
-import styled from 'styled-components';
+import styles from './segment.module.css';
 
 type Radius = 'none' | '1' | '2' | '50%';
 
@@ -10,12 +10,45 @@ const radiusChart = {
 	'50%': '50%',
 };
 
-export const Segment = styled.div<{ $stacked?: boolean; $radius?: Radius }>`
-	background-color: white;
-	border: 1px solid var(--gray-4);
-	padding: 2em;
-	box-shadow: 0px 8px 0px -6px rgba(0, 0, 0, 0.1);
-	border-radius: ${({ $radius }) => radiusChart[$radius || 'none']};
-`;
+interface SegmentProps {
+	stacked?: boolean;
+	radius?: Radius;
+	className?: string;
+	children?: React.ReactNode;
+	style?: React.CSSProperties;
+}
 
-export const SegmentGroup = styled(Flex)``;
+export const Segment = ({
+	stacked,
+	radius,
+	className,
+	children,
+	style,
+	...props
+}: SegmentProps) => {
+	const { $stacked, $radius, ...domProps } = props as any;
+
+	return (
+		<div
+			className={`${styles.segment} ${className || ''}`}
+			style={
+				{
+					'--segment-radius': radiusChart[radius || 'none'],
+					...style,
+				} as React.CSSProperties
+			}
+			{...domProps}>
+			{children}
+		</div>
+	);
+};
+
+export const SegmentGroup = ({
+	children,
+	className,
+	...props
+}: React.ComponentProps<typeof Flex>) => (
+	<Flex className={className} {...props}>
+		{children}
+	</Flex>
+);

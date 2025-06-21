@@ -1,10 +1,17 @@
 import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect, type FormEvent } from 'react';
-import styled from 'styled-components';
-import { IconButton } from '@radix-ui/themes';
+import styles from './profile-form.module.css';
+import { Button, Flex, IconButton } from '@radix-ui/themes';
 import { Form } from '@radix-ui/react-form';
-import { Message, RefreshIcon, Segment, SegmentGroup, Tooltip } from '@/components/ui';
+import {
+	Message,
+	RefreshIcon,
+	SaveIcon,
+	Segment,
+	SegmentGroup,
+	Tooltip,
+} from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { SocialLinks } from './social-links';
@@ -123,7 +130,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 		<SegmentGroup direction="column">
 			<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
 			<Segment>
-				<StyledForm onSubmit={handleEditProfile}>
+				<Form className={styles.form} onSubmit={handleEditProfile}>
 					<FormField
 						name="username"
 						label="Username"
@@ -176,13 +183,13 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 
 					{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-					{/* <Flex justify="end">
+					<Flex justify="end">
 						<Button mt="4" type="submit" disabled={!isProfileChanged}>
 							<SaveIcon />
 							Save Profile
 						</Button>
-					</Flex> */}
-				</StyledForm>
+					</Flex>
+				</Form>
 			</Segment>
 			<Segment>
 				<SocialLinks socialLinks={socialLinks} />
@@ -190,11 +197,3 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 		</SegmentGroup>
 	);
 };
-
-const StyledForm = styled(Form)`
-	width: 60%;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-		width: 100%;
-	`)}
-`;

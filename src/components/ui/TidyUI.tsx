@@ -1,14 +1,24 @@
-import styled from 'styled-components';
+import styles from './tidyui.module.css';
 
-export const SubText = styled.p`
-	font-size: 0.9em;
-	opacity: 0.7;
-`;
+interface PanelProps {
+	width: string;
+	className?: string;
+	children?: React.ReactNode;
+	style?: React.CSSProperties;
+}
 
-export const Panel = styled.div<{ $width: string }>`
-	width: ${({ $width }) => $width};
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			width: 100%;
-	`)};
-`;
+export const SubText = ({ children, className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+	<p className={`${styles.subText} ${className || ''}`} {...props}>
+		{children}
+	</p>
+);
+
+export const Panel = ({ width, className, children, style, ...props }: PanelProps) => (
+	<div 
+		className={`${styles.panel} ${className || ''}`} 
+		style={{ '--panel-width': width, ...style } as React.CSSProperties}
+		{...props}
+	>
+		{children}
+	</div>
+);

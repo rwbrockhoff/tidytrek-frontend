@@ -36,11 +36,11 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Heading as="h1" mb="4">
+				<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
 					tidytrek
 				</Heading>
 
-				<Segment $radius="2">
+				<Segment radius="2">
 					<Heading as="h3" size="6" color="jade" mb="4">
 						Reset Password
 					</Heading>
@@ -117,7 +117,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							<Message messageType="error" text={serverError.message} />
 						)}
 
-						<Button size="3" mt="4" style={{ width: '100%' }} type="submit">
+						<Button size="3" mt="2" style={{ width: '100%' }} type="submit">
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 					</Form>

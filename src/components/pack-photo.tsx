@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { cn, mixins } from '@/styles/utils';
+import styles from './pack-photo.module.css';
 import { Dimmer, defaultPackPhoto, Spinner, DeleteButton } from '@/components/ui';
 import { UploadFile } from '@/components';
 
@@ -24,57 +25,28 @@ export const PackPhoto = (props: PackPhotoProps) => {
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
-		<Container
+		<div
+			className={cn(styles.container, mixins.uploadHoverContainer)}
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
 			{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
-			<StyledPackPhoto src={photoSource} alt="upload custom pack photo" />
+			<img src={photoSource} alt="upload custom pack photo" className={styles.packPhoto} />
 
 			<Spinner active={isPending} absoluteCenter size="3" />
 
 			{uploadEnabled && (
-				<UploadContainer>
+				<div className={styles.uploadContainer}>
 					<UploadFile
 						fileId={`pack-photo-upload-${packId}`}
 						fileName="packPhoto"
 						isPending={isPending}
 						onUpload={onUpload}
 					/>
-				</UploadContainer>
+				</div>
 			)}
-			<StyledDimmer active={displayDimmer} />
-		</Container>
+			<Dimmer active={displayDimmer} className={styles.dimmer} />
+		</div>
 	);
 };
 
-const StyledPackPhoto = styled.img`
-	width: 100%;
-	height: 200px;
-	object-fit: cover;
-`;
-
-const StyledDimmer = styled(Dimmer)`
-	top: 0px;
-	width: 100%;
-	height: 200px;
-`;
-
-const UploadContainer = styled.div`
-	${({ theme: t }) => t.mx.absoluteCenter()}
-	z-index: 5;
-`;
-
-const Container = styled.div`
-	position: relative;
-	width: 100%;
-	height: 200px;
-	.uploadFileForm {
-		display: none;
-	}
-	&:hover {
-		.uploadFileForm {
-			display: inherit;
-		}
-	}
-`;

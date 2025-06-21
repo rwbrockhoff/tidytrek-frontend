@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styles from './pack-list.module.css';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { Drag, DragDropContext, DropResult } from '@/components';
 import { Droppable } from 'react-beautiful-dnd';
 import { PackListItem } from './pack-list-item';
-import { StyledSeperator } from '../sidebar';
+import { Separator } from '@radix-ui/themes';
 import { useMovePackMutation } from '@/queries/pack-queries';
 
 import { encode } from '@/utils';
@@ -52,12 +52,14 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 						const index = rubric.source.index;
 						const pack = packList[index];
 						return (
-							<StyledContainer
+							<div
+								className={styles.styledContainer}
 								{...provided.draggableProps}
 								{...provided.dragHandleProps}
-								ref={provided.innerRef}>
+								ref={provided.innerRef}
+							>
 								<PackListItem pack={pack} onClick={handleGetPack} />
-							</StyledContainer>
+							</div>
 						);
 					}}>
 					{(provided) => (
@@ -74,13 +76,10 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 					)}
 				</Droppable>
 			</DragDropContext>
-			<StyledSeperator my="4" />
+			<Separator my="4" className={styles.separator} />
 
 			<CreatePackMenu />
 		</div>
 	);
 };
 
-const StyledContainer = styled.div`
-	color: white;
-`;

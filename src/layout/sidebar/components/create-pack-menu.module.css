@@ -1,0 +1,12 @@
+/* Hides button styles for popover menu  */
+.newPackButton:hover,
+.newPackButton:active {
+	background: transparent;
+}
+
+@media (max-width: 768px) {
+	.newPackButton {
+		font-size: var(--font-size-base);
+		margin-top: var(--space-md);
+	}
+}

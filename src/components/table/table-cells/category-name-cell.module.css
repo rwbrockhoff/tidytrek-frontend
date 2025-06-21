@@ -1,0 +1,50 @@
+.headerCell {
+	position: relative;
+	overflow: visible;
+}
+
+/* -- Radix Overrides Unique to Header Cell -- */
+:global(.rt-TableColumnHeaderCell) {
+	background-color: var(--color-bg-secondary);
+}
+
+:global(.rt-TextFieldInput).input {
+	font-weight: var(--font-weight-medium);
+	/* --font-size-md/lg didn't fit proportions here -- */
+	font-size: 1.05rem;
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-bg-secondary);
+}
+
+:global(.rt-TextFieldInput).input:hover:not(:focus) {
+	background-color: var(--color-bg-secondary);
+	border-color: var(--gray-400);
+}
+
+:global(.rt-TextFieldInput).input:focus {
+	background-color: var(--color-bg-secondary);
+	border-color: var(--color-primary);
+}
+
+/* -- Hide hover styles for disabled input -- */
+:global(.rt-TextFieldInput).input:disabled:hover:not(:focus) {
+	background-color: var(--color-bg-secondary);
+	border-color: var(--color-bg-secondary);
+}
+
+.headerCell :global(.rt-TextFieldInput):disabled {
+	color: var(--color-text-primary);
+	-webkit-text-fill-color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+	.headerCell {
+		flex: 1;
+		height: fit-content;
+	}
+
+	:global(.rt-TextFieldInput).input {
+		height: 40px;
+		font-size: var(--font-size-lg);
+	}
+}

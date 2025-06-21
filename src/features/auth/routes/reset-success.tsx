@@ -12,7 +12,7 @@ export const ResetSuccess = () => {
 					tidytrek
 				</Heading>
 
-				<Segment $radius="2">
+				<Segment radius="2">
 					<Heading as="h2" size="6" color="jade" mb="4">
 						Success!
 					</Heading>

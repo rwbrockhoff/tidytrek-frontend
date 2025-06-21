@@ -1,0 +1,58 @@
+.outerContainer {
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+	background-color: var(--color-bg-primary);
+}
+
+@media (max-width: 768px) {
+	.outerContainer {
+		overflow-y: auto;
+	}
+}
+
+.appViewContainer {
+	background-color: var(--color-bg-primary);
+	min-height: 100%;
+	max-width: var(--max-width);
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	align-items: stretch;
+}
+
+.viewLayoutContainer {
+	flex: 1;
+	background-color: var(--color-bg-primary);
+	position: relative;
+	padding: var(--space-xxl) 4em 6em 4em;
+	transition: all 300ms ease;
+	transition-property: margin-left, width;
+}
+
+.viewLayoutSidebarVisible {
+	width: 80%;
+	margin-left: 250px;
+}
+
+.viewLayoutSidebarHidden {
+	width: 100%;
+	margin-left: 0;
+}
+
+@media (max-width: 1280px) {
+	.viewLayoutContainer {
+		width: 100%;
+		margin: 0;
+		padding: var(--space-xxl) 4em 6em 4em;
+	}
+}
+
+@media (max-width: 768px) {
+	.viewLayoutContainer {
+		width: 100%;
+		margin: 0;
+		padding: 10em 1em var(--space-xxl) 1em;
+	}
+}

@@ -1,5 +1,4 @@
-import { ThemeProvider } from 'styled-components';
-import styled from 'styled-components';
+import styles from './dashboard-container.module.css';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
 import { AddCategoryButton } from '@/components/table';
@@ -13,7 +12,6 @@ import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import { DragDropContext, Drop, ProfileBanner, type DropResult } from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
-import { getThemeAsGuest } from '@/styles/theme/theme-utils';
 import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
 import { Flex } from '@radix-ui/themes';
 
@@ -37,7 +35,6 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	//--Guest View Data--//
 	const { userProfile, settings } = useGuestData(currentPack);
-	const theme = getThemeAsGuest(currentPack);
 	//--Guest View Data--//
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -55,8 +52,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	return (
 		<PricingContext.Provider value={packPricing}>
-			<ThemeProvider theme={theme}>
-				<Container>
+			<main className={styles.container}>
 					{!userView && <ProfileBanner />}
 					<PackInfo
 						currentPack={pack}
@@ -84,7 +80,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 					{userView && (
 						<Flex justify="center" width="100%">
-							<AddCategoryButton onClick={() => packId && addCategory(packId)} />
+							<AddCategoryButton onClick={() => packId && addCategory(packId, packCategories)} />
 						</Flex>
 					)}
 
@@ -94,14 +90,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 							description={packAffiliateDescription}
 						/>
 					)}
-				</Container>
-			</ThemeProvider>
+			</main>
 		</PricingContext.Provider>
 	);
 };
 
-const Container = styled.main`
-	& > div {
-		width: 100%;
-	}
-`;

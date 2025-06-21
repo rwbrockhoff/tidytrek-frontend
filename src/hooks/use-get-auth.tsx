@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import supabase from '@/api/supabaseClient';
 import { useGetAuthStatusQuery } from '@/queries/user-queries';
-import { createTheme } from '@/styles/theme/theme-utils';
 import { Session } from '@supabase/supabase-js';
 
 export const useGetAuth = () => {
@@ -11,8 +10,6 @@ export const useGetAuth = () => {
 
 	const user = data?.user || null;
 	const isAuthenticated = data?.isAuthenticated || false;
-
-	const theme = createTheme(data?.settings);
 
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -28,5 +25,5 @@ export const useGetAuth = () => {
 		return () => subscription.unsubscribe();
 	}, []);
 
-	return { isLoading, isAuthenticated, user, session, theme };
+	return { isLoading, isAuthenticated, user, session };
 };

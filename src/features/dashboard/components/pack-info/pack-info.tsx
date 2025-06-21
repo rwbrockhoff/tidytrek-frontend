@@ -1,7 +1,8 @@
 import { type UserProfile } from '@/types/profile-types';
 import { type Category, type Pack } from '@/types/pack-types';
 import { type Settings } from '@/types/settings-types';
-import styled from 'styled-components';
+import styles from './pack-info.module.css';
+import { cn } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
@@ -62,8 +63,13 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { publicProfile } = settings || {};
 
 	return (
-		<PackInfoContainer align="center" display="inline-flex" mt="6" mb="9">
-			<UserInfoPanel $width={'50%'}>
+		<Flex
+			align="center"
+			display="inline-flex"
+			mt="6"
+			mb="9"
+			className={styles.packInfoContainer}>
+			<Panel width={'50%'} className={styles.userInfoPanel}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -77,9 +83,8 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 
 						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
-							<EditIcon
-								$user={userView}
-								className="editIcon"
+							<EditPencilIcon
+								className={cn(`editIcon ${styles.editIcon}`, !userView && styles.hidden)}
 								name="pencil alternate"
 								color="grey"
 							/>
@@ -94,23 +99,26 @@ export const PackInfo = (props: PackInfoProps) => {
 						url={packUrl}
 						text={packUrlName || packUrl || 'Pack Link'}
 						showIcon
-						margin="0 0 0 0"
+						margin="var(--space-xs)0 0 0"
 					/>
 				)}
 
-				<DescriptionText my="2">{packDescription}</DescriptionText>
+				<Text my="2" className={styles.descriptionText}>
+					{packDescription}
+				</Text>
 
 				<PackLabels pack={currentPack} />
 
-				<ToggleChartButton
+				<Button
 					variant="outline"
 					my="6"
 					size="3"
-					onClick={handleTogglePackChart}>
+					onClick={handleTogglePackChart}
+					className={styles.toggleChartButton}>
 					<ChartIcon />
 					Show Pack Chart
-				</ToggleChartButton>
-			</UserInfoPanel>
+				</Button>
+			</Panel>
 
 			{/* Right Hand Panel */}
 
@@ -128,49 +136,8 @@ export const PackInfo = (props: PackInfoProps) => {
 				onClickDelete={handleDeletePackAndItems}
 				onClickMove={handleDeletePack}
 			/>
-		</PackInfoContainer>
+		</Flex>
 	);
 };
-
-const PackInfoContainer = styled(Flex)`
-	width: 100%;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			width: 95%;
-			height: fit-content;
-			flex-direction: column;
-			margin-top: 3vh;
-			margin-bottom: 0;
-	`)}
-`;
-
-const UserInfoPanel = styled(Panel)`
-	&:hover {
-		.editIcon {
-			opacity: 1;
-		}
-	}
-`;
-
-const DescriptionText = styled(Text)`
-	display: flex;
-	max-width: 60ch;
-`;
-
-const EditIcon = styled(EditPencilIcon)<{ $user: boolean }>`
-	display: ${({ $user }) => ($user ? 'visible' : 'none')};
-	font-size: 0.9em;
-	margin-left: 0.5em;
-	cursor: pointer;
-	opacity: 0;
-	${({ theme: t }) => t.mx.mobile(`opacity: 1;`)}
-`;
-
-const ToggleChartButton = styled(Button)`
-	width: 100%;
-	display: none;
-	text-align: center;
-	${({ theme: t }) => t.mx.mobile(`display: flex;`)}
-`;
 
 const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;

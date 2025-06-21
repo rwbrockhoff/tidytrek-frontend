@@ -12,11 +12,17 @@ import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';
 import { useMutationErrors, useZodError } from '@/hooks';
-import { z, emailSchema, passwordSchema } from '@/schemas';
+import {
+	z,
+	emailSchema,
+	passwordSchema,
+	firstNameSchema,
+	lastNameSchema,
+} from '@/schemas';
 
 const registerSchema = z.object({
-	firstName: z.string().min(2, { message: 'Please type in your name.' }),
-	lastName: z.string().min(2, { message: 'Please type in your last name.' }),
+	firstName: firstNameSchema,
+	lastName: lastNameSchema,
 	email: emailSchema,
 	password: passwordSchema,
 });
@@ -75,6 +81,7 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 				emailRedirectTo: `${frontendURL}/welcome`,
 			},
 		});
+
 		// handle supabase error
 		if (!data.user || error) return setAxiosError(registerError);
 		// otherwise register account

@@ -1,0 +1,24 @@
+.header {
+	background-color: var(--color-primary);
+	color: var(--color-constant-white);
+	padding: 2.5em 2em;
+	width: 100%;
+	position: fixed;
+	z-index: 100;
+	box-shadow: var(--shadow-lg);
+}
+
+.header button {
+	margin-left: auto;
+}
+
+@media (max-width: 768px) {
+	.header {
+		width: 90%;
+	}
+}
+
+.menuButton {
+	background: transparent;
+	color: white;
+}

@@ -1,0 +1,24 @@
+.linkButton {
+	background-color: transparent;
+	box-shadow: none;
+	margin-left: auto;
+	padding-left: var(--space-3);
+	cursor: pointer;
+}
+
+.linkButtonHidden {
+	opacity: 0;
+}
+
+.linkButtonVisible {
+	opacity: 1;
+}
+
+
+.linkIcon {
+	color: var(--color-text-secondary);
+}
+
+.linkIconActive {
+	color: var(--teal-accent);
+}

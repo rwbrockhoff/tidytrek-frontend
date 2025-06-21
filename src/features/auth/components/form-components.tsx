@@ -1,19 +1,23 @@
-import styled from 'styled-components';
+import styles from './form-components.module.css';
+import { Flex } from '@radix-ui/themes';
 
-export const FormContainer = styled.div`
-	width: calc(400px + 2em);
+export const FormContainer = ({ children, ...props }: { children: React.ReactNode }) => (
+	<div className={styles.formContainer} {...props}>
+		{children}
+	</div>
+);
 
-	${({ theme: t }) =>
-		t.mx.mobile(`
-		width: 90vw;
-	`)}
-`;
-
-export const AuthContainer = styled.main`
-	${({ theme: t }) => t.mx.flexCenter}
-	flex-direction: column;
-	text-align: center;
-	min-height: 100%;
-	width: 100%;
-	background-color: var(--slate-3);
-`;
+export const AuthContainer = ({ children, ...props }: { children: React.ReactNode }) => (
+	<Flex 
+		asChild
+		justify="center" 
+		align="center" 
+		direction="column"
+		className={styles.authContainer}
+		{...props}
+	>
+		<main>
+			{children}
+		</main>
+	</Flex>
+);

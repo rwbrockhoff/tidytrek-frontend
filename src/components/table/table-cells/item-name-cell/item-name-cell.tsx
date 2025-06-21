@@ -1,6 +1,5 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
-import styled from 'styled-components';
 import { Box, Flex, Text, TextField } from '@radix-ui/themes';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
@@ -9,6 +8,7 @@ import { DisplayLink } from '@/components/ui';
 import { LinkPopup } from './link-popup';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import styles from './item-name-cell.module.css';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
@@ -33,7 +33,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<StyledCell ref={ref} onBlur={handleToggleOff} style={{ width }}>
+		<Table.Cell ref={ref} onBlur={handleToggleOff} style={{ width }} className={styles.styledCell}>
 			<GripButton display={displayIcon && userView} {...dragProps} />
 
 			{userView ? (
@@ -43,6 +43,8 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						name={'packItemName'}
 						placeholder={'Name'}
 						onChange={onChange}
+						disabled={!userView}
+						className="input-minimal"
 					/>
 					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />
@@ -60,19 +62,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					)}
 				</Box>
 			)}
-		</StyledCell>
+		</Table.Cell>
 	);
 };
 
-const StyledCell = styled(Table.Cell)`
-	position: relative;
-	.rt-TextFieldRoot {
-		flex-grow: 1;
-	}
-	input {
-		${({ theme: t }) =>
-			t.mx.mobile(`
-				height: 40px;
-			`)}
-	}
-`;

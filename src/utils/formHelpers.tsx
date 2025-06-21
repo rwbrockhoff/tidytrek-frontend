@@ -18,7 +18,9 @@ export function setFormInput<T>(
 	}));
 }
 
-export function searchMatch(search: string, name: string, conditions: string) {
+export function searchMatch(search: string, name: string | null | undefined, conditions: string) {
+	if (!search || !name) return false;
+	
 	const searchInput = search.replace(/\s/g, '').trim();
 	const item = name.replace(/\s/g, '').trim();
 

@@ -1,19 +1,17 @@
-import styled from 'styled-components';
+import styles from './dimmer.module.css';
 
 type DimmerProps = {
 	active: boolean;
-	className?: string; // from styled-components
+	className?: string;
 };
 
 export const Dimmer = ({ active, className }: DimmerProps) => {
-	return <CustomDimmer className={className} $active={active} />;
+	return (
+		<div
+			className={`${styles.dimmer} ${className || ''}`}
+			style={{ '--dimmer-opacity': active ? '0.2' : '0' } as React.CSSProperties}
+		/>
+	);
 };
 
 export default Dimmer;
-
-const CustomDimmer = styled.div<{ $active?: boolean }>`
-	position: absolute;
-	background-color: black;
-	transition: all 250ms ease;
-	opacity: ${(props) => (props.$active ? '0.2' : 0)};
-`;

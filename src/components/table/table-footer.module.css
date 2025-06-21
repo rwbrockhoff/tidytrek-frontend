@@ -1,0 +1,20 @@
+.footer {
+	background-color: var(--color-bg-primary);
+	font-size: 0.9em;
+	vertical-align: top;
+}
+
+.footer :global(td) {
+	box-shadow: none;
+}
+
+.summaryCell {
+	text-align: center;
+	color: var(--color-text-secondary);
+}
+
+@media (max-width: 48rem) {
+	.footer {
+		font-size: var(--font-size-base);
+	}
+}

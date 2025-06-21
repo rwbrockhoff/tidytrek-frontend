@@ -1,11 +1,12 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { Flex, Table } from '@radix-ui/themes';
-import styled from 'styled-components';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
 import { usePackCategoryHandlers } from '@/features/dashboard/handlers/use-pack-category-handlers';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
+import { cn } from '@/styles/utils';
+import styles from './table-header.module.css';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -22,9 +23,15 @@ export const TableHeader = (props: TableHeaderProps) => {
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;
 
+	// Create inline style for dynamic border color
+	const dynamicHeaderStyle = {
+		borderTop: `3px solid var(--${packCategoryColor}, var(--color-primary))`,
+	};
+
 	return (
-		<StyledHeader $borderColor={packCategoryColor || 'primary'}>
-			<TableRow $isMinimized={isMinimized}>
+		<Table.Header className={styles.header} style={dynamicHeaderStyle}>
+			<Table.Row
+				className={cn(styles.tableRow, isMinimized ? styles.minimized : styles.normal)}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
 					disabled={isMinimized}
@@ -59,8 +66,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 						</DeleteModal>
 					</ActionButtons>
 				)}
-			</TableRow>
-		</StyledHeader>
+			</Table.Row>
+		</Table.Header>
 	);
 };
 
@@ -68,49 +75,38 @@ export const TableHeader = (props: TableHeaderProps) => {
 const deleteCategoryMessage =
 	'You can permanently delete your category or move the items to your gear closet.';
 
-const StyledHeader = styled(Table.Header)<{ $borderColor: string }>`
-	vertical-align: middle;
-	border-top: 3px solid ${(props) => props.theme.mx.getThemeColor(props.$borderColor)};
-	svg {
-		opacity: 0;
-	}
-	&:hover {
-		svg {
-			opacity: 1;
-		}
-	}
-	& th {
-		height: 55px;
-		box-shadow: none;
-		border-bottom: 1px solid var(--gray-4);
-	}
-`;
+export const HeaderCell = ({
+	children,
+	colSpan,
+	align,
+	paddingLeft,
+}: {
+	children?: React.ReactNode;
+	colSpan?: number;
+	align?: 'center' | 'left' | 'right';
+	paddingLeft?: string;
+}) => (
+	<Table.ColumnHeaderCell
+		className={styles.headerCell}
+		colSpan={colSpan}
+		align={align}
+		style={{ paddingLeft }}>
+		{children}
+	</Table.ColumnHeaderCell>
+);
 
-const TableRow = styled(Table.Row)<{ $isMinimized: boolean }>`
-	opacity: ${(props) => (props.$isMinimized ? 0.5 : 1)};
-	transition: opacity 250ms ease;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-		opacity: 1;
-		display: flex;
-	`)}
-`;
-
-export const HeaderCell = styled(Table.ColumnHeaderCell)<{ $paddingLeft?: string }>`
-	padding-left: ${({ $paddingLeft }) => $paddingLeft};
-	vertical-align: middle;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			display: none;
-		`)}
-`;
-
-export const TableText = styled.p<{
-	$width: string;
-	$paddingLeft?: string;
-	$paddingRight?: string;
-}>`
-	width: ${({ $width }) => $width && $width};
-	padding-left: ${({ $paddingLeft }) => $paddingLeft && $paddingLeft};
-	padding-right: ${({ $paddingRight }) => $paddingRight && $paddingRight};
-`;
+export const TableText = ({
+	children,
+	width,
+	paddingLeft,
+	paddingRight,
+}: {
+	children: React.ReactNode;
+	width?: string;
+	paddingLeft?: string;
+	paddingRight?: string;
+}) => (
+	<p className={styles.tableText} style={{ width, paddingLeft, paddingRight }}>
+		{children}
+	</p>
+);

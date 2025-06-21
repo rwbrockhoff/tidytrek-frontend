@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import { FaRegUser as UserIcon } from 'react-icons/fa';
-import { BiCloset as ClosetIcon } from 'react-icons/bi';
+import { UserIcon, ClosetIcon } from '@/components/ui';
 import { MdLogout as LogoutIcon } from 'react-icons/md';
 import { StyledMenu } from './styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	return (
-		<StyledMenu $darkText>
+		<StyledMenu>
 			<li>
 				<Link to="/account">
 					<UserIcon />
@@ -24,7 +23,7 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 
 export const SidebarMenu = () => {
 	return (
-		<StyledMenu style={{ marginTop: '2em' }}>
+		<StyledMenu className="styledMenuWithTopMargin">
 			<li>
 				<Link to="/profile">
 					<UserIcon />
@@ -33,7 +32,7 @@ export const SidebarMenu = () => {
 			</li>
 			<li>
 				<Link to="/gear-closet">
-					<ClosetIcon style={{ marginBottom: '-2px' }} />
+					<ClosetIcon />
 					Gear Closet
 				</Link>
 			</li>

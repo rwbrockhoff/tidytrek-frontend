@@ -1,8 +1,8 @@
 import { Flex } from '@radix-ui/themes';
 import { SocialButton } from '../features/account/components/profile-form/social-button';
 import { SocialLink } from '../types/profile-types';
-import socialMediaUI from '../styles/theme/social-media-ui';
-import styled from 'styled-components';
+import socialMediaUI from '@/constants/social-media-ui';
+import styles from './social-link-list.module.css';
 
 type SocialLinkListProps = {
 	socialLinks: SocialLink[];
@@ -14,9 +14,10 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false } = props;
 
 	return (
-		<StyledFlex>
+		<Flex className={styles.socialLinks}>
 			{socialLinks.map((link, index) => {
-				const { socialName, icon } = socialMediaUI[link.socialLinkName];
+				const socialInfo = socialMediaUI[link.platformName] || socialMediaUI.custom;
+				const { socialName, icon } = socialInfo;
 				const { socialLinkId: id } = link;
 				return (
 					<SocialButton
@@ -29,12 +30,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 					/>
 				);
 			})}
-		</StyledFlex>
+		</Flex>
 	);
 };
 
-const StyledFlex = styled(Flex)`
-	span.rt-Badge:first-of-type {
-		margin-left: 0;
-	}
-`;

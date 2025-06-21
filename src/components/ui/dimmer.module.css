@@ -1,0 +1,6 @@
+.dimmer {
+	position: absolute;
+	background-color: black;
+	transition: all 250ms ease;
+	opacity: var(--dimmer-opacity);
+}

@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styles from './properties-cell.module.css';
+import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
 import { Flex, IconButton, Table, Tooltip } from '@radix-ui/themes';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
@@ -9,6 +10,7 @@ import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ButtonProps = {
 	display: boolean;
+	isDisabled: boolean;
 	onClick: (property: PackItemProperty) => void;
 };
 
@@ -19,7 +21,7 @@ type ButtonTypes = {
 };
 
 export const PropertiesCell = (props: ButtonProps) => {
-	const { display, onClick } = props;
+	const { display, isDisabled, onClick } = props;
 
 	const userView = useUserContext();
 	const { packItem, isDragging } = useContext(TableRowContext);
@@ -27,18 +29,26 @@ export const PropertiesCell = (props: ButtonProps) => {
 	const { ref, width } = useCellWidth(isDragging);
 
 	const handleOnClick = (buttonToChange: ButtonTypes) => {
-		if (userView) onClick(buttonToChange);
+		if (userView && !isDisabled) onClick(buttonToChange);
 	};
 
 	const showOnHover = (display && userView) || isDragging;
 
 	return (
-		<PropertiesButtonCell align="center" justify="center" ref={ref} style={{ width }}>
-			<StyledFlex>
+		<Table.Cell
+			className={styles.propertiesCell}
+			align="center"
+			justify="center"
+			ref={ref}
+			style={{ width }}>
+			<Flex className={styles.flexContainer}>
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
 						name="favorite"
-						className={`favorite${favorite ? '-active' : ''}`}
+						className={cn(
+							favorite && styles.favoriteActive,
+							isDisabled && styles.disabledIcon,
+						)}
 						style={{ opacity: showOnHover || favorite ? 100 : 0 }}
 						onClick={() => handleOnClick({ favorite: !favorite })}
 					/>
@@ -48,7 +58,10 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<ConsumableIcon
 							name="food"
-							className={`consumable${consumable ? '-active' : ''}`}
+							className={cn(
+								consumable && styles.consumableActive,
+								isDisabled && styles.disabledIcon,
+							)}
 							style={{ opacity: showOnHover || consumable ? 100 : 0 }}
 							onClick={() => handleOnClick({ consumable: !consumable })}
 						/>
@@ -58,41 +71,16 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<WornIcon
 							name="wornWeight"
-							className={`worn-weight${wornWeight ? '-active' : ''}`}
+							className={cn(
+								wornWeight && styles.wornWeightActive,
+								isDisabled && styles.disabledIcon,
+							)}
 							style={{ opacity: showOnHover || wornWeight ? 100 : 0 }}
 							onClick={() => handleOnClick({ wornWeight: !wornWeight })}
 						/>
 					</IconButton>
 				</Tooltip>
-			</StyledFlex>
-		</PropertiesButtonCell>
+			</Flex>
+		</Table.Cell>
 	);
 };
-
-const PropertiesButtonCell = styled(Table.Cell)`
-	svg {
-		padding: 5px;
-		${({ theme: t }) => t.mx.wh('15px')}
-		cursor: pointer;
-		color: rgba(0, 0, 0, 0.5);
-		&:hover {
-			filter: brightness(80%);
-		}
-	}
-	.favorite-active {
-		color: var(--amber-9);
-	}
-	.worn-weight-active {
-		color: var(--cyan-9);
-	}
-	.consumable-active {
-		color: var(--indigo-9);
-	}
-`;
-
-const StyledFlex = styled(Flex)`
-	justify-content: space-evenly;
-	button {
-		background: transparent;
-	}
-`;

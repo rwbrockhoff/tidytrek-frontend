@@ -1,0 +1,38 @@
+.cardFooter {
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - (var(--card-padding) * 2));
+}
+
+.styledCard {
+	background-color: var(--color-bg-secondary);
+	flex-shrink: 0;
+	flex-grow: 0;
+	flex-basis: 30%;
+	position: relative;
+	padding-bottom: var(--space-md);
+}
+
+.styledCard :global(.profilePackLink) {
+	flex-direction: column;
+	align-items: inherit;
+	width: 100%;
+}
+
+.cardFooterText {
+	color: var(--color-text-tertiary);
+}
+
+.cardFooterText svg {
+	margin-right: var(--space-xs);
+}
+
+.styledCardHeader {
+	color: var(--sage-900);
+}
+
+@media (max-width: 768px) {
+	.styledCard {
+		width: 95%;
+	}
+}

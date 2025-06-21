@@ -30,6 +30,7 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 					data-invalid={formErrors?.packItemQuantity.error}
 					onChange={onChange}
 					style={{ textAlign: 'center' }}
+					className="input-minimal"
 				/>
 			) : (
 				<Flex justify="center">

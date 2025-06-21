@@ -1,13 +1,7 @@
-import {
-	Popover,
-	TextFieldInput,
-	IconButton,
-	Button,
-	Flex,
-	TextField,
-} from '@radix-ui/themes';
-import { CheckIcon, SaveIcon, cleanUpLink } from '@/components/ui';
-import styled from 'styled-components';
+import { Popover, TextFieldInput, IconButton, Button, Flex } from '@radix-ui/themes';
+import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
+import { cn, mixins } from '@/styles/utils';
+import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
@@ -27,7 +21,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const { packItemUrl } = packItem || {};
 
 	const { displayIcon } = props;
-	const [newPackUrl, setPackUrl] = useState(packItemUrl || '');
+	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
 	const displayButton = displayIcon || packItemUrl ? true : false;
 	const hasLink = packItemUrl !== '' || undefined;
@@ -37,9 +31,9 @@ export const LinkPopup = (props: LinkPopupProps) => {
 		if (isSuccess) reset();
 	};
 
-	const handleOnSave = () => {
-		if (newPackUrl !== packItemUrl && packItem && packItem.packItemId) {
-			const cleanUrl = cleanUpLink(newPackUrl);
+	const handleSaveLink = () => {
+		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
+			const cleanUrl = cleanUpLink(newPackItemUrl);
 			editPackItem({
 				packItemId: packItem.packItemId,
 				packItem: { ...packItem, packItemUrl: cleanUrl },
@@ -47,51 +41,58 @@ export const LinkPopup = (props: LinkPopupProps) => {
 		}
 	};
 
+	const handleDeleteLink = () => {
+		if (packItem) {
+			editPackItem({
+				packItemId: packItem.packItemId,
+				packItem: { ...packItem, packItemUrl: '' },
+			});
+			setPackUrl('');
+		}
+	};
+
 	if (userView) {
 		return (
 			<Popover.Root>
 				<Popover.Trigger>
-					<StyledButton variant="ghost" m="2" $display={displayButton}>
-						<StyledLinkIcon $active={hasLink ? true : false} />
-					</StyledButton>
+					<IconButton
+						variant="ghost"
+						m="2"
+						className={cn(
+							styles.linkButton,
+							mixins.mobileHidden,
+							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
+						)}>
+						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
+					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex justify="between">
-						<TextField.Root style={{ width: '100%' }}>
+					<Flex justify="between" gap="2" p="1">
+						<div className={mixins.fullWidth}>
 							<TextFieldInput
-								color="jade"
-								variant="classic"
 								name="packItemUrl"
-								value={newPackUrl}
+								value={newPackItemUrl}
 								onChange={handleOnChange}
 								placeholder="Item link"
+								radius="small"
 							/>
-						</TextField.Root>
+						</div>
 
-						<Button color="jade" onClick={handleOnSave}>
+						<Button onClick={handleSaveLink} disabled={!newPackItemUrl.trim()}>
 							{isSuccess ? <CheckIcon /> : <SaveIcon />}
 							{isSuccess ? 'Saved' : 'Save'}
 						</Button>
+						{packItemUrl && (
+							<Button
+								color="red"
+								onClick={handleDeleteLink}
+								disabled={!newPackItemUrl.trim()}>
+								<TrashIcon />
+							</Button>
+						)}
 					</Flex>
 				</Popover.Content>
 			</Popover.Root>
 		);
 	} else return null;
 };
-
-const StyledButton = styled(IconButton)<{ $display: boolean }>`
-	opacity: ${({ $display }) => ($display ? 100 : 0)};
-	background-color: transparent;
-	box-shadow: none;
-	margin-left: auto;
-	padding-left: 1em;
-	cursor: pointer;
-	${({ theme: t }) =>
-		t.mx.mobile(`
-			display: none;
-		`)}
-`;
-
-const StyledLinkIcon = styled(FaLink)<{ $active: boolean }>`
-	color: ${({ $active }) => ($active ? 'var(--cyan-9)' : 'grey')};
-`;

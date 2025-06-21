@@ -1,6 +1,7 @@
+import styles from './theme-button.module.css';
 import { Flex, Popover } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
-import styled, { useTheme } from 'styled-components';
+import { paletteList } from '@/styles/theme/palette-constants';
 
 type ThemeButtonProps = {
 	color: string | undefined;
@@ -8,38 +9,36 @@ type ThemeButtonProps = {
 };
 
 export const ThemeButton = ({ color, onClick }: ThemeButtonProps) => {
-	const { user: userTheme } = useTheme() || {};
-
 	const handleOnClick = (newColor: string) => onClick(newColor);
 
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
 				<Flex align="center" justify="center" m="1">
-					<CircleButton $themeColor={color} />
+					<Button
+						className={styles.circleButton}
+						style={{
+							backgroundColor: color ? `var(--${color})` : 'inherit',
+						}}
+					/>
 				</Flex>
 			</Popover.Trigger>
 
 			<Popover.Content side="top">
 				<Flex>
-					{Object.keys(userTheme).map((color, index) => (
-						<CircleButton
-							key={color || index}
-							$themeColor={color}
-							onClick={() => handleOnClick(color)}
-						/>
+					{paletteList.map((themeColor, index) => (
+						<Popover.Close key={themeColor || index}>
+							<Button
+								className={styles.circleButton}
+								style={{
+									backgroundColor: `var(--${themeColor})`,
+								}}
+								onClick={() => handleOnClick(themeColor)}
+							/>
+						</Popover.Close>
 					))}
 				</Flex>
 			</Popover.Content>
 		</Popover.Root>
 	);
 };
-
-const CircleButton = styled(Button)<{ $themeColor: string | undefined }>`
-	padding: 0px;
-	${(props) => props.theme.mx.themeBgColor(props.$themeColor)};
-	${({ theme }) => theme.mx.wh('18px')}
-	margin: 5px 10px;
-	border-radius: 50%;
-	cursor: pointer;
-`;

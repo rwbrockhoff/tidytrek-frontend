@@ -24,7 +24,7 @@ export const useUpdateUsernameMutation = () => {
 export const useAddSocialLinkMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (socialInfo: { service: string; socialLink: string }) =>
+		mutationFn: (socialInfo: { platformName: string; socialLinkUrl: string }) =>
 			tidyTrekAPI.post('/profile-settings/social-link', socialInfo),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
