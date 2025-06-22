@@ -27,8 +27,3 @@
 	margin-right: var(--space-xs);
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
-	.styledCard {
-		width: 95%;
-	}
-}

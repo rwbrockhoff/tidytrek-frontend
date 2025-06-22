@@ -75,7 +75,7 @@
 	cursor: pointer;
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.headerCell {
 		width: 25%;
 	}

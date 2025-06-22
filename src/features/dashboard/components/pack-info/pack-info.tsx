@@ -2,7 +2,7 @@ import { type UserProfile } from '@/types/profile-types';
 import { type Category, type Pack } from '@/types/pack-types';
 import { type Settings } from '@/types/settings-types';
 import styles from './pack-info.module.css';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
@@ -67,8 +67,8 @@ export const PackInfo = (props: PackInfoProps) => {
 			display="inline-flex"
 			mt="6"
 			mb="9"
-			className={styles.packInfoContainer}>
-			<div className={cn(mixins.responsivePanel, styles.userInfoPanel)}>
+			className={cn(styles.packInfoContainer, mx.responsiveContent)}>
+			<div className={cn(mx.responsivePanel, styles.userInfoPanel)}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}

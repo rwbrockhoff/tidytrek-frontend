@@ -52,7 +52,7 @@
 }
 
 /* Mobile styles */
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.sidebar {
 		width: 100%;
 	}
@@ -68,7 +68,7 @@
 }
 
 /* Desktop styles */
-@media (max-width: var(--breakpoint-desktop)) {
+@media (max-width: 1280px) {
 	.sidebar {
 		z-index: 1000;
 		width: 280px;

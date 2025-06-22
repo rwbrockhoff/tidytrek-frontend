@@ -16,7 +16,6 @@
 
 .profileTextContainer {
 	height: 100%;
-	width: 50%;
 	margin-left: 250px;
 	display: flex;
 	flex-direction: column;
@@ -43,7 +42,7 @@
 	margin-left: var(--space-xs);
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.avatarContainer {
 		top: 175px;
 		left: calc(50% - 75px);
@@ -52,7 +51,6 @@
 	.profileTextContainer {
 		margin: 0px var(--space-md);
 		margin-top: 75px;
-		width: 90%;
 		justify-content: flex-start;
 	}
 }

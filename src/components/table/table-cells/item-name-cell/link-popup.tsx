@@ -1,6 +1,6 @@
 import { Popover, TextFieldInput, IconButton, Button, Flex } from '@radix-ui/themes';
 import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
@@ -60,7 +60,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						m="2"
 						className={cn(
 							styles.linkButton,
-							mixins.mobileHidden,
+							mx.mobileHidden,
 							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
 						)}>
 						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
@@ -68,7 +68,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between" gap="2" p="1">
-						<div className={mixins.fullWidth}>
+						<div className={mx.fullWidth}>
 							<TextFieldInput
 								name="packItemUrl"
 								value={newPackItemUrl}

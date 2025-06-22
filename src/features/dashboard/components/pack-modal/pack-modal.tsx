@@ -1,7 +1,9 @@
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
+import { mx } from '@/styles/utils';
 import { useState, useEffect } from 'react';
+import { cn } from '@/styles/utils/cn';
 import { Form } from '@radix-ui/react-form';
 import { FormField, FormTextArea, SaveIcon } from '@/components/ui';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
@@ -119,7 +121,9 @@ export const PackModal = (props: PackModalProps) => {
 					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />
 
 					<Form style={{ width: '100%' }}>
-						<Flex direction="column" className={styles.leftPanel}>
+						<Flex
+							direction="column"
+							className={cn(styles.leftPanel, mx.responsiveContent)}>
 							<FormField
 								name="packName"
 								value={packName ?? ''}

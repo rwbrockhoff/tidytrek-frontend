@@ -1,4 +1,4 @@
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
 import { Button } from '@radix-ui/themes';
 import { SidebarIcon, LeftDoubleChevronIcon } from '@/components/ui';
@@ -12,9 +12,9 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 	return (
 		<Button
 			className={cn(
-				styles.sidebarButton, 
+				styles.sidebarButton,
 				isSidebar && styles.isSidebar,
-				!isSidebar && mixins.mobileHidden
+				!isSidebar && mx.mobileHidden,
 			)}
 			onClick={onClick}
 			variant="ghost"

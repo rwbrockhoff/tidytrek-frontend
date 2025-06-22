@@ -34,7 +34,7 @@
 	margin-top: var(--space-xl);
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.styledMenu li {
 		font-size: var(--font-size-xl);
 	}

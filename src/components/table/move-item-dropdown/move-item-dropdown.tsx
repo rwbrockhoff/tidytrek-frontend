@@ -71,7 +71,10 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 					</Select.Root>
 
 					<Select.Root onValueChange={handleSelectCategory} disabled={!packId}>
-						<Select.Trigger className="dropdown-secondary" placeholder="Choose a category..." />
+						<Select.Trigger
+							className="dropdown-secondary"
+							placeholder="Choose a category..."
+						/>
 						<Select.Content style={{ height: 'fit-content' }}>
 							<Select.Group>
 								<Select.Label>Categories</Select.Label>

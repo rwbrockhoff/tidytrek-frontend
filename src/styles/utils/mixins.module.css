@@ -280,6 +280,15 @@
 	display: inherit;
 }
 
+/* Responsive width utility */
+.responsiveContent {
+	width: 50%;
+}
+
+.responsivePanel {
+	width: 50%;
+}
+
 /* Responsive utilities */
 @media only screen and (max-width: 768px) {
 	.mobileHidden {
@@ -305,6 +314,10 @@
 	}
 	.mobileMxs {
 		margin: var(--space-xs);
+	}
+
+	.responsiveContent {
+		width: 100%;
 	}
 
 	.responsivePanel {

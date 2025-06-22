@@ -5,7 +5,7 @@
 	display: flex;
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.tableContainer {
 		height: fit-content;
 		margin-bottom: var(--space-xxl);

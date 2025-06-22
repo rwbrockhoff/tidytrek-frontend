@@ -29,9 +29,8 @@
 	text-align: center;
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.packInfoContainer {
-		width: 95%;
 		height: fit-content;
 		flex-direction: column;
 		margin-top: 3vh;

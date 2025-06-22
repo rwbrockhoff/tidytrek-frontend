@@ -1,7 +1,7 @@
 .header {
 	background-color: var(--color-primary);
 	color: var(--color-constant-white);
-	padding: 2.5em 2em; /* Mobile navbar specific padding */
+	padding: var(--space-xl) var(--space-xl);
 	width: 100%;
 	position: fixed;
 	z-index: 100;
@@ -12,11 +12,6 @@
 	margin-left: auto;
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
-	.header {
-		width: 90%;
-	}
-}
 
 .menuButton {
 	background: transparent;

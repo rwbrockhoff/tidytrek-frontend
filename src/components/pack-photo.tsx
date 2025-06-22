@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './pack-photo.module.css';
 import { Dimmer, defaultPackPhoto, Spinner, DeleteButton } from '@/components/ui';
 import { UploadFile } from '@/components';
@@ -26,12 +26,16 @@ export const PackPhoto = (props: PackPhotoProps) => {
 	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
 		<div
-			className={cn(styles.container, mixins.uploadHoverContainer)}
+			className={cn(styles.container, mx.uploadHoverContainer)}
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
 			{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
-			<img src={photoSource} alt="upload custom pack photo" className={styles.packPhoto} />
+			<img
+				src={photoSource}
+				alt="upload custom pack photo"
+				className={styles.packPhoto}
+			/>
 
 			<Spinner active={isPending} absoluteCenter size="3" />
 
@@ -49,4 +53,3 @@ export const PackPhoto = (props: PackPhotoProps) => {
 		</div>
 	);
 };
-

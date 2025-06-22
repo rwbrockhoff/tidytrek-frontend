@@ -1,4 +1,5 @@
 import styles from './gear-closet.module.css';
+import { mx } from '@/styles/utils';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { ClosetIcon, SearchIcon } from '@/components/ui';
@@ -8,6 +9,7 @@ import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { searchMatch } from '@/utils';
+import { cn } from '@/styles/utils/cn';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
@@ -53,7 +55,7 @@ export const GearCloset = () => {
 					</p>
 				)}
 
-				<div className={styles.searchContainer}>
+				<div className={cn(styles.searchContainer, mx.responsiveContent)}>
 					<TextField.Root>
 						<TextField.Slot>
 							<SearchIcon />

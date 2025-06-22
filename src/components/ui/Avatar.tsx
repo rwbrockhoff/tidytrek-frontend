@@ -3,7 +3,7 @@ import { DeleteButton, Link, Spinner } from '@/components/ui';
 import Dimmer from './Dimmer';
 import { UploadFile } from '../upload-file';
 import { defaultAvatarPhoto } from '../../utils/defaultPhotos';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './avatar.module.css';
 
 type AvatarProps = {
@@ -39,12 +39,17 @@ export const Avatar = (props: AvatarProps) => {
 	return (
 		<Link link={link} enabled={hasLink}>
 			<div
-				className={cn(styles.outerContainer, styles[size], mixins.uploadHoverContainer)}
+				className={cn(styles.outerContainer, styles[size], mx.uploadHoverContainer)}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
 				{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
 
-				<div className={cn(styles.innerContainer, styles[size], withBorder && styles.withBorder)}>
+				<div
+					className={cn(
+						styles.innerContainer,
+						styles[size],
+						withBorder && styles.withBorder,
+					)}>
 					<Spinner active={isPending} absoluteCenter />
 
 					<Dimmer active={displayDimmer} className={styles.dimmer} />

@@ -2,9 +2,11 @@ import { type Pack } from '@/types/pack-types';
 import { Card, Flex, Heading, Inset, Separator, Text } from '@radix-ui/themes';
 import { ViewsIcon, Link } from '@/components/ui';
 import styles from './pack-card.module.css';
+import { mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';
 import { encode } from '@/utils';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
+import { cn } from '@/styles/utils/cn';
 
 type PackCardProps = {
 	pack: Pack;
@@ -23,7 +25,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<Card m="2" className={styles.styledCard}>
+		<Card m="2" className={cn(styles.styledCard, mx.responsiveContent)}>
 			<Link link={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto

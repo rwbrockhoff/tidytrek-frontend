@@ -10,7 +10,7 @@
 	min-width: 150px;
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+@media (max-width: 768px) {
 	.tableRow button {
 		width: 90%;
 		margin: var(--space-md) 0;

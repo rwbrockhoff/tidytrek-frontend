@@ -20,7 +20,6 @@
 	flex: 1;
 	background-color: var(--color-bg-primary);
 	position: relative;
-	padding: var(--space-xxl) 4em 6em 4em; /* Layout content padding - large horizontal/bottom spacing */
 	transition: all var(--transition);
 	transition-property: margin-left, width;
 }
@@ -35,7 +34,15 @@
 	margin-left: 0;
 }
 
-@media (max-width: var(--breakpoint-desktop)) {
+/* Large screens (above desktop breakpoint) */
+@media (min-width: calc(1280px + 1px)) {
+	.viewLayoutContainer {
+		padding: var(--space-xxl) 4em 6em 4em; /* Layout content padding - large horizontal/bottom spacing */
+	}
+}
+
+/* Medium screens (tablet/small desktop) */
+@media (max-width: 1280px) {
 	.viewLayoutContainer {
 		width: 100%;
 		margin: 0;
@@ -43,7 +50,8 @@
 	}
 }
 
-@media (max-width: var(--breakpoint-mobile)) {
+/* Mobile screens */
+@media (max-width: 768px) {
 	.outerContainer {
 		overflow-y: auto;
 	}
@@ -51,6 +59,6 @@
 	.viewLayoutContainer {
 		width: 100%;
 		margin: 0;
-		padding: 10em 1em var(--space-xxl) 1em; /* Mobile layout padding - extra top space for fixed navbar */
+		padding: 10em var(--space-md) var(--space-xxl) var(--space-md); /* Mobile layout padding - extra top space for fixed navbar */
 	}
 }

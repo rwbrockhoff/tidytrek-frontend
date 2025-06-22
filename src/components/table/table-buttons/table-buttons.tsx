@@ -1,5 +1,5 @@
 import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
 import { useContext } from 'react';
@@ -58,8 +58,8 @@ export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 				styles.tableButton,
 				styles.mobileToggleButton,
 				styles.tableButtonMarginLeft,
-				mixins.hidden,
-				mixins.mobileBlock,
+				mx.hidden,
+				mx.mobileBlock,
 			)}>
 			<CaretDownIcon />
 		</IconButton>
