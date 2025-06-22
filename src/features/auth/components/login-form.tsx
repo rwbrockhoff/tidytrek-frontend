@@ -5,6 +5,7 @@ import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form'
 import { Segment, Message } from '@/components/ui';
 import { Heading, Button, Text, Flex, TextField, Box } from '@radix-ui/themes';
 import { FormContainer } from './form-components';
+import styles from './form-components.module.css';
 import { GoogleAuth } from './google-auth';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
 import { clearZodErrors, type ZodFormErrors } from '@/hooks';
@@ -48,11 +49,11 @@ export const LogInForm = (props: FormProps) => {
 
 	return (
 		<FormContainer>
-			<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
-				tidytrek
+			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+				<Link to="/">tidytrek</Link>
 			</Heading>
 			<Segment radius="2">
-				<Heading as="h3" size="7" color="jade" mb="6">
+				<Heading as="h3" size="7" mb="6">
 					{isRegisterForm ? 'Create your account' : 'Log in to your account'}
 				</Heading>
 

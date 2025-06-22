@@ -1,9 +1,10 @@
 import { type InputEvent } from '@/types/form-types';
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Flex, Text, Heading, Button, IconButton } from '@radix-ui/themes';
 import { Link, Segment, FormField, Tooltip, RefreshIcon } from '@/components/ui';
 import { FormContainer } from '../form-components';
+import styles from '../form-components.module.css';
 import { Form } from '@radix-ui/react-form';
 import { z, usernameSchema, trailNameSchema } from '@/schemas';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
@@ -90,8 +91,8 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 	return (
 		<FormContainer>
-			<Heading as="h1" mb="4">
-				tidytrek
+			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+				<RouterLink to="/">tidytrek</RouterLink>
 			</Heading>
 
 			<Segment radius="2">

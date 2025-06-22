@@ -5,6 +5,7 @@ import { Message, Segment } from '@/components/ui';
 import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components';
+import styles from '../form-components.module.css';
 import { type FormEvent } from 'react';
 import { type ResetPasswordData } from '../../types/auth-types';
 
@@ -36,8 +37,8 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
-					tidytrek
+				<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+					<Link to="/">tidytrek</Link>
 				</Heading>
 
 				<Segment radius="2">
