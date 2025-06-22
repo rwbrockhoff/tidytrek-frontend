@@ -75,6 +75,9 @@
 	--breakpoint-mobile: 768px;
 	--breakpoint-desktop: 1280px;
 
+	/* -- Layout heights -- */
+	--mobile-header-height: 6rem; /* fixed mobile header height */
+
 	/* -- Border radius -- */
 	--radius: 0.25rem; /* 4px - primary radius */
 	--radius-lg: 0.5rem; /* 8px - larger elements */
@@ -104,7 +107,7 @@
 
 [data-theme='light'] {
 	/* Primary colors */
-	--color-primary: var(--sage-400);
+	--color-primary: var(--sage-500);
 	--color-primary-hover: var(--sage-600);
 	--color-primary-light: var(--sage-100);
 	--color-primary-dark: var(--sage-700);
@@ -151,7 +154,7 @@
 /* Dark theme */
 [data-theme='dark'] {
 	/* Primary colors */
-	--color-primary: var(--sage-400);
+	--color-primary: var(--sage-500);
 	--color-primary-hover: var(--sage-300);
 	--color-primary-light: var(--sage-900);
 	--color-primary-dark: var(--sage-200);

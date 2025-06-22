@@ -51,22 +51,6 @@
 	opacity: 0.1;
 }
 
-/* Mobile styles */
-@media (max-width: 768px) {
-	.sidebar {
-		width: 100%;
-	}
-
-	.sidebar h3 {
-		font-size: 2rem;
-	}
-
-	.sidebarContainer {
-		width: 100%;
-		padding: var(--space-xxl) 2rem;
-	}
-}
-
 /* Desktop styles */
 @media (max-width: 1280px) {
 	.sidebar {
@@ -86,5 +70,17 @@
 	.sidebarVisible {
 		transform: translateX(0);
 		opacity: 1;
+	}
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+	.sidebar {
+		width: 100%;
+	}
+
+	.sidebarContainer {
+		width: 100%;
+		padding: var(--space-xxl) var(--space-xl);
 	}
 }
