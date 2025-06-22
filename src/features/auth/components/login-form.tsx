@@ -2,7 +2,7 @@ import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
 import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
-import { Segment, Message } from '@/components/ui';
+import { Segment, Message, Spinner } from '@/components/ui';
 import { Heading, Button, Text, Flex, TextField, Box } from '@radix-ui/themes';
 import { FormContainer } from './form-components';
 import styles from './form-components.module.css';
@@ -46,6 +46,11 @@ export const LogInForm = (props: FormProps) => {
 			formRef?.current?.reset();
 		}
 	}, [isRegisterSuccess]);
+
+	// Clear form on route change
+	useEffect(() => {
+		formRef?.current?.reset();
+	}, [isRegisterForm]);
 
 	return (
 		<FormContainer>
@@ -185,7 +190,13 @@ export const LogInForm = (props: FormProps) => {
 							size="3"
 							my="4"
 							disabled={isLoading}>
-							{isRegisterForm ? 'Create account' : 'Login'}
+							{isLoading ? (
+								<Spinner active size="1" />
+							) : isRegisterForm ? (
+								'Create account'
+							) : (
+								'Login'
+							)}
 						</Button>
 					</Form>
 				</Box>

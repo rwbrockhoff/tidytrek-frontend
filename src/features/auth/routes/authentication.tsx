@@ -36,10 +36,14 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 	const { pathname } = useLocation();
 	const loginData = useLoginMutation();
 	const registerData = useRegisterMutation();
-	const { mutate: loginUser } = loginData;
-	const { mutate: registerUser, isSuccess: isRegisterSuccess } = registerData;
+	const { mutate: loginUser, reset: resetLogin } = loginData;
+	const {
+		mutate: registerUser,
+		isSuccess: isRegisterSuccess,
+		reset: resetRegister,
+	} = registerData;
 
-	const { formErrors, updateFormErrors, resetFormErrors } =
+	const { formErrors, updateFormErrors, resetFormErrors, resetAllFormErrors } =
 		useZodError<RegisterUserFormData>(['firstName', 'lastName', 'email', 'password']);
 
 	const { serverError, updateAxiosError, resetAxiosError, setAxiosError } =
@@ -56,8 +60,12 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 	]);
 
 	useEffect(() => {
-		// subscribe to view change and reset errors
-		if (formError.error) resetAxiosError();
+		// Clear alls inputs/state when route changes (login <-> register)
+		// Including existing success/error messages
+		resetAllFormErrors();
+		if (serverError.error) resetAxiosError(); // Only clear if there's an error
+		resetLogin();
+		resetRegister();
 	}, [pathname]);
 
 	useEffect(() => {
@@ -73,7 +81,7 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 			return updateFormErrors(result);
 		}
 		const { email, password } = formData;
-		// sign up user using supabase
+		// sign up user using Supabase
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
@@ -82,13 +90,18 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 			},
 		});
 
-		// handle supabase error
+		// handle Supabase error
 		if (!data.user || error) return setAxiosError(registerError);
-		// otherwise register account
-		const userId = data?.user && data.user.id;
-		if (userId) {
-			registerUser({ ...formData, userId });
-		}
+
+		// Always register user in backend database
+		const userId = data.user.id;
+		const supabaseRefreshToken = data?.session?.refresh_token;
+
+		registerUser({
+			...formData,
+			userId,
+			supabaseRefreshToken,
+		});
 	};
 
 	const handleLogin = async (formData: LoginUserFormData) => {
@@ -102,11 +115,20 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 			email,
 			password,
 		});
-		// handle supabase error
+
+		// handle Supabase error
 		if (!data.user || error) return setAxiosError(signinError);
+
 		// otherwise log in
 		const userId = data?.user && data.user.id;
-		if (userId && !error) loginUser({ userId, email });
+		const supabaseRefreshToken = data?.session?.refresh_token;
+		if (userId && !error) {
+			loginUser({
+				userId,
+				email,
+				supabaseRefreshToken,
+			});
+		}
 	};
 
 	const handleClearErrors = (inputName?: string) => {

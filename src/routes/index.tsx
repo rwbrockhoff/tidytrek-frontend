@@ -7,13 +7,13 @@ import { useGetAuth, useThemeSetter } from '@/hooks';
 import { mx } from '@/styles/utils';
 
 export const AppRouter = () => {
-	const { isLoading, isAuthenticated, session } = useGetAuth();
+	const { isLoading, isAuthenticated } = useGetAuth();
 
 	const theme = 'light'; // TODO: Pull from user preference/system setting
 	useThemeSetter(theme);
 
 	const appRouter = createBrowserRouter(
-		session && isAuthenticated ? protectedRoutes : publicRoutes,
+		isAuthenticated ? protectedRoutes : publicRoutes,
 	);
 
 	if (isLoading)

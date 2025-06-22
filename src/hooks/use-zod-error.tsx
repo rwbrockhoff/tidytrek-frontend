@@ -34,7 +34,18 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 		setPrimaryError({ error: false, message: '' });
 	};
 
-	return { formErrors, updateFormErrors, resetFormErrors, primaryError };
+	const resetAllFormErrors = () => {
+		setFormErrors(createFormErrorShape<T>(formInputs));
+		setPrimaryError({ error: false, message: '' });
+	};
+
+	return {
+		formErrors,
+		updateFormErrors,
+		resetFormErrors,
+		resetAllFormErrors,
+		primaryError,
+	};
 }
 
 function createFormErrorShape<T>(formInputs: (keyof T)[]) {

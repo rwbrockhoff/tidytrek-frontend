@@ -75,6 +75,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 			firstName: splitName[0] || '',
 			lastName: splitName[1] || '',
 			avatarUrl: avatar_url,
+			supabaseRefreshToken: data?.session?.refresh_token,
 		};
 	};
 
