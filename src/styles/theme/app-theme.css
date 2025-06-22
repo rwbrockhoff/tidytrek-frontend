@@ -80,8 +80,10 @@
 	--radius-lg: 0.5rem; /* 8px - larger elements */
 
 	/* -- Effects -- */
-	--shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-	--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	--shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+		0 2px 1px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	--shadow-paper: 0px 8px 0px -6px rgba(0, 0, 0, 0.1);
 
 	--transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 	--transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -106,6 +108,12 @@
 	--color-primary-hover: var(--sage-600);
 	--color-primary-light: var(--sage-100);
 	--color-primary-dark: var(--sage-700);
+
+	/* Light theme shadows */
+	--shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+		0 2px 1px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	--shadow-paper: 0px 8px 0px -6px rgba(0, 0, 0, 0.1);
 
 	/* Background colors */
 	--color-bg-primary: #ffffff;
@@ -147,6 +155,12 @@
 	--color-primary-hover: var(--sage-300);
 	--color-primary-light: var(--sage-900);
 	--color-primary-dark: var(--sage-200);
+
+	/* Dark theme shadows */
+	--shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.3),
+		0 2px 1px -1px rgba(0, 0, 0, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+	--shadow-paper: 0px 8px 0px -6px rgba(0, 0, 0, 0.3);
 
 	/* Background colors */
 	--color-bg-primary: var(--gray-900);
