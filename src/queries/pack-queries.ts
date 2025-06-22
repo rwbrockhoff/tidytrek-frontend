@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '@/api/tidytrekAPI';
 import {
 	type MovePackItemProps,
+	type MovePackCategoryProps,
 	type InitialState,
 	type Pack,
 	type PackItem,
@@ -64,7 +65,7 @@ export const useEditPackMutation = () => {
 	return useMutation({
 		mutationFn: (packInfo: { packId: number; modifiedPack: Pack }) => {
 			const { packId, modifiedPack } = packInfo;
-			return tidyTrekAPI.put(`/packs/${packId}`, { modifiedPack });
+			return tidyTrekAPI.put(`/packs/${packId}`, modifiedPack);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -106,39 +107,18 @@ export const useDeletePackPhotoMutation = () => {
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packInfo: { packId: string; newIndex: number; prevIndex: number }) => {
-			const { packId, newIndex, prevIndex } = packInfo;
-			return tidyTrekAPI.put(`/packs/index/${packId}`, { newIndex, prevIndex });
-		},
-		onMutate: async (packInfo: {
+		mutationFn: (moveInfo: {
 			packId: string;
-			newIndex: number;
-			prevIndex: number;
+			prevPackIndex?: string;
+			nextPackIndex?: string;
 		}) => {
-			const { newIndex, prevIndex } = packInfo;
-			// Cancel any outgoing refetches
-			// (so they don't overwrite our optimistic update)
-			await queryClient.cancelQueries({ queryKey: packListKeys.all });
-			// Snapshot the previous value
-			const prevPackList = queryClient.getQueryData(packListKeys.all);
-			// Optimistically update to the new value
-			queryClient.setQueryData(packListKeys.all, (old: any) => {
-				const [item] = old.packList.splice(prevIndex, 1);
-				old.packList.splice(newIndex, 0, item);
-				return old;
+			const { packId, prevPackIndex, nextPackIndex } = moveInfo;
+			return tidyTrekAPI.put(`/packs/index/${packId}`, {
+				prev_pack_index: prevPackIndex,
+				next_pack_index: nextPackIndex,
 			});
-			// Return a context object with the snapshotted value
-			return { prevPackList };
 		},
-		// If the mutation fails,
-		// use the context returned from onMutate to roll back
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(packListKeys.all, context?.prevPackList);
-		},
-		// Always refetch after error or success:
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: packListKeys.all });
-		},
+		// Disable optimistic updates for now - will reimplement with fractional indexing logic
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
@@ -202,34 +182,13 @@ export const useMovePackItemMutation = () => {
 			const { packItemId } = packInfo;
 			return tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, packInfo);
 		},
-		onMutate: async (packInfo) => {
-			const {
-				packId,
-				packCategoryId,
-				prevPackCategoryId,
-				packItemIndex,
-				prevPackItemIndex,
-			} = packInfo;
-			await queryClient.cancelQueries({ queryKey: packKeys.packId(packId) });
-			const prevPack = queryClient.getQueryData(packKeys.packId(packId));
-
-			queryClient.setQueryData(packKeys.packId(packId), (old: any) => {
-				const { categories } = old;
-				const prevIndex = getCategoryIndex(categories, prevPackCategoryId);
-				const [item] = categories[prevIndex].packItems.splice(prevPackItemIndex, 1);
-
-				const sameCategory = prevPackCategoryId === packCategoryId;
-				const newIndex = sameCategory
-					? prevIndex
-					: getCategoryIndex(categories, packCategoryId);
-				categories[newIndex].packItems.splice(packItemIndex, 0, item);
-
-				return old;
-			});
-			return { prevPack };
-		},
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(packKeys.all, context?.prevPack);
+		// TODO: Update optimistic update logic for fractional indexing
+		// onMutate: async (packInfo) => {
+		// 	// Optimistic update logic disabled during fractional indexing migration
+		// 	return {};
+		// },
+		onError: (_err, _packInfo, _context) => {
+			// TODO: Re-implement error handling for fractional indexing
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -294,52 +253,20 @@ export const useMovePackCategoryMutation = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (categoryInfo: {
-			packId: number;
-			packCategoryId: string;
-			newIndex: number;
-			prevIndex: number;
-			paramPackId: string | undefined;
-		}) => {
-			const { packCategoryId, packId, prevIndex, newIndex } = categoryInfo;
+		mutationFn: (categoryInfo: MovePackCategoryProps) => {
+			const { packCategoryId, prevCategoryIndex, nextCategoryIndex } = categoryInfo;
 			return tidyTrekAPI.put(`/packs/categories/index/${packCategoryId}`, {
-				prevIndex,
-				newIndex,
-				packId,
+				prevCategoryIndex,
+				nextCategoryIndex,
 			});
 		},
-		onMutate: async (categoryInfo) => {
-			const { paramPackId, packId, prevIndex, newIndex } = categoryInfo;
-			const packIdNum = Number(packId);
-
-			await queryClient.cancelQueries({ queryKey: packKeys.all });
-			const prevPack = queryClient.getQueryData(packKeys.packId(packIdNum));
-
-			// set cache id based on param
-			const cacheId = paramPackId ? packIdNum : null;
-
-			queryClient.setQueryData(packKeys.packId(cacheId), (old: any) => {
-				if (old) {
-					// previously cached, able to modify cached pack
-					const { categories, pack } = old;
-					const [category] = categories.splice(prevIndex, 1);
-					categories.splice(newIndex, 0, category);
-					return { pack, categories };
-				} else {
-					// pack doesn't have cache, modify current pack data
-					const currentPack = queryClient.getQueryData(packKeys.packId(null));
-					const { categories, pack } = currentPack as InitialState;
-
-					const [category] = categories.splice(prevIndex, 1);
-					categories.splice(newIndex, 0, category);
-					return { pack, categories };
-				}
-			});
-
-			return { prevPack };
-		},
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(packKeys.all, context?.prevPack);
+		// TODO: Update optimistic update logic for fractional indexing
+		// onMutate: async (categoryInfo) => {
+		// 	// Optimistic update logic disabled during fractional indexing migration
+		// 	return {};
+		// },
+		onError: (_err, _packInfo, _context) => {
+			// TODO: Re-implement error handling for fractional indexing
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });

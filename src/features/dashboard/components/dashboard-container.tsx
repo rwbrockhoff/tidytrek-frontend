@@ -38,7 +38,11 @@ export const DashboardContainer = (props: DashboardProps) => {
 	//--Guest View Data--//
 
 	const handleOnDragEnd = (result: DropResult) => {
-		if (pack) onDragEnd(result, pack, paramPackId);
+		if (pack) {
+			// Attach categories to pack object for drag handler
+			const packWithCategories = { ...pack, categories: packCategories };
+			onDragEnd(result, packWithCategories, paramPackId);
+		}
 	};
 
 	const {

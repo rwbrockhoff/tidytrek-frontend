@@ -9,7 +9,7 @@ export const useTableRowInput = (item: PackItem) => {
 		packId: 0,
 		packItemName: '',
 		packItemId: 0,
-		packItemIndex: 0,
+		packItemIndex: "0",
 		packCategoryId: 0,
 		packItemDescription: '',
 		packItemWeight: 0,

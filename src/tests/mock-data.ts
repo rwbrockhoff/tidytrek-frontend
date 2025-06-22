@@ -14,7 +14,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 0,
+		packItemIndex: "0",
 		packItemPrice: 0,
 	},
 	{
@@ -30,7 +30,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 1,
+		packItemIndex: "1",
 		packItemPrice: 0,
 	},
 	{
@@ -46,7 +46,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 2,
+		packItemIndex: "2",
 		packItemPrice: 0,
 	},
 	{
@@ -62,7 +62,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 3,
+		packItemIndex: "3",
 		packItemPrice: 0,
 	},
 ];
@@ -81,7 +81,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 0,
+		packItemIndex: "0",
 		packItemPrice: 0,
 	},
 	{
@@ -97,7 +97,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 1,
+		packItemIndex: "1",
 		packItemPrice: 0,
 	},
 	{
@@ -113,7 +113,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 2,
+		packItemIndex: "2",
 		packItemPrice: 0,
 	},
 	{
@@ -129,7 +129,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: 3,
+		packItemIndex: "3",
 		packItemPrice: 0,
 	},
 ];

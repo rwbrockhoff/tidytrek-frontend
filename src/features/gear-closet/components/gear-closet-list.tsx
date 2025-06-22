@@ -11,6 +11,7 @@ import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';
 import { NotFoundMessage } from './not-found-message';
+import { calculateAdjacentItems } from '@/utils';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -37,11 +38,19 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		const sameIndex = destination.index === source.index;
 		if (sameIndex) return;
 
+		// Calculate adjacent items for fractional indexing
+		const { prevItem, nextItem } = calculateAdjacentItems(
+			gearClosetList,
+			source.index,
+			destination.index
+		);
+
+
 		const dragId = draggableId.replace(/\D/g, '');
 		moveGearClosetItem({
 			packItemId: dragId,
-			packItemIndex: destination.index,
-			prevPackItemIndex: source.index,
+			prevItemIndex: prevItem?.packItemIndex,
+			nextItemIndex: nextItem?.packItemIndex,
 		});
 	};
 

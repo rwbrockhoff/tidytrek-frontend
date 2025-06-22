@@ -37,36 +37,18 @@ export const useEditGearClosetItemMutation = () => {
 export const useMoveGearClosetItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packInfo: {
+		mutationFn: (moveInfo: {
 			packItemId: string;
-			packItemIndex: number;
-			prevPackItemIndex: number;
+			prevItemIndex?: string;
+			nextItemIndex?: string;
 		}) => {
-			const { packItemId, packItemIndex, prevPackItemIndex } = packInfo;
+			const { packItemId, prevItemIndex, nextItemIndex } = moveInfo;
 			return tidyTrekAPI.put(`/closet/items/index/${packItemId}`, {
-				newIndex: packItemIndex,
-				previousIndex: prevPackItemIndex,
+				prev_item_index: prevItemIndex,
+				next_item_index: nextItemIndex,
 			});
 		},
-		onMutate: async (packInfo) => {
-			const { packItemIndex, prevPackItemIndex } = packInfo;
-
-			await queryClient.cancelQueries({ queryKey: closetKeys.all });
-			const prevClosetList = queryClient.getQueryData(closetKeys.all);
-
-			queryClient.setQueryData(closetKeys.all, (old: any) => {
-				const [item] = old.gearClosetList.splice(prevPackItemIndex, 1);
-				old.gearClosetList.splice(packItemIndex, 0, item);
-				return old;
-			});
-			return { prevClosetList };
-		},
-		onError: (_err, _packInfo, context) => {
-			queryClient.setQueryData(closetKeys.all, context?.prevClosetList);
-		},
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: closetKeys.all });
-		},
+		// Disable optimistic updates for now - will reimplement with fractional indexing logic
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},

@@ -7,7 +7,7 @@ export type InitialState = {
 export type Pack = {
 	packId: number;
 	userId: number;
-	packIndex: number;
+	packIndex: string;
 	packName: string;
 	packDescription: string;
 	packLocationTag: string;
@@ -23,12 +23,14 @@ export type Pack = {
 	packAffiliateDescription: string;
 	packViews: number;
 	packBookmarkCount: number;
+	categories?: Category[];
 };
 
 export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
 	packId: number;
+	packCategoryIndex: string;
 	packCategoryColor: string;
 	packItems: [PackItem];
 };
@@ -37,7 +39,7 @@ export type PackItem = {
 	packItemId: number;
 	packId: number;
 	packCategoryId: number;
-	packItemIndex: number;
+	packItemIndex: string;
 	packItemName: string;
 	packItemDescription: string;
 	packItemWeight: number;
@@ -53,7 +55,7 @@ export type PackItem = {
 export type PackListItem = {
 	packName: string;
 	packId: number;
-	packIndex: number;
+	packIndex: string;
 	packCategories: Category[];
 };
 
@@ -61,7 +63,7 @@ export type PackInfo = {
 	packItemId: number;
 	packId: number | string;
 	packCategoryId: number | string;
-	packItemIndex: number;
+	packItemIndex: string;
 };
 
 export type PackItemProperty = {
@@ -72,16 +74,16 @@ export type MovePackItemProps = {
 	packId: number | null;
 	packItemId: string;
 	packCategoryId: string;
-	packItemIndex: number;
 	prevPackCategoryId: string;
-	prevPackItemIndex: number;
+	prevItemIndex?: string; // index of item before drop position
+	nextItemIndex?: string; // index of item after drop position
 };
 
 export type MovePackCategoryProps = {
 	packId: number;
 	packCategoryId: string;
-	newIndex: number;
-	prevIndex: number;
+	prevCategoryIndex?: string; // index of category before drop position
+	nextCategoryIndex?: string; // index of category after drop position
 	paramPackId: string | undefined;
 };
 
