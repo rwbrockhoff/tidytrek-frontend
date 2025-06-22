@@ -4,7 +4,7 @@
 }
 
 .itemContainer:hover svg {
-	opacity: 0.6;
+	opacity: var(--opacity-60);
 }
 
 .styledText {
@@ -17,11 +17,11 @@
 }
 
 .styledText svg:hover {
-	opacity: 0.6;
+	opacity: var(--opacity-60);
 }
 
 .styledText:hover {
-	filter: var(--hover-dark-2);
+	filter: var(--brightness-dark-2);
 }
 
 .gripContainer {

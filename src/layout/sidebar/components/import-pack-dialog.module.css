@@ -4,5 +4,5 @@
 }
 
 .importButton:disabled {
-	opacity: 0.8;
+	opacity: var(--opacity-80);
 }

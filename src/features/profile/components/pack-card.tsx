@@ -11,9 +11,8 @@ type PackCardProps = {
 	userView: boolean;
 };
 
-export const PackCard = (props: PackCardProps) => {
+export const PackCard = ({ pack, userView }: PackCardProps) => {
 	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
-	const { pack, userView } = props;
 	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
 		pack || {};
 
@@ -37,7 +36,7 @@ export const PackCard = (props: PackCardProps) => {
 				</Inset>
 
 				<Flex direction="column" mb="6">
-					<Heading size="4" className={styles.styledCardHeader}>
+					<Heading size="4">
 						<Link link={link} enabled={userView}>
 							{packName}
 						</Link>

@@ -9,7 +9,7 @@ export const Dimmer = ({ active, className }: DimmerProps) => {
 	return (
 		<div
 			className={`${styles.dimmer} ${className || ''}`}
-			style={{ '--dimmer-opacity': active ? '0.2' : '0' } as React.CSSProperties}
+			style={{ opacity: active ? 0.2 : 0 }}
 		/>
 	);
 };

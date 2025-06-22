@@ -6,7 +6,7 @@
 	background: var(--color-bg-secondary);
 	color: var(--color-constant-white);
 	height: 100%;
-	transition: transform 500ms ease;
+	transition: transform var(--transition-slow);
 	z-index: 200;
 }
 
@@ -17,13 +17,13 @@
 .sidebarHidden {
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity 500ms ease;
+	transition: opacity var(--transition-slow);
 }
 
 .sidebarVisible {
 	opacity: 1;
 	pointer-events: auto;
-	transition: opacity 500ms ease;
+	transition: opacity var(--transition-slow);
 }
 
 .sidebarContainer {

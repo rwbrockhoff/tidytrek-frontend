@@ -21,7 +21,7 @@
 	background-color: var(--color-bg-primary);
 	position: relative;
 	padding: var(--space-xxl) 4em 6em 4em; /* Layout content padding - large horizontal/bottom spacing */
-	transition: all 300ms ease;
+	transition: all var(--transition);
 	transition-property: margin-left, width;
 }
 
