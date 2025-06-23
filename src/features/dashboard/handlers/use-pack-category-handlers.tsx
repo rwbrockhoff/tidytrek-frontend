@@ -198,9 +198,15 @@ const useCreateHandlers = () => {
 	return { handlers, mutations };
 };
 
-export const HandlerContext = createContext<HandlerData | {}>({});
+export const HandlerContext = createContext<HandlerData | null>(null);
 
-export const usePackCategoryHandlers = () => useContext(HandlerContext) as HandlerData;
+export const usePackCategoryHandlers = () => {
+	const context = useContext(HandlerContext);
+	if (!context) {
+		throw new Error('usePackCategoryHandlers must be used within a HandlerWrapper');
+	}
+	return context;
+};
 
 export const HandlerWrapper = ({ children }: { children: React.ReactNode }) => {
 	return (

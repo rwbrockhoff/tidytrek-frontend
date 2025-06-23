@@ -11,7 +11,7 @@ export function calculateAdjacentItems<T>(
 	destinationIndex: number,
 ): AdjacentItems<T> {
 	let prevIndex, nextIndex;
-	
+
 	if (destinationIndex > sourceIndex) {
 		prevIndex = destinationIndex;
 		nextIndex = destinationIndex + 1;
@@ -19,7 +19,7 @@ export function calculateAdjacentItems<T>(
 		prevIndex = destinationIndex - 1;
 		nextIndex = destinationIndex;
 	}
-	
+
 	const prevItem = prevIndex >= 0 ? allItems[prevIndex] : undefined;
 	const nextItem = nextIndex < allItems.length ? allItems[nextIndex] : undefined;
 
@@ -27,11 +27,12 @@ export function calculateAdjacentItems<T>(
 }
 
 export function applySynchronousDragUpdate<TData>(
+	// React Query expects key to be readonly
 	queryClient: QueryClient,
-	queryKey: unknown[],
+	queryKey: readonly unknown[],
 	sourceIndex: number,
 	destinationIndex: number,
-	arrayPath?: string
+	arrayPath?: string,
 ) {
 	queryClient.setQueryData<TData>(queryKey, (old: any) => {
 		if (!old) return old;
@@ -46,10 +47,10 @@ export function applySynchronousDragUpdate<TData>(
 		if (arrayPath) {
 			return {
 				...old,
-				[arrayPath]: result
+				[arrayPath]: result,
 			};
 		}
-		
+
 		return result;
 	});
 }
