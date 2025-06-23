@@ -1,4 +1,4 @@
-import { PackItem } from '../types/pack-types';
+import { PackItem, Category, PackListItem } from '../types/pack-types';
 
 export const mockPackItems: PackItem[] = [
 	{
@@ -131,5 +131,62 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		favorite: false,
 		packItemIndex: "3",
 		packItemPrice: 0,
+	},
+];
+
+export const mockPackCategory: Category = {
+	packCategoryId: 1,
+	packId: 1,
+	packCategoryName: 'Essentials',
+	packCategoryIndex: '0',
+	packCategoryColor: 'blue',
+	packItems: [
+		{
+			packId: 1,
+			packItemId: 1,
+			packCategoryId: 1,
+			packItemName: 'Backpack',
+			packItemDescription: '40 Liter UL',
+			packItemWeight: 40,
+			packItemUnit: 'oz',
+			packItemQuantity: 1,
+			packItemUrl: '',
+			wornWeight: false,
+			consumable: false,
+			favorite: false,
+			packItemIndex: "0",
+			packItemPrice: 199.99,
+		},
+		{
+			packId: 1,
+			packItemId: 2,
+			packCategoryId: 1,
+			packItemName: 'Sleeping Bag',
+			packItemDescription: 'Down 20°F',
+			packItemWeight: 2.5,
+			packItemUnit: 'lb',
+			packItemQuantity: 1,
+			packItemUrl: 'https://example.com/sleeping-bag',
+			wornWeight: false,
+			consumable: false,
+			favorite: true,
+			packItemIndex: "1",
+			packItemPrice: 299.99,
+		},
+	],
+};
+
+export const mockPackList: PackListItem[] = [
+	{
+		packId: 1,
+		packName: 'Weekend Backpacking',
+		packIndex: '0',
+		packCategories: [mockPackCategory],
+	},
+	{
+		packId: 2,
+		packName: 'Day Hike',
+		packIndex: '1',
+		packCategories: [],
 	},
 ];
