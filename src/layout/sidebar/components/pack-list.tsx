@@ -7,7 +7,9 @@ import { PackListItem } from './pack-list-item';
 import { Separator } from '@radix-ui/themes';
 import { useMovePackMutation } from '@/queries/pack-queries';
 
-import { encode, calculateAdjacentItems } from '@/utils';
+import { encode, calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { packListKeys } from '@/queries/query-keys';
 import { CreatePackMenu } from './create-pack-menu';
 
 type PackListProps = {
@@ -17,6 +19,7 @@ type PackListProps = {
 
 export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { mutate: movePack } = useMovePackMutation();
 
@@ -34,6 +37,14 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 		const sameIndex = destination.index === source.index;
 		if (sameIndex) return;
 		
+		applySynchronousDragUpdate<{ packList: PackListItemType[] }>(
+			queryClient,
+			packListKeys.all,
+			source.index,
+			destination.index,
+			'packList'
+		);
+
 		// Calculate adjacent packs for fractional indexing
 		const { prevItem: prevPack, nextItem: nextPack } = calculateAdjacentItems(
 			packList,

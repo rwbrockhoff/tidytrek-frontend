@@ -1,36 +1,55 @@
-// Shared drag and drop utility for fractional indexing
+import { QueryClient } from '@tanstack/react-query';
 
 export type AdjacentItems<T> = {
 	prevItem?: T;
 	nextItem?: T;
 };
 
-// Calculate adjacent items for fractional indexing drag operations
-// Handles removing dragged item and finding adjacent items at drop position
-
 export function calculateAdjacentItems<T>(
 	allItems: T[],
 	sourceIndex: number,
 	destinationIndex: number,
 ): AdjacentItems<T> {
-	// Remove the dragged item from the list to get accurate adjacent items
-	const filteredItems = allItems.filter((_, index) => index !== sourceIndex);
-
-	// For dropping at the end, use the filtered list length as destination
-	// For other positions, adjust if we removed an item before the drop position
-	let adjustedDestIndex;
-	if (destinationIndex >= allItems.length - 1) {
-		// Dropping at the end - use length of filtered items
-		adjustedDestIndex = filteredItems.length;
+	let prevIndex, nextIndex;
+	
+	if (destinationIndex > sourceIndex) {
+		prevIndex = destinationIndex;
+		nextIndex = destinationIndex + 1;
 	} else {
-		// Dropping in middle - adjust if we removed an item before it
-		adjustedDestIndex =
-			destinationIndex > sourceIndex ? destinationIndex - 1 : destinationIndex;
+		prevIndex = destinationIndex - 1;
+		nextIndex = destinationIndex;
 	}
-
-	// Get adjacent items at drop position
-	const prevItem = filteredItems[adjustedDestIndex - 1];
-	const nextItem = filteredItems[adjustedDestIndex];
+	
+	const prevItem = prevIndex >= 0 ? allItems[prevIndex] : undefined;
+	const nextItem = nextIndex < allItems.length ? allItems[nextIndex] : undefined;
 
 	return { prevItem, nextItem };
+}
+
+export function applySynchronousDragUpdate<TData>(
+	queryClient: QueryClient,
+	queryKey: unknown[],
+	sourceIndex: number,
+	destinationIndex: number,
+	arrayPath?: string
+) {
+	queryClient.setQueryData<TData>(queryKey, (old: any) => {
+		if (!old) return old;
+
+		const arrayToUpdate = arrayPath ? old[arrayPath] : old;
+		if (!Array.isArray(arrayToUpdate)) return old;
+
+		const result = Array.from(arrayToUpdate);
+		const [removed] = result.splice(sourceIndex, 1);
+		result.splice(destinationIndex, 0, removed);
+
+		if (arrayPath) {
+			return {
+				...old,
+				[arrayPath]: result
+			};
+		}
+		
+		return result;
+	});
 }

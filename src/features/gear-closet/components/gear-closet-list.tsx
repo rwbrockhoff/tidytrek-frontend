@@ -11,7 +11,9 @@ import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';
 import { NotFoundMessage } from './not-found-message';
-import { calculateAdjacentItems } from '@/utils';
+import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { closetKeys } from '@/queries/query-keys';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -22,6 +24,7 @@ export type GearClosetListProps = {
 
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
+	const queryClient = useQueryClient();
 
 	const { mutate: addItem } = useAddGearClosetItemMutation();
 	const { mutate: editItem } = useEditGearClosetItemMutation();
@@ -38,13 +41,20 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		const sameIndex = destination.index === source.index;
 		if (sameIndex) return;
 
+		applySynchronousDragUpdate<{ gearClosetList: PackItem[] }>(
+			queryClient,
+			closetKeys.all,
+			source.index,
+			destination.index,
+			'gearClosetList'
+		);
+
 		// Calculate adjacent items for fractional indexing
 		const { prevItem, nextItem } = calculateAdjacentItems(
 			gearClosetList,
 			source.index,
 			destination.index
 		);
-
 
 		const dragId = draggableId.replace(/\D/g, '');
 		moveGearClosetItem({

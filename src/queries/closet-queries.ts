@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { PackInfo, type PackItem } from '../types/pack-types';
+import { PackInfo, type PackItem, type GearClosetItem } from '../types/pack-types';
 import { closetKeys, packKeys } from './query-keys';
 
 type InitialState = {
-	gearClosetList: PackItem[];
+	gearClosetList: GearClosetItem[];
 };
 
 export const useGetGearClosetQuery = () =>
@@ -37,10 +37,13 @@ export const useEditGearClosetItemMutation = () => {
 export const useMoveGearClosetItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
+		mutationKey: ['moveGearClosetItem'],
 		mutationFn: (moveInfo: {
 			packItemId: string;
 			prevItemIndex?: string;
 			nextItemIndex?: string;
+			sourceIndex?: number;
+			destinationIndex?: number;
 		}) => {
 			const { packItemId, prevItemIndex, nextItemIndex } = moveInfo;
 			return tidyTrekAPI.put(`/closet/items/index/${packItemId}`, {
@@ -48,9 +51,15 @@ export const useMoveGearClosetItemMutation = () => {
 				next_item_index: nextItemIndex,
 			});
 		},
-		// Disable optimistic updates for now - will reimplement with fractional indexing logic
-		onSuccess: () => {
+		onError: () => {
+			// Only invalidate on error to refetch correct data
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
+		},
+		onSuccess: () => {
+			// Only invalidate if no other move mutations are running
+			if (!queryClient.isMutating({ mutationKey: ['moveGearClosetItem'] })) {
+				queryClient.invalidateQueries({ queryKey: closetKeys.all });
+			}
 		},
 	});
 };

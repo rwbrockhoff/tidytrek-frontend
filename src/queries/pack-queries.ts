@@ -7,6 +7,7 @@ import {
 	type InitialState,
 	type Pack,
 	type PackItem,
+	type GearClosetItem,
 	type PackListItem,
 	type Category,
 } from '@/types/pack-types';
@@ -16,7 +17,7 @@ import { paletteList } from '@/styles/theme/palette-constants';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
-		(item: Category) => item.packCategoryId === Number(categoryId),
+		(category: Category) => category.packCategoryId.toString() === categoryId.toString(),
 	);
 };
 
@@ -107,10 +108,13 @@ export const useDeletePackPhotoMutation = () => {
 export const useMovePackMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
+		mutationKey: ['movePack'],
 		mutationFn: (moveInfo: {
 			packId: string;
 			prevPackIndex?: string;
 			nextPackIndex?: string;
+			sourceIndex?: number;
+			destinationIndex?: number;
 		}) => {
 			const { packId, prevPackIndex, nextPackIndex } = moveInfo;
 			return tidyTrekAPI.put(`/packs/index/${packId}`, {
@@ -118,10 +122,17 @@ export const useMovePackMutation = () => {
 				next_pack_index: nextPackIndex,
 			});
 		},
-		// Disable optimistic updates for now - will reimplement with fractional indexing logic
-		onSuccess: () => {
+		onError: () => {
+			// Only invalidate on error to refetch correct data
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+		},
+		onSuccess: () => {
+			// Only invalidate if no other move mutations are running
+			if (!queryClient.isMutating({ mutationKey: ['movePack'] })) {
+				queryClient.invalidateQueries({ queryKey: packListKeys.all });
+				queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			}
 		},
 	});
 };
@@ -182,19 +193,17 @@ export const useMovePackItemMutation = () => {
 			const { packItemId } = packInfo;
 			return tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, packInfo);
 		},
-		// TODO: Update optimistic update logic for fractional indexing
-		// onMutate: async (packInfo) => {
-		// 	// Optimistic update logic disabled during fractional indexing migration
-		// 	return {};
-		// },
-		onError: (_err, _packInfo, _context) => {
-			// TODO: Re-implement error handling for fractional indexing
+		onError: (_err, packInfo) => {
+			// Only invalidate on error to refetch correct data
+			if (packInfo.packId) {
+				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+			}
 		},
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
-		},
-		onSuccess: (_response, data) => {
-			queryClient.invalidateQueries({ queryKey: packKeys.packId(data.packId) });
+		onSettled: (_response, _error, packInfo) => {
+			// Always refetch after mutation completes to ensure consistency
+			if (packInfo.packId) {
+				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+			}
 		},
 	});
 };
@@ -204,8 +213,90 @@ export const useMoveItemToClosetMutation = () => {
 	return useMutation({
 		mutationFn: (packItemId: number) =>
 			tidyTrekAPI.put(`/packs/pack-items/closet/${packItemId}`),
-		onSuccess: () => {
+		onMutate: async (packItemId: number) => {
+			// Cancel any outgoing refetches for both pack and closet queries
+			await queryClient.cancelQueries({ queryKey: packKeys.all });
+			await queryClient.cancelQueries({ queryKey: closetKeys.all });
+
+			// Find which pack contains this item
+			const packQueries = queryClient.getQueriesData<InitialState>({
+				queryKey: packKeys.all,
+			});
+			let previousPack: InitialState | undefined;
+			let packIdWithItem: number | undefined;
+			let movedItem: PackItem | undefined;
+
+			for (const [, queryData] of packQueries) {
+				if (queryData) {
+					const foundItem = queryData.categories
+						.flatMap((cat) => cat.packItems)
+						.find((item) => item.packItemId === packItemId);
+					if (foundItem) {
+						previousPack = queryData;
+						packIdWithItem = foundItem.packId;
+						movedItem = foundItem;
+						break;
+					}
+				}
+			}
+
+			if (!movedItem || !packIdWithItem) return {};
+
+			// Snapshot the previous closet data
+			const previousCloset = queryClient.getQueryData<{ gearClosetList: GearClosetItem[] }>(
+				closetKeys.all,
+			);
+
+			// Remove item from pack optimistically
+			queryClient.setQueryData<InitialState>(packKeys.packId(packIdWithItem), (old) => {
+				if (!old) return old;
+
+				const updatedCategories = old.categories.map((category) => ({
+					...category,
+					packItems: category.packItems.filter((item) => item.packItemId !== packItemId),
+				}));
+
+				return {
+					...old,
+					categories: updatedCategories,
+				};
+			});
+
+			// Add item to closet optimistically
+			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(closetKeys.all, (old) => {
+				if (!old || !movedItem) return old;
+
+				// Remove pack-specific fields from the moved item
+				const closetItem: GearClosetItem = {
+					...movedItem,
+					packId: null,
+					packCategoryId: null,
+				};
+
+				return {
+					...old,
+					gearClosetList: [...old.gearClosetList, closetItem],
+				};
+			});
+
+			// Return context for rollback
+			return { previousPack, previousCloset, packIdWithItem };
+		},
+		onError: (_err, _packItemId, context) => {
+			// Rollback updates on error
+			if (context?.previousPack && context?.packIdWithItem) {
+				queryClient.setQueryData(
+					packKeys.packId(context.packIdWithItem),
+					context.previousPack,
+				);
+			}
+			if (context?.previousCloset) {
+				queryClient.setQueryData(closetKeys.all, context.previousCloset);
+			}
+		},
+		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
+			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
@@ -256,25 +347,20 @@ export const useMovePackCategoryMutation = () => {
 		mutationFn: (categoryInfo: MovePackCategoryProps) => {
 			const { packCategoryId, prevCategoryIndex, nextCategoryIndex } = categoryInfo;
 			return tidyTrekAPI.put(`/packs/categories/index/${packCategoryId}`, {
-				prevCategoryIndex,
-				nextCategoryIndex,
+				prev_category_index: prevCategoryIndex,
+				next_category_index: nextCategoryIndex,
 			});
 		},
-		// TODO: Update optimistic update logic for fractional indexing
-		// onMutate: async (categoryInfo) => {
-		// 	// Optimistic update logic disabled during fractional indexing migration
-		// 	return {};
-		// },
-		onError: (_err, _packInfo, _context) => {
-			// TODO: Re-implement error handling for fractional indexing
+		onError: (_err, categoryInfo) => {
+			// Only invalidate on error to refetch correct data
+			if (categoryInfo.packId) {
+				queryClient.invalidateQueries({ queryKey: packKeys.packId(categoryInfo.packId) });
+			}
 		},
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
-			queryClient.invalidateQueries({ queryKey: packListKeys.all });
-		},
-		onSuccess: (_response, { packId }) => {
-			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
-			queryClient.invalidateQueries({ queryKey: packListKeys.all });
+		onSettled: (_response, _error, categoryInfo) => {
+			if (categoryInfo.packId) {
+				queryClient.invalidateQueries({ queryKey: packKeys.packId(categoryInfo.packId) });
+			}
 		},
 	});
 };

@@ -1,10 +1,13 @@
 import { type DropResult } from 'react-beautiful-dnd';
-import { type HeaderInfo, type Pack, type Category } from '@/types/pack-types';
+import { type HeaderInfo, type Pack, type Category, type InitialState } from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { createContext, useContext } from 'react';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 import { paletteList } from '@/styles/theme/palette-constants';
-import { calculateAdjacentItems } from '@/utils';
+import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { packKeys } from '@/queries/query-keys';
+import { getCategoryIndex } from '@/queries/pack-queries';
 
 type Handlers = {
 	addCategory: (packId: number, categories: Category[]) => void;
@@ -21,6 +24,7 @@ type HandlerData = {
 const useCreateHandlers = () => {
 	const mutations = usePackCategoryMutations();
 	const { movePackItem } = usePackItemMutations();
+	const queryClient = useQueryClient();
 
 	const {
 		addPackCategory,
@@ -74,6 +78,16 @@ const useCreateHandlers = () => {
 				destination.index
 			);
 
+
+			applySynchronousDragUpdate<InitialState>(
+				queryClient,
+				packKeys.packId(pack.packId),
+				source.index,
+				destination.index,
+				'categories'
+			);
+
+			// Then trigger the mutation
 			movePackCategory.mutate({
 				packId: pack.packId,
 				paramPackId,
@@ -85,16 +99,41 @@ const useCreateHandlers = () => {
 			const sameCategory = destination.droppableId === source.droppableId;
 			if (sameIndex && sameCategory) return;
 
-			// Find destination category and get adjacent items
-			const destCategory = pack.categories?.find(
-				cat => cat.packCategoryId.toString() === destination.droppableId
-			);
-			let destItems = destCategory?.packItems || [];
+			// Apply optimistic update first and capture the updated state
+			let updatedDestItems: any[] = [];
 			
+			queryClient.setQueryData<InitialState>(
+				packKeys.packId(pack.packId), 
+				(old) => {
+					if (!old) return old;
+
+					const { categories } = old;
+					const prevCategoryIndex = getCategoryIndex(categories, source.droppableId);
+					
+					if (sameCategory) {
+						const result = Array.from(categories[prevCategoryIndex].packItems);
+						const [removed] = result.splice(source.index, 1);
+						result.splice(destination.index, 0, removed);
+						
+						categories[prevCategoryIndex].packItems = result;
+						// For same category, use the updated items
+						updatedDestItems = result;
+					} else {
+						const [item] = categories[prevCategoryIndex].packItems.splice(source.index, 1);
+						const newCategoryIndex = getCategoryIndex(categories, destination.droppableId);
+						categories[newCategoryIndex].packItems.splice(destination.index, 0, item);
+						// For cross-category, get the updated destination category items
+						updatedDestItems = categories[newCategoryIndex].packItems;
+					}
+
+					return old;
+				}
+			);
+
 			// For same-category moves, use shared adjacent item calculation
 			if (sameCategory) {
 				const { prevItem, nextItem } = calculateAdjacentItems(
-					destItems,
+					updatedDestItems,
 					source.index,
 					destination.index
 				);
@@ -109,13 +148,13 @@ const useCreateHandlers = () => {
 					nextItemIndex: nextItem?.packItemIndex,
 				});
 			} else {
-				// Cross-category move - consider global ordering
-				// For cross-category moves, we need to consider what the user actually sees
-				// If dropping at top of destination category, compare with global minimum
+				// Cross-category move - use the updated destination items after optimistic update
+				// For cross-category moves, we need to consider the CURRENT state of destination category
 				if (destination.index === 0) {
 					// Dropping at top of destination category
-					// Find the current top item in destination category
-					const topItemInDestCategory = destItems[0];
+					// Find the current top item in destination category (excluding the item we just added)
+					// Since we already added the item optimistically, we need the item that was originally at position 0
+					const topItemInDestCategory = updatedDestItems[1]; // Item that was at position 0 before our drop
 					
 					const dragId = draggableId.replace(/\D/g, '');
 					movePackItem.mutate({
@@ -123,13 +162,15 @@ const useCreateHandlers = () => {
 						packItemId: dragId,
 						packCategoryId: destination.droppableId,
 						prevPackCategoryId: source.droppableId,
-						prevItemIndex: undefined, // No item before (top position)
+						prevItemIndex: undefined,
 						nextItemIndex: topItemInDestCategory?.packItemIndex,
 					});
 				} else {
 					// Dropping in middle/bottom of destination category
-					const prevItem = destItems[destination.index - 1];
-					const nextItem = destItems[destination.index];
+					// Since we've already placed the item optimistically, we need to get adjacent items
+					// excluding the dropped item to get correct fractional indexes
+					const prevItem = updatedDestItems[destination.index - 1];
+					const nextItem = updatedDestItems[destination.index + 1]; // Skip the item we just dropped
 					
 					const dragId = draggableId.replace(/\D/g, '');
 					movePackItem.mutate({

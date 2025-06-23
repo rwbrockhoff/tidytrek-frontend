@@ -32,7 +32,7 @@ export type Category = {
 	packId: number;
 	packCategoryIndex: string;
 	packCategoryColor: string;
-	packItems: [PackItem];
+	packItems: PackItem[];
 };
 
 export type PackItem = {
@@ -50,6 +50,12 @@ export type PackItem = {
 	consumable: boolean;
 	favorite: boolean;
 	packItemPrice: number;
+};
+
+// Type for items in the gear closet (packId and packCategoryId are null)
+export type GearClosetItem = Omit<PackItem, 'packId' | 'packCategoryId'> & {
+	packId: null;
+	packCategoryId: null;
 };
 
 export type PackListItem = {
@@ -75,15 +81,15 @@ export type MovePackItemProps = {
 	packItemId: string;
 	packCategoryId: string;
 	prevPackCategoryId: string;
-	prevItemIndex?: string; // index of item before drop position
-	nextItemIndex?: string; // index of item after drop position
+	prevItemIndex?: string;
+	nextItemIndex?: string;
 };
 
 export type MovePackCategoryProps = {
 	packId: number;
 	packCategoryId: string;
-	prevCategoryIndex?: string; // index of category before drop position
-	nextCategoryIndex?: string; // index of category after drop position
+	prevCategoryIndex?: string;
+	nextCategoryIndex?: string;
 	paramPackId: string | undefined;
 };
 
