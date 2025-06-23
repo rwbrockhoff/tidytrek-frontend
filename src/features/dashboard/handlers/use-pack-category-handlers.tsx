@@ -1,5 +1,10 @@
 import { type DropResult } from 'react-beautiful-dnd';
-import { type HeaderInfo, type Pack, type Category, type InitialState } from '@/types/pack-types';
+import {
+	type HeaderInfo,
+	type Pack,
+	type Category,
+	type InitialState,
+} from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { createContext, useContext } from 'react';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
@@ -52,7 +57,7 @@ const useCreateHandlers = () => {
 		// Calculate next palette color based on current categories length
 		const nextColorIndex = categories.length % paletteList.length;
 		const categoryColor = paletteList[nextColorIndex];
-		
+
 		addPackCategory.mutate({ packId, categoryColor });
 	};
 
@@ -75,16 +80,15 @@ const useCreateHandlers = () => {
 			const { prevItem: prevCategory, nextItem: nextCategory } = calculateAdjacentItems(
 				categories,
 				source.index,
-				destination.index
+				destination.index,
 			);
-
 
 			applySynchronousDragUpdate<InitialState>(
 				queryClient,
 				packKeys.packId(pack.packId),
 				source.index,
 				destination.index,
-				'categories'
+				'categories',
 			);
 
 			// Then trigger the mutation
@@ -101,43 +105,40 @@ const useCreateHandlers = () => {
 
 			// Apply optimistic update first and capture the updated state
 			let updatedDestItems: any[] = [];
-			
-			queryClient.setQueryData<InitialState>(
-				packKeys.packId(pack.packId), 
-				(old) => {
-					if (!old) return old;
 
-					const { categories } = old;
-					const prevCategoryIndex = getCategoryIndex(categories, source.droppableId);
-					
-					if (sameCategory) {
-						const result = Array.from(categories[prevCategoryIndex].packItems);
-						const [removed] = result.splice(source.index, 1);
-						result.splice(destination.index, 0, removed);
-						
-						categories[prevCategoryIndex].packItems = result;
-						// For same category, use the updated items
-						updatedDestItems = result;
-					} else {
-						const [item] = categories[prevCategoryIndex].packItems.splice(source.index, 1);
-						const newCategoryIndex = getCategoryIndex(categories, destination.droppableId);
-						categories[newCategoryIndex].packItems.splice(destination.index, 0, item);
-						// For cross-category, get the updated destination category items
-						updatedDestItems = categories[newCategoryIndex].packItems;
-					}
+			queryClient.setQueryData<InitialState>(packKeys.packId(pack.packId), (old) => {
+				if (!old) return old;
 
-					return old;
+				const { categories } = old;
+				const prevCategoryIndex = getCategoryIndex(categories, source.droppableId);
+
+				if (sameCategory) {
+					const result = Array.from(categories[prevCategoryIndex].packItems);
+					const [removed] = result.splice(source.index, 1);
+					result.splice(destination.index, 0, removed);
+
+					categories[prevCategoryIndex].packItems = result;
+					// For same category, use the updated items
+					updatedDestItems = result;
+				} else {
+					const [item] = categories[prevCategoryIndex].packItems.splice(source.index, 1);
+					const newCategoryIndex = getCategoryIndex(categories, destination.droppableId);
+					categories[newCategoryIndex].packItems.splice(destination.index, 0, item);
+					// For cross-category, get the updated destination category items
+					updatedDestItems = categories[newCategoryIndex].packItems;
 				}
-			);
+
+				return old;
+			});
 
 			// For same-category moves, use shared adjacent item calculation
 			if (sameCategory) {
 				const { prevItem, nextItem } = calculateAdjacentItems(
 					updatedDestItems,
 					source.index,
-					destination.index
+					destination.index,
 				);
-				
+
 				const dragId = draggableId.replace(/\D/g, '');
 				movePackItem.mutate({
 					packId: paramPackId ? pack.packId : null,
@@ -155,7 +156,7 @@ const useCreateHandlers = () => {
 					// Find the current top item in destination category (excluding the item we just added)
 					// Since we already added the item optimistically, we need the item that was originally at position 0
 					const topItemInDestCategory = updatedDestItems[1]; // Item that was at position 0 before our drop
-					
+
 					const dragId = draggableId.replace(/\D/g, '');
 					movePackItem.mutate({
 						packId: paramPackId ? pack.packId : null,
@@ -171,7 +172,7 @@ const useCreateHandlers = () => {
 					// excluding the dropped item to get correct fractional indexes
 					const prevItem = updatedDestItems[destination.index - 1];
 					const nextItem = updatedDestItems[destination.index + 1]; // Skip the item we just dropped
-					
+
 					const dragId = draggableId.replace(/\D/g, '');
 					movePackItem.mutate({
 						packId: paramPackId ? pack.packId : null,
