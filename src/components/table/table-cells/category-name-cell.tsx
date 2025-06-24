@@ -53,7 +53,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			className={styles.headerCell}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}>
-			<GripButton display={showGrip && userView} {...dragProps} />
+			<GripButton display={showGrip && userView} testId="pack-category-grip" {...dragProps} />
 
 			<Flex align="center">
 				<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />

@@ -34,7 +34,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 
 	return (
 		<Table.Cell ref={ref} onBlur={handleToggleOff} style={{ width }} className={styles.styledCell}>
-			<GripButton display={displayIcon && userView} {...dragProps} />
+			<GripButton display={displayIcon && userView} testId="pack-item-grip" {...dragProps} />
 
 			{userView ? (
 				<Flex display="inline-flex" width="100%">

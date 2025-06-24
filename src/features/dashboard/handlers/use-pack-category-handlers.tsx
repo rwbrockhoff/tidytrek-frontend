@@ -103,7 +103,28 @@ const useCreateHandlers = () => {
 			const sameCategory = destination.droppableId === source.droppableId;
 			if (sameIndex && sameCategory) return;
 
-			// Apply optimistic update first and capture the updated state
+			// Calculate adjacent items BEFORE optimistic update for same-category moves
+			let prevItem: any, nextItem: any;
+			
+			if (sameCategory) {
+				const currentData = queryClient.getQueryData<InitialState>(packKeys.packId(pack.packId));
+				if (currentData) {
+					const { categories } = currentData;
+					const categoryIndex = getCategoryIndex(categories, source.droppableId);
+					const originalItems = categories[categoryIndex].packItems;
+					
+					// Calculate adjacent items based on original array before any updates
+					const adjacentItems = calculateAdjacentItems(
+						originalItems,
+						source.index,
+						destination.index,
+					);
+					prevItem = adjacentItems.prevItem;
+					nextItem = adjacentItems.nextItem;
+				}
+			}
+
+			// Apply optimistic update after calculating adjacent items
 			let updatedDestItems: any[] = [];
 
 			queryClient.setQueryData<InitialState>(packKeys.packId(pack.packId), (old) => {
@@ -131,13 +152,8 @@ const useCreateHandlers = () => {
 				return old;
 			});
 
-			// For same-category moves, use shared adjacent item calculation
+			// For same-category moves, use pre-calculated adjacent items
 			if (sameCategory) {
-				const { prevItem, nextItem } = calculateAdjacentItems(
-					updatedDestItems,
-					source.index,
-					destination.index,
-				);
 
 				const dragId = draggableId.replace(/\D/g, '');
 				movePackItem.mutate({

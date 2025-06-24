@@ -75,7 +75,8 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 	return (
 		<IconButton
 			onClick={onToggle}
-			className={cn(styles.tableButton, !display && styles.tableButtonHidden)}>
+			className={cn(styles.tableButton, !display && styles.tableButtonHidden)}
+			aria-label="Drag pack item">
 			<ShareIcon />
 		</IconButton>
 	);
@@ -90,12 +91,13 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	);
 };
 
-export const GripButton = ({ display, ...props }: { display: boolean }) => {
+export const GripButton = ({ display, testId = "grip-button", ...props }: { display: boolean; testId?: string }) => {
 	return (
 		<Flex
 			align="center"
 			justify="center"
 			className={cn(styles.gripContainer, display && styles.gripContainerVisible)}
+			data-testid={testId}
 			{...props}>
 			<GripIcon />
 		</Flex>
