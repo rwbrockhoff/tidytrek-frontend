@@ -102,6 +102,7 @@ export const TableRow = (props: TableRowProps) => {
 						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
 						<>
 							<Table.Row
+								data-testid="pack-item-row"
 								onMouseOver={() => setToggleRow(true)}
 								onMouseLeave={() => setToggleRow(false)}
 								ref={provided.innerRef}
@@ -137,6 +138,7 @@ export const TableRow = (props: TableRowProps) => {
 											<ActionButtons display={toggleRow}>
 												<Flex align="center">
 													<ShareIcon
+														aria-label="Move pack item"
 														onClick={() => setToggleGearButtons(!toggleGearButtons)}
 													/>
 												</Flex>
@@ -147,7 +149,7 @@ export const TableRow = (props: TableRowProps) => {
 													onClickMove={handleMoveItemToCloset}
 													onClickDelete={() => handleDelete(packItemId)}>
 													<Flex align="center">
-														<TrashIcon />
+														<TrashIcon aria-label="Delete pack item" />
 													</Flex>
 												</DeleteItemModal>
 											</ActionButtons>
