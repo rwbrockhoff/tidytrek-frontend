@@ -29,39 +29,47 @@ test.describe.serial('Pack Item CRUD Operations', () => {
 		await expect(itemNameInput).toHaveValue('Test Hiking Boots');
 	});
 
-	test('should edit an existing pack item', async ({ page }) => {
+	test('should edit an existing pack item name', async ({ page }) => {
 		const newPackName = 'Durston Kakwa 50L';
-		const newPackDescription = 'New pack for the CDT!';
 
 		const existingItemInput = page.locator('input[name="packItemName"]').first();
-		const existingItemDescription = page
-			.locator('input[name="packItemDescription"]')
-			.first();
 
 		await expect(existingItemInput).toBeVisible();
-		await expect(existingItemDescription).toBeVisible();
 
 		// Verify existing pack item values before editing
 		const inputValue = await existingItemInput.inputValue();
-		const descriptionValue = await existingItemDescription.inputValue();
 		expect(inputValue).toBeTruthy();
-		expect(descriptionValue).toBeTruthy();
 
 		await existingItemInput.click();
 		await existingItemInput.clear();
 		await existingItemInput.fill(newPackName);
 		await existingItemInput.press('Enter');
 
-		// Wait for API between edits
 		await page.waitForLoadState('networkidle');
+
+		await expect(existingItemInput).toHaveValue(newPackName);
+	});
+
+	test('should edit existing pack item description', async ({ page }) => {
+		const newPackDescription = 'New pack for the CDT!';
+
+		const existingItemDescription = page
+			.locator('input[name="packItemDescription"]')
+			.first();
+
+		await expect(existingItemDescription).toBeVisible();
+
+		// Verify existing pack item values before editing
+		const descriptionValue = await existingItemDescription.inputValue();
+		expect(descriptionValue).toBeTruthy();
 
 		await existingItemDescription.click();
 		await existingItemDescription.clear();
 		await existingItemDescription.fill(newPackDescription);
 		await existingItemDescription.press('Enter');
+
 		await page.waitForLoadState('networkidle');
 
-		await expect(existingItemInput).toHaveValue(newPackName);
 		await expect(existingItemDescription).toHaveValue(newPackDescription);
 	});
 
@@ -120,5 +128,46 @@ test.describe.serial('Pack Item CRUD Operations', () => {
 
 		const finalItemCount = await page.locator('[data-testid="pack-item-row"]').count();
 		expect(finalItemCount).toBe(initialItemCount - 1);
+	});
+
+	test('should move pack item to gear closet', async ({ page }) => {
+		const firstItemRow = page.locator('[data-testid="pack-item-row"]').first();
+		await expect(firstItemRow).toBeVisible();
+
+		// Get the item name before moving it
+		const itemNameInput = firstItemRow.locator('input[name="packItemName"]');
+		const itemName = await itemNameInput.inputValue();
+		expect(itemName).toBeTruthy();
+
+		await firstItemRow.hover();
+
+		const deleteIcon = page.locator('[aria-label="Delete pack item"]').first();
+		await expect(deleteIcon).toBeVisible();
+		await deleteIcon.click();
+
+		const deleteModal = page.locator('[role="dialog"]').first();
+		await expect(deleteModal).toBeVisible();
+
+		// Click "Move to Gear Closet" instead of Delete
+		const moveButton = page.getByRole('button', {
+			name: 'Move pack item to gear closet',
+		});
+		await expect(moveButton).toBeVisible();
+		await moveButton.click();
+
+		// Wait for modal to close after move operation
+		await expect(moveButton).not.toBeVisible();
+		await page.waitForLoadState('networkidle');
+
+		// Navigate to gear closet page
+		await page.goto('/gear-closet');
+		await page.waitForLoadState('networkidle');
+
+		// Verify the same item now appears at the end of gear closet list
+		const lastItemRow = page.locator('[data-testid="pack-item-row"]').last();
+		await expect(lastItemRow).toBeVisible();
+
+		const gearClosetItemInput = lastItemRow.locator('input[name="packItemName"]');
+		await expect(gearClosetItemInput).toHaveValue(itemName);
 	});
 });
