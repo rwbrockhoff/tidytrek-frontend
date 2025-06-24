@@ -17,6 +17,14 @@ dist-ssr
 dev.env
 prod.env
 
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# test auth state
+tests/.auth/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

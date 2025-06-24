@@ -1,11 +1,16 @@
 import axios from 'axios';
+
 export const frontendURL =
 	process.env.NODE_ENV === 'production' ? 'https://tidytrek.co' : 'http://localhost:5173';
 
+const baseUrlMap = {
+	development: 'http://localhost:4001',
+	test: 'http://localhost:4002',
+	production: 'https://api.tidytrek.co',
+} as const;
+
 export const baseURL =
-	process.env.NODE_ENV === 'production'
-		? 'https://api.tidytrek.co'
-		: 'http://localhost:4001';
+	baseUrlMap[(process.env.NODE_ENV as keyof typeof baseUrlMap) || 'dev'];
 
 export const tidyTrekAPI = axios.create({
 	baseURL,
