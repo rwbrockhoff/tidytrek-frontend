@@ -1,8 +1,10 @@
 import { test as setup, expect } from '@playwright/test';
-
 const authFile = 'tests/.auth/user.json';
 
 setup('authenticate', async ({ page, request }) => {
+	// Set larger viewport for desktop breakpoint
+	await page.setViewportSize({ width: 1400, height: 900 });
+
 	// First, reset the test database to ensure clean state
 	await request.post('http://localhost:4002/test/reset');
 
@@ -25,12 +27,14 @@ setup('authenticate', async ({ page, request }) => {
 
 	// Wait for login to complete and page to load
 	await page.waitForLoadState('networkidle');
-	
+
 	// Give React time to render components
 	await page.waitForTimeout(2000);
 
 	// Verify we're logged in by checking for pack content
-	await expect(page.getByRole('button', { name: 'Test Pack' })).toBeVisible({ timeout: 10000 });
+	await expect(page.getByRole('heading', { name: 'Test Pack' })).toBeVisible({
+		timeout: 10000,
+	});
 
 	// Save signed-in state to file
 	await page.context().storageState({ path: authFile });
