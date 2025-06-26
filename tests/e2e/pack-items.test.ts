@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { performDragDrop } from './utils/drag-drop-helpers';
 
-test.describe.serial('Pack Item Operations', () => {
+test.describe.serial('Pack Item Functionality', () => {
 	test.describe('Pack Item CRUD Operations', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('/');
@@ -117,9 +117,9 @@ test.describe.serial('Pack Item Operations', () => {
 			await expect(firstItemRow).toBeVisible();
 			await firstItemRow.hover();
 
-			const deleteIcon = page.locator('[aria-label="Delete pack item"]').first();
-			await expect(deleteIcon).toBeVisible();
-			await deleteIcon.click();
+			const deleteButton = page.getByTestId('delete-pack-item-button').first();
+			await expect(deleteButton).toBeVisible();
+			await deleteButton.click();
 
 			const deleteModal = page.locator('[role="dialog"]').first();
 			await expect(deleteModal).toBeVisible();
@@ -146,9 +146,9 @@ test.describe.serial('Pack Item Operations', () => {
 
 			await firstItemRow.hover();
 
-			const deleteIcon = page.locator('[aria-label="Delete pack item"]').first();
-			await expect(deleteIcon).toBeVisible();
-			await deleteIcon.click();
+			const deleteButton = page.getByTestId('delete-pack-item-button').first();
+			await expect(deleteButton).toBeVisible();
+			await deleteButton.click();
 
 			const deleteModal = page.locator('[role="dialog"]').first();
 			await expect(deleteModal).toBeVisible();
@@ -177,10 +177,10 @@ test.describe.serial('Pack Item Operations', () => {
 		});
 	});
 
-	test.describe('Pack Item Drag and Drop Operations', () => {
+	test.describe('Pack Item Drag and Drop Functionality', () => {
 		test.beforeEach(async ({ page, request }) => {
-			// Reset database to ensure clean state for drag-drop tests
-			await request.post('http://localhost:4002/test/reset');
+			// Reset pack data for drag and drop testing
+			await request.post('http://localhost:4002/test/reset-packs');
 
 			await page.goto('/');
 			await page.waitForLoadState('networkidle');

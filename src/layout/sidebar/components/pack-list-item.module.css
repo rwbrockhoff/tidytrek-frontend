@@ -1,9 +1,9 @@
-.itemContainer {
+.packListItemContainer {
 	padding: var(--space-min) 0;
 	cursor: pointer;
 }
 
-.itemContainer:hover svg {
+.packListItemContainer:hover svg {
 	opacity: var(--opacity-60);
 }
 

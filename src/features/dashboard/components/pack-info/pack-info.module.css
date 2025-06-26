@@ -19,9 +19,6 @@
 	opacity: 0;
 }
 
-.editIcon.hidden {
-	display: none;
-}
 
 .toggleChartButton {
 	width: 100%;

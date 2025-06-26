@@ -10,7 +10,10 @@ type PackListItemProps = {
 
 export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 	return (
-		<div key={pack.packId} onClick={() => onClick(pack.packId)} className={styles.itemContainer}>
+		<div
+			key={pack.packId}
+			onClick={() => onClick(pack.packId)}
+			className={styles.packListItemContainer}>
 			<Text size="3" className={styles.styledText}>
 				<span className={styles.gripContainer}>
 					<GripIcon />
@@ -20,4 +23,3 @@ export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 		</div>
 	);
 };
-

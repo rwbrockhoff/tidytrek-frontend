@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { performDragDrop } from './utils/drag-drop-helpers';
 
-test.describe('Gear Closet Operations', () => {
+test.describe('Gear Closet Functionality', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/gear-closet');
 		await page.waitForLoadState('networkidle');

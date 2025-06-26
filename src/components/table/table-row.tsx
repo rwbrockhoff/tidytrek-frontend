@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { type PackItem, type PackListItem, PackItemProperty } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
-import { Flex, Table } from '@radix-ui/themes';
+import { Flex, Table, Button } from '@radix-ui/themes';
 import { ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
@@ -137,10 +137,13 @@ export const TableRow = (props: TableRowProps) => {
 										{userView && (
 											<ActionButtons display={toggleRow}>
 												<Flex align="center">
-													<ShareIcon
-														aria-label="Move pack item"
+													<Button
 														onClick={() => setToggleGearButtons(!toggleGearButtons)}
-													/>
+														variant="ghost"
+														data-testid="move-pack-item-button"
+														aria-label="Move pack item">
+														<ShareIcon />
+													</Button>
 												</Flex>
 
 												<DeleteItemModal
@@ -149,7 +152,9 @@ export const TableRow = (props: TableRowProps) => {
 													onClickMove={handleMoveItemToCloset}
 													onClickDelete={() => handleDelete(packItemId)}>
 													<Flex align="center">
-														<TrashIcon aria-label="Delete pack item" />
+														<Button variant="ghost" data-testid="delete-pack-item-button" aria-label="Delete pack item">
+															<TrashIcon />
+														</Button>
 													</Flex>
 												</DeleteItemModal>
 											</ActionButtons>

@@ -3,9 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './create-pack-menu.module.css';
 import { PlusIcon, ImportIcon } from '@/components/ui';
 import { useAddNewPackMutation } from '@/queries/pack-queries';
-import { Button, Flex, Popover, Text } from '@radix-ui/themes';
+import { Button, Flex, Popover } from '@radix-ui/themes';
 import { encode } from '@/utils';
-import { StyledMenu } from './styled-menu';
 import { ImportPackDialog } from './import-pack-dialog';
 
 export const CreatePackMenu = () => {
@@ -32,32 +31,39 @@ export const CreatePackMenu = () => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
-				<Button variant="ghost" color="gray" className={styles.newPackButton}>
+				<Button
+					variant="ghost"
+					color="gray"
+					className={styles.newPackButton}
+					aria-label="Open pack creation menu">
 					<PlusIcon />
 					Create New Pack
 				</Button>
 			</Popover.Trigger>
 			<Popover.Content>
-				<StyledMenu>
-					<li onClick={() => addPack()}>
-						<Text>
+				<Flex direction="column" gap="1">
+					<Button
+						variant="ghost"
+						onClick={() => addPack()}
+						className={styles.menuButton}
+						aria-label="Create a new empty pack">
+						<Flex display="inline-flex" align="center">
+							<PlusIcon />
+							Create New Pack
+						</Flex>
+					</Button>
+					<ImportPackDialog>
+						<Button
+							variant="ghost"
+							className={styles.menuButton}
+							aria-label="Import pack from Lighterpack">
 							<Flex display="inline-flex" align="center">
-								<PlusIcon />
-								Create New Pack
+								<ImportIcon />
+								Import Pack
 							</Flex>
-						</Text>
-					</li>
-					<li>
-						<ImportPackDialog>
-							<Text>
-								<Flex display="inline-flex" align="center">
-									<ImportIcon />
-									Import Pack
-								</Flex>
-							</Text>
-						</ImportPackDialog>
-					</li>
-				</StyledMenu>
+						</Button>
+					</ImportPackDialog>
+				</Flex>
 			</Popover.Content>
 		</Popover.Root>
 	);

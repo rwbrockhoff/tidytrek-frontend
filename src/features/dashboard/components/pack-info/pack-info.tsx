@@ -77,16 +77,18 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Heading as="h1" size="6" mb="2">
+				<Heading as="h1" size="6" mb="2" data-testid="pack-name-heading">
 					<Flex>
 						{packName}
 
 						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
-							<EditPencilIcon
-								className={cn(`editIcon ${styles.editIcon}`, !userView && styles.hidden)}
-								name="pencil alternate"
-								color="grey"
-							/>
+							<Button
+								variant="ghost"
+								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
+								data-testid="pack-edit-button"
+								aria-label="Edit pack details">
+								<EditPencilIcon />
+							</Button>
 						</PackModal>
 					</Flex>
 				</Heading>

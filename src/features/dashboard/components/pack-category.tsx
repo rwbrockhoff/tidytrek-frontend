@@ -39,6 +39,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 
 	const formattedTotalPrice = convertCurrency(totalPrice, 'USD');
 	const itemQuantity = packItems[0] ? convertQuantity(packItems) : 0; // todo: get from weight converter
+	// minize or hide pack items when empty
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view
 	if (!userView && !showCategoryItems) return null;
@@ -53,7 +54,8 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 				<div
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					className={cn(styles.tableContainer, isMinimized && styles.minimized)}>
+					className={cn(styles.tableContainer, isMinimized && styles.minimized)}
+					data-testid="pack-category-row">
 					<Table>
 						<TableHeader
 							dragProps={{ ...provided.dragHandleProps }}

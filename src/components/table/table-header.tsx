@@ -1,5 +1,5 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { Flex, Table } from '@radix-ui/themes';
+import { Button, Flex, Table } from '@radix-ui/themes';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
 import { usePackCategoryHandlers } from '@/features/dashboard/handlers/use-pack-category-handlers';
@@ -52,16 +52,24 @@ export const TableHeader = (props: TableHeaderProps) => {
 				)}
 				{userView && (
 					<ActionButtons header>
-						<Flex align="center" onClick={minimizeCategory}>
-							{isMinimized ? <PlusIcon /> : <MinusIcon />}
+						<Flex align="center">
+							<Button
+								onClick={minimizeCategory}
+								variant="ghost"
+								data-testid="minimize-category-button"
+								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}>
+								{isMinimized ? <PlusIcon /> : <MinusIcon />}
+							</Button>
 						</Flex>
 						<DeleteModal
 							header="Are you sure?"
 							message={deleteCategoryMessage}
 							onClickMove={() => deleteCategory(packCategoryId)}
 							onClickDelete={() => deleteCategoryAndItems(packCategoryId)}>
-							<Flex align="center">
-								<TrashIcon />
+							<Flex align="center" aria-label="Delete category">
+								<Button variant="ghost" data-testid="delete-category-button" aria-label="Delete category">
+									<TrashIcon />
+								</Button>
 							</Flex>
 						</DeleteModal>
 					</ActionButtons>

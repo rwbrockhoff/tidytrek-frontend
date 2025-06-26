@@ -1,0 +1,202 @@
+import { test, expect } from '@playwright/test';
+
+test.describe.serial('Pack Management Functionality', () => {
+	// Set larger desktop viewport to ensure sidebar is in view
+	test.use({ viewport: { width: 1400, height: 900 } });
+
+	test.describe('Pack CRUD Operations', () => {
+		test.beforeEach(async ({ page }) => {
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
+		});
+
+		test('should create a new pack', async ({ page }) => {
+			// Get initial pack count from sidebar
+			const initialPackCount = await page
+				.locator('[class*="packListItemContainer"]')
+				.count();
+			expect(initialPackCount).toBeGreaterThan(0);
+
+			// Click "Create New Pack" button in sidebar (using aria-label text)
+			// Playwright overrules name selection when aria-label present
+			const createPackButton = page.getByRole('button', {
+				name: /open pack creation menu/i,
+			});
+			await expect(createPackButton).toBeVisible();
+			await createPackButton.click();
+
+			// Wait for popover to appear
+			const popover = page.locator('[role="dialog"]');
+			await expect(popover).toBeVisible();
+
+			// Click "Create New Pack" option in popover (using aria-label text)
+			const createOption = popover.getByRole('button', {
+				name: /create a new empty pack/i,
+			});
+			await expect(createOption).toBeVisible();
+			await createOption.click();
+
+			await page.waitForLoadState('networkidle');
+			await page.waitForTimeout(1000);
+
+			// Verify new pack appears in sidebar (count increased)
+			const finalPackCount = await page
+				.locator('[class*="packListItemContainer"]')
+				.count();
+			expect(finalPackCount).toBe(initialPackCount + 1);
+
+			// Verify dashboard header shows "New Pack" (default name)
+			const packHeader = page.getByTestId('pack-name-heading');
+			await expect(packHeader).toHaveText(/new pack/i);
+		});
+
+		test('should navigate between packs', async ({ page }) => {
+			// Get all pack items from sidebar
+			const packItems = page.locator('[class*="packListItemContainer"]');
+			const packCount = await packItems.count();
+			expect(packCount).toBeGreaterThanOrEqual(2);
+
+			// Get the name of the first pack
+			const firstPackItem = packItems.first();
+			const firstPackText = await firstPackItem.textContent();
+			expect(firstPackText).toBeTruthy();
+
+			// Click on the first pack
+			await firstPackItem.click();
+			await page.waitForLoadState('networkidle');
+
+			// Verify dashboard header matches first pack name
+			const packHeader = page.getByTestId('pack-name-heading');
+			await expect(packHeader).toHaveText(firstPackText!.trim());
+
+			// Get the name of the second pack
+			const secondPackItem = packItems.nth(1);
+			const secondPackText = await secondPackItem.textContent();
+			expect(secondPackText).toBeTruthy();
+			expect(secondPackText).not.toBe(firstPackText);
+
+			// Click on the second pack
+			await secondPackItem.click();
+			await page.waitForLoadState('networkidle');
+
+			// Verify dashboard header shows second pack name
+			await expect(packHeader).toHaveText(secondPackText!.trim());
+		});
+
+		test('should edit pack name', async ({ page }) => {
+			const newPackName = 'Test Adventure Pack';
+
+			// Click on first pack to ensure we're on it
+			const firstPackFromList = page.locator('[class*="packListItemContainer"]').first();
+			await firstPackFromList.click();
+			await page.waitForLoadState('networkidle');
+
+			// Get current pack name from heading
+			const currentHeader = page.getByTestId('pack-name-heading');
+			const currentPackName = await currentHeader.textContent();
+			expect(currentPackName).toBeTruthy();
+
+			// Hover over pack info area to reveal edit icon
+			const packInfoPanel = page.locator('[class*="userInfoPanel"]');
+			await packInfoPanel.hover();
+
+			// Click the edit button
+			const editButton = page.getByTestId('pack-edit-button');
+			await expect(editButton).toBeVisible();
+			await editButton.click();
+
+			// Wait for modal
+			const modal = page.locator('[role="dialog"]');
+			await expect(modal).toBeVisible();
+
+			// Find and edit the pack name input in the modal
+			const packNameInput = modal.locator('input[name="packName"]');
+			await expect(packNameInput).toBeVisible();
+
+			// Verify current pack name is loaded in input
+			const inputValue = await packNameInput.inputValue();
+			expect(inputValue).toBe(currentPackName);
+
+			// Edit the pack name
+			await packNameInput.clear();
+			await packNameInput.fill(newPackName);
+
+			// Click Save Pack button
+			const saveButton = modal.getByRole('button', { name: /save pack/i });
+			await expect(saveButton).toBeVisible();
+			await saveButton.click();
+
+			// Wait for modal to close
+			await expect(modal).not.toBeVisible();
+			await page.waitForLoadState('networkidle');
+
+			// Verify dashboard header shows updated name
+			const updatedHeader = page.getByTestId('pack-name-heading');
+			await expect(updatedHeader).toHaveText(newPackName);
+
+			// Verify sidebar shows updated pack name
+			const updatedPackItem = page
+				.locator('[class*="packListItemContainer"]')
+				.filter({ hasText: newPackName });
+			await expect(updatedPackItem).toBeVisible();
+		});
+
+		test('should delete a pack', async ({ page }) => {
+			const initialPackCount = await page
+				.locator('[class*="packListItemContainer"]')
+				.count();
+			expect(initialPackCount).toBeGreaterThan(1); // Need at least 2 packs to delete one
+
+			// Click on first pack to select it
+			const firstPackItem = page.locator('[class*="packListItemContainer"]').first();
+			const packNameToDelete = await firstPackItem.textContent();
+			expect(packNameToDelete).toBeTruthy();
+
+			await firstPackItem.click();
+			await page.waitForLoadState('networkidle');
+
+			// Hover over pack info area to reveal edit button
+			const packInfoPanel = page.locator('[class*="userInfoPanel"]');
+			await packInfoPanel.hover();
+
+			// Click the edit button to open pack modal
+			const editButton = page.getByTestId('pack-edit-button');
+			await expect(editButton).toBeVisible();
+			await editButton.click();
+
+			// Wait for pack modal
+			const packModal = page.locator('[role="dialog"]');
+			await expect(packModal).toBeVisible();
+
+			// Click delete button within the pack modal
+			const deleteButton = packModal.getByRole('button', { name: /delete/i });
+			await expect(deleteButton).toBeVisible();
+			await deleteButton.click();
+
+			// Handle modal confirmation (second popup modal)
+			const confirmModal = page.locator('[role="dialog"]').nth(1);
+			await expect(confirmModal).toBeVisible();
+
+			const confirmDeleteButton = confirmModal.getByRole('button', { name: /delete/i });
+			await expect(confirmDeleteButton).toBeVisible();
+			await confirmDeleteButton.click();
+
+			await page.waitForLoadState('networkidle');
+			await page.waitForTimeout(1000);
+
+			// Verify pack count decreased
+			const finalPackCount = await page
+				.locator('[class*="packListItemContainer"]')
+				.count();
+			expect(finalPackCount).toBe(initialPackCount - 1);
+
+			// Verify we're now on a different pack
+			const currentHeader = page.getByTestId('pack-name-heading');
+			await expect(currentHeader).toBeVisible();
+
+			// Verify the current pack name is different from the deleted one
+			const currentHeaderText = await currentHeader.textContent();
+			expect(currentHeaderText).not.toBe(packNameToDelete!.trim());
+		});
+	});
+});
