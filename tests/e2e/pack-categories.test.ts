@@ -1,42 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { performDragDrop } from './utils/drag-drop-helpers';
+import { navigateToPack } from './utils/navigation-helpers';
 
 test.describe.serial('Pack Category Functionality', () => {
 	// Set larger desktop viewport to ensure sidebar is in view
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page }) => {
-		const packTitle = 'Multi Category Test Pack';
-
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
-
-		// Check if we're already on the correct pack
-		const packHeading = page.getByRole('heading', { name: packTitle });
-		const isAlreadyOnPack = await packHeading.isVisible();
-
-		if (!isAlreadyOnPack) {
-			// Switch to multi-category pack
-			const packListItem = page
-				.getByTestId('pack-list-row')
-				.filter({ hasText: packTitle });
-			const itemExists = await packListItem.isVisible();
-			// Click multi-category pack item
-			if (itemExists) {
-				await packListItem.click();
-				await page.waitForLoadState('networkidle');
-			} else {
-				// Throw error if not found
-				throw new Error(
-					`Multi category pack not found during Pack Category beforeEach()`,
-				);
-			}
-		}
-
-		// Wait for pack content to be visible
-		await expect(packHeading).toBeVisible({
-			timeout: 5000,
-		});
+		await navigateToPack(page, 'Multi Category Test Pack');
 	});
 
 	test('should create a new category', async ({ page }) => {
@@ -148,39 +119,8 @@ test.describe.serial('Pack Category Functionality', () => {
 		test.beforeEach(async ({ page, request }) => {
 			// Reset pack data for drag and drop testing
 			await request.post('http://localhost:4002/test/reset-packs');
-
-			const packTitle = 'Multi Category Test Pack';
-
-			await page.goto('/');
-			await page.waitForLoadState('networkidle');
-
-			// Check if we're already on the correct pack
-			const packHeading = page.getByRole('heading', { name: packTitle });
-			const isAlreadyOnPack = await packHeading.isVisible();
-
-			if (!isAlreadyOnPack) {
-				// Switch to multi-category pack
-				const packListItem = page
-					.getByTestId('pack-list-row')
-					.filter({ hasText: packTitle });
-				const itemExists = await packListItem.isVisible();
-
-				if (itemExists) {
-					// Click multi-category pack item
-					await packListItem.click();
-					await page.waitForLoadState('networkidle');
-				} else {
-					// Throw error if not found
-					throw new Error(
-						`Multi category pack not found during Pack Category:Drag-Drop beforeEach()`,
-					);
-				}
-			}
-
-			// Wait for pack content to be visible
-			await expect(packHeading).toBeVisible({
-				timeout: 5000,
-			});
+			
+			await navigateToPack(page, 'Multi Category Test Pack');
 		});
 
 		test('should reorder categories by dragging category 2 to position 1', async ({

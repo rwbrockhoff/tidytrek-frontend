@@ -120,8 +120,8 @@ test.describe('Authentication Flow', () => {
 			// Wait for login success and redirect
 			await page.waitForLoadState('networkidle');
 
-			// Verify successful login by checking for dashboard content
-			await expect(page.getByRole('heading', { name: 'Test Pack' })).toBeVisible({
+			// Verify login by checking for pack header
+			await expect(page.getByTestId('pack-name-heading')).toBeVisible({
 				timeout: 5000,
 			});
 		});

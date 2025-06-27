@@ -14,7 +14,7 @@ test.describe.serial('Pack Management Functionality', () => {
 		test('should create a new pack', async ({ page }) => {
 			// Get initial pack count from sidebar
 			const initialPackCount = await page
-				.locator('[class*="packListItemContainer"]')
+				.getByTestId('pack-list-row')
 				.count();
 			expect(initialPackCount).toBeGreaterThan(0);
 
@@ -42,7 +42,7 @@ test.describe.serial('Pack Management Functionality', () => {
 
 			// Verify new pack appears in sidebar (count increased)
 			const finalPackCount = await page
-				.locator('[class*="packListItemContainer"]')
+				.getByTestId('pack-list-row')
 				.count();
 			expect(finalPackCount).toBe(initialPackCount + 1);
 
@@ -53,7 +53,7 @@ test.describe.serial('Pack Management Functionality', () => {
 
 		test('should navigate between packs', async ({ page }) => {
 			// Get all pack items from sidebar
-			const packItems = page.locator('[class*="packListItemContainer"]');
+			const packItems = page.getByTestId('pack-list-row');
 			const packCount = await packItems.count();
 			expect(packCount).toBeGreaterThanOrEqual(2);
 
@@ -88,7 +88,7 @@ test.describe.serial('Pack Management Functionality', () => {
 			const newPackName = 'Test Adventure Pack';
 
 			// Click on first pack to ensure we're on it
-			const firstPackFromList = page.locator('[class*="packListItemContainer"]').first();
+			const firstPackFromList = page.getByTestId('pack-list-row').first();
 			await firstPackFromList.click();
 			await page.waitForLoadState('networkidle');
 
@@ -137,19 +137,19 @@ test.describe.serial('Pack Management Functionality', () => {
 
 			// Verify sidebar shows updated pack name
 			const updatedPackItem = page
-				.locator('[class*="packListItemContainer"]')
+				.getByTestId('pack-list-row')
 				.filter({ hasText: newPackName });
 			await expect(updatedPackItem).toBeVisible();
 		});
 
 		test('should delete a pack', async ({ page }) => {
 			const initialPackCount = await page
-				.locator('[class*="packListItemContainer"]')
+				.getByTestId('pack-list-row')
 				.count();
 			expect(initialPackCount).toBeGreaterThan(1); // Need at least 2 packs to delete one
 
 			// Click on first pack to select it
-			const firstPackItem = page.locator('[class*="packListItemContainer"]').first();
+			const firstPackItem = page.getByTestId('pack-list-row').first();
 			const packNameToDelete = await firstPackItem.textContent();
 			expect(packNameToDelete).toBeTruthy();
 
@@ -187,7 +187,7 @@ test.describe.serial('Pack Management Functionality', () => {
 
 			// Verify pack count decreased
 			const finalPackCount = await page
-				.locator('[class*="packListItemContainer"]')
+				.getByTestId('pack-list-row')
 				.count();
 			expect(finalPackCount).toBe(initialPackCount - 1);
 

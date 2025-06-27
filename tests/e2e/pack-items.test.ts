@@ -1,15 +1,18 @@
 import { test, expect } from '@playwright/test';
 import { performDragDrop } from './utils/drag-drop-helpers';
+import { navigateToPack } from './utils/navigation-helpers';
 
 test.describe.serial('Pack Item Functionality', () => {
 	test.describe('Pack Item CRUD Operations', () => {
+		// Set larger desktop viewport to ensure sidebar is in view
+		test.use({ viewport: { width: 1400, height: 900 } });
+
 		test.beforeEach(async ({ page }) => {
-			await page.goto('/');
-			await page.waitForLoadState('networkidle');
+			await navigateToPack(page, 'Test Pack');
 		});
 
 		test('should add a new pack item', async ({ page }) => {
-			const addButton = page.getByRole('button', { name: /add item/i });
+			const addButton = page.getByRole('button', { name: /add new item to list/i });
 			await expect(addButton).toBeVisible();
 
 			const initialInputCount = await page.locator('input[name="packItemName"]').count();
@@ -178,6 +181,9 @@ test.describe.serial('Pack Item Functionality', () => {
 	});
 
 	test.describe('Pack Item Drag and Drop Functionality', () => {
+		// Set larger desktop viewport to ensure sidebar is in view
+		test.use({ viewport: { width: 1400, height: 900 } });
+
 		test.beforeEach(async ({ page, request }) => {
 			// Reset pack data for drag and drop testing
 			await request.post('http://localhost:4002/test/reset-packs');
