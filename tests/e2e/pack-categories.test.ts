@@ -16,14 +16,26 @@ test.describe.serial('Pack Category Functionality', () => {
 		const isAlreadyOnPack = await packHeading.isVisible();
 
 		if (!isAlreadyOnPack) {
-			// Click to switch to the pack
-			await page.getByRole('button', { name: packTitle }).click();
-			await page.waitForLoadState('networkidle');
+			// Switch to multi-category pack
+			const packListItem = page
+				.getByTestId('pack-list-row')
+				.filter({ hasText: packTitle });
+			const itemExists = await packListItem.isVisible();
+			// Click multi-category pack item
+			if (itemExists) {
+				await packListItem.click();
+				await page.waitForLoadState('networkidle');
+			} else {
+				// Throw error if not found
+				throw new Error(
+					`Multi category pack not found during Pack Category beforeEach()`,
+				);
+			}
 		}
 
 		// Wait for pack content to be visible
 		await expect(packHeading).toBeVisible({
-			timeout: 10000,
+			timeout: 5000,
 		});
 	});
 
@@ -147,14 +159,27 @@ test.describe.serial('Pack Category Functionality', () => {
 			const isAlreadyOnPack = await packHeading.isVisible();
 
 			if (!isAlreadyOnPack) {
-				// Click to switch to the pack
-				await page.getByRole('button', { name: packTitle }).click();
-				await page.waitForLoadState('networkidle');
+				// Switch to multi-category pack
+				const packListItem = page
+					.getByTestId('pack-list-row')
+					.filter({ hasText: packTitle });
+				const itemExists = await packListItem.isVisible();
+
+				if (itemExists) {
+					// Click multi-category pack item
+					await packListItem.click();
+					await page.waitForLoadState('networkidle');
+				} else {
+					// Throw error if not found
+					throw new Error(
+						`Multi category pack not found during Pack Category:Drag-Drop beforeEach()`,
+					);
+				}
 			}
 
 			// Wait for pack content to be visible
 			await expect(packHeading).toBeVisible({
-				timeout: 10000,
+				timeout: 5000,
 			});
 		});
 
@@ -167,8 +192,12 @@ test.describe.serial('Pack Category Functionality', () => {
 			const categoryCount = await categoryRows.count();
 			expect(categoryCount).toBeGreaterThanOrEqual(2);
 
-			const firstCategoryInput = categoryRows.nth(0).locator('input[name="packCategoryName"]');
-			const secondCategoryInput = categoryRows.nth(1).locator('input[name="packCategoryName"]');
+			const firstCategoryInput = categoryRows
+				.nth(0)
+				.locator('input[name="packCategoryName"]');
+			const secondCategoryInput = categoryRows
+				.nth(1)
+				.locator('input[name="packCategoryName"]');
 
 			const initialFirstCategoryName = await firstCategoryInput.inputValue();
 			const initialSecondCategoryName = await secondCategoryInput.inputValue();
@@ -208,8 +237,12 @@ test.describe.serial('Pack Category Functionality', () => {
 			const categoryCount = await categoryRows.count();
 			expect(categoryCount).toBeGreaterThanOrEqual(2);
 
-			const firstCategoryInput = categoryRows.nth(0).locator('input[name="packCategoryName"]');
-			const secondCategoryInput = categoryRows.nth(1).locator('input[name="packCategoryName"]');
+			const firstCategoryInput = categoryRows
+				.nth(0)
+				.locator('input[name="packCategoryName"]');
+			const secondCategoryInput = categoryRows
+				.nth(1)
+				.locator('input[name="packCategoryName"]');
 
 			const initialFirstCategoryName = await firstCategoryInput.inputValue();
 			const initialSecondCategoryName = await secondCategoryInput.inputValue();

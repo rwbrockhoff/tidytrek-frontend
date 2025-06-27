@@ -15,6 +15,7 @@ export default defineConfig({
 	retries: process.env.CI ? 2 : 0,
 	workers: 1,
 	reporter: 'html',
+	globalSetup: './tests/e2e/auth.setup.ts',
 	use: {
 		baseURL: TEST_FRONTEND_URL,
 		trace: 'on-first-retry',
@@ -23,16 +24,11 @@ export default defineConfig({
 
 	projects: [
 		{
-			name: 'auth-setup',
-			testDir: './tests/auth.setup.ts',
-		},
-		{
 			name: 'chromium',
 			use: {
 				...devices['Desktop Chrome'],
 				storageState: 'tests/.auth/user.json',
 			},
-			dependencies: ['auth-setup'],
 		},
 	],
 

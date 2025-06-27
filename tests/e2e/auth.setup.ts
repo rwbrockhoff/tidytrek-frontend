@@ -1,19 +1,21 @@
-import { test as setup, expect } from '@playwright/test';
+import { chromium, expect } from '@playwright/test';
 const authFile = 'tests/.auth/user.json';
 
-setup('authenticate', async ({ page, request }) => {
+export default async function globalSetup() {
+	const browser = await chromium.launch();
+	const page = await browser.newPage();
 	// Set larger viewport for desktop breakpoint
 	await page.setViewportSize({ width: 1400, height: 900 });
 
 	// First, reset the test database to ensure clean state
-	await request.post('http://localhost:4002/test/reset');
+	await page.request.post('http://localhost:4002/test/reset');
 
 	// Clear any existing auth state
 	await page.context().clearCookies();
 	await page.context().clearPermissions();
 
 	// Navigate to login page
-	await page.goto('/');
+	await page.goto('http://localhost:5174/');
 
 	// Wait for the login form to load
 	await page.waitForSelector('[data-testid="email-input"]');
@@ -38,4 +40,6 @@ setup('authenticate', async ({ page, request }) => {
 
 	// Save signed-in state to file
 	await page.context().storageState({ path: authFile });
-});
+	
+	await browser.close();
+}
