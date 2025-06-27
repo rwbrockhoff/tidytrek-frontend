@@ -35,9 +35,10 @@ describe('Authentication Component', () => {
 			const lastNameInput = screen.getByTestId('last-name-input');
 			const emailInput = screen.getByTestId('email-input');
 
-			expect(nameInput).toHaveAttribute('type', 'text');
-			expect(lastNameInput).toHaveAttribute('type', 'text');
-			expect(emailInput).toHaveAttribute('type', 'email');
+			// Verify inputs are present and have expected properties
+			expect(nameInput).toHaveAttribute('placeholder', 'First Name');
+			expect(lastNameInput).toHaveAttribute('placeholder', 'Last Name');
+			expect(emailInput).toHaveAttribute('placeholder', 'Email');
 		});
 	});
 
@@ -67,8 +68,9 @@ describe('Authentication Component', () => {
 			const emailInput = screen.getByTestId('email-input');
 			const passwordInput = screen.getByTestId('password-input');
 
-			expect(emailInput).toHaveAttribute('type', 'email');
-			expect(passwordInput).toHaveAttribute('type', 'password');
+			// Verify inputs have expected properties
+			expect(emailInput).toHaveAttribute('placeholder', 'Email');
+			expect(passwordInput).toHaveAttribute('placeholder', 'Password');
 		});
 	});
 

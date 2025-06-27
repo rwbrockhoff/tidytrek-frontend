@@ -18,7 +18,7 @@ test.describe.serial('Pack Item Functionality', () => {
 			const initialInputCount = await page.locator('input[name="packItemName"]').count();
 			await addButton.click();
 
-			// Wait for new row to be added dynamically
+			// Wait for new row to be added
 			await page.waitForFunction(
 				(expectedCount) =>
 					document.querySelectorAll('input[name="packItemName"]').length ===
