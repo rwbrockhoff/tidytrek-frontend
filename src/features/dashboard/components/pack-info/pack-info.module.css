@@ -13,12 +13,11 @@
 }
 
 .editIcon {
-	font-size: var(--font-size-lg);
-	margin-left: var(--space-xs);
+	font-size: var(--font-size-base);
+	margin: auto 0 auto var(--space-xs);
 	cursor: pointer;
 	opacity: 0;
 }
-
 
 .toggleChartButton {
 	width: 100%;

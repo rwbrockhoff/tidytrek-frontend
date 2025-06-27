@@ -41,23 +41,26 @@ export const CreatePackMenu = () => {
 				</Button>
 			</Popover.Trigger>
 			<Popover.Content>
-				<Flex direction="column" gap="1">
-					<Button
-						variant="ghost"
-						onClick={() => addPack()}
-						className={styles.menuButton}
-						aria-label="Create a new empty pack">
-						<Flex display="inline-flex" align="center">
-							<PlusIcon />
-							Create New Pack
-						</Flex>
-					</Button>
+				<Flex direction="column" gap="2">
+					<Popover.Close>
+						<Button
+							variant="ghost"
+							onClick={() => addPack()}
+							aria-label="Create a new empty pack"
+							className={styles.menuButton}>
+							<Flex display="inline-flex" align="center" justify="start" gap="2">
+								<PlusIcon />
+								Create New Pack
+							</Flex>
+						</Button>
+					</Popover.Close>
+
 					<ImportPackDialog>
 						<Button
 							variant="ghost"
-							className={styles.menuButton}
-							aria-label="Import pack from Lighterpack">
-							<Flex display="inline-flex" align="center">
+							aria-label="Import pack from Lighterpack"
+							className={styles.menuButton}>
+							<Flex display="inline-flex" align="center" justify="start" gap="2">
 								<ImportIcon />
 								Import Pack
 							</Flex>
