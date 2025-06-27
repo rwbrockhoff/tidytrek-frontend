@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { performDragDrop } from './utils/drag-drop-helpers';
 
 test.describe.serial('Pack Management Functionality', () => {
 	// Set larger desktop viewport to ensure sidebar is in view
@@ -197,6 +198,96 @@ test.describe.serial('Pack Management Functionality', () => {
 			// Verify the current pack name is different from the deleted one
 			const currentHeaderText = await currentHeader.textContent();
 			expect(currentHeaderText).not.toBe(packNameToDelete!.trim());
+		});
+	});
+
+	test.describe('Pack List Drag and Drop Functionality', () => {
+		test.beforeEach(async ({ page, request }) => {
+			// Reset pack data for drag and drop testing
+			await request.post('http://localhost:4002/test/reset-packs');
+
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
+		});
+
+		test('should reorder packs by dragging pack 2 to position 1', async ({
+			page,
+		}) => {
+			const packListItems = page.locator('[data-testid="pack-list-row"]');
+
+			// Ensure we have at least 2 packs
+			const packCount = await packListItems.count();
+			expect(packCount).toBeGreaterThanOrEqual(2);
+
+			const firstPackItem = packListItems.nth(0);
+			const secondPackItem = packListItems.nth(1);
+
+			const initialFirstPackText = await firstPackItem.textContent();
+			const initialSecondPackText = await secondPackItem.textContent();
+
+			// Verify both packs have names
+			expect(initialFirstPackText).toBeTruthy();
+			expect(initialSecondPackText).toBeTruthy();
+			expect(initialFirstPackText).not.toBe(initialSecondPackText);
+
+			// Drag drop pack from index 1 -> index 0
+			const sourceIndex = 1;
+			const targetIndex = 0;
+			await performDragDrop(page, {
+				sourceIndex,
+				targetIndex,
+				rowSelector: '[data-testid="pack-list-row"]',
+				gripSelector: '[data-testid="pack-list-grip"]',
+			});
+
+			// Verify the source pack moved to the target position
+			const reorderedPackListItems = page.locator('[data-testid="pack-list-row"]');
+			const newFirstPackItem = reorderedPackListItems.nth(targetIndex);
+
+			const newFirstPackText = await newFirstPackItem.textContent();
+
+			// The source pack (originally 2nd) should now be in the first position
+			expect(newFirstPackText).toBe(initialSecondPackText);
+		});
+
+		test('should reorder packs by dragging pack 1 to position 2', async ({
+			page,
+		}) => {
+			// Ensure we have at least 2 packs
+			const packListItems = page.locator('[data-testid="pack-list-row"]');
+			const packCount = await packListItems.count();
+			expect(packCount).toBeGreaterThanOrEqual(2);
+
+			const firstPackItem = packListItems.nth(0);
+			const secondPackItem = packListItems.nth(1);
+
+			const initialFirstPackText = await firstPackItem.textContent();
+			const initialSecondPackText = await secondPackItem.textContent();
+
+			// Verify both packs have names
+			expect(initialFirstPackText).toBeTruthy();
+			expect(initialSecondPackText).toBeTruthy();
+			expect(initialFirstPackText).not.toBe(initialSecondPackText);
+
+			// Drag drop pack from index 0 -> index 1
+			const sourceIndex = 0;
+			const targetIndex = 1;
+
+			await performDragDrop(page, {
+				sourceIndex,
+				targetIndex,
+				rowSelector: '[data-testid="pack-list-row"]',
+				gripSelector: '[data-testid="pack-list-grip"]',
+			});
+
+			// Verify the source pack moved to the target position
+			const reorderedPackListItems = page.locator('[data-testid="pack-list-row"]');
+			const newSecondPackItem = reorderedPackListItems.nth(targetIndex);
+
+			const newSecondPackText = await newSecondPackItem.textContent();
+
+			// The source pack (originally 1st) should now be in the second position
+			expect(newSecondPackText).toBe(initialFirstPackText);
 		});
 	});
 });

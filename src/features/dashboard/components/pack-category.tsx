@@ -50,11 +50,15 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 			draggableId={`${category.packCategoryId}`}
 			isDragDisabled={!userView}
 			index={index}>
-			{(provided) => (
+			{(provided, { isDragging }) => (
 				<div
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					className={cn(styles.tableContainer, isMinimized && styles.minimized)}
+					className={cn(
+						styles.tableContainer, 
+						isMinimized && styles.minimized,
+						isDragging && styles.tableContainerDragging
+					)}
 					data-testid="pack-category-row">
 					<Table>
 						<TableHeader

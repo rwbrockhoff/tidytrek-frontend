@@ -53,6 +53,7 @@ export async function performDragDrop(
 
 	// Get bounding boxes for positioning
 	const gripBox = await sourceGrip.boundingBox();
+	const sourceBox = await sourceRow.boundingBox();
 	const targetBox = await targetRow.boundingBox();
 
 	if (!gripBox || !targetBox) {
@@ -66,17 +67,16 @@ export async function performDragDrop(
 
 	const isMovingDown = sourceIndex < targetIndex;
 
-	// Calculate source position & height
-	const sourceBox = await sourceRow.boundingBox();
-	const sourceBoxHeight = sourceBox?.height || 0;
+	// Calculate height
+	const targetBoxHeight = targetBox?.height || 0;
 
 	// For dragging item downward, add height of source item
 	// When isDragging, will remove item from flow and shift items up
-	const sourceHeightAdjustment = isMovingDown ? sourceBoxHeight : 0;
+	const targetHeightAdjustment = isMovingDown ? targetBoxHeight : 0;
 
 	const endY = isMovingDown
-		? targetBox.y + sourceHeightAdjustment + targetBox.height + dropOffset // Moving down
-		: targetBox.y - dropOffset; // Moving up
+		? targetBox.y + targetHeightAdjustment + targetBox.height // Moving down
+		: targetBox.y - targetBox.height; // Moving up
 
 	// Perform the drag operation with gradual movement
 	await page.mouse.move(startX, startY);

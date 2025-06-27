@@ -29,7 +29,7 @@
 .sidebarContainer {
 	width: 250px;
 	height: 100%;
-	padding: var(--space-xxl) var(--space-md);
+	padding: var(--space-xxl) var(--space-lg);
 	box-sizing: border-box;
 	position: relative;
 }

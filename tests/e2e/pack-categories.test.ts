@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { performDragDrop } from './utils/drag-drop-helpers';
 
 test.describe.serial('Pack Category Functionality', () => {
 	// Set larger desktop viewport to ensure sidebar is in view
@@ -122,5 +123,109 @@ test.describe.serial('Pack Category Functionality', () => {
 			.locator('[data-testid="pack-category-row"]')
 			.count();
 		expect(finalCategoryCount).toBe(initialCategoryCount - 1);
+	});
+
+	test.describe('Pack Category Drag and Drop Functionality', () => {
+		test.beforeEach(async ({ page, request }) => {
+			// Reset pack data for drag and drop testing
+			await request.post('http://localhost:4002/test/reset-packs');
+
+			const packTitle = 'Multi Category Test Pack';
+
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
+
+			await page.getByRole('button', { name: packTitle }).click();
+			await page.waitForLoadState('networkidle');
+
+			// Wait for pack to load
+			await expect(page.getByRole('heading', { name: packTitle })).toBeVisible({
+				timeout: 10000,
+			});
+		});
+
+		test('should reorder categories by dragging category 2 to position 1', async ({
+			page,
+		}) => {
+			const categoryRows = page.locator('[data-testid="pack-category-row"]');
+
+			// Ensure we have at least 2 categories
+			const categoryCount = await categoryRows.count();
+			expect(categoryCount).toBeGreaterThanOrEqual(2);
+
+			const firstCategoryInput = categoryRows.nth(0).locator('input[name="packCategoryName"]');
+			const secondCategoryInput = categoryRows.nth(1).locator('input[name="packCategoryName"]');
+
+			const initialFirstCategoryName = await firstCategoryInput.inputValue();
+			const initialSecondCategoryName = await secondCategoryInput.inputValue();
+
+			// Verify both categories have names
+			expect(initialFirstCategoryName).toBeTruthy();
+			expect(initialSecondCategoryName).toBeTruthy();
+			expect(initialFirstCategoryName).not.toBe(initialSecondCategoryName);
+
+			// Drag drop category from index 1 -> index 0
+			const sourceIndex = 1;
+			const targetIndex = 0;
+			await performDragDrop(page, {
+				sourceIndex,
+				targetIndex,
+				rowSelector: '[data-testid="pack-category-row"]',
+				gripSelector: '[data-testid="pack-category-grip"]',
+			});
+
+			// Verify the source category moved to the target position
+			const reorderedCategoryRows = page.locator('[data-testid="pack-category-row"]');
+			const newFirstCategoryInput = reorderedCategoryRows
+				.nth(targetIndex)
+				.locator('input[name="packCategoryName"]');
+
+			const newFirstCategoryName = await newFirstCategoryInput.inputValue();
+
+			// The source category (originally 2nd) should now be in the first position
+			expect(newFirstCategoryName).toBe(initialSecondCategoryName);
+		});
+
+		test('should reorder categories by dragging category 1 to position 2', async ({
+			page,
+		}) => {
+			// Ensure we have at least 2 categories
+			const categoryRows = page.locator('[data-testid="pack-category-row"]');
+			const categoryCount = await categoryRows.count();
+			expect(categoryCount).toBeGreaterThanOrEqual(2);
+
+			const firstCategoryInput = categoryRows.nth(0).locator('input[name="packCategoryName"]');
+			const secondCategoryInput = categoryRows.nth(1).locator('input[name="packCategoryName"]');
+
+			const initialFirstCategoryName = await firstCategoryInput.inputValue();
+			const initialSecondCategoryName = await secondCategoryInput.inputValue();
+
+			// Verify both categories have names
+			expect(initialFirstCategoryName).toBeTruthy();
+			expect(initialSecondCategoryName).toBeTruthy();
+			expect(initialFirstCategoryName).not.toBe(initialSecondCategoryName);
+
+			// Drag drop category from index 0 -> index 1
+			const sourceIndex = 0;
+			const targetIndex = 1;
+
+			await performDragDrop(page, {
+				sourceIndex,
+				targetIndex,
+				rowSelector: '[data-testid="pack-category-row"]',
+				gripSelector: '[data-testid="pack-category-grip"]',
+			});
+
+			// Verify the source category moved to the target position
+			const reorderedCategoryRows = page.locator('[data-testid="pack-category-row"]');
+			const newSecondCategoryInput = reorderedCategoryRows
+				.nth(targetIndex)
+				.locator('input[name="packCategoryName"]');
+
+			const newSecondCategoryName = await newSecondCategoryInput.inputValue();
+
+			// The source category (originally 1st) should now be in the second position
+			expect(newSecondCategoryName).toBe(initialFirstCategoryName);
+		});
 	});
 });

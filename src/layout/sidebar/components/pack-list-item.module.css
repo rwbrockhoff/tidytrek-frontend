@@ -9,7 +9,7 @@
 
 .styledText {
 	position: relative;
-	opacity: 1;
+	font-size: var(--font-size-sm);
 }
 
 .styledText svg {

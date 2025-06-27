@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './pack-list.module.css';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
-import { Drag, DragDropContext, DropResult } from '@/components';
-import { Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from '@/components';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { PackListItem } from './pack-list-item';
 import { Separator } from '@radix-ui/themes';
 import { useMovePackMutation } from '@/queries/pack-queries';
@@ -36,22 +35,22 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 		if (!destination) return;
 		const sameIndex = destination.index === source.index;
 		if (sameIndex) return;
-		
+
 		applySynchronousDragUpdate<{ packList: PackListItemType[] }>(
 			queryClient,
 			packListKeys.all,
 			source.index,
 			destination.index,
-			'packList'
+			'packList',
 		);
 
 		// Calculate adjacent packs for fractional indexing
 		const { prevItem: prevPack, nextItem: nextPack } = calculateAdjacentItems(
 			packList,
 			source.index,
-			destination.index
+			destination.index,
 		);
-		
+
 		movePack({
 			packId: draggableId,
 			prevPackIndex: prevPack?.packIndex,
@@ -71,13 +70,12 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 						const index = rubric.source.index;
 						const pack = packList[index];
 						return (
-							<div
-								className={styles.styledContainer}
-								{...provided.draggableProps}
-								{...provided.dragHandleProps}
-								ref={provided.innerRef}
-							>
-								<PackListItem pack={pack} onClick={handleGetPack} />
+							<div {...provided.draggableProps} ref={provided.innerRef}>
+								<PackListItem
+									pack={pack}
+									onClick={handleGetPack}
+									dragProps={{ ...provided.dragHandleProps }}
+								/>
 							</div>
 						);
 					}}>
@@ -85,9 +83,20 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 						<div ref={provided.innerRef} {...provided.droppableProps}>
 							{packList.map((pack: PackListItemType, index: number) => {
 								return (
-									<Drag key={pack.packId} draggableId={pack.packId} index={index}>
-										<PackListItem pack={pack} onClick={handleGetPack} />
-									</Drag>
+									<Draggable
+										key={pack.packId}
+										draggableId={`${pack.packId}`}
+										index={index}>
+										{(provided) => (
+											<div ref={provided.innerRef} {...provided.draggableProps}>
+												<PackListItem
+													pack={pack}
+													onClick={handleGetPack}
+													dragProps={{ ...provided.dragHandleProps }}
+												/>
+											</div>
+										)}
+									</Draggable>
 								);
 							})}
 							{provided.placeholder}
@@ -95,10 +104,9 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 					)}
 				</Droppable>
 			</DragDropContext>
-			<Separator my="4" className={styles.separator} />
+			<Separator my="4" />
 
 			<CreatePackMenu />
 		</div>
 	);
 };
-

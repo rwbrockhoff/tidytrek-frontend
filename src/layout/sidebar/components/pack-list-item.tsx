@@ -6,16 +6,21 @@ import styles from './pack-list-item.module.css';
 type PackListItemProps = {
 	pack: ListItem;
 	onClick: (packId: number) => void;
+	dragProps?: any;
 };
 
-export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
+export const PackListItem = ({ pack, onClick, dragProps }: PackListItemProps) => {
 	return (
 		<div
 			key={pack.packId}
 			onClick={() => onClick(pack.packId)}
-			className={styles.packListItemContainer}>
-			<Text size="3" className={styles.styledText}>
-				<span className={styles.gripContainer}>
+			className={styles.packListItemContainer}
+			data-testid="pack-list-row">
+			<Text className={styles.styledText}>
+				<span
+					className={styles.gripContainer}
+					{...dragProps}
+					data-testid="pack-list-grip">
 					<GripIcon />
 				</span>
 				{pack.packName}

@@ -5,6 +5,10 @@
 	display: flex;
 }
 
+.tableContainerDragging {
+	box-shadow: var(--shadow);
+}
+
 @media (max-width: 768px) {
 	.tableContainer {
 		height: fit-content;
