@@ -35,10 +35,11 @@ export type Category = {
 	packItems: PackItem[];
 };
 
-export type PackItem = {
+// Base type for all table row items
+export type BaseTableRowItem = {
 	packItemId: number;
-	packId: number;
-	packCategoryId: number;
+	packId: number | null;
+	packCategoryId: number | null;
 	packItemIndex: string;
 	packItemName: string;
 	packItemDescription: string;
@@ -52,11 +53,25 @@ export type PackItem = {
 	packItemPrice: number;
 };
 
+export type PackItem = BaseTableRowItem & {
+	packId: number;
+	packCategoryId: number;
+};
+
 // Type for items in the gear closet (packId and packCategoryId are null)
-export type GearClosetItem = Omit<PackItem, 'packId' | 'packCategoryId'> & {
+export type GearClosetItem = BaseTableRowItem & {
 	packId: null;
 	packCategoryId: null;
 };
+
+// Type check utilities
+export function isPackItem(item: BaseTableRowItem): item is PackItem {
+	return item.packId !== null && item.packCategoryId !== null;
+}
+
+export function isGearClosetItem(item: BaseTableRowItem): item is GearClosetItem {
+	return item.packId === null && item.packCategoryId === null;
+}
 
 export type PackListItem = {
 	packName: string;

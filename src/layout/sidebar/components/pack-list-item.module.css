@@ -12,18 +12,6 @@
 	font-size: var(--font-size-sm);
 }
 
-.styledText svg {
-	opacity: 0;
-}
-
-.styledText svg:hover {
-	opacity: var(--opacity-60);
-}
-
-.styledText:hover {
-	filter: var(--brightness-dark-2);
-}
-
 .gripContainer {
 	position: absolute;
 	left: calc(-1 * var(--space-lg));
@@ -38,10 +26,4 @@
 .gripContainer svg {
 	width: 0.8rem;
 	height: 0.8rem;
-}
-
-@media (max-width: 768px) {
-	.styledText {
-		font-size: var(--font-size-xl);
-	}
 }

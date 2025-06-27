@@ -1,5 +1,10 @@
 import { type InternalMutation } from '@/types/form-types';
-import { type MovePackItemProps, type PackItem } from '@/types/pack-types';
+import {
+	type MovePackItemProps,
+	type PackItem,
+	type BaseTableRowItem,
+	isPackItem,
+} from '@/types/pack-types';
 import { createContext, useContext } from 'react';
 import { cleanUpLink } from '@/components/ui';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
@@ -9,7 +14,7 @@ type AddItemInfo = { packId: number; packCategoryId: number };
 type Handlers = {
 	addPackItem: (addItemInfo: AddItemInfo) => void;
 	moveItemToCloset: (packItemId: number) => void;
-	editPackItem: (packItem: PackItem) => void;
+	editPackItem: (packItem: BaseTableRowItem) => void;
 	deleteItem: (packItemId: number) => void;
 };
 
@@ -31,11 +36,17 @@ const useCreateHandlers = () => {
 	const { editPackItem, deletePackItem, movePackItemToCloset, addPackItem } = mutations;
 
 	//-Handlers--//
-	const handleEditPackItem = (packItem: PackItem) => {
+	const handleEditPackItem = (packItem: BaseTableRowItem) => {
 		const { packItemId } = packItem;
 		const { packItemUrl } = packItem;
 		const cleanUrl = cleanUpLink(packItemUrl);
-		editPackItem.mutate({ packItemId, packItem: { ...packItem, packItemUrl: cleanUrl } });
+		// pack items should have packId and packCategoryId
+		if (isPackItem(packItem)) {
+			editPackItem.mutate({
+				packItemId,
+				packItem: { ...packItem, packItemUrl: cleanUrl },
+			});
+		}
 	};
 
 	const handleAddItem = (addItemInfo: AddItemInfo) => addPackItem.mutate(addItemInfo);

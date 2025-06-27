@@ -1,4 +1,9 @@
-import { type PackListItem, type PackItem } from '@/types/pack-types';
+import {
+	type PackListItem,
+	type GearClosetItem,
+	type BaseTableRowItem,
+	isGearClosetItem,
+} from '@/types/pack-types';
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import {
@@ -17,7 +22,7 @@ import { closetKeys } from '@/queries/query-keys';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
-	gearClosetList: PackItem[] | [];
+	gearClosetList: GearClosetItem[];
 	dragDisabled: boolean;
 	listHasItems: boolean;
 };
@@ -31,7 +36,10 @@ export const GearClosetList = (props: GearClosetListProps) => {
 	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
 
-	const handleOnSave = (packItem: PackItem) => editItem(packItem);
+	const handleOnSave = (item: BaseTableRowItem) => {
+		if (isGearClosetItem(item)) editItem(item);
+	};
+
 	const handleDelete = (packItemId: number) => deleteItem(packItemId);
 
 	const handleOnDragEnd = (result: DropResult) => {
@@ -41,19 +49,19 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		const sameIndex = destination.index === source.index;
 		if (sameIndex) return;
 
-		applySynchronousDragUpdate<{ gearClosetList: PackItem[] }>(
+		applySynchronousDragUpdate<{ gearClosetList: GearClosetItem[] }>(
 			queryClient,
 			closetKeys.all,
 			source.index,
 			destination.index,
-			'gearClosetList'
+			'gearClosetList',
 		);
 
 		// Calculate adjacent items for fractional indexing
 		const { prevItem, nextItem } = calculateAdjacentItems(
 			gearClosetList,
 			source.index,
-			destination.index
+			destination.index,
 		);
 
 		const dragId = draggableId.replace(/\D/g, '');
@@ -75,7 +83,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 							droppableId={`gear-closet`}
 							type="closet-item"
 							disabled={dragDisabled}>
-							{gearClosetList.map((item: PackItem, index) => (
+							{gearClosetList.map((item, index) => (
 								<TableRow
 									item={item}
 									packList={packList}

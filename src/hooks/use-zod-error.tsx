@@ -57,7 +57,7 @@ function createFormErrorShape<T>(formInputs: (keyof T)[]) {
 	return errorObject;
 }
 
-export function clearZodErrors<T extends Record<keyof T, string>>(
+export function clearZodErrors<T>(
 	e: InputEvent | TextAreaEvent | SelectEvent,
 	formErrors: Record<keyof T, FormError>,
 	reset: (property: keyof T) => void,

@@ -8,6 +8,7 @@ import { type InputEvent } from '@/types/form-types';
 import { TableRowContext } from '../../context/table-row-context';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
 import { useUserContext } from '@/hooks';
+import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
 	displayIcon: boolean;
@@ -34,15 +35,18 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const handleSaveLink = () => {
 		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
 			const cleanUrl = cleanUpLink(newPackItemUrl);
-			editPackItem({
-				packItemId: packItem.packItemId,
-				packItem: { ...packItem, packItemUrl: cleanUrl },
-			});
+			// Only edit if this is a pack item
+			if (isPackItem(packItem)) {
+				editPackItem({
+					packItemId: packItem.packItemId,
+					packItem: { ...packItem, packItemUrl: cleanUrl },
+				});
+			}
 		}
 	};
 
 	const handleDeleteLink = () => {
-		if (packItem) {
+		if (packItem && isPackItem(packItem)) {
 			editPackItem({
 				packItemId: packItem.packItemId,
 				packItem: { ...packItem, packItemUrl: '' },

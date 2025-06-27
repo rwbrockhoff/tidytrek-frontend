@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Separator } from '@radix-ui/themes';
+
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { DragDropContext, DropResult } from '@/components';
-import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { PackListItem } from './pack-list-item';
-import { Separator } from '@radix-ui/themes';
-import { useMovePackMutation } from '@/queries/pack-queries';
-
-import { encode, calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
-import { useQueryClient } from '@tanstack/react-query';
-import { packListKeys } from '@/queries/query-keys';
 import { CreatePackMenu } from './create-pack-menu';
+import { useMovePackMutation } from '@/queries/pack-queries';
+import { packListKeys } from '@/queries/query-keys';
+import { encode, calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 
 type PackListProps = {
 	currentPackId: number | undefined;
@@ -22,20 +22,22 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 
 	const { mutate: movePack } = useMovePackMutation();
 
-	const handleGetPack = async (packId: number) => {
-		const { pathname } = location;
-		if (currentPackId === undefined) navigate('/');
+	const handleGetPack = (packId: number) => {
 		const encodedId = encode(packId);
-		if (packId !== currentPackId) navigate(`/pack/${encodedId}`);
-		if (pathname !== '/') navigate(`/pack/${encodedId}`);
+
+		if (currentPackId === undefined) navigate('/');
+		// navigate to pack (if different pack or app path)
+		else if (packId !== currentPackId || location.pathname !== '/') {
+			navigate(`/pack/${encodedId}`);
+		}
 	};
 
-	const handleOnDragEnd = (result: DropResult) => {
+	const handleOnDragEnd = (result: DropResult): void => {
 		const { draggableId, destination, source } = result;
 		if (!destination) return;
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
+		if (destination.index === source.index) return;
 
+		// Optimistic update for UI
 		applySynchronousDragUpdate<{ packList: PackListItemType[] }>(
 			queryClient,
 			packListKeys.all,
@@ -64,8 +66,8 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 				<Droppable
 					droppableId={'sidebar-pack-list'}
 					type="packlist-item"
-					// renderClone required in position absolute parent (sidebar)
-					// in order to display item while isDragging
+					// renderClone required to display pack item list items while dragging
+					// parent component is absolute positioned, Dnd requires renderClone
 					renderClone={(provided, _snapshot, rubric) => {
 						const index = rubric.source.index;
 						const pack = packList[index];

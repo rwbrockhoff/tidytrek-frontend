@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { PackInfo, type PackItem, type GearClosetItem } from '../types/pack-types';
+import { PackInfo, type GearClosetItem } from '../types/pack-types';
 import { closetKeys, packKeys } from './query-keys';
 
 type InitialState = {
@@ -26,8 +26,8 @@ export const useAddGearClosetItemMutation = () => {
 export const useEditGearClosetItemMutation = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packItem: PackItem) =>
-			tidyTrekAPI.put(`/closet/items/${packItem.packItemId}`, packItem),
+		mutationFn: (gearClosetItem: GearClosetItem) =>
+			tidyTrekAPI.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},

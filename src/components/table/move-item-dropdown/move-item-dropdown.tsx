@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import styles from './move-item-dropdown.module.css';
-import { PackItem, type PackListItem } from '@/types/pack-types';
+import { BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 import { Button, Flex, Select, Table } from '@radix-ui/themes';
 import { MdOutlineMoveDown } from 'react-icons/md';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
 
 type MoveItemDropdownProps = {
-	packItem: PackItem;
+	packItem: BaseTableRowItem;
 	availablePacks: PackListItem[];
 };
 
 export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const { packItem, availablePacks } = props;
+
+	// Hide dropdown if no packs are available
+	if (!availablePacks || availablePacks.length === 0) return null;
+
 	const { packItemId, packItemIndex } = packItem;
 
 	const { mutate: moveItemToPack } = useMoveItemToPackMutation();

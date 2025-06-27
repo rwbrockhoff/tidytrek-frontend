@@ -1,7 +1,12 @@
 import styles from './table-row.module.css';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { type PackItem, type PackListItem, PackItemProperty } from '@/types/pack-types';
+import {
+	type PackListItem,
+	type BaseTableRowItem,
+	type PackItemProperty,
+	isPackItem,
+} from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
 import { Flex, Table, Button } from '@radix-ui/themes';
 import { ActionButtons } from '@/components/table/table-buttons';
@@ -23,11 +28,11 @@ import { TableErrorRow } from './table-error-row';
 
 type TableRowProps = {
 	index: number;
-	item: PackItem;
+	item: BaseTableRowItem;
 	packList: PackListItem[];
 	disabled?: boolean;
 	moveToCloset?: (packItemId: number) => void;
-	handleOnSave: (packItem: PackItem) => void;
+	handleOnSave: (packItem: BaseTableRowItem) => void;
 	handleDelete: (packItemId: number) => void;
 };
 
@@ -82,13 +87,12 @@ export const TableRow = (props: TableRowProps) => {
 		moveToCloset && moveToCloset(packItemId);
 	};
 
-	const { packItemId, packId } = packItem;
-
+	const { packItemId } = packItem;
 	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
 
 	const showAllCells = !isMobile || viewAllCells;
-	const hasPackId = packId !== null;
+	const hasPackId = isPackItem(packItem);
 
 	return (
 		<Draggable
@@ -152,7 +156,10 @@ export const TableRow = (props: TableRowProps) => {
 													onClickMove={handleMoveItemToCloset}
 													onClickDelete={() => handleDelete(packItemId)}>
 													<Flex align="center">
-														<Button variant="ghost" data-testid="delete-pack-item-button" aria-label="Delete pack item">
+														<Button
+															variant="ghost"
+															data-testid="delete-pack-item-button"
+															aria-label="Delete pack item">
 															<TrashIcon />
 														</Button>
 													</Flex>

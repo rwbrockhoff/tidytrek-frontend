@@ -1,10 +1,10 @@
 import { createContext } from 'react';
-import { type PackItem } from '@/types/pack-types';
+import { type BaseTableRowItem, type PackItem } from '@/types/pack-types';
 import { InputEvent, SelectEvent } from '@/types/form-types';
 import { ZodFormErrors } from '@/hooks';
 
 type TableRowContext = {
-	packItem: PackItem | null;
+	packItem: BaseTableRowItem | null;
 	onChange: ((e: InputEvent | SelectEvent) => void) | undefined;
 	isDragging: boolean;
 	formErrors: ZodFormErrors<PackItem> | null;
