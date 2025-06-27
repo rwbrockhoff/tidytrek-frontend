@@ -11,11 +11,18 @@ test.describe.serial('Pack Category Functionality', () => {
 		await page.goto('/');
 		await page.waitForLoadState('networkidle');
 
-		await page.getByRole('button', { name: packTitle }).click();
-		await page.waitForLoadState('networkidle');
+		// Check if we're already on the correct pack
+		const packHeading = page.getByRole('heading', { name: packTitle });
+		const isAlreadyOnPack = await packHeading.isVisible();
 
-		// Wait for pack to load
-		await expect(page.getByRole('heading', { name: packTitle })).toBeVisible({
+		if (!isAlreadyOnPack) {
+			// Click to switch to the pack
+			await page.getByRole('button', { name: packTitle }).click();
+			await page.waitForLoadState('networkidle');
+		}
+
+		// Wait for pack content to be visible
+		await expect(packHeading).toBeVisible({
 			timeout: 10000,
 		});
 	});
@@ -135,11 +142,18 @@ test.describe.serial('Pack Category Functionality', () => {
 			await page.goto('/');
 			await page.waitForLoadState('networkidle');
 
-			await page.getByRole('button', { name: packTitle }).click();
-			await page.waitForLoadState('networkidle');
+			// Check if we're already on the correct pack
+			const packHeading = page.getByRole('heading', { name: packTitle });
+			const isAlreadyOnPack = await packHeading.isVisible();
 
-			// Wait for pack to load
-			await expect(page.getByRole('heading', { name: packTitle })).toBeVisible({
+			if (!isAlreadyOnPack) {
+				// Click to switch to the pack
+				await page.getByRole('button', { name: packTitle }).click();
+				await page.waitForLoadState('networkidle');
+			}
+
+			// Wait for pack content to be visible
+			await expect(packHeading).toBeVisible({
 				timeout: 10000,
 			});
 		});

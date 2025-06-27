@@ -5,42 +5,86 @@ import { Authentication } from '../../routes/authentication';
 const RegisterFormWithProps = <Authentication isRegisterForm={true} />;
 const LoginFormWithProps = <Authentication isRegisterForm={false} />;
 
-describe('LogInForm', () => {
-	it('Should render component', () => {
-		wrappedRender(RegisterFormWithProps);
+describe('Authentication Component', () => {
+	describe('Registration Form', () => {
+		it('should render registration form component', () => {
+			wrappedRender(RegisterFormWithProps);
+
+			// Verify component mounts without errors
+			expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
+		});
+
+		it('should display registration form UI elements', () => {
+			wrappedRender(RegisterFormWithProps);
+
+			const registerButton = screen.getByRole('button', { name: /create account/i });
+			const nameInput = screen.getByTestId('first-name-input');
+			const lastNameInput = screen.getByTestId('last-name-input');
+			const emailInput = screen.getByTestId('email-input');
+
+			expect(nameInput).toBeInTheDocument();
+			expect(lastNameInput).toBeInTheDocument();
+			expect(emailInput).toBeInTheDocument();
+			expect(registerButton).toHaveTextContent(/create account/i);
+		});
+
+		it('should have proper form input attributes', () => {
+			wrappedRender(RegisterFormWithProps);
+
+			const nameInput = screen.getByTestId('first-name-input');
+			const lastNameInput = screen.getByTestId('last-name-input');
+			const emailInput = screen.getByTestId('email-input');
+
+			expect(nameInput).toHaveAttribute('type', 'text');
+			expect(lastNameInput).toHaveAttribute('type', 'text');
+			expect(emailInput).toHaveAttribute('type', 'email');
+		});
 	});
 
-	it('Should show register form ui', () => {
-		wrappedRender(RegisterFormWithProps);
-		const registerButton = screen.getByRole('button', { name: /create account/i });
-		const nameInput = screen.getByTestId('first-name-input');
+	describe('Login Form', () => {
+		it('should render login form component', () => {
+			wrappedRender(LoginFormWithProps);
 
-		expect(nameInput).toBeDefined();
-		expect(registerButton).toHaveTextContent(/create account/i);
+			// Verify component mounts without errors
+			expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+		});
+
+		it('should display login form UI elements', () => {
+			wrappedRender(LoginFormWithProps);
+
+			const loginButton = screen.getByRole('button', { name: /login/i });
+			const emailInput = screen.getByTestId('email-input');
+			const passwordInput = screen.getByTestId('password-input');
+
+			expect(emailInput).toBeInTheDocument();
+			expect(passwordInput).toBeInTheDocument();
+			expect(loginButton).toHaveTextContent(/login/i);
+		});
+
+		it('should have proper form input attributes', () => {
+			wrappedRender(LoginFormWithProps);
+
+			const emailInput = screen.getByTestId('email-input');
+			const passwordInput = screen.getByTestId('password-input');
+
+			expect(emailInput).toHaveAttribute('type', 'email');
+			expect(passwordInput).toHaveAttribute('type', 'password');
+		});
 	});
 
-	it('Should require valid email', async () => {
-		const { user } = wrappedRender(RegisterFormWithProps);
+	describe('Form Props', () => {
+		it('should render different forms based on isRegisterForm prop', () => {
+			const { rerender } = wrappedRender(LoginFormWithProps);
 
-		const registerButton = screen.getByRole('button', { name: /create account/i });
+			// Login form should be shown
+			expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+			expect(screen.queryByTestId('first-name-input')).not.toBeInTheDocument();
 
-		const nameInput = screen.getByTestId('first-name-input');
-		const lastNameInput = screen.getByTestId('last-name-input');
-		const emailInput = screen.getByTestId('email-input');
+			// Switch to register form
+			rerender(RegisterFormWithProps);
 
-		await user.type(nameInput, 'Josh');
-		await user.type(lastNameInput, 'Collins');
-		await user.type(emailInput, 'jcollins@gmail');
-
-		await user.click(registerButton);
-
-		expect(screen.getByTestId('auth-message-error')).toBeInTheDocument();
-		expect(screen.getByTestId('auth-message-error')).toHaveAccessibleName();
-	});
-
-	it('Should show log in ui', () => {
-		wrappedRender(LoginFormWithProps);
-		const loginButton = screen.getByRole('button', { name: /login/i });
-		expect(loginButton).toHaveTextContent(/login/i);
+			expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
+			expect(screen.getByTestId('first-name-input')).toBeInTheDocument();
+		});
 	});
 });

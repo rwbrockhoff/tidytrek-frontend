@@ -60,7 +60,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 								</FormControl>
 								{formErrors.email.error && (
 									<FormMessage>
-										<Text mb="8" color="tomato" weight="light">
+										<Text mb="8" color="tomato" weight="light" data-testid="email-error">
 											{formErrors.email.message}
 										</Text>
 									</FormMessage>
@@ -80,11 +80,12 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 											size="3"
 											type="password"
 											placeholder="Password"
+											data-testid="password-input"
 										/>
 									</FormControl>
 									{formErrors.password.error && (
 										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
+											<Text mb="8" color="tomato" weight="light" data-testid="password-error">
 												{formErrors.password.message}
 											</Text>
 										</FormMessage>
@@ -101,11 +102,12 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 											size="3"
 											type="password"
 											placeholder="Confirm Password"
+											data-testid="confirm-password-input"
 										/>
 									</FormControl>
 									{formErrors.confirmPassword.error && (
 										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
+											<Text mb="8" color="tomato" weight="light" data-testid="confirm-password-error">
 												{formErrors.confirmPassword.message}
 											</Text>
 										</FormMessage>
@@ -115,7 +117,11 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						)}
 
 						{serverError.error && (
-							<Message messageType="error" text={serverError.message} />
+							<Message
+								messageType="error"
+								id="reset-password-message"
+								text={serverError.message}
+							/>
 						)}
 
 						<Button size="3" mt="2" style={{ width: '100%' }} type="submit">

@@ -148,6 +148,7 @@ export const LogInForm = (props: FormProps) => {
 									size="3"
 									type="password"
 									placeholder="Password"
+									data-testid="password-input"
 								/>
 							</FormControl>
 							{formErrors.password.error && (

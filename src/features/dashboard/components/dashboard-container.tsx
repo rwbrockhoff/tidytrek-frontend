@@ -1,4 +1,3 @@
-import styles from './dashboard-container.module.css';
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
 import { AddCategoryButton } from '@/components/table';
@@ -56,46 +55,47 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	return (
 		<PricingContext.Provider value={packPricing}>
-			<main className={styles.container}>
-					{!userView && <ProfileBanner />}
-					<PackInfo
-						currentPack={pack}
-						packCategories={packCategories}
-						userProfile={userProfile}
-						settings={settings}
-						fetching={isPending}
-					/>
+			<main>
+				{!userView && <ProfileBanner />}
+				<PackInfo
+					currentPack={pack}
+					packCategories={packCategories}
+					userProfile={userProfile}
+					settings={settings}
+					fetching={isPending}
+				/>
 
-					<DragDropContext onDragEnd={handleOnDragEnd}>
-						<Drop droppableId={'dashboard-drop-window'} type="category">
-							{packCategories.length > 0 &&
-								packCategories.map((category: Category, index: number) => {
-									return (
-										<PackCategory
-											category={category}
-											packList={packList}
-											index={index}
-											key={category.packCategoryId}
-										/>
-									);
-								})}
-						</Drop>
-					</DragDropContext>
+				<DragDropContext onDragEnd={handleOnDragEnd}>
+					<Drop droppableId={'dashboard-drop-window'} type="category">
+						{packCategories.length > 0 &&
+							packCategories.map((category: Category, index: number) => {
+								return (
+									<PackCategory
+										category={category}
+										packList={packList}
+										index={index}
+										key={category.packCategoryId}
+									/>
+								);
+							})}
+					</Drop>
+				</DragDropContext>
 
-					{userView && (
-						<Flex justify="center" width="100%">
-							<AddCategoryButton onClick={() => packId && addCategory(packId, packCategories)} />
-						</Flex>
-					)}
-
-					{isGuestView && (
-						<DashboardFooter
-							affiliate={packAffiliate}
-							description={packAffiliateDescription}
+				{userView && (
+					<Flex justify="center" width="100%">
+						<AddCategoryButton
+							onClick={() => packId && addCategory(packId, packCategories)}
 						/>
-					)}
+					</Flex>
+				)}
+
+				{isGuestView && (
+					<DashboardFooter
+						affiliate={packAffiliate}
+						description={packAffiliateDescription}
+					/>
+				)}
 			</main>
 		</PricingContext.Provider>
 	);
 };
-
