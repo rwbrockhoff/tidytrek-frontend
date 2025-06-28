@@ -30,22 +30,11 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		onDragEnd,
 	} = useGearClosetActions();
 
-	// useCallback prevents unnecessary TableRow re-renders in large lists
-	const handleOnSave = useCallback((item: BaseTableRowItem) => {
-		editGearClosetItem(item);
-	}, [editGearClosetItem]);
-
-	const handleDelete = useCallback((packItemId: number) => {
-		deleteGearClosetItem(packItemId);
-	}, [deleteGearClosetItem]);
-
-	const handleAddItem = useCallback(() => {
-		addGearClosetItem();
-	}, [addGearClosetItem]);
-
-	const handleOnDragEnd = useCallback((result: DropResult) => {
-		onDragEnd(result, gearClosetList);
-	}, [onDragEnd, gearClosetList]);
+	// Hooks already use useCallback, no need for double memoization
+	const handleOnSave = (item: BaseTableRowItem) => editGearClosetItem(item);
+	const handleDelete = (packItemId: number) => deleteGearClosetItem(packItemId);
+	const handleAddItem = () => addGearClosetItem();
+	const handleOnDragEnd = (result: DropResult) => onDragEnd(result, gearClosetList);
 
 	return (
 		<PricingContext.Provider value={true}>
