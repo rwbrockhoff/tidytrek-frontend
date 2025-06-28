@@ -336,6 +336,7 @@ export const useEditPackCategoryMutation = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
+			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
