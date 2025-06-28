@@ -4,6 +4,11 @@ export type InitialState = {
 	categories: Category[];
 };
 
+export type PackWithCategories = {
+	pack: Pack;
+	categories: Category[];
+};
+
 export type Pack = {
 	packId: number;
 	userId: number;
@@ -91,7 +96,13 @@ export type PackItemProperty = {
 	[Property in keyof PackItem]?: PackItem[Property];
 };
 
-export type MovePackItemProps = {
+// Base type for all drag and drop move operations
+export type BaseMoveProps = {
+	sourceIndex?: number;
+	destinationIndex?: number;
+};
+
+export type MovePackItemProps = BaseMoveProps & {
 	packId: number | null;
 	packItemId: string;
 	packCategoryId: string;
@@ -100,12 +111,24 @@ export type MovePackItemProps = {
 	nextItemIndex?: string;
 };
 
-export type MovePackCategoryProps = {
+export type MovePackCategoryProps = BaseMoveProps & {
 	packId: number;
 	packCategoryId: string;
 	prevCategoryIndex?: string;
 	nextCategoryIndex?: string;
 	paramPackId: string | undefined;
+};
+
+export type MovePackProps = BaseMoveProps & {
+	packId: string;
+	prevPackIndex?: string;
+	nextPackIndex?: string;
+};
+
+export type MoveGearClosetItemProps = BaseMoveProps & {
+	packItemId: string;
+	prevItemIndex?: string;
+	nextItemIndex?: string;
 };
 
 export type HeaderInfo = {

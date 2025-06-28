@@ -16,14 +16,13 @@ export const CreatePackMenu = () => {
 
 	useEffect(() => {
 		// subscribe to new pack created event, redirect to new pack
-		if (addNewPackData.isSuccess && addNewPackData.data) {
-			if ('pack' in addNewPackData.data && paramPackId) {
-				const { packId } = addNewPackData.data.pack;
-				const encodedId = encode(packId);
-				if (paramPackId !== encodedId) {
-					addNewPackData.reset();
-					navigate(`/pack/${encodedId}`);
-				}
+		if (addNewPackData.isSuccess && addNewPackData.data?.pack) {
+			const { packId } = addNewPackData.data.pack;
+			const encodedId = encode(packId);
+			// Only navigate if we're not already on this pack's page
+			if (paramPackId !== encodedId) {
+				addNewPackData.reset();
+				navigate(`/pack/${encodedId}`);
 			}
 		}
 	}, [addNewPackData, paramPackId, navigate]);

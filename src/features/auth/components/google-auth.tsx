@@ -65,12 +65,11 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 
 	useEffect(() => {
 		// subscribe to login mutation
-		if (isLoginSuccess) {
-			const { data } = loginData;
-			if (data?.newUser) navigate('/welcome');
+		if (isLoginSuccess && loginData) {
+			if (loginData.newUser) navigate('/welcome');
 		}
 		if (isLoginError) updateServerError(generalErrorMessage);
-	}, [isLoginSuccess]);
+	}, [isLoginSuccess, loginData]);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'test') return;

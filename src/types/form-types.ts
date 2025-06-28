@@ -1,5 +1,3 @@
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { SyntheticEvent } from 'react';
 
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
@@ -15,14 +13,3 @@ export type PasswordInfo = {
 	confirmPassword: string;
 	emailCode: string;
 };
-
-// Generic mutation type with optional response data type
-
-// Usage: InternalMutation<RequestType, ResponseType> for API responses
-// Example: editProfile: InternalMutation<UserInfo>;
-export type InternalMutation<T, TData = unknown> = UseMutationResult<
-	AxiosResponse<TData>,
-	Error,
-	T,
-	unknown
->;

@@ -3,6 +3,8 @@ import { profileSettingsKeys, profileKeys, userKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { InitialState } from '../types/profile-types';
 import { type UserInfo } from '../types/profile-types';
+import { type SimpleMutation } from './mutation-types';
+import { extractData } from '../utils';
 
 export const useGetProfileSettingsQuery = () =>
 	useQuery<InitialState>({
@@ -10,29 +12,29 @@ export const useGetProfileSettingsQuery = () =>
 		queryFn: () => tidyTrekAPI.get('/profile-settings/').then((res) => res.data),
 	});
 
-export const useUpdateUsernameMutation = () => {
+export const useUpdateUsernameMutation = (): SimpleMutation<{ username: string; trailName: string }, { message?: string }> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (userInfo: { username: string; trailName: string }) =>
-			tidyTrekAPI.put('/profile-settings/username', userInfo),
+			tidyTrekAPI.put('/profile-settings/username', userInfo).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 		},
 	});
 };
 
-export const useAddSocialLinkMutation = () => {
+export const useAddSocialLinkMutation = (): SimpleMutation<{ platformName: string; socialLinkUrl: string }, { message?: string }> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (socialInfo: { platformName: string; socialLinkUrl: string }) =>
-			tidyTrekAPI.post('/profile-settings/social-link', socialInfo),
+			tidyTrekAPI.post('/profile-settings/social-link', socialInfo).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 		},
 	});
 };
 
-export const useDeleteSocialLinkMutation = () => {
+export const useDeleteSocialLinkMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (socialLinkId: number) =>
@@ -43,24 +45,24 @@ export const useDeleteSocialLinkMutation = () => {
 	});
 };
 
-export const useEditProfileMutation = () => {
+export const useEditProfileMutation = (): SimpleMutation<UserInfo, { message?: string }> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (profileInfo: UserInfo) =>
-			tidyTrekAPI.put('/profile-settings/', profileInfo),
+			tidyTrekAPI.put('/profile-settings/', profileInfo).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 		},
 	});
 };
 
-export const useUploadProfilePhotoMutation = () => {
+export const useUploadProfilePhotoMutation = (): SimpleMutation<FormData, { profilePhotoUrl?: string }> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (formData: FormData) =>
 			tidyTrekAPI.post('/profile-settings/profile-photo', formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
-			}),
+			}).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
@@ -69,7 +71,7 @@ export const useUploadProfilePhotoMutation = () => {
 	});
 };
 
-export const useDeleteProfilePhotoMutation = () => {
+export const useDeleteProfilePhotoMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: () => tidyTrekAPI.delete(`/profile-settings/profile-photo`),
@@ -81,13 +83,13 @@ export const useDeleteProfilePhotoMutation = () => {
 	});
 };
 
-export const useUploadBannerPhotoMutation = () => {
+export const useUploadBannerPhotoMutation = (): SimpleMutation<FormData, { bannerPhotoUrl?: string }> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (formData: FormData) =>
 			tidyTrekAPI.post('/profile-settings/banner-photo', formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
-			}),
+			}).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},

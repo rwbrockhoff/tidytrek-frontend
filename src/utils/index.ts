@@ -6,3 +6,4 @@ export * from './convertWeight';
 export * from './messages';
 export * from './dragDropUtils';
 export * from './objectUtils';
+export * from './apiHelpers';

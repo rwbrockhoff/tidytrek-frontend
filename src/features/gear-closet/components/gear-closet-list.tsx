@@ -1,9 +1,7 @@
-import { useCallback } from 'react';
 import {
 	type PackListItem,
 	type GearClosetItem,
 	type BaseTableRowItem,
-	isGearClosetItem,
 } from '@/types/pack-types';
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
@@ -23,12 +21,8 @@ export type GearClosetListProps = {
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
 
-	const {
-		addGearClosetItem,
-		editGearClosetItem,
-		deleteGearClosetItem,
-		onDragEnd,
-	} = useGearClosetActions();
+	const { addGearClosetItem, editGearClosetItem, deleteGearClosetItem, onDragEnd } =
+		useGearClosetActions();
 
 	// Hooks already use useCallback, no need for double memoization
 	const handleOnSave = (item: BaseTableRowItem) => editGearClosetItem(item);
