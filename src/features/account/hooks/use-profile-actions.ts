@@ -37,6 +37,7 @@ export const useProfileActions = () => {
 		[deleteProfilePhoto],
 	);
 
+	// Use as const to infer exact types from SimpleMutation
 	return {
 		addSocialLink: handleAddSocialLink,
 		deleteSocialLink: handleDeleteSocialLink,
@@ -44,5 +45,5 @@ export const useProfileActions = () => {
 		deleteProfilePhoto: handleDeleteProfilePhoto,
 		// Raw mutations to use mutation status for UI changes (isPending)
 		mutations,
-	};
+	} as const;
 };

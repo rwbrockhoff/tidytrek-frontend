@@ -15,6 +15,7 @@ export const usePackItemMutations = () => {
 	const moveItemToPack = useMoveItemToPackMutation();
 	const deletePackItem = useDeletePackItemMutation();
 
+	// Use as const to infer exact types from SimpleMutation
 	return {
 		addPackItem,
 		editPackItem,
@@ -22,5 +23,5 @@ export const usePackItemMutations = () => {
 		movePackItem,
 		moveItemToPack,
 		deletePackItem,
-	};
+	} as const;
 };

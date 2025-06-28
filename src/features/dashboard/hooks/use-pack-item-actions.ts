@@ -49,6 +49,7 @@ export const usePackItemActions = () => {
 		[deletePackItem],
 	);
 
+	// Use as const to infer exact types from SimpleMutation
 	return {
 		addPackItem: handleAddItem,
 		editPackItem: handleEditPackItem,
@@ -59,5 +60,5 @@ export const usePackItemActions = () => {
 			movePackItem: mutations.movePackItem,
 			editPackItem: mutations.editPackItem,
 		},
-	};
+	} as const;
 };

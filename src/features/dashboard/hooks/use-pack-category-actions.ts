@@ -183,11 +183,12 @@ export const usePackCategoryActions = () => {
 		[queryClient, movePackCategory, movePackItem],
 	);
 
+	// Use as const to infer exact types from SimpleMutation
 	return {
 		addPackCategory: handleAddPackCategory,
 		editPackCategory: handleEditCategory,
 		deletePackCategory: handleDeleteCategory,
 		deletePackCategoryAndItems: handleDeleteCategoryAndItems,
 		onDragEnd: handleOnDragEnd,
-	};
+	} as const;
 };

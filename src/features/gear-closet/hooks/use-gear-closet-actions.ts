@@ -29,50 +29,60 @@ export const useGearClosetActions = () => {
 	}, [addItem]);
 
 	// Edit Item
-	const handleEditItem = useCallback((item: BaseTableRowItem) => {
-		if (isGearClosetItem(item)) editItem(item);
-	}, [editItem]);
+	const handleEditItem = useCallback(
+		(item: BaseTableRowItem) => {
+			if (isGearClosetItem(item)) editItem(item);
+		},
+		[editItem],
+	);
 
 	// Delete Item
-	const handleDeleteItem = useCallback((packItemId: number) => {
-		deleteItem(packItemId);
-	}, [deleteItem]);
+	const handleDeleteItem = useCallback(
+		(packItemId: number) => {
+			deleteItem(packItemId);
+		},
+		[deleteItem],
+	);
 
 	// Drag handler with optimistic updates
-	const handleOnDragEnd = useCallback((result: DropResult, gearClosetList: GearClosetItem[]) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
+	const handleOnDragEnd = useCallback(
+		(result: DropResult, gearClosetList: GearClosetItem[]) => {
+			const { draggableId, destination, source } = result;
+			if (!destination) return;
 
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
+			const sameIndex = destination.index === source.index;
+			if (sameIndex) return;
 
-		applySynchronousDragUpdate<{ gearClosetList: GearClosetItem[] }>(
-			queryClient,
-			closetKeys.all,
-			source.index,
-			destination.index,
-			'gearClosetList',
-		);
+			applySynchronousDragUpdate<{ gearClosetList: GearClosetItem[] }>(
+				queryClient,
+				closetKeys.all,
+				source.index,
+				destination.index,
+				'gearClosetList',
+			);
 
-		// Calculate adjacent items for fractional indexing
-		const { prevItem, nextItem } = calculateAdjacentItems(
-			gearClosetList,
-			source.index,
-			destination.index,
-		);
+			// Calculate adjacent items for fractional indexing
+			const { prevItem, nextItem } = calculateAdjacentItems(
+				gearClosetList,
+				source.index,
+				destination.index,
+			);
 
-		const dragId = draggableId.replace(/\D/g, '');
-		moveGearClosetItem({
-			packItemId: dragId,
-			prevItemIndex: prevItem?.packItemIndex,
-			nextItemIndex: nextItem?.packItemIndex,
-		});
-	}, [queryClient, moveGearClosetItem]);
+			const dragId = draggableId.replace(/\D/g, '');
+			moveGearClosetItem({
+				packItemId: dragId,
+				prevItemIndex: prevItem?.packItemIndex,
+				nextItemIndex: nextItem?.packItemIndex,
+			});
+		},
+		[queryClient, moveGearClosetItem],
+	);
 
+	// Use as const to infer exact types from SimpleMutation
 	return {
 		addGearClosetItem: handleAddItem,
 		editGearClosetItem: handleEditItem,
 		deleteGearClosetItem: handleDeleteItem,
 		onDragEnd: handleOnDragEnd,
-	};
+	} as const;
 };
