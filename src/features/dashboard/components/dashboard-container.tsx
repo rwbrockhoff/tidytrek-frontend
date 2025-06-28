@@ -11,7 +11,7 @@ import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import { DragDropContext, Drop, ProfileBanner, type DropResult } from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
-import { usePackCategoryHandlers } from '../handlers/use-pack-category-handlers';
+import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
 import { Flex } from '@radix-ui/themes';
 
 type DashboardProps = {
@@ -29,8 +29,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const packCategories = categories || [];
 	const packId = pack?.packId || null;
 
-	const { handlers } = usePackCategoryHandlers();
-	const { onDragEnd, addCategory } = handlers;
+	const { onDragEnd, addPackCategory } = usePackCategoryActions();
 
 	//--Guest View Data--//
 	const { userProfile, settings } = useGuestData(currentPack);
@@ -84,7 +83,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 				{userView && (
 					<Flex justify="center" width="100%">
 						<AddCategoryButton
-							onClick={() => packId && addCategory(packId, packCategories)}
+							onClick={() => packId && addPackCategory(packId, packCategories)}
 						/>
 					</Flex>
 				)}

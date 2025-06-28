@@ -2,7 +2,7 @@ import { type HeaderInfo } from '@/types/pack-types';
 import { Button, Flex, Table } from '@radix-ui/themes';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
-import { usePackCategoryHandlers } from '@/features/dashboard/handlers/use-pack-category-handlers';
+import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
 import { cn } from '@/styles/utils';
@@ -16,7 +16,7 @@ type TableHeaderProps = {
 };
 
 export const TableHeader = (props: TableHeaderProps) => {
-	const { deleteCategory, deleteCategoryAndItems } = usePackCategoryHandlers().handlers;
+	const { deletePackCategory, deletePackCategoryAndItems } = usePackCategoryActions();
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
 
@@ -64,8 +64,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 						<DeleteModal
 							header="Are you sure?"
 							message={deleteCategoryMessage}
-							onClickMove={() => deleteCategory(packCategoryId)}
-							onClickDelete={() => deleteCategoryAndItems(packCategoryId)}>
+							onClickMove={() => deletePackCategory(packCategoryId)}
+							onClickDelete={() => deletePackCategoryAndItems(packCategoryId)}>
 							<Flex align="center" aria-label="Delete category">
 								<Button variant="ghost" data-testid="delete-category-button" aria-label="Delete category">
 									<TrashIcon />

@@ -1,12 +1,12 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import styles from './pack-category.module.css';
 import { cn } from '@/styles/utils';
 import { Draggable } from 'react-beautiful-dnd';
 import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DropTableBody } from '@/components';
-import { usePackItemHandlers } from '../handlers/use-pack-item-handlers';
+import { usePackItemActions } from '../hooks/use-pack-item-actions';
 import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
 
 type PackCategoryProps = {
@@ -18,11 +18,8 @@ type PackCategoryProps = {
 export const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
 	const userView = useUserContext();
 
-	const { handlers } = usePackItemHandlers();
-
-	const { addPackItem, moveItemToCloset, editPackItem, deleteItem } = handlers;
-
-	const handleAddItem = () => addPackItem({ packId, packCategoryId });
+	const { addPackItem, moveItemToCloset, editPackItem, deletePackItem } =
+		usePackItemActions();
 
 	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
 		category;
@@ -30,15 +27,31 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
 
 	const [isMinimized, setMinimized] = useState(false);
-	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
-	const { totalWeight: convertedCategoryWeight, totalPrice } = convertWeight(
-		packItems,
-		'lb',
+	// useCallback prevents unnecessary TableRow re-renders
+	const handleAddItem = useCallback(
+		() => addPackItem({ packId, packCategoryId }),
+		[addPackItem, packId, packCategoryId],
 	);
 
-	const formattedTotalPrice = convertCurrency(totalPrice, 'USD');
-	const itemQuantity = packItems[0] ? convertQuantity(packItems) : 0; // todo: get from weight converter
+	const handleMinimizeCategory = useCallback(
+		() => setMinimized(!isMinimized),
+		[isMinimized],
+	);
+
+	const { totalWeight: convertedCategoryWeight, totalPrice } = useMemo(
+		() => convertWeight(packItems, 'lb'),
+		[packItems],
+	);
+
+	const formattedTotalPrice = useMemo(
+		() => convertCurrency(totalPrice, 'USD'),
+		[totalPrice],
+	);
+	const itemQuantity = useMemo(
+		() => (packItems[0] ? convertQuantity(packItems) : 0),
+		[packItems],
+	); // todo: get from weight converter
 	// minize or hide pack items when empty
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view
@@ -55,9 +68,9 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					className={cn(
-						styles.tableContainer, 
+						styles.tableContainer,
 						isMinimized && styles.minimized,
-						isDragging && styles.tableContainerDragging
+						isDragging && styles.tableContainerDragging,
 					)}
 					data-testid="pack-category-row">
 					<Table>
@@ -79,7 +92,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										disabled={!userView}
 										moveToCloset={moveItemToCloset}
 										handleOnSave={editPackItem}
-										handleDelete={deleteItem}
+										handleDelete={deletePackItem}
 									/>
 								))}
 						</DropTableBody>

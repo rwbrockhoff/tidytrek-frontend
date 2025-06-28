@@ -1,10 +1,7 @@
 import { ReactNode } from 'react';
-import { HandlerWrapper as PackItemHandlerWrapper } from '@/features/dashboard/handlers/use-pack-item-handlers';
-import { HandlerWrapper as PackCategoryHandlerWrapper } from '@/features/dashboard/handlers/use-pack-category-handlers';
 import { UserViewContext, PricingContext } from '@/hooks/use-viewer-context';
 import { DragDropContext, Drop } from '@/components/drag-drop/drag-drop-wrapper';
 
-// App has complex wrapper/context structure depending on the component
 // Use the modular wrappers below based on test requirements
 
 // Drag & Drop wrapper
@@ -18,13 +15,6 @@ export const withDragDrop = (
 			{children}
 		</Drop>
 	</DragDropContext>
-);
-
-// Dashboard handlers wrapper
-export const withDashboardHandlers = (children: ReactNode) => (
-	<PackCategoryHandlerWrapper>
-		<PackItemHandlerWrapper>{children}</PackItemHandlerWrapper>
-	</PackCategoryHandlerWrapper>
 );
 
 // User context wrapper
@@ -56,7 +46,7 @@ export const withDashboardContext = (
 	} = options || {};
 
 	return withUserContext(
-		withDashboardHandlers(withDragDrop(children, droppableId, dragType)),
+		withDragDrop(children, droppableId, dragType),
 		userView,
 		pricing,
 	);

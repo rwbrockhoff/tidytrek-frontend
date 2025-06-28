@@ -35,6 +35,7 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				src={photoSource}
 				alt="upload custom pack photo"
 				className={styles.packPhoto}
+				loading="lazy"
 			/>
 
 			<Spinner active={isPending} absoluteCenter size="3" />

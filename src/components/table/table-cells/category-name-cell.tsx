@@ -5,7 +5,7 @@ import { type InputEvent } from '@/types/form-types';
 import { Flex, Table, TextField } from '@radix-ui/themes';
 import { ThemeButton, GripButton } from '../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { usePackCategoryHandlers } from '../../../features/dashboard/handlers/use-pack-category-handlers';
+import { usePackCategoryActions } from '../../../features/dashboard/hooks/use-pack-category-actions';
 import { cn } from '@/styles/utils';
 
 type CategoryNameCellProps = {
@@ -16,7 +16,7 @@ type CategoryNameCellProps = {
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
-	const { editCategory } = usePackCategoryHandlers().handlers;
+	const { editPackCategory } = usePackCategoryActions();
 
 	const { disabled, categoryHeaderInfo, dragProps } = props;
 
@@ -31,12 +31,12 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	const handleBlur = () => {
 		if (categoryName !== packCategoryName) {
-			editCategory({ packCategoryName, packCategoryId });
+			editPackCategory({ packCategoryName, packCategoryId });
 		}
 	};
 
 	const handleChangeColor = (packCategoryColor: string) =>
-		editCategory({ packCategoryColor, packCategoryId });
+		editPackCategory({ packCategoryColor, packCategoryId });
 
 	const handleOnMouseOver = () => {
 		setShowGrip(true);
