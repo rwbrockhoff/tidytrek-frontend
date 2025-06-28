@@ -1,18 +1,17 @@
 import { Flex } from '@radix-ui/themes';
 import styles from './segment.module.css';
-
-type Radius = 'none' | '1' | '2' | '50%';
+import { cn } from '@/styles/utils';
 
 const radiusChart = {
 	none: 'none',
-	'1': '.25rem',
-	'2': '1rem',
+	'1': 'var(--space-min)',
+	'2': 'var(--space-md)',
 	'50%': '50%',
-};
+} as const;
 
-interface SegmentProps {
+interface SegmentProps extends React.HTMLAttributes<HTMLDivElement> {
 	stacked?: boolean;
-	radius?: Radius;
+	radius?: keyof typeof radiusChart;
 	className?: string;
 	children?: React.ReactNode;
 	style?: React.CSSProperties;
@@ -24,19 +23,17 @@ export const Segment = ({
 	className,
 	children,
 	style,
-	...props
+	...domProps
 }: SegmentProps) => {
-	const { $stacked, $radius, ...domProps } = props as any;
+	// stacked and radius are already destructured above, domProps contains remaining HTML attributes
 
 	return (
 		<div
-			className={`${styles.segment} ${className || ''}`}
-			style={
-				{
-					'--segment-radius': radiusChart[radius || 'none'],
-					...style,
-				} as React.CSSProperties
-			}
+			className={cn(styles.segment, className)}
+			style={{
+				borderRadius: radiusChart[radius || 'none'],
+				...style,
+			}}
 			{...domProps}>
 			{children}
 		</div>

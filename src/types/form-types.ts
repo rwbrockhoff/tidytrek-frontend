@@ -16,8 +16,12 @@ export type PasswordInfo = {
 	emailCode: string;
 };
 
-export type InternalMutation<T> = UseMutationResult<
-	AxiosResponse<any, any>,
+// Generic mutation type with optional response data type
+
+// Usage: InternalMutation<RequestType, ResponseType> for API responses
+// Example: editProfile: InternalMutation<UserInfo>;
+export type InternalMutation<T, TData = unknown> = UseMutationResult<
+	AxiosResponse<TData>,
 	Error,
 	T,
 	unknown

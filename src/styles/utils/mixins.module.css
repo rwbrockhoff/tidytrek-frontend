@@ -222,6 +222,13 @@
 	color: var(--color-warning);
 }
 
+.whiteText {
+	color: var(--color-constant-white);
+}
+.blackText {
+	color: var(--color-constant-black);
+}
+
 /* Border utilities */
 .borderRadius {
 	border-radius: var(--radius);
@@ -254,6 +261,12 @@
 .focus:focus {
 	outline: 2px solid var(--color-border-focus);
 	outline-offset: 2px;
+}
+.pointer {
+	cursor: pointer;
+}
+.pointer:hover {
+	filter: var(--brightness-dark-1);
 }
 
 /* Accessibility utilities */
