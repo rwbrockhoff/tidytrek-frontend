@@ -1,22 +1,23 @@
 import { Heading, Flex, Text } from '@radix-ui/themes';
 import { Avatar } from '@/components/ui';
 import { Segment, WarningMessage } from '@/components/ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 
 export const AvatarSettings = ({
 	profilePhotoUrl,
 }: {
 	profilePhotoUrl: string | undefined;
 }) => {
-	const { handlers, mutations } = useHandlers();
-	const { deleteProfilePhoto } = handlers;
 	const {
-		uploadProfilePhoto: {
-			mutate: uploadProfilePhoto,
-			isPending: isUploadingPhoto,
-			isError: isUploadError,
+		deleteProfilePhoto,
+		mutations: {
+			uploadProfilePhoto: {
+				mutate: uploadProfilePhoto,
+				isPending: isUploadingPhoto,
+				isError: isUploadError,
+			},
 		},
-	} = mutations;
+	} = useProfileActions();
 
 	return (
 		<Segment>

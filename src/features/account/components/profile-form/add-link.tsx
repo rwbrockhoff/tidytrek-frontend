@@ -3,15 +3,17 @@ import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/them
 import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '../../constants/social-media-ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
 export const AddLink = () => {
-	const { addSocialLink } = useHandlers().handlers;
 	const {
-		addSocialLink: { isPending },
-	} = useHandlers().mutations;
+		addSocialLink,
+		mutations: {
+			addSocialLink: { isPending },
+		},
+	} = useProfileActions();
 
 	const [service, setService] = useState('facebook');
 	const [socialLink, setSocialLink] = useState('');

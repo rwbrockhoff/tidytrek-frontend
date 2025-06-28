@@ -5,7 +5,6 @@ import { PackCardList } from '../components/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { useViewProfileQuery } from '@/queries/guest-queries';
-import { HandlerWrapper } from '../../account/hooks/use-profile-handlers';
 import { useGetAuth } from '@/hooks';
 
 export const Profile = ({ userView }: { userView: boolean }) => {
@@ -21,13 +20,11 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 
 	return (
 		<UserViewContext.Provider value={userView}>
-			<HandlerWrapper>
-				<main>
-						{isNotAuthenticated && <ProfileBanner />}
-						<ProfileHeader userProfile={userProfile} />
-						<PackCardList packThumbnailList={packThumbnailList} />
-				</main>
-			</HandlerWrapper>
+			<main>
+					{isNotAuthenticated && <ProfileBanner />}
+					<ProfileHeader userProfile={userProfile} />
+					<PackCardList packThumbnailList={packThumbnailList} />
+			</main>
 		</UserViewContext.Provider>
 	);
 };

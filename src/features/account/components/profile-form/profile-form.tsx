@@ -16,7 +16,7 @@ import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
 import { SocialLinks } from './social-links';
 import { FormField, FormTextArea } from '@/components/ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 import { AvatarSettings } from './avatar-settings';
 import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
 import { useQueryClient } from '@tanstack/react-query';
@@ -60,14 +60,16 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 	});
 
 	const {
-		editProfile: {
-			mutate: editProfile,
-			isSuccess,
-			isError,
-			error,
-			reset: resetEditProfileState,
+		mutations: {
+			editProfile: {
+				mutate: editProfile,
+				isSuccess,
+				isError,
+				error,
+				reset: resetEditProfileState,
+			},
 		},
-	} = useHandlers().mutations;
+	} = useProfileActions();
 
 	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<FormInputs>([
 		'username',

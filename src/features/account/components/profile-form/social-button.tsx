@@ -3,7 +3,7 @@ import styles from './social-button.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Badge, IconButton, Flex } from '@radix-ui/themes';
 import { Link, CloseIcon } from '@/components/ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -24,7 +24,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 		onClick,
 	} = props;
 
-	const { deleteSocialLink } = useHandlers().handlers || {};
+	const { deleteSocialLink } = useProfileActions();
 
 	const handleClick = () => onClick && onClick(socialName);
 
