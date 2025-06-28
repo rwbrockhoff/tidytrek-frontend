@@ -7,8 +7,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AppErrorFallback } from './components';
+import { RETRY_COUNT, RETRY_DELAY } from './queries/query-config';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: RETRY_COUNT,
+			retryDelay: RETRY_DELAY,
+		},
+	},
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<ErrorBoundary FallbackComponent={AppErrorFallback}>

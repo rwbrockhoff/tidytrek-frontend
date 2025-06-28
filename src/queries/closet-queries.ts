@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { PackInfo, type GearClosetItem } from '../types/pack-types';
 import { closetKeys, packKeys } from './query-keys';
+import { STALE_TIME } from './query-config';
 
 type InitialState = {
 	gearClosetList: GearClosetItem[];
@@ -10,6 +11,7 @@ type InitialState = {
 export const useGetGearClosetQuery = () =>
 	useQuery<InitialState>({
 		queryKey: closetKeys.all,
+		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get('/closet/').then((res) => res.data),
 	});
 

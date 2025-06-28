@@ -14,6 +14,7 @@ import {
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '@/utils';
 import { paletteList } from '@/styles/theme/palette-constants';
+import { STALE_TIME } from './query-config';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
 	return categories.findIndex(
@@ -26,7 +27,7 @@ export const useGetPackQuery = (packId: string | undefined) => {
 	return useQuery<InitialState>({
 		queryKey: packKeys.packId(decodedId as number | null),
 		enabled: packId ? true : false,
-		staleTime: 1000,
+		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get(`/packs/${decodedId}`).then((res) => res.data),
 	});
 };
@@ -34,7 +35,7 @@ export const useGetPackQuery = (packId: string | undefined) => {
 export const useGetPackListQuery = () => {
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,
-		staleTime: 1000,
+		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get('/packs/pack-list').then((res) => res.data),
 	});
 };
