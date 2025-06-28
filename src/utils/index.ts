@@ -5,3 +5,4 @@ export * from './convertCurrency';
 export * from './convertWeight';
 export * from './messages';
 export * from './dragDropUtils';
+export * from './objectUtils';

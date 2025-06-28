@@ -1,5 +1,5 @@
 import styles from './table-row.module.css';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import {
 	type PackListItem,
@@ -25,6 +25,7 @@ import { useCheckScreen } from '@/hooks';
 import { TableRowContext } from './context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
 import { TableErrorRow } from './table-error-row';
+import { shallowEqual } from '@/utils';
 
 type TableRowProps = {
 	index: number;
@@ -43,8 +44,9 @@ const packItemSchema = z.object({
 });
 
 // Table Row is used in PackCategory + GearCloset
+// Memoized exported component below
 
-export const TableRow = (props: TableRowProps) => {
+export const TableRowComponent = (props: TableRowProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
 	const { isMobile } = useCheckScreen();
@@ -181,3 +183,15 @@ export const TableRow = (props: TableRowProps) => {
 		</Draggable>
 	);
 };
+
+// Memoize TableRow to avoid re-renders
+export const TableRow = memo(TableRowComponent, (prevProps, nextProps) => {
+	// Shallow comparison
+	// Return true if props are equal (no re-render)
+	return (
+		shallowEqual(prevProps.item, nextProps.item) &&
+		prevProps.index === nextProps.index &&
+		prevProps.disabled === nextProps.disabled &&
+		prevProps.packList.length === nextProps.packList.length
+	);
+});
