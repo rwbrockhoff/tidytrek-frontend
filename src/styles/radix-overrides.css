@@ -4,34 +4,6 @@
 	height: 100%;
 }
 
-/* -- Text Inputs -- */
-
-/* TextField */
-.rt-TextFieldInput {
-	background: var(--color-bg-primary);
-	color: var(--color-text-primary);
-	border: 1px solid var(--color-bg-tertiary);
-	text-indent: var(--space-xs);
-}
-
-.rt-TextFieldInput::placeholder {
-	color: var(--color-text-secondary);
-	opacity: 0.7;
-}
-
-.rt-TextFieldInput:hover:not(:focus) {
-	border: 1px solid transparent;
-	outline: 1px solid var(--color-primary);
-}
-
-.rt-TextFieldInput:focus {
-	border: 1px solid var(--color-primary);
-	border-radius: var(--radius);
-	box-shadow: none;
-	outline: none;
-	transition: none;
-}
-
 /* TextArea */
 .rt-TextAreaInput {
 	background: var(--color-bg-primary);
@@ -50,38 +22,25 @@
 	box-shadow: none;
 }
 
-/* Minimal input styles */
-.rt-TextFieldInput.input-minimal {
-	border: var(--text-field-border-width, 1px) solid var(--color-bg-secondary);
-	box-shadow: none;
-	outline: none;
-	background-color: var(--color-bg-secondary);
-	color: var(--color-text-primary);
-}
-
-.rt-TextFieldInput.input-minimal::placeholder {
-	color: var(--color-text-secondary);
-	opacity: 0.7;
-}
-
-.rt-TextFieldInput.input-minimal:hover:not(:focus) {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-bg-tertiary);
-	outline: none;
-	box-shadow: none;
-}
-
-.rt-TextFieldInput.input-minimal:focus {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-primary);
+.rt-TextFieldRoot.rt-TextFieldRoot:has(.input-minimal) {
+	background: transparent !important;
+	border: 1px solid transparent !important;
+	box-shadow: none !important;
+	outline: 2px solid transparent !important;
 	border-radius: var(--radius);
-	outline: none;
-	box-shadow: none;
 }
 
-.rt-TextFieldInput.input-minimal:disabled:hover:not(:focus) {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-bg-secondary);
+.rt-TextFieldRoot.rt-TextFieldRoot:has(.input-minimal):hover:not(:focus-within) {
+	border-color: var(--color-bg-tertiary) !important;
+	box-shadow: none !important;
+	outline: 2px solid transparent !important;
+}
+
+/* 2px green outline, no layout shift */
+.rt-TextFieldRoot.rt-TextFieldRoot:has(.input-minimal):focus-within {
+	border-color: transparent !important;
+	outline: 2px solid var(--color-primary) !important;
+	box-shadow: none !important;
 }
 
 /* TextField with icons */

@@ -14,3 +14,15 @@ export type RadixInputType =
 	| 'time'
 	| 'url'
 	| 'week';
+
+export type RadixFormMatchType =
+	| 'badInput'
+	| 'patternMismatch'
+	| 'rangeOverflow'
+	| 'rangeUnderflow'
+	| 'stepMismatch'
+	| 'tooLong'
+	| 'tooShort'
+	| 'typeMismatch'
+	| 'valid'
+	| 'valueMissing';

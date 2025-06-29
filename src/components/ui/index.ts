@@ -13,5 +13,6 @@ export * from './spinner';
 export * from './segment';
 export * from './form';
 export * from './tooltip';
+export * from './alpine/textfield/textfield';
 export * from './skeleton/skeleton';
 export * from './skeleton/app-skeletons';

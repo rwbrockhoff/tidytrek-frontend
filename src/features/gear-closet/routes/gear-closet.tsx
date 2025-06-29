@@ -2,8 +2,8 @@ import styles from './gear-closet.module.css';
 import { mx } from '@/styles/utils';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
-import { ClosetIcon, SearchIcon } from '@/components/ui';
-import { Flex, Heading, TextField } from '@radix-ui/themes';
+import { ClosetIcon, SearchIcon, TextField } from '@/components/ui';
+import { Flex, Heading } from '@radix-ui/themes';
 import { GearClosetList } from '../components/gear-closet-list';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
@@ -56,18 +56,15 @@ export const GearCloset = () => {
 				)}
 
 				<div className={cn(styles.searchContainer, mx.responsiveContent)}>
-					<TextField.Root
-						radius="medium"
-						size="3"
+					<TextField.Standalone
+						variant="icon"
 						placeholder="Search..."
 						name="searchInput"
 						value={searchInput}
 						onChange={handleInputChange}
-						className="input-with-icon">
-						<TextField.Slot>
-							<SearchIcon />
-						</TextField.Slot>
-					</TextField.Root>
+						icon={<SearchIcon />}
+						iconPosition="left"
+					/>
 				</div>
 
 				<GearClosetList

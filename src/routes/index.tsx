@@ -25,7 +25,7 @@ export const AppRouter = () => {
 
 	return (
 		<div data-theme={theme} data-theme-palette="earth-tones" className={mx.fullHeight}>
-			<Theme accentColor="jade" radius="small" scaling="90%">
+			<Theme accentColor="jade" radius="small" scaling="100%">
 				<RouterProvider router={appRouter} />
 			</Theme>
 		</div>
