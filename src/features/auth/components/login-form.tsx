@@ -75,12 +75,9 @@ export const LogInForm = (props: FormProps) => {
 							<>
 								<FormField name="firstName">
 									<FormControl asChild>
-										<TextField.Input
+										<TextField.Root
 											placeholder="First Name"
 											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
 											data-invalid={formErrors.firstName.error}
 											data-testid="first-name-input"
 										/>
@@ -95,7 +92,7 @@ export const LogInForm = (props: FormProps) => {
 								</FormField>
 								<FormField name="lastName">
 									<FormControl asChild>
-										<TextField.Input
+										<TextField.Root
 											placeholder="Last Name"
 											onChange={handleClearErrors}
 											radius="small"
@@ -118,7 +115,7 @@ export const LogInForm = (props: FormProps) => {
 
 						<FormField name="email">
 							<FormControl asChild>
-								<TextField.Input
+								<TextField.Root
 									placeholder="Email"
 									onChange={handleClearErrors}
 									radius="small"
@@ -140,7 +137,7 @@ export const LogInForm = (props: FormProps) => {
 
 						<FormField name="password">
 							<FormControl asChild>
-								<TextField.Input
+								<TextField.Root
 									data-invalid={formErrors.password.error}
 									onChange={handleClearErrors}
 									radius="small"

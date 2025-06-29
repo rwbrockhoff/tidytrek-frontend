@@ -21,7 +21,7 @@ export const TableInput = ({
 	className,
 }: TableInputProps) => {
 	return (
-		<TextField.Input
+		<TextField.Root
 			value={value || ''}
 			placeholder={!disabled ? placeholder : ''}
 			name={name}

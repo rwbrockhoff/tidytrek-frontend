@@ -1,18 +1,12 @@
 import { TextAreaEvent, type FormError, type InputEvent } from '@/types/form-types';
+import { type RadixInputType } from '@/types/radix-types';
 import {
 	FormField as RadixFormField,
 	FormControl,
 	FormMessage,
 	FormLabel,
 } from '@radix-ui/react-form';
-import {
-	TextFieldInput,
-	Text,
-	TextArea,
-	Flex,
-	Box,
-	type Responsive,
-} from '@radix-ui/themes';
+import { TextField, Text, TextArea, Flex, Box } from '@radix-ui/themes';
 import styles from './form.module.css';
 
 type FormFieldProps = {
@@ -20,9 +14,9 @@ type FormFieldProps = {
 	error?: FormError;
 	name: string;
 	placeholder: string;
-	type?: string;
+	type?: RadixInputType;
 	label?: string;
-	size?: Responsive<'3' | '1' | '2'> | undefined;
+	size?: '1' | '2' | '3' | undefined;
 	width?: string;
 	tooltip?: React.ReactNode;
 	icon?: React.ReactNode;
@@ -57,15 +51,13 @@ export const FormField = (props: FormFieldProps) => {
 			)}
 			<Box position="relative">
 				<FormControl asChild>
-					<TextFieldInput
+					<TextField.Root
 						value={value}
 						data-invalid={error?.error}
 						onChange={onChange}
-						radius="small"
-						mb="3"
-						size={size}
 						type={type}
 						placeholder={placeholder}
+						size={size}
 					/>
 				</FormControl>
 				{icon && (

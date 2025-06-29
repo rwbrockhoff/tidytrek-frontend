@@ -1,5 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import '@radix-ui/themes/styles.css';
+// Import only the required css files from Radix
+import '@radix-ui/themes/tokens.css';
+import '@radix-ui/themes/components.css';
+import '@radix-ui/themes/utilities.css';
 import './styles/theme/index.css';
 import './index.css';
 import { AppRouter } from '@/routes';

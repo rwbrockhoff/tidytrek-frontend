@@ -57,7 +57,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 			<Flex align="center">
 				<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
-				<TextField.Input
+				<TextField.Root
 					className={cn('input-minimal', styles.input)}
 					value={packCategoryName}
 					name="packCategoryName"

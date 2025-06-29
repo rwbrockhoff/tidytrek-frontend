@@ -43,7 +43,7 @@ export const PackModal = (props: PackModalProps) => {
 		packDescription: '',
 		packId: 0,
 		userId: 0,
-		packIndex: "0",
+		packIndex: '0',
 		packLocationTag: '',
 		packSeasonTag: '',
 		packDurationTag: '',
@@ -113,9 +113,12 @@ export const PackModal = (props: PackModalProps) => {
 				<div>{children}</div>
 			</Dialog.Trigger>
 			<Dialog.Content style={{ maxWidth: '700px' }}>
-				<Dialog.Title mb="4" ml="4">
+				<Dialog.Title mt="2" mb="1" ml="4">
 					{packName ?? pack.packName ?? 'Pack'}
 				</Dialog.Title>
+				<Dialog.Description size="2" color="gray" mb="4" ml="4">
+					Edit pack details, settings, and photo
+				</Dialog.Description>
 
 				<Flex className={styles.modalContent}>
 					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />

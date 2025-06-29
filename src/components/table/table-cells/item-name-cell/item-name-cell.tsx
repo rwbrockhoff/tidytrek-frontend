@@ -38,7 +38,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 
 			{userView ? (
 				<Flex display="inline-flex" width="100%">
-					<TextField.Input
+					<TextField.Root
 						value={packItemName || ''}
 						name={'packItemName'}
 						placeholder={'Name'}

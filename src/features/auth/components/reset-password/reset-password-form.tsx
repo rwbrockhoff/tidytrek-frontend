@@ -49,7 +49,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						{!hasResetToken && (
 							<FormField name="email">
 								<FormControl asChild>
-									<TextField.Input
+									<TextField.Root
 										data-invalid={formErrors.email.error}
 										onChange={handleClearErrors}
 										radius="small"
@@ -72,7 +72,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							<>
 								<FormField name="password">
 									<FormControl asChild>
-										<TextField.Input
+										<TextField.Root
 											data-invalid={formErrors.password.error}
 											onChange={handleClearErrors}
 											radius="small"
@@ -94,7 +94,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 
 								<FormField name="confirmPassword">
 									<FormControl asChild>
-										<TextField.Input
+										<TextField.Root
 											data-invalid={formErrors.confirmPassword.error}
 											onChange={handleClearErrors}
 											radius="small"

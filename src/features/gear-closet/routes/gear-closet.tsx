@@ -56,19 +56,17 @@ export const GearCloset = () => {
 				)}
 
 				<div className={cn(styles.searchContainer, mx.responsiveContent)}>
-					<TextField.Root>
+					<TextField.Root
+						radius="medium"
+						size="3"
+						placeholder="Search..."
+						name="searchInput"
+						value={searchInput}
+						onChange={handleInputChange}
+						className="input-with-icon">
 						<TextField.Slot>
 							<SearchIcon />
 						</TextField.Slot>
-						<TextField.Input
-							radius="medium"
-							size="3"
-							placeholder="Search..."
-							name="searchInput"
-							value={searchInput}
-							onChange={handleInputChange}
-							className="input-with-icon"
-						/>
 					</TextField.Root>
 				</div>
 

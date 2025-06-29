@@ -1,4 +1,4 @@
-import { Popover, TextFieldInput, IconButton, Button, Flex } from '@radix-ui/themes';
+import { Popover, TextField, IconButton, Button, Flex } from '@radix-ui/themes';
 import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
@@ -73,7 +73,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between" gap="2" p="1">
 						<div className={mx.fullWidth}>
-							<TextFieldInput
+							<TextField.Root
 								name="packItemUrl"
 								value={newPackItemUrl}
 								onChange={handleOnChange}

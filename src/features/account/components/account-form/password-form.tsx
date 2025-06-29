@@ -11,7 +11,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@radix-ui/react-form';
-import { TextFieldInput } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
 import { Link, Message, PasswordIcon } from '@/components/ui';
 import { ConfirmationForm } from './confirmation-form';
 import { reauthenticateUser, updatePassword } from '@/api/supabaseClient';
@@ -120,13 +120,9 @@ export const PasswordForm = (props: PasswordFormProps) => {
 					<FormField name="password">
 						<FormLabel>New Password</FormLabel>
 						<FormControl asChild>
-							<TextFieldInput
+							<TextField.Root
 								data-invalid={formErrors.password?.error}
 								onChange={handleClearErrors}
-								radius="small"
-								mt="1"
-								mb="2"
-								size="3"
 								type="password"
 								placeholder="New Password"
 							/>
@@ -143,10 +139,9 @@ export const PasswordForm = (props: PasswordFormProps) => {
 					<FormField name="confirmPassword">
 						<FormLabel>Confirm Password</FormLabel>
 						<FormControl asChild>
-							<TextFieldInput
+							<TextField.Root
 								data-invalid={formErrors?.confirmPassword?.error}
 								onChange={handleClearErrors}
-								radius="small"
 								mt="1"
 								mb="2"
 								size="3"
@@ -166,7 +161,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 					<FormField name="emailCode">
 						<FormLabel>Email Code</FormLabel>
 						<FormControl asChild>
-							<TextFieldInput
+							<TextField.Root
 								data-invalid={formErrors?.emailCode?.error}
 								onChange={handleClearErrors}
 								radius="small"

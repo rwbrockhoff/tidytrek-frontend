@@ -1,9 +1,10 @@
 import { type InputEvent } from '@/types/form-types';
-import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/themes';
+import { Button, TextField, Separator, Flex, Popover } from '@radix-ui/themes';
 import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '../../constants/social-media-ui';
 import { useProfileActions } from '../../hooks/use-profile-actions';
+import { mx } from '@/styles/utils';
 import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
@@ -67,8 +68,8 @@ export const AddLink = () => {
 					</Popover.Content>
 				</Popover.Root>
 
-				<TextFieldInput
-					width="50%"
+				<TextField.Root
+					className={mx.halfWidth}
 					mx="3"
 					size="3"
 					placeholder="Paste your link..."
