@@ -1,0 +1,83 @@
+/* Base skeleton styles with shimmer animation */
+.skeleton {
+	background: var(--color-bg-secondary);
+	background-position: -500px 0;
+	animation: skeletonShine 1s linear 0s infinite normal forwards;
+	background-image: linear-gradient(
+		135deg,
+		var(--color-bg-secondary) 0%,
+		var(--color-bg-tertiary) 20%,
+		var(--color-bg-secondary) 40%,
+		var(--color-bg-secondary) 100%
+	);
+	background-repeat: no-repeat;
+	background-size: 1000px 100%;
+	border-radius: var(--radius);
+}
+
+@keyframes skeletonShine {
+	0% {
+		background-position: -500px 0;
+	}
+	100% {
+		background-position: 500px 0;
+	}
+}
+
+/* Variant styles */
+.text {
+	height: var(--font-size-base);
+	border-radius: var(--radius-lg);
+}
+
+.circular {
+	border-radius: 50%;
+}
+
+.rectangular {
+	border-radius: var(--radius);
+}
+
+/* Component styles */
+.textContainer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+}
+
+.textLine {
+	height: var(--font-size-base);
+}
+
+.card {
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--color-bg-primary);
+}
+
+.cardImage {
+	width: 100%;
+	border-radius: 0;
+}
+
+.cardContent {
+	padding: var(--space-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+}
+
+.cardTitle {
+	height: var(--font-size-2xl);
+}
+
+@media (max-width: 768px) {
+	.tableRow {
+		gap: var(--space-xs);
+	}
+
+	.cardContent {
+		padding: var(--space-sm);
+	}
+}

@@ -5,8 +5,8 @@ import { Suspense, useState, useEffect } from 'react';
 import { MobileNavbar } from './mobile-navbar';
 import { SidebarButton } from './sidebar/components/sidebar-button';
 import { Fallback } from './fallback';
-import { cn } from '@/styles/utils';
 import { useCheckScreen } from '@/hooks';
+import { cn } from '@/styles/utils';
 
 export const UserLayout = () => {
 	const { isMobile, isTablet } = useCheckScreen();
@@ -35,7 +35,9 @@ export const UserLayout = () => {
 					)}
 				>
 					<Suspense fallback={<Fallback />}>
-						{!showSidebar && <SidebarButton isSidebar={false} onClick={handleToggleSidebar} />}
+						{!showSidebar && (
+							<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
+						)}
 						<Outlet />
 					</Suspense>
 				</div>
@@ -43,4 +45,3 @@ export const UserLayout = () => {
 		</div>
 	);
 };
-

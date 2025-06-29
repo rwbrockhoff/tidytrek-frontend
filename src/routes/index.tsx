@@ -1,27 +1,27 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Flex, Theme } from '@radix-ui/themes';
-import { Spinner } from '@/components/ui';
+import { Theme } from '@radix-ui/themes';
+import { DashboardSkeleton } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
-import { useGetAuth, useThemeSetter } from '@/hooks';
+import { useGetAuth, useThemeSetter, useDelayedLoading } from '@/hooks';
 import { mx } from '@/styles/utils';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated } = useGetAuth();
 
+	// Only show skeleton after 500ms to prevent flashing
+	const showSkeleton = useDelayedLoading(isLoading, 500);
+
 	const theme = 'light'; // TODO: Pull from user preference/system setting
 	useThemeSetter(theme);
 
-	const appRouter = createBrowserRouter(
-		isAuthenticated ? protectedRoutes : publicRoutes,
-	);
+	// Don't render anything until we know auth state
+	if (isLoading) {
+		if (showSkeleton) return <DashboardSkeleton />;
+		return null; // Show nothing until delay passes
+	}
 
-	if (isLoading)
-		return (
-			<Flex align="center" justify="center" height={'100%'}>
-				<Spinner size="3" />
-			</Flex>
-		);
+	const appRouter = createBrowserRouter(isAuthenticated ? protectedRoutes : publicRoutes);
 
 	return (
 		<div data-theme={theme} data-theme-palette="earth-tones" className={mx.fullHeight}>

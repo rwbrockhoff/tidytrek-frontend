@@ -13,3 +13,5 @@ export * from './spinner';
 export * from './segment';
 export * from './form';
 export * from './tooltip';
+export * from './skeleton/skeleton';
+export * from './skeleton/app-skeletons';

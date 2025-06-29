@@ -1,18 +1,28 @@
-import { Flex } from '@radix-ui/themes';
-import { Spinner } from '@/components/ui';
+import { useState, useEffect } from 'react';
+import { SidebarSkeleton, ContentSkeleton } from '@/components/ui';
 
 export const Fallback = () => {
-	return (
-		<Flex align="center" justify="center" width="100%" height="100%">
-			<Spinner size="3" active />
-		</Flex>
-	);
+	const [showSkeleton, setShowSkeleton] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		// Show skeleton after 200ms for Suspense (shorter delay for route transitions)
+		const timer = setTimeout(() => {
+			setShowSkeleton(true);
+		}, 200);
+
+		// Cleanup when loading is finished
+		return () => {
+			setIsLoading(false);
+			clearTimeout(timer);
+		};
+	}, []);
+
+	if (isLoading && showSkeleton) return <ContentSkeleton />;
+
+	return null;
 };
 
 export const SidebarFallback = () => {
-	return (
-		<Flex align="center" justify="center" width="100%" mt="9">
-			<Spinner active />
-		</Flex>
-	);
+	return <SidebarSkeleton />;
 };
