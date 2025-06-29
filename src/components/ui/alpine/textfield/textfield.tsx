@@ -2,22 +2,39 @@ import React, { forwardRef } from 'react';
 import { Form } from 'radix-ui';
 import { cn } from '@/styles/utils';
 import { type RadixInputType, type RadixFormMatchType } from '@/types/radix-types';
+import { type FormError } from '@/types/form-types';
 import styles from './textfield.module.css';
+
+// Handle boolean and FormError type errors
+const getErrorState = (error?: boolean | FormError): boolean => {
+	if (typeof error === 'boolean') return error;
+	return error?.error ?? false;
+};
+
+const getErrorMessage = (
+	error?: boolean | FormError,
+	message?: string,
+): string | undefined => {
+	if (typeof error === 'object' && error?.error) return error.message;
+	return message;
+};
 
 export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	variant?: 'default' | 'minimal' | 'icon';
-	error?: boolean;
+	error?: boolean | FormError;
 	type?: RadixInputType;
 	label?: string;
 	message?: string;
 	icon?: React.ReactNode;
 	iconPosition?: 'left' | 'right';
+	width?: string;
 }
 
 export interface TextFieldRootProps {
 	children: React.ReactNode;
 	className?: string;
 	name: string;
+	style?: React.CSSProperties;
 }
 
 export interface TextFieldSlotProps {
@@ -25,23 +42,41 @@ export interface TextFieldSlotProps {
 	side?: 'left' | 'right';
 }
 
-const TextFieldRoot = ({ children, className, name, ...props }: TextFieldRootProps) => {
+const TextFieldRoot = ({
+	children,
+	className,
+	name,
+	style,
+	...props
+}: TextFieldRootProps) => {
 	return (
-		<Form.Field name={name} className={cn(styles.field, className)} {...props}>
+		<Form.Field
+			name={name}
+			className={cn(styles.field, className)}
+			style={style}
+			{...props}>
 			{children}
 		</Form.Field>
 	);
 };
 
-const TextFieldLabel = ({
-	children,
-	className,
-}: {
-	children: React.ReactNode;
-	className?: string;
-}) => {
-	return <Form.Label className={cn(styles.label, className)}>{children}</Form.Label>;
-};
+TextFieldRoot.displayName = 'TextFieldRoot';
+
+const TextFieldLabel = forwardRef<
+	HTMLLabelElement,
+	{
+		children: React.ReactNode;
+		className?: string;
+	}
+>(({ children, className }, ref) => {
+	return (
+		<Form.Label ref={ref} className={cn(styles.label, className)}>
+			{children}
+		</Form.Label>
+	);
+});
+
+TextFieldLabel.displayName = 'TextFieldLabel';
 
 const TextFieldSlot = ({ children, side = 'left' }: TextFieldSlotProps) => {
 	return (
@@ -51,27 +86,28 @@ const TextFieldSlot = ({ children, side = 'left' }: TextFieldSlotProps) => {
 	);
 };
 
-const TextFieldMessage = ({
-	children,
-	match,
-	className,
-}: {
-	children: React.ReactNode;
-	match?: RadixFormMatchType;
-	className?: string;
-}) => {
+const TextFieldMessage = forwardRef<
+	HTMLDivElement,
+	{
+		children: React.ReactNode;
+		match?: RadixFormMatchType;
+		className?: string;
+	}
+>(({ children, match, className }, ref) => {
 	return (
-		<Form.Message match={match} className={cn(styles.message, className)}>
+		<Form.Message ref={ref} match={match} className={cn(styles.message, className)}>
 			{children}
 		</Form.Message>
 	);
-};
+});
+
+TextFieldMessage.displayName = 'TextFieldMessage';
 
 const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 	(
 		{
 			variant = 'default',
-			error = false,
+			error,
 			type = 'text',
 			className,
 			icon,
@@ -79,16 +115,20 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 			label,
 			message,
 			name,
+			width,
 			...props
 		},
 		ref,
 	) => {
+		const hasError = getErrorState(error);
+		const errorMessage = getErrorMessage(error, message);
+
 		const inputClasses = cn(
 			styles.input,
 			variant === 'default' && styles.inputDefault,
 			variant === 'minimal' && styles.inputMinimal,
 			variant === 'icon' && styles.inputIcon,
-			error && styles.inputError,
+			hasError && styles.inputError,
 			className,
 		);
 
@@ -102,9 +142,12 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 			</Form.Control>
 		);
 
+		const rootStyle = width ? { width } : undefined;
+		const rootClassName = cn(styles.rootIcon, width && styles.fieldResponsive);
+
 		if (variant === 'icon' && icon) {
 			return (
-				<TextFieldRoot name={name} className={cn(styles.rootIcon)}>
+				<TextFieldRoot name={name} className={rootClassName} style={rootStyle}>
 					{label && <TextFieldLabel>{label}</TextFieldLabel>}
 					<div className={styles.inputContainer}>
 						{iconPosition === 'left' && <TextFieldSlot side="left">{icon}</TextFieldSlot>}
@@ -113,13 +156,16 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 							<TextFieldSlot side="right">{icon}</TextFieldSlot>
 						)}
 					</div>
-					{message && <TextFieldMessage>{message}</TextFieldMessage>}
+					{errorMessage && <TextFieldMessage>{errorMessage}</TextFieldMessage>}
 				</TextFieldRoot>
 			);
 		}
 
 		return (
-			<TextFieldRoot name={name}>
+			<TextFieldRoot
+				name={name}
+				className={cn(width && styles.fieldResponsive)}
+				style={rootStyle}>
 				{label && <TextFieldLabel>{label}</TextFieldLabel>}
 				{input}
 				{message && <TextFieldMessage>{message}</TextFieldMessage>}
@@ -139,27 +185,38 @@ const TextFieldStandalone = forwardRef<
 	(
 		{
 			variant = 'default',
-			error = false,
+			error,
 			type = 'text',
 			className,
 			icon,
 			iconPosition = 'left',
+			width,
 			...props
 		},
 		ref,
 	) => {
+		const hasError = getErrorState(error);
+
 		const inputClasses = cn(
 			styles.input,
 			variant === 'default' && styles.inputDefault,
 			variant === 'minimal' && styles.inputMinimal,
 			variant === 'icon' && styles.inputIcon,
-			error && styles.inputError,
+			hasError && styles.inputError,
 			className,
 		);
 
+		const rootStyle = width ? { width } : undefined;
+
 		if (variant === 'icon' && icon) {
 			return (
-				<div className={cn(styles.rootIcon, styles.standalone)}>
+				<div
+					className={cn(
+						styles.rootIcon,
+						styles.standalone,
+						width && styles.fieldResponsive,
+					)}
+					style={rootStyle}>
 					<div className={styles.inputContainer}>
 						{iconPosition === 'left' && <TextFieldSlot side="left">{icon}</TextFieldSlot>}
 						<input ref={ref} type={type} className={inputClasses} {...props} />
@@ -171,14 +228,20 @@ const TextFieldStandalone = forwardRef<
 			);
 		}
 
-		return <input ref={ref} type={type} className={inputClasses} {...props} />;
+		return (
+			<div
+				className={cn(styles.standalone, width && styles.fieldResponsive)}
+				style={rootStyle}>
+				<input ref={ref} type={type} className={inputClasses} {...props} />
+			</div>
+		);
 	},
 );
 
 // forwardRef loses the function name, so set displayName for React DevTools
 TextFieldStandalone.displayName = 'TextFieldStandalone';
 
-// Export compound component
+// Export component object
 export const TextField = {
 	Root: TextFieldRoot,
 	Input: TextFieldInput,
@@ -187,8 +250,7 @@ export const TextField = {
 	Message: TextFieldMessage,
 	Slot: TextFieldSlot,
 };
-
-// Export individual components for flexibility
+// Export individual components
 export {
 	TextFieldRoot,
 	TextFieldInput,

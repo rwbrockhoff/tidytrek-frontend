@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { Badge, Flex, Table, Text, TextField } from '@radix-ui/themes';
+import { Badge, Flex, Table, Text } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TableRowContext } from '../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
@@ -20,17 +21,17 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 	return (
 		<Table.Cell ref={ref} style={{ width }} align="center" onBlur={handleToggleOff}>
 			{userView ? (
-				<TextField.Root
+				<TextField.Standalone
 					name="packItemQuantity"
 					value={packItemQuantity}
 					type="number"
 					step={1}
 					inputMode="numeric"
+					variant="minimal"
 					disabled={!userView}
 					data-invalid={formErrors?.packItemQuantity.error}
 					onChange={onChange}
 					style={{ textAlign: 'center' }}
-					className="input-minimal"
 				/>
 			) : (
 				<Flex justify="center">

@@ -5,7 +5,8 @@ import { mx } from '@/styles/utils';
 import { useState, useEffect } from 'react';
 import { cn } from '@/styles/utils/cn';
 import { Form } from '@radix-ui/react-form';
-import { FormField, FormTextArea, SaveIcon } from '@/components/ui';
+import { FormTextArea, SaveIcon } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
 import {
 	Button,
@@ -127,7 +128,7 @@ export const PackModal = (props: PackModalProps) => {
 						<Flex
 							direction="column"
 							className={cn(styles.leftPanel, mx.responsiveContent)}>
-							<FormField
+							<TextField.Input
 								name="packName"
 								value={packName ?? ''}
 								onChange={handleFormChange}
@@ -154,7 +155,7 @@ export const PackModal = (props: PackModalProps) => {
 						/>
 
 						<Flex justify="between">
-							<FormField
+							<TextField.Input
 								name="packUrlName"
 								value={packUrlName ?? ''}
 								onChange={handleFormChange}
@@ -163,7 +164,7 @@ export const PackModal = (props: PackModalProps) => {
 								width="30%"
 							/>
 
-							<FormField
+							<TextField.Input
 								name="packUrl"
 								value={packUrl ?? ''}
 								onChange={handleFormChange}

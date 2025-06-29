@@ -2,11 +2,11 @@ import { useState } from 'react';
 import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
-import { Flex, Table, TextField } from '@radix-ui/themes';
+import { Flex, Table } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { ThemeButton, GripButton } from '../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { usePackCategoryActions } from '../../../features/dashboard/hooks/use-pack-category-actions';
-import { cn } from '@/styles/utils';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -53,15 +53,20 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			className={styles.headerCell}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}>
-			<GripButton display={showGrip && userView} testId="pack-category-grip" {...dragProps} />
+			<GripButton
+				display={showGrip && userView}
+				testId="pack-category-grip"
+				{...dragProps}
+			/>
 
 			<Flex align="center">
 				<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
-				<TextField.Root
-					className={cn('input-minimal', styles.input)}
+				<TextField.Standalone
+					className={styles.input}
 					value={packCategoryName}
 					name="packCategoryName"
 					placeholder={userView ? 'Category' : ''}
+					variant="minimal"
 					onChange={handleInput}
 					onBlur={userView ? handleBlur : undefined}
 					disabled={disabled || !userView}

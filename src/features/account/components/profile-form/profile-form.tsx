@@ -4,18 +4,12 @@ import { useState, useEffect, type FormEvent } from 'react';
 import styles from './profile-form.module.css';
 import { Button, Flex, IconButton } from '@radix-ui/themes';
 import { Form } from '@radix-ui/react-form';
-import {
-	Message,
-	RefreshIcon,
-	SaveIcon,
-	Segment,
-	SegmentGroup,
-	Tooltip,
-} from '@/components/ui';
+import { Message, RefreshIcon, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
-import { setFormInput, usernameInfo, trailNameInfo } from '@/utils';
+import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
-import { FormField, FormTextArea } from '@/components/ui';
+import { FormTextArea } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { useProfileActions } from '../../hooks/use-profile-actions';
 import { AvatarSettings } from './avatar-settings';
 import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
@@ -133,14 +127,15 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 			<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
 			<Segment>
 				<Form className={styles.form} onSubmit={handleEditProfile}>
-					<FormField
+					<TextField.Input
 						name="username"
 						label="Username"
 						value={username}
 						onChange={handleInput}
 						placeholder="Username"
 						error={formErrors.username}
-						tooltip={<Tooltip content={usernameInfo} />}
+						variant="icon"
+						iconPosition="right"
 						icon={
 							<IconButton
 								radius="medium"
@@ -152,17 +147,16 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 						}
 					/>
 
-					<FormField
+					<TextField.Input
 						name="trailName"
 						value={trailName}
 						placeholder="Trail Name"
 						onChange={handleInput}
 						label="Trail Name"
 						error={formErrors.trailName}
-						tooltip={<Tooltip content={trailNameInfo} />}
 					/>
 
-					<FormField
+					<TextField.Input
 						name="userLocation"
 						value={userLocation}
 						placeholder="Durango, Colorado"

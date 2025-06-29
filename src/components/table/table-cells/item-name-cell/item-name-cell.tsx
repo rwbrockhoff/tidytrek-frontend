@@ -1,6 +1,7 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
-import { Box, Flex, Text, TextField } from '@radix-ui/themes';
+import { Box, Flex, Text } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -33,18 +34,26 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<Table.Cell ref={ref} onBlur={handleToggleOff} style={{ width }} className={styles.styledCell}>
-			<GripButton display={displayIcon && userView} testId="pack-item-grip" {...dragProps} />
+		<Table.Cell
+			ref={ref}
+			onBlur={handleToggleOff}
+			style={{ width }}
+			className={styles.styledCell}>
+			<GripButton
+				display={displayIcon && userView}
+				testId="pack-item-grip"
+				{...dragProps}
+			/>
 
 			{userView ? (
 				<Flex display="inline-flex" width="100%">
-					<TextField.Root
+					<TextField.Standalone
 						value={packItemName || ''}
 						name={'packItemName'}
 						placeholder={'Name'}
+						variant="minimal"
 						onChange={onChange}
 						disabled={!userView}
-						className="input-minimal"
 					/>
 					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />
@@ -65,4 +74,3 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 		</Table.Cell>
 	);
 };
-

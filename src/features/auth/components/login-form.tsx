@@ -1,9 +1,10 @@
 import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
-import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
+import { Form } from '@radix-ui/react-form';
 import { Segment, Message, Spinner } from '@/components/ui';
-import { Heading, Button, Text, Flex, TextField, Box } from '@radix-ui/themes';
+import { Heading, Button, Text, Flex, Box } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from './form-components';
 import styles from './form-components.module.css';
 import { GoogleAuth } from './google-auth';
@@ -73,99 +74,39 @@ export const LogInForm = (props: FormProps) => {
 					<Form ref={formRef} onSubmit={handleFormSubmit}>
 						{isRegisterForm && (
 							<>
-								<FormField name="firstName">
-									<FormControl asChild>
-										<TextField.Root
-											placeholder="First Name"
-											onChange={handleClearErrors}
-											data-invalid={formErrors.firstName.error}
-											data-testid="first-name-input"
-										/>
-									</FormControl>
-									{formErrors.firstName.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.firstName.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
-								<FormField name="lastName">
-									<FormControl asChild>
-										<TextField.Root
-											placeholder="Last Name"
-											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
-											data-invalid={formErrors.lastName.error}
-											data-testid="last-name-input"
-										/>
-									</FormControl>
-									{formErrors.lastName.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.lastName.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
+								<TextField.Input
+									name="firstName"
+									placeholder="First Name"
+									onChange={handleClearErrors}
+									error={formErrors.firstName}
+									data-testid="first-name-input"
+								/>
+								<TextField.Input
+									name="lastName"
+									placeholder="Last Name"
+									onChange={handleClearErrors}
+									error={formErrors.lastName}
+									data-testid="last-name-input"
+								/>
 							</>
 						)}
 
-						<FormField name="email">
-							<FormControl asChild>
-								<TextField.Root
-									placeholder="Email"
-									onChange={handleClearErrors}
-									radius="small"
-									my="4"
-									size="3"
-									data-invalid={formErrors.email.error}
-									data-testid="email-input"
-									style={{ boxSizing: 'border-box' }}
-								/>
-							</FormControl>
-							{formErrors.email.error && (
-								<FormMessage>
-									<Text mb="8" color="tomato" weight="light">
-										{formErrors.email.message}
-									</Text>
-								</FormMessage>
-							)}
-						</FormField>
+						<TextField.Input
+							name="email"
+							placeholder="Email"
+							onChange={handleClearErrors}
+							error={formErrors.email}
+							data-testid="email-input"
+						/>
 
-						<FormField name="password">
-							<FormControl asChild>
-								<TextField.Root
-									data-invalid={formErrors.password.error}
-									onChange={handleClearErrors}
-									radius="small"
-									my="4"
-									size="3"
-									type="password"
-									placeholder="Password"
-									data-testid="password-input"
-								/>
-							</FormControl>
-							{formErrors.password.error && (
-								<FormMessage>
-									<Text
-										mb="8"
-										color="tomato"
-										weight="light"
-										aria-label="error warning"
-										role="alert"
-										aria-invalid={formErrors.password.error ? 'true' : 'false'}
-										aria-errormessage={
-											formErrors.password.error ? formErrors.password.message : ''
-										}
-										data-testid="auth-message-error">
-										{formErrors.password.message}
-									</Text>
-								</FormMessage>
-							)}
-						</FormField>
+						<TextField.Input
+							name="password"
+							onChange={handleClearErrors}
+							error={formErrors.password}
+							type="password"
+							placeholder="Password"
+							data-testid="password-input"
+						/>
 
 						{serverError.error && (
 							<Message

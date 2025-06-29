@@ -2,7 +2,8 @@ import { type InputEvent } from '@/types/form-types';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Flex, Text, Heading, Button, IconButton } from '@radix-ui/themes';
-import { Link, Segment, FormField, Tooltip, RefreshIcon } from '@/components/ui';
+import { Link, Segment, Tooltip, RefreshIcon } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from '../form-components';
 import styles from '../form-components.module.css';
 import { Form } from '@radix-ui/react-form';
@@ -101,14 +102,15 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 				</Heading>
 
 				<Form onSubmit={handleFormSubmit}>
-					<FormField
+					<TextField.Input
 						name="username"
 						label="Username"
 						value={username}
 						onChange={handleInput}
 						placeholder="Username"
 						error={formErrors.username}
-						tooltip={<Tooltip content={usernameInfo} />}
+						variant="icon"
+						iconPosition="right"
 						icon={
 							<IconButton
 								radius="medium"
@@ -120,14 +122,13 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 						}
 					/>
 
-					<FormField
+					<TextField.Input
 						name="trailName"
 						value={trailName}
 						placeholder="Trail Name"
 						onChange={handleInput}
 						label="Trail Name"
 						error={formErrors.trailName}
-						tooltip={<Tooltip content={trailNameInfo} />}
 					/>
 
 					<Button

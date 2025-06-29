@@ -1,4 +1,5 @@
-import { Popover, TextField, IconButton, Button, Flex } from '@radix-ui/themes';
+import { Popover, IconButton, Button, Flex } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
@@ -71,18 +72,17 @@ export const LinkPopup = (props: LinkPopupProps) => {
 					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex justify="between" gap="2" p="1">
+					<Flex justify="between" align="center" gap="2" p="1">
 						<div className={mx.fullWidth}>
-							<TextField.Root
+							<TextField.Standalone
 								name="packItemUrl"
 								value={newPackItemUrl}
 								onChange={handleOnChange}
 								placeholder="Item link"
-								radius="small"
 							/>
 						</div>
 
-						<Button onClick={handleSaveLink} disabled={!newPackItemUrl.trim()}>
+						<Button onClick={handleSaveLink} size="3" disabled={!newPackItemUrl.trim()}>
 							{isSuccess ? <CheckIcon /> : <SaveIcon />}
 							{isSuccess ? 'Saved' : 'Save'}
 						</Button>
@@ -90,7 +90,8 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							<Button
 								color="red"
 								onClick={handleDeleteLink}
-								disabled={!newPackItemUrl.trim()}>
+								disabled={!newPackItemUrl.trim()}
+								size="3">
 								<TrashIcon />
 							</Button>
 						)}

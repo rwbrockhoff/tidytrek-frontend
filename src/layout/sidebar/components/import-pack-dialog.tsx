@@ -1,4 +1,5 @@
-import { BackpackIcon, FormField, Message } from '@/components/ui';
+import { BackpackIcon, Message } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { useImportPackMutation } from '@/queries/pack-queries';
 import { type InputEvent } from '@/types/form-types';
 import { Form } from '@radix-ui/react-form';
@@ -84,7 +85,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 				</Dialog.Description>
 				<Form onSubmit={handleSubmit}>
 					<Flex direction="column">
-						<FormField
+						<TextField.Input
 							name="packUrl"
 							value={packUrl}
 							placeholder="lighterpack.com/r/yourpack"

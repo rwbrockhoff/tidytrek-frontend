@@ -1,5 +1,5 @@
 import { type InputEvent } from '@/types/form-types';
-import { FormField } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { Flex } from '@radix-ui/themes';
 
 type PackTagsProps = {
@@ -20,7 +20,7 @@ export const PackTags = (props: PackTagsProps) => {
 	} = props;
 	return (
 		<Flex justify="between" mb="2">
-			<FormField
+			<TextField.Input
 				name="packLocationTag"
 				value={packLocationTag ?? ''}
 				onChange={handleFormChange}
@@ -29,7 +29,7 @@ export const PackTags = (props: PackTagsProps) => {
 				width="23%"
 			/>
 
-			<FormField
+			<TextField.Input
 				name="packSeasonTag"
 				value={packSeasonTag ?? ''}
 				onChange={handleFormChange}
@@ -38,7 +38,7 @@ export const PackTags = (props: PackTagsProps) => {
 				width="23%"
 			/>
 
-			<FormField
+			<TextField.Input
 				name="packDurationTag"
 				value={packDurationTag ?? ''}
 				onChange={handleFormChange}
@@ -47,7 +47,7 @@ export const PackTags = (props: PackTagsProps) => {
 				width="23%"
 			/>
 
-			<FormField
+			<TextField.Input
 				name="packDistanceTag"
 				value={packDistanceTag ?? ''}
 				onChange={handleFormChange}
