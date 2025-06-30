@@ -1,8 +1,8 @@
 import { Callout } from '@radix-ui/themes';
+import type { ComponentProps } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { MdOutlineErrorOutline as ErrorIcon } from 'react-icons/md';
 import { WarningIcon } from '.';
-import { CalloutRootProps } from 'node_modules/@radix-ui/themes/dist/esm/components/callout';
 
 type MessageProps = {
 	messageType: 'success' | 'error';
@@ -38,12 +38,12 @@ export const Message = (props: MessageProps) => {
 type WarningMessageProps = {
 	message: string;
 	width?: string;
-} & CalloutRootProps;
+} & ComponentProps<typeof Callout.Root>;
 
 export const WarningMessage = (props: WarningMessageProps) => {
-	const { message, width = '100%' } = props;
+	const { message, width = '100%', ...calloutProps } = props;
 	return (
-		<Callout.Root color="amber" variant="outline" {...props} style={{ width }}>
+		<Callout.Root color="amber" variant="outline" {...calloutProps} style={{ width }}>
 			<Callout.Icon>
 				<WarningIcon />
 			</Callout.Icon>

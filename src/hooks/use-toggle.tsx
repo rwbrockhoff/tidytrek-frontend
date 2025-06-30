@@ -1,6 +1,13 @@
 import { useState, useCallback } from 'react';
 
-export const useToggle = (initial = false) => {
+type UseToggleReturn = {
+	isToggled: boolean;
+	toggleOpen: () => void;
+	toggleClose: () => void;
+	toggle: () => void;
+};
+
+export const useToggle = (initial = false): UseToggleReturn => {
 	const [isToggled, setIsToggled] = useState(initial);
 
 	const toggleOpen = useCallback(() => setIsToggled(true), []);

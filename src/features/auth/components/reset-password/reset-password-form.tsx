@@ -1,10 +1,12 @@
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { clearZodErrors, type ZodFormErrors } from '@/hooks';
-import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
+import { Form } from '@radix-ui/react-form';
 import { Message, Segment } from '@/components/ui';
-import { Flex, Text, Heading, Button, TextField } from '@radix-ui/themes';
+import { Flex, Text, Heading, Button } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components';
+import styles from '../form-components.module.css';
 import { type FormEvent } from 'react';
 import { type ResetPasswordData } from '../../types/auth-types';
 
@@ -36,85 +38,52 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
-					tidytrek
+				<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+					<Link to="/">tidytrek</Link>
 				</Heading>
 
 				<Segment radius="2">
-					<Heading as="h3" size="6" color="jade" mb="4">
+					<Heading as="h3" size="6" mb="5">
 						Reset Password
 					</Heading>
 					<Form onSubmit={handleFormSubmit}>
 						{!hasResetToken && (
-							<FormField name="email">
-								<FormControl asChild>
-									<TextField.Input
-										data-invalid={formErrors.email.error}
-										onChange={handleClearErrors}
-										radius="small"
-										my="4"
-										size="3"
-										placeholder="Email"
-									/>
-								</FormControl>
-								{formErrors.email.error && (
-									<FormMessage>
-										<Text mb="8" color="tomato" weight="light">
-											{formErrors.email.message}
-										</Text>
-									</FormMessage>
-								)}
-							</FormField>
+							<TextField.Input
+								name="email"
+								error={formErrors.email}
+								onChange={handleClearErrors}
+								placeholder="Email"
+							/>
 						)}
 
 						{hasResetToken && (
 							<>
-								<FormField name="password">
-									<FormControl asChild>
-										<TextField.Input
-											data-invalid={formErrors.password.error}
-											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
-											type="password"
-											placeholder="Password"
-										/>
-									</FormControl>
-									{formErrors.password.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.password.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
+								<TextField.Input
+									name="password"
+									error={formErrors.password}
+									onChange={handleClearErrors}
+									type="password"
+									placeholder="Password"
+									data-testid="password-input"
+								/>
 
-								<FormField name="confirmPassword">
-									<FormControl asChild>
-										<TextField.Input
-											data-invalid={formErrors.confirmPassword.error}
-											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
-											type="password"
-											placeholder="Confirm Password"
-										/>
-									</FormControl>
-									{formErrors.confirmPassword.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.confirmPassword.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
+								<TextField.Input
+									name="confirmPassword"
+									error={formErrors.confirmPassword}
+									onChange={handleClearErrors}
+									type="password"
+									placeholder="Confirm Password"
+									data-testid="confirm-password-input"
+								/>
 							</>
 						)}
 
 						{serverError.error && (
-							<Message messageType="error" text={serverError.message} />
+							<Message
+								messageType="error"
+								id="reset-password-message"
+								text={serverError.message}
+							/>
 						)}
 
 						<Button size="3" mt="2" style={{ width: '100%' }} type="submit">

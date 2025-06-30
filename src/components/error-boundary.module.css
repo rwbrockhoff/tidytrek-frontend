@@ -6,7 +6,7 @@
 }
 
 .errorContainer h1 {
-	font-size: 2em;
+	font-size: var(--font-size-2xl);
 	font-weight: bold;
 	margin: var(--space-md) 0;
 }

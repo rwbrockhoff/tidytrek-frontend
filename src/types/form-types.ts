@@ -1,5 +1,3 @@
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { SyntheticEvent } from 'react';
 
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
@@ -15,10 +13,3 @@ export type PasswordInfo = {
 	confirmPassword: string;
 	emailCode: string;
 };
-
-export type InternalMutation<T> = UseMutationResult<
-	AxiosResponse<any, any>,
-	Error,
-	T,
-	unknown
->;

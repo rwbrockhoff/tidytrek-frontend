@@ -45,6 +45,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 				<IconButton variant="ghost" size="2">
 					<FavoriteIcon
 						name="favorite"
+						aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
 						className={cn(
 							favorite && styles.favoriteActive,
 							isDisabled && styles.disabledIcon,
@@ -58,6 +59,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<ConsumableIcon
 							name="food"
+							aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
 							className={cn(
 								consumable && styles.consumableActive,
 								isDisabled && styles.disabledIcon,
@@ -71,6 +73,7 @@ export const PropertiesCell = (props: ButtonProps) => {
 					<IconButton variant="ghost" size="2">
 						<WornIcon
 							name="wornWeight"
+							aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
 							className={cn(
 								wornWeight && styles.wornWeightActive,
 								isDisabled && styles.disabledIcon,

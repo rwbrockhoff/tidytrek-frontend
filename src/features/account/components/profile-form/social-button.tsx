@@ -1,8 +1,9 @@
 import { type SocialLinkInfo } from '@/types/profile-types';
 import styles from './social-button.module.css';
+import { cn, mx } from '@/styles/utils';
 import { Badge, IconButton, Flex } from '@radix-ui/themes';
 import { Link, CloseIcon } from '@/components/ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -23,7 +24,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 		onClick,
 	} = props;
 
-	const { deleteSocialLink } = useHandlers().handlers || {};
+	const { deleteSocialLink } = useProfileActions();
 
 	const handleClick = () => onClick && onClick(socialName);
 
@@ -34,13 +35,12 @@ export const SocialButton = (props: SocialButtonProps) => {
 	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl, socialName) : socialName;
 
 	return (
-		<Flex 
+		<Flex
 			asChild
 			align="center"
-			m="2" 
-			className={styles.styledBadge}
-			onClick={handleClick}
-		>
+			m="2"
+			className={cn(styles.styledBadge, mx.pointer)}
+			onClick={handleClick}>
 			<Badge radius="large" variant="soft">
 				<Link link={socialLinkUrl} enabled externalLink>
 					{icon}
@@ -56,11 +56,12 @@ export const SocialButtonPicker = (props: { currentSocial: SocialLinkInfo }) => 
 	const { icon, color } = props.currentSocial;
 
 	return (
-		<IconButton 
-			radius="full" 
-			className={styles.circleButton}
-			style={{ '--button-bg-color': color || 'grey' } as React.CSSProperties}
-		>
+		<IconButton
+			radius="full"
+			className={cn(mx.pointer, mx.whiteText)}
+			style={{
+				backgroundColor: color || 'var(--gray-500)',
+			}}>
 			{icon}
 		</IconButton>
 	);

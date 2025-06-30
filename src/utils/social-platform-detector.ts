@@ -1,15 +1,15 @@
 /**
- * Simple social media platform detection from URL
+ * Social media platform detection from URL
  */
 export const detectPlatformFromUrl = (url: string): string => {
 	if (!url) return 'custom';
-	
+
 	// Normalize URL and add protocol if missing
 	let normalizedUrl = url.toLowerCase();
 	if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
 		normalizedUrl = 'https://' + normalizedUrl;
 	}
-	
+
 	// Platform detection - order matters (more specific first)
 	const platforms = [
 		{ name: 'instagram', keywords: ['instagram'] },
@@ -23,12 +23,12 @@ export const detectPlatformFromUrl = (url: string): string => {
 		{ name: 'paypal', keywords: ['paypal'] },
 		{ name: 'patreon', keywords: ['patreon'] },
 	];
-	
+
 	for (const platform of platforms) {
-		if (platform.keywords.some(keyword => normalizedUrl.includes(keyword))) {
+		if (platform.keywords.some((keyword) => normalizedUrl.includes(keyword))) {
 			return platform.name;
 		}
 	}
-	
+
 	return 'custom';
 };

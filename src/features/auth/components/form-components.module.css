@@ -8,6 +8,10 @@
 	text-align: center;
 	min-height: 100%;
 	width: 100%;
-	background-color: var(--color-bg-tertiary);
+	background-color: var(--color-bg-primary);
 	padding: 0 var(--space-md);
+}
+
+.brandHeading {
+	letter-spacing: -0.025rem;
 }

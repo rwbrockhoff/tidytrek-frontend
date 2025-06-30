@@ -1,7 +1,7 @@
 .uploadLabel {
 	color: white;
 	cursor: pointer;
-	font-size: 2em;
+	font-size: var(--font-size-2xl);
 	padding: var(--space-md);
 }
 

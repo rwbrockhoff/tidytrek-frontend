@@ -5,7 +5,29 @@ import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { useNavigate } from 'react-router-dom';
 import { Flex } from '@radix-ui/themes';
 
-declare const google: any;
+// Google Identity Services API types
+type GoogleAccounts = {
+	id: {
+		initialize: (config: {
+			client_id: string;
+			callback: (response: GoogleCredentialResponse) => void;
+		}) => void;
+		renderButton: (element: HTMLElement, options: GoogleButtonConfig) => void;
+	};
+};
+
+type GoogleCredentialResponse = {
+	credential?: string;
+	error?: string;
+};
+
+type GoogleButtonConfig = {
+	text?: 'continue_with' | 'signin_with' | 'signup_with';
+	logo_alignment?: 'left' | 'center';
+	size?: 'large' | 'medium' | 'small';
+};
+
+declare const google: { accounts: GoogleAccounts };
 
 type GoogleAuthProps = {
 	context: AuthContext;
@@ -43,12 +65,11 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 
 	useEffect(() => {
 		// subscribe to login mutation
-		if (isLoginSuccess) {
-			const { data } = loginData;
-			if (data?.newUser) navigate('/welcome');
+		if (isLoginSuccess && loginData) {
+			if (loginData.newUser) navigate('/welcome');
 		}
 		if (isLoginError) updateServerError(generalErrorMessage);
-	}, [isLoginSuccess]);
+	}, [isLoginSuccess, loginData]);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'test') return;
@@ -75,16 +96,19 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 			firstName: splitName[0] || '',
 			lastName: splitName[1] || '',
 			avatarUrl: avatar_url,
+			supabaseRefreshToken: data?.session?.refresh_token,
 		};
 	};
 
-	const handleGoogleAuth = async (response: unknown, error: unknown) => {
-		// handle error from google auth flow
-		if (error) return updateServerError(googleErrorMessage);
+	const handleGoogleAuth = async (response: GoogleCredentialResponse) => {
+		// Handle error from Google auth
+		if (response.error || !response.credential) {
+			return updateServerError(googleErrorMessage);
+		}
+
 		// pass token to supabase
 		const { data, error: supaError } = await supabase.auth.signInWithIdToken({
 			provider: 'google',
-			//@ts-ignore
 			token: response.credential,
 		});
 		// handle supabase error

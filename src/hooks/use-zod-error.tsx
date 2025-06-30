@@ -34,7 +34,18 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 		setPrimaryError({ error: false, message: '' });
 	};
 
-	return { formErrors, updateFormErrors, resetFormErrors, primaryError };
+	const resetAllFormErrors = () => {
+		setFormErrors(createFormErrorShape<T>(formInputs));
+		setPrimaryError({ error: false, message: '' });
+	};
+
+	return {
+		formErrors,
+		updateFormErrors,
+		resetFormErrors,
+		resetAllFormErrors,
+		primaryError,
+	};
 }
 
 function createFormErrorShape<T>(formInputs: (keyof T)[]) {
@@ -46,7 +57,7 @@ function createFormErrorShape<T>(formInputs: (keyof T)[]) {
 	return errorObject;
 }
 
-export function clearZodErrors<T extends Record<keyof T, string>>(
+export function clearZodErrors<T>(
 	e: InputEvent | TextAreaEvent | SelectEvent,
 	formErrors: Record<keyof T, FormError>,
 	reset: (property: keyof T) => void,

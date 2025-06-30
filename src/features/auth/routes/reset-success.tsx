@@ -1,7 +1,7 @@
 import { Segment } from '@/components/ui';
 import { Heading, Button, Text } from '@radix-ui/themes';
 import { AuthContainer, FormContainer } from '../components/form-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const ResetSuccess = () => {
 	const navigate = useNavigate();
@@ -9,7 +9,7 @@ export const ResetSuccess = () => {
 		<AuthContainer>
 			<FormContainer>
 				<Heading as="h1" mb="4">
-					tidytrek
+					<Link to="/">tidytrek</Link>
 				</Heading>
 
 				<Segment radius="2">

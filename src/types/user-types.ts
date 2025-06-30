@@ -14,6 +14,7 @@ export type RegisterUser = {
 	lastName: string;
 	email: string;
 	avatarUrl?: string | null;
+	supabaseRefreshToken?: string;
 };
 
 // used for google login to gracefully handle
@@ -24,6 +25,7 @@ export type LoginUser = {
 	firstName?: string;
 	lastName?: string;
 	avatarUrl?: string | null;
+	supabaseRefreshToken?: string;
 };
 
 export type RegisterUserFormData = {

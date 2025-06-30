@@ -1,10 +1,12 @@
 import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link } from 'react-router-dom';
-import { Form, FormField, FormControl, FormMessage } from '@radix-ui/react-form';
-import { Segment, Message } from '@/components/ui';
-import { Heading, Button, Text, Flex, TextField, Box } from '@radix-ui/themes';
+import { Form } from '@radix-ui/react-form';
+import { Segment, Message, Spinner } from '@/components/ui';
+import { Heading, Button, Text, Flex, Box } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from './form-components';
+import styles from './form-components.module.css';
 import { GoogleAuth } from './google-auth';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
 import { clearZodErrors, type ZodFormErrors } from '@/hooks';
@@ -46,13 +48,18 @@ export const LogInForm = (props: FormProps) => {
 		}
 	}, [isRegisterSuccess]);
 
+	// Clear form on route change
+	useEffect(() => {
+		formRef?.current?.reset();
+	}, [isRegisterForm]);
+
 	return (
 		<FormContainer>
-			<Heading as="h1" size="8" mb="6" style={{ letterSpacing: '-0.5px' }}>
-				tidytrek
+			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+				<Link to="/">tidytrek</Link>
 			</Heading>
 			<Segment radius="2">
-				<Heading as="h3" size="7" color="jade" mb="6">
+				<Heading as="h3" size="7" mb="6">
 					{isRegisterForm ? 'Create your account' : 'Log in to your account'}
 				</Heading>
 
@@ -67,101 +74,39 @@ export const LogInForm = (props: FormProps) => {
 					<Form ref={formRef} onSubmit={handleFormSubmit}>
 						{isRegisterForm && (
 							<>
-								<FormField name="firstName">
-									<FormControl asChild>
-										<TextField.Input
-											placeholder="First Name"
-											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
-											data-invalid={formErrors.firstName.error}
-											data-testid="first-name-input"
-										/>
-									</FormControl>
-									{formErrors.firstName.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.firstName.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
-								<FormField name="lastName">
-									<FormControl asChild>
-										<TextField.Input
-											placeholder="Last Name"
-											onChange={handleClearErrors}
-											radius="small"
-											my="4"
-											size="3"
-											data-invalid={formErrors.lastName.error}
-											data-testid="last-name-input"
-										/>
-									</FormControl>
-									{formErrors.lastName.error && (
-										<FormMessage>
-											<Text mb="8" color="tomato" weight="light">
-												{formErrors.lastName.message}
-											</Text>
-										</FormMessage>
-									)}
-								</FormField>
+								<TextField.Input
+									name="firstName"
+									placeholder="First Name"
+									onChange={handleClearErrors}
+									error={formErrors.firstName}
+									data-testid="first-name-input"
+								/>
+								<TextField.Input
+									name="lastName"
+									placeholder="Last Name"
+									onChange={handleClearErrors}
+									error={formErrors.lastName}
+									data-testid="last-name-input"
+								/>
 							</>
 						)}
 
-						<FormField name="email">
-							<FormControl asChild>
-								<TextField.Input
-									placeholder="Email"
-									onChange={handleClearErrors}
-									radius="small"
-									my="4"
-									size="3"
-									data-invalid={formErrors.email.error}
-									data-testid="email-input"
-									style={{ boxSizing: 'border-box' }}
-								/>
-							</FormControl>
-							{formErrors.email.error && (
-								<FormMessage>
-									<Text mb="8" color="tomato" weight="light">
-										{formErrors.email.message}
-									</Text>
-								</FormMessage>
-							)}
-						</FormField>
+						<TextField.Input
+							name="email"
+							placeholder="Email"
+							onChange={handleClearErrors}
+							error={formErrors.email}
+							data-testid="email-input"
+						/>
 
-						<FormField name="password">
-							<FormControl asChild>
-								<TextField.Input
-									data-invalid={formErrors.password.error}
-									onChange={handleClearErrors}
-									radius="small"
-									my="4"
-									size="3"
-									type="password"
-									placeholder="Password"
-								/>
-							</FormControl>
-							{formErrors.password.error && (
-								<FormMessage>
-									<Text
-										mb="8"
-										color="tomato"
-										weight="light"
-										aria-label="error warning"
-										role="alert"
-										aria-invalid={formErrors.password.error ? 'true' : 'false'}
-										aria-errormessage={
-											formErrors.password.error ? formErrors.password.message : ''
-										}
-										data-testid="auth-message-error">
-										{formErrors.password.message}
-									</Text>
-								</FormMessage>
-							)}
-						</FormField>
+						<TextField.Input
+							name="password"
+							onChange={handleClearErrors}
+							error={formErrors.password}
+							type="password"
+							placeholder="Password"
+							data-testid="password-input"
+						/>
 
 						{serverError.error && (
 							<Message
@@ -184,7 +129,13 @@ export const LogInForm = (props: FormProps) => {
 							size="3"
 							my="4"
 							disabled={isLoading}>
-							{isRegisterForm ? 'Create account' : 'Login'}
+							{isLoading ? (
+								<Spinner active size="1" />
+							) : isRegisterForm ? (
+								'Create account'
+							) : (
+								'Login'
+							)}
 						</Button>
 					</Form>
 				</Box>

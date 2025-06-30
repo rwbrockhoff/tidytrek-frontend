@@ -1,33 +1,15 @@
-.itemContainer {
+.packListItemContainer {
 	padding: var(--space-min) 0;
 	cursor: pointer;
 }
 
-.itemContainer:hover svg {
-	opacity: 0.6;
+.packListItemContainer:hover svg {
+	opacity: var(--opacity-60);
 }
 
 .styledText {
 	position: relative;
-	opacity: 1;
-}
-
-.styledText svg {
-	opacity: 0;
-}
-
-.styledText svg:hover {
-	opacity: 0.6;
-}
-
-.styledText:hover {
-	filter: var(--hover-dark-2);
-}
-
-@media (max-width: 768px) {
-	.styledText {
-		font-size: var(--font-size-xl);
-	}
+	font-size: var(--font-size-base);
 }
 
 .gripContainer {

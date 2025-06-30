@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContainer } from '../components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
 import supabase from '@/api/supabaseClient';
@@ -8,16 +9,29 @@ import { useGetAuth } from '@/hooks';
 export const Welcome = () => {
 	const { isAuthenticated, user } = useGetAuth();
 	const { mutate: login } = useLoginMutation();
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		// subscribe to session change and log in user
-		if (isAuthenticated === false) {
-			supabase.auth.getUser().then(({ data: { user } }) => {
-				const { id, email } = user || {};
-				if (id && email) login({ email, userId: id });
+		// Handle email verification flow
+		if (!isAuthenticated) {
+			supabase.auth.getSession().then(({ data: { session } }) => {
+				if (session?.user) {
+					// User has verified email and has Supabase session
+					login({
+						email: session.user.email!,
+						userId: session.user.id,
+						supabaseRefreshToken: session.refresh_token,
+					});
+					// Redirect to login
+				} else navigate('/');
 			});
 		}
-	}, []);
+	}, [isAuthenticated, login, navigate]);
+
+	// Show welcome form only if user is authenticated
+	if (!isAuthenticated || !user) {
+		return null;
+	}
 
 	return (
 		<AuthContainer>

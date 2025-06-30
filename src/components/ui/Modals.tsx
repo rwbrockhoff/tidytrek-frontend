@@ -86,14 +86,21 @@ export const DeleteItemModal = (props: DeleteItemModalProps) => {
 				</Dialog.Description>
 				<Flex gap="3" mt="4" justify="end">
 					<Dialog.Close>
-						<Button color="tomato" size="3" onClick={handleDelete}>
+						<Button
+							color="tomato"
+							size="3"
+							onClick={handleDelete}
+							aria-label="Delete pack item permanently">
 							<TrashIcon /> Delete
 						</Button>
 					</Dialog.Close>
 
 					{hasPackId && (
 						<Dialog.Close>
-							<Button size="3" onClick={onClickMove}>
+							<Button
+								size="3"
+								onClick={onClickMove}
+								aria-label="Move pack item to gear closet">
 								<ShareIcon /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>

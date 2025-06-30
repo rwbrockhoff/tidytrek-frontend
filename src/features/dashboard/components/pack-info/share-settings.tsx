@@ -6,7 +6,8 @@ import {
 	ShareIcon,
 	ShareLinkIcon,
 } from '@/components/ui';
-import { Popover, Heading, Flex, TextFieldInput, Button } from '@radix-ui/themes';
+import { Popover, Heading, Flex, Button } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { frontendURL } from '@/api/tidytrekAPI';
@@ -49,7 +50,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 						</Heading>
 
 						<Flex gap="2">
-							<TextFieldInput value={packLink} readOnly />
+							<TextField.Standalone value={packLink} readOnly />
 
 							<Button onClick={handleCopyToClipboard}>
 								{linkCopied ? (

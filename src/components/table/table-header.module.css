@@ -20,7 +20,7 @@
 }
 
 .tableRow {
-	transition: opacity 250ms ease;
+	transition: opacity var(--transition);
 }
 
 .tableRow.minimized {

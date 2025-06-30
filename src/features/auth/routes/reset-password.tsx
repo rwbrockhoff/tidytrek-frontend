@@ -22,9 +22,10 @@ export const ResetPassword = () => {
 	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
 
 	useEffect(() => {
-		// subscribe to session change and log in user
+		// Check for existing session
 		if (isAuthenticated === false) {
-			supabase.auth.getUser().then(({ data: { user } }) => {
+			supabase.auth.getSession().then(({ data: { session } }) => {
+				const user = session?.user;
 				const { id, email } = user || {};
 				if (id && email) login({ email, userId: id });
 			});

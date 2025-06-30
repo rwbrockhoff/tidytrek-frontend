@@ -1,9 +1,14 @@
 import styles from './table-row.module.css';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { type PackItem, type PackListItem, PackItemProperty } from '@/types/pack-types';
+import {
+	type PackListItem,
+	type BaseTableRowItem,
+	type PackItemProperty,
+	isPackItem,
+} from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
-import { Flex, Table } from '@radix-ui/themes';
+import { Flex, Table, Button } from '@radix-ui/themes';
 import { ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
@@ -20,14 +25,15 @@ import { useCheckScreen } from '@/hooks';
 import { TableRowContext } from './context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
 import { TableErrorRow } from './table-error-row';
+import { shallowEqual } from '@/utils';
 
 type TableRowProps = {
 	index: number;
-	item: PackItem;
+	item: BaseTableRowItem;
 	packList: PackListItem[];
 	disabled?: boolean;
 	moveToCloset?: (packItemId: number) => void;
-	handleOnSave: (packItem: PackItem) => void;
+	handleOnSave: (packItem: BaseTableRowItem) => void;
 	handleDelete: (packItemId: number) => void;
 };
 
@@ -38,8 +44,9 @@ const packItemSchema = z.object({
 });
 
 // Table Row is used in PackCategory + GearCloset
+// Memoized exported component below
 
-export const TableRow = (props: TableRowProps) => {
+export const TableRowComponent = (props: TableRowProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
 	const { isMobile } = useCheckScreen();
@@ -82,13 +89,12 @@ export const TableRow = (props: TableRowProps) => {
 		moveToCloset && moveToCloset(packItemId);
 	};
 
-	const { packItemId, packId } = packItem;
-
+	const { packItemId } = packItem;
 	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
 
 	const showAllCells = !isMobile || viewAllCells;
-	const hasPackId = packId !== null;
+	const hasPackId = isPackItem(packItem);
 
 	return (
 		<Draggable
@@ -102,6 +108,7 @@ export const TableRow = (props: TableRowProps) => {
 						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
 						<>
 							<Table.Row
+								data-testid="pack-item-row"
 								onMouseOver={() => setToggleRow(true)}
 								onMouseLeave={() => setToggleRow(false)}
 								ref={provided.innerRef}
@@ -136,9 +143,13 @@ export const TableRow = (props: TableRowProps) => {
 										{userView && (
 											<ActionButtons display={toggleRow}>
 												<Flex align="center">
-													<ShareIcon
+													<Button
 														onClick={() => setToggleGearButtons(!toggleGearButtons)}
-													/>
+														variant="ghost"
+														data-testid="move-pack-item-button"
+														aria-label="Move pack item">
+														<ShareIcon />
+													</Button>
 												</Flex>
 
 												<DeleteItemModal
@@ -147,7 +158,12 @@ export const TableRow = (props: TableRowProps) => {
 													onClickMove={handleMoveItemToCloset}
 													onClickDelete={() => handleDelete(packItemId)}>
 													<Flex align="center">
-														<TrashIcon />
+														<Button
+															variant="ghost"
+															data-testid="delete-pack-item-button"
+															aria-label="Delete pack item">
+															<TrashIcon />
+														</Button>
 													</Flex>
 												</DeleteItemModal>
 											</ActionButtons>
@@ -167,3 +183,15 @@ export const TableRow = (props: TableRowProps) => {
 		</Draggable>
 	);
 };
+
+// Memoize TableRow to avoid re-renders
+export const TableRow = memo(TableRowComponent, (prevProps, nextProps) => {
+	// Shallow comparison
+	// Return true if props are equal (no re-render)
+	return (
+		shallowEqual(prevProps.item, nextProps.item) &&
+		prevProps.index === nextProps.index &&
+		prevProps.disabled === nextProps.disabled &&
+		prevProps.packList.length === nextProps.packList.length
+	);
+});

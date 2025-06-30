@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './pack-list.module.css';
-import { type PackListItem as PackListItemType } from '@/types/pack-types';
-import { Drag, DragDropContext, DropResult } from '@/components';
-import { Droppable } from 'react-beautiful-dnd';
-import { PackListItem } from './pack-list-item';
+import { useQueryClient } from '@tanstack/react-query';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Separator } from '@radix-ui/themes';
-import { useMovePackMutation } from '@/queries/pack-queries';
 
-import { encode } from '@/utils';
+import { type PackListItem as PackListItemType } from '@/types/pack-types';
+import { DragDropContext, DropResult } from '@/components';
+import { PackListItem } from './pack-list-item';
 import { CreatePackMenu } from './create-pack-menu';
+import { useMovePackMutation } from '@/queries/pack-queries';
+import { packListKeys } from '@/queries/query-keys';
+import { encode, calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 
 type PackListProps = {
 	currentPackId: number | undefined;
@@ -17,26 +18,45 @@ type PackListProps = {
 
 export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { mutate: movePack } = useMovePackMutation();
 
-	const handleGetPack = async (packId: number) => {
-		const { pathname } = location;
-		if (currentPackId === undefined) navigate('/');
+	const handleGetPack = (packId: number) => {
 		const encodedId = encode(packId);
-		if (packId !== currentPackId) navigate(`/pack/${encodedId}`);
-		if (pathname !== '/') navigate(`/pack/${encodedId}`);
+
+		if (currentPackId === undefined) navigate('/');
+		// navigate to pack (if different pack or app path)
+		else if (packId !== currentPackId || location.pathname !== '/') {
+			navigate(`/pack/${encodedId}`);
+		}
 	};
 
-	const handleOnDragEnd = (result: DropResult) => {
+	const handleOnDragEnd = (result: DropResult): void => {
 		const { draggableId, destination, source } = result;
 		if (!destination) return;
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
+		if (destination.index === source.index) return;
+
+		// Optimistic update for UI
+		applySynchronousDragUpdate<{ packList: PackListItemType[] }>(
+			queryClient,
+			packListKeys.all,
+			source.index,
+			destination.index,
+			'packList',
+		);
+
+		// Calculate adjacent packs for fractional indexing
+		const { prevItem: prevPack, nextItem: nextPack } = calculateAdjacentItems(
+			packList,
+			source.index,
+			destination.index,
+		);
+
 		movePack({
 			packId: draggableId,
-			newIndex: destination.index,
-			prevIndex: source.index,
+			prevPackIndex: prevPack?.packIndex,
+			nextPackIndex: nextPack?.packIndex,
 		});
 	};
 
@@ -46,19 +66,18 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 				<Droppable
 					droppableId={'sidebar-pack-list'}
 					type="packlist-item"
-					// renderClone required in position absolute parent (sidebar)
-					// in order to display item while isDragging
+					// renderClone required to display pack item list items while dragging
+					// parent component is absolute positioned, Dnd requires renderClone
 					renderClone={(provided, _snapshot, rubric) => {
 						const index = rubric.source.index;
 						const pack = packList[index];
 						return (
-							<div
-								className={styles.styledContainer}
-								{...provided.draggableProps}
-								{...provided.dragHandleProps}
-								ref={provided.innerRef}
-							>
-								<PackListItem pack={pack} onClick={handleGetPack} />
+							<div {...provided.draggableProps} ref={provided.innerRef}>
+								<PackListItem
+									pack={pack}
+									onClick={handleGetPack}
+									dragProps={{ ...provided.dragHandleProps }}
+								/>
 							</div>
 						);
 					}}>
@@ -66,9 +85,20 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 						<div ref={provided.innerRef} {...provided.droppableProps}>
 							{packList.map((pack: PackListItemType, index: number) => {
 								return (
-									<Drag key={pack.packId} draggableId={pack.packId} index={index}>
-										<PackListItem pack={pack} onClick={handleGetPack} />
-									</Drag>
+									<Draggable
+										key={pack.packId}
+										draggableId={`${pack.packId}`}
+										index={index}>
+										{(provided) => (
+											<div ref={provided.innerRef} {...provided.draggableProps}>
+												<PackListItem
+													pack={pack}
+													onClick={handleGetPack}
+													dragProps={{ ...provided.dragHandleProps }}
+												/>
+											</div>
+										)}
+									</Draggable>
 								);
 							})}
 							{provided.placeholder}
@@ -76,10 +106,9 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 					)}
 				</Droppable>
 			</DragDropContext>
-			<Separator my="4" className={styles.separator} />
+			<Separator my="4" />
 
 			<CreatePackMenu />
 		</div>
 	);
 };
-

@@ -2,7 +2,7 @@ import { type UserProfile } from '@/types/profile-types';
 import { type Category, type Pack } from '@/types/pack-types';
 import { type Settings } from '@/types/settings-types';
 import styles from './pack-info.module.css';
-import { cn } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
@@ -15,7 +15,6 @@ import {
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
 import { DisplayLink } from '@/components/ui';
-import { Panel } from '@/components/ui/TidyUI';
 import { ShareSettings } from './share-settings';
 import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info';
@@ -68,8 +67,8 @@ export const PackInfo = (props: PackInfoProps) => {
 			display="inline-flex"
 			mt="6"
 			mb="9"
-			className={styles.packInfoContainer}>
-			<Panel width={'50%'} className={styles.userInfoPanel}>
+			className={cn(styles.packInfoContainer, mx.responsiveContent)}>
+			<div className={cn(mx.responsivePanel, styles.userInfoPanel)}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -78,16 +77,18 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Heading as="h1" size="6" mb="2">
+				<Heading as="h1" size="6" mb="2" data-testid="pack-name-heading">
 					<Flex>
 						{packName}
 
 						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
-							<EditPencilIcon
-								className={cn(`editIcon ${styles.editIcon}`, !userView && styles.hidden)}
-								name="pencil alternate"
-								color="grey"
-							/>
+							<Button
+								variant="ghost"
+								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
+								data-testid="pack-edit-button"
+								aria-label="Edit pack details">
+								<EditPencilIcon />
+							</Button>
 						</PackModal>
 					</Flex>
 				</Heading>
@@ -118,7 +119,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					<ChartIcon />
 					Show Pack Chart
 				</Button>
-			</Panel>
+			</div>
 
 			{/* Right Hand Panel */}
 

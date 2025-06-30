@@ -40,7 +40,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 		[categories],
 	);
 
-	const chartData = {
+	const chartData = useMemo(() => ({
 		labels: categoryLabels,
 		datasets: [
 			{
@@ -49,7 +49,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 				borderWidth: 2,
 			},
 		],
-	};
+	}), [categoryLabels, categoryColors, categoryWeights]);
 
 	return (
 		<Flex justify="center" align="center" width="100%">

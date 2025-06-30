@@ -1,14 +1,8 @@
 .outerContainer {
 	width: 100%;
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 	background-color: var(--color-bg-primary);
-}
-
-@media (max-width: 768px) {
-	.outerContainer {
-		overflow-y: auto;
-	}
 }
 
 .appViewContainer {
@@ -26,33 +20,69 @@
 	flex: 1;
 	background-color: var(--color-bg-primary);
 	position: relative;
-	padding: var(--space-xxl) 4em 6em 4em;
-	transition: all 300ms ease;
-	transition-property: margin-left, width;
+	min-width: 0;
+	transition:
+		margin-left var(--transition-slow),
+		max-width var(--transition-slow);
 }
 
 .viewLayoutSidebarVisible {
-	width: 80%;
 	margin-left: 250px;
+	max-width: 1030px;
 }
 
 .viewLayoutSidebarHidden {
-	width: 100%;
 	margin-left: 0;
+	max-width: 1280px;
 }
 
-@media (max-width: 1280px) {
+/* Desktop and larger screens */
+@media (min-width: 769px) {
 	.viewLayoutContainer {
-		width: 100%;
-		margin: 0;
-		padding: var(--space-xxl) 4em 6em 4em;
+		padding: var(--space-xxl) 4em 6em 4em; /* Layout content padding */
 	}
 }
 
-@media (max-width: 768px) {
+/* When viewport is smaller than max-width - sidebar becomes overlay */
+@media (max-width: 1280px) {
+	.appViewContainer {
+		/* Remove flex layout - sidebar becomes overlay */
+		display: block;
+	}
+
 	.viewLayoutContainer {
 		width: 100%;
-		margin: 0;
-		padding: 10em 1em var(--space-xxl) 1em;
+	}
+
+	.viewLayoutSidebarVisible,
+	.viewLayoutSidebarHidden {
+		/* Reset positioning when sidebar is overlay */
+		margin-left: 0;
+		width: 100%;
+		max-width: 1280px; /* Use full container width */
+	}
+}
+
+@media (max-width: 480px) {
+	.outerContainer {
+		overflow-y: auto;
+	}
+
+	.appViewContainer {
+		/* On mobile, don't use flex - sidebar overlays */
+		display: block;
+	}
+
+	.viewLayoutContainer {
+		/* Mobile layout padding - header height + extra space */
+		padding: calc(var(--mobile-header-height) + var(--space-sm)) var(--space-md)
+			var(--space-xxl) var(--space-md);
+	}
+
+	.viewLayoutSidebarVisible,
+	.viewLayoutSidebarHidden {
+		/* Reset any desktop positioning on mobile */
+		margin-left: 0;
+		width: 100%;
 	}
 }

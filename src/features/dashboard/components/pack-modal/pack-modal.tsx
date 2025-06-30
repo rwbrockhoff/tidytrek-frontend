@@ -1,19 +1,15 @@
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
+import { mx } from '@/styles/utils';
 import { useState, useEffect } from 'react';
+import { cn } from '@/styles/utils/cn';
 import { Form } from '@radix-ui/react-form';
-import { FormField, FormTextArea, SaveIcon } from '@/components/ui';
+import { SaveIcon } from '@/components/ui';
+import { TextArea } from '@/components/ui/alpine/';
+import { TextField } from '@/components/ui/alpine';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
-import {
-	Button,
-	Dialog,
-	Flex,
-	Separator,
-	Switch,
-	Text,
-	TextArea,
-} from '@radix-ui/themes';
+import { Button, Dialog, Flex, Separator, Switch, Text } from '@radix-ui/themes';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
 import { PackPhotoPanel } from './pack-photo-panel';
@@ -41,7 +37,7 @@ export const PackModal = (props: PackModalProps) => {
 		packDescription: '',
 		packId: 0,
 		userId: 0,
-		packIndex: 0,
+		packIndex: '0',
 		packLocationTag: '',
 		packSeasonTag: '',
 		packDurationTag: '',
@@ -111,16 +107,21 @@ export const PackModal = (props: PackModalProps) => {
 				<div>{children}</div>
 			</Dialog.Trigger>
 			<Dialog.Content style={{ maxWidth: '700px' }}>
-				<Dialog.Title mb="4" ml="4">
+				<Dialog.Title mt="2" mb="1" ml="4">
 					{packName ?? pack.packName ?? 'Pack'}
 				</Dialog.Title>
+				<Dialog.Description size="2" color="gray" mb="4" ml="4">
+					Edit pack details, settings, and photo
+				</Dialog.Description>
 
 				<Flex className={styles.modalContent}>
 					<PackPhotoPanel packPhotoUrl={packPhotoUrl} packId={pack.packId} />
 
 					<Form style={{ width: '100%' }}>
-						<Flex direction="column" className={styles.leftPanel}>
-							<FormField
+						<Flex
+							direction="column"
+							className={cn(styles.leftPanel, mx.responsiveContent)}>
+							<TextField.Input
 								name="packName"
 								value={packName ?? ''}
 								onChange={handleFormChange}
@@ -128,8 +129,7 @@ export const PackModal = (props: PackModalProps) => {
 								placeholder="Pack Name"
 								width="100%"
 							/>
-
-							<FormTextArea
+							<TextArea.Input
 								name="packDescription"
 								value={packDescription ?? ''}
 								label="Pack Description"
@@ -147,7 +147,7 @@ export const PackModal = (props: PackModalProps) => {
 						/>
 
 						<Flex justify="between">
-							<FormField
+							<TextField.Input
 								name="packUrlName"
 								value={packUrlName ?? ''}
 								onChange={handleFormChange}
@@ -156,7 +156,7 @@ export const PackModal = (props: PackModalProps) => {
 								width="30%"
 							/>
 
-							<FormField
+							<TextField.Input
 								name="packUrl"
 								value={packUrl ?? ''}
 								onChange={handleFormChange}
@@ -226,15 +226,13 @@ export const PackModal = (props: PackModalProps) => {
 						</Flex>
 
 						{packAffiliate && (
-							<div>
-								<label>Custom Affiliate Message</label>
-								<TextArea
-									name="packAffiliateDescription"
-									value={packAffiliateDescription ?? ''}
-									onChange={handleFormChange}
-									placeholder={affiliateMessage}
-								/>
-							</div>
+							<TextArea.Input
+								name="packAffiliateDescription"
+								value={packAffiliateDescription ?? ''}
+								onChange={handleFormChange}
+								placeholder={affiliateMessage}
+								label="Custom Affiliate Message"
+							/>
 						)}
 					</Form>
 				</Flex>

@@ -4,131 +4,6 @@
 	height: 100%;
 }
 
-/* -- Text Inputs -- */
-
-/* TextField */
-.rt-TextFieldInput {
-	background: var(--color-bg-primary);
-	color: var(--color-text-primary);
-	border: 1px solid var(--color-bg-tertiary);
-	text-indent: var(--space-xs);
-}
-
-.rt-TextFieldInput::placeholder {
-	color: var(--color-text-secondary);
-	opacity: 0.7;
-}
-
-.rt-TextFieldInput:hover:not(:focus) {
-	border: 1px solid transparent;
-	outline: 1px solid var(--color-primary);
-}
-
-.rt-TextFieldInput:focus {
-	border: 1px solid var(--color-primary);
-	border-radius: var(--radius);
-	box-shadow: none;
-	outline: none;
-	transition: none;
-}
-
-/* TextArea */
-.rt-TextAreaInput {
-	background: var(--color-bg-primary);
-	color: var(--color-text-primary);
-	border: 1px solid var(--color-bg-tertiary);
-}
-
-.rt-TextAreaRoot > textarea.rt-TextAreaInput:hover:not(:focus) {
-	border: 1px solid transparent;
-	outline: 1px solid var(--color-primary);
-}
-
-.rt-TextAreaRoot > textarea.rt-TextAreaInput:focus {
-	border: 2px solid var(--color-primary);
-	outline: none;
-	box-shadow: none;
-}
-
-/* Minimal input styles */
-.rt-TextFieldInput.input-minimal {
-	border: var(--text-field-border-width, 1px) solid var(--color-bg-secondary);
-	box-shadow: none;
-	outline: none;
-	background-color: var(--color-bg-secondary);
-	color: var(--color-text-primary);
-}
-
-.rt-TextFieldInput.input-minimal::placeholder {
-	color: var(--color-text-secondary);
-	opacity: 0.7;
-}
-
-.rt-TextFieldInput.input-minimal:hover:not(:focus) {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-bg-tertiary);
-	outline: none;
-	box-shadow: none;
-}
-
-.rt-TextFieldInput.input-minimal:focus {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-primary);
-	border-radius: var(--radius);
-	outline: none;
-	box-shadow: none;
-}
-
-.rt-TextFieldInput.input-minimal:disabled:hover:not(:focus) {
-	background-color: var(--color-bg-secondary);
-	border-color: var(--color-bg-secondary);
-}
-
-/* TextField with icons */
-.rt-TextFieldRoot:has(.input-with-icon),
-.rt-TextFieldRoot:has(.input-with-icon) > * {
-	background-color: var(--color-bg-primary);
-}
-
-.rt-TextFieldRoot:has(.input-with-icon) {
-	border: 1px solid var(--color-bg-tertiary);
-	border-radius: var(--radius);
-}
-
-.rt-TextFieldRoot:has(.input-with-icon):hover:not(:focus-within) {
-	border: 1px solid var(--color-bg-tertiary);
-}
-
-.rt-TextFieldRoot:has(.input-with-icon):focus-within {
-	border: 1px solid var(--color-primary);
-	border-radius: var(--radius);
-}
-
-.rt-TextFieldInput.input-with-icon {
-	border: none;
-	background-color: transparent;
-	outline: none;
-	text-indent: var(--space-xs);
-}
-
-.rt-TextFieldInput.input-with-icon:hover:not(:focus) {
-	border: none;
-	outline: none;
-	box-shadow: none;
-}
-
-.rt-TextFieldInput.input-with-icon:focus {
-	border: none;
-	outline: none;
-	box-shadow: none;
-	border-radius: none;
-}
-
-/* TextField labels and slots */
-.rt-TextFieldRoot .rt-Text[data-accent-color] {
-	color: var(--color-text-tertiary);
-}
-
 /* Apply secondary text color to Radix Gray Text */
 .rt-Text[color='gray'],
 .rt-DialogContent .rt-Text[color='gray'],
@@ -136,14 +11,6 @@
 .rt-Text:where([data-accent-color='gray']),
 .rt-DialogContent .rt-Text[data-accent-color] {
 	color: var(--color-text-secondary);
-}
-
-/* Ensures input icon doesn't cover input border/outline */
-.rt-TextFieldSlot {
-	color: var(--color-text-primary);
-	height: 90%;
-	margin: auto;
-	margin-left: var(--space-min);
 }
 
 /* -- Buttons -- */
@@ -190,7 +57,7 @@ button.rt-Button.rt-variant-outline {
 .rt-SelectContent {
 	background-color: var(--color-bg-primary);
 	border: 1px solid var(--color-bg-tertiary);
-	box-shadow: var(--shadow-lg);
+	box-shadow: var(--shadow);
 }
 
 .rt-SelectItem {
@@ -218,7 +85,7 @@ button.rt-Button.rt-variant-outline {
 
 .rt-PopoverContent {
 	background-color: var(--color-bg-primary);
-	box-shadow: var(--shadow-2);
+	box-shadow: var(--shadow);
 }
 
 .rt-HoverCardContent {
@@ -234,12 +101,8 @@ table {
 	background-color: var(--color-bg-secondary);
 }
 
-.rt-ScrollAreaRoot {
-	overflow: visible;
-}
-
-div.rt-ScrollAreaViewport {
-	overflow: visible !important;
+.rt-TableRoot.rt-r-size-1 {
+	--table-cell-padding: var(--space-xs) var(--space-min);
 }
 
 .rt-TableRoot {
@@ -250,6 +113,16 @@ div.rt-ScrollAreaViewport {
 	overflow: visible !important;
 }
 
+/* Scroll Behavior */
+
+.rt-ScrollAreaRoot {
+	overflow: visible;
+}
+
+div.rt-ScrollAreaViewport {
+	overflow: visible !important;
+}
+
 /* -- Other Components -- */
 .rt-Badge {
 	background-color: var(--color-bg-tertiary);
@@ -257,14 +130,13 @@ div.rt-ScrollAreaViewport {
 	margin: inherit 1rem;
 }
 
+.rt-Separator {
+	background-color: var(--color-bg-tertiary);
+	width: 100%;
+}
+
 /* Override Radix selection styles */
 .radix-themes *::selection {
 	background-color: var(--sage-400);
 	color: var(--color-constant-white);
-}
-
-/* Form validation styling */
-input[data-invalid='true'] {
-	border: 1px solid var(--red-500);
-	background-color: var(--color-error-bg);
 }

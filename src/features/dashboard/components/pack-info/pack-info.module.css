@@ -3,16 +3,6 @@
 	color: var(--color-text-primary);
 }
 
-@media (max-width: 768px) {
-	.packInfoContainer {
-		width: 95%;
-		height: fit-content;
-		flex-direction: column;
-		margin-top: 3vh;
-		margin-bottom: 0;
-	}
-}
-
 .userInfoPanel:hover .editIcon {
 	opacity: 1;
 }
@@ -23,20 +13,10 @@
 }
 
 .editIcon {
-	font-size: var(--font-size-lg);
-	margin-left: var(--space-xs);
+	font-size: var(--font-size-base);
+	margin: auto 0 auto var(--space-xs);
 	cursor: pointer;
 	opacity: 0;
-}
-
-.editIcon.hidden {
-	display: none;
-}
-
-@media (max-width: 768px) {
-	.editIcon {
-		opacity: 1;
-	}
 }
 
 .toggleChartButton {
@@ -46,6 +26,17 @@
 }
 
 @media (max-width: 768px) {
+	.packInfoContainer {
+		height: fit-content;
+		flex-direction: column;
+		margin-top: 3vh;
+		margin-bottom: 0;
+	}
+
+	.editIcon {
+		opacity: 1;
+	}
+
 	.toggleChartButton {
 		display: flex;
 	}

@@ -32,7 +32,8 @@ export const TableFooter = ({
 							color="gray"
 							size="1"
 							ml="2"
-							onClick={handleAddItem}>
+							onClick={handleAddItem}
+							aria-label="Add new item to list">
 							<PlusIcon />
 							Add Item
 						</Button>

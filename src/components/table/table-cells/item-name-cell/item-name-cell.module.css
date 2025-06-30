@@ -1,14 +1,4 @@
 .styledCell {
 	position: relative;
-}
-
-.styledCell :global(.rt-TextFieldRoot) {
-	flex-grow: 1;
-}
-
-
-@media only screen and (max-width: 768px) {
-	.styledCell :global(input) {
-		height: 40px;
-	}
+	padding-left: var(--space-sm);
 }

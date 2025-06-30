@@ -4,9 +4,20 @@ import userEvent from '@testing-library/user-event';
 import { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Theme } from '@radix-ui/themes';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
+import { vi } from 'vitest';
+
+// Mock ResizeObserver - Required for Radix UI while testing
+global.ResizeObserver =
+	global.ResizeObserver ||
+	vi.fn(() => ({
+		observe: vi.fn(),
+		unobserve: vi.fn(),
+		disconnect: vi.fn(),
+	}));
 
 type RenderOptions = Parameters<typeof renderComponent>[1];
-
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -34,9 +45,13 @@ export const wrappedRender: typeof basicRender = (
 	const Wrapper = ({ children }: PropsWithChildren) => {
 		return (
 			<QueryClientProvider client={queryClient}>
-				<div data-theme-palette="earth-tones">
-					<MemoryRouter>{children}</MemoryRouter>
-				</div>
+				<Theme>
+					<TooltipProvider>
+						<div data-theme-palette="earth-tones">
+							<MemoryRouter>{children}</MemoryRouter>
+						</div>
+					</TooltipProvider>
+				</Theme>
 			</QueryClientProvider>
 		);
 	};

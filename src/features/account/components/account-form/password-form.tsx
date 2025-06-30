@@ -3,15 +3,9 @@ import { FormSection } from '../../types/account-types';
 import { InputEvent, TextAreaEvent, type PasswordInfo } from '@/types/form-types';
 import { useState } from 'react';
 import styles from './password-form.module.css';
-import { Flex, Heading, Button, Text } from '@radix-ui/themes';
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormLabel,
-	FormMessage,
-} from '@radix-ui/react-form';
-import { TextFieldInput } from '@radix-ui/themes';
+import { Flex, Heading, Button } from '@radix-ui/themes';
+import { Form } from '@radix-ui/react-form';
+import { TextField } from '@/components/ui/alpine/';
 import { Link, Message, PasswordIcon } from '@/components/ui';
 import { ConfirmationForm } from './confirmation-form';
 import { reauthenticateUser, updatePassword } from '@/api/supabaseClient';
@@ -117,72 +111,37 @@ export const PasswordForm = (props: PasswordFormProps) => {
 
 			{displayFormSection === 'passwordForm' && (
 				<Form style={{ width: '50%' }} ref={formRef} onSubmit={handleSubmitForm}>
-					<FormField name="password">
-						<FormLabel>New Password</FormLabel>
-						<FormControl asChild>
-							<TextFieldInput
-								data-invalid={formErrors.password?.error}
-								onChange={handleClearErrors}
-								radius="small"
-								mt="1"
-								mb="2"
-								size="3"
-								type="password"
-								placeholder="New Password"
-							/>
-						</FormControl>
-						{formErrors?.password?.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.password.message}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
+					<TextField.Input
+						name="password"
+						label="New Password"
+						error={formErrors.password}
+						onChange={handleClearErrors}
+						type="password"
+						placeholder="New Password"
+						variant="icon"
+						icon={<PasswordIcon />}
+						iconPosition="left"
+					/>
 
-					<FormField name="confirmPassword">
-						<FormLabel>Confirm Password</FormLabel>
-						<FormControl asChild>
-							<TextFieldInput
-								data-invalid={formErrors?.confirmPassword?.error}
-								onChange={handleClearErrors}
-								radius="small"
-								mt="1"
-								mb="2"
-								size="3"
-								type="password"
-								placeholder="New Password"
-							/>
-						</FormControl>
-						{formErrors?.confirmPassword?.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.confirmPassword.message}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
+					<TextField.Input
+						name="confirmPassword"
+						label="Confirm Password"
+						error={formErrors.confirmPassword}
+						onChange={handleClearErrors}
+						type="password"
+						placeholder="Confirm Password"
+						variant="icon"
+						icon={<PasswordIcon />}
+						iconPosition="left"
+					/>
 
-					<FormField name="emailCode">
-						<FormLabel>Email Code</FormLabel>
-						<FormControl asChild>
-							<TextFieldInput
-								data-invalid={formErrors?.emailCode?.error}
-								onChange={handleClearErrors}
-								radius="small"
-								my="2"
-								size="3"
-								placeholder="Email Code"
-							/>
-						</FormControl>
-						{formErrors.emailCode?.error && (
-							<FormMessage>
-								<Text mb="8" color="tomato" weight="light">
-									{formErrors.emailCode.message}
-								</Text>
-							</FormMessage>
-						)}
-					</FormField>
+					<TextField.Input
+						name="emailCode"
+						label="Email Code"
+						error={formErrors.emailCode}
+						onChange={handleClearErrors}
+						placeholder="Email Code"
+					/>
 
 					<Link link="/reset-password">
 						<p>Reset Your Password</p>
@@ -205,7 +164,6 @@ export const PasswordForm = (props: PasswordFormProps) => {
 		</>
 	);
 };
-
 
 // schemas
 const changePasswordSchema = z

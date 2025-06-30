@@ -24,7 +24,7 @@ button.sidebarButton:hover {
 
 .sidebarButton.isSidebar {
 	color: var(--gray-300);
-	opacity: 0.8;
+	opacity: var(--opacity-80);
 	padding: var(--space-sm);
 	min-width: 32px;
 	min-height: 32px;

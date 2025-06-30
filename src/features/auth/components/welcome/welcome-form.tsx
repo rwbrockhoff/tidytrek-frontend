@@ -1,9 +1,11 @@
 import { type InputEvent } from '@/types/form-types';
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Flex, Text, Heading, Button, IconButton } from '@radix-ui/themes';
-import { Link, Segment, FormField, Tooltip, RefreshIcon } from '@/components/ui';
+import { Link, Segment, Tooltip, RefreshIcon } from '@/components/ui';
+import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from '../form-components';
+import styles from '../form-components.module.css';
 import { Form } from '@radix-ui/react-form';
 import { z, usernameSchema, trailNameSchema } from '@/schemas';
 import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
@@ -90,8 +92,8 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 	return (
 		<FormContainer>
-			<Heading as="h1" mb="4">
-				tidytrek
+			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
+				<RouterLink to="/">tidytrek</RouterLink>
 			</Heading>
 
 			<Segment radius="2">
@@ -100,14 +102,15 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 				</Heading>
 
 				<Form onSubmit={handleFormSubmit}>
-					<FormField
+					<TextField.Input
 						name="username"
 						label="Username"
 						value={username}
 						onChange={handleInput}
 						placeholder="Username"
 						error={formErrors.username}
-						tooltip={<Tooltip content={usernameInfo} />}
+						variant="icon"
+						iconPosition="right"
 						icon={
 							<IconButton
 								radius="medium"
@@ -119,14 +122,13 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 						}
 					/>
 
-					<FormField
+					<TextField.Input
 						name="trailName"
 						value={trailName}
 						placeholder="Trail Name"
 						onChange={handleInput}
 						label="Trail Name"
 						error={formErrors.trailName}
-						tooltip={<Tooltip content={trailNameInfo} />}
 					/>
 
 					<Button

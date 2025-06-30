@@ -1,0 +1,211 @@
+/* Alpine - TextField Component */
+
+/* Field wrapper */
+.field {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-min);
+	margin: var(--space-xs) 0;
+}
+
+/* Responsive width */
+@media (max-width: 768px) {
+	.fieldResponsive {
+		width: 100%;
+	}
+}
+
+.label {
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text-secondary);
+	margin-left: var(--space-min);
+}
+
+/* Base input */
+.input {
+	font-family: inherit;
+	font-size: var(--font-size-base);
+	color: var(--color-text-primary);
+	padding: var(--space-xs);
+	border-radius: var(--radius);
+	transition: var(--transition);
+	outline: none;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Default variant */
+.inputDefault {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-border-primary);
+	color: var(--color-text-primary);
+}
+
+.inputDefault:hover:not(:focus) {
+	border-color: var(--color-border-secondary);
+}
+
+.inputDefault:focus {
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.inputDefault:disabled {
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-tertiary);
+	cursor: not-allowed;
+	opacity: var(--opacity-60);
+}
+
+/* Minimal variant */
+.inputMinimal {
+	background: transparent;
+	border: 1px solid transparent;
+	outline: 2px solid transparent;
+	outline-offset: 0;
+	transition: outline-color var(--transition);
+}
+
+.inputMinimal:hover:not(:focus) {
+	outline-color: var(--color-border-primary);
+}
+
+.inputMinimal:focus {
+	outline-color: var(--color-primary);
+}
+
+.inputMinimal:disabled {
+	opacity: var(--opacity-60);
+	cursor: not-allowed;
+}
+
+/* Icon variant */
+.inputIcon {
+	background-color: var(--color-bg-primary);
+	border: none;
+	padding: var(--space-xs) var(--space-sm);
+}
+
+.inputIcon:focus {
+	outline: none;
+}
+
+/* Container for icon variant */
+.rootIcon {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-min);
+}
+
+.rootIcon .inputContainer {
+	position: relative;
+	display: flex;
+	align-items: center;
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius);
+	transition: var(--transition);
+}
+
+.rootIcon .inputContainer:hover:not(:focus-within) {
+	border-color: var(--color-border-secondary);
+}
+
+.rootIcon .inputContainer:focus-within {
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Standalone version (used outside of Form) */
+.standalone {
+	width: 100%;
+	/* margin: var(--space-xs) 0; */
+	margin: 0;
+}
+
+/* Icon slot */
+.slot {
+	position: absolute;
+	left: var(--space-sm);
+	display: flex;
+	align-items: center;
+	color: var(--color-text-tertiary);
+	pointer-events: none;
+	z-index: 1;
+}
+
+.slotButton {
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.slotRight {
+	left: auto;
+	right: var(--space-sm);
+}
+
+/* Adjust input padding when icon is present */
+.rootIcon .inputIcon {
+	/* icon width + icon padding + input text padding */
+	padding-left: calc(1rem + var(--space-sm) + var(--space-xs));
+}
+
+.rootIcon:has(.slotRight) .inputIcon {
+	padding-left: var(--space-sm);
+	/* icon width + icon padding + input text padding */
+	padding-right: calc(1rem + var(--space-sm) + var(--space-xs));
+}
+
+/* Error state */
+.inputError {
+	border-color: var(--color-error);
+	background-color: var(--color-error-bg);
+}
+
+.inputError:focus {
+	border-color: var(--color-error);
+	box-shadow: 0 0 0 1px var(--color-error);
+}
+
+.rootIcon:has(.inputError) .inputContainer {
+	border-color: var(--color-error);
+	background-color: var(--color-error-bg);
+}
+
+.rootIcon:has(.inputError) .inputContainer:focus-within {
+	border-color: var(--color-error);
+	box-shadow: 0 0 0 1px var(--color-error);
+}
+
+/* Message */
+.message {
+	font-size: var(--font-size-sm);
+	color: var(--color-error);
+	margin-left: var(--space-min);
+}
+
+/* Placeholder */
+.input::placeholder {
+	color: var(--color-text-tertiary);
+	opacity: 1;
+}
+
+/* Input container for icon variant */
+.inputContainer {
+	position: relative;
+	width: 100%;
+}
+
+/* Ensure input fills container in icon variant */
+.inputContainer .input {
+	width: 100%;
+	border: none;
+	background: transparent;
+}
+
+.inputContainer .input:focus {
+	outline: none;
+}

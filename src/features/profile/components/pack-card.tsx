@@ -2,18 +2,19 @@ import { type Pack } from '@/types/pack-types';
 import { Card, Flex, Heading, Inset, Separator, Text } from '@radix-ui/themes';
 import { ViewsIcon, Link } from '@/components/ui';
 import styles from './pack-card.module.css';
+import { mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';
 import { encode } from '@/utils';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
+import { cn } from '@/styles/utils/cn';
 
 type PackCardProps = {
 	pack: Pack;
 	userView: boolean;
 };
 
-export const PackCard = (props: PackCardProps) => {
+export const PackCard = ({ pack, userView }: PackCardProps) => {
 	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
-	const { pack, userView } = props;
 	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
 		pack || {};
 
@@ -24,7 +25,7 @@ export const PackCard = (props: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<Card m="2" className={styles.styledCard}>
+		<Card m="2" className={cn(styles.styledCard, mx.responsiveContent)}>
 			<Link link={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
@@ -37,7 +38,7 @@ export const PackCard = (props: PackCardProps) => {
 				</Inset>
 
 				<Flex direction="column" mb="6">
-					<Heading size="4" className={styles.styledCardHeader}>
+					<Heading size="4">
 						<Link link={link} enabled={userView}>
 							{packName}
 						</Link>

@@ -4,10 +4,15 @@ export type InitialState = {
 	categories: Category[];
 };
 
+export type PackWithCategories = {
+	pack: Pack;
+	categories: Category[];
+};
+
 export type Pack = {
 	packId: number;
 	userId: number;
-	packIndex: number;
+	packIndex: string;
 	packName: string;
 	packDescription: string;
 	packLocationTag: string;
@@ -23,21 +28,24 @@ export type Pack = {
 	packAffiliateDescription: string;
 	packViews: number;
 	packBookmarkCount: number;
+	categories?: Category[];
 };
 
 export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;
 	packId: number;
+	packCategoryIndex: string;
 	packCategoryColor: string;
-	packItems: [PackItem];
+	packItems: PackItem[];
 };
 
-export type PackItem = {
+// Base type for all table row items
+export type BaseTableRowItem = {
 	packItemId: number;
-	packId: number;
-	packCategoryId: number;
-	packItemIndex: number;
+	packId: number | null;
+	packCategoryId: number | null;
+	packItemIndex: string;
 	packItemName: string;
 	packItemDescription: string;
 	packItemWeight: number;
@@ -50,10 +58,30 @@ export type PackItem = {
 	packItemPrice: number;
 };
 
+export type PackItem = BaseTableRowItem & {
+	packId: number;
+	packCategoryId: number;
+};
+
+// Type for items in the gear closet (packId and packCategoryId are null)
+export type GearClosetItem = BaseTableRowItem & {
+	packId: null;
+	packCategoryId: null;
+};
+
+// Type check utilities
+export function isPackItem(item: BaseTableRowItem): item is PackItem {
+	return item.packId !== null && item.packCategoryId !== null;
+}
+
+export function isGearClosetItem(item: BaseTableRowItem): item is GearClosetItem {
+	return item.packId === null && item.packCategoryId === null;
+}
+
 export type PackListItem = {
 	packName: string;
 	packId: number;
-	packIndex: number;
+	packIndex: string;
 	packCategories: Category[];
 };
 
@@ -61,28 +89,46 @@ export type PackInfo = {
 	packItemId: number;
 	packId: number | string;
 	packCategoryId: number | string;
-	packItemIndex: number;
+	packItemIndex: string;
 };
 
 export type PackItemProperty = {
 	[Property in keyof PackItem]?: PackItem[Property];
 };
 
-export type MovePackItemProps = {
+// Base type for all drag and drop move operations
+export type BaseMoveProps = {
+	sourceIndex?: number;
+	destinationIndex?: number;
+};
+
+export type MovePackItemProps = BaseMoveProps & {
 	packId: number | null;
 	packItemId: string;
 	packCategoryId: string;
-	packItemIndex: number;
 	prevPackCategoryId: string;
-	prevPackItemIndex: number;
+	prevItemIndex?: string;
+	nextItemIndex?: string;
 };
 
-export type MovePackCategoryProps = {
+export type MovePackCategoryProps = BaseMoveProps & {
 	packId: number;
 	packCategoryId: string;
-	newIndex: number;
-	prevIndex: number;
+	prevCategoryIndex?: string;
+	nextCategoryIndex?: string;
 	paramPackId: string | undefined;
+};
+
+export type MovePackProps = BaseMoveProps & {
+	packId: string;
+	prevPackIndex?: string;
+	nextPackIndex?: string;
+};
+
+export type MoveGearClosetItemProps = BaseMoveProps & {
+	packItemId: string;
+	prevItemIndex?: string;
+	nextItemIndex?: string;
 };
 
 export type HeaderInfo = {

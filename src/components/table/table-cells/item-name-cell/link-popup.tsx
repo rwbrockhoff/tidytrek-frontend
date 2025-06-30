@@ -1,6 +1,7 @@
-import { Popover, TextFieldInput, IconButton, Button, Flex } from '@radix-ui/themes';
+import { Popover, IconButton, Button, Flex } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';
 import { useContext, useState } from 'react';
@@ -8,6 +9,7 @@ import { type InputEvent } from '@/types/form-types';
 import { TableRowContext } from '../../context/table-row-context';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
 import { useUserContext } from '@/hooks';
+import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
 	displayIcon: boolean;
@@ -34,15 +36,18 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const handleSaveLink = () => {
 		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
 			const cleanUrl = cleanUpLink(newPackItemUrl);
-			editPackItem({
-				packItemId: packItem.packItemId,
-				packItem: { ...packItem, packItemUrl: cleanUrl },
-			});
+			// Only edit if this is a pack item
+			if (isPackItem(packItem)) {
+				editPackItem({
+					packItemId: packItem.packItemId,
+					packItem: { ...packItem, packItemUrl: cleanUrl },
+				});
+			}
 		}
 	};
 
 	const handleDeleteLink = () => {
-		if (packItem) {
+		if (packItem && isPackItem(packItem)) {
 			editPackItem({
 				packItemId: packItem.packItemId,
 				packItem: { ...packItem, packItemUrl: '' },
@@ -60,25 +65,24 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						m="2"
 						className={cn(
 							styles.linkButton,
-							mixins.mobileHidden,
+							mx.mobileHidden,
 							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
 						)}>
 						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
 					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex justify="between" gap="2" p="1">
-						<div className={mixins.fullWidth}>
-							<TextFieldInput
+					<Flex justify="between" align="center" gap="2" p="1">
+						<div className={mx.fullWidth}>
+							<TextField.Standalone
 								name="packItemUrl"
 								value={newPackItemUrl}
 								onChange={handleOnChange}
 								placeholder="Item link"
-								radius="small"
 							/>
 						</div>
 
-						<Button onClick={handleSaveLink} disabled={!newPackItemUrl.trim()}>
+						<Button onClick={handleSaveLink} size="3" disabled={!newPackItemUrl.trim()}>
 							{isSuccess ? <CheckIcon /> : <SaveIcon />}
 							{isSuccess ? 'Saved' : 'Save'}
 						</Button>
@@ -86,7 +90,8 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							<Button
 								color="red"
 								onClick={handleDeleteLink}
-								disabled={!newPackItemUrl.trim()}>
+								disabled={!newPackItemUrl.trim()}
+								size="3">
 								<TrashIcon />
 							</Button>
 						)}

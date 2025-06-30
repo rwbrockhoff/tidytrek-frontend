@@ -1,66 +1,51 @@
 .sidebar {
-	width: 1280px;
 	position: fixed;
-	right: 50%;
-	transform: translateX(calc(50% - 1030px));
-	background: var(--color-bg-secondary);
-	color: var(--color-constant-white);
+	left: calc(50% - 640px); /* Center minus half of max-width (1280px/2) */
+	top: 0;
+	width: 250px;
+	min-width: 250px;
+	max-width: 250px;
 	height: 100%;
-	transition: transform 500ms ease;
+	background: var(--color-bg-secondary);
 	z-index: 200;
+	transition:
+		opacity var(--transition-slow),
+		visibility var(--transition-slow);
+}
+
+/* Extend sidebar background to fill all space to the left */
+.sidebar::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 100%;
+	width: 100vw;
+	height: 100%;
+	background: var(--color-bg-secondary);
+	z-index: -1;
 }
 
 .sidebar * {
 	color: var(--color-text-primary);
 }
 
+/* Transition for sidebar visibility */
 .sidebarHidden {
 	opacity: 0;
+	visibility: hidden;
 	pointer-events: none;
-	transition: opacity 500ms ease;
 }
 
 .sidebarVisible {
 	opacity: 1;
+	visibility: visible;
 	pointer-events: auto;
-	transition: opacity 500ms ease;
-}
-
-@media (max-width: 1280px) {
-	.sidebar {
-		z-index: 1000;
-		width: 280px;
-		left: 0;
-		right: auto;
-		transform: none;
-		opacity: 1;
-	}
-
-	.sidebarHidden {
-		transform: translateX(-100%);
-		opacity: 1;
-	}
-
-	.sidebarVisible {
-		transform: translateX(0);
-		opacity: 1;
-	}
-}
-
-@media (max-width: 768px) {
-	.sidebar {
-		width: 100%;
-	}
-
-	.sidebar h3 {
-		font-size: 2rem;
-	}
 }
 
 .sidebarContainer {
-	width: 250px;
+	width: 100%;
 	height: 100%;
-	padding: var(--space-xxl) var(--space-md);
+	padding: var(--space-xxl) var(--space-lg);
 	box-sizing: border-box;
 	position: relative;
 }
@@ -76,15 +61,52 @@
 	margin: var(--space-lg) 0;
 }
 
-@media (max-width: 768px) {
-	.sidebarContainer {
-		width: 100%;
-		padding: var(--space-xxl) 2rem;
-	}
-}
-
 .separator {
 	background-color: var(--color-constant-white);
 	width: 100%;
 	opacity: 0.1;
+}
+
+/* Screens smaller than our sidebar + user layout size - sidebar becomes overlay (no longer part of main content layout) */
+@media (max-width: 1280px) {
+	.sidebar {
+		/* Override desktop flex behavior - become fixed overlay */
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 1000; /* Above main content */
+		flex: none; /* Remove from flex layout */
+		width: 280px;
+		min-width: 280px;
+		height: 100%;
+	}
+
+	.sidebar::before {
+		display: none; /* No extended background for overlay */
+	}
+
+	/* Tablet uses transform animation instead of display toggle */
+	.sidebarHidden {
+		display: flex; /* In DOM but positioned off-screen */
+		transform: translateX(-100%); /* Slide out to left */
+		transition: transform var(--transition-slow);
+	}
+
+	.sidebarVisible {
+		display: flex;
+		transform: translateX(0); /* Slide in from left */
+		transition: transform var(--transition-slow);
+	}
+}
+
+@media (max-width: 480px) {
+	.sidebar {
+		width: 100%; /* Full width on mobile */
+		min-width: 100%;
+		max-width: 100%;
+	}
+
+	.sidebarContainer {
+		padding: var(--space-xxl) var(--space-xl); /* More horizontal padding */
+	}
 }

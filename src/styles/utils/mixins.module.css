@@ -2,6 +2,9 @@
 .hidden {
 	display: none;
 }
+.invisible {
+	opacity: 0;
+}
 .block {
 	display: block;
 }
@@ -119,6 +122,14 @@
 	aspect-ratio: 16/9;
 }
 
+.halfWidth {
+	width: 50%;
+}
+
+.responsivePanel {
+	width: 50%;
+}
+
 /* Text utilities */
 .textCenter {
 	text-align: center;
@@ -141,6 +152,10 @@
 }
 .textNoWrap {
 	white-space: nowrap;
+}
+
+.textSm {
+	font-size: var(--font-size-sm);
 }
 
 /* Spacing utilities using theme variables */
@@ -207,6 +222,13 @@
 	color: var(--color-warning);
 }
 
+.whiteText {
+	color: var(--color-constant-white);
+}
+.blackText {
+	color: var(--color-constant-black);
+}
+
 /* Border utilities */
 .borderRadius {
 	border-radius: var(--radius);
@@ -240,6 +262,12 @@
 	outline: 2px solid var(--color-border-focus);
 	outline-offset: 2px;
 }
+.pointer {
+	cursor: pointer;
+}
+.pointer:hover {
+	filter: var(--brightness-dark-1);
+}
 
 /* Accessibility utilities */
 .visuallyHidden {
@@ -261,6 +289,15 @@
 
 .uploadHoverContainer:hover :global(.uploadFileForm) {
 	display: inherit;
+}
+
+/* Responsive width utility */
+.responsiveContent {
+	width: 50%;
+}
+
+.responsivePanel {
+	width: 50%;
 }
 
 /* Responsive utilities */
@@ -288,5 +325,13 @@
 	}
 	.mobileMxs {
 		margin: var(--space-xs);
+	}
+
+	.responsiveContent {
+		width: 100%;
+	}
+
+	.responsivePanel {
+		width: 100%;
 	}
 }

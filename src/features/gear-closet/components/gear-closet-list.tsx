@@ -1,20 +1,19 @@
-import { type PackListItem, type PackItem } from '@/types/pack-types';
+import {
+	type PackListItem,
+	type GearClosetItem,
+	type BaseTableRowItem,
+} from '@/types/pack-types';
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
-import {
-	useAddGearClosetItemMutation,
-	useDeleteGearClosetItemMutation,
-	useEditGearClosetItemMutation,
-	useMoveGearClosetItemMutation,
-} from '@/queries/closet-queries';
 import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from './gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';
 import { NotFoundMessage } from './not-found-message';
+import { useGearClosetActions } from '../hooks/use-gear-closet-actions';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
-	gearClosetList: PackItem[] | [];
+	gearClosetList: GearClosetItem[];
 	dragDisabled: boolean;
 	listHasItems: boolean;
 };
@@ -22,28 +21,14 @@ export type GearClosetListProps = {
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
 
-	const { mutate: addItem } = useAddGearClosetItemMutation();
-	const { mutate: editItem } = useEditGearClosetItemMutation();
-	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
-	const { mutate: deleteItem } = useDeleteGearClosetItemMutation();
+	const { addGearClosetItem, editGearClosetItem, deleteGearClosetItem, onDragEnd } =
+		useGearClosetActions();
 
-	const handleOnSave = (packItem: PackItem) => editItem(packItem);
-	const handleDelete = (packItemId: number) => deleteItem(packItemId);
-
-	const handleOnDragEnd = (result: DropResult) => {
-		const { draggableId, destination, source } = result;
-		if (!destination) return;
-
-		const sameIndex = destination.index === source.index;
-		if (sameIndex) return;
-
-		const dragId = draggableId.replace(/\D/g, '');
-		moveGearClosetItem({
-			packItemId: dragId,
-			packItemIndex: destination.index,
-			prevPackItemIndex: source.index,
-		});
-	};
+	// Hooks already use useCallback, no need for double memoization
+	const handleOnSave = (item: BaseTableRowItem) => editGearClosetItem(item);
+	const handleDelete = (packItemId: number) => deleteGearClosetItem(packItemId);
+	const handleAddItem = () => addGearClosetItem();
+	const handleOnDragEnd = (result: DropResult) => onDragEnd(result, gearClosetList);
 
 	return (
 		<PricingContext.Provider value={true}>
@@ -56,7 +41,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 							droppableId={`gear-closet`}
 							type="closet-item"
 							disabled={dragDisabled}>
-							{gearClosetList.map((item: PackItem, index) => (
+							{gearClosetList.map((item, index) => (
 								<TableRow
 									item={item}
 									packList={packList}
@@ -73,7 +58,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 					<NotFoundMessage />
 				)}
 
-				<TableFooter handleAddItem={() => addItem()} showTotals={false} />
+				<TableFooter handleAddItem={handleAddItem} showTotals={false} />
 			</Table>
 		</PricingContext.Provider>
 	);

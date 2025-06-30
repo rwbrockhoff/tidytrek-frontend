@@ -1,17 +1,21 @@
 import { type InputEvent } from '@/types/form-types';
-import { Button, TextFieldInput, Separator, Flex, Popover } from '@radix-ui/themes';
+import { Button, Separator, Flex, Popover } from '@radix-ui/themes';
+import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
-import socialMediaUI from '@/constants/social-media-ui';
-import { useHandlers } from '../../hooks/use-profile-handlers';
+import socialMediaUI from '../../constants/social-media-ui';
+import { useProfileActions } from '../../hooks/use-profile-actions';
+import { mx } from '@/styles/utils';
 import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
 export const AddLink = () => {
-	const { addSocialLink } = useHandlers().handlers;
 	const {
-		addSocialLink: { isPending },
-	} = useHandlers().mutations;
+		addSocialLink,
+		mutations: {
+			addSocialLink: { isPending },
+		},
+	} = useProfileActions();
 
 	const [service, setService] = useState('facebook');
 	const [socialLink, setSocialLink] = useState('');
@@ -65,13 +69,12 @@ export const AddLink = () => {
 					</Popover.Content>
 				</Popover.Root>
 
-				<TextFieldInput
-					width="50%"
-					mx="3"
-					size="3"
+				<TextField.Standalone
+					className={mx.halfWidth}
 					placeholder="Paste your link..."
 					value={socialLink}
 					onChange={handleInput}
+					style={{ margin: '0 var(--space-sm)' }}
 				/>
 				<Button
 					size="3"

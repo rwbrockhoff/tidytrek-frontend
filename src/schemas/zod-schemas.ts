@@ -1,7 +1,6 @@
-import { validPassword } from '@/features/auth/utils/auth-helpers';
 import { z } from 'zod';
 
-const passwordRequirements =
+export const passwordRequirements =
 	'Password should have at least 8 characters, contain one uppercase, and one number.';
 
 export const usernameSchema = z
@@ -33,14 +32,14 @@ export const passwordSchema = z
 	.min(8, {
 		message: passwordRequirements,
 	})
-	.superRefine((password, checkPassComplexity) => {
-		if (!validPassword(password)) {
-			checkPassComplexity.addIssue({
-				code: 'custom',
-				path: ['password'],
-				message: passwordRequirements,
-			});
-		}
+	.regex(/[a-z]/, {
+		message: passwordRequirements,
+	})
+	.regex(/[A-Z]/, {
+		message: passwordRequirements,
+	})
+	.regex(/[0-9]/, {
+		message: passwordRequirements,
 	});
 
 export const packUrlSchema = z

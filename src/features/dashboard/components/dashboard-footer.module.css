@@ -4,12 +4,12 @@
 
 .logoTag {
 	margin-top: var(--space-md);
-	color: var(--gray-9);
+	color: var(--gray-900);
 	font-weight: 500;
 }
 
 .logoTag:hover {
-	filter: var(--hover-dark-2);
+	filter: var(--brightness-dark-2);
 }
 
 .logoTag svg {

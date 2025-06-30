@@ -1,5 +1,5 @@
 import styles from './pack-graphic.module.css';
-import { cn, mixins } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import { Category } from '@/types/pack-types';
 import { PackChart } from './pack-chart';
 import { Badge, Flex, Separator, Text } from '@radix-ui/themes';
@@ -35,7 +35,10 @@ export const PackGraphic = (props: PackGraphicProps) => {
 	if (packHasWeight) {
 		return (
 			<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
-				<Flex direction="column" align="end" className={styles.summaryPanel}>
+				<Flex
+					direction="column"
+					align="end"
+					className={cn(styles.summaryPanel, mx.responsiveContent)}>
 					<Flex role="list" direction="column" className={styles.chartList}>
 						{chartCategoryInfo.map((category) => {
 							return (
@@ -74,7 +77,10 @@ export const PackGraphic = (props: PackGraphicProps) => {
 	}
 	if (noPackWeight) {
 		return (
-			<Flex align="center" justify="end" className={cn(styles.graphicPanel, mixins.mobileHidden)}>
+			<Flex
+				align="center"
+				justify="end"
+				className={cn(styles.graphicPanel, mx.mobileHidden, mx.responsiveContent)}>
 				<Flex direction="column" height="auto">
 					<img src={CampGraphic} />
 					<Flex justify="center" align="center">

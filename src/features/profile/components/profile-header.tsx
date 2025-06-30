@@ -1,12 +1,14 @@
 import styles from './profile-header.module.css';
+import { mx } from '@/styles/utils';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
 import { SocialLinkList } from '@/components';
-import { useHandlers } from '../../account/hooks/use-profile-handlers';
+import { useProfileActions } from '../../account/hooks/use-profile-actions';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { BannerPhoto } from './banner-photo';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { cn } from '@/styles/utils/cn';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | undefined;
@@ -29,9 +31,11 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	} = profileInfo || {};
 
 	const {
-		uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
-		uploadBannerPhoto: { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto },
-	} = useHandlers().mutations;
+		mutations: {
+			uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
+			uploadBannerPhoto: { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto },
+		},
+	} = useProfileActions();
 
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
@@ -55,7 +59,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				/>
 			</div>
 			<div className={styles.profileInfoContainer}>
-				<div className={styles.profileTextContainer}>
+				<div className={cn(styles.profileTextContainer, mx.responsiveContent)}>
 					<Heading as="h3" className={styles.usernameHeader}>
 						{username || firstName || 'Tidy Hiker'}
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
@@ -83,4 +87,3 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 		</Box>
 	);
 };
-
