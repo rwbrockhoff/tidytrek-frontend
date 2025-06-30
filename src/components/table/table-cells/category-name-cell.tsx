@@ -62,7 +62,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 			<Flex align="center">
 				<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
 				<TextField.Standalone
-					className={styles.input}
+					className={styles.headerCellInput}
 					value={packCategoryName}
 					name="packCategoryName"
 					placeholder={userView ? 'Category' : ''}

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Table } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { TableInput } from './table-input';
+import { TextField } from '@/components/ui/alpine';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import { TableRowContext } from '../context/table-row-context';
 
@@ -20,7 +20,8 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 
 	return (
 		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
-			<TableInput
+			<TextField.Standalone
+				variant="minimal"
 				value={packItemDescription || ''}
 				placeholder="Description"
 				name={'packItemDescription'}

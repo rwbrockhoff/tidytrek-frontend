@@ -1,7 +1,7 @@
 import { type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Table, Text } from '@radix-ui/themes';
-import { TableInput } from './table-input';
+import { TextField } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { convertCurrency } from '@/utils';
 import { TableRowContext } from '../context/table-row-context';
@@ -44,7 +44,8 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 			onBlur={toggleToCell}
 			style={{ width, padding: '0 var(--space-md)' }}>
 			{userView ? (
-				<TableInput
+				<TextField.Standalone
+					variant="minimal"
 					value={isToggled ? inputPrice : formattedPrice}
 					name="packItemPrice"
 					placeholder="0"

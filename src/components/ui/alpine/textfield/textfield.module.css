@@ -137,6 +137,11 @@
 	z-index: 1;
 }
 
+.slotButton {
+	pointer-events: auto;
+	cursor: pointer;
+}
+
 .slotRight {
 	left: auto;
 	right: var(--space-sm);

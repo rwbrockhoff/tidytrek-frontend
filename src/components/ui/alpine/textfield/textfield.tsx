@@ -3,21 +3,8 @@ import { Form } from 'radix-ui';
 import { cn } from '@/styles/utils';
 import { type RadixInputType, type RadixFormMatchType } from '@/types/radix-types';
 import { type FormError } from '@/types/form-types';
+import { getErrorState, getErrorMessage } from '@/utils/form-error-helpers';
 import styles from './textfield.module.css';
-
-// Handle boolean and FormError type errors
-const getErrorState = (error?: boolean | FormError): boolean => {
-	if (typeof error === 'boolean') return error;
-	return error?.error ?? false;
-};
-
-const getErrorMessage = (
-	error?: boolean | FormError,
-	message?: string,
-): string | undefined => {
-	if (typeof error === 'object' && error?.error) return error.message;
-	return message;
-};
 
 export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	variant?: 'default' | 'minimal' | 'icon';
@@ -27,6 +14,7 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
 	message?: string;
 	icon?: React.ReactNode;
 	iconPosition?: 'left' | 'right';
+	iconIsButton?: boolean;
 	width?: string;
 }
 
@@ -40,6 +28,7 @@ export interface TextFieldRootProps {
 export interface TextFieldSlotProps {
 	children: React.ReactNode;
 	side?: 'left' | 'right';
+	iconIsButton?: boolean;
 }
 
 const TextFieldRoot = ({
@@ -78,9 +67,18 @@ const TextFieldLabel = forwardRef<
 
 TextFieldLabel.displayName = 'TextFieldLabel';
 
-const TextFieldSlot = ({ children, side = 'left' }: TextFieldSlotProps) => {
+const TextFieldSlot = ({
+	children,
+	side = 'left',
+	iconIsButton = false,
+}: TextFieldSlotProps) => {
 	return (
-		<div className={cn(styles.slot, side === 'right' && styles.slotRight)}>
+		<div
+			className={cn(
+				styles.slot,
+				side === 'right' && styles.slotRight,
+				iconIsButton && styles.slotButton,
+			)}>
 			{children}
 		</div>
 	);
@@ -112,6 +110,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 			className,
 			icon,
 			iconPosition = 'left',
+			iconIsButton = false,
 			label,
 			message,
 			name,
@@ -150,10 +149,16 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 				<TextFieldRoot name={name} className={rootClassName} style={rootStyle}>
 					{label && <TextFieldLabel>{label}</TextFieldLabel>}
 					<div className={styles.inputContainer}>
-						{iconPosition === 'left' && <TextFieldSlot side="left">{icon}</TextFieldSlot>}
+						{iconPosition === 'left' && (
+							<TextFieldSlot side="left" iconIsButton={iconIsButton}>
+								{icon}
+							</TextFieldSlot>
+						)}
 						{input}
 						{iconPosition === 'right' && (
-							<TextFieldSlot side="right">{icon}</TextFieldSlot>
+							<TextFieldSlot side="right" iconIsButton={iconIsButton}>
+								{icon}
+							</TextFieldSlot>
 						)}
 					</div>
 					{errorMessage && <TextFieldMessage>{errorMessage}</TextFieldMessage>}

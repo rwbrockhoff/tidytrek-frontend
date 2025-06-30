@@ -43,7 +43,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 				</Heading>
 
 				<Segment radius="2">
-					<Heading as="h3" size="6" color="jade" mb="5">
+					<Heading as="h3" size="6" mb="5">
 						Reset Password
 					</Heading>
 					<Form onSubmit={handleFormSubmit}>

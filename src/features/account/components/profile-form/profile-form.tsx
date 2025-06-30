@@ -8,8 +8,7 @@ import { Message, RefreshIcon, SaveIcon, Segment, SegmentGroup } from '@/compone
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
-import { FormTextArea } from '@/components/ui';
-import { TextField } from '@/components/ui/alpine';
+import { TextField, TextArea } from '@/components/ui/alpine';
 import { useProfileActions } from '../../hooks/use-profile-actions';
 import { AvatarSettings } from './avatar-settings';
 import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
@@ -136,6 +135,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 						error={formErrors.username}
 						variant="icon"
 						iconPosition="right"
+						iconIsButton={true}
 						icon={
 							<IconButton
 								radius="medium"
@@ -165,7 +165,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 						error={formErrors.userLocation}
 					/>
 
-					<FormTextArea
+					<TextArea.Input
 						name="userBio"
 						value={userBio}
 						label="Your Bio"

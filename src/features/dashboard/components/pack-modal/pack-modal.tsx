@@ -5,18 +5,11 @@ import { mx } from '@/styles/utils';
 import { useState, useEffect } from 'react';
 import { cn } from '@/styles/utils/cn';
 import { Form } from '@radix-ui/react-form';
-import { FormTextArea, SaveIcon } from '@/components/ui';
+import { SaveIcon } from '@/components/ui';
+import { TextArea } from '@/components/ui/alpine/';
 import { TextField } from '@/components/ui/alpine';
 import { LinkIcon, MoneyIcon, PublicIcon, TrashIcon, cleanUpLink } from '@/components/ui';
-import {
-	Button,
-	Dialog,
-	Flex,
-	Separator,
-	Switch,
-	Text,
-	TextArea,
-} from '@radix-ui/themes';
+import { Button, Dialog, Flex, Separator, Switch, Text } from '@radix-ui/themes';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { PackTags } from './pack-tags';
 import { PackPhotoPanel } from './pack-photo-panel';
@@ -136,8 +129,7 @@ export const PackModal = (props: PackModalProps) => {
 								placeholder="Pack Name"
 								width="100%"
 							/>
-
-							<FormTextArea
+							<TextArea.Input
 								name="packDescription"
 								value={packDescription ?? ''}
 								label="Pack Description"
@@ -234,15 +226,13 @@ export const PackModal = (props: PackModalProps) => {
 						</Flex>
 
 						{packAffiliate && (
-							<div>
-								<label>Custom Affiliate Message</label>
-								<TextArea
-									name="packAffiliateDescription"
-									value={packAffiliateDescription ?? ''}
-									onChange={handleFormChange}
-									placeholder={affiliateMessage}
-								/>
-							</div>
+							<TextArea.Input
+								name="packAffiliateDescription"
+								value={packAffiliateDescription ?? ''}
+								onChange={handleFormChange}
+								placeholder={affiliateMessage}
+								label="Custom Affiliate Message"
+							/>
 						)}
 					</Form>
 				</Flex>
