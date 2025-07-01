@@ -10,10 +10,9 @@ import { useGetAuth } from '@/hooks';
 export const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
 	const { isAuthenticated } = useGetAuth();
-	const isNotAuthenticated = !isAuthenticated;
+	const showPromotion = !isAuthenticated;
 
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
-
 
 	const userProfile = data?.userProfile;
 	const packThumbnailList = data?.packThumbnailList;
@@ -21,9 +20,9 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 	return (
 		<UserViewContext.Provider value={userView}>
 			<main>
-					{isNotAuthenticated && <ProfileBanner />}
-					<ProfileHeader userProfile={userProfile} />
-					<PackCardList packThumbnailList={packThumbnailList} />
+				{showPromotion && <ProfileBanner />}
+				<ProfileHeader userProfile={userProfile} />
+				<PackCardList packThumbnailList={packThumbnailList} />
 			</main>
 		</UserViewContext.Provider>
 	);

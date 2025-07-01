@@ -49,13 +49,14 @@ export const DashboardContainer = (props: DashboardProps) => {
 		packPricing = false,
 	} = pack || {};
 
-	const isGuestView = !userView && !isAuthenticated;
 	if (!pack) return;
 
+	const showPromotion = !isAuthenticated;
 	return (
 		<PricingContext.Provider value={packPricing}>
 			<main>
-				{!userView && <ProfileBanner />}
+				{/* Show promotional banner for non-authenticated visitors */}
+				{showPromotion && <ProfileBanner />}
 				<PackInfo
 					currentPack={pack}
 					packCategories={packCategories}
@@ -88,7 +89,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</Flex>
 				)}
 
-				{isGuestView && (
+				{/* promotional footer for non-authenticated visitors */}
+				{showPromotion && (
 					<DashboardFooter
 						affiliate={packAffiliate}
 						description={packAffiliateDescription}
