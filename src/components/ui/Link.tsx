@@ -1,4 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { frontendURL } from '@/api/tidytrekAPI';
 import { FaLink } from 'react-icons/fa';
 import { Icon } from '@/components/ui';
 import { Text } from '@radix-ui/themes';
@@ -6,7 +7,7 @@ import { cn } from '@/styles/utils';
 import styles from './link.module.css';
 
 type LinkProps = {
-	link: string | undefined;
+	to: string | undefined;
 	children: React.ReactNode;
 	externalLink?: boolean;
 	enabled?: boolean;
@@ -14,14 +15,14 @@ type LinkProps = {
 };
 
 export const Link = (props: LinkProps) => {
-	const { link, externalLink, enabled = true, className = '', children } = props;
+	const { to, externalLink, enabled = true, className = '', children } = props;
 
-	if (!enabled || !link) return children;
+	if (!enabled || !to) return children;
 
 	if (externalLink) {
 		return (
 			<RouterLink
-				to={link}
+				to={to}
 				target="_blank"
 				rel="noopener noreferrer"
 				className={cn(styles.link, className)}>
@@ -31,7 +32,7 @@ export const Link = (props: LinkProps) => {
 	} else {
 		return (
 			<RouterLink
-				to={link}
+				to={to}
 				className={cn(styles.link, className)}
 				onClick={() => window.scrollTo(0, 0)}>
 				{children}
@@ -70,6 +71,20 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 	} else {
 		return <p>{text}</p>;
 	}
+};
+
+type LandingLinkProps = {
+	to?: string;
+	children: React.ReactNode;
+};
+
+export const LandingLink = ({ to = '', children }: LandingLinkProps) => {
+	const href = to.startsWith('/') ? `${frontendURL}${to}` : `${frontendURL}/${to}`;
+	return (
+		<a href={href} rel="noopener noreferrer">
+			{children}
+		</a>
+	);
 };
 
 export const cleanUpLink = (link: string) => {

@@ -26,7 +26,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 
 	return (
 		<Card m="2" className={cn(styles.styledCard, mx.responsiveContent)}>
-			<Link link={link} enabled={!userView} className="profilePackLink">
+			<Link to={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
 						src={packPhotoUrl}
@@ -39,7 +39,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 
 				<Flex direction="column" mb="6">
 					<Heading size="4">
-						<Link link={link} enabled={userView}>
+						<Link to={link} enabled={userView}>
 							{packName}
 						</Link>
 					</Heading>

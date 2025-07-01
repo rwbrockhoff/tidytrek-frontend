@@ -12,8 +12,11 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 		let wornWeight = 0;
 		let totalPackPrice = 0;
 
+		let categories = packCategories || [];
+
 		// Calculate different weights properties for each category's pack items
-		const categoryWeights = packCategories.map(({ packItems }) => {
+		const categoryWeights = categories.map((category) => {
+			const packItems = category?.packItems || [];
 			const { totalWeight, totalWornWeight, totalConsumableWeight, totalPrice } =
 				convertWeight(packItems, outputUnit);
 			consumables += totalConsumableWeight;
@@ -30,9 +33,9 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 
 		// Create info to be displayed next to chart (color, name, and total weight)
 		const chartCategoryInfo = categoryWeights.map((totalWeight: number, index) => {
-			const categoryName = packCategories[index].packCategoryName;
-			const categoryId = packCategories[index].packCategoryId;
-			const chartColor = packCategories[index].packCategoryColor;
+			const categoryName = categories[index].packCategoryName;
+			const categoryId = categories[index].packCategoryId;
+			const chartColor = categories[index].packCategoryColor;
 			return { categoryName, categoryId, totalWeight, chartColor };
 		});
 

@@ -12,10 +12,10 @@ export const AccountMenu = () => {
 		<Tabs.Root defaultValue="profile">
 			<Tabs.List size="2">
 				<Tabs.Trigger value="profile" onClick={() => navigate('/account')}>
-					<Link link="/account">Profile Settings</Link>
+					<Link to="/account">Profile Settings</Link>
 				</Tabs.Trigger>
 				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings')}>
-					<Link link="/account/settings">Account Settings</Link>
+					<Link to="/account/settings">Account Settings</Link>
 				</Tabs.Trigger>
 			</Tabs.List>
 		</Tabs.Root>

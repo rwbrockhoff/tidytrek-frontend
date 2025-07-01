@@ -4,8 +4,11 @@
 
 .logoTag {
 	margin-top: var(--space-md);
-	color: var(--gray-900);
 	font-weight: 500;
+}
+
+.logoTag * {
+	color: var(--color-text-tertiary);
 }
 
 .logoTag:hover {
