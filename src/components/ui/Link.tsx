@@ -33,8 +33,7 @@ export const Link = (props: LinkProps) => {
 		return (
 			<RouterLink
 				to={to}
-				className={cn(styles.link, className)}
-				onClick={() => window.scrollTo(0, 0)}>
+				className={cn(styles.link, className)}>
 				{children}
 			</RouterLink>
 		);
