@@ -7,7 +7,7 @@ import { AddLink } from './add-link';
 import { SocialLinkList } from '@/components';
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
-	const [showLinks, setShowLinks] = useState(false);
+	const [showAddLinkForm, setShowAddLinkForm] = useState(false);
 
 	return (
 		<>
@@ -18,19 +18,20 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 
 			<SocialLinkList socialLinks={socialLinks} deleteEnabled />
 
-			{!showLinks && (
+			{/* Toggle button to show add link form. Keeps UI tidy when user isn't adding links. */}
+			{!showAddLinkForm && (
 				<Button
 					variant="outline"
 					color="gray"
-					size="3"
+					size="2"
 					my="4"
-					onClick={() => setShowLinks(true)}>
+					onClick={() => setShowAddLinkForm(true)}>
 					<PlusIcon />
 					Add Link
 				</Button>
 			)}
 
-			{showLinks && <AddLink />}
+			{showAddLinkForm && <AddLink />}
 		</>
 	);
 };
