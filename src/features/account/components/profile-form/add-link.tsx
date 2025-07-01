@@ -9,6 +9,11 @@ import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
 export const AddLink = () => {
+	const DEFAULTS = {
+		socialLink: '',
+		socialService: 'custom',
+	};
+
 	const {
 		addSocialLink,
 		mutations: {
@@ -16,13 +21,13 @@ export const AddLink = () => {
 		},
 	} = useProfileActions();
 
-	const [service, setService] = useState('custom');
+	const [service, setService] = useState(DEFAULTS.socialService);
 	const [socialLink, setSocialLink] = useState('');
 
 	const handleAddLink = () => {
 		addSocialLink(service, socialLink);
-		setService('custom');
-		setSocialLink('');
+		setService(DEFAULTS.socialService);
+		setSocialLink(DEFAULTS.socialLink);
 	};
 
 	const handleUpdateService = (value: string) => {
