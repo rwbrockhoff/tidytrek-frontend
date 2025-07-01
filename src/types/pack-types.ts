@@ -11,7 +11,7 @@ export type PackWithCategories = {
 
 export type Pack = {
 	packId: number;
-	userId: number;
+	userId: string;
 	packIndex: string;
 	packName: string;
 	packDescription: string;

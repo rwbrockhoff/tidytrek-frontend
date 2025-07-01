@@ -25,14 +25,19 @@ export const protectedRoutes = [
 		element: <UserLayout />,
 		errorElement: <BubbleError />,
 		children: [
-			{ path: '/', index: true, element: <Dashboard userView={true} /> },
+			{
+				path: '/',
+				index: true,
+				element: <Dashboard userView={true} key="user-dashboard" />,
+			},
 			{
 				path: '/pack/:packId',
-				element: <Dashboard userView={true} />,
+				element: <Dashboard userView={true} key="user-dashboard" />,
 			},
 			{
 				path: '/pk/:packId',
-				element: <Dashboard userView={false} />,
+				// Force component remount to prevent hook order mismatch between user/guest modes
+				element: <Dashboard userView={false} key="guest-dashboard" />,
 			},
 			{
 				path: '/gear-closet',

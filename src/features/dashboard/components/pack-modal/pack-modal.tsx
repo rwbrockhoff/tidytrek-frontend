@@ -36,7 +36,7 @@ export const PackModal = (props: PackModalProps) => {
 		packName: '',
 		packDescription: '',
 		packId: 0,
-		userId: 0,
+		userId: '0',
 		packIndex: '0',
 		packLocationTag: '',
 		packSeasonTag: '',

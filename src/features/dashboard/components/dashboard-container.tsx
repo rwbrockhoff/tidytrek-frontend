@@ -1,6 +1,7 @@
 import { PackInfo } from './pack-info/pack-info';
 import { PackCategory } from './pack-category';
 import { AddCategoryButton } from '@/components/table';
+import { Flex } from '@radix-ui/themes';
 import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import {
 	InitialState as UserState,
@@ -9,10 +10,16 @@ import {
 } from '@/types/pack-types';
 import { InitialState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
-import { DragDropContext, Drop, ProfileBanner, type DropResult } from '@/components';
+import {
+	DragDropContext,
+	Drop,
+	GuestPreviewBanner,
+	ProfileBanner,
+	type DropResult,
+} from '@/components';
 import { useGuestData } from '../hooks/use-guest-data';
 import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
-import { Flex } from '@radix-ui/themes';
+import { useGetAuth } from '@/hooks';
 
 type DashboardProps = {
 	isAuthenticated: boolean;
@@ -24,10 +31,14 @@ type DashboardProps = {
 
 export const DashboardContainer = (props: DashboardProps) => {
 	const userView = useUserContext();
+	const { user } = useGetAuth();
 	const { isAuthenticated, isPending, paramPackId, currentPack, packList } = props;
 	const { pack, categories } = currentPack || {};
 	const packCategories = categories || [];
 	const packId = pack?.packId || null;
+
+	// Check if current user owns this pack
+	const isUsersPack = user && pack ? user.userId === pack.userId : false;
 
 	const { onDragEnd, addPackCategory } = usePackCategoryActions();
 
@@ -52,11 +63,16 @@ export const DashboardContainer = (props: DashboardProps) => {
 	if (!pack) return;
 
 	const showPromotion = !isAuthenticated;
+	const showPreviewMode = !userView && isUsersPack;
 	return (
 		<PricingContext.Provider value={packPricing}>
 			<main>
 				{/* Show promotional banner for non-authenticated visitors */}
 				{showPromotion && <ProfileBanner />}
+
+				{/* Show preview banner if user is viewing their own pack in guest mode */}
+				{showPreviewMode && <GuestPreviewBanner />}
+
 				<PackInfo
 					currentPack={pack}
 					packCategories={packCategories}

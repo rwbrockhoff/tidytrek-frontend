@@ -5,3 +5,4 @@ export * from './pack-labels';
 export * from './pack-photo';
 export * from './error-boundary';
 export * from './profile-banner';
+export * from './guest-preview-banner';
