@@ -2,7 +2,7 @@ import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
 import { mx } from '@/styles/utils';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { cn } from '@/styles/utils/cn';
 import { Form } from '@radix-ui/react-form';
 import { SaveIcon } from '@/components/ui';
@@ -32,32 +32,7 @@ export const PackModal = (props: PackModalProps) => {
 	const { children, pack, showDeleteModal } = props;
 
 	const [packChanged, setPackChanged] = useState(false);
-	const [modifiedPack, setModifiedPack] = useState({
-		packName: '',
-		packDescription: '',
-		packId: 0,
-		userId: '0',
-		packIndex: '0',
-		packLocationTag: '',
-		packSeasonTag: '',
-		packDurationTag: '',
-		packDistanceTag: '',
-		packPublic: false,
-		packUrlName: '',
-		packUrl: '',
-		packAffiliate: false,
-		packAffiliateDescription: '',
-		packViews: 0,
-		packBookmarkCount: 0,
-		packPricing: false,
-		packPhotoUrl: '',
-	});
-
-	useEffect(() => {
-		setModifiedPack({
-			...props.pack,
-		});
-	}, [props.pack]);
+	const [modifiedPack, setModifiedPack] = useState<Pack>(pack);
 
 	const handleFormChange = (e: InputEvent | TextAreaEvent) => {
 		setModifiedPack((prevFormData) => ({
