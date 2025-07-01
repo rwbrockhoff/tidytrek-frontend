@@ -1,14 +1,22 @@
 .styledBadge {
-	padding: var(--space-xs) var(--space-min);
-	background-color: var(--color-bg-secondary);
-	color: var(--color-text-primary);
+	padding: var(--space-min) var(--space-xs);
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-bg-tertiary);
 }
 
 .styledBadge:hover {
-	box-shadow: var(--shadow);
+	background-color: var(--color-bg-primary);
+	box-shadow: var(--shadow-paper);
+	cursor: pointer;
 }
 
+/* Override base link text color styles to be more subtle */
 .styledBadge a,
 .styledBadge a:hover {
-	color: var(--color-text-primary);
+	color: var(--color-text-secondary);
+}
+
+/* Remove margin for first social link */
+.styledBadge:first-of-type {
+	margin-left: 0;
 }

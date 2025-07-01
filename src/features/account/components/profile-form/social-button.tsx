@@ -39,10 +39,10 @@ export const SocialButton = (props: SocialButtonProps) => {
 			asChild
 			align="center"
 			m="2"
-			className={cn(styles.styledBadge, mx.pointer)}
+			className={styles.styledBadge}
 			onClick={handleClick}>
-			<Badge radius="large" variant="soft">
-				<Link to={socialLinkUrl} enabled externalLink>
+			<Badge radius="large">
+				<Link to={socialLinkUrl} externalLink>
 					{icon}
 					{displayLink || 'Link'}
 				</Link>
@@ -52,6 +52,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 	);
 };
 
+// Shows social service logo w/ brand color bg based on link url
 export const SocialButtonPicker = (props: { currentSocial: SocialLinkInfo }) => {
 	const { icon, color } = props.currentSocial;
 
@@ -60,13 +61,14 @@ export const SocialButtonPicker = (props: { currentSocial: SocialLinkInfo }) => 
 			radius="full"
 			className={cn(mx.pointer, mx.whiteText)}
 			style={{
-				backgroundColor: color || 'var(--gray-500)',
+				backgroundColor: color || 'var(--color-bg-tertiary)',
 			}}>
 			{icon}
 		</IconButton>
 	);
 };
 
+// Shorten social link for display in profile badges
 const shortenLink = (link: string, socialName: string) => {
 	const baseLink = link.replace(/^https?\:\/\//i, '');
 	// handle custom links
