@@ -83,6 +83,11 @@ button.rt-Button.rt-variant-outline {
 	color: var(--color-text-primary);
 }
 
+/* Disable all Dialog animations to prevent flashing */
+.rt-DialogOverlay {
+	animation: none;
+}
+
 .rt-PopoverContent {
 	background-color: var(--color-bg-primary);
 	box-shadow: var(--shadow);
