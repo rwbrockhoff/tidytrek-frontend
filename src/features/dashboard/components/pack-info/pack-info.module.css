@@ -14,9 +14,9 @@
 
 .editIcon {
 	font-size: var(--font-size-base);
-	margin: auto 0 auto var(--space-xs);
 	cursor: pointer;
 	opacity: 0;
+	margin: auto 0;
 }
 
 .toggleChartButton {
