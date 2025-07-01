@@ -1,16 +1,16 @@
 import { Flex, Heading, Button } from '@radix-ui/themes';
-import { Link } from '@/components/ui/Link';
+import { Link, LandingLink } from '@/components/ui/Link';
 
 export const ProfileBanner = () => {
 	return (
 		<Flex align="center" mb="4">
-			<Link link="/">
+			<LandingLink>
 				<Heading as="h2" ml="6">
 					tidytrek
 				</Heading>
-			</Link>
+			</LandingLink>
 			<Flex ml="auto" mr="6">
-				<Link link={'/register'}>
+				<Link to={'/register'}>
 					<Button>Sign Up</Button>
 				</Link>
 			</Flex>

@@ -18,7 +18,7 @@ export const PopupMenu = (props: PopupMenuProps) => {
 		<Popover.Root open={isHovering}>
 			<Popover.Trigger>
 				<div>
-					<Link link="/profile" enabled={!isMobile}>
+					<Link to="/profile" enabled={!isMobile}>
 						<Avatar src={profilePhotoUrl} size="small" />
 					</Link>
 				</div>

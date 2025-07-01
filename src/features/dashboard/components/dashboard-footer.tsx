@@ -1,7 +1,6 @@
 import styles from './dashboard-footer.module.css';
 import { Separator, Flex, Text } from '@radix-ui/themes';
-import { frontendURL } from '@/api/tidytrekAPI';
-import { HikingIcon } from '@/components/ui';
+import { HikingIcon, LandingLink } from '@/components/ui';
 
 type DashboardFooterProps = {
 	affiliate: boolean;
@@ -21,14 +20,14 @@ export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps
 					<Separator color="gray" size="3" mt="4" />
 				</Flex>
 			)}
-			<a href={`${frontendURL}`}>
+			<LandingLink>
 				<Flex justify="center" className={styles.logoTag}>
 					<Text size="2">
 						tidytrek
-						<HikingIcon /> Made in Durango, CO
+						<HikingIcon /> made in colorado
 					</Text>
 				</Flex>
-			</a>
+			</LandingLink>
 		</footer>
 	);
 };

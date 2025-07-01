@@ -19,12 +19,12 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 
 	return (
 		<Flex mb="4" align="center">
-			<Link link={`/user/${username}`} enabled={publicProfile}>
+			<Link to={`/user/${username}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="medium" />
 			</Link>
 			<Flex direction="column" justify="center" ml="4">
 				<Heading as="h4" size="4" className={styles.usernameHeader}>
-					<Link link={`/user/${username}`} enabled={publicProfile}>
+					<Link to={`/user/${username}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
 					</Link>
@@ -38,4 +38,3 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 		</Flex>
 	);
 };
-

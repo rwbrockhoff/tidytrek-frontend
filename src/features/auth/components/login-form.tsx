@@ -1,7 +1,8 @@
 import { useRef, useEffect, type FormEvent } from 'react';
 import { type FormError, type InputEvent } from '@/types/form-types';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Form } from '@radix-ui/react-form';
+import { LandingLink } from '@/components/ui';
 import { Segment, Message, Spinner } from '@/components/ui';
 import { Heading, Button, Text, Flex, Box } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
@@ -56,7 +57,7 @@ export const LogInForm = (props: FormProps) => {
 	return (
 		<FormContainer>
 			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
-				<Link to="/">tidytrek</Link>
+				<LandingLink>tidytrek</LandingLink>
 			</Heading>
 			<Segment radius="2">
 				<Heading as="h3" size="7" mb="6">
@@ -142,21 +143,22 @@ export const LogInForm = (props: FormProps) => {
 
 				{isRegisterForm && (
 					<Flex direction="column">
-						<Text color="gray" size="2" my="4">
+						<Text color="gray" size="1" my="4">
 							By clicking "Create account" or "Continue with Google", you agree to the
-							Tidytrek Terms of Service and Privacy Policy.
+							Tidytrek <LandingLink to="terms-of-service">Terms of Service</LandingLink>{' '}
+							and <LandingLink to="privacy-policy">Privacy Policy</LandingLink>.
 						</Text>
 
 						<Text size="3" color="gray">
-							Already have an account? <Link to={'/'}>Log In</Link>
+							Already have an account? <RouterLink to={'/'}>Log In</RouterLink>
 						</Text>
 					</Flex>
 				)}
 
 				{!isRegisterForm && (
 					<Text size="3" mt="4">
-						<Link to={'/register'}>Sign Up</Link> |{' '}
-						<Link to={'/reset-password'}>Forgot Your Password</Link>
+						<RouterLink to={'/register'}>Sign Up</RouterLink> |{' '}
+						<RouterLink to={'/reset-password'}>Forgot Your Password</RouterLink>
 					</Text>
 				)}
 			</Segment>

@@ -143,7 +143,7 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						placeholder="Email Code"
 					/>
 
-					<Link link="/reset-password">
+					<Link to="/reset-password">
 						<p>Reset Your Password</p>
 					</Link>
 

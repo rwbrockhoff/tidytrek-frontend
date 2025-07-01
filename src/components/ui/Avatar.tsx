@@ -37,7 +37,7 @@ export const Avatar = (props: AvatarProps) => {
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 
 	return (
-		<Link link={link} enabled={hasLink}>
+		<Link to={link} enabled={hasLink}>
 			<div
 				className={cn(styles.outerContainer, styles[size], mx.uploadHoverContainer)}
 				onMouseOver={() => setShowButton(true)}

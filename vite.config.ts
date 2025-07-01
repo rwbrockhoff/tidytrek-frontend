@@ -2,9 +2,11 @@ import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
 	plugins: [react(), tsconfigPaths()],
-	base: '/app/',
+	// Production app ran from s3-bucket in /app/ directory
+	// Use pre-defined mode prop from Vite
+	base: mode === 'production' ? '/app/' : '/',
 	build: {
 		rollupOptions: {
 			output: {
@@ -40,4 +42,4 @@ export default defineConfig({
 		],
 		include: ['**/src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
 	},
-});
+}));

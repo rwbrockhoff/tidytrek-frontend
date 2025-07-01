@@ -142,7 +142,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 				</Form>
 
 				<Flex justify="center" mt="4">
-					<Link link={'/'}>
+					<Link to={'/'}>
 						<Text size="3">Keep default username</Text>
 					</Link>
 				</Flex>
