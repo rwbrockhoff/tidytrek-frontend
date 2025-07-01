@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { SocialButton, SocialButtonPicker } from './social-button';
 import socialMediaUI from '../../constants/social-media-ui';
 import { useProfileActions } from '../../hooks/use-profile-actions';
-import { mx } from '@/styles/utils';
 import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 
@@ -45,7 +44,7 @@ export const AddLink = () => {
 	return (
 		<>
 			<Separator size="4" my="6" />
-			<Flex align="center">
+			<Flex align="center" gap="2">
 				<Popover.Root>
 					<Popover.Trigger>
 						<div>
@@ -70,14 +69,13 @@ export const AddLink = () => {
 				</Popover.Root>
 
 				<TextField.Standalone
-					className={mx.halfWidth}
 					placeholder="Paste your link..."
 					value={socialLink}
 					onChange={handleInput}
-					style={{ margin: '0 var(--space-sm)' }}
+					width={'30%'}
 				/>
 				<Button
-					size="3"
+					size="2"
 					color="gray"
 					variant="outline"
 					disabled={!socialLink || isPending}
