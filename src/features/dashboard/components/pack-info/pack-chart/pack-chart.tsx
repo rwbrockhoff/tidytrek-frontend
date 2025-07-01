@@ -31,12 +31,12 @@ const getPaletteColor = (colorName: string): string => {
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	const categoryLabels = useMemo(
-		() => categories.map((category) => category.packCategoryName),
+		() => (categories || []).map((category) => category.packCategoryName),
 		[categories],
 	);
 
 	const categoryColors = useMemo(
-		() => categories.map((category) => getPaletteColor(category.packCategoryColor)),
+		() => (categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
 		[categories],
 	);
 

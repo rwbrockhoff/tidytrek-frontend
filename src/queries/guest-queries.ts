@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
 import { guestKeys } from './query-keys';
-import { decode } from '../utils';
+import { decode, extractData } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
 import { type UserProfileWithPack, type UserProfile } from '../types/profile-types';
@@ -25,8 +25,8 @@ export const useViewPackQuery = (packId: string | undefined) => {
 		queryFn: () => {
 			if (packId) {
 				const decodedId = decode(packId);
-				return tidyTrekAPI.get(`/guests/pack/${decodedId}`).then((res) => res.data);
-			} else return tidyTrekAPI.get('/guests/pack').then((res) => res.data);
+				return tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData);
+			} else return tidyTrekAPI.get('/guests/pack').then(extractData);
 		},
 	});
 };
@@ -34,6 +34,6 @@ export const useViewPackQuery = (packId: string | undefined) => {
 export const useViewProfileQuery = (username: string | undefined) => {
 	return useQuery<GuestProfileViewState>({
 		queryKey: guestKeys.username(username),
-		queryFn: () => tidyTrekAPI.get(`/guests/user/${username}`).then((res) => res.data),
+		queryFn: () => tidyTrekAPI.get(`/guests/user/${username}`).then(extractData),
 	});
 };
