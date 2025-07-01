@@ -1,8 +1,8 @@
 import { type InputEvent } from '@/types/form-types';
-import { Button, Separator, Flex, Popover } from '@radix-ui/themes';
+import { Button, Separator, Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
-import { SocialButton, SocialButtonPicker } from './social-button';
+import { SocialButtonPicker } from './social-button';
 import socialMediaUI from '../../constants/social-media-ui';
 import { useProfileActions } from '../../hooks/use-profile-actions';
 import { PlusIcon } from '@/components/ui';
@@ -16,16 +16,12 @@ export const AddLink = () => {
 		},
 	} = useProfileActions();
 
-	const [service, setService] = useState('facebook');
+	const [service, setService] = useState('custom');
 	const [socialLink, setSocialLink] = useState('');
-
-	const handleChangeButton = (socialName: string | undefined) => {
-		socialName && setService(socialName);
-	};
 
 	const handleAddLink = () => {
 		addSocialLink(service, socialLink);
-		setService('facebook');
+		setService('custom');
 		setSocialLink('');
 	};
 
@@ -45,29 +41,7 @@ export const AddLink = () => {
 		<>
 			<Separator size="4" my="6" />
 			<Flex align="center" gap="2">
-				<Popover.Root>
-					<Popover.Trigger>
-						<div>
-							<SocialButtonPicker currentSocial={currentSocial} />
-						</div>
-					</Popover.Trigger>
-					<Popover.Content side="top" style={{ width: '60%' }}>
-						<Flex wrap="wrap">
-							{Object.keys(socialMediaUI).map((key, index) => {
-								const { socialName, icon } = socialMediaUI[key];
-								return (
-									<SocialButton
-										key={index}
-										socialName={socialName}
-										icon={icon}
-										onClick={handleChangeButton}
-									/>
-								);
-							})}
-						</Flex>
-					</Popover.Content>
-				</Popover.Root>
-
+				<SocialButtonPicker currentSocial={currentSocial} />
 				<TextField.Standalone
 					placeholder="Paste your link..."
 					value={socialLink}
