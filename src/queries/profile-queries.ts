@@ -1,19 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { profileKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { type UserProfile } from '../types/profile-types';
-import { type Pack } from '../types/pack-types';
+import { type BaseProfileState } from '../types/profile-types';
 import { STALE_TIME } from './query-config';
 
-type ProfileQueryState = {
-	userProfile: UserProfile | null;
-	packThumbnailList: Pack[];
+export type ProfileQueryState = BaseProfileState & {
 	hasError?: boolean;
 };
 
 const defaultProfileState: ProfileQueryState = {
 	userProfile: null,
 	packThumbnailList: [],
+	settings: null,
 };
 
 export const useGetProfileQuery = () =>

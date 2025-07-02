@@ -1,0 +1,14 @@
+.packCardContainer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xl);
+	margin-top: var(--space-xxl);
+	align-items: stretch;
+}
+
+/* Tablet and up need multi-column layout */
+@media (min-width: 768px) {
+	.packCardContainer {
+		align-items: stretch;
+	}
+}

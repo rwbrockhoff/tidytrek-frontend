@@ -7,6 +7,12 @@
 	padding-bottom: var(--space-md);
 }
 
+@media (max-width: 640px) {
+	.styledCard {
+		flex-basis: 100%;
+	}
+}
+
 .styledCard :global(.profilePackLink) {
 	flex-direction: column;
 	align-items: inherit;
@@ -26,4 +32,3 @@
 .cardFooterText svg {
 	margin-right: var(--space-xs);
 }
-

@@ -4,7 +4,7 @@ import { guestKeys } from './query-keys';
 import { decode, extractData } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
-import { type UserProfile } from '../types/profile-types';
+import { type BaseProfileState, type UserProfile } from '../types/profile-types';
 
 export type InitialState = {
 	pack: Pack;
@@ -13,13 +13,21 @@ export type InitialState = {
 	userProfile: UserProfile;
 };
 
-type GuestProfileViewState = {
-	userProfile: UserProfile | null;
-	packThumbnailList: Pack[];
-	settings: Settings | null;
+export type GuestProfileViewState = BaseProfileState & {
+	// Values unique to guest view for better error handling
 	notFound?: boolean;
 	isPrivate?: boolean;
 	hasError?: boolean;
+};
+
+// Type check util if data is from guest profile query
+export const isGuestProfileData = (data: any): data is GuestProfileViewState => {
+	return (
+		data &&
+		(data.notFound !== undefined ||
+			data.isPrivate !== undefined ||
+			data.hasError !== undefined)
+	);
 };
 
 export const useViewPackQuery = (packId: string | undefined) => {

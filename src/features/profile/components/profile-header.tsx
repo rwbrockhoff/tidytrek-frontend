@@ -12,11 +12,33 @@ import { cn } from '@/styles/utils/cn';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
+	notFound?: boolean;
+	isPrivate?: boolean;
+	hasError?: boolean;
 };
 
 export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const userView = useUserContext();
-	const { userProfile } = props;
+	const { userProfile, notFound, isPrivate, hasError } = props;
+
+	// Show message for error within default UI
+	const getStatusMessage = () => {
+		if (notFound)
+			return {
+				title: 'User not found',
+				subtitle: "This user doesn't exist or the link is incorrect.",
+			};
+		if (isPrivate)
+			return {
+				title: 'Private Profile',
+				subtitle: 'This user has set their profile to private.',
+			};
+		if (hasError)
+			return { title: 'Something went wrong', subtitle: 'Please try again later.' };
+		return null;
+	};
+
+	const statusMessage = getStatusMessage();
 
 	const { socialLinks, profileInfo } = userProfile || {};
 
@@ -32,7 +54,10 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 
 	const {
 		mutations: {
-			uploadProfilePhoto: { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto },
+			uploadProfilePhoto: {
+				mutate: uploadProfilePhoto,
+				isPending: isPendingProfilePhoto,
+			},
 			uploadBannerPhoto: { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto },
 		},
 	} = useProfileActions();
@@ -61,7 +86,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 			<div className={styles.profileInfoContainer}>
 				<div className={cn(styles.profileTextContainer, mx.responsiveContent)}>
 					<Heading as="h3" className={styles.usernameHeader}>
-						{username || firstName || 'Tidy Hiker'}
+						{username || firstName}
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
 					</Heading>
 
@@ -81,7 +106,16 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 						)}
 					</Flex>
 
-					<Text mt="0">{userBio}</Text>
+					{statusMessage ? (
+						<Box mt="3" style={{ textAlign: 'center' }}>
+							<Heading size="4" mb="1">
+								{statusMessage.title}
+							</Heading>
+							<Text color="gray">{statusMessage.subtitle}</Text>
+						</Box>
+					) : (
+						<Text mt="0">{userBio}</Text>
+					)}
 				</div>
 			</div>
 		</Box>

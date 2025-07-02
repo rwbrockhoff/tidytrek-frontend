@@ -1,26 +1,32 @@
-import { Flex } from '@radix-ui/themes';
-import { Pack } from '@/types/pack-types';
+import { type Pack } from '@/types/pack-types';
+import styles from './pack-card-list.module.css';
 import { PackCard } from './pack-card';
 import { useUserContext } from '@/hooks';
+import { SkeletonCard } from '@/components/ui';
 
 type PackCardListProps = {
 	packThumbnailList: Pack[] | undefined;
+	showSkeletonCards: boolean;
 };
 
 export const PackCardList = (props: PackCardListProps) => {
 	const userView = useUserContext();
-	const { packThumbnailList } = props;
+	const { packThumbnailList, showSkeletonCards } = props;
+
 	const packList = packThumbnailList || [];
+	const emptyList = !packList.length;
 	return (
-		<Flex
-			wrap="wrap"
-			gap="4"
-			mt="8"
-			direction={{ initial: 'column', sm: 'row' }}
-			align={{ initial: 'center', sm: 'stretch' }}>
+		<div className={styles.packCardContainer}>
+			{/* Show users packs */}
 			{packList.map((pack, index) => {
 				return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
 			})}
-		</Flex>
+			{/* Show skeleton UI on bad request */}
+			{showSkeletonCards &&
+				emptyList &&
+				Array(3)
+					.fill(null)
+					.map((_, index) => <SkeletonCard key={index} noAnimation />)}
+		</div>
 	);
 };

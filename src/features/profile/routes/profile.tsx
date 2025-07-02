@@ -4,7 +4,7 @@ import { ProfileHeader } from '../components/profile-header';
 import { PackCardList } from '../components/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
-import { useViewProfileQuery } from '@/queries/guest-queries';
+import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
 import { useGetAuth } from '@/hooks';
 
 export const Profile = ({ userView }: { userView: boolean }) => {
@@ -17,12 +17,24 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 	const userProfile = data?.userProfile ?? null;
 	const packThumbnailList = data?.packThumbnailList ?? [];
 
+	// Type-safe access to guest properties
+	const notFound = isGuestProfileData(data) ? data.notFound ?? false : false;
+	const isPrivate = isGuestProfileData(data) ? data.isPrivate ?? false : false;
+	const showSkeletonCards = notFound || isPrivate;
 	return (
 		<UserViewContext.Provider value={userView}>
 			<main>
 				{showPromotion && <ProfileBanner />}
-				<ProfileHeader userProfile={userProfile} />
-				<PackCardList packThumbnailList={packThumbnailList} />
+				<ProfileHeader
+					userProfile={userProfile}
+					notFound={notFound}
+					isPrivate={isPrivate}
+					hasError={data?.hasError}
+				/>
+				<PackCardList
+					packThumbnailList={packThumbnailList}
+					showSkeletonCards={showSkeletonCards}
+				/>
 			</main>
 		</UserViewContext.Provider>
 	);

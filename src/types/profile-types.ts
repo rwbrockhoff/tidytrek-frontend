@@ -29,6 +29,11 @@ export type UserProfile = {
 	socialLinks: SocialLink[];
 };
 
+export type BaseProfileState = {
+	userProfile: UserProfile | null;
+	packThumbnailList: Pack[];
+	settings: Settings | null;
+};
 
 export type SocialLinkInfo = {
 	socialName: string;
