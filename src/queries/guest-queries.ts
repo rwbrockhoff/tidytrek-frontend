@@ -4,7 +4,7 @@ import { guestKeys } from './query-keys';
 import { decode, extractData } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
-import { type UserProfileWithPack, type UserProfile } from '../types/profile-types';
+import { type UserProfile } from '../types/profile-types';
 
 export type InitialState = {
 	pack: Pack;
@@ -14,8 +14,13 @@ export type InitialState = {
 };
 
 type GuestProfileViewState = {
-	settings: Settings;
-} & UserProfileWithPack;
+	userProfile: UserProfile | null;
+	packThumbnailList: Pack[];
+	settings: Settings | null;
+	notFound?: boolean;
+	isPrivate?: boolean;
+	hasError?: boolean;
+};
 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
@@ -31,9 +36,41 @@ export const useViewPackQuery = (packId: string | undefined) => {
 	});
 };
 
+const defaultProfileState = {
+	userProfile: null,
+	packThumbnailList: [],
+	settings: null,
+};
+
 export const useViewProfileQuery = (username: string | undefined) => {
 	return useQuery<GuestProfileViewState>({
 		queryKey: guestKeys.username(username),
-		queryFn: () => tidyTrekAPI.get(`/guests/user/${username}`).then(extractData),
+		queryFn: async () => {
+			try {
+				const response = await tidyTrekAPI.get(`/guests/user/${username}`);
+				const data = extractData(response);
+				// Check if profile is private (200 response but null user data)
+				if (data.userProfile === null) {
+					return {
+						...defaultProfileState,
+						isPrivate: true,
+					};
+				}
+				return data;
+			} catch (error: any) {
+				// Handle 404 - user not found
+				if (error.response?.status === 404) {
+					return {
+						...defaultProfileState,
+						notFound: true,
+					};
+				}
+				// Handle all other errors
+				return {
+					...defaultProfileState,
+					hasError: true,
+				};
+			}
+		},
 	});
 };

@@ -14,8 +14,8 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 
 	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
 
-	const userProfile = data?.userProfile;
-	const packThumbnailList = data?.packThumbnailList;
+	const userProfile = data?.userProfile ?? null;
+	const packThumbnailList = data?.packThumbnailList ?? [];
 
 	return (
 		<UserViewContext.Provider value={userView}>

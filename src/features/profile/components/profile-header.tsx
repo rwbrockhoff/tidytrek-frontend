@@ -11,7 +11,7 @@ import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { cn } from '@/styles/utils/cn';
 
 type ProfileHeaderProps = {
-	userProfile: UserProfile | undefined;
+	userProfile: UserProfile | null;
 };
 
 export const ProfileHeader = (props: ProfileHeaderProps) => {
