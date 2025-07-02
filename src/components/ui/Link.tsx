@@ -49,27 +49,25 @@ type DisplayLinkProps = {
 
 export const DisplayLink = (props: DisplayLinkProps) => {
 	const { url, text, showIcon = false, margin } = props;
-	if (url) {
-		return (
-			<a
-				href={url}
-				className={styles.displayLink}
-				target="_blank"
-				rel="noopener noreferrer"
-				style={{ margin }}>
-				<Text style={{ display: 'inline-flex' }}>
-					{showIcon && (
-						<Icon>
-							<FaLink />
-						</Icon>
-					)}
-					{text}
-				</Text>
-			</a>
-		);
-	} else {
-		return <p>{text}</p>;
-	}
+	if (!url) return null;
+	
+	return (
+		<a
+			href={url}
+			className={styles.displayLink}
+			target="_blank"
+			rel="noopener noreferrer"
+			style={{ margin }}>
+			<Text style={{ display: 'inline-flex' }}>
+				{showIcon && (
+					<Icon>
+						<FaLink />
+					</Icon>
+				)}
+				{text}
+			</Text>
+		</a>
+	);
 };
 
 type LandingLinkProps = {
@@ -86,9 +84,3 @@ export const LandingLink = ({ to = '', children }: LandingLinkProps) => {
 	);
 };
 
-export const cleanUpLink = (link: string) => {
-	if (!link) return '';
-	if (link.includes('http:')) return link.replace('http:', 'https:');
-	if (link.includes('https://')) return link;
-	else return `https://${link}`;
-};

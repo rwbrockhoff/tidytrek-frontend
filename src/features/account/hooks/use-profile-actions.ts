@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { type UserInfo } from '@/types/profile-types';
 import { useProfileSettingsMutations } from './use-profile-mutations';
-import { cleanUpLink } from '@/components/ui';
+import { cleanUpLink } from '@/utils/link-utils';
 
 export const useProfileActions = () => {
 	const mutations = useProfileSettingsMutations();

@@ -1,6 +1,7 @@
 import { Popover, IconButton, Button, Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
-import { CheckIcon, SaveIcon, TrashIcon, cleanUpLink } from '@/components/ui';
+import { CheckIcon, SaveIcon, TrashIcon } from '@/components/ui';
+import { cleanUpLink } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import { FaLink } from 'react-icons/fa';

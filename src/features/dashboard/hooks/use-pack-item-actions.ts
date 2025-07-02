@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
-import { cleanUpLink } from '@/components/ui';
+import { cleanUpLink } from '@/utils/link-utils';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 
 type AddItemInfo = { packId: number; packCategoryId: number };

@@ -1,6 +1,6 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
-import { Box, Flex, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { Table } from '@radix-ui/themes';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
@@ -58,18 +58,21 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />
 				</Flex>
+			) : packItemUrl ? (
+				<DisplayLink
+					url={packItemUrl || ''}
+					text={packItemName || packItemUrl || 'Pack Item'}
+					showIcon
+				/>
 			) : (
-				<Box ml="2">
-					{packItemUrl ? (
-						<DisplayLink
-							url={packItemUrl || ''}
-							text={packItemName || packItemUrl || 'Pack Item'}
-							showIcon
-						/>
-					) : (
-						<Text>{packItemName}</Text>
-					)}
-				</Box>
+				<TextField.Standalone
+					value={packItemName || ''}
+					name={'packItemName'}
+					placeholder={'Name'}
+					variant="minimal"
+					onChange={onChange}
+					disabled={!userView}
+				/>
 			)}
 		</Table.Cell>
 	);

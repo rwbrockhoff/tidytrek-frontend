@@ -56,7 +56,7 @@
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-tertiary);
 	cursor: not-allowed;
-	opacity: var(--opacity-60);
+	opacity: var(--opacity-80);
 }
 
 /* Minimal variant */
@@ -78,7 +78,13 @@
 
 .inputMinimal:disabled {
 	opacity: var(--opacity-60);
-	cursor: not-allowed;
+	cursor: text;
+	pointer-events: auto;
+}
+
+.inputMinimal:disabled:hover {
+	border: 1px solid transparent;
+	outline: 2px solid transparent;
 }
 
 /* Icon variant */
