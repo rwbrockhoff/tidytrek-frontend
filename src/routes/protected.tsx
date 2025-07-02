@@ -45,11 +45,11 @@ export const protectedRoutes = [
 			},
 			{
 				path: '/profile',
-				element: <Profile userView={true} />,
+				element: <Profile userView={true} key="user-profile" />,
 			},
 			{
 				path: '/user/:userId',
-				element: <Profile userView={false} />,
+				element: <Profile userView={false} key="guest-profile" />,
 			},
 			{
 				path: '/account',

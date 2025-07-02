@@ -129,11 +129,11 @@ div.rt-ScrollAreaViewport {
 }
 
 /* -- Other Components -- */
-/* .rt-Badge {
+.rt-Badge {
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-secondary);
 	margin: inherit 1rem;
-} */
+}
 
 .rt-Separator {
 	background-color: var(--color-bg-tertiary);
