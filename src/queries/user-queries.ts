@@ -7,10 +7,10 @@ import { type Settings } from '../types/settings-types';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from '../utils';
 
-type InitialState = {
+export type AuthStatusResponse = {
 	isAuthenticated: boolean;
-	user: User;
-	settings: Settings;
+	user: User | null;
+	settings: Settings | null;
 };
 
 type LoginResponse = {
@@ -19,7 +19,7 @@ type LoginResponse = {
 };
 
 export const useGetAuthStatusQuery = () =>
-	useQuery<InitialState>({
+	useQuery<AuthStatusResponse>({
 		queryKey: userKeys.all,
 		queryFn: () => tidyTrekAPI.get('/auth/status').then((res) => res.data),
 	});
@@ -27,14 +27,18 @@ export const useGetAuthStatusQuery = () =>
 export const useLoginMutation = (): SimpleMutation<LoginUser, LoginResponse> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (info: LoginUser) => tidyTrekAPI.post('/auth/login', info).then(extractData),
+		mutationFn: (info: LoginUser) =>
+			tidyTrekAPI.post('/auth/login', info).then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
 
-export const useRegisterMutation = (): SimpleMutation<RegisterUser, { message?: string }> => {
+export const useRegisterMutation = (): SimpleMutation<
+	RegisterUser,
+	{ message?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (registerData: RegisterUser) =>
