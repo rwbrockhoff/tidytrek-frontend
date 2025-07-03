@@ -5,27 +5,37 @@ import { z } from 'zod';
 export type ZodFormErrors<T> = { [Property in keyof T]: FormError };
 
 export function useZodError<T>(formInputs: (keyof T)[]) {
+	// create typed state object for each input
 	const mappedInputs = createFormErrorShape<T>(formInputs);
+
+	// assign mapped input errors as initial state
 	const [formErrors, setFormErrors] = useState(mappedInputs);
+	// default primary error
 	const [primaryError, setPrimaryError] = useState<FormError>({
 		error: false,
 		message: '',
 	});
 
+	// update formErrors based on array of Zod Issues
 	const updateFormErrors = (result: z.ZodIssue[]) => {
+		// create typed error object with ZodIssue(s)
 		let errorObject: ZodFormErrors<T> = result.reduce((acc, error: z.ZodIssue) => {
+			// get input name (firstName, email, etc) + error
 			const name = error.path[0] as keyof T;
 			const message = error.message;
+			// update error object
 			return { ...acc, [name]: { error: true, message } };
 		}, {} as ZodFormErrors<T>);
 
 		setFormErrors((prev) => ({ ...prev, ...errorObject }));
 
+		// if no primary error, and multiple errors passed, set first error as primary
 		if (!primaryError.error && result.length >= 1) {
 			setPrimaryError({ error: true, message: result[0].message });
 		}
 	};
 
+	// Reset individual error
 	const resetFormErrors = (inputName: string) => {
 		setFormErrors((prev) => ({
 			...prev,
@@ -34,6 +44,7 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 		setPrimaryError({ error: false, message: '' });
 	};
 
+	// Reset all form errors
 	const resetAllFormErrors = () => {
 		setFormErrors(createFormErrorShape<T>(formInputs));
 		setPrimaryError({ error: false, message: '' });
@@ -48,6 +59,7 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 	};
 }
 
+// Return formatted/typed error object with provided formInputs
 function createFormErrorShape<T>(formInputs: (keyof T)[]) {
 	const errorObject: ZodFormErrors<T> = formInputs.reduce((acc, inputName) => {
 		acc[inputName] = { error: false, message: '' };
@@ -57,6 +69,8 @@ function createFormErrorShape<T>(formInputs: (keyof T)[]) {
 	return errorObject;
 }
 
+// Clear field error when user starts typing (onChange handler)
+// Provides immediate feedback that user is addressing the validation issue
 export function clearZodErrors<T>(
 	e: InputEvent | TextAreaEvent | SelectEvent,
 	formErrors: Record<keyof T, FormError>,
