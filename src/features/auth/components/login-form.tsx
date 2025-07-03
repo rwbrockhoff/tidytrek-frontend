@@ -12,7 +12,7 @@ import { GoogleAuth } from './google-auth';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
 import { clearZodErrors, type ZodFormErrors } from '@/hooks';
 
-type FormProps = {
+export type AuthFormProps = {
 	isRegisterForm: boolean;
 	isRegisterSuccess: boolean;
 	isLoading: boolean;
@@ -24,7 +24,7 @@ type FormProps = {
 	updateServerError: (message: string) => void;
 };
 
-export const LogInForm = (props: FormProps) => {
+export const LogInForm = (props: AuthFormProps) => {
 	const { isRegisterForm, isRegisterSuccess, isLoading } = props;
 	const { registerUser, loginUser, resetFormErrors, updateServerError } = props;
 	const { formErrors, serverError } = props;
