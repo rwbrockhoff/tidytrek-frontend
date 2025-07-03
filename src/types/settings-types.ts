@@ -2,7 +2,7 @@ export type Settings = {
 	darkMode: boolean;
 	publicProfile: boolean;
 	weightUnit: string;
-	themeName: string;
+	palette: string;
 };
 
-export const DEFAULT_THEME_NAME = 'earth-tones';
+export const DEFAULT_PALETTE = 'earth-tones';

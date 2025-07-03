@@ -1,42 +1,46 @@
 import { useEffect, useState } from 'react';
+import { DEFAULT_PALETTE } from '@/types/settings-types';
 
-export function useThemeSetter(darkMode?: boolean, paletteThemeName?: string) {
-	const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
+export function useThemeSetter(darkMode?: boolean, palette?: string) {
+	const [currentMode, setCurrentMode] = useState<'light' | 'dark'>('light');
+	const [currentPalette, setCurrentPalette] = useState(DEFAULT_PALETTE);
 
-	const getPreferredTheme = (): 'light' | 'dark' => {
-		const savedTheme = localStorage.getItem('theme');
-		// Return saved theme
-		if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-			return savedTheme as 'light' | 'dark';
+	const getPreferredMode = (): 'light' | 'dark' => {
+		const savedMode = localStorage.getItem('theme');
+		// Return saved mode
+		if (savedMode && (savedMode === 'light' || savedMode === 'dark')) {
+			return savedMode as 'light' | 'dark';
 		}
 		// Or else match users browser preference
 		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	};
 
-	const getPreferredPalette = (): string => {
-		const savedPalette = localStorage.getItem('palette');
-		// Return saved palette
-		if (savedPalette) return savedPalette;
+	const getPreferredTheme = (): string => {
+		const savedTheme = localStorage.getItem('palette');
+		// Return saved theme
+		if (savedTheme) return savedTheme;
 
 		// Return default option as fallback
-		return 'earth-tones';
+		return DEFAULT_PALETTE;
 	};
 
 	useEffect(() => {
 		// If user has database settings, use those; otherwise fall back to system preference
-		let themeToUse: 'light' | 'dark'; // ts
-		let paletteToUse = 'earth-tones';
+		let modeToUse = currentMode;
+		let themeToUse = currentPalette;
 
-		if (darkMode !== undefined) themeToUse = darkMode ? 'dark' : 'light';
+		if (darkMode !== undefined) modeToUse = darkMode ? 'dark' : 'light';
+		else modeToUse = getPreferredMode();
+
+		if (palette) themeToUse = palette;
 		else themeToUse = getPreferredTheme();
 
-		if (paletteThemeName) paletteToUse = paletteThemeName;
-		else paletteToUse = getPreferredPalette();
+		document.body.setAttribute('data-theme', modeToUse);
+		document.body.setAttribute('data-theme-palette', themeToUse);
 
-		document.body.setAttribute('data-theme', themeToUse);
-		document.body.setAttribute('data-theme-palette', paletteToUse);
-		setCurrentTheme(themeToUse);
-	}, [darkMode, paletteThemeName]);
+		setCurrentMode(modeToUse);
+		setCurrentPalette(themeToUse);
+	}, [darkMode, palette]);
 
-	return currentTheme;
+	return { currentMode, currentPalette };
 }

@@ -13,8 +13,8 @@ export const AppRouter = () => {
 	const showSkeleton = useDelayedLoading(isLoading, 500);
 
 	// Set user's dark mode + palette preferences
-	const { darkMode, themeName } = settings || {};
-	const currentTheme = useThemeSetter(darkMode, themeName);
+	const { darkMode, palette } = settings || {};
+	const { currentMode, currentPalette } = useThemeSetter(darkMode, palette);
 
 	// Don't render anything until we know auth state
 	if (isLoading) {
@@ -26,8 +26,8 @@ export const AppRouter = () => {
 
 	return (
 		<div
-			data-theme={currentTheme}
-			data-theme-palette="earth-tones"
+			data-theme={currentMode}
+			data-theme-palette={currentPalette}
 			className={mx.fullHeight}>
 			<Theme accentColor="jade" radius="small" scaling="100%">
 				<RouterProvider router={appRouter} />
