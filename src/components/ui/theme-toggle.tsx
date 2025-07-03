@@ -1,13 +1,21 @@
 import styles from './theme-toggle.module.css';
 import { cn } from '@/styles/utils';
+import { useGetAuth } from '@/hooks';
 
 interface ThemeToggleProps {
 	className?: string;
 }
 
 export const ThemeToggle = ({ className }: ThemeToggleProps) => {
+	const { settings } = useGetAuth();
+	const currentDarkMode = settings?.darkMode || false;
+
 	const handleToggle = () => {
-		// Add theme toggle logic
+		const newDarkMode = !currentDarkMode;
+		// Update localStorage
+		localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+		//Update data-theme attribute directly
+		document.body.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
 	};
 
 	return (
