@@ -1,4 +1,4 @@
-import { calculateAdjacentItems, applySynchronousDragUpdate } from '../dragDropUtils';
+import { calculateAdjacentItems, applySynchronousDragUpdate } from '../drag-drop-utils';
 import { QueryClient } from '@tanstack/react-query';
 
 describe('dragDropUtils', () => {

@@ -1,4 +1,4 @@
-import { convertWeight, convertQuantity } from '../convertWeight';
+import { convertWeight, convertQuantity } from '../convert-weight';
 import { mockPackItems, mockPackItemsWithMultipleItems } from '@/tests/mock-data';
 
 describe('Weight Converter Utility Fn', () => {

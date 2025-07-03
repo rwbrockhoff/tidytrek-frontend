@@ -1,4 +1,4 @@
-import { searchMatch, isInputEvent } from '../formHelpers';
+import { searchMatch, isInputEvent } from '../form-helpers';
 
 describe('formHelpers', () => {
   describe('searchMatch', () => {
