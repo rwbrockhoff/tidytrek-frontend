@@ -3,10 +3,10 @@
 	box-sizing: border-box;
 	background-color: var(--color-bg-primary);
 	overflow-y: scroll;
-	padding-left: 10vw;
-	padding-right: 10vw;
-	padding-bottom: 2vh;
-	padding-top: 5vh;
+	padding: var(--app-layout-padding);
+	max-width: var(--max-width);
+	width: 100%;
+	margin: 0 auto;
 }
 
 @media (max-width: 768px) {

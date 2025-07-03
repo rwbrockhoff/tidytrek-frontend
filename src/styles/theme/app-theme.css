@@ -76,7 +76,8 @@
 	--breakpoint-mobile: 768px;
 	--breakpoint-desktop: 1280px;
 
-	/* -- Layout heights -- */
+	/* -- Layout -- */
+	--app-layout-padding: var(--space-xxl) 4em 6em 4em; /* desktop layout content padding */
 	--mobile-header-height: 6rem; /* fixed mobile header height */
 
 	/* -- Border radius -- */

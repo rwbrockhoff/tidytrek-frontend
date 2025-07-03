@@ -1,7 +1,7 @@
 .packCardContainer {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-xl);
+	gap: var(--space-md);
 	margin-top: var(--space-xxl);
 	align-items: stretch;
 }

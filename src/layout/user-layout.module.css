@@ -39,7 +39,7 @@
 /* Desktop and larger screens */
 @media (min-width: 769px) {
 	.viewLayoutContainer {
-		padding: var(--space-xxl) 4em 6em 4em; /* Layout content padding */
+		padding: var(--app-layout-padding);
 	}
 }
 
