@@ -18,8 +18,7 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 			)}
 			onClick={onClick}
 			variant="ghost"
-			color="gray"
-			size="3">
+			color="gray">
 			{isSidebar ? <LeftDoubleChevronIcon /> : <SidebarIcon />}
 		</Button>
 	);

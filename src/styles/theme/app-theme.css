@@ -80,6 +80,12 @@
 	--app-layout-padding: var(--space-xxl) 4em 6em 4em; /* desktop layout content padding */
 	--mobile-header-height: 6rem; /* fixed mobile header height */
 
+	/* -- Icon sizes -- */
+	--icon-match: 1rem; /* - match text size */
+	--icon-sm: 1.25rem; /* 20px */
+	--icon-md: 1.5rem; /* 24px */
+	--icon-lg: 2rem; /* 32px */
+
 	/* -- Border radius -- */
 	--radius: 0.25rem; /* 4px - primary radius */
 	--radius-lg: 0.5rem; /* 8px - larger elements */

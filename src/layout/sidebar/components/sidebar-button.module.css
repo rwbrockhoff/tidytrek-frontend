@@ -6,16 +6,25 @@
 
 .sidebarButton svg {
 	color: var(--color-text-secondary);
+	width: var(--icon-match);
+	height: var(--icon-match);
 }
 
 button.sidebarButton:not(.isSidebar) {
-	position: absolute;
-	top: var(--space-xl);
-	left: var(--space-xxl);
+	position: fixed;
+	top: calc(
+		var(--space-xxl) + var(--space-lg)
+	); /* Container padding + header positioning */
+	left: calc(50% - 640px); /* Match sidebar positioning on large screens */
 	z-index: 10;
-	margin-top: var(--space-xxl);
-	margin-left: var(--space-xxs);
-	transform: translateY(-50%);
+	padding: var(--space-min);
+}
+
+/* Adjust left position on tablet (hidden on mobile) */
+@media (max-width: 1280px) {
+	button.sidebarButton:not(.isSidebar) {
+		left: 2em; /* Half of 4em app layout padding */
+	}
 }
 
 button.sidebarButton:hover {
@@ -25,7 +34,7 @@ button.sidebarButton:hover {
 .sidebarButton.isSidebar {
 	color: var(--gray-300);
 	opacity: var(--opacity-80);
-	padding: var(--space-sm);
+	padding: var(--space-min);
 	min-width: 32px;
 	min-height: 32px;
 	margin: 0;

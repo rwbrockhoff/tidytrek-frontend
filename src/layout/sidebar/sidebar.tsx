@@ -11,6 +11,7 @@ import supabase from '@/api/supabaseClient';
 import { SidebarFallback } from '../fallback';
 import { useGetAuth, useCheckScreen } from '@/hooks';
 import { MouseOver } from '@/contexts/mouse-over-context';
+import { ThemeToggle } from '@/components/ui';
 const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
 const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
 const { PopupMenu } = lazyImport(() => import('./components/popup-menu'), 'PopupMenu');
@@ -105,6 +106,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					</Heading>
 
 					<PackList currentPackId={currentPackId} packList={packList} />
+					
+					<div className={styles.sidebarFooter}>
+						{showSidebar && <ThemeToggle />}
+					</div>
 				</Suspense>
 			</div>
 		</aside>

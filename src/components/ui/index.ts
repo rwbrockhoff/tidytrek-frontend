@@ -12,6 +12,7 @@ export * from './text';
 export * from './spinner';
 export * from './segment';
 export * from './tooltip';
+export * from './theme-toggle';
 export * from './alpine/textfield/textfield';
 export * from './alpine/textarea/textarea';
 export * from './skeleton/skeleton';
