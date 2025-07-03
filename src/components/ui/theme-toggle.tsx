@@ -1,6 +1,7 @@
 import styles from './theme-toggle.module.css';
 import { cn } from '@/styles/utils';
 import { useGetAuth } from '@/hooks';
+import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
 
 interface ThemeToggleProps {
 	className?: string;
@@ -9,13 +10,15 @@ interface ThemeToggleProps {
 export const ThemeToggle = ({ className }: ThemeToggleProps) => {
 	const { settings } = useGetAuth();
 	const currentDarkMode = settings?.darkMode || false;
+	const { mutate: updateSettings } = useUpdateSettingsMutation();
 
 	const handleToggle = () => {
 		const newDarkMode = !currentDarkMode;
-		// Update localStorage
+
 		localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-		//Update data-theme attribute directly
 		document.body.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
+
+		updateSettings({ darkMode: newDarkMode });
 	};
 
 	return (
