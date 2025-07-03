@@ -1,6 +1,7 @@
 import type { User } from '@/types/user-types';
 import type { Settings } from '@/types/settings-types';
 import type { AuthStatusResponse } from '@/queries/user-queries';
+import { DEFAULT_PALETTE } from '@/styles/theme/palette-constants';
 
 // Generates expected data to match our type definitions
 // while allowing us to pass in specific data for testing
@@ -18,7 +19,7 @@ export const createMockUser = (overrides?: Partial<User>): User => ({
 
 export const createMockSettings = (overrides?: Partial<Settings>): Settings => ({
 	darkMode: false,
-	palette: 'earth-tones',
+	palette: DEFAULT_PALETTE,
 	publicProfile: true,
 	weightUnit: 'lb',
 	...overrides,

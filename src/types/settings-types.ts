@@ -1,8 +1,8 @@
+import { type PaletteName } from '@/styles/theme/palette-constants';
+
 export type Settings = {
 	darkMode: boolean;
 	publicProfile: boolean;
 	weightUnit: string;
-	palette: string;
+	palette: PaletteName;
 };
-
-export const DEFAULT_PALETTE = 'earth-tones';

@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Theme } from '@radix-ui/themes';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { vi } from 'vitest';
+import { DEFAULT_PALETTE } from '@/styles/theme/palette-constants';
 
 // Mock ResizeObserver - Required for Radix UI while testing
 global.ResizeObserver =
@@ -47,7 +48,7 @@ export const wrappedRender: typeof basicRender = (
 			<QueryClientProvider client={queryClient}>
 				<Theme>
 					<TooltipProvider>
-						<div data-theme-palette="earth-tones">
+						<div data-theme-palette={DEFAULT_PALETTE}>
 							<MemoryRouter>{children}</MemoryRouter>
 						</div>
 					</TooltipProvider>

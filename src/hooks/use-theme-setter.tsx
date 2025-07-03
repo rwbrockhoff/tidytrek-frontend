@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import { DEFAULT_PALETTE } from '@/types/settings-types';
+import {
+	DEFAULT_PALETTE,
+	PaletteName,
+	PALETTE_NAMES,
+} from '@/styles/theme/palette-constants';
 
-export function useThemeSetter(darkMode?: boolean, palette?: string) {
+export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 	const [currentMode, setCurrentMode] = useState<'light' | 'dark'>('light');
-	const [currentPalette, setCurrentPalette] = useState(DEFAULT_PALETTE);
+	const [currentPalette, setCurrentPalette] = useState<PaletteName>(DEFAULT_PALETTE);
 
 	const getPreferredMode = (): 'light' | 'dark' => {
 		const savedMode = localStorage.getItem('theme');
@@ -15,10 +19,12 @@ export function useThemeSetter(darkMode?: boolean, palette?: string) {
 		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	};
 
-	const getPreferredTheme = (): string => {
+	const getPreferredTheme = (): PaletteName => {
 		const savedTheme = localStorage.getItem('palette');
-		// Return saved theme
-		if (savedTheme) return savedTheme;
+		// Return saved theme if valid
+		if (savedTheme && PALETTE_NAMES.includes(savedTheme as PaletteName)) {
+			return savedTheme as PaletteName;
+		}
 
 		// Return default option as fallback
 		return DEFAULT_PALETTE;
@@ -27,7 +33,7 @@ export function useThemeSetter(darkMode?: boolean, palette?: string) {
 	useEffect(() => {
 		// If user has database settings, use those; otherwise fall back to system preference
 		let modeToUse = currentMode;
-		let themeToUse = currentPalette;
+		let themeToUse: PaletteName = currentPalette;
 
 		if (darkMode !== undefined) modeToUse = darkMode ? 'dark' : 'light';
 		else modeToUse = getPreferredMode();
