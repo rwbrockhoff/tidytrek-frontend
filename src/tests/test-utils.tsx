@@ -18,6 +18,8 @@ global.ResizeObserver =
 		disconnect: vi.fn(),
 	}));
 
+// Extract the options type from React Testing Library's render function
+// Gets function type -> extracts parameter types -> gets position 1 (render options)
 type RenderOptions = Parameters<typeof renderComponent>[1];
 
 const queryClient = new QueryClient({

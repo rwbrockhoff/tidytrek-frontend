@@ -3,7 +3,6 @@ export * from './generate-display-id';
 export * from './lazy-imports';
 export * from './convert-currency';
 export * from './convert-weight';
-export * from './messages';
 export * from './drag-drop-utils';
 export * from './object-utils';
 export * from './api-helpers';
