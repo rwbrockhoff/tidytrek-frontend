@@ -1,4 +1,11 @@
-import type { Pack } from '@/types/pack-types';
+import { paletteList } from '@/styles/theme/palette-constants';
+import type {
+	Pack,
+	PackListItem,
+	InitialState,
+	Category,
+	PackWithCategories,
+} from '@/types/pack-types';
 
 export const createMockPack = (overrides?: Partial<Pack>): Pack => ({
 	packId: 1,
@@ -20,4 +27,52 @@ export const createMockPack = (overrides?: Partial<Pack>): Pack => ({
 	packViews: 0,
 	packBookmarkCount: 0,
 	...overrides,
+});
+
+export const createMockPackListItem = (
+	overrides?: Partial<PackListItem>,
+): PackListItem => ({
+	packId: 1,
+	packName: 'Vermont: Weekend Trips',
+	packIndex: '2000',
+	packCategories: [],
+	...overrides,
+});
+
+export const createMockCategory = (overrides?: Partial<Category>): Category => ({
+	packId: 1,
+	packCategoryId: 1,
+	packCategoryName: 'Clothing',
+	packCategoryIndex: '1000',
+	packCategoryColor: paletteList[1],
+	packItems: [],
+	...overrides,
+});
+
+export const createMockInitialState = (
+	overrides?: Partial<InitialState>,
+): InitialState => ({
+	packList: [createMockPackListItem()],
+	pack: createMockPack(),
+	categories: [createMockCategory()],
+	...overrides,
+});
+
+export const createMockPackWithCategories = (
+	overrides?: Partial<PackWithCategories>,
+): PackWithCategories => ({
+	pack: createMockPack(),
+	categories: [createMockCategory()],
+	...overrides,
+});
+
+export const createMockPackList = () => ({
+	packList: [
+		createMockPackListItem(),
+		createMockPackListItem({
+			packId: 2,
+			packName: 'Colorado Trail - Section Hike',
+			packIndex: '3000',
+		}),
+	],
 });
