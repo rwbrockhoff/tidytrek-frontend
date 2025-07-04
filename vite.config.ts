@@ -41,5 +41,13 @@ export default defineConfig(({ mode }) => ({
 			'**/playwright-report/**',
 		],
 		include: ['**/src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+		coverage: {
+			exclude: [
+				'**/node_modules/**',
+				'**/dist/**',
+				'**/*.config.*',
+				'**/coverage/**',
+			],
+		},
 	},
 }));
