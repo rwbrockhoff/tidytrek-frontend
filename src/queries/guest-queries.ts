@@ -23,7 +23,7 @@ export type GuestProfileViewState = BaseProfileState & {
 // Type check util if data is from guest profile query
 export const isGuestProfileData = (data: any): data is GuestProfileViewState => {
 	return (
-		data &&
+		!!data &&
 		(data.notFound !== undefined ||
 			data.isPrivate !== undefined ||
 			data.hasError !== undefined)

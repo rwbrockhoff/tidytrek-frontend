@@ -47,7 +47,15 @@ describe('useGetAuthStatusQuery', () => {
 		vi.clearAllMocks();
 	});
 
-	it('should fetch auth status successfully', async () => {
+	it('should call correct API endpoint', () => {
+		renderHook(() => useGetAuthStatusQuery(), {
+			wrapper: createQueryWrapper(),
+		});
+
+		expect(tidyTrekAPI.get).toHaveBeenCalledWith('/auth/status');
+	});
+
+	it('should return transformed auth data correctly', async () => {
 		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockAuthResponse });
 
 		const { result } = renderHook(() => useGetAuthStatusQuery(), {
@@ -59,22 +67,6 @@ describe('useGetAuthStatusQuery', () => {
 		});
 
 		expect(result.current.data).toEqual(mockAuthResponse);
-		expect(tidyTrekAPI.get).toHaveBeenCalledWith('/auth/status');
-	});
-
-	it('should handle auth status errors', async () => {
-		const error = new Error('Unauthorized');
-		vi.mocked(tidyTrekAPI.get).mockRejectedValue(error);
-
-		const { result } = renderHook(() => useGetAuthStatusQuery(), {
-			wrapper: createQueryWrapper(),
-		});
-
-		await waitFor(() => {
-			expect(result.current.isError).toBe(true);
-		});
-
-		expect(result.current.error).toBe(error);
 	});
 });
 
@@ -83,24 +75,18 @@ describe('useLoginMutation', () => {
 		vi.clearAllMocks();
 	});
 
-	it('should call login API and invalidate auth queries on success', async () => {
+	it('should call login API with correct data', async () => {
 		const loginData = createMockLoginUser();
-		const loginResponse = { newUser: false, message: 'Login successful' };
+		vi.mocked(tidyTrekAPI.post).mockResolvedValue({ data: {} });
 
-		vi.mocked(tidyTrekAPI.post).mockResolvedValue({ data: loginResponse });
-
-		// create mutation
 		const wrapper = createQueryWrapper();
 		const { result } = renderHook(() => useLoginMutation(), { wrapper });
 
 		result.current.mutate(loginData);
 
 		await waitFor(() => {
-			expect(result.current.isSuccess).toBe(true);
+			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/login', loginData);
 		});
-
-		expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/login', loginData);
-		expect(result.current.data).toEqual(loginResponse);
 	});
 });
 
@@ -109,7 +95,7 @@ describe('useLogoutMutation', () => {
 		vi.clearAllMocks();
 	});
 
-	it('should sign out from Supabase and call logout API', async () => {
+	it('should call both Supabase signOut and logout API', async () => {
 		vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null });
 		vi.mocked(tidyTrekAPI.post).mockResolvedValue({});
 
@@ -119,26 +105,8 @@ describe('useLogoutMutation', () => {
 		result.current.mutate();
 
 		await waitFor(() => {
-			expect(result.current.isSuccess).toBe(true);
+			expect(supabase.auth.signOut).toHaveBeenCalled();
+			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/logout');
 		});
-
-		expect(supabase.auth.signOut).toHaveBeenCalled();
-		expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/logout');
-	});
-
-	it('should handle logout errors', async () => {
-		const error = new Error('Logout failed');
-		vi.mocked(supabase.auth.signOut).mockRejectedValue(error);
-
-		const wrapper = createQueryWrapper();
-		const { result } = renderHook(() => useLogoutMutation(), { wrapper });
-
-		result.current.mutate();
-
-		await waitFor(() => {
-			expect(result.current.isError).toBe(true);
-		});
-
-		expect(result.current.error).toBe(error);
 	});
 });

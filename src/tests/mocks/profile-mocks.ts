@@ -1,4 +1,4 @@
-import { type ProfileInfo, type SocialLink } from '@/types/profile-types';
+import { type ProfileInfo, type SocialLink, type UserProfile } from '@/types/profile-types';
 
 // Create mock data
 export const createMockProfileInfo = (overrides?: Partial<ProfileInfo>): ProfileInfo => ({
@@ -27,3 +27,9 @@ export const createMockSocialLinks = (): SocialLink[] => [
 		userId: 1,
 	},
 ];
+
+export const createMockUserProfile = (overrides?: Partial<UserProfile>): UserProfile => ({
+	profileInfo: createMockProfileInfo(),
+	socialLinks: createMockSocialLinks(),
+	...overrides,
+});

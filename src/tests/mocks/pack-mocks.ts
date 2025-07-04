@@ -5,6 +5,7 @@ import type {
 	InitialState,
 	Category,
 	PackWithCategories,
+	PackInfo,
 } from '@/types/pack-types';
 
 export const createMockPack = (overrides?: Partial<Pack>): Pack => ({
@@ -75,4 +76,12 @@ export const createMockPackList = () => ({
 			packIndex: '3000',
 		}),
 	],
+});
+
+export const createMockPackInfo = (overrides?: Partial<PackInfo>): PackInfo => ({
+	packItemId: 1,
+	packId: '1',
+	packCategoryId: '1',
+	packItemIndex: '1000',
+	...overrides,
 });
