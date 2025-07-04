@@ -24,23 +24,29 @@ export const useAxiosErrorStatus = (error: Error | null) => {
 export const isAxiosError = (error: unknown): error is AxiosError =>
 	axios.isAxiosError(error);
 
+// Helper function to extract error message
+const getAxiosErrorMessage = (error: unknown): string => {
+	const defaultError = 'Oops! There was an error.';
+	if (axios.isAxiosError(error)) {
+		return error?.response ? error.response.data?.error : defaultError;
+	} else {
+		return defaultError;
+	}
+};
+
 export const useMutationError = (error: unknown, cb: (message: string) => void) => {
 	return useMemo(() => {
-		if (isAxiosError(error)) {
-			const errorMessage = useAxiosErrorMessage(error);
-			return cb(errorMessage);
-		} else return cb(defaultErrorMessage);
-	}, [error]);
+		const errorMessage = getAxiosErrorMessage(error);
+		return cb(errorMessage);
+	}, [error, cb]);
 };
 
 export const useMutationErrors = () => {
 	const [serverError, setServerError] = useState(initialErrorState);
 
 	const updateAxiosError = (error: unknown) => {
-		if (isAxiosError(error)) {
-			const message = useAxiosErrorMessage(error);
-			setServerError({ error: true, message });
-		} else setServerError({ error: true, message: defaultErrorMessage });
+		const message = getAxiosErrorMessage(error);
+		setServerError({ error: true, message });
 	};
 
 	const setAxiosError = (message: string) => setServerError({ error: true, message });
@@ -51,6 +57,6 @@ export const useMutationErrors = () => {
 };
 
 // defaults
-const defaultErrorMessage =
-	'There was an error handling your request at this time. Contact support if this continues.';
+// const defaultErrorMessage =
+// 	'There was an error handling your request at this time. Contact support if this continues.';
 const initialErrorState = { error: false, message: '' };
