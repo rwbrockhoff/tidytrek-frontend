@@ -90,10 +90,15 @@ const TextFieldMessage = forwardRef<
 		children: React.ReactNode;
 		match?: RadixFormMatchType;
 		className?: string;
+		id?: string;
 	}
->(({ children, match, className }, ref) => {
+>(({ children, match, className, id }, ref) => {
 	return (
-		<Form.Message ref={ref} match={match} className={cn(styles.message, className)}>
+		<Form.Message
+			ref={ref}
+			match={match}
+			className={cn(styles.message, className)}
+			id={id}>
 			{children}
 		</Form.Message>
 	);
@@ -121,6 +126,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 	) => {
 		const hasError = getErrorState(error);
 		const errorMessage = getErrorMessage(error, message);
+		const errorId = `${name}-error`;
 
 		const inputClasses = cn(
 			styles.input,
@@ -137,7 +143,14 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 
 		const input = (
 			<Form.Control asChild>
-				<input ref={ref} type={type} className={inputClasses} {...props} />
+				<input
+					ref={ref}
+					type={type}
+					className={inputClasses}
+					aria-invalid={hasError}
+					aria-describedby={hasError ? errorId : undefined}
+					{...props}
+				/>
 			</Form.Control>
 		);
 
@@ -161,7 +174,9 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 							</TextFieldSlot>
 						)}
 					</div>
-					{errorMessage && <TextFieldMessage>{errorMessage}</TextFieldMessage>}
+					{errorMessage && (
+						<TextFieldMessage id={errorId}>{errorMessage}</TextFieldMessage>
+					)}
 				</TextFieldRoot>
 			);
 		}
@@ -173,7 +188,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 				style={rootStyle}>
 				{label && <TextFieldLabel>{label}</TextFieldLabel>}
 				{input}
-				{message && <TextFieldMessage>{message}</TextFieldMessage>}
+				{errorMessage && <TextFieldMessage id={errorId}>{errorMessage}</TextFieldMessage>}
 			</TextFieldRoot>
 		);
 	},

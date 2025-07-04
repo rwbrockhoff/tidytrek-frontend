@@ -146,7 +146,7 @@ export const PackModal = (props: PackModalProps) => {
 
 						<Flex align="center" my="4">
 							<Flex justify="center" direction="column">
-								<label>
+								<label htmlFor="pack-public-switch">
 									<PublicIcon /> Public
 								</label>
 								<Text size="2" color="gray">
@@ -154,6 +154,7 @@ export const PackModal = (props: PackModalProps) => {
 								</Text>
 							</Flex>
 							<Switch
+								id="pack-public-switch"
 								radius="medium"
 								color="jade"
 								size="3"
@@ -165,7 +166,7 @@ export const PackModal = (props: PackModalProps) => {
 
 						<Flex align="center" my="4">
 							<Flex justify="center" direction="column">
-								<label>
+								<label htmlFor="pack-pricing-switch">
 									<MoneyIcon /> Pack Prices
 								</label>
 								<Text size="2" color="gray">
@@ -173,6 +174,7 @@ export const PackModal = (props: PackModalProps) => {
 								</Text>
 							</Flex>
 							<Switch
+								id="pack-pricing-switch"
 								radius="medium"
 								color="jade"
 								size="3"
@@ -184,7 +186,7 @@ export const PackModal = (props: PackModalProps) => {
 
 						<Flex align="center" my="4">
 							<Flex justify="center" direction="column">
-								<label>
+								<label htmlFor="pack-affiliate-switch">
 									<LinkIcon /> Affiliate Links
 								</label>
 								<Text size="2" color="gray">
@@ -192,6 +194,7 @@ export const PackModal = (props: PackModalProps) => {
 								</Text>
 							</Flex>
 							<Switch
+								id="pack-affiliate-switch"
 								radius="medium"
 								color="jade"
 								size="3"

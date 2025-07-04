@@ -64,10 +64,11 @@ const TextAreaMessage = forwardRef<
 		children: React.ReactNode;
 		match?: RadixFormMatchType;
 		className?: string;
+		id?: string;
 	}
->(({ children, match, className }, ref) => {
+>(({ children, match, className, id }, ref) => {
 	return (
-		<Form.Message ref={ref} match={match} className={cn(styles.message, className)}>
+		<Form.Message ref={ref} match={match} className={cn(styles.message, className)} id={id} data-testid={id}>
 			{children}
 		</Form.Message>
 	);
@@ -79,6 +80,7 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	({ error, className, label, message, name, width, height, ...props }, ref) => {
 		const hasError = getErrorState(error);
 		const errorMessage = getErrorMessage(error, message);
+		const errorId = `${name}-error`;
 
 		const textareaClasses = cn(
 			styles.textarea,
@@ -91,7 +93,13 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
 		const textarea = (
 			<Form.Control asChild>
-				<textarea ref={ref} className={textareaClasses} {...props} />
+				<textarea 
+					ref={ref} 
+					className={textareaClasses} 
+					aria-invalid={hasError}
+					aria-describedby={hasError ? errorId : undefined}
+					{...props} 
+				/>
 			</Form.Control>
 		);
 
@@ -105,7 +113,7 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 			<TextAreaRoot name={name} className={rootClassName} style={rootStyle}>
 				{label && <TextAreaLabel>{label}</TextAreaLabel>}
 				{textarea}
-				{errorMessage && <TextAreaMessage>{errorMessage}</TextAreaMessage>}
+				{errorMessage && <TextAreaMessage id={errorId}>{errorMessage}</TextAreaMessage>}
 			</TextAreaRoot>
 		);
 	},

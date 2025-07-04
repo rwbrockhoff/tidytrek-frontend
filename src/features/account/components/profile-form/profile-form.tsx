@@ -141,7 +141,8 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 								radius="medium"
 								size="1"
 								type="button"
-								onClick={handleGenerateUsername}>
+								onClick={handleGenerateUsername}
+								aria-label="Generate random username">
 								<RefreshIcon />
 							</IconButton>
 						}

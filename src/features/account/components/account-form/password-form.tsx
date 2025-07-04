@@ -118,9 +118,6 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						onChange={handleClearErrors}
 						type="password"
 						placeholder="New Password"
-						variant="icon"
-						icon={<PasswordIcon />}
-						iconPosition="left"
 					/>
 
 					<TextField.Input
@@ -130,9 +127,6 @@ export const PasswordForm = (props: PasswordFormProps) => {
 						onChange={handleClearErrors}
 						type="password"
 						placeholder="Confirm Password"
-						variant="icon"
-						icon={<PasswordIcon />}
-						iconPosition="left"
 					/>
 
 					<TextField.Input
