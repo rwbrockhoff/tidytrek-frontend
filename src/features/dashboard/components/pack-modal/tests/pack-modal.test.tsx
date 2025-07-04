@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { PackModal } from '../pack-modal';
-import { wrappedRender } from '@/tests/test-utils';
+import { wrappedRender } from '@/tests/wrapper-utils';
 import { createMockPack } from '@/tests/mocks/pack-mocks';
 import * as packQueries from '@/queries/pack-queries';
 

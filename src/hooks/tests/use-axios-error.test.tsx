@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { AxiosError } from 'axios';
 import {
 	useAxiosErrorMessage,
 	useAxiosErrorStatus,
 	isAxiosError,
 	useMutationErrors,
 } from '@/hooks/use-axios-error';
+import { createMockAxiosError } from '@/tests/mocks/api-mocks';
 
 import axios from 'axios';
 
@@ -21,19 +21,6 @@ vi.mock('axios', () => ({
 }));
 
 const mockIsAxiosError = vi.mocked(axios.isAxiosError);
-
-const createMockAxiosError = (status: number, errorMessage: string): AxiosError => {
-	const error = new Error('Network Error') as AxiosError;
-	error.isAxiosError = true;
-	error.response = {
-		status,
-		data: { error: errorMessage },
-		statusText: 'Error',
-		headers: {},
-		config: {} as any,
-	};
-	return error;
-};
 
 describe('useAxiosErrorMessage', () => {
 	it('should return default error message when error is null', () => {

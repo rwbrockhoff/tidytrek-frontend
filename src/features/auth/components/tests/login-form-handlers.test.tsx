@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { LogInForm, type AuthFormProps } from '../login-form';
-import { wrappedRender } from '@/tests/test-utils';
+import { wrappedRender } from '@/tests/wrapper-utils';
 
 // Create mock form errors
 const createMockFormErrors = () => ({

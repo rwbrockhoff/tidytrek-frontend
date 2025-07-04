@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { WelcomeForm } from '../welcome-form';
-import { wrappedRender } from '@/tests/test-utils';
+import { wrappedRender } from '@/tests/wrapper-utils';
 
 // Mock React Router (dependency, not used for test logic)
 vi.mock('react-router-dom', async () => {

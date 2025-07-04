@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { ResetPasswordForm } from '../reset-password-form';
-import { wrappedRender } from '@/tests/test-utils';
+import { wrappedRender } from '@/tests/wrapper-utils';
 import { type ResetPasswordData } from '@/features/auth/types/auth-types';
 import { type ZodFormErrors } from '@/hooks';
 

@@ -1,30 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useGetAuth } from '../use-get-auth';
 import * as userQueries from '@/queries/user-queries';
 import type { AuthStatusResponse } from '@/queries/user-queries';
 import { createMockUser, createMockSettings } from '@/tests/mocks/user-mocks';
-import { createQueryResponse } from '@/tests/mock-utils';
+import { createQueryResponse } from '@/tests/mocks/query-mocks';
+import { createQueryWrapper } from '@/tests/wrapper-utils';
 
 // Mock the user queries
 vi.mock('@/queries/user-queries', () => ({
 	useGetAuthStatusQuery: vi.fn(),
 }));
 
-// Query wrapper
-const createQueryWrapper = () => {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: { retry: false },
-			mutations: { retry: false },
-		},
-	});
-
-	return ({ children }: { children: React.ReactNode }) => (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
-};
 
 describe('useGetAuth Hook', () => {
 	it('returns loading state when query is loading', () => {
