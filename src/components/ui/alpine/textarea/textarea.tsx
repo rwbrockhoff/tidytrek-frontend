@@ -13,6 +13,7 @@ export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 	width?: string;
 	height?: string;
 	rows?: number;
+	match?: RadixFormMatchType;
 }
 
 export interface TextAreaRootProps {
@@ -77,7 +78,7 @@ const TextAreaMessage = forwardRef<
 TextAreaMessage.displayName = 'TextAreaMessage';
 
 const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-	({ error, className, label, message, name, width, height, ...props }, ref) => {
+	({ error, className, label, message, name, width, height, match, ...props }, ref) => {
 		const hasError = getErrorState(error);
 		const errorMessage = getErrorMessage(error, message);
 		const errorId = `${name}-error`;
@@ -113,7 +114,7 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 			<TextAreaRoot name={name} className={rootClassName} style={rootStyle}>
 				{label && <TextAreaLabel>{label}</TextAreaLabel>}
 				{textarea}
-				{errorMessage && <TextAreaMessage id={errorId}>{errorMessage}</TextAreaMessage>}
+				{errorMessage && <TextAreaMessage id={errorId} match={match}>{errorMessage}</TextAreaMessage>}
 			</TextAreaRoot>
 		);
 	},

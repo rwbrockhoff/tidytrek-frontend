@@ -16,6 +16,7 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
 	iconPosition?: 'left' | 'right';
 	iconIsButton?: boolean;
 	width?: string;
+	match?: RadixFormMatchType;
 }
 
 export interface TextFieldRootProps {
@@ -120,6 +121,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 			message,
 			name,
 			width,
+			match,
 			...props
 		},
 		ref,
@@ -175,7 +177,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 						)}
 					</div>
 					{errorMessage && (
-						<TextFieldMessage id={errorId}>{errorMessage}</TextFieldMessage>
+						<TextFieldMessage id={errorId} match={match}>{errorMessage}</TextFieldMessage>
 					)}
 				</TextFieldRoot>
 			);
@@ -188,7 +190,7 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 				style={rootStyle}>
 				{label && <TextFieldLabel>{label}</TextFieldLabel>}
 				{input}
-				{errorMessage && <TextFieldMessage id={errorId}>{errorMessage}</TextFieldMessage>}
+				{errorMessage && <TextFieldMessage id={errorId} match={match}>{errorMessage}</TextFieldMessage>}
 			</TextFieldRoot>
 		);
 	},
