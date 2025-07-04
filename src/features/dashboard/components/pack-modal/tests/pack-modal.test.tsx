@@ -56,8 +56,8 @@ describe('PackModal', () => {
 			// Open the modal
 			await user.click(screen.getByText('Open Modal'));
 
-			// Find and edit pack name
-			const packNameInput = screen.getByDisplayValue('CDT Shakedown');
+			// Wait for modal to open and find pack name input
+			const packNameInput = await screen.findByDisplayValue('CDT Shakedown');
 			await user.clear(packNameInput);
 			await user.type(packNameInput, 'Updated Pack Name');
 
