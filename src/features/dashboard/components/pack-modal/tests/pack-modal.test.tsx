@@ -117,8 +117,9 @@ describe('PackModal', () => {
 
 			await user.click(screen.getByText('Open Modal'));
 
-			// Toggle the public switch
+			// Toggle the public switch (and verify accessibility)
 			const publicSwitch = screen.getByRole('switch', { name: /public/i });
+			expect(publicSwitch).toHaveAccessibleName();
 			await user.click(publicSwitch);
 
 			const saveButton = screen.getByRole('button', { name: /save/i });
@@ -138,8 +139,9 @@ describe('PackModal', () => {
 
 			await user.click(screen.getByText('Open Modal'));
 
-			// Toggle the affiliate switch
+			// Toggle the affiliate switch (and verify accessibility)
 			const affiliateSwitch = screen.getByRole('switch', { name: /affiliate/i });
+			expect(affiliateSwitch).toHaveAccessibleName();
 			await user.click(affiliateSwitch);
 
 			const saveButton = screen.getByRole('button', { name: /save/i });

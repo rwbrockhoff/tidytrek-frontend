@@ -78,6 +78,7 @@ export const LogInForm = (props: AuthFormProps) => {
 								<TextField.Input
 									name="firstName"
 									placeholder="First Name"
+									aria-label="First Name"
 									onChange={handleClearErrors}
 									error={formErrors.firstName}
 									data-testid="first-name-input"
@@ -85,6 +86,7 @@ export const LogInForm = (props: AuthFormProps) => {
 								<TextField.Input
 									name="lastName"
 									placeholder="Last Name"
+									aria-label="Last Name"
 									onChange={handleClearErrors}
 									error={formErrors.lastName}
 									data-testid="last-name-input"
@@ -95,6 +97,7 @@ export const LogInForm = (props: AuthFormProps) => {
 						<TextField.Input
 							name="email"
 							placeholder="Email"
+							aria-label="Email"
 							onChange={handleClearErrors}
 							error={formErrors.email}
 							data-testid="email-input"
@@ -102,10 +105,11 @@ export const LogInForm = (props: AuthFormProps) => {
 
 						<TextField.Input
 							name="password"
+							placeholder="Password"
+							aria-label="Password"
 							onChange={handleClearErrors}
 							error={formErrors.password}
 							type="password"
-							placeholder="Password"
 							data-testid="password-input"
 						/>
 

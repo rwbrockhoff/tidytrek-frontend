@@ -105,6 +105,12 @@ describe('WelcomeForm', () => {
 
 			// Should show validation error (and be accessible)
 			await vi.waitFor(() => {
+				// Input accessibility
+				expect(usernameInput).toHaveAccessibleName();
+				expect(usernameInput).toHaveAttribute('aria-invalid', 'true');
+				expect(usernameInput).toHaveAttribute('aria-describedby', 'username-error');
+				
+				// Error message accessibility and content
 				const errorMessage = document.getElementById('username-error');
 				expect(errorMessage).toBeInTheDocument();
 				expect(errorMessage).toHaveTextContent('Username must be at least');

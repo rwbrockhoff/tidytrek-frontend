@@ -35,9 +35,15 @@ describe('LogInForm - handleFormSubmit', () => {
 
 		const { user } = wrappedRender(<LogInForm {...props} />);
 
-		// Fill out the form using data-testid
-		await user.type(screen.getByTestId('email-input'), 'test@dundermifflin.com');
-		await user.type(screen.getByTestId('password-input'), 'password123');
+		// Fill out the form using data-testid (and verify accessibility)
+		const emailInput = screen.getByTestId('email-input');
+		const passwordInput = screen.getByTestId('password-input');
+		
+		expect(emailInput).toHaveAccessibleName();
+		expect(passwordInput).toHaveAccessibleName();
+		
+		await user.type(emailInput, 'test@dundermifflin.com');
+		await user.type(passwordInput, 'password123');
 
 		// Submit the form
 		await user.click(screen.getByRole('button', { name: /login/i }));
@@ -58,11 +64,21 @@ describe('LogInForm - handleFormSubmit', () => {
 
 		const { user } = wrappedRender(<LogInForm {...props} />);
 
-		// Fill out the registration form using data-testid
-		await user.type(screen.getByTestId('first-name-input'), 'Jim');
-		await user.type(screen.getByTestId('last-name-input'), 'Halpert');
-		await user.type(screen.getByTestId('email-input'), 'jim@dundermifflin.com');
-		await user.type(screen.getByTestId('password-input'), 'password123');
+		// Fill out the registration form using data-testid (and verify accessibility)
+		const firstNameInput = screen.getByTestId('first-name-input');
+		const lastNameInput = screen.getByTestId('last-name-input');
+		const emailInput = screen.getByTestId('email-input');
+		const passwordInput = screen.getByTestId('password-input');
+		
+		expect(firstNameInput).toHaveAccessibleName();
+		expect(lastNameInput).toHaveAccessibleName();
+		expect(emailInput).toHaveAccessibleName();
+		expect(passwordInput).toHaveAccessibleName();
+		
+		await user.type(firstNameInput, 'Jim');
+		await user.type(lastNameInput, 'Halpert');
+		await user.type(emailInput, 'jim@dundermifflin.com');
+		await user.type(passwordInput, 'password123');
 
 		// Submit the form
 		await user.click(screen.getByRole('button', { name: /create account/i }));

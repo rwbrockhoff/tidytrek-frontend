@@ -53,6 +53,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 								error={formErrors.email}
 								onChange={handleClearErrors}
 								placeholder="Email"
+								aria-label="Email"
 							/>
 						)}
 
@@ -64,6 +65,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 									onChange={handleClearErrors}
 									type="password"
 									placeholder="Password"
+									aria-label="Password"
 									data-testid="password-input"
 								/>
 
@@ -73,6 +75,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 									onChange={handleClearErrors}
 									type="password"
 									placeholder="Confirm Password"
+									aria-label="Confirm Password"
 									data-testid="confirm-password-input"
 								/>
 							</>

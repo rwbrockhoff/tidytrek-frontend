@@ -186,18 +186,22 @@ describe('ResetPasswordForm - Error Handling', () => {
 		wrappedRender(<ResetPasswordForm {...props} />);
 
 		// Should show validation errors (and be accessible)
-		// Use aria-describedby to find the error messages since Radix generates its own IDs
-		const passwordField = document.querySelector('[name="password"]');
-		const confirmPasswordField = document.querySelector('[name="confirmPassword"]');
+		const passwordField = screen.getByTestId('password-input');
+		const confirmPasswordField = screen.getByTestId('confirm-password-input');
 
+		// Password field accessibility
+		expect(passwordField).toHaveAccessibleName();
 		expect(passwordField).toHaveAttribute('aria-invalid', 'true');
+		expect(passwordField).toHaveAttribute('aria-describedby', 'password-error');
+
+		// Confirm password field accessibility
+		expect(confirmPasswordField).toHaveAccessibleName();
 		expect(confirmPasswordField).toHaveAttribute('aria-invalid', 'true');
+		expect(confirmPasswordField).toHaveAttribute('aria-describedby', 'confirmPassword-error');
 
-		const passwordErrorId = passwordField?.getAttribute('aria-describedby');
-		const confirmPasswordErrorId = confirmPasswordField?.getAttribute('aria-describedby');
-
-		const passwordError = document.getElementById(passwordErrorId!);
-		const confirmPasswordError = document.getElementById(confirmPasswordErrorId!);
+		// Error messages accessibility and content
+		const passwordError = document.getElementById('password-error');
+		const confirmPasswordError = document.getElementById('confirmPassword-error');
 
 		expect(passwordError).toBeInTheDocument();
 		expect(passwordError).toHaveTextContent('Password is required');

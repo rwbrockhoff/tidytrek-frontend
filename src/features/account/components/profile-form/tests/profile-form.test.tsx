@@ -75,11 +75,12 @@ describe('ProfileForm', () => {
 		it('renders username generation button with accessibility', () => {
 			renderProfileForm();
 
-			// The refresh button should be present with proper accessibility
+			// The refresh button should be present (and be accessible)
 			const refreshButton = screen.getByRole('button', {
 				name: /generate random username/i,
 			});
 			expect(refreshButton).toBeInTheDocument();
+			expect(refreshButton).toHaveAccessibleName();
 		});
 
 		it('renders save button initially disabled', () => {
