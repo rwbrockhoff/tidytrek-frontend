@@ -6,6 +6,7 @@ import type {
 	Category,
 	PackWithCategories,
 	PackInfo,
+	PackItem,
 } from '@/types/pack-types';
 
 export const createMockPack = (overrides?: Partial<Pack>): Pack => ({
@@ -47,6 +48,24 @@ export const createMockCategory = (overrides?: Partial<Category>): Category => (
 	packCategoryIndex: '1000',
 	packCategoryColor: paletteList[1],
 	packItems: [],
+	...overrides,
+});
+
+export const createMockPackItem = (overrides?: Partial<PackItem>): PackItem => ({
+	packId: 1,
+	packItemId: 1,
+	packCategoryId: 1,
+	packItemName: 'Hyperlite Mountain Gear SW 2400',
+	packItemDescription: '40 Liter UL',
+	packItemWeight: 28,
+	packItemUnit: 'oz',
+	packItemQuantity: 1,
+	packItemUrl: '',
+	wornWeight: false,
+	consumable: false,
+	favorite: false,
+	packItemIndex: '1000',
+	packItemPrice: 349.99,
 	...overrides,
 });
 

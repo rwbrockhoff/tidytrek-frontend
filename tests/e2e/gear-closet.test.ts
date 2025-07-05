@@ -170,7 +170,7 @@ test.describe.serial('Gear Closet Functionality', () => {
 					.inputValue();
 				expect(visibleItemDescription).toBe(firstItemDescriptionValue);
 
-				// Throw warning for missing description
+				// Throw warning for missing description (but don't break test)
 			} else throw warn('Warning: Gear Closet Search Test: Item Description was empty');
 		});
 
@@ -226,7 +226,7 @@ test.describe.serial('Gear Closet Functionality', () => {
 		test.beforeEach(async ({ page, request }) => {
 			// Reset database to ensure clean state for drag and drop testing
 			await request.post('http://localhost:4002/test/reset');
-			
+
 			await page.goto('/gear-closet');
 			await page.waitForLoadState('networkidle');
 		});

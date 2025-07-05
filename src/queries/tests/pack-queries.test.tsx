@@ -5,10 +5,21 @@ import {
 	useGetPackListQuery,
 	useAddNewPackMutation,
 	useImportPackMutation,
+	useEditPackMutation,
+	useDeletePackMutation,
+	useAddNewPackItemMutation,
+	useEditPackItemMutation,
+	useDeletePackItemMutation,
+	useAddPackCategoryMutation,
 } from '@/queries/pack-queries';
 import { tidyTrekAPI } from '@/api/tidytrekAPI';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
-import { createMockInitialState, createMockPackList } from '@/tests/mocks/pack-mocks';
+import {
+	createMockInitialState,
+	createMockPack,
+	createMockPackItem,
+	createMockPackList,
+} from '@/tests/mocks/pack-mocks';
 
 // Mock API calls and utils
 vi.mock('@/api/tidytrekAPI', () => ({
@@ -16,6 +27,7 @@ vi.mock('@/api/tidytrekAPI', () => ({
 		get: vi.fn(),
 		post: vi.fn(),
 		put: vi.fn(),
+		delete: vi.fn(),
 	},
 }));
 
@@ -130,6 +142,139 @@ describe('useImportPackMutation', () => {
 			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/packs/import', {
 				packUrl,
 				paletteList: expect.any(Array),
+			});
+		});
+	});
+});
+
+describe('useEditPackMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with pack data', async () => {
+		const packData = {
+			packId: 1,
+			modifiedPack: createMockPack({ packName: 'Updated Pack' }),
+		};
+
+		vi.mocked(tidyTrekAPI.put).mockResolvedValue({ data: {} });
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useEditPackMutation(), { wrapper });
+
+		result.current.mutate(packData);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.put).toHaveBeenCalledWith('/packs/1', packData.modifiedPack);
+		});
+	});
+});
+
+describe('useDeletePackMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with pack ID', async () => {
+		const packId = 1;
+		vi.mocked(tidyTrekAPI.delete).mockResolvedValue({});
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useDeletePackMutation(), { wrapper });
+
+		result.current.mutate(packId);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.delete).toHaveBeenCalledWith('/packs/1');
+		});
+	});
+});
+
+describe('useAddNewPackItemMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with pack item data', async () => {
+		const packItem = { packId: 1, packCategoryId: 2 };
+		vi.mocked(tidyTrekAPI.post).mockResolvedValue({ data: {} });
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useAddNewPackItemMutation(), { wrapper });
+
+		result.current.mutate(packItem);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/packs/pack-items', packItem);
+		});
+	});
+});
+
+describe('useEditPackItemMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with item data', async () => {
+		const itemData = {
+			packItemId: 1,
+			packItem: createMockPackItem({ packItemName: 'Updated Item' }),
+		};
+
+		vi.mocked(tidyTrekAPI.put).mockResolvedValue({ data: {} });
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useEditPackItemMutation(), { wrapper });
+
+		result.current.mutate(itemData);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.put).toHaveBeenCalledWith(
+				'/packs/pack-items/1',
+				itemData.packItem,
+			);
+		});
+	});
+});
+
+describe('useDeletePackItemMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with item ID', async () => {
+		const packItemId = 1;
+		vi.mocked(tidyTrekAPI.delete).mockResolvedValue({});
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useDeletePackItemMutation(), { wrapper });
+
+		result.current.mutate(packItemId);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.delete).toHaveBeenCalledWith('/packs/pack-items/1');
+		});
+	});
+});
+
+describe('useAddPackCategoryMutation', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should call correct API endpoint with category data', async () => {
+		const categoryData = { packId: 1, categoryColor: '#ff0000' };
+		vi.mocked(tidyTrekAPI.post).mockResolvedValue({ data: {} });
+
+		const wrapper = createQueryWrapper();
+		const { result } = renderHook(() => useAddPackCategoryMutation(), { wrapper });
+
+		result.current.mutate(categoryData);
+
+		await waitFor(() => {
+			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/packs/categories/1', {
+				categoryColor: '#ff0000',
 			});
 		});
 	});
