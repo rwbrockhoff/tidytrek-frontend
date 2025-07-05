@@ -4,26 +4,11 @@ import { SearchIcon } from '../../icons';
 import { Form } from 'radix-ui';
 
 const meta = {
-	title: 'UI/TextField',
+	title: 'Alpine UI/TextField',
 	component: TextField.Standalone,
 	parameters: {
 		layout: 'centered',
-		docs: {
-			description: {
-				component: `
-Custom TextField built with Radix primitives and design tokens.
-
-**Variants:**
-- Default: Standard input styling
-- Minimal: Transparent for tables/inline editing  
-- Icon: With left or right icons
-
-Uses Radix Form primitives for accessibility and validation.
-        `,
-			},
-		},
 	},
-	tags: ['autodocs'],
 } satisfies Meta<typeof TextField.Standalone>;
 
 export default meta;
@@ -42,13 +27,6 @@ export const Minimal: Story = {
 		placeholder: 'Table input',
 		variant: 'minimal',
 	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Good for tables - transparent until hover/focus.',
-			},
-		},
-	},
 };
 
 export const WithIcon: Story = {
@@ -57,13 +35,6 @@ export const WithIcon: Story = {
 		variant: 'icon',
 		icon: <SearchIcon />,
 		iconPosition: 'left',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Icons can go left or right.',
-			},
-		},
 	},
 };
 
@@ -84,13 +55,6 @@ export const AllStates: Story = {
 			/>
 		</div>
 	),
-	parameters: {
-		docs: {
-			description: {
-				story: 'Shows all states and variants.',
-			},
-		},
-	},
 };
 
 // Form context example
@@ -115,29 +79,4 @@ export const FormIntegration: Story = {
 			/>
 		</Form.Root>
 	),
-	parameters: {
-		docs: {
-			description: {
-				story: 'Using with Radix Form for validation.',
-			},
-		},
-	},
-};
-
-// Interactive playground
-export const Playground: Story = {
-	args: {
-		placeholder: 'Type here...',
-		variant: 'default',
-		type: 'text',
-		disabled: false,
-		error: false,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Try different props.',
-			},
-		},
-	},
 };

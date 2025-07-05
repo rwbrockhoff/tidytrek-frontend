@@ -1,0 +1,244 @@
+/* Table Root */
+.table {
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
+	min-width: 100%;
+	border: none;
+}
+
+.tableDefault {
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius);
+}
+
+.tableSurface {
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius);
+}
+
+.tableGhost {
+	border: none;
+	background-color: transparent;
+}
+
+/* Table Sizes */
+.tableSize1 {
+	font-size: var(--font-size-sm);
+}
+
+.tableSize2 {
+	font-size: var(--font-size-base);
+}
+
+.tableSize3 {
+	font-size: var(--font-size-md);
+}
+
+/* Header */
+.header {
+	border-bottom: 1px solid var(--color-border-primary);
+}
+
+/* Body */
+.body {
+	/* No specific styles needed */
+}
+
+/* Footer */
+.footer {
+	border-top: 1px solid var(--color-border-primary);
+}
+
+/* Row */
+.row {
+	border: none;
+	background-color: transparent;
+	transition: background-color var(--transition);
+}
+
+/* Highlight modifier - hover effect */
+.tableHighlight .row:hover {
+	background-color: var(--color-hover);
+}
+
+/* Default variant hover effect */
+.tableHighlight.tableDefault .row:hover {
+	background-color: var(--color-hover);
+}
+
+/* Surface variant needs stronger hover effect */
+.tableHighlight.tableSurface .row:hover {
+	background-color: var(--color-active);
+}
+
+/* Header Cell */
+.headerCell {
+	padding: var(--space-md);
+	text-align: left;
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text-secondary);
+	background-color: var(--color-bg-secondary);
+	border-bottom: 1px solid var(--color-border-primary);
+	vertical-align: middle;
+}
+
+.justifyStart {
+	text-align: left;
+}
+
+.justifyCenter {
+	text-align: center;
+}
+
+.justifyEnd {
+	text-align: right;
+}
+
+/* Cell */
+.cell {
+	padding: var(--space-md);
+	border-bottom: 1px solid var(--color-border-primary);
+	vertical-align: middle;
+	color: var(--color-text-primary);
+}
+
+.alignStart {
+	text-align: left;
+}
+
+.alignCenter {
+	text-align: center;
+}
+
+.alignEnd {
+	text-align: right;
+}
+
+.valignTop {
+	vertical-align: top;
+}
+
+.valignMiddle {
+	vertical-align: middle;
+}
+
+.valignBottom {
+	vertical-align: bottom;
+}
+
+/* Size variations for cells */
+.tableSize1 .headerCell,
+.tableSize1 .cell {
+	padding: var(--space-sm);
+}
+
+.tableSize2 .headerCell,
+.tableSize2 .cell {
+	padding: var(--space-md);
+}
+
+.tableSize3 .headerCell,
+.tableSize3 .cell {
+	padding: var(--space-lg);
+}
+
+/* Compact modifier - reduces padding and font size */
+.tableCompact {
+	font-size: var(--font-size-sm);
+}
+
+.tableCompact .headerCell,
+.tableCompact .cell {
+	padding: var(--space-xs);
+}
+
+/* Striped modifier - alternating row colors */
+.tableStriped .body .row:nth-child(even) {
+	background-color: var(--color-bg-tertiary);
+}
+
+/* Striped hover effects for surface variant */
+.tableStriped.tableHighlight.tableSurface .body .row:nth-child(even):hover {
+	background-color: var(--color-active);
+}
+
+.tableStriped.tableHighlight.tableSurface .body .row:nth-child(odd):hover {
+	background-color: var(--color-active);
+}
+
+/* Striped hover effects for default and ghost variants */
+.tableStriped.tableHighlight.tableDefault .body .row:hover,
+.tableStriped.tableHighlight.tableGhost .body .row:hover {
+	background-color: var(--color-hover);
+}
+
+/* Rounded modifiers */
+.tableRounded,
+.tableRoundedSm {
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+
+.tableRoundedMd {
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+}
+
+.tableRoundedLg {
+	border-radius: calc(var(--radius-lg) * 2);
+	overflow: hidden;
+}
+
+/* Remove border radius from header cells for proper rounded appearance */
+.tableRounded .header .row:first-child .headerCell:first-child,
+.tableRoundedSm .header .row:first-child .headerCell:first-child {
+	border-top-left-radius: var(--radius);
+}
+
+.tableRounded .header .row:first-child .headerCell:last-child,
+.tableRoundedSm .header .row:first-child .headerCell:last-child {
+	border-top-right-radius: var(--radius);
+}
+
+.tableRoundedMd .header .row:first-child .headerCell:first-child {
+	border-top-left-radius: var(--radius-lg);
+}
+
+.tableRoundedMd .header .row:first-child .headerCell:last-child {
+	border-top-right-radius: var(--radius-lg);
+}
+
+.tableRoundedLg .header .row:first-child .headerCell:first-child {
+	border-top-left-radius: calc(var(--radius-lg) * 2);
+}
+
+.tableRoundedLg .header .row:first-child .headerCell:last-child {
+	border-top-right-radius: calc(var(--radius-lg) * 2);
+}
+
+/* Shadow modifiers */
+.tableShadowClassic {
+	box-shadow: var(--shadow); /* Classic shadow */
+}
+
+.tableShadowSpread {
+	box-shadow: var(--shadow-lg); /* Spread out shadow */
+}
+
+.tableShadowPaper {
+	box-shadow: var(--shadow-paper); /* Custom paper shadow */
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+	.table {
+		font-size: var(--font-size-sm);
+	}
+
+	.headerCell,
+	.cell {
+		padding: var(--space-sm);
+	}
+}
