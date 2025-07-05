@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from './textfield';
+import { TextField } from '../';
 import { SearchIcon } from '../../icons';
 import { Form } from 'radix-ui';
 

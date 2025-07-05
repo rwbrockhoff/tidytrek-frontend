@@ -3,7 +3,7 @@ import { type PackItemProperty } from '@/types/pack-types';
 import styles from './pack-weight-cell.module.css';
 import { useContext } from 'react';
 import { Flex, Badge } from '@radix-ui/themes';
-import { TextField, TableCell } from '@/components/ui/alpine';
+import { TextField, Table } from '@/components/ui/alpine';
 import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TableRowContext } from '../../context/table-row-context';
@@ -33,7 +33,7 @@ export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) =
 	};
 
 	return (
-		<TableCell ref={ref} style={{ width }} onBlur={handleToggleOff}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
 				<Flex display="inline-flex" align="baseline" gap="1">
 					<TextField.Standalone
@@ -56,6 +56,6 @@ export const PackWeightCell = ({ onToggleOff, onSelect }: PackWeightCellProps) =
 						highContrast>{`${packItemWeight}  ${packItemUnit}`}</Badge>
 				</Flex>
 			)}
-		</TableCell>
+		</Table.Cell>
 	);
 };

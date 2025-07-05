@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TableCell } from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TextField } from '@/components/ui/alpine';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
@@ -20,7 +20,7 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<TableCell ref={ref} style={{ width }} onBlur={handleToggleOff} className={mx.px0}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff} className={mx.px0}>
 			<TextField.Standalone
 				variant="minimal"
 				value={packItemDescription || ''}
@@ -30,6 +30,6 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 				disabled={!userView}
 				className={mx.textEllipsis}
 			/>
-		</TableCell>
+		</Table.Cell>
 	);
 };

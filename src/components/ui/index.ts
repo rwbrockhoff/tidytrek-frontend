@@ -13,7 +13,6 @@ export * from './spinner';
 export * from './segment';
 export * from './tooltip';
 export * from './theme-toggle';
-export * from './alpine/textfield/textfield';
-export * from './alpine/textarea/textarea';
+export { TextField, TextArea } from './alpine/';
 export * from './skeleton/skeleton';
 export * from './skeleton/app-skeletons';

@@ -1,5 +1,5 @@
 import { Badge, Button } from '@radix-ui/themes';
-import { TableRow, TableCell } from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { PlusIcon } from '../ui';
 import { useTableColumnWidths } from './hooks/use-table-column-widths';
 import styles from './table-footer.module.css';
@@ -29,8 +29,8 @@ export const TableFooter = ({
 
 	return (
 		<tfoot className={styles.footer}>
-			<TableRow>
-				<TableCell colSpan={addButtonColSpan}>
+			<Table.Row>
+				<Table.Cell colSpan={addButtonColSpan}>
 					{userView && (
 						<Button
 							variant="outline"
@@ -43,21 +43,23 @@ export const TableFooter = ({
 							Add Item
 						</Button>
 					)}
-				</TableCell>
+				</Table.Cell>
 
 				{hasItems && (
 					<>
-						<TableCell className={styles.summaryCell}>
+						<Table.Cell className={styles.summaryCell}>
 							<Badge color="gray" highContrast>
 								x{itemQuantity}
 							</Badge>
-						</TableCell>
-						<TableCell className={styles.summaryCell}>{`${weight} lbs`}</TableCell>
-						{showPrices && <TableCell className={styles.summaryCell}>{price}</TableCell>}
+						</Table.Cell>
+						<Table.Cell className={styles.summaryCell}>{`${weight} lbs`}</Table.Cell>
+						{showPrices && (
+							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
+						)}
 					</>
 				)}
-				{userView && <TableCell></TableCell>}
-			</TableRow>
+				{userView && <Table.Cell></Table.Cell>}
+			</Table.Row>
 		</tfoot>
 	);
 };

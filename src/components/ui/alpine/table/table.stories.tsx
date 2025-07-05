@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TableRoot, TableHeader, TableBody, TableRow, TableHeaderCell, TableCell, TableFooter } from './table';
+import { Table } from '../';
 
-const meta: Meta<typeof TableRoot> = {
+const meta: Meta<typeof Table.Root> = {
 	title: 'Alpine UI/Table',
-	component: TableRoot,
+	component: Table.Root,
 	parameters: {
 		layout: 'padded',
 	},
@@ -37,7 +37,7 @@ const meta: Meta<typeof TableRoot> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TableRoot>;
+type Story = StoryObj<typeof Table.Root>;
 
 export const Default: Story = {
 	args: {
@@ -45,49 +45,49 @@ export const Default: Story = {
 		size: '2',
 	},
 	render: (args) => (
-		<TableRoot {...args}>
-			<TableHeader>
-				<TableRow>
-					<TableHeaderCell>Item Name</TableHeaderCell>
-					<TableHeaderCell>Description</TableHeaderCell>
-					<TableHeaderCell justify="center">Quantity</TableHeaderCell>
-					<TableHeaderCell justify="center">Weight</TableHeaderCell>
-					<TableHeaderCell justify="end">Price</TableHeaderCell>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				<TableRow>
-					<TableCell>Ultralight Tent</TableCell>
-					<TableCell>3-season backpacking tent</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">2.1 lbs</TableCell>
-					<TableCell textAlign="end">$299.99</TableCell>
-				</TableRow>
-				<TableRow>
-					<TableCell>Sleeping Bag</TableCell>
-					<TableCell>Down insulation, 20°F rating</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">1.8 lbs</TableCell>
-					<TableCell textAlign="end">$399.99</TableCell>
-				</TableRow>
-				<TableRow>
-					<TableCell>Water Filter</TableCell>
-					<TableCell>Portable filtration system</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">0.4 lbs</TableCell>
-					<TableCell textAlign="end">$49.99</TableCell>
-				</TableRow>
-			</TableBody>
-			<TableFooter>
-				<TableRow>
-					<TableCell>Total</TableCell>
-					<TableCell></TableCell>
-					<TableCell textAlign="center">3</TableCell>
-					<TableCell textAlign="center">4.3 lbs</TableCell>
-					<TableCell textAlign="end">$749.97</TableCell>
-				</TableRow>
-			</TableFooter>
-		</TableRoot>
+		<Table.Root {...args}>
+			<Table.Header>
+				<Table.Row>
+					<Table.HeaderCell>Item Name</Table.HeaderCell>
+					<Table.HeaderCell>Description</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Quantity</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Weight</Table.HeaderCell>
+					<Table.HeaderCell justify="end">Price</Table.HeaderCell>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				<Table.Row>
+					<Table.Cell>Ultralight Tent</Table.Cell>
+					<Table.Cell>3-season backpacking tent</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">2.1 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$299.99</Table.Cell>
+				</Table.Row>
+				<Table.Row>
+					<Table.Cell>Sleeping Bag</Table.Cell>
+					<Table.Cell>Down insulation, 20°F rating</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">1.8 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$399.99</Table.Cell>
+				</Table.Row>
+				<Table.Row>
+					<Table.Cell>Water Filter</Table.Cell>
+					<Table.Cell>Portable filtration system</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">0.4 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$49.99</Table.Cell>
+				</Table.Row>
+			</Table.Body>
+			<Table.Footer>
+				<Table.Row>
+					<Table.Cell>Total</Table.Cell>
+					<Table.Cell></Table.Cell>
+					<Table.Cell textAlign="center">3</Table.Cell>
+					<Table.Cell textAlign="center">4.3 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$749.97</Table.Cell>
+				</Table.Row>
+			</Table.Footer>
+		</Table.Root>
 	),
 };
 
@@ -97,33 +97,33 @@ export const Surface: Story = {
 		size: '2',
 	},
 	render: (args) => (
-		<TableRoot {...args}>
-			<TableHeader>
-				<TableRow>
-					<TableHeaderCell>Item Name</TableHeaderCell>
-					<TableHeaderCell>Description</TableHeaderCell>
-					<TableHeaderCell justify="center">Quantity</TableHeaderCell>
-					<TableHeaderCell justify="center">Weight</TableHeaderCell>
-					<TableHeaderCell justify="end">Price</TableHeaderCell>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				<TableRow>
-					<TableCell>Ultralight Tent</TableCell>
-					<TableCell>3-season backpacking tent</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">2.1 lbs</TableCell>
-					<TableCell textAlign="end">$299.99</TableCell>
-				</TableRow>
-				<TableRow>
-					<TableCell>Sleeping Bag</TableCell>
-					<TableCell>Down insulation, 20°F rating</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">1.8 lbs</TableCell>
-					<TableCell textAlign="end">$399.99</TableCell>
-				</TableRow>
-			</TableBody>
-		</TableRoot>
+		<Table.Root {...args}>
+			<Table.Header>
+				<Table.Row>
+					<Table.HeaderCell>Item Name</Table.HeaderCell>
+					<Table.HeaderCell>Description</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Quantity</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Weight</Table.HeaderCell>
+					<Table.HeaderCell justify="end">Price</Table.HeaderCell>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				<Table.Row>
+					<Table.Cell>Ultralight Tent</Table.Cell>
+					<Table.Cell>3-season backpacking tent</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">2.1 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$299.99</Table.Cell>
+				</Table.Row>
+				<Table.Row>
+					<Table.Cell>Sleeping Bag</Table.Cell>
+					<Table.Cell>Down insulation, 20°F rating</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">1.8 lbs</Table.Cell>
+					<Table.Cell textAlign="end">$399.99</Table.Cell>
+				</Table.Row>
+			</Table.Body>
+		</Table.Root>
 	),
 };
 
@@ -133,29 +133,29 @@ export const Ghost: Story = {
 		size: '2',
 	},
 	render: (args) => (
-		<TableRoot {...args}>
-			<TableHeader>
-				<TableRow>
-					<TableHeaderCell>Item Name</TableHeaderCell>
-					<TableHeaderCell>Description</TableHeaderCell>
-					<TableHeaderCell justify="center">Quantity</TableHeaderCell>
-					<TableHeaderCell justify="center">Weight</TableHeaderCell>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				<TableRow>
-					<TableCell>Ultralight Tent</TableCell>
-					<TableCell>3-season backpacking tent</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">2.1 lbs</TableCell>
-				</TableRow>
-				<TableRow>
-					<TableCell>Sleeping Bag</TableCell>
-					<TableCell>Down insulation, 20°F rating</TableCell>
-					<TableCell textAlign="center">1</TableCell>
-					<TableCell textAlign="center">1.8 lbs</TableCell>
-				</TableRow>
-			</TableBody>
-		</TableRoot>
+		<Table.Root {...args}>
+			<Table.Header>
+				<Table.Row>
+					<Table.HeaderCell>Item Name</Table.HeaderCell>
+					<Table.HeaderCell>Description</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Quantity</Table.HeaderCell>
+					<Table.HeaderCell justify="center">Weight</Table.HeaderCell>
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				<Table.Row>
+					<Table.Cell>Ultralight Tent</Table.Cell>
+					<Table.Cell>3-season backpacking tent</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">2.1 lbs</Table.Cell>
+				</Table.Row>
+				<Table.Row>
+					<Table.Cell>Sleeping Bag</Table.Cell>
+					<Table.Cell>Down insulation, 20°F rating</Table.Cell>
+					<Table.Cell textAlign="center">1</Table.Cell>
+					<Table.Cell textAlign="center">1.8 lbs</Table.Cell>
+				</Table.Row>
+			</Table.Body>
+		</Table.Root>
 	),
 };

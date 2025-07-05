@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextArea } from './textarea';
+import { TextArea } from '../';
 import { Form } from 'radix-ui';
 
 const meta: Meta<typeof TextArea.Input> = {

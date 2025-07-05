@@ -1,6 +1,6 @@
 import { type FormError } from '@/types/form-types';
 import { Flex, Text } from '@radix-ui/themes';
-import { TableRow, TableCell } from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { WarningIcon } from '../ui';
 import { cn } from '@/styles/utils';
 import styles from './table-error-row.module.css';
@@ -9,9 +9,9 @@ export const TableErrorRow = ({ error }: { error: FormError }) => {
 	const hasError = error.error;
 
 	return (
-		<TableRow
+		<Table.Row
 			className={cn(styles.errorRow, hasError ? styles.hasError : styles.noError)}>
-			<TableCell
+			<Table.Cell
 				className={cn(styles.errorCell, hasError ? styles.hasError : styles.noError)}
 				colSpan={24}
 				verticalAlign="middle">
@@ -21,7 +21,7 @@ export const TableErrorRow = ({ error }: { error: FormError }) => {
 						{error.message}
 					</Text>
 				</Flex>
-			</TableCell>
-		</TableRow>
+			</Table.Cell>
+		</Table.Row>
 	);
 };

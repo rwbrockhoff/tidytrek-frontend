@@ -1,8 +1,7 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
-import { TextField } from '@/components/ui/alpine';
-import { TableCell } from '@/components/ui/alpine';
+import { TextField, Table } from '@/components/ui/alpine';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DisplayLink } from '@/components/ui';
@@ -35,7 +34,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<TableCell
+		<Table.Cell
 			ref={ref}
 			onBlur={handleToggleOff}
 			style={{ width }}
@@ -77,6 +76,6 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					className={mx.textEllipsis}
 				/>
 			)}
-		</TableCell>
+		</Table.Cell>
 	);
 };

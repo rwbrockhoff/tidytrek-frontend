@@ -1,5 +1,5 @@
 import { Flex, Button, IconButton } from '@radix-ui/themes';
-import { TableHeaderCell, TableCell } from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { cn, mx } from '@/styles/utils';
 import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
@@ -22,7 +22,7 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 
 	if (header) {
 		return (
-			<TableHeaderCell className={styles.headerCell} justify="center">
+			<Table.HeaderCell className={styles.headerCell} justify="center">
 				<Flex
 					className={cn(
 						styles.flexContainer,
@@ -30,11 +30,11 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 					)}>
 					{children}
 				</Flex>
-			</TableHeaderCell>
+			</Table.HeaderCell>
 		);
 	} else {
 		return (
-			<TableCell verticalAlign="middle" ref={ref} style={{ width }}>
+			<Table.Cell verticalAlign="middle" ref={ref} style={{ width }}>
 				<Flex
 					className={cn(
 						styles.flexContainer,
@@ -42,7 +42,7 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 					)}>
 					{children}
 				</Flex>
-			</TableCell>
+			</Table.Cell>
 		);
 	}
 };

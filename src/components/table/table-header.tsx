@@ -1,10 +1,6 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { Button, Flex } from '@radix-ui/themes';
-import {
-	TableHeader as AlpineTableHeader,
-	TableRow,
-	TableHeaderCell,
-} from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
@@ -34,8 +30,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 	};
 
 	return (
-		<AlpineTableHeader className={styles.header} style={dynamicHeaderStyle}>
-			<TableRow
+		<Table.Header className={styles.header} style={dynamicHeaderStyle}>
+			<Table.Row
 				className={cn(styles.tableRow, isMinimized ? styles.minimized : styles.normal)}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
@@ -82,8 +78,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 						</DeleteModal>
 					</ActionButtons>
 				)}
-			</TableRow>
-		</AlpineTableHeader>
+			</Table.Row>
+		</Table.Header>
 	);
 };
 
@@ -104,13 +100,13 @@ export const HeaderCell = ({
 	paddingLeft?: string;
 	className?: string;
 }) => (
-	<TableHeaderCell
+	<Table.HeaderCell
 		className={cn(styles.headerCell, className)}
 		colSpan={colSpan}
 		textAlign={textAlign}
 		style={{ paddingLeft }}>
 		{children}
-	</TableHeaderCell>
+	</Table.HeaderCell>
 );
 
 export const TableText = ({

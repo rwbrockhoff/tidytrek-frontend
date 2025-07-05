@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Badge, Flex, Text } from '@radix-ui/themes';
-import { TableCell } from '@/components/ui/alpine';
+import { Table } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TableRowContext } from '../context/table-row-context';
@@ -20,7 +20,7 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<TableCell ref={ref} style={{ width }} textAlign="center" onBlur={handleToggleOff}>
+		<Table.Cell ref={ref} style={{ width }} textAlign="center" onBlur={handleToggleOff}>
 			{userView ? (
 				<TextField.Standalone
 					name="packItemQuantity"
@@ -41,6 +41,6 @@ export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
 					</Badge>
 				</Flex>
 			)}
-		</TableCell>
+		</Table.Cell>
 	);
 };
