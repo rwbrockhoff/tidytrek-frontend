@@ -1,12 +1,11 @@
 .table {
 	table-layout: fixed;
-	border: none;
 	width: 100%;
 	min-width: 100%;
 }
 
 /* Dynamically use palette color for top border for each category */
-.table thead.withPrimaryBorder {
+.table :global(thead.withPrimaryBorder) {
 	border-top: 3px solid var(--color-primary);
 }
 

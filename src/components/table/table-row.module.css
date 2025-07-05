@@ -1,6 +1,5 @@
 .tableRow {
 	position: relative;
-	border: none;
 	background-color: var(--color-bg-secondary);
 	transition:
 		background-color,

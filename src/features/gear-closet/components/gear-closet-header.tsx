@@ -1,9 +1,11 @@
 import { TableHeader, TableRow, TableHeaderCell } from '@/components/ui/alpine';
 import { HeaderCell } from '@/components/table';
+import { cn } from '@/styles/utils';
+import styles from './gear-closet-header.module.css';
 
 export const GearClosetHeader = () => {
 	return (
-		<TableHeader className="withPrimaryBorder">
+		<TableHeader className={cn('withPrimaryBorder', styles.gearClosetHeader)}>
 			<TableRow>
 				<HeaderCell paddingLeft="1.5em">Item</HeaderCell>
 

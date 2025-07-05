@@ -1,0 +1,4 @@
+.gearClosetHeader th {
+	padding: var(--space-sm) var(--space-md);
+	font-weight: var(--font-weight-bold);
+}

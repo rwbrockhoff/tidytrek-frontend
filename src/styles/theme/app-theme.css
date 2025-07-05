@@ -187,7 +187,7 @@
 	--color-text-inverse: var(--gray-900);
 
 	/* Border colors */
-	--color-border-primary: var(--gray-700);
+	--color-border-primary: var(--gray-600);
 	--color-border-secondary: var(--gray-600);
 
 	/* State colors */
