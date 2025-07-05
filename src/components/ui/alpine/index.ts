@@ -1,11 +1,3 @@
-export * from './textfield/textfield';
-export * from './textarea/textarea';
-export { 
-	TableRoot, 
-	TableHeader, 
-	TableBody, 
-	TableRow, 
-	TableHeaderCell, 
-	TableCell, 
-	TableFooter 
-} from './table/table';
+export * as Textfield from './textfield/textfield';
+export * as TextArea from './textarea/textarea';
+export * as Table from './table/table';

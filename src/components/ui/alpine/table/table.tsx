@@ -41,7 +41,7 @@ export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionE
 	children: React.ReactNode;
 }
 
-const TableRoot = forwardRef<HTMLTableElement, TableProps>(
+const Root = forwardRef<HTMLTableElement, TableProps>(
 	(
 		{
 			variant = 'default',
@@ -89,9 +89,9 @@ const TableRoot = forwardRef<HTMLTableElement, TableProps>(
 	},
 );
 
-TableRoot.displayName = 'TableRoot';
+Root.displayName = 'TableRoot';
 
-const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
+const Header = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
 	({ className, children, ...props }, ref) => {
 		return (
 			<thead ref={ref} className={cn(styles.header, className)} {...props}>
@@ -101,9 +101,9 @@ const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
 	},
 );
 
-TableHeader.displayName = 'TableHeader';
+Header.displayName = 'TableHeader';
 
-const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
+const Body = forwardRef<HTMLTableSectionElement, TableBodyProps>(
 	({ className, children, ...props }, ref) => {
 		return (
 			<tbody ref={ref} className={cn(styles.body, className)} {...props}>
@@ -113,9 +113,9 @@ const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
 	},
 );
 
-TableBody.displayName = 'TableBody';
+Body.displayName = 'TableBody';
 
-const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
+const Row = forwardRef<HTMLTableRowElement, TableRowProps>(
 	({ className, children, ...props }, ref) => {
 		return (
 			<tr ref={ref} className={cn(styles.row, className)} {...props}>
@@ -125,9 +125,9 @@ const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
 	},
 );
 
-TableRow.displayName = 'TableRow';
+Row.displayName = 'TableRow';
 
-const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
+const HeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
 	({ className, children, justify = 'start', textAlign = 'start', ...domProps }, ref) => {
 		// Use textAlign if provided, otherwise fall back to justify
 		const alignment = textAlign || justify;
@@ -148,9 +148,9 @@ const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
 	},
 );
 
-TableHeaderCell.displayName = 'TableHeaderCell';
+HeaderCell.displayName = 'TableHeaderCell';
 
-const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
+const Cell = forwardRef<HTMLTableCellElement, TableCellProps>(
 	(
 		{ className, children, textAlign = 'start', verticalAlign = 'middle', ...domProps },
 		ref,
@@ -174,9 +174,9 @@ const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
 	},
 );
 
-TableCell.displayName = 'TableCell';
+Cell.displayName = 'TableCell';
 
-const TableFooter = forwardRef<HTMLTableSectionElement, TableFooterProps>(
+const Footer = forwardRef<HTMLTableSectionElement, TableFooterProps>(
 	({ className, children, ...props }, ref) => {
 		return (
 			<tfoot ref={ref} className={cn(styles.footer, className)} {...props}>
@@ -186,15 +186,7 @@ const TableFooter = forwardRef<HTMLTableSectionElement, TableFooterProps>(
 	},
 );
 
-TableFooter.displayName = 'TableFooter';
+Footer.displayName = 'TableFooter';
 
-// Export individual components for Fast Refresh compatibility
-export {
-	TableRoot,
-	TableHeader,
-	TableBody,
-	TableRow,
-	TableHeaderCell,
-	TableCell,
-	TableFooter,
-};
+// Export components
+export { Root, Header, Body, Row, HeaderCell, Cell, Footer };

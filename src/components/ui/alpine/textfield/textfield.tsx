@@ -32,7 +32,7 @@ export interface TextFieldSlotProps {
 	iconIsButton?: boolean;
 }
 
-const TextFieldRoot = ({
+const Root = ({
 	children,
 	className,
 	name,
@@ -50,9 +50,9 @@ const TextFieldRoot = ({
 	);
 };
 
-TextFieldRoot.displayName = 'TextFieldRoot';
+Root.displayName = 'TextFieldRoot';
 
-const TextFieldLabel = forwardRef<
+const Label = forwardRef<
 	HTMLLabelElement,
 	{
 		children: React.ReactNode;
@@ -66,9 +66,9 @@ const TextFieldLabel = forwardRef<
 	);
 });
 
-TextFieldLabel.displayName = 'TextFieldLabel';
+Label.displayName = 'TextFieldLabel';
 
-const TextFieldSlot = ({
+const Slot = ({
 	children,
 	side = 'left',
 	iconIsButton = false,
@@ -85,7 +85,9 @@ const TextFieldSlot = ({
 	);
 };
 
-const TextFieldMessage = forwardRef<
+Slot.displayName = 'TextFieldSlot';
+
+const Message = forwardRef<
 	HTMLDivElement,
 	{
 		children: React.ReactNode;
@@ -105,9 +107,9 @@ const TextFieldMessage = forwardRef<
 	);
 });
 
-TextFieldMessage.displayName = 'TextFieldMessage';
+Message.displayName = 'TextFieldMessage';
 
-const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
+const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 	(
 		{
 			variant = 'default',
@@ -161,52 +163,52 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 
 		if (variant === 'icon' && icon) {
 			return (
-				<TextFieldRoot name={name} className={rootClassName} style={rootStyle}>
-					{label && <TextFieldLabel>{label}</TextFieldLabel>}
+				<Root name={name} className={rootClassName} style={rootStyle}>
+					{label && <Label>{label}</Label>}
 					<div className={styles.inputContainer}>
 						{iconPosition === 'left' && (
-							<TextFieldSlot side="left" iconIsButton={iconIsButton}>
+							<Slot side="left" iconIsButton={iconIsButton}>
 								{icon}
-							</TextFieldSlot>
+							</Slot>
 						)}
 						{input}
 						{iconPosition === 'right' && (
-							<TextFieldSlot side="right" iconIsButton={iconIsButton}>
+							<Slot side="right" iconIsButton={iconIsButton}>
 								{icon}
-							</TextFieldSlot>
+							</Slot>
 						)}
 					</div>
 					{errorMessage && (
-						<TextFieldMessage id={errorId} match={match}>
+						<Message id={errorId} match={match}>
 							{errorMessage}
-						</TextFieldMessage>
+						</Message>
 					)}
-				</TextFieldRoot>
+				</Root>
 			);
 		}
 
 		return (
-			<TextFieldRoot
+			<Root
 				name={name}
 				className={cn(width && styles.fieldResponsive)}
 				style={rootStyle}>
-				{label && <TextFieldLabel>{label}</TextFieldLabel>}
+				{label && <Label>{label}</Label>}
 				{input}
 				{errorMessage && (
-					<TextFieldMessage id={errorId} match={match}>
+					<Message id={errorId} match={match}>
 						{errorMessage}
-					</TextFieldMessage>
+					</Message>
 				)}
-			</TextFieldRoot>
+			</Root>
 		);
 	},
 );
 
 // forwardRef loses the function name, so set displayName for React DevTools
-TextFieldInput.displayName = 'TextFieldInput';
+Input.displayName = 'TextFieldInput';
 
 // For standalone usage without form context
-const TextFieldStandalone = forwardRef<
+const Standalone = forwardRef<
 	HTMLInputElement,
 	Omit<TextFieldProps, 'name'> & { name?: string }
 >(
@@ -246,10 +248,10 @@ const TextFieldStandalone = forwardRef<
 					)}
 					style={rootStyle}>
 					<div className={styles.inputContainer}>
-						{iconPosition === 'left' && <TextFieldSlot side="left">{icon}</TextFieldSlot>}
+						{iconPosition === 'left' && <Slot side="left">{icon}</Slot>}
 						<input ref={ref} type={type} className={inputClasses} {...props} />
 						{iconPosition === 'right' && (
-							<TextFieldSlot side="right">{icon}</TextFieldSlot>
+							<Slot side="right">{icon}</Slot>
 						)}
 					</div>
 				</div>
@@ -267,14 +269,7 @@ const TextFieldStandalone = forwardRef<
 );
 
 // forwardRef loses the function name, so set displayName for React DevTools
-TextFieldStandalone.displayName = 'TextFieldStandalone';
+Standalone.displayName = 'TextFieldStandalone';
 
-// Export component object
-export const TextField = {
-	Root: TextFieldRoot,
-	Input: TextFieldInput,
-	Standalone: TextFieldStandalone,
-	Label: TextFieldLabel,
-	Message: TextFieldMessage,
-	Slot: TextFieldSlot,
-};
+// Export components
+export { Root, Input, Standalone, Label, Message, Slot };

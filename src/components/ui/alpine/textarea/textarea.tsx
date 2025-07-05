@@ -23,13 +23,7 @@ export interface TextAreaRootProps {
 	style?: React.CSSProperties;
 }
 
-const TextAreaRoot = ({
-	children,
-	className,
-	name,
-	style,
-	...props
-}: TextAreaRootProps) => {
+const Root = ({ children, className, name, style, ...props }: TextAreaRootProps) => {
 	return (
 		<Form.Field
 			name={name}
@@ -41,9 +35,9 @@ const TextAreaRoot = ({
 	);
 };
 
-TextAreaRoot.displayName = 'TextAreaRoot';
+Root.displayName = 'TextAreaRoot';
 
-const TextAreaLabel = forwardRef<
+const Label = forwardRef<
 	HTMLLabelElement,
 	{
 		children: React.ReactNode;
@@ -57,9 +51,9 @@ const TextAreaLabel = forwardRef<
 	);
 });
 
-TextAreaLabel.displayName = 'TextAreaLabel';
+Label.displayName = 'TextAreaLabel';
 
-const TextAreaMessage = forwardRef<
+const Message = forwardRef<
 	HTMLDivElement,
 	{
 		children: React.ReactNode;
@@ -80,9 +74,9 @@ const TextAreaMessage = forwardRef<
 	);
 });
 
-TextAreaMessage.displayName = 'TextAreaMessage';
+Message.displayName = 'TextAreaMessage';
 
-const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+const Input = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	({ error, className, label, message, name, width, height, match, ...props }, ref) => {
 		const hasError = getErrorState(error);
 		const errorMessage = getErrorMessage(error, message);
@@ -116,22 +110,22 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 		const rootClassName = cn(width && styles.fieldResponsive);
 
 		return (
-			<TextAreaRoot name={name} className={rootClassName} style={rootStyle}>
-				{label && <TextAreaLabel>{label}</TextAreaLabel>}
+			<Root name={name} className={rootClassName} style={rootStyle}>
+				{label && <Label>{label}</Label>}
 				{textarea}
 				{errorMessage && (
-					<TextAreaMessage id={errorId} match={match}>
+					<Message id={errorId} match={match}>
 						{errorMessage}
-					</TextAreaMessage>
+					</Message>
 				)}
-			</TextAreaRoot>
+			</Root>
 		);
 	},
 );
 
-TextAreaInput.displayName = 'TextAreaInput';
+Input.displayName = 'TextAreaInput';
 
-const TextAreaStandalone = forwardRef<
+const Standalone = forwardRef<
 	HTMLTextAreaElement,
 	Omit<TextAreaProps, 'name'> & { name?: string }
 >(({ error, className, width, height, ...props }, ref) => {
@@ -158,13 +152,7 @@ const TextAreaStandalone = forwardRef<
 	);
 });
 
-TextAreaStandalone.displayName = 'TextAreaStandalone';
+Standalone.displayName = 'TextAreaStandalone';
 
-// Export all components as object
-export const TextArea = {
-	Root: TextAreaRoot,
-	Input: TextAreaInput,
-	Standalone: TextAreaStandalone,
-	Label: TextAreaLabel,
-	Message: TextAreaMessage,
-};
+// Export components
+export { Root, Input, Standalone, Label, Message };
