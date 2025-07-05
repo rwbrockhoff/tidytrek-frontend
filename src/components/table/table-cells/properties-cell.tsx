@@ -1,7 +1,8 @@
 import styles from './properties-cell.module.css';
 import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
-import { Flex, IconButton, Table, Tooltip } from '@radix-ui/themes';
+import { Flex, IconButton, Tooltip } from '@radix-ui/themes';
+import { TableCell } from '@/components/ui/alpine';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { useContext } from 'react';
@@ -35,10 +36,10 @@ export const PropertiesCell = (props: ButtonProps) => {
 	const showOnHover = (display && userView) || isDragging;
 
 	return (
-		<Table.Cell
+		<TableCell
 			className={styles.propertiesCell}
+			textAlign="center"
 			align="center"
-			justify="center"
 			ref={ref}
 			style={{ width }}>
 			<Flex className={styles.flexContainer}>
@@ -84,6 +85,6 @@ export const PropertiesCell = (props: ButtonProps) => {
 					</IconButton>
 				</Tooltip>
 			</Flex>
-		</Table.Cell>
+		</TableCell>
 	);
 };

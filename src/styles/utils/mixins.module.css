@@ -142,7 +142,6 @@
 }
 
 .textEllipsis {
-	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
@@ -165,6 +164,10 @@
 .p0 {
 	padding: 0;
 }
+.px0 {
+	padding-left: 0;
+	padding-right: 0;
+}
 .mxs {
 	margin: var(--space-xs);
 }
@@ -179,6 +182,9 @@
 }
 .pxs {
 	padding: var(--space-xs);
+}
+.psm {
+	padding: var(--space-sm);
 }
 .pmd {
 	padding: var(--space-md);

@@ -69,7 +69,12 @@ const TextAreaMessage = forwardRef<
 	}
 >(({ children, match, className, id }, ref) => {
 	return (
-		<Form.Message ref={ref} match={match} className={cn(styles.message, className)} id={id} data-testid={id}>
+		<Form.Message
+			ref={ref}
+			match={match}
+			className={cn(styles.message, className)}
+			id={id}
+			data-testid={id}>
 			{children}
 		</Form.Message>
 	);
@@ -94,12 +99,12 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
 		const textarea = (
 			<Form.Control asChild>
-				<textarea 
-					ref={ref} 
-					className={textareaClasses} 
+				<textarea
+					ref={ref}
+					className={textareaClasses}
 					aria-invalid={hasError}
 					aria-describedby={hasError ? errorId : undefined}
-					{...props} 
+					{...props}
 				/>
 			</Form.Control>
 		);
@@ -114,7 +119,11 @@ const TextAreaInput = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 			<TextAreaRoot name={name} className={rootClassName} style={rootStyle}>
 				{label && <TextAreaLabel>{label}</TextAreaLabel>}
 				{textarea}
-				{errorMessage && <TextAreaMessage id={errorId} match={match}>{errorMessage}</TextAreaMessage>}
+				{errorMessage && (
+					<TextAreaMessage id={errorId} match={match}>
+						{errorMessage}
+					</TextAreaMessage>
+				)}
 			</TextAreaRoot>
 		);
 	},
@@ -158,13 +167,4 @@ export const TextArea = {
 	Standalone: TextAreaStandalone,
 	Label: TextAreaLabel,
 	Message: TextAreaMessage,
-};
-
-// Export individual components
-export {
-	TextAreaRoot,
-	TextAreaInput,
-	TextAreaStandalone,
-	TextAreaLabel,
-	TextAreaMessage,
 };

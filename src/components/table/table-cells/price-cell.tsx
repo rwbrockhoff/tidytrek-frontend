@@ -1,6 +1,7 @@
 import { type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
-import { Table, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { TableCell } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { convertCurrency } from '@/utils';
@@ -37,9 +38,9 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 	const formattedPrice = convertCurrency(packItemPrice, 'USD').toString();
 	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();
 	return (
-		<Table.Cell
+		<TableCell
 			ref={ref}
-			align="center"
+			textAlign="center"
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}
 			style={{ width, padding: '0 var(--space-md)' }}>
@@ -55,6 +56,6 @@ export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
 			) : (
 				<Text align="center">{formattedPrice}</Text>
 			)}
-		</Table.Cell>
+		</TableCell>
 	);
 };

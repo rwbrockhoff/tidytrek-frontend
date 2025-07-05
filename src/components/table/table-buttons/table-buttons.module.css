@@ -1,6 +1,7 @@
 .flexContainer {
 	height: 100%;
-	justify-content: space-around;
+	justify-content: center;
+	gap: var(--space-xs);
 }
 
 .flexContainer > * {

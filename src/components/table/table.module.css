@@ -6,7 +6,7 @@
 }
 
 /* Dynamically use palette color for top border for each category */
-.table :global(thead.withPrimaryBorder) {
+.table thead.withPrimaryBorder {
 	border-top: 3px solid var(--color-primary);
 }
 
@@ -16,8 +16,8 @@
 	}
 
 	/* Reduce padding on mobile */
-	.table :global(th),
-	.table :global(td) {
+	.table th,
+	.table td {
 		padding: var(--space-xs);
 	}
 }

@@ -177,7 +177,9 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 						)}
 					</div>
 					{errorMessage && (
-						<TextFieldMessage id={errorId} match={match}>{errorMessage}</TextFieldMessage>
+						<TextFieldMessage id={errorId} match={match}>
+							{errorMessage}
+						</TextFieldMessage>
 					)}
 				</TextFieldRoot>
 			);
@@ -190,7 +192,11 @@ const TextFieldInput = forwardRef<HTMLInputElement, TextFieldProps>(
 				style={rootStyle}>
 				{label && <TextFieldLabel>{label}</TextFieldLabel>}
 				{input}
-				{errorMessage && <TextFieldMessage id={errorId} match={match}>{errorMessage}</TextFieldMessage>}
+				{errorMessage && (
+					<TextFieldMessage id={errorId} match={match}>
+						{errorMessage}
+					</TextFieldMessage>
+				)}
 			</TextFieldRoot>
 		);
 	},
@@ -271,13 +277,4 @@ export const TextField = {
 	Label: TextFieldLabel,
 	Message: TextFieldMessage,
 	Slot: TextFieldSlot,
-};
-// Export individual components
-export {
-	TextFieldRoot,
-	TextFieldInput,
-	TextFieldStandalone,
-	TextFieldLabel,
-	TextFieldMessage,
-	TextFieldSlot,
 };

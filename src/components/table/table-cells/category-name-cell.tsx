@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
-import { Flex, Table } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { TableHeaderCell } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { ThemeButton, GripButton } from '../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -49,7 +50,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	return (
-		<Table.ColumnHeaderCell
+		<TableHeaderCell
 			className={styles.headerCell}
 			onMouseOver={handleOnMouseOver}
 			onMouseLeave={handleOnMouseLeave}>
@@ -72,6 +73,6 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					disabled={disabled || !userView}
 				/>
 			</Flex>
-		</Table.ColumnHeaderCell>
+		</TableHeaderCell>
 	);
 };

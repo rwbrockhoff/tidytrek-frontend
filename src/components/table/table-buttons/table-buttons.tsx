@@ -1,4 +1,5 @@
-import { Flex, Table, Button, IconButton } from '@radix-ui/themes';
+import { Flex, Button, IconButton } from '@radix-ui/themes';
+import { TableHeaderCell, TableCell } from '@/components/ui/alpine';
 import { cn, mx } from '@/styles/utils';
 import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
@@ -21,7 +22,7 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 
 	if (header) {
 		return (
-			<Table.ColumnHeaderCell className={styles.headerCell} justify="center">
+			<TableHeaderCell className={styles.headerCell} justify="center">
 				<Flex
 					className={cn(
 						styles.flexContainer,
@@ -29,11 +30,11 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 					)}>
 					{children}
 				</Flex>
-			</Table.ColumnHeaderCell>
+			</TableHeaderCell>
 		);
 	} else {
 		return (
-			<Table.Cell valign="middle" ref={ref} style={{ width }}>
+			<TableCell verticalAlign="middle" ref={ref} style={{ width }}>
 				<Flex
 					className={cn(
 						styles.flexContainer,
@@ -41,7 +42,7 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 					)}>
 					{children}
 				</Flex>
-			</Table.Cell>
+			</TableCell>
 		);
 	}
 };
@@ -91,7 +92,14 @@ export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	);
 };
 
-export const GripButton = ({ display, testId = "grip-button", ...props }: { display: boolean; testId?: string }) => {
+export const GripButton = ({
+	display,
+	testId = 'grip-button',
+	...props
+}: {
+	display: boolean;
+	testId?: string;
+}) => {
 	return (
 		<Flex
 			align="center"

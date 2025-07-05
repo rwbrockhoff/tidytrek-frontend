@@ -8,7 +8,8 @@ import {
 	isPackItem,
 } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
-import { Flex, Table, Button } from '@radix-ui/themes';
+import { Flex, Button } from '@radix-ui/themes';
+import { TableRow as AlpineTableRow } from '@/components/ui/alpine';
 import { ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,
@@ -107,7 +108,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 					<TableRowContext.Provider
 						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
 						<>
-							<Table.Row
+							<AlpineTableRow
 								data-testid="pack-item-row"
 								onMouseOver={() => setToggleRow(true)}
 								onMouseLeave={() => setToggleRow(false)}
@@ -170,8 +171,8 @@ export const TableRowComponent = (props: TableRowProps) => {
 										)}
 									</>
 								)}
-							</Table.Row>
-							{toggleGearButtons && userView && (
+							</AlpineTableRow>
+							{toggleGearButtons && userView && !isDragging && (
 								<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
 							)}
 

@@ -1,5 +1,10 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { Button, Flex, Table } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
+import {
+	TableHeader as AlpineTableHeader,
+	TableRow,
+	TableHeaderCell,
+} from '@/components/ui/alpine';
 import { CategoryNameCell } from './table-cells';
 import { ActionButtons } from './table-buttons/';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
@@ -29,8 +34,8 @@ export const TableHeader = (props: TableHeaderProps) => {
 	};
 
 	return (
-		<Table.Header className={styles.header} style={dynamicHeaderStyle}>
-			<Table.Row
+		<AlpineTableHeader className={styles.header} style={dynamicHeaderStyle}>
+			<TableRow
 				className={cn(styles.tableRow, isMinimized ? styles.minimized : styles.normal)}>
 				<CategoryNameCell
 					categoryHeaderInfo={categoryHeaderInfo}
@@ -43,11 +48,11 @@ export const TableHeader = (props: TableHeaderProps) => {
 
 				{!isMinimized && (
 					<>
-						<HeaderCell align="center">Qty</HeaderCell>
+						<HeaderCell textAlign="center">Qty</HeaderCell>
 
-						<HeaderCell align="center">Weight</HeaderCell>
+						<HeaderCell textAlign="center">Weight</HeaderCell>
 
-						{showPrices && <HeaderCell align="center">Price</HeaderCell>}
+						{showPrices && <HeaderCell textAlign="center">Price</HeaderCell>}
 					</>
 				)}
 				{userView && (
@@ -67,15 +72,18 @@ export const TableHeader = (props: TableHeaderProps) => {
 							onClickMove={() => deletePackCategory(packCategoryId)}
 							onClickDelete={() => deletePackCategoryAndItems(packCategoryId)}>
 							<Flex align="center" aria-label="Delete category">
-								<Button variant="ghost" data-testid="delete-category-button" aria-label="Delete category">
+								<Button
+									variant="ghost"
+									data-testid="delete-category-button"
+									aria-label="Delete category">
 									<TrashIcon />
 								</Button>
 							</Flex>
 						</DeleteModal>
 					</ActionButtons>
 				)}
-			</Table.Row>
-		</Table.Header>
+			</TableRow>
+		</AlpineTableHeader>
 	);
 };
 
@@ -86,21 +94,23 @@ const deleteCategoryMessage =
 export const HeaderCell = ({
 	children,
 	colSpan,
-	align,
+	textAlign,
 	paddingLeft,
+	className,
 }: {
 	children?: React.ReactNode;
 	colSpan?: number;
-	align?: 'center' | 'left' | 'right';
+	textAlign?: 'center' | 'start' | 'end';
 	paddingLeft?: string;
+	className?: string;
 }) => (
-	<Table.ColumnHeaderCell
-		className={styles.headerCell}
+	<TableHeaderCell
+		className={cn(styles.headerCell, className)}
 		colSpan={colSpan}
-		align={align}
+		textAlign={textAlign}
 		style={{ paddingLeft }}>
 		{children}
-	</Table.ColumnHeaderCell>
+	</TableHeaderCell>
 );
 
 export const TableText = ({

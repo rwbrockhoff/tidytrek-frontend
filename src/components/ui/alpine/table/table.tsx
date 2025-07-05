@@ -24,9 +24,11 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
 	children: React.ReactNode;
 }
 
-export interface TableHeaderCellProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeaderCellProps
+	extends React.ThHTMLAttributes<HTMLTableCellElement> {
 	children?: React.ReactNode;
 	justify?: 'start' | 'center' | 'end';
+	textAlign?: 'start' | 'center' | 'end';
 }
 
 export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
@@ -40,18 +42,21 @@ export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionE
 }
 
 const TableRoot = forwardRef<HTMLTableElement, TableProps>(
-	({ 
-		variant = 'default', 
-		size = '2', 
-		compact = false,
-		striped = false,
-		rounded = false,
-		shadow = false,
-		highlight = true,
-		className, 
-		children, 
-		...props 
-	}, ref) => {
+	(
+		{
+			variant = 'default',
+			size = '2',
+			compact = false,
+			striped = false,
+			rounded = false,
+			shadow = false,
+			highlight = false,
+			className,
+			children,
+			...props
+		},
+		ref,
+	) => {
 		const tableClasses = cn(
 			styles.table,
 			variant === 'default' && styles.tableDefault,
@@ -123,17 +128,20 @@ const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
 TableRow.displayName = 'TableRow';
 
 const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
-	({ className, children, justify = 'start', ...props }, ref) => {
+	({ className, children, justify = 'start', textAlign = 'start', ...domProps }, ref) => {
+		// Use textAlign if provided, otherwise fall back to justify
+		const alignment = textAlign || justify;
+
 		const cellClasses = cn(
 			styles.headerCell,
-			justify === 'start' && styles.justifyStart,
-			justify === 'center' && styles.justifyCenter,
-			justify === 'end' && styles.justifyEnd,
+			alignment === 'start' && styles.justifyStart,
+			alignment === 'center' && styles.justifyCenter,
+			alignment === 'end' && styles.justifyEnd,
 			className,
 		);
 
 		return (
-			<th ref={ref} className={cellClasses} {...props}>
+			<th ref={ref} className={cellClasses} {...domProps}>
 				{children}
 			</th>
 		);
@@ -143,7 +151,10 @@ const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
 TableHeaderCell.displayName = 'TableHeaderCell';
 
 const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
-	({ className, children, textAlign = 'start', verticalAlign = 'middle', ...props }, ref) => {
+	(
+		{ className, children, textAlign = 'start', verticalAlign = 'middle', ...domProps },
+		ref,
+	) => {
 		const cellClasses = cn(
 			styles.cell,
 			textAlign === 'start' && styles.alignStart,
@@ -156,7 +167,7 @@ const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
 		);
 
 		return (
-			<td ref={ref} className={cellClasses} {...props}>
+			<td ref={ref} className={cellClasses} {...domProps}>
 				{children}
 			</td>
 		);
@@ -177,18 +188,7 @@ const TableFooter = forwardRef<HTMLTableSectionElement, TableFooterProps>(
 
 TableFooter.displayName = 'TableFooter';
 
-// Export component object
-export const Table = {
-	Root: TableRoot,
-	Header: TableHeader,
-	Body: TableBody,
-	Row: TableRow,
-	HeaderCell: TableHeaderCell,
-	Cell: TableCell,
-	Footer: TableFooter,
-};
-
-// Export individual components
+// Export individual components for Fast Refresh compatibility
 export {
 	TableRoot,
 	TableHeader,

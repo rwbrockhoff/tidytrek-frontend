@@ -98,7 +98,7 @@ button.rt-Button.rt-variant-outline {
 }
 
 /* -- Tables -- */
-.rt-TableRootTable tbody {
+/* .rt-TableRootTable tbody {
 	background-color: var(--color-bg-secondary);
 }
 
@@ -116,7 +116,7 @@ table {
 
 .rt-TableRoot:where(.rt-variant-surface) :where(.rt-TableRootTable) {
 	overflow: visible !important;
-}
+} */
 
 /* Scroll Behavior */
 

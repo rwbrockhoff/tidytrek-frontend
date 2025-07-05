@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import { Table } from '@radix-ui/themes';
+import { TableCell } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TextField } from '@/components/ui/alpine';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import { TableRowContext } from '../context/table-row-context';
+import { mx } from '@/styles/utils';
 
 type TableCellProps = {
 	onToggleOff: () => void;
@@ -19,7 +20,7 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
+		<TableCell ref={ref} style={{ width }} onBlur={handleToggleOff} className={mx.px0}>
 			<TextField.Standalone
 				variant="minimal"
 				value={packItemDescription || ''}
@@ -27,7 +28,8 @@ export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
 				name={'packItemDescription'}
 				onChange={onChange}
 				disabled={!userView}
+				className={mx.textEllipsis}
 			/>
-		</Table.Cell>
+		</TableCell>
 	);
 };

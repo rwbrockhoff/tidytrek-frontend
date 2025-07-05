@@ -1,11 +1,11 @@
 .footer {
-	background-color: var(--color-bg-primary);
 	font-size: var(--font-size-sm);
 	vertical-align: top;
 }
 
-.footer :global(td) {
+.footer td {
 	box-shadow: none;
+	border-bottom: none;
 }
 
 .summaryCell {

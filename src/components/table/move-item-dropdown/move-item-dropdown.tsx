@@ -5,6 +5,7 @@ import { usePackDropdown } from './use-pack-dropdown';
 import { Button, Flex, Select, Table } from '@radix-ui/themes';
 import { MdOutlineMoveDown } from 'react-icons/md';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
+import { mx } from '@/styles/utils';
 
 type MoveItemDropdownProps = {
 	packItem: BaseTableRowItem;
@@ -54,7 +55,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 
 	return (
 		<Table.Row className={styles.tableRow}>
-			<Table.Cell colSpan={24}>
+			<Table.Cell colSpan={24} className={mx.pxs}>
 				<Flex
 					justify="end"
 					align="center"

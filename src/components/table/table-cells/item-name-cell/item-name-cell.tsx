@@ -2,13 +2,14 @@ import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
-import { Table } from '@radix-ui/themes';
+import { TableCell } from '@/components/ui/alpine';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DisplayLink } from '@/components/ui';
 import { LinkPopup } from './link-popup';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { mx } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
@@ -34,7 +35,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<Table.Cell
+		<TableCell
 			ref={ref}
 			onBlur={handleToggleOff}
 			style={{ width }}
@@ -54,6 +55,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						variant="minimal"
 						onChange={onChange}
 						disabled={!userView}
+						className={mx.textEllipsis}
 					/>
 					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />
@@ -72,8 +74,9 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					variant="minimal"
 					onChange={onChange}
 					disabled={!userView}
+					className={mx.textEllipsis}
 				/>
 			)}
-		</Table.Cell>
+		</TableCell>
 	);
 };

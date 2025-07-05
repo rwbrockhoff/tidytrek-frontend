@@ -23,7 +23,7 @@
 }
 
 .flexContainer {
-	justify-content: space-evenly;
+	justify-content: space-between;
 }
 
 .flexContainer button {
