@@ -1,6 +1,6 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
 import { useState, useCallback, useMemo } from 'react';
-import styles from './pack-category-cards.module.css';
+import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
@@ -19,13 +19,13 @@ import { isPackItem } from '@/types/pack-types';
 import { ThemeButton } from '@/components/table/table-buttons';
 import { Button, Badge } from '@radix-ui/themes';
 
-type PackCategoryCardsProps = {
+type PackCategoryCardProps = {
 	category: Category;
 	packList: PackListItem[];
 	index: number;
 };
 
-export const PackCategoryCards = ({ category }: PackCategoryCardsProps) => {
+export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	const userView = useUserContext();
 
 	const { addPackItem, moveItemToCloset, editPackItem, deletePackItem } =

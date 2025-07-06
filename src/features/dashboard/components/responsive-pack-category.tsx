@@ -1,7 +1,7 @@
 import { type PackListItem, type Category } from '@/types/pack-types';
 import { useCheckScreen } from '@/hooks/use-check-screen';
 import { PackCategory } from './pack-category';
-import { PackCategoryCards } from './pack-category-cards';
+import { PackCategoryCard } from './pack-category-card';
 
 type ResponsivePackCategoryProps = {
 	category: Category;
@@ -13,7 +13,7 @@ export const ResponsivePackCategory = ({ category, packList, index }: Responsive
 	const { isMobile } = useCheckScreen();
 
 	if (isMobile) {
-		return <PackCategoryCards category={category} packList={packList} index={index} />;
+		return <PackCategoryCard category={category} packList={packList} index={index} />;
 	}
 
 	return <PackCategory category={category} packList={packList} index={index} />;
