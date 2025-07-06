@@ -1,12 +1,12 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
-import { useState, useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { usePackItemActions } from '../hooks/use-pack-item-actions';
 import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
-import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
+import { usePackCategory } from '../hooks/use-pack-category';
+import { convertCurrency } from '@/utils';
 import {
 	EditPencilIcon,
 	ShareIcon,
@@ -27,49 +27,30 @@ type PackCategoryCardProps = {
 
 export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	const userView = useUserContext();
-
-	const { addPackItem, moveItemToCloset, editPackItem, deletePackItem } =
-		usePackItemActions();
-
 	const { editPackCategory } = usePackCategoryActions();
-
-	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
-		category;
-
-	const [isMinimized, setMinimized] = useState(false);
-
-	const handleAddItem = useCallback(
-		() => addPackItem({ packId, packCategoryId }),
-		[addPackItem, packId, packCategoryId],
-	);
-
-	const handleMinimizeCategory = useCallback(
-		() => setMinimized(!isMinimized),
-		[isMinimized],
-	);
+	
+	const {
+		packCategoryName,
+		packCategoryColor,
+		packCategoryId,
+		packItems,
+		isMinimized,
+		handleAddItem,
+		handleMinimizeCategory,
+		moveItemToCloset,
+		editPackItem,
+		deletePackItem,
+		convertedCategoryWeight,
+		formattedTotalPrice,
+		itemQuantity,
+		showCategoryItems,
+	} = usePackCategory(category);
 
 	const handleChangeColor = useCallback(
 		(packCategoryColor: string) =>
 			editPackCategory({ packCategoryColor, packCategoryId }),
 		[editPackCategory, packCategoryId],
 	);
-
-	const { totalWeight: convertedCategoryWeight, totalPrice } = useMemo(
-		() => convertWeight(packItems, 'lb'),
-		[packItems],
-	);
-
-	const formattedTotalPrice = useMemo(
-		() => convertCurrency(totalPrice, 'USD'),
-		[totalPrice],
-	);
-
-	const itemQuantity = useMemo(
-		() => (packItems[0] ? convertQuantity(packItems) : 0),
-		[packItems],
-	);
-
-	const showCategoryItems = packItems[0] && !isMinimized;
 
 	// Hide empty categories on guest view
 	if (!userView && !showCategoryItems) return null;
