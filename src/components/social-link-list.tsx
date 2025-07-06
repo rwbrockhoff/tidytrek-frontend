@@ -13,7 +13,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false } = props;
 
 	return (
-		<Flex>
+		<Flex wrap="wrap" gap="2" mt="2">
 			{socialLinks.map((link, index) => {
 				const socialInfo = socialMediaUI[link.platformName] || socialMediaUI.custom;
 				const { socialName, icon } = socialInfo;

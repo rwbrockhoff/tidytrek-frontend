@@ -38,7 +38,6 @@ export const SocialButton = (props: SocialButtonProps) => {
 		<Flex
 			asChild
 			align="center"
-			m="2"
 			className={styles.styledBadge}
 			onClick={handleClick}>
 			<Badge radius="large">

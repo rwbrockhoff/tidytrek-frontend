@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
-import { UserContext } from './account';
+import { UserContext } from '../contexts';
 import { AccountForm } from '../components/account-form/account-form';
 import { useDeleteAccountMutation } from '@/queries/user-queries';
 import supabase from '@/api/supabaseClient';

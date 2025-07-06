@@ -180,7 +180,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 
 					{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-					<Flex justify="end">
+					<Flex justify="start">
 						<Button mt="4" type="submit" disabled={!isProfileChanged}>
 							<SaveIcon />
 							Save Profile

@@ -15,8 +15,3 @@
 .styledBadge a:hover {
 	color: var(--color-text-secondary);
 }
-
-/* Remove margin for first social link */
-.styledBadge:first-of-type {
-	margin-left: 0;
-}

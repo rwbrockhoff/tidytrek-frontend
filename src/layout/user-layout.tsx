@@ -29,12 +29,13 @@ export const UserLayout = () => {
 			<div className={styles.appViewContainer}>
 				<MobileNavbar onClick={handleToggleSidebar} />
 				<Sidebar showSidebar={showSidebar} onToggle={handleToggleSidebar} />
-				<div 
+				<div
 					className={cn(
 						styles.viewLayoutContainer,
-						showSidebar ? styles.viewLayoutSidebarVisible : styles.viewLayoutSidebarHidden
-					)}
-				>
+						showSidebar
+							? styles.viewLayoutSidebarVisible
+							: styles.viewLayoutSidebarHidden,
+					)}>
 					<Suspense fallback={<Fallback />}>
 						{!showSidebar && (
 							<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />

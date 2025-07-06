@@ -4,7 +4,7 @@ import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { ClosetIcon, SearchIcon, TextField } from '@/components/ui';
 import { Flex, Heading } from '@radix-ui/themes';
-import { GearClosetList } from '../components/gear-closet-list';
+import { ResponsiveGearCloset } from '../components/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
@@ -37,14 +37,9 @@ export const GearCloset = () => {
 		: originalListHasItems;
 	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
 	return (
-		<main>
+		<main className="page-layout">
 			<UserViewContext.Provider value={true}>
-				<Flex
-					className={styles.headerText}
-					align="center"
-					justify="center"
-					gap="3"
-					mt="9">
+				<Flex className={styles.headerText} align="center" justify="center" gap="3">
 					<ClosetIcon />
 					<Heading size="6">Gear Closet</Heading>
 				</Flex>
@@ -67,7 +62,7 @@ export const GearCloset = () => {
 					/>
 				</div>
 
-				<GearClosetList
+				<ResponsiveGearCloset
 					gearClosetList={listToDisplay}
 					packList={packList}
 					listHasItems={displayListHasItems}

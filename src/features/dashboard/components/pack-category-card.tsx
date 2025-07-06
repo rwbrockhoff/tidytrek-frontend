@@ -6,18 +6,10 @@ import { Card } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
 import { usePackCategory } from '../hooks/use-pack-category';
-import { convertCurrency } from '@/utils';
-import {
-	EditPencilIcon,
-	ShareIcon,
-	TrashIcon,
-	PlusIcon,
-	MinusIcon,
-} from '@/components/ui/icons';
-import { DeleteItemModal } from '@/components/ui/Modals';
-import { isPackItem } from '@/types/pack-types';
+import { PackItemRow } from './pack-item-row/pack-item-row';
+import { PlusIcon, MinusIcon } from '@/components/ui/icons';
 import { ThemeButton } from '@/components/table/table-buttons';
-import { Button, Badge } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 
 type PackCategoryCardProps = {
 	category: Category;
@@ -28,7 +20,7 @@ type PackCategoryCardProps = {
 export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	const userView = useUserContext();
 	const { editPackCategory } = usePackCategoryActions();
-	
+
 	const {
 		packCategoryName,
 		packCategoryColor,
@@ -104,75 +96,14 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 			{showCategoryItems && (
 				<Card.Body className={styles.itemsContainer}>
 					{packItems.map((item: PackItem, index) => (
-						<div key={item.packItemId || index} className={styles.itemCard}>
-							<div className={styles.itemHeader}>
-								<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
-								{item.packItemPrice && (
-									<span className={styles.itemPrice}>
-										{convertCurrency(item.packItemPrice, 'USD')}
-									</span>
-								)}
-							</div>
-
-							<div className={styles.itemDetails}>
-								{item.packItemDescription && (
-									<p className={styles.itemDescription}>{item.packItemDescription}</p>
-								)}
-
-								<div className={styles.itemPropertiesRow}>
-									<div className={styles.itemProperties}>
-										<Badge color="gray" size="1">
-											{item.packItemWeight} {item.packItemUnit}
-										</Badge>
-										{item.packItemQuantity > 1 && (
-											<span className={styles.property}>x{item.packItemQuantity}</span>
-										)}
-									</div>
-
-									{userView && (
-										<div className={styles.itemActions}>
-											<Button
-												variant="ghost"
-												color="gray"
-												onClick={() => editPackItem(item)}
-												aria-label="Edit item">
-												<EditPencilIcon />
-											</Button>
-
-											<DeleteItemModal
-												id={item.packItemId}
-												hasPackId={isPackItem(item)}
-												onClickMove={() => moveItemToCloset(item.packItemId)}
-												onClickDelete={() => deletePackItem(item.packItemId)}>
-												<Button variant="ghost" color="gray" aria-label="Move to closet">
-													<ShareIcon />
-												</Button>
-											</DeleteItemModal>
-
-											<DeleteItemModal
-												id={item.packItemId}
-												hasPackId={isPackItem(item)}
-												onClickMove={() => moveItemToCloset(item.packItemId)}
-												onClickDelete={() => deletePackItem(item.packItemId)}>
-												<Button variant="ghost" color="gray" aria-label="Delete item">
-													<TrashIcon />
-												</Button>
-											</DeleteItemModal>
-										</div>
-									)}
-								</div>
-
-								{item.packItemUrl && (
-									<a
-										href={item.packItemUrl}
-										className={styles.itemLink}
-										target="_blank"
-										rel="noopener noreferrer">
-										View Product
-									</a>
-								)}
-							</div>
-						</div>
+						<PackItemRow
+							key={item.packItemId || index}
+							item={item}
+							userView={userView}
+							onEdit={editPackItem}
+							onMoveToCloset={moveItemToCloset}
+							onDelete={deletePackItem}
+						/>
 					))}
 				</Card.Body>
 			)}

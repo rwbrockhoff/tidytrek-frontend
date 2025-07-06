@@ -36,20 +36,24 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	const categoryColors = useMemo(
-		() => (categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
+		() =>
+			(categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
 		[categories],
 	);
 
-	const chartData = useMemo(() => ({
-		labels: categoryLabels,
-		datasets: [
-			{
-				data: categoryWeights,
-				backgroundColor: categoryColors,
-				borderWidth: 2,
-			},
-		],
-	}), [categoryLabels, categoryColors, categoryWeights]);
+	const chartData = useMemo(
+		() => ({
+			labels: categoryLabels,
+			datasets: [
+				{
+					data: categoryWeights,
+					backgroundColor: categoryColors,
+					borderWidth: 2,
+				},
+			],
+		}),
+		[categoryLabels, categoryColors, categoryWeights],
+	);
 
 	return (
 		<Flex justify="center" align="center" width="100%">

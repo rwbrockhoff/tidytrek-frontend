@@ -1,0 +1,10 @@
+.page-layout {
+	padding-top: var(--page-padding-top);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+	.page-layout {
+		padding-top: var(--space-lg);
+	}
+}
