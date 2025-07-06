@@ -39,7 +39,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 					direction="column"
 					align="end"
 					className={cn(styles.summaryPanel, mx.responsiveContent)}>
-					<Flex role="list" direction="column" className={styles.chartList}>
+					<Flex role="list" direction="column" gap="1" className={styles.chartList}>
 						{chartCategoryInfo.map((category) => {
 							return (
 								<Flex
@@ -59,15 +59,14 @@ export const PackGraphic = (props: PackGraphicProps) => {
 								</Flex>
 							);
 						})}
-
-						<Separator size="4" mb="4" style={{ opacity: 0.5 }} />
-
-						<PackSummaryPanel
-							totalWeight={totalWeight}
-							descriptivePackWeight={descriptivePackWeight}
-							totalPackPrice={totalPackPrice}
-						/>
 					</Flex>
+					<Separator size="4" my="2" style={{ opacity: 0.5 }} />
+
+					<PackSummaryPanel
+						totalWeight={totalWeight}
+						descriptivePackWeight={descriptivePackWeight}
+						totalPackPrice={totalPackPrice}
+					/>
 				</Flex>
 				<Flex align="center" justify="end" className={styles.chartPanel}>
 					<PackChart categories={packCategories} categoryWeights={categoryWeights} />

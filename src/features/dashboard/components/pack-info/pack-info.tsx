@@ -5,13 +5,11 @@ import styles from './pack-info.module.css';
 import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
+import { EditPencilIcon, ChartIcon } from '@/components/ui';
 import { Flex, Heading, Button, Text } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import {
-	useDeletePackAndItemsMutation,
-	useDeletePackMutation,
-} from '@/queries/pack-queries';
+import { useCheckScreen } from '@/hooks/use-check-screen';
+import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
 import { DisplayLink } from '@/components/ui';
@@ -30,32 +28,15 @@ type PackInfoProps = {
 export const PackInfo = (props: PackInfoProps) => {
 	const navigate = useNavigate();
 	const userView = useUserContext();
+	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
 
 	const { fetching, currentPack, packCategories, userProfile, settings } = props;
 	const { profileInfo, socialLinks } = userProfile || {};
 
-	const { mutate: deletePack } = useDeletePackMutation();
-	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
-
 	const [showPackChart, setShowPackChart] = useState(false);
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
-
-	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
-
-	const handleDeletePack = () => {
-		const { packId } = currentPack;
-		deletePack(packId);
-		navigate('/');
-	};
-
-	const handleDeletePackAndItems = () => {
-		const { packId } = currentPack;
-		deletePackAndItems(packId);
-		navigate('/');
-	};
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
@@ -82,15 +63,26 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 					</Heading>
 
-					<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
+					{isMobile && userView ? (
 						<Button
 							variant="ghost"
-							className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
+							className={cn(`editIcon ${styles.editIcon}`)}
 							data-testid="pack-edit-button"
-							aria-label="Edit pack details">
+							aria-label="Edit pack details"
+							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
 							<EditPencilIcon />
 						</Button>
-					</PackModal>
+					) : (
+						<PackModal pack={currentPack}>
+							<Button
+								variant="ghost"
+								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
+								data-testid="pack-edit-button"
+								aria-label="Edit pack details">
+								<EditPencilIcon />
+							</Button>
+						</PackModal>
+					)}
 				</Flex>
 
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
@@ -128,17 +120,6 @@ export const PackInfo = (props: PackInfoProps) => {
 				packCategories={packCategories}
 				display={showPackChart}
 			/>
-
-			<DeleteModal
-				header={`Delete ${packName} Pack?`}
-				message={deletePackMessage}
-				open={showDeleteModal}
-				toggleOpen={handleToggleDeleteModal}
-				onClickDelete={handleDeletePackAndItems}
-				onClickMove={handleDeletePack}
-			/>
 		</Flex>
 	);
 };
-
-const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;

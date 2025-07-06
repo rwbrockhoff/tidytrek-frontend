@@ -43,7 +43,7 @@ describe('PackModal', () => {
 
 	const renderPackModal = (pack = createMockPack()) => {
 		return wrappedRender(
-			<PackModal pack={pack} showDeleteModal={mockShowDeleteModal}>
+			<PackModal pack={pack}>
 				<button>Open Modal</button>
 			</PackModal>,
 		);
