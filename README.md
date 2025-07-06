@@ -2,6 +2,13 @@
 
 > React app for backpacking gear management with drag-and-drop, real-time updates, and solid testing coverage.
 
+## Additional Tidytrek Repos
+
+- **Frontend** (current repo)
+- **[Backend](https://github.com/rwbrockhoff/tidytrek-backend)** - Node.js API
+- **[Landing](https://github.com/rwbrockhoff/tt-landing)** - Marketing site
+- **[Live App](https://tidytrek.co)** - Production website
+
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue.svg)](https://typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0-purple.svg)](https://vitejs.dev/)
@@ -173,26 +180,6 @@ Code splitting strategy:
 - Static site hosting via S3 bucket
 - CloudFront CDN for global distribution
 - Automatic cache invalidation on deployments
-
-## Technical Challenges
-
-### Complex State Management
-
-**Challenge**: Managing hierarchical pack data with real-time updates, optimistic mutations, and error rollback across drag-and-drop operations.
-
-**Solution**: Implemented hierarchical TanStack Query keys with selective cache invalidation. Custom hooks abstract optimistic update patterns with automatic rollback on failure.
-
-### Performance at Scale
-
-**Challenge**: Table rendering performance with 100+ pack items during drag operations.
-
-**Solution**: Memoized table components and manual chunk splitting. Lazy loading for feature-specific code.
-
-### Component Library Migration
-
-**Challenge**: Migrating from Radix Themes to Radix UI primitives while maintaining design consistency and accessibility.
-
-**Solution**: Gradual migration with tree-shakable exports, CSS Modules for style isolation, and comprehensive testing.
 
 ## Architecture Decisions
 

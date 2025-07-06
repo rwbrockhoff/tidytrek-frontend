@@ -52,6 +52,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		() => (packItems[0] ? convertQuantity(packItems) : 0),
 		[packItems],
 	); // todo: get from weight converter
+
 	// minize or hide pack items when empty
 	const showCategoryItems = packItems[0] && !isMinimized;
 	// hide empty categories on guest view

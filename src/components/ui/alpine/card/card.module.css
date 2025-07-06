@@ -1,0 +1,133 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius);
+	background-color: var(--color-bg-primary);
+	transition: var(--transition);
+}
+
+.cardDefault {
+	border: 1px solid var(--color-border-primary);
+	background-color: var(--color-bg-primary);
+}
+
+.cardSurface {
+	border: 1px solid var(--color-border-primary);
+	background-color: var(--color-bg-secondary);
+}
+
+.cardGhost {
+	border: none;
+	background-color: transparent;
+}
+
+.cardSize1 {
+	font-size: var(--font-size-sm);
+}
+
+.cardSize2 {
+	font-size: var(--font-size-base);
+}
+
+.cardSize3 {
+	font-size: var(--font-size-md);
+}
+
+.cardInteractive {
+	cursor: pointer;
+}
+
+.cardInteractive:hover {
+	background-color: var(--color-hover);
+}
+
+.cardInteractive.cardSurface:hover {
+	background-color: var(--color-active);
+}
+
+.header {
+	padding: var(--space-md);
+	border-bottom: 1px solid var(--color-border-primary);
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-primary);
+	font-weight: var(--font-weight-medium);
+}
+
+.cardGhost .header {
+	border-bottom: none;
+	background-color: transparent;
+}
+
+.body {
+	padding: var(--space-md);
+	color: var(--color-text-primary);
+	flex: 1;
+}
+
+.footer {
+	padding: var(--space-md);
+	border-top: 1px solid var(--color-border-primary);
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-secondary);
+}
+
+.cardGhost .footer {
+	border-top: none;
+	background-color: transparent;
+}
+
+.cardSize1 .header,
+.cardSize1 .body,
+.cardSize1 .footer {
+	padding: var(--space-sm);
+}
+
+.cardSize2 .header,
+.cardSize2 .body,
+.cardSize2 .footer {
+	padding: var(--space-md);
+}
+
+.cardSize3 .header,
+.cardSize3 .body,
+.cardSize3 .footer {
+	padding: var(--space-lg);
+}
+
+.cardRounded,
+.cardRoundedSm {
+	border-radius: var(--radius);
+}
+
+.cardRoundedMd {
+	border-radius: var(--radius-lg);
+}
+
+.cardRoundedLg {
+	border-radius: calc(var(--radius-lg) * 2);
+}
+
+.cardShadowClassic {
+	box-shadow: var(--shadow);
+}
+
+.cardShadowSpread {
+	box-shadow: var(--shadow-lg);
+}
+
+.cardShadowPaper {
+	box-shadow: var(--shadow-paper);
+}
+
+@media (max-width: 768px) {
+	.card {
+		font-size: var(--font-size-sm);
+	}
+
+	.header,
+	.body,
+	.footer {
+		padding: var(--space-sm);
+	}
+}

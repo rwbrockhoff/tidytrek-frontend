@@ -1,5 +1,5 @@
 import { PackInfo } from './pack-info/pack-info';
-import { PackCategory } from './pack-category';
+import { ResponsivePackCategory } from './responsive-pack-category';
 import { AddCategoryButton } from '@/components/table';
 import { Flex } from '@radix-ui/themes';
 import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
@@ -86,7 +86,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 						{packCategories.length > 0 &&
 							packCategories.map((category: Category, index: number) => {
 								return (
-									<PackCategory
+									<ResponsivePackCategory
 										category={category}
 										packList={packList}
 										index={index}

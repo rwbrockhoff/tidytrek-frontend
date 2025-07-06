@@ -10,6 +10,7 @@ export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> 
 	rounded?: boolean | 'sm' | 'md' | 'lg';
 	shadow?: boolean | 'classic' | 'spread' | 'paper';
 	highlight?: boolean;
+	override?: boolean;
 }
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
@@ -51,6 +52,7 @@ const Root = forwardRef<HTMLTableElement, TableProps>(
 			rounded = false,
 			shadow = false,
 			highlight = false,
+			override = false,
 			className,
 			children,
 			...props
@@ -78,6 +80,7 @@ const Root = forwardRef<HTMLTableElement, TableProps>(
 			shadow === 'classic' && styles.tableShadowClassic,
 			shadow === 'spread' && styles.tableShadowSpread,
 			shadow === 'paper' && styles.tableShadowPaper,
+			override && 'aow',
 			className,
 		);
 

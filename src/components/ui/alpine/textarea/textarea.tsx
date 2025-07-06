@@ -14,6 +14,7 @@ export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 	height?: string;
 	rows?: number;
 	match?: RadixFormMatchType;
+	override?: boolean;
 }
 
 export interface TextAreaRootProps {
@@ -77,7 +78,7 @@ const Message = forwardRef<
 Message.displayName = 'TextAreaMessage';
 
 const Input = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-	({ error, className, label, message, name, width, height, match, ...props }, ref) => {
+	({ error, className, label, message, name, width, height, match, override = false, ...props }, ref) => {
 		const hasError = getErrorState(error);
 		const errorMessage = getErrorMessage(error, message);
 		const errorId = `${name}-error`;
@@ -107,7 +108,7 @@ const Input = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 			...(width && { width }),
 			...(height && { height }),
 		};
-		const rootClassName = cn(width && styles.fieldResponsive);
+		const rootClassName = cn(width && styles.fieldResponsive, override && 'aow');
 
 		return (
 			<Root name={name} className={rootClassName} style={rootStyle}>
@@ -128,7 +129,7 @@ Input.displayName = 'TextAreaInput';
 const Standalone = forwardRef<
 	HTMLTextAreaElement,
 	Omit<TextAreaProps, 'name'> & { name?: string }
->(({ error, className, width, height, ...props }, ref) => {
+>(({ error, className, width, height, override = false, ...props }, ref) => {
 	const hasError = getErrorState(error);
 
 	const textareaClasses = cn(
@@ -145,7 +146,7 @@ const Standalone = forwardRef<
 
 	return (
 		<div
-			className={cn(styles.standalone, width && styles.fieldResponsive)}
+			className={cn(styles.standalone, width && styles.fieldResponsive, override && 'aow')}
 			style={rootStyle}>
 			<textarea ref={ref} className={textareaClasses} {...props} />
 		</div>

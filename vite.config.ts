@@ -7,6 +7,14 @@ export default defineConfig(({ mode }) => ({
 	// Production app ran from s3-bucket in /app/ directory
 	// Use pre-defined mode prop from Vite
 	base: mode === 'production' ? '/app/' : '/',
+	server: {
+		hmr: {
+			overlay: true,
+		},
+		watch: {
+			usePolling: false,
+		},
+	},
 	build: {
 		rollupOptions: {
 			output: {

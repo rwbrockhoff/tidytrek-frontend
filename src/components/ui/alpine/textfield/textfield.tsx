@@ -17,6 +17,7 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
 	iconIsButton?: boolean;
 	width?: string;
 	match?: RadixFormMatchType;
+	override?: boolean;
 }
 
 export interface TextFieldRootProps {
@@ -124,6 +125,7 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 			name,
 			width,
 			match,
+			override = false,
 			...props
 		},
 		ref,
@@ -159,7 +161,7 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 		);
 
 		const rootStyle = width ? { width } : undefined;
-		const rootClassName = cn(styles.rootIcon, width && styles.fieldResponsive);
+		const rootClassName = cn(styles.rootIcon, width && styles.fieldResponsive, override && 'aow');
 
 		if (variant === 'icon' && icon) {
 			return (
@@ -190,7 +192,7 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 		return (
 			<Root
 				name={name}
-				className={cn(width && styles.fieldResponsive)}
+				className={cn(width && styles.fieldResponsive, override && 'aow')}
 				style={rootStyle}>
 				{label && <Label>{label}</Label>}
 				{input}
