@@ -1,7 +1,7 @@
 import { Pack } from './pack-types';
 import { Settings } from './settings-types';
 
-export type InitialState = {
+export type ProfileQueryState = {
 	profileInfo: ProfileInfo;
 	socialLinks: SocialLink[];
 };

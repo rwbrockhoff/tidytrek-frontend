@@ -1,9 +1,7 @@
-import { InitialState as PackState } from '@/types/pack-types';
-import { InitialState as GuestState } from '@/queries/guest-queries';
+import { PackQueryState as PackState } from '@/types/pack-types';
+import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 
-const isGuestData = (
-	data: PackState | GuestState | undefined,
-): data is GuestState => {
+const isGuestData = (data: PackState | GuestState | undefined): data is GuestState => {
 	return (data && 'settings' in data) || false;
 };
 

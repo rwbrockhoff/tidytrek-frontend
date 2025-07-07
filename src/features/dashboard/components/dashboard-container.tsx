@@ -4,11 +4,11 @@ import { AddCategoryButton } from '@/components/table';
 import { Flex } from '@radix-ui/themes';
 import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import {
-	InitialState as UserState,
+	PackQueryState as UserState,
 	type Category,
 	PackListItem,
 } from '@/types/pack-types';
-import { InitialState as GuestState } from '@/queries/guest-queries';
+import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
 import {
 	DragDropContext,

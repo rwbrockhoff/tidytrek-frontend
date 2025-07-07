@@ -3,7 +3,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import {
 	useViewPackQuery,
 	useViewProfileQuery,
-	type InitialState,
+	type GuestQueryState,
 	type GuestProfileViewState,
 	isGuestProfileData,
 } from '@/queries/guest-queries';
@@ -25,7 +25,7 @@ vi.mock('@/utils', () => ({
 	decode: vi.fn((id) => parseInt(id)),
 }));
 
-const createMockGuestInitialState = (): InitialState => ({
+const createMockGuestInitialState = (): GuestQueryState => ({
 	pack: createMockPack({ packPublic: true }),
 	categories: [createMockCategory()],
 	settings: createMockSettings(),

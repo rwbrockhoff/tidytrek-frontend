@@ -4,7 +4,7 @@ import {
 	type HeaderInfo,
 	type Pack,
 	type Category,
-	type InitialState,
+	type PackQueryState,
 } from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
@@ -80,7 +80,7 @@ export const usePackCategoryActions = () => {
 					destination.index,
 				);
 
-				applySynchronousDragUpdate<InitialState>(
+				applySynchronousDragUpdate<PackQueryState>(
 					queryClient,
 					packKeys.packId(pack.packId),
 					source.index,
@@ -102,7 +102,7 @@ export const usePackCategoryActions = () => {
 				let prevItem: any, nextItem: any;
 
 				if (sameCategory) {
-					const currentData = queryClient.getQueryData<InitialState>(
+					const currentData = queryClient.getQueryData<PackQueryState>(
 						packKeys.packId(pack.packId),
 					);
 					if (currentData) {
@@ -122,7 +122,7 @@ export const usePackCategoryActions = () => {
 
 				let updatedDestItems: any[] = [];
 
-				queryClient.setQueryData<InitialState>(packKeys.packId(pack.packId), (old) => {
+				queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
 					if (!old) return old;
 
 					const { categories } = old;

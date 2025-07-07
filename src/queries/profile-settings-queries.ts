@@ -1,18 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys, profileKeys, userKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { InitialState } from '../types/profile-types';
+import { ProfileQueryState } from '../types/profile-types';
 import { type UserInfo } from '../types/profile-types';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from '../utils';
 
 export const useGetProfileSettingsQuery = () =>
-	useQuery<InitialState>({
+	useQuery<ProfileQueryState>({
 		queryKey: profileSettingsKeys.all,
 		queryFn: () => tidyTrekAPI.get('/profile-settings/').then((res) => res.data),
 	});
 
-export const useUpdateUsernameMutation = (): SimpleMutation<{ username: string; trailName: string }, { message?: string }> => {
+export const useUpdateUsernameMutation = (): SimpleMutation<
+	{ username: string; trailName: string },
+	{ message?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (userInfo: { username: string; trailName: string }) =>
@@ -23,7 +26,10 @@ export const useUpdateUsernameMutation = (): SimpleMutation<{ username: string; 
 	});
 };
 
-export const useAddSocialLinkMutation = (): SimpleMutation<{ platformName: string; socialLinkUrl: string }, { message?: string }> => {
+export const useAddSocialLinkMutation = (): SimpleMutation<
+	{ platformName: string; socialLinkUrl: string },
+	{ message?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (socialInfo: { platformName: string; socialLinkUrl: string }) =>
@@ -45,7 +51,10 @@ export const useDeleteSocialLinkMutation = (): SimpleMutation<number, void> => {
 	});
 };
 
-export const useEditProfileMutation = (): SimpleMutation<UserInfo, { message?: string }> => {
+export const useEditProfileMutation = (): SimpleMutation<
+	UserInfo,
+	{ message?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (profileInfo: UserInfo) =>
@@ -56,13 +65,18 @@ export const useEditProfileMutation = (): SimpleMutation<UserInfo, { message?: s
 	});
 };
 
-export const useUploadProfilePhotoMutation = (): SimpleMutation<FormData, { profilePhotoUrl?: string }> => {
+export const useUploadProfilePhotoMutation = (): SimpleMutation<
+	FormData,
+	{ profilePhotoUrl?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (formData: FormData) =>
-			tidyTrekAPI.post('/profile-settings/profile-photo', formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			}).then(extractData),
+			tidyTrekAPI
+				.post('/profile-settings/profile-photo', formData, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				})
+				.then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
@@ -83,13 +97,18 @@ export const useDeleteProfilePhotoMutation = (): SimpleMutation<void, void> => {
 	});
 };
 
-export const useUploadBannerPhotoMutation = (): SimpleMutation<FormData, { bannerPhotoUrl?: string }> => {
+export const useUploadBannerPhotoMutation = (): SimpleMutation<
+	FormData,
+	{ bannerPhotoUrl?: string }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (formData: FormData) =>
-			tidyTrekAPI.post('/profile-settings/banner-photo', formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			}).then(extractData),
+			tidyTrekAPI
+				.post('/profile-settings/banner-photo', formData, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				})
+				.then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},

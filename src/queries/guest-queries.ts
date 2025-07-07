@@ -6,7 +6,7 @@ import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
 import { type BaseProfileState, type UserProfile } from '../types/profile-types';
 
-export type InitialState = {
+export type GuestQueryState = {
 	pack: Pack;
 	categories: Category[];
 	settings: Settings;
@@ -33,7 +33,7 @@ export const isGuestProfileData = (data: any): data is GuestProfileViewState => 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
 
-	return useQuery<InitialState>({
+	return useQuery<GuestQueryState>({
 		queryKey: guestKeys.packId(decodedId as number | null),
 		queryFn: () => {
 			if (packId) {

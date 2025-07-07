@@ -1,17 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrekAPI';
-import { PackInfo, type GearClosetItem, type MoveGearClosetItemProps } from '../types/pack-types';
+import {
+	PackInfo,
+	type GearClosetItem,
+	type MoveGearClosetItemProps,
+} from '../types/pack-types';
 import { closetKeys, packKeys } from './query-keys';
 import { STALE_TIME } from './query-config';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from '../utils';
 
-type InitialState = {
+type GearClosetQueryState = {
 	gearClosetList: GearClosetItem[];
 };
 
 export const useGetGearClosetQuery = () =>
-	useQuery<InitialState>({
+	useQuery<GearClosetQueryState>({
 		queryKey: closetKeys.all,
 		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get('/closet/').then((res) => res.data),
@@ -27,18 +31,26 @@ export const useAddGearClosetItemMutation = (): SimpleMutation<void, GearClosetI
 	});
 };
 
-export const useEditGearClosetItemMutation = (): SimpleMutation<GearClosetItem, GearClosetItem> => {
+export const useEditGearClosetItemMutation = (): SimpleMutation<
+	GearClosetItem,
+	GearClosetItem
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (gearClosetItem: GearClosetItem) =>
-			tidyTrekAPI.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem).then(extractData),
+			tidyTrekAPI
+				.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem)
+				.then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 	});
 };
 
-export const useMoveGearClosetItemMutation = (): SimpleMutation<MoveGearClosetItemProps, void> => {
+export const useMoveGearClosetItemMutation = (): SimpleMutation<
+	MoveGearClosetItemProps,
+	void
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationKey: ['moveGearClosetItem'],

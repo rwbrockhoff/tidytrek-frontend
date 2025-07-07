@@ -2,7 +2,7 @@ import { paletteList } from '@/styles/palette/palette-constants';
 import type {
 	Pack,
 	PackListItem,
-	InitialState,
+	PackQueryState,
 	Category,
 	PackWithCategories,
 	PackInfo,
@@ -70,8 +70,8 @@ export const createMockPackItem = (overrides?: Partial<PackItem>): PackItem => (
 });
 
 export const createMockInitialState = (
-	overrides?: Partial<InitialState>,
-): InitialState => ({
+	overrides?: Partial<PackQueryState>,
+): PackQueryState => ({
 	packList: [createMockPackListItem()],
 	pack: createMockPack(),
 	categories: [createMockCategory()],

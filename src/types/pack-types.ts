@@ -1,4 +1,4 @@
-export type InitialState = {
+export type PackQueryState = {
 	packList: PackListItem[];
 	pack: Pack;
 	categories: Category[];
