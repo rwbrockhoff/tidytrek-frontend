@@ -1,6 +1,7 @@
 import { type Pack } from '@/types/pack-types';
-import { Card, Flex, Heading, Inset, Separator, Text } from '@radix-ui/themes';
+import { Flex, Heading, Inset, Text } from '@radix-ui/themes';
 import { ViewsIcon, Link } from '@/components/ui';
+import { Card } from '@/components/ui/alpine';
 import styles from './pack-card.module.css';
 import { mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';
@@ -25,7 +26,12 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
-		<Card m="2" className={cn(styles.styledCard, mx.responsiveContent)}>
+		<Card.Root
+			variant="surface"
+			rounded="md"
+			shadow="paper"
+			override
+			className={cn(styles.styledCard, mx.responsiveContent)}>
 			<Link to={link} enabled={!userView} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
@@ -37,7 +43,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 					/>
 				</Inset>
 
-				<Flex direction="column" mb="6">
+				<Card.Body className={styles.cardBody}>
 					<Heading size="4">
 						<Link to={link} enabled={userView}>
 							{packName}
@@ -48,19 +54,17 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 					</Text>
 					<Text my="2">{packDescription}</Text>
 					<PackLabels pack={pack} />
-				</Flex>
+				</Card.Body>
 
 				{userView && (
-					<Flex direction="column" className={styles.cardFooter}>
-						<Separator size="4" mt="4" />
-
-						<Flex align="center" mt="2" className={styles.cardFooterText}>
+					<Card.Footer className={styles.cardFooter}>
+						<Flex align="center" className={styles.cardFooterText}>
 							<ViewsIcon />
 							<Text>{packViews} Views</Text>
 						</Flex>
-					</Flex>
+					</Card.Footer>
 				)}
 			</Link>
-		</Card>
+		</Card.Root>
 	);
 };
