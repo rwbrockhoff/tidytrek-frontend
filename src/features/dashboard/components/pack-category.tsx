@@ -30,13 +30,11 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
-		showCategoryItems,
 	} = usePackCategory(category);
 
 	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
 
-	// hide empty categories on guest view
-	if (!userView && !showCategoryItems) return null;
+	const showCategoryItems = !isMinimized;
 
 	return (
 		<Draggable

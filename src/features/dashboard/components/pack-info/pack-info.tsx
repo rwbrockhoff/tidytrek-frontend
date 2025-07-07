@@ -109,7 +109,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					onClick={handleTogglePackChart}
 					className={styles.toggleChartButton}>
 					<ChartIcon />
-					Show Pack Chart
+					{showPackChart ? 'Hide' : 'Show'} Pack Chart
 				</Button>
 			</div>
 

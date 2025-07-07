@@ -35,7 +35,6 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
-		showCategoryItems,
 	} = usePackCategory(category);
 
 	const handleChangeColor = useCallback(
@@ -44,13 +43,12 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 		[editPackCategory, packCategoryId],
 	);
 
-	// Hide empty categories on guest view
-	if (!userView && !showCategoryItems) return null;
-
 	// Use pack category color
 	const bgColorCategory = {
 		backgroundColor: packCategoryColor ? `var(--${packCategoryColor})` : 'inherit',
 	};
+
+	const showCategoryItems = !isMinimized;
 
 	return (
 		<Card.Root
@@ -77,7 +75,6 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 						{isMinimized ? <PlusIcon /> : <MinusIcon />}
 					</Button>
 				</div>
-
 				{showCategoryItems && (
 					<div className={styles.categoryTotals} style={bgColorCategory}>
 						<span className={styles.totalItem}>
@@ -104,7 +101,6 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 					))}
 				</Card.Body>
 			)}
-
 			{!isMinimized && userView && (
 				<Card.Footer className={cn('aow', styles.categoryFooter)}>
 					<Button

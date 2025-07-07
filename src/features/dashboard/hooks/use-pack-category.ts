@@ -37,8 +37,6 @@ export const usePackCategory = (category: Category) => {
 		[packItems],
 	);
 
-	const showCategoryItems = packItems[0] && !isMinimized;
-
 	return {
 		// Category data
 		packCategoryName,
@@ -63,6 +61,5 @@ export const usePackCategory = (category: Category) => {
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
-		showCategoryItems,
 	};
 };
