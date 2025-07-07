@@ -90,6 +90,11 @@
 	--icon-md: 1.5rem; /* 24px */
 	--icon-lg: 2rem; /* 32px */
 
+	/* -- Button sizes -- */
+	--button-size-sm: 1.25rem; /* 20px */
+	--button-size-md: 1.5rem; /* 24px */
+	--button-size-lg: 2rem; /* 32px */
+
 	/* -- Border radius -- */
 	--radius: 0.25rem; /* 4px - primary radius */
 	--radius-lg: 0.5rem; /* 8px - larger elements */

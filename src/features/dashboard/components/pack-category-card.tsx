@@ -47,6 +47,11 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	// Hide empty categories on guest view
 	if (!userView && !showCategoryItems) return null;
 
+	// Use pack category color
+	const bgColorCategory = {
+		backgroundColor: packCategoryColor ? `var(--${packCategoryColor})` : 'inherit',
+	};
+
 	return (
 		<Card.Root
 			variant="surface"
@@ -57,14 +62,12 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 			data-testid="pack-category-card">
 			<Card.Header className={cn('aow', styles.categoryHeader)}>
 				<div className={styles.categoryHeaderContent}>
-					{userView ? (
-						<ThemeButton color={packCategoryColor} onClick={handleChangeColor} />
-					) : (
-						<div
-							className={styles.categoryColor}
-							style={{ backgroundColor: packCategoryColor }}
-						/>
-					)}
+					<ThemeButton
+						paletteColor={packCategoryColor}
+						disabled={!userView}
+						onClick={handleChangeColor}
+					/>
+
 					<h3 className={styles.categoryName}>{packCategoryName}</h3>
 					<Button
 						onClick={handleMinimizeCategory}
@@ -76,13 +79,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 				</div>
 
 				{showCategoryItems && (
-					<div
-						className={styles.categoryTotals}
-						style={{
-							backgroundColor: packCategoryColor
-								? `var(--${packCategoryColor})`
-								: 'inherit',
-						}}>
+					<div className={styles.categoryTotals} style={bgColorCategory}>
 						<span className={styles.totalItem}>
 							{itemQuantity} {itemQuantity === 1 ? 'item' : 'items'}
 						</span>

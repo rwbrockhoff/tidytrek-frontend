@@ -275,6 +275,10 @@
 	filter: var(--brightness-dark-1);
 }
 
+.noPointer {
+	cursor: default;
+}
+
 /* Accessibility utilities */
 .visuallyHidden {
 	position: absolute;
