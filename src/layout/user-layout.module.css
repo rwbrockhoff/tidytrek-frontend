@@ -3,6 +3,7 @@
 	height: 100%;
 	overflow-y: auto;
 	background-color: var(--color-bg-primary);
+	-webkit-overflow-scrolling: touch;
 }
 
 .appViewContainer {
@@ -46,11 +47,14 @@
 /* When viewport is smaller than max-width - sidebar becomes overlay */
 @media (max-width: 1280px) {
 	.appViewContainer {
-		/* Remove flex layout - sidebar becomes overlay */
-		display: block;
+		/* Keep flex layout - sidebar becomes overlay */
+		display: flex;
+		align-items: stretch;
+		min-height: 100%;
 	}
 
 	.viewLayoutContainer {
+		flex: 1;
 		width: 100%;
 	}
 
@@ -69,14 +73,17 @@
 	}
 
 	.appViewContainer {
-		/* On mobile, don't use flex - sidebar overlays */
-		display: block;
+		/* Keep flex layout - sidebar overlays */
+		display: flex;
+		align-items: stretch;
+		min-height: 100%;
 	}
 
 	.viewLayoutContainer {
 		/* Mobile layout padding - header height + extra space */
 		padding: calc(var(--mobile-header-height) + var(--space-sm)) var(--space-md)
-			var(--space-xxl) var(--space-md);
+			var(--space-lg) var(--space-md);
+		flex: 1;
 	}
 
 	.viewLayoutSidebarVisible,

@@ -65,7 +65,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
 	return (
-		<Box position="relative" mt={userView ? '9' : '4'}>
+		<Box position="relative">
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}

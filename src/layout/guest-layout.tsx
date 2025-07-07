@@ -5,11 +5,15 @@ import { Fallback } from './fallback';
 
 export const GuestLayout = () => {
 	return (
-		<div className={styles.guestViewContainer}>
+		<div className={styles.guestViewWrapper}>
 			<ScrollRestoration />
-			<Suspense fallback={<Fallback />}>
-				<Outlet />
-			</Suspense>
+			<div className={styles.guestViewContainer}>
+				<div className={styles.guestViewLayoutContainer}>
+					<Suspense fallback={<Fallback />}>
+						<Outlet />
+					</Suspense>
+				</div>
+			</div>
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 .footer {
 	padding: var(--space-md) 0;
+	margin-top: auto;
 }
 
 .logoTag {

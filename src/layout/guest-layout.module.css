@@ -1,24 +1,36 @@
-.guestViewContainer {
-	min-height: 100%;
-	box-sizing: border-box;
+.guestViewWrapper {
 	background-color: var(--color-bg-primary);
-	overflow-y: scroll;
-	padding: var(--app-layout-padding);
+	height: 100%;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.guestViewContainer {
+	background-color: var(--color-bg-primary);
+	min-height: 100%;
 	max-width: var(--max-width);
 	width: 100%;
 	margin: 0 auto;
+	position: relative;
+	display: flex;
+	align-items: stretch;
 }
 
-@media (max-width: 768px) {
-	.guestViewContainer {
-		padding: var(--space-xl) var(--space-md);
+.guestViewLayoutContainer {
+	background-color: var(--color-bg-primary);
+	position: relative;
+	min-width: 0;
+	flex: 1;
+}
+
+@media (min-width: 769px) {
+	.guestViewLayoutContainer {
+		padding: var(--app-layout-padding);
 	}
 }
 
-.guestViewContainer main {
-	margin: 0 auto;
-	min-height: 100%;
-	box-sizing: border-box;
-	max-width: var(--max-width);
-	position: relative;
+@media (max-width: 768px) {
+	.guestViewLayoutContainer {
+		padding: var(--space-xl) var(--space-md);
+	}
 }

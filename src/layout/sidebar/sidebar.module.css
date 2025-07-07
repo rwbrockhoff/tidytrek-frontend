@@ -98,13 +98,13 @@
 	.sidebarHidden {
 		display: flex; /* In DOM but positioned off-screen */
 		transform: translateX(-100%); /* Slide out to left */
-		transition: transform var(--transition-slow);
+		transition: transform var(--transition);
 	}
 
 	.sidebarVisible {
 		display: flex;
 		transform: translateX(0); /* Slide in from left */
-		transition: transform var(--transition-slow);
+		transition: transform var(--transition);
 	}
 }
 
