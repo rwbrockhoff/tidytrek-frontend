@@ -1,7 +1,7 @@
 import { Skeleton, SkeletonText } from './skeleton';
 import styles from './app-skeletons.module.css';
-import userLayoutStyles from '@/layout/user-layout.module.css';
-import sidebarStyles from '@/layout/sidebar/sidebar.module.css';
+import userLayoutStyles from '@/layout/layouts/user-layout/user-layout.module.css';
+import sidebarStyles from '@/layout/navigation/sidebar/sidebar.module.css';
 
 // Main app skeleton - shows while checking auth
 export const AppLoadingSkeleton = () => (

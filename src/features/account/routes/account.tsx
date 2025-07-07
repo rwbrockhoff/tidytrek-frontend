@@ -3,12 +3,13 @@ import { Outlet } from 'react-router-dom';
 import { useGetAuth } from '@/hooks';
 import { AccountMenu } from '../components/account-menu';
 import { UserContext } from '../contexts';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const Account = () => {
 	const { user } = useGetAuth();
 
 	return (
-		<main className="page-layout">
+		<PageLayout>
 			<Heading as="h3" align="center" size="6" mb="4">
 				Account Settings
 			</Heading>
@@ -18,6 +19,6 @@ export const Account = () => {
 			<UserContext.Provider value={{ user }}>
 				<Outlet />
 			</UserContext.Provider>
-		</main>
+		</PageLayout>
 	);
 };

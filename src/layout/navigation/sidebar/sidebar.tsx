@@ -8,7 +8,7 @@ import { encode, lazyImport } from '@/utils';
 import { SidebarButton } from './components/sidebar-button';
 import { cn } from '@/styles/utils';
 import supabase from '@/api/supabaseClient';
-import { SidebarFallback } from '../fallback';
+import { SidebarFallback } from '../../fallback';
 import { useGetAuth, useCheckScreen } from '@/hooks';
 import { MouseOver } from '@/contexts/mouse-over-context';
 import { ThemeToggle } from '@/components/ui';
@@ -23,7 +23,7 @@ type SidebarProps = {
 	onToggle: () => void;
 };
 
-const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
+export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
@@ -106,14 +106,10 @@ const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					</Heading>
 
 					<PackList currentPackId={currentPackId} packList={packList} />
-					
-					<div className={styles.sidebarFooter}>
-						{showSidebar && <ThemeToggle />}
-					</div>
+
+					<div className={styles.sidebarFooter}>{showSidebar && <ThemeToggle />}</div>
 				</Suspense>
 			</div>
 		</aside>
 	);
 };
-
-export default Sidebar;

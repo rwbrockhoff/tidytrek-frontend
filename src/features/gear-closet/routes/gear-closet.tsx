@@ -10,6 +10,7 @@ import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { searchMatch } from '@/utils';
 import { cn } from '@/styles/utils/cn';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
@@ -37,8 +38,8 @@ export const GearCloset = () => {
 		: originalListHasItems;
 	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
 	return (
-		<main className="page-layout">
-			<UserViewContext.Provider value={true}>
+		<UserViewContext.Provider value={true}>
+			<PageLayout>
 				<Flex className={styles.headerText} align="center" justify="center" gap="3">
 					<ClosetIcon />
 					<Heading size="6">Gear Closet</Heading>
@@ -68,7 +69,7 @@ export const GearCloset = () => {
 					listHasItems={displayListHasItems}
 					dragDisabled={dragDisabled}
 				/>
-			</UserViewContext.Provider>
-		</main>
+			</PageLayout>
+		</UserViewContext.Provider>
 	);
 };

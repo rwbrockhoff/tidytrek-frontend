@@ -1,7 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense } from 'react';
 import styles from './guest-layout.module.css';
-import { Fallback } from './fallback';
+import { Fallback } from '@/layout';
 
 export const GuestLayout = () => {
 	return (
@@ -17,4 +17,3 @@ export const GuestLayout = () => {
 		</div>
 	);
 };
-

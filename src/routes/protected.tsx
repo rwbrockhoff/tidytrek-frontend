@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { UserLayout } from '../layout/user-layout';
+import { UserLayout } from '@/layout';
 import { ResetPassword } from '@/features/auth/routes/reset-password';
 import { Welcome } from '../features/auth/routes/welcome';
 import { ResetSuccess } from '../features/auth/routes/reset-success';
@@ -7,7 +7,10 @@ import { lazyImport } from '@/utils';
 import { BubbleError } from '@/components/error-boundary';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
-const { PackEdit } = lazyImport(() => import('@/features/dashboard/routes/pack-edit'), 'PackEdit');
+const { PackEdit } = lazyImport(
+	() => import('@/features/dashboard/routes/pack-edit'),
+	'PackEdit',
+);
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
 const { Account } = lazyImport(() => import('@/features/account/routes'), 'Account');

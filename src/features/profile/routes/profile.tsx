@@ -6,7 +6,7 @@ import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
 import { useGetAuth } from '@/hooks';
-import { cn } from '@/styles/utils';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const Profile = ({ userView }: { userView: boolean }) => {
 	const { userId: paramUserId } = useParams();
@@ -24,7 +24,7 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 	const showSkeletonCards = notFound || isPrivate;
 	return (
 		<UserViewContext.Provider value={userView}>
-			<main className={cn(userView && 'page-layout')}>
+			<PageLayout>
 				{showPromotion && <ProfileBanner />}
 				<ProfileHeader
 					userProfile={userProfile}
@@ -36,7 +36,7 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 					packThumbnailList={packThumbnailList}
 					showSkeletonCards={showSkeletonCards}
 				/>
-			</main>
+			</PageLayout>
 		</UserViewContext.Provider>
 	);
 };

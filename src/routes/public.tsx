@@ -1,5 +1,5 @@
 import { lazyImport } from '@/utils/lazy-imports';
-import { GuestLayout } from '@/layout/guest-layout';
+import { GuestLayout } from '@/layout';
 import { AuthRoutes } from '@/features/auth';
 import { BubbleError } from '@/components';
 const { Dashboard } = lazyImport(() => import('../features/dashboard'), 'Dashboard');

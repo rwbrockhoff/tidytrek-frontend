@@ -20,6 +20,7 @@ import {
 import { useGuestData } from '../hooks/use-guest-data';
 import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
 import { useGetAuth } from '@/hooks';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 type DashboardProps = {
 	isAuthenticated: boolean;
@@ -66,7 +67,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const showPreviewMode = !userView && isUsersPack;
 	return (
 		<PricingContext.Provider value={packPricing}>
-			<main>
+			<PageLayout>
 				{/* Show promotional banner for non-authenticated visitors */}
 				{showPromotion && <ProfileBanner />}
 
@@ -112,7 +113,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 						description={packAffiliateDescription}
 					/>
 				)}
-			</main>
+			</PageLayout>
 		</PricingContext.Provider>
 	);
 };

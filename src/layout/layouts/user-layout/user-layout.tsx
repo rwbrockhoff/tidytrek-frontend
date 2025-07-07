@@ -1,10 +1,8 @@
 import styles from './user-layout.module.css';
-import Sidebar from './sidebar/sidebar';
+import { Sidebar, MobileNavbar, Fallback } from '@/layout';
+import { SidebarButton } from '@/layout/navigation/sidebar/components/sidebar-button';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense, useState, useEffect } from 'react';
-import { MobileNavbar } from './mobile-navbar';
-import { SidebarButton } from './sidebar/components/sidebar-button';
-import { Fallback } from './fallback';
 import { useCheckScreen } from '@/hooks';
 import { cn } from '@/styles/utils';
 
