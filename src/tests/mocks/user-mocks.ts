@@ -1,7 +1,7 @@
 import type { User, LoginUser } from '@/types/user-types';
 import type { Settings } from '@/types/settings-types';
 import type { AuthStatusResponse } from '@/queries/user-queries';
-import { DEFAULT_PALETTE } from '@/styles/theme/palette-constants';
+import { DEFAULT_PALETTE } from '@/styles/palette/palette-constants';
 
 // Generates expected data to match our type definitions
 // while allowing us to pass in specific data for testing

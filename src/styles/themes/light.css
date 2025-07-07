@@ -1,0 +1,45 @@
+[data-theme='light'] {
+	/* Primary colors */
+	--color-primary: var(--sage-500);
+	--color-primary-hover: var(--sage-600);
+	--color-primary-light: var(--sage-100);
+	--color-primary-dark: var(--sage-700);
+
+	/* Light theme shadows */
+	--shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+		0 2px 1px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	--shadow-paper: 0px 8px 0px -6px rgba(0, 0, 0, 0.1);
+
+	/* Background colors */
+	--color-bg-primary: #ffffff;
+	--color-bg-secondary: var(--gray-100);
+	--color-bg-tertiary: var(--gray-200);
+	--color-bg-overlay: rgba(255, 255, 255, 0.9);
+	--color-bg-accent: #f2f5f4;
+
+	/* Text colors */
+	--color-text-primary: #000000;
+	--color-text-secondary: var(--gray-700);
+	--color-text-tertiary: var(--gray-500);
+	--color-text-inverse: #ffffff;
+
+	/* Border colors */
+	--color-border-primary: var(--gray-200);
+	--color-border-secondary: var(--gray-300);
+
+	/* State colors */
+	--color-success: var(--sage-500);
+	--color-success-bg: var(--sage-50);
+	--color-error: var(--red-500);
+	--color-error-bg: #fef2f2;
+	--color-warning: var(--yellow-500);
+	--color-warning-bg: #fefce8;
+	--color-info: var(--blue-500);
+	--color-info-bg: #eff6ff;
+
+	/* Interactive colors */
+	--color-hover: var(--gray-100);
+	--color-active: var(--gray-200);
+	--color-focus: var(--sage-100);
+}

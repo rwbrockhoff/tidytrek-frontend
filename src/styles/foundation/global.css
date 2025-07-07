@@ -1,0 +1,16 @@
+body {
+	background-color: var(--color-bg-primary);
+	color: var(--color-text-primary);
+	line-height: var(--line-height-normal);
+	font-size: var(--font-size-base);
+	margin: 0;
+	transition:
+		background-color var(--transition),
+		color var(--transition);
+}
+
+/* Focus styles */
+*:focus-visible {
+	outline: 2px solid var(--color-border-focus);
+	outline-offset: 2px;
+}

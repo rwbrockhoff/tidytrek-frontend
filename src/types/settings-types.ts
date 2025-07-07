@@ -1,4 +1,4 @@
-import { type PaletteName } from '@/styles/theme/palette-constants';
+import { type PaletteName } from '@/styles/palette/palette-constants';
 
 export type Settings = {
 	darkMode: boolean;

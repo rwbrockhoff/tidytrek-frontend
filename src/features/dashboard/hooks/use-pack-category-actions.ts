@@ -8,7 +8,7 @@ import {
 } from '@/types/pack-types';
 import { usePackCategoryMutations } from '../mutations/use-category-mutations';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
-import { paletteList } from '@/styles/theme/palette-constants';
+import { paletteList } from '@/styles/palette/palette-constants';
 import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { packKeys } from '@/queries/query-keys';

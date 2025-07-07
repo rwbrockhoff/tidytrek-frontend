@@ -17,7 +17,7 @@ import {
 } from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
 import { decode } from '@/utils';
-import { paletteList } from '@/styles/theme/palette-constants';
+import { paletteList } from '@/styles/palette/palette-constants';
 import { STALE_TIME } from './query-config';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {

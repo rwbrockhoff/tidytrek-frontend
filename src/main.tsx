@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 // import '@radix-ui/themes/components.css';
 // import '@radix-ui/themes/utilities.css';
 import '@radix-ui/themes/styles.css';
-import './styles/theme/index.css';
+import './styles/index.css';
 import './index.css';
 import { AppRouter } from '@/routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-import { paletteList } from '@/styles/theme/palette-constants';
+import { paletteList } from '@/styles/palette/palette-constants';
 import type {
 	Pack,
 	PackListItem,

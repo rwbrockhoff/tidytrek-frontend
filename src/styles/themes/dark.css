@@ -1,0 +1,45 @@
+[data-theme='dark'] {
+	/* Primary colors */
+	--color-primary: var(--sage-500);
+	--color-primary-hover: var(--sage-300);
+	--color-primary-light: var(--sage-900);
+	--color-primary-dark: var(--sage-200);
+
+	/* Dark theme shadows */
+	--shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.3),
+		0 2px 1px -1px rgba(0, 0, 0, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+	--shadow-paper: 0px 8px 0px -4px rgba(0, 0, 0, 0.6);
+
+	/* Background colors */
+	--color-bg-primary: var(--gray-900);
+	--color-bg-secondary: var(--gray-700);
+	--color-bg-tertiary: var(--gray-500);
+	--color-bg-overlay: rgba(17, 24, 39, 0.9);
+	--color-bg-accent: #1d2b28;
+
+	/* Text colors */
+	--color-text-primary: #ffffff;
+	--color-text-secondary: var(--gray-300);
+	--color-text-tertiary: var(--gray-400);
+	--color-text-inverse: var(--gray-900);
+
+	/* Border colors */
+	--color-border-primary: var(--gray-600);
+	--color-border-secondary: var(--gray-600);
+
+	/* State colors */
+	--color-success: var(--sage-400);
+	--color-success-bg: var(--sage-900);
+	--color-error: #f87171;
+	--color-error-bg: #7f1d1d;
+	--color-warning: #facc15;
+	--color-warning-bg: #78350f;
+	--color-info: #60a5fa;
+	--color-info-bg: #1e3a8a;
+
+	/* Interactive colors */
+	--color-hover: var(--gray-700);
+	--color-active: var(--gray-600);
+	--color-focus: var(--sage-900);
+}

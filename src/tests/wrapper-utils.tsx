@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Theme } from '@radix-ui/themes';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
-import { DEFAULT_PALETTE } from '@/styles/theme/palette-constants';
+import { DEFAULT_PALETTE } from '@/styles/palette/palette-constants';
 import { basicRender } from './test-utils';
 
 const queryClient = new QueryClient({

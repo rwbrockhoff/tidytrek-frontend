@@ -1,6 +1,6 @@
 .circleButton {
-	width: var(--button-size-sm);
-	height: var(--button-size-sm);
+	width: var(--icon-sm);
+	height: var(--icon-sm);
 	border-radius: 50%;
 	padding: 0;
 	margin: var(--space-min) var(--space-sm);

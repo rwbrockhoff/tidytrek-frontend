@@ -3,7 +3,7 @@ import {
 	DEFAULT_PALETTE,
 	PaletteName,
 	PALETTE_NAMES,
-} from '@/styles/theme/palette-constants';
+} from '@/styles/palette/palette-constants';
 
 export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 	const [currentMode, setCurrentMode] = useState<'light' | 'dark'>('light');
