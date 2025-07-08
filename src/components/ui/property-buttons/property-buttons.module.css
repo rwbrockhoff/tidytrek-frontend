@@ -1,4 +1,4 @@
-.propertiesCell svg {
+.flexContainer svg {
 	width: 15px;
 	height: 15px;
 	cursor: pointer;
@@ -6,19 +6,19 @@
 	fill: currentColor;
 }
 
-.propertiesCell svg:hover {
+.flexContainer svg:hover {
 	filter: var(--brightness-dark-2);
 }
 
-.propertiesCell .favoriteActive {
+.flexContainer .favoriteActive {
 	color: var(--amber-accent);
 }
 
-.propertiesCell .wornWeightActive {
+.flexContainer .wornWeightActive {
 	color: var(--teal-accent);
 }
 
-.propertiesCell .consumableActive {
+.flexContainer .consumableActive {
 	color: var(--indigo-accent);
 }
 
@@ -39,4 +39,23 @@
 	opacity: inherit;
 	color: inherit;
 	background-color: transparent;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+	.flexContainer {
+		justify-content: space-around;
+		gap: var(--space-md);
+	}
+	
+	.flexContainer svg {
+		width: 20px;
+		height: 20px;
+	}
+	
+	.flexContainer button {
+		padding: var(--space-sm);
+		min-height: 44px;
+		min-width: 44px;
+	}
 }

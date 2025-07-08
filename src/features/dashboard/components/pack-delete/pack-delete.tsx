@@ -38,7 +38,7 @@ export const PackDelete = ({ pack, children, buttonSize = '2' }: PackDeleteProps
 		navigate('/');
 	};
 
-	// If children are provided, use them as the trigger
+	// If children, use for the modal popup trigger
 	if (children) {
 		return (
 			<>

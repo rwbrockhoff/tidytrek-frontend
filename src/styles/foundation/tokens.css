@@ -75,18 +75,18 @@
 	--breakpoint-desktop: 1280px;
 
 	/* -- Layout -- */
-	--app-layout-padding: var(--space-xxl) 4em var(--space-xxl) 4em; /* desktop layout content padding */
-	--mobile-header-height: 6rem; /* fixed mobile header height */
+	--app-layout-padding: var(--space-xxl) 4em var(--space-xxl) 4em;
+	--mobile-header-height: 6rem;
 
-	/* -- Icon sizes -- */
-	--icon-match: 1rem; /* - match text size */
+	/* -- Icons -- */
+	--icon-match: 1rem; /* - match text */
 	--icon-sm: 1.25rem; /* 20px */
 	--icon-md: 1.5rem; /* 24px */
 	--icon-lg: 2rem; /* 32px */
 
 	/* -- Border radius -- */
-	--radius: 0.25rem; /* 4px - primary radius */
-	--radius-lg: 0.5rem; /* 8px - larger elements */
+	--radius: 0.25rem; /* 4px */
+	--radius-lg: 0.5rem; /* 8px  */
 
 	/* -- Effects -- */
 	--shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.1),
@@ -107,6 +107,5 @@
 	--brightness-light-1: brightness(105%);
 	--brightness-light-2: brightness(120%);
 
-	/* -- Focus color -- */
 	--color-border-focus: var(--sage-500);
 }

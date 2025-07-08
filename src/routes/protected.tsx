@@ -7,9 +7,10 @@ import { lazyImport } from '@/utils';
 import { BubbleError } from '@/components/error-boundary';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
-const { PackEdit } = lazyImport(
-	() => import('@/features/dashboard/routes/pack-edit'),
-	'PackEdit',
+const { PackEdit } = lazyImport(() => import('@/features/dashboard/'), 'PackEdit');
+const { PackItemEdit } = lazyImport(
+	() => import('@/features/dashboard/'),
+	'PackItemEdit',
 );
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
@@ -41,6 +42,10 @@ export const protectedRoutes = [
 			{
 				path: '/pack/edit/:packId',
 				element: <PackEdit />,
+			},
+			{
+				path: '/pack-item/edit/:packItemId',
+				element: <PackItemEdit />,
 			},
 			{
 				path: '/pk/:packId',

@@ -1,6 +1,7 @@
 import { Badge, Button } from '@radix-ui/themes';
+import { useNavigate } from 'react-router-dom';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { convertCurrency } from '@/utils';
+import { convertCurrency, encodePackItemId } from '@/utils';
 import { isPackItem } from '@/types/pack-types';
 import { DeleteItemModal } from '@/components/ui';
 import { EditPencilIcon, ShareIcon, TrashIcon } from '@/components/ui/icons';
@@ -25,8 +26,17 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 	showMoveToCloset = true,
 	className,
 }: PackItemRowProps<T>) => {
+	const navigate = useNavigate();
+
 	const handleEdit = () => {
-		onEdit?.(item);
+		// For mobile, navigate to pack-item-edit page
+		const encodedPackItemId = encodePackItemId(item.packItemId);
+		navigate(`/pack-item/edit/${encodedPackItemId}`, {
+			state: { 
+				packId: item.packId, 
+				packCategoryId: item.packCategoryId 
+			}
+		});
 	};
 
 	const handleMoveToCloset = () => {
