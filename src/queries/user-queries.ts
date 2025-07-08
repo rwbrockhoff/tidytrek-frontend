@@ -29,6 +29,7 @@ export const useLoginMutation = (): SimpleMutation<LoginUser, LoginResponse> => 
 	return useMutation({
 		mutationFn: (info: LoginUser) =>
 			tidyTrekAPI.post('/auth/login', info).then(extractData),
+		retry: false,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
@@ -43,6 +44,7 @@ export const useRegisterMutation = (): SimpleMutation<
 	return useMutation({
 		mutationFn: (registerData: RegisterUser) =>
 			tidyTrekAPI.post('/auth/register', registerData).then(extractData),
+		retry: false,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
