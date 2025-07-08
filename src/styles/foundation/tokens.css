@@ -3,7 +3,7 @@
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	--max-width: 1280px;
 
-	/* Base sage color scale */
+	/* Tidytrek primary color */
 	--sage-100: #daf1e3;
 	--sage-200: #b8e2cc;
 	--sage-300: #8acbad;
@@ -25,7 +25,7 @@
 	--gray-800: #1f2937;
 	--gray-900: #111827;
 
-	/* Constant Text */
+	/* Constant Text color */
 	--color-constant-white: #ffffff;
 	--color-constant-black: #000000;
 
@@ -76,7 +76,7 @@
 
 	/* -- Layout -- */
 	--app-layout-padding: var(--space-xxl) 4em var(--space-xxl) 4em;
-	--mobile-header-height: 6rem;
+	--mobile-header-height: 5rem;
 
 	/* -- Icons -- */
 	--icon-match: 1rem; /* - match text */

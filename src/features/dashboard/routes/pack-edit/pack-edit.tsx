@@ -2,9 +2,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { type Pack } from '@/types/pack-types';
 import { Button, Heading } from '@radix-ui/themes';
 import { SaveIcon, LeftDoubleChevronIcon } from '@/components/ui/icons';
-import { usePackForm } from '../hooks/use-pack-form';
-import { PackForm } from '../components/pack-form/pack-form';
-import { PackDelete } from '../components/pack-delete';
+import { usePackForm } from '../../hooks/use-pack-form';
+import { PackForm } from '../../components/pack-form/pack-form';
+import { PackDelete } from '../../components/pack-delete/pack-delete';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import { Spinner } from '@/components/ui';
 

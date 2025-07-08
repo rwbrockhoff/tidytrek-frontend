@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { DashboardContainer } from '../components/dashboard-container';
+import { DashboardContainer } from '../components/dashboard-layout/dashboard-container';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';

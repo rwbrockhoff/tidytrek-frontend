@@ -1,5 +1,5 @@
-import { PackInfo } from './pack-info/pack-info';
-import { ResponsivePackCategory } from './responsive-pack-category';
+import { PackInfo } from '../pack-info/pack-info';
+import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '@/components/table';
 import { Flex } from '@radix-ui/themes';
 import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
@@ -17,8 +17,8 @@ import {
 	ProfileBanner,
 	type DropResult,
 } from '@/components';
-import { useGuestData } from '../hooks/use-guest-data';
-import { usePackCategoryActions } from '../hooks/use-pack-category-actions';
+import { useGuestData } from '../../hooks/use-guest-data';
+import { usePackCategoryActions } from '../../hooks/use-pack-category-actions';
 import { useGetAuth } from '@/hooks';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 

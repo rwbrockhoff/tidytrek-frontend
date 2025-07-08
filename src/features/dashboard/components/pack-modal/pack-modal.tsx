@@ -3,7 +3,7 @@ import { SaveIcon } from '@/components/ui';
 import { Button, Dialog, Flex } from '@radix-ui/themes';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
-import { PackDelete } from '../pack-delete';
+import { PackDelete } from '../pack-delete/pack-delete';
 
 type PackModalProps = {
 	children: React.ReactNode;

@@ -6,10 +6,10 @@ import {
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import { TableRow, TableFooter } from '@/components/table';
-import { GearClosetHeader } from './gear-closet-header';
+import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
 import { PricingContext } from '@/hooks/use-viewer-context';
-import { NotFoundMessage } from './not-found-message';
-import { useGearClosetActions } from '../hooks/use-gear-closet-actions';
+import { NotFoundMessage } from '../not-found-message';
+import { useGearClosetActions } from '../../hooks/use-gear-closet-actions';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];

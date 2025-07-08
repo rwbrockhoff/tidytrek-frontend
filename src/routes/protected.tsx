@@ -57,6 +57,10 @@ export const protectedRoutes = [
 				element: <GearCloset />,
 			},
 			{
+				path: '/item/edit/:packItemId',
+				element: <PackItemEdit />,
+			},
+			{
 				path: '/profile',
 				element: <Profile userView={true} key="user-profile" />,
 			},

@@ -4,7 +4,7 @@ import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { ClosetIcon, SearchIcon, TextField } from '@/components/ui';
 import { Flex, Heading } from '@radix-ui/themes';
-import { ResponsiveGearCloset } from '../components/responsive-gear-closet';
+import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';

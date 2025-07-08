@@ -1,8 +1,8 @@
 import { type GearClosetItem, type PackListItem } from '@/types/pack-types';
 import { useCheckScreen } from '@/hooks/use-check-screen';
 import { GearClosetList } from './gear-closet-list';
-import { GearClosetCard } from '../../dashboard/components/gear-closet-card/gear-closet-card';
-import { useGearClosetActions } from '../hooks/use-gear-closet-actions';
+import { GearClosetCard } from '../gear-closet-card/gear-closet-card';
+import { useGearClosetActions } from '../../hooks/use-gear-closet-actions';
 
 type ResponsiveGearClosetProps = {
 	gearClosetList: GearClosetItem[];
@@ -18,7 +18,8 @@ export const ResponsiveGearCloset = ({
 	dragDisabled,
 }: ResponsiveGearClosetProps) => {
 	const { isMobile } = useCheckScreen();
-	const { addGearClosetItem, editGearClosetItem, deleteGearClosetItem } = useGearClosetActions();
+	const { addGearClosetItem, editGearClosetItem, deleteGearClosetItem } =
+		useGearClosetActions();
 
 	if (isMobile) {
 		return (

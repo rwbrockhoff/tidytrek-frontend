@@ -1,1 +1,0 @@
-export { GearClosetCard } from './gear-closet-card';

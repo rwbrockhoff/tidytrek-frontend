@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { DropTableBody } from '@/components';
-import { usePackCategory } from '../hooks/use-pack-category';
+import { usePackCategory } from '../../hooks/use-pack-category';
 
 type PackCategoryProps = {
 	category: Category;

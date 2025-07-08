@@ -2,7 +2,7 @@ import { type GearClosetItem } from '@/types/pack-types';
 import { Card } from '@/components/ui/alpine';
 import { Button } from '@radix-ui/themes';
 import { PlusIcon } from '@/components/ui/icons';
-import { PackItemRow } from '../pack-item-row/pack-item-row';
+import { PackItemRow } from '@/features/dashboard/components/pack-item-row/pack-item-row';
 import { cn } from '@/styles/utils';
 import styles from './gear-closet-card.module.css';
 
