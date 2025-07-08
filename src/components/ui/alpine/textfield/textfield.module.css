@@ -9,7 +9,6 @@
 	margin: var(--space-xs) 0;
 }
 
-/* Responsive width */
 @media (max-width: 768px) {
 	.fieldResponsive {
 		width: 100%;
@@ -128,7 +127,6 @@
 /* Standalone version (used outside of Form) */
 .standalone {
 	width: 100%;
-	/* margin: var(--space-xs) 0; */
 	margin: 0;
 }
 

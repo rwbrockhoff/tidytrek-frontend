@@ -248,10 +248,13 @@
 
 /* Shadow utilities */
 .shadow {
-	box-shadow: var(--shadow);
+	box-shadow: var(--shadow-classic);
 }
 .shadowLg {
-	box-shadow: var(--shadow-lg);
+	box-shadow: var(--shadow-spread);
+}
+.shadowPaper {
+	box-shadow: var(--shadow-paper);
 }
 .shadowNone {
 	box-shadow: none;

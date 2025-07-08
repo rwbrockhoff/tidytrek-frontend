@@ -1,4 +1,6 @@
-/* Table Root */
+/* Alpine - Table Component */
+
+/* Table - Root */
 .table {
 	border-collapse: collapse;
 	table-layout: fixed;
@@ -7,6 +9,7 @@
 	border: none;
 }
 
+/* Table - Variants */
 .tableDefault {
 	border: 1px solid var(--color-border-primary);
 	border-radius: var(--radius);
@@ -23,7 +26,7 @@
 	background-color: transparent;
 }
 
-/* Table Sizes */
+/* Table - Sizes */
 .tableSize1 {
 	font-size: var(--font-size-sm);
 }
@@ -36,17 +39,17 @@
 	font-size: var(--font-size-md);
 }
 
-/* Header */
+/* Table - Header */
 .header {
 	border-bottom: 1px solid var(--color-border-primary);
 }
 
-/* Footer */
+/* Table - Footer */
 .footer {
 	border-top: 1px solid var(--color-border-primary);
 }
 
-/* Row */
+/* Table - Row */
 .row {
 	border: none;
 	border-bottom: 1px solid var(--color-border-primary);
@@ -54,22 +57,22 @@
 	transition: background-color var(--transition);
 }
 
-/* Highlight modifier - hover effect */
+/* Table - Highlight -- hover effect */
 .tableHighlight .row:hover {
 	background-color: var(--color-hover);
 }
 
-/* Default variant hover effect */
+/* Default variant - hover effect */
 .tableHighlight.tableDefault .row:hover {
 	background-color: var(--color-hover);
 }
 
-/* Surface variant needs stronger hover effect */
+/* Surface variant - hover effect (stronger)  */
 .tableHighlight.tableSurface .row:hover {
 	background-color: var(--color-active);
 }
 
-/* Header Cell */
+/* Table - Header Cell */
 .headerCell {
 	padding: var(--space-md);
 	text-align: left;
@@ -92,7 +95,7 @@
 	text-align: right;
 }
 
-/* Cell */
+/* Table - Cell */
 .cell {
 	padding: var(--space-md);
 	border-bottom: 1px solid var(--color-border-primary);
@@ -124,7 +127,7 @@
 	vertical-align: bottom;
 }
 
-/* Size variations for cells */
+/* Table - Cell Sizes */
 .tableSize1 .headerCell,
 .tableSize1 .cell {
 	padding: var(--space-sm);
@@ -140,7 +143,7 @@
 	padding: var(--space-lg);
 }
 
-/* Compact modifier - reduces padding and font size */
+/* Table - Compact -- reduce padding/font size */
 .tableCompact {
 	font-size: var(--font-size-sm);
 }
@@ -150,12 +153,12 @@
 	padding: var(--space-xs);
 }
 
-/* Striped modifier - alternating row colors */
+/* Table - Striped -- alternate row colors */
 .tableStriped .body .row:nth-child(even) {
 	background-color: var(--color-bg-tertiary);
 }
 
-/* Striped hover effects for surface variant */
+/* Surface variant - hover effects */
 .tableStriped.tableHighlight.tableSurface .body .row:nth-child(even):hover {
 	background-color: var(--color-active);
 }
@@ -164,13 +167,13 @@
 	background-color: var(--color-active);
 }
 
-/* Striped hover effects for default and ghost variants */
+/* Default, ghost varaints - hover effects */
 .tableStriped.tableHighlight.tableDefault .body .row:hover,
 .tableStriped.tableHighlight.tableGhost .body .row:hover {
 	background-color: var(--color-hover);
 }
 
-/* Rounded modifiers */
+/* Table - Border Radius */
 .tableRounded,
 .tableRoundedSm {
 	border-radius: var(--radius);
@@ -187,7 +190,7 @@
 	overflow: hidden;
 }
 
-/* Remove border radius from header cells for proper rounded appearance */
+/* Remove border radius from header cells for rounded edges */
 .tableRounded .header .row:first-child .headerCell:first-child,
 .tableRoundedSm .header .row:first-child .headerCell:first-child {
 	border-top-left-radius: var(--radius);
@@ -213,21 +216,19 @@
 .tableRoundedLg .header .row:first-child .headerCell:last-child {
 	border-top-right-radius: calc(var(--radius-lg) * 2);
 }
-
-/* Shadow modifiers */
+/* Table - Box Shadow */
 .tableShadowClassic {
-	box-shadow: var(--shadow); /* Classic shadow */
+	box-shadow: var(--shadow-classic);
 }
 
 .tableShadowSpread {
-	box-shadow: var(--shadow-lg); /* Spread out shadow */
+	box-shadow: var(--shadow-spread);
 }
 
 .tableShadowPaper {
-	box-shadow: var(--shadow-paper); /* Custom paper shadow */
+	box-shadow: var(--shadow-paper);
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
 	.table {
 		font-size: var(--font-size-sm);

@@ -57,7 +57,7 @@ button.rt-Button.rt-variant-outline {
 .rt-SelectContent {
 	background-color: var(--color-bg-primary);
 	border: 1px solid var(--color-bg-tertiary);
-	box-shadow: var(--shadow);
+	box-shadow: var(--shadow-classic);
 }
 
 .rt-SelectItem {
@@ -90,7 +90,7 @@ button.rt-Button.rt-variant-outline {
 
 .rt-PopoverContent {
 	background-color: var(--color-bg-primary);
-	box-shadow: var(--shadow);
+	box-shadow: var(--shadow-classic);
 }
 
 .rt-HoverCardContent {

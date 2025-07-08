@@ -20,5 +20,5 @@
 }
 
 .tableRowDragging {
-	box-shadow: var(--shadow);
+	box-shadow: var(--shadow-classic);
 }
