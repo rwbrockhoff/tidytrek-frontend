@@ -2,7 +2,7 @@ import { type Pack } from '@/types/pack-types';
 import { SaveIcon } from '@/components/ui';
 import { Button, Dialog, Flex } from '@radix-ui/themes';
 import { usePackForm } from '../../hooks/use-pack-form';
-import { PackForm } from '../pack-form';
+import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete';
 
 type PackModalProps = {
