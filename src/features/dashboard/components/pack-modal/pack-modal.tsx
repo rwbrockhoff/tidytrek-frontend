@@ -1,6 +1,7 @@
 import { type Pack } from '@/types/pack-types';
-import { SaveIcon } from '@/components/ui';
-import { Button, Dialog, Flex } from '@radix-ui/themes';
+import styles from './pack-modal.module.css';
+import { SaveIcon, CloseIcon } from '@/components/ui';
+import { Button, Dialog, Flex, IconButton } from '@radix-ui/themes';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete/pack-delete';
@@ -23,7 +24,18 @@ export const PackModal = (props: PackModalProps) => {
 			<Dialog.Trigger>
 				<div>{children}</div>
 			</Dialog.Trigger>
-			<Dialog.Content style={{ maxWidth: '700px' }}>
+			<Dialog.Content className={styles.dialogContent}>
+				<Dialog.Close>
+					<IconButton
+						variant="ghost"
+						color="gray"
+						size="2"
+						className={styles.closeModalButton}
+						aria-label="Close modal">
+						<CloseIcon />
+					</IconButton>
+				</Dialog.Close>
+
 				<Dialog.Title mt="2" mb="1" ml="4">
 					{packName ?? pack.packName ?? 'Pack'}
 				</Dialog.Title>

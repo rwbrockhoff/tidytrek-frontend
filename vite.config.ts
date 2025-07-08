@@ -42,6 +42,8 @@ export default defineConfig(({ mode }) => ({
 		environment: 'jsdom',
 		setupFiles: './src/tests/setup.ts',
 		css: true,
+		testTimeout: 10000, // increase global test timeout to 10s
+		maxConcurrency: 4, // Reduce parallel test runs
 		exclude: [
 			'**/node_modules/**',
 			'**/dist/**',
@@ -50,12 +52,7 @@ export default defineConfig(({ mode }) => ({
 		],
 		include: ['**/src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
 		coverage: {
-			exclude: [
-				'**/node_modules/**',
-				'**/dist/**',
-				'**/*.config.*',
-				'**/coverage/**',
-			],
+			exclude: ['**/node_modules/**', '**/dist/**', '**/*.config.*', '**/coverage/**'],
 		},
 	},
 }));

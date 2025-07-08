@@ -1,0 +1,16 @@
+.dialogContent {
+	max-width: 700px;
+	position: relative;
+}
+
+.closeModalButton {
+	position: absolute;
+	right: var(--space-xl);
+	top: var(--space-xl);
+	cursor: pointer;
+}
+
+.closeModalButton svg {
+	width: var(--icon-md);
+	height: var(--icon-md);
+}

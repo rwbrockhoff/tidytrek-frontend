@@ -18,34 +18,31 @@ describe('PackModal', () => {
 	};
 
 	describe('Modal State', () => {
-		it('keeps modified data when modal closes without saving', async () => {
-			const originalPack = createMockPack();
-			const { user } = renderPackModal(originalPack);
+		it('can close modal using the close button', async () => {
+			const { user } = renderPackModal();
 
+			// Open modal
 			await user.click(screen.getByText('Open Modal'));
+			expect(screen.getByDisplayValue('CDT Shakedown')).toBeInTheDocument();
 
-			// Make a change
-			const packNameInput = screen.getByDisplayValue('CDT Shakedown');
-			await user.clear(packNameInput);
-			await user.type(packNameInput, 'Modified Name');
+			// Close modal
+			await user.click(screen.getByLabelText('Close modal'));
 
-			// Close modal without saving (click outside or escape)
-			await user.keyboard('{Escape}');
-
-			// Reopen modal - currently shows modified data (not original)
-			await user.click(screen.getByText('Open Modal'));
-			expect(screen.getByDisplayValue('Modified Name')).toBeInTheDocument();
+			// Modal should be closed - pack name should not be visible
+			expect(screen.queryByDisplayValue('CDT Shakedown')).not.toBeInTheDocument();
 		});
 
 		it('shows delete modal when delete button is clicked', async () => {
 			const { user } = renderPackModal();
 
+			// Open modal
 			await user.click(screen.getByText('Open Modal'));
 
+			// Click delete button
 			const deleteButton = screen.getByRole('button', { name: /delete/i });
 			await user.click(deleteButton);
 
-			// Check that the delete modal appears
+			// Check that delete modal appears
 			expect(screen.getByText(/Delete CDT Shakedown Pack?/i)).toBeInTheDocument();
 		});
 	});
