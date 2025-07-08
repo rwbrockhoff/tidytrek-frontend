@@ -1,2 +1,2 @@
-export * from './table-buttons';
-export * from './theme-button';
+export * from './table-buttons/table-buttons';
+export * from './theme-button/theme-button';

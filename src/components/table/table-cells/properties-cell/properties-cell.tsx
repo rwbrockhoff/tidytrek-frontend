@@ -3,7 +3,7 @@ import { Table } from '@/components/ui/alpine';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { useContext } from 'react';
-import { TableRowContext } from '../context/table-row-context';
+import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ButtonProps = {

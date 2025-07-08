@@ -7,7 +7,7 @@ import {
 	type PackItemProperty,
 	isPackItem,
 } from '@/types/pack-types';
-import { DeleteItemModal, ShareIcon, TrashIcon } from '../ui';
+import { DeleteItemModal, ShareIcon, TrashIcon } from '../../ui';
 import { Flex, Button } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
 import { ActionButtons } from '@/components/table/table-buttons';
@@ -20,12 +20,12 @@ import {
 	DescriptionCell,
 } from '@/components/table/table-cells';
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
-import { MoveItemDropdown } from './move-item-dropdown/move-item-dropdown';
+import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
 import { useCheckScreen } from '@/hooks';
-import { TableRowContext } from './context/table-row-context';
+import { TableRowContext } from '../context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
-import { TableErrorRow } from './table-error-row';
+import { TableErrorRow } from '../table-error-row/table-error-row';
 import { shallowEqual } from '@/utils';
 
 type TableRowProps = {

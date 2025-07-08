@@ -1,7 +1,7 @@
 import { Badge, Button } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
-import { PlusIcon } from '../ui';
-import { useTableColumnWidths } from './hooks/use-table-column-widths';
+import { PlusIcon } from '../../ui';
+import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import styles from './table-footer.module.css';
 
 type TableFooterProps = {

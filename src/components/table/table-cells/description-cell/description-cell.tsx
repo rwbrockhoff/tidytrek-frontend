@@ -3,7 +3,7 @@ import { Table } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
 import { TextField } from '@/components/ui/alpine';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
-import { TableRowContext } from '../context/table-row-context';
+import { TableRowContext } from '../../context/table-row-context';
 import { mx } from '@/styles/utils';
 
 type TableCellProps = {

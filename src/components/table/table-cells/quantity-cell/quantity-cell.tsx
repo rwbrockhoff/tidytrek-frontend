@@ -3,7 +3,7 @@ import { Badge, Flex, Text } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { TableRowContext } from '../context/table-row-context';
+import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ButtonProps = {

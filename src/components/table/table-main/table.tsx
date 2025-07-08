@@ -1,5 +1,5 @@
 import { Table as AlpineTable } from '@/components/ui/alpine/';
-import { useTableColumnWidths } from './hooks/use-table-column-widths';
+import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import styles from './table.module.css';
 
 export const Table = ({ children }: { children: React.ReactNode }) => {

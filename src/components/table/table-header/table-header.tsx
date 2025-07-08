@@ -1,11 +1,11 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { Button, Flex } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
-import { CategoryNameCell } from './table-cells';
-import { ActionButtons } from './table-buttons/';
+import { CategoryNameCell } from '../table-cells';
+import { ActionButtons } from '../table-buttons/';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
-import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../ui';
+import { DeleteModal, MinusIcon, PlusIcon, TrashIcon } from '../../ui';
 import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
 

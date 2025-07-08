@@ -1,5 +1,5 @@
 import { Flex, HoverCard, Text } from '@radix-ui/themes';
-import { InfoIcon, TreeIcon } from './icons';
+import { InfoIcon, TreeIcon } from '../icons';
 import styles from './tooltip.module.css';
 
 export const Tooltip = ({ content }: { content: string }) => {
@@ -19,4 +19,3 @@ export const Tooltip = ({ content }: { content: string }) => {
 		</HoverCard.Root>
 	);
 };
-

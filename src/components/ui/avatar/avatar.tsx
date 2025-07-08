@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DeleteButton, Link, Spinner } from '@/components/ui';
-import Dimmer from './Dimmer';
-import { UploadFile } from '../upload-file';
+import { Dimmer } from '@/components/ui';
+import { UploadFile } from '@/components/upload-file/upload-file';
 import { defaultAvatarPhoto } from '@/utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './avatar.module.css';

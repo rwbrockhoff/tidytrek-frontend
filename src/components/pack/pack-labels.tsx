@@ -1,5 +1,5 @@
 import { Badge, Flex } from '@radix-ui/themes';
-import { LocationIcon, SeasonIcon, DurationIcon, HikingIcon } from './ui';
+import { LocationIcon, SeasonIcon, DurationIcon, HikingIcon } from '../ui';
 import { Pack } from '@/types/pack-types';
 
 export const PackLabels = ({ pack }: { pack: Pack }) => {

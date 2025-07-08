@@ -2,7 +2,7 @@ import { Callout } from '@radix-ui/themes';
 import type { ComponentProps } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { MdOutlineErrorOutline as ErrorIcon } from 'react-icons/md';
-import { WarningIcon } from '.';
+import { WarningIcon } from '../';
 
 type MessageProps = {
 	messageType: 'success' | 'error';

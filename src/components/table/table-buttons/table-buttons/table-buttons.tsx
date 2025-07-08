@@ -4,7 +4,7 @@ import { cn, mx } from '@/styles/utils';
 import styles from './table-buttons.module.css';
 import { PlusIcon, CaretDownIcon, ShareIcon, GripIcon } from '@/components/ui';
 import { useContext } from 'react';
-import { TableRowContext } from '../context/table-row-context';
+import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
 type ActionButtonsProps = {

@@ -1,6 +1,6 @@
 import { Dialog, Flex, Button } from '@radix-ui/themes';
 import React from 'react';
-import { ShareIcon, TrashIcon } from './icons';
+import { ShareIcon, TrashIcon } from '../icons';
 
 type DeleteModalProps = {
 	children?: React.ReactNode;

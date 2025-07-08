@@ -5,9 +5,9 @@ import { type InputEvent } from '@/types/form-types';
 import { Flex } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
-import { ThemeButton, GripButton } from '../table-buttons';
+import { ThemeButton, GripButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { usePackCategoryActions } from '../../../features/dashboard/hooks/use-pack-category-actions';
+import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;

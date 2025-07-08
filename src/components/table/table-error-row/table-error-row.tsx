@@ -1,7 +1,7 @@
 import { type FormError } from '@/types/form-types';
 import { Flex, Text } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
-import { WarningIcon } from '../ui';
+import { WarningIcon } from '../../ui';
 import { cn } from '@/styles/utils';
 import styles from './table-error-row.module.css';
 
