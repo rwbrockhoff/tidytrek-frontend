@@ -57,7 +57,7 @@ export const protectedRoutes = [
 				element: <GearCloset />,
 			},
 			{
-				path: '/item/edit/:packItemId',
+				path: '/closet-item/edit/:packItemId',
 				element: <PackItemEdit />,
 			},
 			{

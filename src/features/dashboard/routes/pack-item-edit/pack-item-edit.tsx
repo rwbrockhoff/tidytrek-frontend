@@ -6,13 +6,21 @@ import { TextField } from '@/components/ui/alpine';
 import { SaveIcon, LeftDoubleChevronIcon } from '@/components/ui/icons';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useGetPackQuery } from '@/queries/pack-queries';
+import {
+	useGetGearClosetQuery,
+	useEditGearClosetItemMutation,
+} from '@/queries/closet-queries';
 import mx from '@/styles/utils/mixins.module.css';
 import {
 	useEditPackItemMutation,
 	useDeletePackItemMutation,
 } from '@/queries/pack-queries';
 import { Spinner } from '@/components/ui';
-import { type PackItem } from '@/types/pack-types';
+import {
+	type PackItem,
+	type BaseTableRowItem,
+	type GearClosetItem,
+} from '@/types/pack-types';
 import { decodePackItemId, encode, convertCurrency } from '@/utils';
 import { useToggle } from '@/hooks';
 import styles from './pack-item-edit.module.css';
@@ -21,23 +29,40 @@ export const PackItemEdit = () => {
 	const { packItemId } = useParams<{ packItemId: string }>();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { packId, packCategoryId } = location.state || {};
+	const { packId, packCategoryId, gearCloset } = location.state || {};
 
 	// decode/encode
 	const decodedPackItemId = packItemId ? decodePackItemId(packItemId) : null;
 	const encodedPackId = encode(packId);
 
 	// mutations
-	const { data: packData, isLoading, error } = useGetPackQuery(encodedPackId);
+	const {
+		data: packData,
+		isLoading: packLoading,
+		error: packError,
+	} = useGetPackQuery(encodedPackId);
+	const {
+		data: gearClosetData,
+		isLoading: closetLoading,
+		error: closetError,
+	} = useGetGearClosetQuery();
 	const editItemMutation = useEditPackItemMutation();
+	const editGearClosetItemMutation = useEditGearClosetItemMutation();
 	const deleteItemMutation = useDeletePackItemMutation();
 
-	// Find packItem by id within query state pack
-	const packItem = packData?.categories
-		?.find((cat) => cat.packCategoryId === packCategoryId)
-		?.packItems?.find((item) => item.packItemId === decodedPackItemId);
+	// Find packItem by id within query state pack or gear closet
+	const packItem = gearCloset
+		? gearClosetData?.gearClosetList?.find(
+				(item) => item.packItemId === decodedPackItemId,
+			)
+		: packData?.categories
+				?.find((cat) => cat.packCategoryId === packCategoryId)
+				?.packItems?.find((item) => item.packItemId === decodedPackItemId);
 
-	const [formData, setFormData] = useState<PackItem | null>(packItem || null);
+	const isLoading = gearCloset ? closetLoading : packLoading;
+	const error = gearCloset ? closetError : packError;
+
+	const [formData, setFormData] = useState<BaseTableRowItem | null>(packItem || null);
 	const { isToggled: isPriceEditing, toggle: togglePriceEdit } = useToggle();
 
 	// Update form data when pack item loads
@@ -45,7 +70,7 @@ export const PackItemEdit = () => {
 		setFormData(packItem);
 	}
 
-	const handleInputChange = (field: keyof PackItem, value: any) => {
+	const handleInputChange = (field: keyof BaseTableRowItem, value: any) => {
 		if (formData) {
 			setFormData({ ...formData, [field]: value });
 		}
@@ -69,14 +94,28 @@ export const PackItemEdit = () => {
 
 	const handleSave = () => {
 		if (formData && decodedPackItemId) {
-			editItemMutation.mutate(
-				{ packItemId: decodedPackItemId, packItem: formData },
-				{
-					onSuccess: () => {
-						navigate(`/pack/${encodedPackId}`);
+			if (gearCloset) {
+				const gearClosetItem: GearClosetItem = {
+					...formData,
+					packId: null,
+					packCategoryId: null,
+				};
+				editGearClosetItemMutation.mutate(gearClosetItem, {
+					onSuccess: () => navigate('/gear-closet'),
+				});
+			} else {
+				const packItem: PackItem = {
+					...formData,
+					packId: formData.packId!,
+					packCategoryId: formData.packCategoryId!,
+				};
+				editItemMutation.mutate(
+					{ packItemId: decodedPackItemId, packItem },
+					{
+						onSuccess: () => navigate(`/pack/${encodedPackId}`),
 					},
-				},
-			);
+				);
+			}
 		}
 	};
 
@@ -90,7 +129,13 @@ export const PackItemEdit = () => {
 		}
 	};
 
-	const handleCancel = () => navigate(`/pack/${encodedPackId}`);
+	const handleCancel = () => {
+		if (gearCloset) {
+			navigate('/gear-closet');
+		} else {
+			navigate(`/pack/${encodedPackId}`);
+		}
+	};
 
 	if (isLoading) return <Spinner />;
 	if (error || !packItem || !formData) return <div>Pack item not found</div>;
@@ -104,7 +149,7 @@ export const PackItemEdit = () => {
 				</Button>
 			</div>
 			<div className={styles.header}>
-				<Heading size="6">Edit Pack Item</Heading>
+				<Heading size="6">Edit Item</Heading>
 			</div>
 
 			<FormRoot className={styles.formContainer}>

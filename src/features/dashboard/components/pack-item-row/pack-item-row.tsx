@@ -29,14 +29,26 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 	const navigate = useNavigate();
 
 	const handleEdit = () => {
-		// For mobile, navigate to pack-item-edit page
+		// For mobile, navigate to edit page
 		const encodedPackItemId = encodePackItemId(item.packItemId);
-		navigate(`/pack-item/edit/${encodedPackItemId}`, {
-			state: {
-				packId: item.packId,
-				packCategoryId: item.packCategoryId,
-			},
-		});
+		const hasPack = item.packId !== null;
+		
+		if (hasPack) {
+			// Navigate to pack item edit
+			navigate(`/pack-item/edit/${encodedPackItemId}`, {
+				state: {
+					packId: item.packId,
+					packCategoryId: item.packCategoryId,
+				},
+			});
+		} else {
+			// Navigate to gear closet item edit
+			navigate(`/closet-item/edit/${encodedPackItemId}`, {
+				state: {
+					gearCloset: true,
+				},
+			});
+		}
 	};
 
 	const handleMoveToCloset = () => {
