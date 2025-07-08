@@ -16,13 +16,46 @@
 	margin-bottom: var(--space-sm);
 }
 
+.itemNameContainer {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
 .itemHeader .itemName {
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-medium);
 	color: var(--color-text-primary);
 	margin: 0;
-	flex: 1;
-	margin-right: var(--space-sm);
+}
+
+.itemNameLink {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+	text-decoration: none;
+	color: var(--color-primary);
+	transition: color 0.2s ease;
+}
+
+.itemNameLink:hover {
+	color: var(--color-text-primary);
+}
+
+.itemNameLink svg {
+	width: 0.75rem;
+	height: 0.75rem;
+	color: var(--color-primary);
+}
+
+.itemNameLink:hover svg {
+	color: var(--color-text-primary);
+}
+
+.itemNameLink .itemName {
+	color: var(--color-primary);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
 }
 
 .itemPrice {

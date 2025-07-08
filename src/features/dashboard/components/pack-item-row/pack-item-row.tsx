@@ -4,7 +4,7 @@ import { type BaseTableRowItem } from '@/types/pack-types';
 import { convertCurrency, encodePackItemId } from '@/utils';
 import { isPackItem } from '@/types/pack-types';
 import { DeleteItemModal } from '@/components/ui';
-import { EditPencilIcon, ShareIcon, TrashIcon } from '@/components/ui/icons';
+import { EditPencilIcon, ShareIcon, TrashIcon, LinkIcon } from '@/components/ui/icons';
 import styles from './pack-item-row.module.css';
 
 type PackItemRowProps<T extends BaseTableRowItem = BaseTableRowItem> = {
@@ -32,10 +32,10 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 		// For mobile, navigate to pack-item-edit page
 		const encodedPackItemId = encodePackItemId(item.packItemId);
 		navigate(`/pack-item/edit/${encodedPackItemId}`, {
-			state: { 
-				packId: item.packId, 
-				packCategoryId: item.packCategoryId 
-			}
+			state: {
+				packId: item.packId,
+				packCategoryId: item.packCategoryId,
+			},
 		});
 	};
 
@@ -50,7 +50,21 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 	return (
 		<div className={`${styles.itemCard} ${className || ''}`}>
 			<div className={styles.itemHeader}>
-				<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
+				<div className={styles.itemNameContainer}>
+					{item.packItemUrl ? (
+						<a
+							href={item.packItemUrl}
+							className={styles.itemNameLink}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="View pack item product link">
+							<LinkIcon />
+							<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
+						</a>
+					) : (
+						<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
+					)}
+				</div>
 				{item.packItemPrice && (
 					<span className={styles.itemPrice}>
 						{convertCurrency(item.packItemPrice, 'USD')}
@@ -111,16 +125,6 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 						</div>
 					)}
 				</div>
-
-				{item.packItemUrl && (
-					<a
-						href={item.packItemUrl}
-						className={styles.itemLink}
-						target="_blank"
-						rel="noopener noreferrer">
-						View Product
-					</a>
-				)}
 			</div>
 		</div>
 	);
