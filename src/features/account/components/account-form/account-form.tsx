@@ -14,7 +14,6 @@ export const AccountForm = (props: AccountFormProps) => {
 	const { user, deleteAccount } = props;
 
 	const [displayFormSection, setDisplayFormSection] = useState<FormSection>('initial');
-	// const [confirmationSent, setConfirmationSent] = useState(false);
 
 	const handleChangeFormSection = (section: FormSection) =>
 		setDisplayFormSection(section);

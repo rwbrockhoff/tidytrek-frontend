@@ -1,13 +1,11 @@
-import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
-import { UserContext } from '../contexts';
+import { useGetAuth } from '@/hooks';
 import { AccountForm } from '../components/account-form/account-form';
 import { useDeleteAccountMutation } from '@/queries/user-queries';
 import supabase from '@/api/supabaseClient';
 
 export const AccountSettings = () => {
-	const { user } = useContext(UserContext);
-
+	const { user } = useGetAuth();
 	const { mutate: deleteAccount } = useDeleteAccountMutation();
 
 	const handleDeleteAccount = async () => {
