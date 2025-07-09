@@ -10,7 +10,7 @@ import { setFormInput } from '@/utils';
 import { SocialLinks } from './social-links';
 import { TextField, TextArea } from '@/components/ui/alpine';
 import { useProfileActions } from '../../hooks/use-profile-actions';
-import { AvatarSettings } from './avatar-settings';
+import { AvatarSettings } from './components/avatar-settings';
 import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys } from '@/queries/query-keys';

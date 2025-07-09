@@ -1,5 +1,5 @@
 import { useRef, type FormEvent } from 'react';
-import { FormSection } from '../../types/account-types';
+import { FormSection } from '../../../types/account-types';
 import { InputEvent, TextAreaEvent, type PasswordInfo } from '@/types/form-types';
 import { useState } from 'react';
 import styles from './password-form.module.css';
@@ -7,7 +7,7 @@ import { Flex, Heading, Button } from '@radix-ui/themes';
 import { Form } from '@radix-ui/react-form';
 import { TextField } from '@/components/ui/alpine/';
 import { Link, Message, PasswordIcon } from '@/components/ui';
-import { ConfirmationForm } from './confirmation-form';
+import { ConfirmationForm } from '../confirmation-form/confirmation-form';
 import { reauthenticateUser, updatePassword } from '@/api/supabaseClient';
 import { z, passwordSchema } from '@/schemas';
 import { useZodError, clearZodErrors } from '@/hooks';

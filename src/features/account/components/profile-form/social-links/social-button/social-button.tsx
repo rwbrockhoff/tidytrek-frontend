@@ -3,7 +3,7 @@ import styles from './social-button.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Badge, IconButton, Flex } from '@radix-ui/themes';
 import { Link, CloseIcon } from '@/components/ui';
-import { useProfileActions } from '../../hooks/use-profile-actions';
+import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
 
 type SocialButtonProps = {
 	socialName: string;
@@ -35,11 +35,7 @@ export const SocialButton = (props: SocialButtonProps) => {
 	const displayLink = socialLinkUrl ? shortenLink(socialLinkUrl, socialName) : socialName;
 
 	return (
-		<Flex
-			asChild
-			align="center"
-			className={styles.styledBadge}
-			onClick={handleClick}>
+		<Flex asChild align="center" className={styles.styledBadge} onClick={handleClick}>
 			<Badge radius="large">
 				<Link to={socialLinkUrl} externalLink>
 					{icon}

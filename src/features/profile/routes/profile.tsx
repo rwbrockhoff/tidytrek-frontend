@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ProfileBanner } from '@/components';
-import { ProfileHeader } from '../components/profile-header';
-import { PackCardList } from '../components/pack-card-list';
+import { ProfileHeader } from '../components/profile-header/profile-header';
+import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/hooks/use-viewer-context';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './social-links.module.css';
 import { PlusIcon } from '@/components/ui';
 import { Button } from '@radix-ui/themes';
-import { AddLink } from './add-link';
+import { AddLink } from '../components/add-link';
 import { SocialLinkList } from '@/components';
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {

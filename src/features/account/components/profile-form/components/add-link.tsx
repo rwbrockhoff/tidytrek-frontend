@@ -2,9 +2,9 @@ import { type InputEvent } from '@/types/form-types';
 import { Button, Separator, Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
-import { SocialButtonPicker } from './social-button';
-import socialMediaUI from '../../constants/social-media-ui';
-import { useProfileActions } from '../../hooks/use-profile-actions';
+import { SocialButtonPicker } from '../social-links/social-button/social-button';
+import socialMediaUI from '../../../constants/social-media-ui';
+import { useProfileActions } from '../../../hooks/use-profile-actions';
 import { PlusIcon } from '@/components/ui';
 import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
 

@@ -4,9 +4,9 @@ import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
 import { SocialLinkList } from '@/components';
-import { useProfileActions } from '../../account/hooks/use-profile-actions';
+import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
 import { useUserContext } from '@/hooks/use-viewer-context';
-import { BannerPhoto } from './banner-photo';
+import { BannerPhoto } from '../banner-photo/banner-photo';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { cn } from '@/styles/utils/cn';
 

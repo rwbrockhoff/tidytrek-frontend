@@ -3,7 +3,7 @@ import { type FormSection } from '../../types/account-types';
 import { useState } from 'react';
 import { Heading, Button } from '@radix-ui/themes';
 import { DeleteModal, TrashIcon, Segment, SegmentGroup } from '@/components/ui';
-import { PasswordForm } from './password-form';
+import { PasswordForm } from './password-form/password-form';
 
 type AccountFormProps = {
 	user: User | null;
