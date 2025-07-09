@@ -3,7 +3,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Heading, Select } from '@radix-ui/themes';
 import { Root as FormRoot } from '@radix-ui/react-form';
 import { TextField } from '@/components/ui/alpine';
-import { SaveIcon, LeftDoubleChevronIcon } from '@/components/ui/icons';
+import { SaveIcon, BackArrow } from '@/components/ui/icons';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import {
@@ -144,7 +144,7 @@ export const PackItemEdit = () => {
 		<div className={styles.pageContainer}>
 			<div className={styles.actionHeader}>
 				<Button variant="ghost" color="gray" onClick={handleCancel}>
-					<LeftDoubleChevronIcon />
+					<BackArrow />
 					Back
 				</Button>
 			</div>

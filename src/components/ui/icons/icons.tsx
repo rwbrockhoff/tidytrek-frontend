@@ -18,7 +18,7 @@ export { BsFillSendFill as SendIcon } from 'react-icons/bs';
 export { FaSearch as SearchIcon } from 'react-icons/fa';
 export { FaCircle as CircleIcon } from 'react-icons/fa';
 export { RiErrorWarningLine as WarningIcon } from 'react-icons/ri';
-export { FaDownLong as DownArrowIcon, FaAnglesLeft as LeftDoubleChevronIcon } from 'react-icons/fa6';
+export { FaDownLong as DownArrowIcon, FaAnglesLeft as BackArrow } from 'react-icons/fa6';
 export { FaBinoculars as PublicIcon } from 'react-icons/fa6';
 export { IoMdEyeOff as PrivateIcon } from 'react-icons/io';
 export { MdAlternateEmail as EmailIcon } from 'react-icons/md';
