@@ -14,7 +14,7 @@ const { PackItemEdit } = lazyImport(
 );
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
-const { Account } = lazyImport(() => import('@/features/account/routes'), 'Account');
+const { AccountRoot } = lazyImport(() => import('@/features/account/routes'), 'AccountRoot');
 const { AccountSettings } = lazyImport(
 	() => import('@/features/account/routes'),
 	'AccountSettings',
@@ -70,7 +70,7 @@ export const protectedRoutes = [
 			},
 			{
 				path: '/account',
-				element: <Account />,
+				element: <AccountRoot />,
 				children: [
 					{
 						path: '/account',

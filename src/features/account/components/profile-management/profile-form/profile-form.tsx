@@ -7,10 +7,10 @@ import { Form } from '@radix-ui/react-form';
 import { Message, RefreshIcon, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput } from '@/utils';
-import { SocialLinks } from './social-links';
+import { SocialLinks } from '../social-links';
 import { TextField, TextArea } from '@/components/ui/alpine';
-import { useProfileActions } from '../../hooks/use-profile-actions';
-import { AvatarSettings } from './components/avatar-settings';
+import { useProfileActions } from '../../../hooks/use-profile-actions';
+import { AvatarSettings } from '../avatar-settings';
 import { clearZodErrors, useZodError, useAxiosErrorMessage } from '@/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys } from '@/queries/query-keys';
@@ -122,75 +122,77 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 	const { profilePhotoUrl } = profileInfo || {};
 	const serverErrorMessage = useAxiosErrorMessage(error);
 	return (
-		<SegmentGroup direction="column">
-			<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
-			<Segment>
-				<Form className={styles.form} onSubmit={handleEditProfile}>
-					<TextField.Input
-						name="username"
-						label="Username"
-						value={username}
-						onChange={handleInput}
-						placeholder="Username"
-						error={formErrors.username}
-						variant="icon"
-						iconPosition="right"
-						iconIsButton={true}
-						icon={
-							<IconButton
-								radius="medium"
-								size="1"
-								type="button"
-								onClick={handleGenerateUsername}
-								aria-label="Generate random username">
-								<RefreshIcon />
-							</IconButton>
-						}
-					/>
+		<Flex direction="column">
+			<SegmentGroup direction="column">
+				<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
+				<Segment>
+					<Form className={styles.form} onSubmit={handleEditProfile}>
+						<TextField.Input
+							name="username"
+							label="Username"
+							value={username}
+							onChange={handleInput}
+							placeholder="Username"
+							error={formErrors.username}
+							variant="icon"
+							iconPosition="right"
+							iconIsButton={true}
+							icon={
+								<IconButton
+									radius="medium"
+									size="1"
+									type="button"
+									onClick={handleGenerateUsername}
+									aria-label="Generate random username">
+									<RefreshIcon />
+								</IconButton>
+							}
+						/>
 
-					<TextField.Input
-						name="trailName"
-						value={trailName}
-						placeholder="Trail Name"
-						onChange={handleInput}
-						label="Trail Name"
-						error={formErrors.trailName}
-					/>
+						<TextField.Input
+							name="trailName"
+							value={trailName}
+							placeholder="Trail Name"
+							onChange={handleInput}
+							label="Trail Name"
+							error={formErrors.trailName}
+						/>
 
-					<TextField.Input
-						name="userLocation"
-						value={userLocation}
-						placeholder="Durango, Colorado"
-						onChange={handleInput}
-						label="Based In"
-						error={formErrors.userLocation}
-					/>
+						<TextField.Input
+							name="userLocation"
+							value={userLocation}
+							placeholder="Durango, Colorado"
+							onChange={handleInput}
+							label="Based In"
+							error={formErrors.userLocation}
+						/>
 
-					<TextArea.Input
-						name="userBio"
-						value={userBio}
-						label="Your Bio"
-						placeholder="Bio for your profile"
-						onChange={handleInput}
-						maxLength={maxLength}
-						error={formErrors.userBio}
-					/>
+						<TextArea.Input
+							name="userBio"
+							value={userBio}
+							label="Your Bio"
+							placeholder="Bio for your profile"
+							onChange={handleInput}
+							maxLength={maxLength}
+							error={formErrors.userBio}
+						/>
 
-					{isError && <Message messageType="error" text={serverErrorMessage} />}
+						{isError && <Message messageType="error" text={serverErrorMessage} />}
 
-					{isSuccess && <Message messageType="success" text="Profile updated!" />}
+						{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-					<Flex justify="start">
-						<Button mt="4" type="submit" disabled={!isProfileChanged}>
-							<SaveIcon />
-							Save Profile
-						</Button>
-					</Flex>
-				</Form>
-			</Segment>
-			<Segment>
-				<SocialLinks socialLinks={socialLinks} />
-			</Segment>
-		</SegmentGroup>
+						<Flex justify="start">
+							<Button mt="4" type="submit" disabled={!isProfileChanged}>
+								<SaveIcon />
+								Save Profile
+							</Button>
+						</Flex>
+					</Form>
+				</Segment>
+				<Segment>
+					<SocialLinks socialLinks={socialLinks} />
+				</Segment>
+			</SegmentGroup>
+		</Flex>
 	);
 };

@@ -1,5 +1,5 @@
 import { Flex } from '@radix-ui/themes';
-import { SocialButton } from '@/features/account/components/profile-form/social-links';
+import { SocialButton } from '@/features/account/components/profile-management/social-links';
 import { SocialLink } from '@/types/profile-types';
 import socialMediaUI from '@/features/account/constants/social-media-ui';
 

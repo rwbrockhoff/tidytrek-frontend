@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { ProfileForm } from '../profile-form';
+import { ProfileForm } from '../profile-form/profile-form';
 import { wrappedRender } from '@/tests/wrapper-utils';
 import { type ProfileInfo, type SocialLink } from '@/types/profile-types';
 import {

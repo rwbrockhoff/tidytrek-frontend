@@ -1,7 +1,7 @@
 import { Heading, Flex, Text } from '@radix-ui/themes';
 import { Avatar } from '@/components/ui';
 import { Segment, WarningMessage } from '@/components/ui';
-import { useProfileActions } from '../../../hooks/use-profile-actions';
+import { useProfileActions } from '../../hooks/use-profile-actions';
 
 export const AvatarSettings = ({
 	profilePhotoUrl,

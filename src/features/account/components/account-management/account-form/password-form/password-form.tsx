@@ -1,5 +1,5 @@
 import { useRef, type FormEvent } from 'react';
-import { FormSection } from '../../../types/account-types';
+import { type FormSection } from '@/features/account/types';
 import { InputEvent, TextAreaEvent, type PasswordInfo } from '@/types/form-types';
 import { useState } from 'react';
 import styles from './password-form.module.css';

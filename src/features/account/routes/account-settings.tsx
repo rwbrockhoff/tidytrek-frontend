@@ -1,6 +1,5 @@
-import { Flex } from '@radix-ui/themes';
 import { useGetAuth } from '@/hooks';
-import { AccountForm } from '../components/account-form/account-form';
+import { AccountForm } from '../components';
 import { useDeleteAccountMutation } from '@/queries/user-queries';
 import supabase from '@/api/supabaseClient';
 
@@ -13,9 +12,5 @@ export const AccountSettings = () => {
 		await supabase.auth.signOut();
 	};
 
-	return (
-		<Flex direction="column">
-			<AccountForm user={user} deleteAccount={handleDeleteAccount} />
-		</Flex>
-	);
+	return <AccountForm user={user} deleteAccount={handleDeleteAccount} />;
 };
