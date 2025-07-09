@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContainer } from '../components/form-components';
+import { AuthContainer } from '../components/form-components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
 import supabase from '@/api/supabaseClient';
 import { useLoginMutation } from '@/queries/user-queries';

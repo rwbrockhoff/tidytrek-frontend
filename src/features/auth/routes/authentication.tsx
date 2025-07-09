@@ -7,7 +7,7 @@ import {
 	type MutationPending,
 } from '../hooks/use-combine-status';
 import { useLoginMutation, useRegisterMutation } from '@/queries/user-queries';
-import { AuthContainer } from '../components/form-components';
+import { AuthContainer } from '../components/form-components/form-components';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';

@@ -1,6 +1,9 @@
 import { Segment } from '@/components/ui';
 import { Heading, Button, Text } from '@radix-ui/themes';
-import { AuthContainer, FormContainer } from '../components/form-components';
+import {
+	AuthContainer,
+	FormContainer,
+} from '../components/form-components/form-components';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const ResetSuccess = () => {

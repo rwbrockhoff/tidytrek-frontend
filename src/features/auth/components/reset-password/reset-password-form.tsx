@@ -5,8 +5,8 @@ import { Message, Segment } from '@/components/ui';
 import { Flex, Text, Heading, Button } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { Link } from 'react-router-dom';
-import { FormContainer, AuthContainer } from '../form-components';
-import styles from '../form-components.module.css';
+import { FormContainer, AuthContainer } from '../form-components/form-components';
+import styles from '../form-components/form-components.module.css';
 import { type FormEvent } from 'react';
 import { type ResetPasswordData } from '../../types/auth-types';
 
