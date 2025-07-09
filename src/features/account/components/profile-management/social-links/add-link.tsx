@@ -1,5 +1,5 @@
 import { type InputEvent } from '@/types/form-types';
-import { Button, Separator, Flex } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
 import { SocialButtonPicker } from './social-button/social-button';
@@ -43,26 +43,23 @@ export const AddLink = () => {
 	const currentSocial = socialMediaUI[service];
 
 	return (
-		<>
-			<Separator size="4" my="6" />
-			<Flex align="center" gap="2">
-				<SocialButtonPicker currentSocial={currentSocial} />
-				<TextField.Standalone
-					placeholder="Paste your link..."
-					value={socialLink}
-					onChange={handleInput}
-					width={'30%'}
-				/>
-				<Button
-					size="2"
-					color="gray"
-					variant="outline"
-					disabled={!socialLink || isPending}
-					onClick={handleAddLink}>
-					<PlusIcon />
-					Add Link
-				</Button>
-			</Flex>
-		</>
+		<Flex align="center" gap="2" my="6">
+			<SocialButtonPicker currentSocial={currentSocial} />
+			<TextField.Standalone
+				placeholder="Paste your link..."
+				value={socialLink}
+				onChange={handleInput}
+				width={'30%'}
+			/>
+			<Button
+				size="2"
+				color="gray"
+				variant="outline"
+				disabled={!socialLink || isPending}
+				onClick={handleAddLink}>
+				<PlusIcon />
+				Add Link
+			</Button>
+		</Flex>
 	);
 };
