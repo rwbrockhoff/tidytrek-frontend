@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
-import { DashboardSkeleton } from '@/components/ui';
+import { DashboardSkeleton, AuthSkeleton } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
 import { useGetAuth, useThemeSetter, useDelayedLoading } from '@/hooks';
@@ -9,8 +9,8 @@ import { mx } from '@/styles/utils';
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, settings } = useGetAuth();
 
-	// Only show skeleton after 500ms to prevent flashing
-	const showSkeleton = useDelayedLoading(isLoading, 500);
+	//  Show skeleton after 200ms to prevent flashing
+	const showSkeleton = useDelayedLoading(isLoading, 200);
 
 	// Set user's dark mode + palette preferences
 	const { darkMode, palette } = settings || {};
@@ -18,7 +18,11 @@ export const AppRouter = () => {
 
 	// Don't render anything until we know auth state
 	if (isLoading) {
-		if (showSkeleton) return <DashboardSkeleton />;
+		if (showSkeleton) {
+			// Check for tidytrek_token cookie to change which skeleton ui shows based on auth
+			const hasTidytrekCookie = document.cookie.includes('tidytrek_token=');
+			return hasTidytrekCookie ? <DashboardSkeleton /> : <AuthSkeleton />;
+		}
 		return null; // Show nothing until delay passes
 	}
 

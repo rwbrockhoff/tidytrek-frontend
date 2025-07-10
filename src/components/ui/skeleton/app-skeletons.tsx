@@ -2,6 +2,7 @@ import { Skeleton, SkeletonText } from './skeleton';
 import styles from './app-skeletons.module.css';
 import userLayoutStyles from '@/layout/layouts/user-layout/user-layout.module.css';
 import sidebarStyles from '@/layout/navigation/sidebar/sidebar.module.css';
+import { cn } from '@/styles/utils';
 
 // Main app skeleton - shows while checking auth
 export const AppLoadingSkeleton = () => (
@@ -69,7 +70,7 @@ export const DashboardSkeleton = () => (
 		<div className={userLayoutStyles.appViewContainer}>
 			{/* Sidebar skeleton */}
 			<div className={sidebarStyles.sidebar}>
-				<div className={sidebarStyles.sidebarContainer}>
+				<div className={cn(sidebarStyles.sidebarContainer, styles.spreadSidebarItems)}>
 					<Skeleton height="40px" width="60%" />
 					<Skeleton height="60px" width="60px" variant="circular" />
 					{Array.from({ length: 3 }).map((_, i) => (
@@ -140,5 +141,22 @@ export const PackTableSkeleton = () => (
 				<Skeleton height="16px" width={'100%'} />
 			</div>
 		))}
+	</div>
+);
+
+// Auth skeleton - simple login form
+export const AuthSkeleton = () => (
+	<div className={styles.authContainer}>
+		<div className={styles.authForm}>
+			<Skeleton height="40px" width="250px" className={styles.authLogo} />
+			<div className={styles.authCard}>
+				<Skeleton height="32px" width="200px" className={styles.authTitle} />
+				<Skeleton height="48px" width="100%" className={styles.authButton} />
+				<Skeleton height="14px" width="40px" />
+				<Skeleton height="40px" width="100%" />
+				<Skeleton height="40px" width="100%" />
+				<Skeleton height="48px" width="100%" />
+			</div>
+		</div>
 	</div>
 );
