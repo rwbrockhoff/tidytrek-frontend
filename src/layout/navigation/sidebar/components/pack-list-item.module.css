@@ -22,8 +22,3 @@
 	top: 0;
 	padding-right: var(--space-xs);
 }
-
-.gripContainer svg {
-	width: 0.8rem;
-	height: 0.8rem;
-}

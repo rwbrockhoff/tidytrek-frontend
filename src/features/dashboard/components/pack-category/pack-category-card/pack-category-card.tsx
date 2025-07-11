@@ -72,7 +72,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 						variant="ghost"
 						data-testid="minimize-category-button"
 						aria-label={isMinimized ? 'Expand category' : 'Minimize category'}>
-						{isMinimized ? <PlusIcon /> : <MinusIcon />}
+						{isMinimized ? <PlusIcon size={20} /> : <MinusIcon size={20} />}
 					</Button>
 				</div>
 				{showCategoryItems && (
@@ -109,7 +109,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 						size="1"
 						onClick={handleAddItem}
 						aria-label="Add new item to list">
-						<PlusIcon />
+						<PlusIcon size={16} />
 						Add Item
 					</Button>
 				</Card.Footer>

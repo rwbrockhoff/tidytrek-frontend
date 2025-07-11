@@ -4,7 +4,7 @@ import { CheckIcon, SaveIcon, TrashIcon } from '@/components/ui';
 import { cleanUpLink } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
-import { FaLink } from 'react-icons/fa';
+import { LinkIcon } from '@/components/ui';
 import { useContext, useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { TableRowContext } from '../../context/table-row-context';
@@ -69,7 +69,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							mx.mobileHidden,
 							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
 						)}>
-						<FaLink className={hasLink ? styles.linkIconActive : styles.linkIcon} />
+						<LinkIcon size={16} className={hasLink ? styles.linkIconActive : styles.linkIcon} />
 					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
@@ -84,7 +84,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						</div>
 
 						<Button onClick={handleSaveLink} size="3" disabled={!newPackItemUrl.trim()}>
-							{isSuccess ? <CheckIcon /> : <SaveIcon />}
+							{isSuccess ? <CheckIcon size={16} /> : <SaveIcon size={16} />}
 							{isSuccess ? 'Saved' : 'Save'}
 						</Button>
 						{packItemUrl && (
@@ -93,7 +93,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 								onClick={handleDeleteLink}
 								disabled={!newPackItemUrl.trim()}
 								size="3">
-								<TrashIcon />
+								<TrashIcon size={16} />
 							</Button>
 						)}
 					</Flex>

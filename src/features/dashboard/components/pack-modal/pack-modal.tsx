@@ -54,7 +54,7 @@ export const PackModal = (props: PackModalProps) => {
 
 					<Dialog.Close>
 						<Button onClick={handleSubmitPack}>
-							<SaveIcon />
+							<SaveIcon size={16} />
 							Save Pack
 						</Button>
 					</Dialog.Close>

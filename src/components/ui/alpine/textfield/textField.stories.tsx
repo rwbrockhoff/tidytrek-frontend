@@ -33,7 +33,7 @@ export const WithIcon: Story = {
 	args: {
 		placeholder: 'Search...',
 		variant: 'icon',
-		icon: <SearchIcon />,
+		icon: <SearchIcon size={16} />,
 		iconPosition: 'left',
 	},
 };
@@ -51,7 +51,7 @@ export const AllStates: Story = {
 			<TextField.Standalone
 				placeholder="With icon"
 				variant="icon"
-				icon={<SearchIcon />}
+				icon={<SearchIcon size={16} />}
 			/>
 		</div>
 	),

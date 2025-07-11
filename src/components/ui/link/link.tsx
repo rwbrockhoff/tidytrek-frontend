@@ -1,7 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { frontendURL } from '@/api/tidytrekAPI';
-import { FaLink } from 'react-icons/fa';
-import { Icon } from '@/components/ui';
+import { LinkIcon } from '@/components/ui/icons';
 import { Text } from '@radix-ui/themes';
 import { cn } from '@/styles/utils';
 import styles from './link.module.css';
@@ -59,11 +58,7 @@ export const DisplayLink = (props: DisplayLinkProps) => {
 			rel="noopener noreferrer"
 			style={{ margin }}>
 			<Text style={{ display: 'inline-flex' }}>
-				{showIcon && (
-					<Icon>
-						<FaLink />
-					</Icon>
-				)}
+				{showIcon && <LinkIcon size={16} />}
 				{text}
 			</Text>
 		</a>

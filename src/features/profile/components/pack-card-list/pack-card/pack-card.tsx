@@ -1,6 +1,6 @@
 import { type Pack } from '@/types/pack-types';
 import { Flex, Heading, Inset, Text } from '@radix-ui/themes';
-import { ViewsIcon, Link } from '@/components/ui';
+import { ViewsIcon, Link, PublicIcon, PrivateIcon } from '@/components/ui';
 import { Card } from '@/components/ui/alpine';
 import styles from './pack-card.module.css';
 import { mx } from '@/styles/utils';
@@ -49,9 +49,19 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 							{packName}
 						</Link>
 					</Heading>
-					<Text size="2" my="1">
-						{packPublic ? 'Public' : 'Private'}
-					</Text>
+					<Flex align="center" gap="1" my="1">
+						{packPublic ? (
+							<>
+								<PublicIcon size={16} />
+								<Text size="2">Public</Text>
+							</>
+						) : (
+							<>
+								<PrivateIcon size={16} />
+								<Text size="2">Private</Text>
+							</>
+						)}
+					</Flex>
 					<Text my="2">{packDescription}</Text>
 					<PackLabels pack={pack} />
 				</Card.Body>
@@ -59,7 +69,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 				{userView && (
 					<Card.Footer className={styles.cardFooter}>
 						<Flex align="center" className={styles.cardFooterText}>
-							<ViewsIcon />
+							<ViewsIcon size={16} />
 							<Text>{packViews} Views</Text>
 						</Flex>
 					</Card.Footer>

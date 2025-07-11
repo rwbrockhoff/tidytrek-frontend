@@ -7,13 +7,13 @@ export const PackLabels = ({ pack }: { pack: Pack }) => {
 
 	return (
 		<Flex wrap="wrap" mt="3">
-			{packLocationTag && <PackLabel name={packLocationTag} icon={<LocationIcon />} />}
+			{packLocationTag && <PackLabel name={packLocationTag} icon={<LocationIcon size={12} />} />}
 
-			{packSeasonTag && <PackLabel name={packSeasonTag} icon={<SeasonIcon />} />}
+			{packSeasonTag && <PackLabel name={packSeasonTag} icon={<SeasonIcon size={12} />} />}
 
-			{packDurationTag && <PackLabel name={packDurationTag} icon={<DurationIcon />} />}
+			{packDurationTag && <PackLabel name={packDurationTag} icon={<DurationIcon size={12} />} />}
 
-			{packDistanceTag && <PackLabel name={packDistanceTag} icon={<HikingIcon />} />}
+			{packDistanceTag && <PackLabel name={packDistanceTag} icon={<HikingIcon size={12} />} />}
 		</Flex>
 	);
 };

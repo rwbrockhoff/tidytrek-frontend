@@ -1,5 +1,5 @@
 import { Heading, Button } from '@radix-ui/themes';
-import { AiOutlineMenu } from 'react-icons/ai';
+import { MenuIcon } from '@/components/ui';
 import { cn, mx } from '@/styles/utils';
 import styles from './mobile-navbar.module.css';
 
@@ -10,7 +10,7 @@ export const MobileNavbar = ({ onClick }: { onClick: () => void }) => {
 				tidytrek
 			</Heading>
 			<Button className={styles.menuButton} onClick={onClick} size="4">
-				<AiOutlineMenu />
+				<MenuIcon size={20} />
 			</Button>
 		</header>
 	);

@@ -107,7 +107,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									color="gray"
 									onClick={handleEdit}
 									aria-label="Edit item">
-									<EditPencilIcon />
+									<EditPencilIcon size={16} />
 								</Button>
 							)}
 
@@ -118,7 +118,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
 									<Button variant="ghost" color="gray" aria-label="Move to closet">
-										<ShareIcon />
+										<ShareIcon size={16} />
 									</Button>
 								</DeleteItemModal>
 							)}
@@ -130,7 +130,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
 									<Button variant="ghost" color="gray" aria-label="Delete item">
-										<TrashIcon />
+										<TrashIcon size={16} />
 									</Button>
 								</DeleteItemModal>
 							)}

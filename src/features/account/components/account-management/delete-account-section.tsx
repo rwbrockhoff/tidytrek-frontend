@@ -27,7 +27,7 @@ export const DeleteAccountSection = ({ onDeleteAccount }: DeleteAccountSectionPr
 				onClickDelete={onDeleteAccount}>
 				<div>
 					<Button color="tomato" mt="4">
-						<TrashIcon />
+						<TrashIcon size={16} />
 						Delete Account
 					</Button>
 				</div>

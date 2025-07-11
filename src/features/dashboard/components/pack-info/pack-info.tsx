@@ -70,7 +70,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							data-testid="pack-edit-button"
 							aria-label="Edit pack details"
 							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
-							<EditPencilIcon />
+							<EditPencilIcon size={16} />
 						</Button>
 					) : (
 						<PackModal pack={currentPack}>
@@ -79,7 +79,7 @@ export const PackInfo = (props: PackInfoProps) => {
 								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
 								data-testid="pack-edit-button"
 								aria-label="Edit pack details">
-								<EditPencilIcon />
+								<EditPencilIcon size={16} />
 							</Button>
 						</PackModal>
 					)}

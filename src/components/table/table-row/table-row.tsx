@@ -150,7 +150,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 														variant="ghost"
 														data-testid="move-pack-item-button"
 														aria-label="Move pack item">
-														<ShareIcon />
+														<ShareIcon size={16} />
 													</Button>
 												</Flex>
 
@@ -164,7 +164,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 															variant="ghost"
 															data-testid="delete-pack-item-button"
 															aria-label="Delete pack item">
-															<TrashIcon />
+															<TrashIcon size={16} />
 														</Button>
 													</Flex>
 												</DeleteItemModal>

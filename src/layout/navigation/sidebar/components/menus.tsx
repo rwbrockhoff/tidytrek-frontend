@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { UserIcon, ClosetIcon } from '@/components/ui';
-import { MdLogout as LogoutIcon } from 'react-icons/md';
+import { UserIcon, ClosetIcon, LogoutIcon } from '@/components/ui';
 import { StyledMenu } from './styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
@@ -8,13 +7,13 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 		<StyledMenu>
 			<li>
 				<Link to="/account">
-					<UserIcon />
+					<UserIcon size={16} />
 					Account
 				</Link>
 			</li>
 
 			<li onClick={logout}>
-				<LogoutIcon />
+				<LogoutIcon size={16} />
 				Log Out
 			</li>
 		</StyledMenu>
@@ -26,13 +25,13 @@ export const SidebarMenu = () => {
 		<StyledMenu className="styledMenuWithTopMargin">
 			<li>
 				<Link to="/profile">
-					<UserIcon />
+					<UserIcon size={16} />
 					Profile
 				</Link>
 			</li>
 			<li>
 				<Link to="/gear-closet">
-					<ClosetIcon />
+					<ClosetIcon size={16} />
 					Gear Closet
 				</Link>
 			</li>

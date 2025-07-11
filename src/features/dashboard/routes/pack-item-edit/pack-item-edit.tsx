@@ -247,7 +247,7 @@ export const PackItemEdit = () => {
 
 			<div className={styles.actionButtons}>
 				<Button onClick={handleSave} size="3" disabled={editItemMutation.isPending}>
-					<SaveIcon />
+					<SaveIcon size={16} />
 					Save Item
 				</Button>
 

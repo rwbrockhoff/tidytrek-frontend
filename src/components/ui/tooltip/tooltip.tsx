@@ -7,7 +7,7 @@ export const Tooltip = ({ content }: { content: string }) => {
 		<HoverCard.Root>
 			<HoverCard.Trigger>
 				<span className={styles.tooltipSpan}>
-					<InfoIcon />
+					<InfoIcon size={16} />
 				</span>
 			</HoverCard.Trigger>
 			<HoverCard.Content style={{ maxWidth: 300 }} side="top">

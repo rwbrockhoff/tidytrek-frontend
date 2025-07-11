@@ -1,5 +1,4 @@
-import { FaSearch as SearchIcon } from 'react-icons/fa';
-import { Icon } from '@/components/ui';
+import { SearchIcon } from '@/components/ui';
 import { Table, Flex } from '@radix-ui/themes';
 
 export const NotFoundMessage = () => {
@@ -9,9 +8,7 @@ export const NotFoundMessage = () => {
 				<Table.Cell colSpan={24} style={{ opacity: 0.4 }} align="center">
 					<Flex asChild justify="center">
 						<p>
-							<Icon>
-								<SearchIcon />
-							</Icon>
+							<SearchIcon size={16} />
 							No Items Found
 						</p>
 					</Flex>

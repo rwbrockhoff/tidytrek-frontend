@@ -16,7 +16,7 @@ export const ConfirmationForm = ({ sendConfirmation, confirmationSent, isError, 
 				<Callout.Root color="grass" variant="surface">
 					<Flex align="center" className={styles.styledHeading}>
 						<Heading size="4">
-							<CheckIcon />
+							<CheckIcon size={16} />
 							Email Sent!
 						</Heading>
 					</Flex>
@@ -32,7 +32,7 @@ export const ConfirmationForm = ({ sendConfirmation, confirmationSent, isError, 
 					)}
 					
 					<Button color="gray" variant="outline" onClick={sendConfirmation}>
-						<SendIcon />
+						<SendIcon size={16} />
 						Send Email
 					</Button>
 				</Callout.Root>

@@ -39,7 +39,7 @@ export const TableFooter = ({
 							ml="2"
 							onClick={handleAddItem}
 							aria-label="Add new item to list">
-							<PlusIcon />
+							<PlusIcon size={16} />
 							Add Item
 						</Button>
 					)}

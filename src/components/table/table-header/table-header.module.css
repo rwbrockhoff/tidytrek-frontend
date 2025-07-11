@@ -5,8 +5,6 @@
 .header :global(svg) {
 	opacity: 0;
 	transition: opacity var(--transition);
-	width: 0.75rem;
-	height: 0.75rem;
 }
 
 .header:hover :global(svg) {

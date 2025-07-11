@@ -41,7 +41,7 @@ export const GearCloset = () => {
 		<UserViewContext.Provider value={true}>
 			<PageLayout>
 				<Flex className={styles.headerText} align="center" justify="center" gap="3">
-					<ClosetIcon />
+					<ClosetIcon size={16} />
 					<Heading size="6">Gear Closet</Heading>
 				</Flex>
 
@@ -58,7 +58,7 @@ export const GearCloset = () => {
 						name="searchInput"
 						value={searchInput}
 						onChange={handleInputChange}
-						icon={<SearchIcon />}
+						icon={<SearchIcon size={16} />}
 						iconPosition="left"
 					/>
 				</div>

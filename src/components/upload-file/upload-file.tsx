@@ -1,6 +1,6 @@
 import styles from './upload-file.module.css';
 import { mx } from '@/styles/utils';
-import { MdCloudUpload as UploadIcon } from 'react-icons/md';
+import { UploadIcon } from '@/components/ui';
 import { ChangeEvent, useRef } from 'react';
 
 type UploadFileProps = {
@@ -31,7 +31,7 @@ export const UploadFile = (props: UploadFileProps) => {
 	return (
 		<form encType="multipart/form-data" ref={formRef} className="uploadFileForm">
 			<label htmlFor={fileId} className={styles.uploadLabel}>
-				<UploadIcon />
+				<UploadIcon size={24} />
 			</label>
 			<input
 				id={fileId}

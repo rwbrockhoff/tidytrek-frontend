@@ -52,7 +52,7 @@ export const PackEdit = () => {
 
 			<div className={styles.actionButtons}>
 				<Button onClick={handleSave} size="3">
-					<SaveIcon />
+					<SaveIcon size={16} />
 					Save Pack
 				</Button>
 

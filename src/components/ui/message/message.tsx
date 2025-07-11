@@ -1,8 +1,6 @@
 import { Callout } from '@radix-ui/themes';
 import type { ComponentProps } from 'react';
-import { FaCheck } from 'react-icons/fa';
-import { MdOutlineErrorOutline as ErrorIcon } from 'react-icons/md';
-import { WarningIcon } from '../';
+import { CheckIcon, ErrorIcon, WarningIcon } from '../';
 
 type MessageProps = {
 	messageType: 'success' | 'error';
@@ -13,7 +11,7 @@ type MessageProps = {
 export const Message = (props: MessageProps) => {
 	const { messageType, text, id } = props;
 	const isSuccess = messageType === 'success';
-	const iconSize = 15;
+	const iconSize = 16;
 	const messageColor = isSuccess ? 'grass' : 'tomato';
 
 	return (
@@ -28,7 +26,7 @@ export const Message = (props: MessageProps) => {
 			aria-invalid={isSuccess ? 'false' : 'true'}
 			aria-errormessage={isSuccess ? '' : text}>
 			<Callout.Icon>
-				{isSuccess ? <FaCheck size={iconSize} /> : <ErrorIcon size={iconSize} />}
+				{isSuccess ? <CheckIcon size={iconSize} /> : <ErrorIcon size={iconSize} />}
 			</Callout.Icon>
 			<Callout.Text>{text}</Callout.Text>
 		</Callout.Root>
@@ -45,7 +43,7 @@ export const WarningMessage = (props: WarningMessageProps) => {
 	return (
 		<Callout.Root color="amber" variant="outline" {...calloutProps} style={{ width }}>
 			<Callout.Icon>
-				<WarningIcon />
+				<WarningIcon size={16} />
 			</Callout.Icon>
 			<Callout.Text> {message}</Callout.Text>
 		</Callout.Root>

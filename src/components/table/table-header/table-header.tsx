@@ -60,7 +60,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 								variant="ghost"
 								data-testid="minimize-category-button"
 								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}>
-								{isMinimized ? <PlusIcon /> : <MinusIcon />}
+								{isMinimized ? <PlusIcon size={16} /> : <MinusIcon size={16} />}
 							</Button>
 						</Flex>
 						<DeleteModal
@@ -73,7 +73,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 									variant="ghost"
 									data-testid="delete-category-button"
 									aria-label="Delete category">
-									<TrashIcon />
+									<TrashIcon size={16} />
 								</Button>
 							</Flex>
 						</DeleteModal>

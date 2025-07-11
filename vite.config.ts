@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => ({
 					// Auth & API
 					'vendor-auth': ['@supabase/supabase-js', 'axios'],
 					// Utilities
-					'vendor-utils': ['zod', 'hashids', 'react-icons'],
+					'vendor-utils': ['zod', 'hashids', 'lucide-react'],
 				},
 			},
 		},

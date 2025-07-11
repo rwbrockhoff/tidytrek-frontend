@@ -74,7 +74,7 @@ export const PackForm = ({
 							<Flex align="center" my="2">
 								<Flex justify="center" direction="column">
 									<label htmlFor="pack-public-switch">
-										<PublicIcon /> Public
+										<PublicIcon size={16} /> Public
 									</label>
 									<Text size="2" color="gray">
 										Make your pack public or private.
@@ -161,7 +161,7 @@ export const PackForm = ({
 						<Flex align="center" my="2">
 							<Flex justify="center" direction="column">
 								<label htmlFor="pack-pricing-switch">
-									<MoneyIcon /> Pack Prices
+									<MoneyIcon size={16} /> Pack Prices
 								</label>
 								<Text size="2" color="gray">
 									Show a price column on your pack to track expenses.
@@ -181,7 +181,7 @@ export const PackForm = ({
 						<Flex align="center" my="2">
 							<Flex justify="center" direction="column">
 								<label htmlFor="pack-affiliate-switch">
-									<LinkIcon /> Affiliate Links
+									<LinkIcon size={16} /> Affiliate Links
 								</label>
 								<Text size="2" color="gray">
 									Enable if you use affiliate links for any of your pack items.

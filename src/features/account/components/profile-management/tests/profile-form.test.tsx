@@ -59,7 +59,7 @@ describe('ProfileForm', () => {
 
 			expect(screen.getByPlaceholderText('Username')).toHaveValue('');
 			expect(screen.getByPlaceholderText('Trail Name')).toHaveValue('');
-			expect(screen.getByPlaceholderText('Durango, Colorado')).toHaveValue('');
+			expect(screen.getByPlaceholderText('Denver, Colorado')).toHaveValue('');
 			expect(screen.getByPlaceholderText('Bio for your profile')).toHaveValue('');
 		});
 
@@ -113,7 +113,7 @@ describe('ProfileForm', () => {
 		it('allows typing in location field', async () => {
 			const { user } = renderProfileForm();
 
-			const locationInput = screen.getByPlaceholderText('Durango, Colorado');
+			const locationInput = screen.getByPlaceholderText('Denver, Colorado');
 			await user.type(locationInput, 'Scranton, PA');
 
 			expect(locationInput).toHaveValue('Scranton, PA');

@@ -3,7 +3,7 @@ import styles from './move-item-dropdown.module.css';
 import { BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 import { Button, Flex, Select, Table } from '@radix-ui/themes';
-import { MdOutlineMoveDown } from 'react-icons/md';
+import { MoveDownIcon } from '@/components/ui';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
 import { mx } from '@/styles/utils';
 
@@ -92,7 +92,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 						</Select.Content>
 					</Select.Root>
 					<Button size="2" disabled={!categoryId} onClick={handleMoveItemToPack}>
-						<MdOutlineMoveDown />
+						<MoveDownIcon size={16} />
 						Move Item
 					</Button>
 				</Flex>

@@ -146,7 +146,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 									type="button"
 									onClick={handleGenerateUsername}
 									aria-label="Generate random username">
-									<RefreshIcon />
+									<RefreshIcon size={16} />
 								</IconButton>
 							}
 						/>
@@ -163,7 +163,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 						<TextField.Input
 							name="userLocation"
 							value={userLocation}
-							placeholder="Durango, Colorado"
+							placeholder="Denver, Colorado"
 							onChange={handleInput}
 							label="Based In"
 							error={formErrors.userLocation}
@@ -185,7 +185,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 
 						<Flex justify="start">
 							<Button mt="4" type="submit" disabled={!isProfileChanged}>
-								<SaveIcon />
+								<SaveIcon size={16} />
 								Save Profile
 							</Button>
 						</Flex>

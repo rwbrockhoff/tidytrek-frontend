@@ -63,7 +63,7 @@ export const PackDelete = ({ pack, children, buttonSize = '2' }: PackDeleteProps
 				color="tomato"
 				size={buttonSize}
 				onClick={handleToggleDeleteModal}>
-				<TrashIcon />
+				<TrashIcon size={16} />
 				Delete Pack
 			</Button>
 

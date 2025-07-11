@@ -42,14 +42,14 @@ export const DeleteModal = (props: DeleteModalProps) => {
 							color="tomato"
 							size="3"
 							onClick={onClickDelete}>
-							<TrashIcon /> Delete
+							<TrashIcon size={16} /> Delete
 						</Button>
 					</Dialog.Close>
 
 					{!simple && (
 						<Dialog.Close>
 							<Button size="3" onClick={onClickMove}>
-								<ShareIcon /> Move to Gear Closet
+								<ShareIcon size={16} /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>
 					)}
@@ -91,7 +91,7 @@ export const DeleteItemModal = (props: DeleteItemModalProps) => {
 							size="3"
 							onClick={handleDelete}
 							aria-label="Delete pack item permanently">
-							<TrashIcon /> Delete
+							<TrashIcon size={16} /> Delete
 						</Button>
 					</Dialog.Close>
 
@@ -101,7 +101,7 @@ export const DeleteItemModal = (props: DeleteItemModalProps) => {
 								size="3"
 								onClick={onClickMove}
 								aria-label="Move pack item to gear closet">
-								<ShareIcon /> Move to Gear Closet
+								<ShareIcon size={16} /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>
 					)}

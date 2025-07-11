@@ -62,7 +62,7 @@ export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 				mx.hidden,
 				mx.mobileBlock,
 			)}>
-			<CaretDownIcon />
+			<CaretDownIcon size={16} />
 		</IconButton>
 	);
 };
@@ -78,7 +78,7 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 			onClick={onToggle}
 			className={cn(styles.tableButton, !display && styles.tableButtonHidden)}
 			aria-label="Drag pack item">
-			<ShareIcon />
+			<ShareIcon size={16} />
 		</IconButton>
 	);
 };
@@ -86,7 +86,7 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
 		<Button variant="outline" color="gray" size="2" radius="medium" onClick={onClick}>
-			<PlusIcon />
+			<PlusIcon size={16} />
 			Add Category
 		</Button>
 	);
@@ -107,7 +107,7 @@ export const GripButton = ({
 			className={cn(styles.gripContainer, display && styles.gripContainerVisible)}
 			data-testid={testId}
 			{...props}>
-			<GripIcon />
+			<GripIcon size={20} />
 		</Flex>
 	);
 };
