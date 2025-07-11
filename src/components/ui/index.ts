@@ -1,7 +1,6 @@
 export * from './avatar/avatar';
 export * from './button/button';
 export * from './container/container';
-export * from '../../utils/default-photos';
 export * from './dimmer/dimmer';
 export * from './link/link';
 export * from './message/message';

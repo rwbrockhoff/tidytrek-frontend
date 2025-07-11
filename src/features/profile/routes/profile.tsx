@@ -3,7 +3,7 @@ import { ProfileBanner } from '@/components';
 import { ProfileHeader } from '../components/profile-header/profile-header';
 import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
-import { UserViewContext } from '@/hooks/use-viewer-context';
+import { UserViewContext } from '@/contexts/viewer-contexts';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
 import { useGetAuth } from '@/hooks';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';

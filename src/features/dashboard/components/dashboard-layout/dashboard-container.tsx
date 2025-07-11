@@ -2,7 +2,8 @@ import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '@/components/table';
 import { Flex } from '@radix-ui/themes';
-import { PricingContext, useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks/use-viewer-context';
+import { PricingContext } from '@/contexts/viewer-contexts';
 import {
 	PackQueryState as UserState,
 	type Category,

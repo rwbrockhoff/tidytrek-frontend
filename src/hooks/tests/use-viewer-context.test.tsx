@@ -2,10 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { 
 	useUserContext, 
-	usePricingContext, 
+	usePricingContext 
+} from '../use-viewer-context';
+import { 
 	UserViewContext, 
 	PricingContext 
-} from '../use-viewer-context';
+} from '@/contexts/viewer-contexts';
 
 describe('useUserContext', () => {
 	it('returns false when no provider is present', () => {

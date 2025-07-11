@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { cn, mx } from '@/styles/utils';
 import { UploadFile } from '@/components';
 import { Dimmer, Spinner } from '@/components/ui';
-import { defaultBannerPhoto } from '@/components/ui';
+import { defaultBannerPhoto } from '@/utils';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;

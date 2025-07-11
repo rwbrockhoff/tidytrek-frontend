@@ -1,7 +1,7 @@
 import { Avatar, Link } from '@/components/ui';
 import { AvatarMenu } from './menus';
 import { Popover } from '@radix-ui/themes';
-import { HoverContext } from '@/contexts/mouse-over-context';
+import { HoverContext } from '@/contexts/hover-context';
 import { useContext } from 'react';
 
 type PopupMenuProps = {

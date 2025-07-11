@@ -13,5 +13,3 @@ export const Dimmer = ({ active, className }: DimmerProps) => {
 		/>
 	);
 };
-
-export default Dimmer;

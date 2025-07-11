@@ -1,9 +1,6 @@
-import { useContext, createContext } from 'react';
+import { useContext } from 'react';
+import { UserViewContext, PricingContext } from '@/contexts/viewer-contexts';
 
-// Contexts that change the UI being displayed
-
-export const UserViewContext = createContext(false);
+// Hooks for consuming the contexts
 export const useUserContext = (): boolean => useContext(UserViewContext);
-
-export const PricingContext = createContext(false);
 export const usePricingContext = (): boolean => useContext(PricingContext);

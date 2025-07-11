@@ -1,10 +1,9 @@
-import { useState, createContext } from 'react';
+import { useState } from 'react';
+import { HoverContext } from './hover-context';
 
 type MouseOverProps = {
 	children: React.ReactNode;
 };
-
-export const HoverContext = createContext(false);
 
 export const MouseOver = ({ children }: MouseOverProps) => {
 	const [isHovering, setIsHovering] = useState(false);

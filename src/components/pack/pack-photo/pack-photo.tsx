@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { cn, mx } from '@/styles/utils';
 import styles from './pack-photo.module.css';
-import { Dimmer, defaultPackPhoto, Spinner, DeleteButton } from '@/components/ui';
+import { Dimmer, Spinner, DeleteButton } from '@/components/ui';
+import { defaultPackPhoto } from '@/utils';
 import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
