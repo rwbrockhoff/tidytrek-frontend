@@ -1,6 +1,6 @@
 import styles from './pack-summary-panel.module.css';
 import { Flex, Badge, Separator, HoverCard } from '@radix-ui/themes';
-import { usePricingContext } from '@/hooks/use-pricing-context';
+import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import {
 	ConsumableIcon,
 	WeightIcon,

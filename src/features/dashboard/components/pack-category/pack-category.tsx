@@ -3,7 +3,7 @@ import styles from './pack-category.module.css';
 import { cn } from '@/styles/utils';
 import { Draggable } from 'react-beautiful-dnd';
 import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { DropTableBody } from '@/components';
 import { usePackCategory } from '../../hooks/use-pack-category';
 

@@ -7,7 +7,7 @@ import { CircleIcon, DownArrowIcon } from '@/components/ui';
 import CampGraphic from '@/assets/camping.svg';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
 import { PackSummaryPanel } from '../pack-summary-panel';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 
 type PackGraphicProps = {
 	packCategories: Category[];

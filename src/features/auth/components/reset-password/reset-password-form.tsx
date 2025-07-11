@@ -1,5 +1,6 @@
 import { type FormError, type InputEvent } from '@/types/form-types';
-import { clearZodErrors, type ZodFormErrors } from '@/hooks';
+import { clearZodErrors } from '@/hooks/form/use-zod-error';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Form } from '@radix-ui/react-form';
 import { Message, Segment } from '@/components/ui';
 import { Flex, Text, Heading, Button } from '@radix-ui/themes';

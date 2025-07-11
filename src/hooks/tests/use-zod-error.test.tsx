@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { z } from 'zod';
-import { useZodError, clearZodErrors } from '../use-zod-error';
+import { useZodError, clearZodErrors } from '../form/use-zod-error';
 
 // Test form type
 type TestForm = {
@@ -188,7 +188,6 @@ describe('useZodError Hook', () => {
 				message: 'Updated error message',
 			});
 		});
-
 	});
 
 	describe('resetFormErrors', () => {
@@ -251,7 +250,7 @@ describe('useZodError Hook', () => {
 			// This test verifies TypeScript compilation - all these should be valid
 			act(() => {
 				result.current.resetFormErrors('firstName');
-				result.current.resetFormErrors('lastName'); 
+				result.current.resetFormErrors('lastName');
 				result.current.resetFormErrors('email');
 				result.current.resetFormErrors('age');
 			});

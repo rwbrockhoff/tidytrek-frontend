@@ -5,7 +5,7 @@ import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
 import { SocialLinkList } from '@/components';
 import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { cn } from '@/styles/utils/cn';

@@ -21,9 +21,9 @@ import {
 } from '@/components/table/table-cells';
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
-import { usePricingContext } from '@/hooks/use-pricing-context';
-import { useUserContext } from '@/hooks/use-user-context';
-import { useCheckScreen } from '@/hooks';
+import { usePricingContext } from '@/hooks/auth/use-pricing-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { TableRowContext } from '../context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
 import { TableErrorRow } from '../table-error-row/table-error-row';

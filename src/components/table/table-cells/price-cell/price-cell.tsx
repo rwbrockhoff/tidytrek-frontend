@@ -3,11 +3,11 @@ import { useContext } from 'react';
 import { Text } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { convertCurrency } from '@/utils';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
-import { useToggle } from '@/hooks';
+import { useToggle } from '@/hooks/ui/use-toggle';
 
 type PriceCellProps = {
 	onToggleOff: () => void;

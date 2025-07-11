@@ -1,5 +1,5 @@
 import { type PackListItem, type Category } from '@/types/pack-types';
-import { useCheckScreen } from '@/hooks/use-check-screen';
+import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { PackCategory } from './pack-category';
 import { PackCategoryCard } from './pack-category-card/pack-category-card';
 

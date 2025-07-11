@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { type BaseTableRowItem, type PackItem } from '@/types/pack-types';
 import { InputEvent, SelectEvent } from '@/types/form-types';
-import { ZodFormErrors } from '@/hooks';
+import { ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 type TableRowContext = {
 	packItem: BaseTableRowItem | null;

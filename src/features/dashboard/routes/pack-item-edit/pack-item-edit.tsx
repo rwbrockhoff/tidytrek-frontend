@@ -22,7 +22,7 @@ import {
 	type GearClosetItem,
 } from '@/types/pack-types';
 import { decodePackItemId, encode, convertCurrency } from '@/utils';
-import { useToggle } from '@/hooks';
+import { useToggle } from '@/hooks/ui/use-toggle';
 import styles from './pack-item-edit.module.css';
 
 export const PackItemEdit = () => {

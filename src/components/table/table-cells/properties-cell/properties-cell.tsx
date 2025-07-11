@@ -1,7 +1,7 @@
 import { type PackItemProperty } from '@/types/pack-types';
 import { Table } from '@/components/ui/alpine';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useContext } from 'react';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';

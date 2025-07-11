@@ -5,7 +5,7 @@ import {
 	useAxiosErrorStatus,
 	isAxiosError,
 	useMutationErrors,
-} from '@/hooks/use-axios-error';
+} from '../form/use-axios-error';
 import { createMockAxiosError } from '@/tests/mocks/api-mocks';
 
 import axios from 'axios';

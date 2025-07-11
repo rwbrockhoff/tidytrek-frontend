@@ -6,7 +6,7 @@ import { Flex } from '@radix-ui/themes';
 import { Table } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { ThemeButton, GripButton } from '../../table-buttons';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 
 type CategoryNameCellProps = {

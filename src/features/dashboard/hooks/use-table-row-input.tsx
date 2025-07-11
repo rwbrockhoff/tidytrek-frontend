@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import { clearZodErrors, useZodError } from '@/hooks';
+import { clearZodErrors } from '@/hooks/form/use-zod-error';
+import { useZodError } from '@/hooks/form/use-zod-error';
 
 export const useTableRowInput = (item: BaseTableRowItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);

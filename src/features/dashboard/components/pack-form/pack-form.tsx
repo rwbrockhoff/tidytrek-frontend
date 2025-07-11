@@ -7,7 +7,7 @@ import { LinkIcon, MoneyIcon, PublicIcon } from '@/components/ui';
 import { PackPhotoPanel } from '../pack-modal/pack-photo-panel';
 import styles from './pack-form.module.css';
 import { cn } from '@/styles/utils';
-import { useCheckScreen } from '@/hooks/use-check-screen';
+import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 
 type Checkboxes = {
 	packAffiliate?: boolean;

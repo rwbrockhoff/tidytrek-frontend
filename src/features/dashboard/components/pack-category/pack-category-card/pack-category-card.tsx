@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/ui/alpine';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { PackItemRow } from '../../pack-item-row/pack-item-row';

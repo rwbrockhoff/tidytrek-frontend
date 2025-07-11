@@ -4,7 +4,7 @@ import { AuthContainer } from '../components/form-components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
 import supabase from '@/api/supabaseClient';
 import { useLoginMutation } from '@/queries/user-queries';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 
 export const Welcome = () => {
 	const { isAuthenticated, user } = useGetAuth();

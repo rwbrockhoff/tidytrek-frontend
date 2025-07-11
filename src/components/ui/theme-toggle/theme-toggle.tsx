@@ -1,6 +1,6 @@
 import styles from './theme-toggle.module.css';
 import { cn } from '@/styles/utils';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
 
 interface ThemeToggleProps {

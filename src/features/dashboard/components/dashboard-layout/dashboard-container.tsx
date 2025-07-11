@@ -2,7 +2,7 @@ import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '@/components/table';
 import { Flex } from '@radix-ui/themes';
-import { useUserContext } from '@/hooks/use-user-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 import { PricingContext } from '@/contexts/pricing-context';
 import {
 	PackQueryState as UserState,
@@ -20,7 +20,7 @@ import {
 } from '@/components';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { usePackCategoryActions } from '../../hooks/use-pack-category-actions';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 type DashboardProps = {

@@ -11,7 +11,8 @@ import { AuthContainer } from '../components/form-components/form-components';
 import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation } from 'react-router-dom';
-import { useMutationErrors, useZodError } from '@/hooks';
+import { useMutationErrors } from '@/hooks/form/use-axios-error';
+import { useZodError } from '@/hooks/form/use-zod-error';
 import {
 	z,
 	emailSchema,

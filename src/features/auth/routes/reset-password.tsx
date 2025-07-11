@@ -5,7 +5,9 @@ import supabase from '@/api/supabaseClient';
 import { frontendURL } from '@/api/tidytrekAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '@/queries/user-queries';
-import { useGetAuth, useMutationErrors, useZodError } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useMutationErrors } from '@/hooks/form/use-axios-error';
+import { useZodError } from '@/hooks/form/use-zod-error';
 import { z, emailSchema, passwordSchema } from '@/schemas';
 
 export const ResetPassword = () => {

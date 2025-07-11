@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { usePricingContext } from '@/hooks/use-pricing-context';
-import { useUserContext } from '@/hooks/use-user-context';
+import { usePricingContext } from '@/hooks/auth/use-pricing-context';
+import { useUserContext } from '@/hooks/auth/use-user-context';
 
 export const useTableColumnWidths = () => {
 	const showPrices = usePricingContext() || false;

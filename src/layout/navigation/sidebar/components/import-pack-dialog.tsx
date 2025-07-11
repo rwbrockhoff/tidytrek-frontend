@@ -7,7 +7,8 @@ import { Dialog, Flex, Button } from '@radix-ui/themes';
 import { Spinner } from '@/components/ui';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
-import { clearZodErrors, useAxiosErrorMessage, useZodError } from '@/hooks';
+import { useAxiosErrorMessage } from '@/hooks/form/use-axios-error';
+import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import styles from './import-pack-dialog.module.css';
 
 const importPackUrlSchema = z

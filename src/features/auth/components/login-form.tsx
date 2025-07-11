@@ -10,7 +10,8 @@ import { FormContainer } from './form-components/form-components';
 import styles from './form-components/form-components.module.css';
 import { GoogleAuth } from './google-auth';
 import { LoginUserFormData, RegisterUserFormData } from '@/types/user-types';
-import { clearZodErrors, type ZodFormErrors } from '@/hooks';
+import { clearZodErrors } from '@/hooks/form/use-zod-error';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 export type AuthFormProps = {
 	isRegisterForm: boolean;

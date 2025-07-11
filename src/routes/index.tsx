@@ -3,7 +3,9 @@ import { Theme } from '@radix-ui/themes';
 import { DashboardSkeleton, AuthSkeleton } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
-import { useGetAuth, useThemeSetter, useDelayedLoading } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useThemeSetter } from '@/hooks/ui/use-theme-setter';
+import { useDelayedLoading } from '@/hooks/ui/use-delayed-loading';
 import { mx } from '@/styles/utils';
 
 export const AppRouter = () => {

@@ -5,7 +5,7 @@ import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserViewContext } from '@/contexts/user-view-context';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const Profile = ({ userView }: { userView: boolean }) => {

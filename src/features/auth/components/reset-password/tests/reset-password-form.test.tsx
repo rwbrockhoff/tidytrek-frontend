@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { ResetPasswordForm } from '../reset-password-form';
 import { wrappedRender } from '@/tests/wrapper-utils';
 import { type ResetPasswordData } from '@/features/auth/types/auth-types';
-import { type ZodFormErrors } from '@/hooks';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 // Create mock form errors
 const createMockFormErrors = (): ZodFormErrors<ResetPasswordData> => ({

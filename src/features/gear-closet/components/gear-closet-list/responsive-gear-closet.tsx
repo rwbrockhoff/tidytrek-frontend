@@ -1,5 +1,5 @@
 import { type GearClosetItem, type PackListItem } from '@/types/pack-types';
-import { useCheckScreen } from '@/hooks/use-check-screen';
+import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { GearClosetList } from './gear-closet-list';
 import { GearClosetCard } from '../gear-closet-card/gear-closet-card';
 import { useGearClosetActions } from '../../hooks/use-gear-closet-actions';

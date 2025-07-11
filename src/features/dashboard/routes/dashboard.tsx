@@ -3,7 +3,7 @@ import { DashboardContainer } from '../components/dashboard-layout/dashboard-con
 import { UserViewContext } from '@/contexts/user-view-context';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
-import { useGetAuth } from '@/hooks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { packId: paramPackId } = useParams();

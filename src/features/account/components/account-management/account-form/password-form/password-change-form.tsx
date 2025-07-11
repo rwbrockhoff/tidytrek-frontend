@@ -11,7 +11,8 @@ import { Form } from '@radix-ui/react-form';
 import { TextField } from '@/components/ui/alpine/';
 import { Message } from '@/components/ui';
 import { z, passwordSchema } from '@/schemas';
-import { useZodError, clearZodErrors } from '@/hooks';
+import { useZodError } from '@/hooks/form/use-zod-error';
+import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { usePasswordActions } from '@/features/account/hooks';
 
 type PasswordChangeFormProps = {
