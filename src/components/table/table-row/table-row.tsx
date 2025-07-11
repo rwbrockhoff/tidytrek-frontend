@@ -21,7 +21,8 @@ import {
 } from '@/components/table/table-cells';
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
-import { usePricingContext, useUserContext } from '@/hooks/use-viewer-context';
+import { usePricingContext } from '@/hooks/use-pricing-context';
+import { useUserContext } from '@/hooks/use-user-context';
 import { useCheckScreen } from '@/hooks';
 import { TableRowContext } from '../context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';

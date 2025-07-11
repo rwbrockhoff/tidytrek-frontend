@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { Flex, Badge } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/ui/alpine';
 import { WeightDropdown } from './weight-dropdown';
-import { useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks/use-user-context';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 

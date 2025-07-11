@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { UserViewContext, PricingContext } from '@/contexts/viewer-contexts';
+import { UserViewContext } from '@/contexts/user-view-context';
+import { PricingContext } from '@/contexts/pricing-context';
 import { DragDropContext, Drop } from '@/components/drag-drop/drag-drop-wrapper';
 
 // Use the modular wrappers below based on test requirements

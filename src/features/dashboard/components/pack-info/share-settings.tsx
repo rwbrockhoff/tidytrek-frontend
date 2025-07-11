@@ -9,7 +9,7 @@ import {
 import { Popover, Heading, Flex, Button } from '@radix-ui/themes';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
-import { useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks/use-user-context';
 import { frontendURL } from '@/api/tidytrekAPI';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };

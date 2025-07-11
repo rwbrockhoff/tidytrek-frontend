@@ -2,7 +2,7 @@ import { type Pack } from '@/types/pack-types';
 import { Flex } from '@radix-ui/themes';
 import styles from './pack-card-list.module.css';
 import { PackCard } from './pack-card/pack-card';
-import { useUserContext } from '@/hooks';
+import { useUserContext } from '@/hooks/use-user-context';
 import { SkeletonCard } from '@/components/ui';
 
 type PackCardListProps = {

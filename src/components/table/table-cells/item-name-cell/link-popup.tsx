@@ -9,7 +9,7 @@ import { useContext, useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { TableRowContext } from '../../context/table-row-context';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
-import { useUserContext } from '@/hooks';
+import { useUserContext } from '@/hooks/use-user-context';
 import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {

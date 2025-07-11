@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { DashboardContainer } from '../components/dashboard-layout/dashboard-container';
-import { UserViewContext } from '@/contexts/viewer-contexts';
+import { UserViewContext } from '@/contexts/user-view-context';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
 import { useGetAuth } from '@/hooks';

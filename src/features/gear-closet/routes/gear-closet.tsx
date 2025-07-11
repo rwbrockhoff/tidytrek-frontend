@@ -7,7 +7,7 @@ import { Flex, Heading } from '@radix-ui/themes';
 import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
-import { UserViewContext } from '@/contexts/viewer-contexts';
+import { UserViewContext } from '@/contexts/user-view-context';
 import { searchMatch } from '@/utils';
 import { cn } from '@/styles/utils/cn';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';

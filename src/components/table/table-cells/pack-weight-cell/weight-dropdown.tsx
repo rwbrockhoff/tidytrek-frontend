@@ -1,4 +1,4 @@
-import { useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks/use-user-context';
 import { Select, Text } from '@radix-ui/themes';
 
 type WeightDropdownProps = {

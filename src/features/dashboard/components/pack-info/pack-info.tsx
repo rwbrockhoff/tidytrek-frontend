@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon } from '@/components/ui';
 import { Flex, Heading, Button, Text } from '@radix-ui/themes';
-import { useUserContext } from '@/hooks/use-viewer-context';
+import { useUserContext } from '@/hooks/use-user-context';
 import { useCheckScreen } from '@/hooks/use-check-screen';
 import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
