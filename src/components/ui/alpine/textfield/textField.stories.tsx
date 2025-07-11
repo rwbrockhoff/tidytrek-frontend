@@ -4,7 +4,7 @@ import { SearchIcon } from '../../icons';
 import { Form } from 'radix-ui';
 
 const meta = {
-	title: 'Alpine UI/TextField',
+	title: 'Alpine/TextField',
 	component: TextField.Standalone,
 	parameters: {
 		layout: 'centered',

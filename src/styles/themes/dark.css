@@ -1,7 +1,7 @@
 [data-theme='dark'] {
 	/* Primary colors */
 	--color-primary: var(--sage-500);
-	--color-primary-hover: var(--sage-300);
+	--color-primary-hover: var(--sage-400);
 	--color-primary-light: var(--sage-900);
 	--color-primary-dark: var(--sage-200);
 
@@ -31,12 +31,18 @@
 	/* State colors */
 	--color-success: var(--sage-400);
 	--color-success-bg: var(--sage-900);
-	--color-error: #f87171;
-	--color-error-bg: #7f1d1d;
-	--color-warning: #facc15;
-	--color-warning-bg: #78350f;
-	--color-info: #60a5fa;
-	--color-info-bg: #1e3a8a;
+
+	--color-error: var(--red-500);
+	--color-error-hover: var(--red-400);
+	--color-error-bg: var(--red-900);
+
+	--color-warning: var(--yellow-400);
+	--color-warning-hover: var(--yellow-300);
+	--color-warning-bg: var(--yellow-900);
+
+	--color-info: var(--blue-400);
+	--color-info-hover: var(--blue-300);
+	--color-info-bg: var(--blue-900);
 
 	/* Interactive colors */
 	--color-hover: var(--gray-700);

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Table } from '../';
 
 const meta: Meta<typeof Table.Root> = {
-	title: 'Alpine UI/Table',
+	title: 'Alpine/Table',
 	component: Table.Root,
 	parameters: {
 		layout: 'padded',

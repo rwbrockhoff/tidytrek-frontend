@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as Card from './card';
+import { Button } from '../button/button';
 
 const meta: Meta<typeof Card.Root> = {
 	title: 'Alpine/Card',
@@ -49,7 +50,7 @@ export const Default: Story = {
 				</p>
 			</Card.Body>
 			<Card.Footer>
-				<button>Action</button>
+				<Button>Action</Button>
 			</Card.Footer>
 		</Card.Root>
 	),
@@ -71,7 +72,7 @@ export const Surface: Story = {
 				<p>Surface variant with medium rounded corners and classic shadow.</p>
 			</Card.Body>
 			<Card.Footer>
-				<button>Learn More</button>
+				<Button variant="outline">Learn More</Button>
 			</Card.Footer>
 		</Card.Root>
 	),

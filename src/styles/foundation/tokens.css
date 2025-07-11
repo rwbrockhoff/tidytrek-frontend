@@ -29,13 +29,41 @@
 	--color-constant-white: #ffffff;
 	--color-constant-black: #000000;
 
-	/* Accent colors */
+	/* Blue (info) */
+	--blue-50: #eff6ff;
+	--blue-100: #dbeafe;
+	--blue-200: #bfdbfe;
+	--blue-300: #93c5fd;
+	--blue-400: #60a5fa;
 	--blue-500: #3b82f6;
 	--blue-600: #2563eb;
+	--blue-700: #1d4ed8;
+	--blue-800: #1e40af;
+	--blue-900: #1e3a8a;
+
+	/* Red (error) */
+	--red-50: #fef2f2;
+	--red-100: #fee2e2;
+	--red-200: #fecaca;
+	--red-300: #fca5a5;
+	--red-400: #f87171;
 	--red-500: #ef4444;
 	--red-600: #dc2626;
+	--red-700: #b91c1c;
+	--red-800: #991b1b;
+	--red-900: #7f1d1d;
+
+	/* Yellow (warning) */
+	--yellow-50: #fefce8;
+	--yellow-100: #fef3c7;
+	--yellow-200: #fde68a;
+	--yellow-300: #fcd34d;
+	--yellow-400: #facc15;
 	--yellow-500: #eab308;
 	--yellow-600: #ca8a04;
+	--yellow-700: #a16207;
+	--yellow-800: #854d0e;
+	--yellow-900: #713f12;
 
 	/* Icon accent colors */
 	--amber-accent: #ffc53d;
@@ -100,6 +128,9 @@
 	/* -- Opacity values -- */
 	--opacity-60: 0.6;
 	--opacity-80: 0.8;
+
+	/* -- Overlay -- */
+	--color-overlay: rgba(0, 0, 0, 0.5);
 
 	/* -- Brightness filters -- */
 	--brightness-dark-2: brightness(80%);

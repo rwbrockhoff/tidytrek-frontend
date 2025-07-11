@@ -3,7 +3,7 @@ import { TextArea } from '../';
 import { Form } from 'radix-ui';
 
 const meta: Meta<typeof TextArea.Input> = {
-	title: 'Alpine UI/TextArea',
+	title: 'Alpine/TextArea',
 	component: TextArea.Input,
 	parameters: {
 		layout: 'centered',

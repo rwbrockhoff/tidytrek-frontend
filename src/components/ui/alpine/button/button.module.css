@@ -1,0 +1,194 @@
+/* Alpine - Button Component */
+
+/* Button - Root */
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	border-radius: var(--radius);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	transition: var(--transition);
+	cursor: pointer;
+	border: 1px solid transparent;
+	text-decoration: none;
+	position: relative;
+	gap: var(--space-xs);
+}
+
+.button:focus-visible {
+	outline: 2px solid var(--color-border-focus);
+	outline-offset: 2px;
+}
+
+/* Button - Sizes */
+.buttonSm {
+	height: 2rem;
+	padding: 0 var(--space-sm);
+	font-size: var(--font-size-sm);
+}
+
+.buttonMd {
+	height: 2.5rem;
+	padding: 0 var(--space-md);
+	font-size: var(--font-size-base);
+}
+
+.buttonLg {
+	height: 3rem;
+	padding: 0 var(--space-lg);
+	font-size: var(--font-size-lg);
+}
+
+/* Button - Icon Only */
+.buttonIconOnly {
+	aspect-ratio: 1;
+	padding: 0;
+}
+
+.buttonSm.buttonIconOnly {
+	width: 2rem;
+}
+
+.buttonMd.buttonIconOnly {
+	width: 2.5rem;
+}
+
+.buttonLg.buttonIconOnly {
+	width: 3rem;
+}
+
+/* Button - Variants */
+.buttonDefault {
+	background-color: var(--color-primary);
+	color: var(--color-constant-white);
+	border-color: var(--color-primary);
+}
+
+.buttonDefault:hover {
+	background-color: var(--color-primary-hover);
+	border-color: var(--color-primary-hover);
+}
+
+.buttonDanger {
+	background-color: var(--color-error);
+	color: var(--color-constant-white);
+	border-color: var(--color-error);
+}
+
+.buttonDanger:hover {
+	background-color: var(--color-error-hover);
+	border-color: var(--color-error-hover);
+}
+
+.buttonOutline {
+	background-color: transparent;
+	color: var(--color-text-primary);
+	border-color: var(--color-border-primary);
+}
+
+.buttonOutline:hover {
+	background-color: var(--color-hover);
+	border-color: var(--color-border-secondary);
+}
+
+.buttonSecondary {
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-primary);
+	border-color: var(--color-border-primary);
+}
+
+.buttonSecondary:hover {
+	background-color: var(--color-bg-tertiary);
+}
+
+.buttonGhost {
+	background-color: transparent;
+	color: var(--color-text-primary);
+	border-color: transparent;
+}
+
+.buttonGhost:hover {
+	background-color: var(--color-hover);
+}
+
+.buttonLink {
+	background-color: transparent;
+	color: var(--color-primary);
+	border-color: transparent;
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.buttonLink:hover {
+	text-decoration: none;
+}
+
+/* Button - States */
+.buttonDisabled {
+	opacity: var(--opacity-80);
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.buttonLoading {
+	color: transparent;
+}
+
+/* Button - Icons */
+.iconLeft,
+.iconRight {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Ensure icon position regardless of element order */
+.iconLeft {
+	order: -1;
+}
+
+.iconRight {
+	order: 1;
+}
+
+.buttonSm .iconLeft,
+.buttonSm .iconRight {
+	width: var(--icon-match);
+	height: var(--icon-match);
+}
+
+.buttonMd .iconLeft,
+.buttonMd .iconRight {
+	width: var(--icon-sm);
+	height: var(--icon-sm);
+}
+
+.buttonLg .iconLeft,
+.buttonLg .iconRight {
+	width: var(--icon-md);
+	height: var(--icon-md);
+}
+
+/* Button - Loading */
+.spinner {
+	position: absolute;
+	width: var(--icon-match);
+	height: var(--icon-match);
+	border: 2px solid transparent;
+	border-top: 2px solid currentColor;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+.buttonDefault .spinner,
+.buttonDanger .spinner {
+	border-top-color: var(--color-constant-white);
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
