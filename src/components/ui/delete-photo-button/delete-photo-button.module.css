@@ -1,0 +1,14 @@
+.deletePhotoButton {
+	position: absolute;
+	z-index: 10;
+	top: -5px;
+	right: -5px;
+	cursor: pointer;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+	transition: filter var(--transition);
+}
+
+.deletePhotoButton:hover {
+	filter: brightness(95%);
+}

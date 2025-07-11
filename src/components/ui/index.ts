@@ -1,5 +1,5 @@
 export * from './avatar/avatar';
-export * from './button/button';
+export * from './delete-photo-button/delete-photo-button';
 export * from './container/container';
 export * from './dimmer/dimmer';
 export * from './link/link';

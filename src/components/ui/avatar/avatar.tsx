@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DeleteButton, Link, Spinner } from '@/components/ui';
+import { DeletePhotoButton, Link, Spinner } from '@/components/ui';
 import { Dimmer } from '@/components/ui';
 import { UploadFile } from '@/components/upload-file/upload-file';
 import { defaultAvatarPhoto } from '@/utils';
@@ -42,7 +42,7 @@ export const Avatar = (props: AvatarProps) => {
 				className={cn(styles.outerContainer, styles[size], mx.uploadHoverContainer)}
 				onMouseOver={() => setShowButton(true)}
 				onMouseLeave={() => setShowButton(false)}>
-				{displayDeleteButton && <DeleteButton disabled={isPending} onClick={onDelete} />}
+				{displayDeleteButton && <DeletePhotoButton disabled={isPending} onClick={onDelete} />}
 
 				<div
 					className={cn(
