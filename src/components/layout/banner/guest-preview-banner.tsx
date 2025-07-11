@@ -9,7 +9,7 @@ export const GuestPreviewBanner = () => {
 		<Flex align="center" gap="4">
 			<Link to={`/pack/${packId}`}>
 				<Button size="1" variant="outline" radius="large">
-					<CloseIcon />
+					<CloseIcon size={16} />
 					Exit Preview
 				</Button>
 			</Link>

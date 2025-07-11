@@ -5,7 +5,8 @@ import { ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 type TableRowContext = {
 	packItem: BaseTableRowItem | null;
-	onChange: ((e: InputEvent | SelectEvent) => void) | undefined;
+	onChange: ((e: InputEvent) => void) | undefined;
+	onSelect: ((e: SelectEvent) => void) | undefined;
 	isDragging: boolean;
 	formErrors: ZodFormErrors<PackItem> | null;
 };
@@ -13,6 +14,7 @@ type TableRowContext = {
 export const TableRowContext = createContext<TableRowContext>({
 	packItem: null,
 	onChange: undefined,
+	onSelect: undefined,
 	isDragging: false,
 	formErrors: null,
 });

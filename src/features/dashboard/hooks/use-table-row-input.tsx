@@ -4,30 +4,47 @@ import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 
+// fields that should be cast from string to number on input
+const numericFields = new Set(['packItemQuantity', 'packItemWeight', 'packItemPrice']);
+
 export const useTableRowInput = (item: BaseTableRowItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
 	const [packItem, setPackItem] = useState<BaseTableRowItem>(item);
 
 	const { formErrors, updateFormErrors, resetFormErrors, primaryError } =
-		useZodError<BaseTableRowItem>(['packItemQuantity', 'packItemWeight', 'packItemPrice']);
+		useZodError<BaseTableRowItem>([
+			'packItemQuantity',
+			'packItemWeight',
+			'packItemPrice',
+		]);
 
 	useEffect(() => {
 		setPackItem({ ...item });
 	}, [item]);
 
-	const handleInput = (e: InputEvent | SelectEvent) => {
+	const updateField = (name: string, value: string) => {
 		setPackItem((prevFormData) => ({
 			...prevFormData,
-			[e.target?.name]: e.target?.value,
+			[name]: numericFields.has(name) ? Number(value) : value,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
-		// clear errors
-		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors as (property: keyof BaseTableRowItem) => void);
+	};
+	const onChange = (e: InputEvent) => {
+		const { name, value } = e.target as HTMLInputElement;
+		updateField(name, value);
+		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors as any);
+	};
+
+	const onSelect = (e: SelectEvent) => {
+		const { name, value } = e.target as HTMLSelectElement;
+		updateField(name, value);
+		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors as any);
 	};
 
 	return {
 		packItem,
-		handleInput,
+		onChange,
+		onSelect,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,

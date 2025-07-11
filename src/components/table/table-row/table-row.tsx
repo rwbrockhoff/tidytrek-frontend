@@ -58,7 +58,8 @@ export const TableRowComponent = (props: TableRowProps) => {
 
 	const {
 		packItem,
-		handleInput,
+		onChange,
+		onSelect,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
@@ -107,7 +108,13 @@ export const TableRowComponent = (props: TableRowProps) => {
 			{(provided, { isDragging }) => {
 				return (
 					<TableRowContext.Provider
-						value={{ packItem, onChange: handleInput, isDragging, formErrors }}>
+						value={{
+							packItem,
+							onChange,
+							onSelect,
+							isDragging,
+							formErrors,
+						}}>
 						<>
 							<Table.Row
 								data-testid="pack-item-row"

@@ -93,7 +93,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					<Flex align="center" wrap="wrap">
 						{userLocation && (
 							<Text mr="4" className={styles.locationText}>
-								<LocationIcon /> {userLocation}
+								<LocationIcon size={16} /> {userLocation}
 							</Text>
 						)}
 
