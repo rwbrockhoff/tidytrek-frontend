@@ -10,13 +10,14 @@ import { Flex, Heading, Text } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useCategoryInfo } from '../../hooks/use-category-info';
 import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
 import { ExternalLink } from '@/components/ui';
-import { ShareSettings } from './share-settings';
+import { ShareSettings } from './share-settings/share-settings';
 import { PackLabels } from '@/components';
-import { ProfileInfo } from './profile-info';
+import { ProfileInfo } from './profile-info/profile-info';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -42,6 +43,8 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { publicProfile } = settings || {};
+	
+	const { packHasWeight } = useCategoryInfo(packCategories, 'lb');
 
 	return (
 		<Flex
@@ -95,16 +98,18 @@ export const PackInfo = (props: PackInfoProps) => {
 					{packDescription}
 				</Text>
 				<PackLabels pack={currentPack} />
-				<Flex my="6">
-					<Button
-						variant="outline"
-						size="lg"
-						onClick={handleTogglePackChart}
-						iconLeft={<ChartIcon />}
-						className={styles.toggleChartButton}>
-						{showPackChart ? 'Hide' : 'Show'} Pack Chart
-					</Button>
-				</Flex>
+				{packHasWeight && (
+					<Flex my="6">
+						<Button
+							variant="outline"
+							size="lg"
+							onClick={handleTogglePackChart}
+							iconLeft={<ChartIcon />}
+							className={styles.toggleChartButton}>
+							{showPackChart ? 'Hide' : 'Show'} Pack Chart
+						</Button>
+					</Flex>
+				)}
 			</div>
 
 			{/* Right Hand Panel */}

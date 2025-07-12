@@ -1,0 +1,42 @@
+.outerPanel {
+	width: 50%;
+	height: 100%;
+	transition: max-height 350ms ease-in-out;
+}
+
+.outerPanel.hidden {
+	max-height: 0;
+	margin-bottom: 0;
+}
+
+.chartPanel {
+	width: 50%;
+	margin-left: var(--space-min);
+}
+
+.summaryPanel {
+	padding-right: var(--space-md);
+	height: 100%;
+}
+
+@media (max-width: 768px) {
+	.outerPanel {
+		width: 100%;
+		overflow: hidden;
+		flex-direction: column-reverse;
+		max-height: 100%;
+		margin-bottom: var(--space-xxl);
+	}
+
+	.chartPanel {
+		width: 100%;
+		margin-left: 0;
+		margin-bottom: var(--space-xl);
+		padding: 0 var(--space-sm);
+	}
+
+	.summaryPanel {
+		padding-right: 0;
+		align-items: center;
+	}
+}

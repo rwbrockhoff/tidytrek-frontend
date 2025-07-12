@@ -1,0 +1,13 @@
+.graphicPanel {
+	height: 100%;
+	min-height: 200px;
+	max-height: 400px;
+}
+
+.graphicPanel img {
+	height: 100%;
+}
+
+.graphicPanel svg {
+	margin-right: var(--space-xs);
+}

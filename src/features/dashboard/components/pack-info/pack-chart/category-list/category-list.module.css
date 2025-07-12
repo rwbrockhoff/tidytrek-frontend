@@ -1,0 +1,26 @@
+// Shows 5 pack categories (2.5em each) + accounts for gap
+.chartList {
+	width: 100%;
+	max-height: 8.5em;
+	overflow-y: auto;
+	padding-right: var(--space-sm);
+	gap: var(--space-xs);
+}
+
+.chartItem {
+	height: 2.5em;
+	font-size: var(--font-size-sm);
+}
+
+.chartItem p {
+	margin-right: var(--space-xs);
+}
+
+.styledText {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 15ch;
+	margin-right: var(--space-xs);
+}
+

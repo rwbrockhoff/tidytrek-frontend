@@ -1,13 +1,8 @@
-import styles from './pack-graphic.module.css';
-import { cn, mx } from '@/styles/utils';
 import { Category } from '@/types/pack-types';
-import { PackChart } from './pack-chart';
-import { Badge, Flex, Separator, Text } from '@radix-ui/themes';
-import { CircleIcon, DownArrowIcon } from '@/components/ui';
-import CampGraphic from '@/assets/camping.svg';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
-import { PackSummaryPanel } from '../pack-summary-panel';
 import { useUserContext } from '@/hooks/auth/use-user-context';
+import { PackChartView } from './pack-chart-view';
+import { PackEmptyState } from './pack-empty-state';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -34,65 +29,21 @@ export const PackGraphic = (props: PackGraphicProps) => {
 
 	if (packHasWeight) {
 		return (
-			<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
-				<Flex
-					direction="column"
-					align="end"
-					className={cn(styles.summaryPanel, mx.responsiveContent)}>
-					<Flex role="list" direction="column" gap="1" className={styles.chartList}>
-						{chartCategoryInfo.map((category) => {
-							return (
-								<Flex
-									align="center"
-									key={category.categoryId}
-									className={styles.chartItem}>
-									<Text className={styles.styledText}>
-										<Flex align="center" gap="2">
-											<CircleIcon
-												className="lucide-sm"
-												style={{
-													fill: `var(--${category.chartColor})`,
-													color: 'transparent',
-												}}
-											/>
-											{category.categoryName || 'Category'}
-										</Flex>
-									</Text>
-									<Badge color="gray" ml="auto">
-										{category.totalWeight} lbs
-									</Badge>
-								</Flex>
-							);
-						})}
-					</Flex>
-					<Separator size="4" my="2" style={{ opacity: 0.5 }} />
-
-					<PackSummaryPanel
-						totalWeight={totalWeight}
-						descriptivePackWeight={descriptivePackWeight}
-						totalPackPrice={totalPackPrice}
-					/>
-				</Flex>
-				<Flex align="center" justify="end" className={styles.chartPanel}>
-					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</Flex>
-			</Flex>
+			<PackChartView
+				packCategories={packCategories}
+				chartCategoryInfo={chartCategoryInfo}
+				categoryWeights={categoryWeights}
+				totalWeight={totalWeight}
+				descriptivePackWeight={descriptivePackWeight}
+				totalPackPrice={totalPackPrice}
+				display={display}
+			/>
 		);
 	}
+
 	if (noPackWeight) {
-		return (
-			<Flex
-				align="center"
-				justify="end"
-				className={cn(styles.graphicPanel, mx.mobileHidden, mx.responsiveContent)}>
-				<Flex direction="column" height="auto">
-					<img src={CampGraphic} />
-					<Flex justify="center" align="center">
-						<DownArrowIcon />
-						<Text>Add items below to get started</Text>
-					</Flex>
-				</Flex>
-			</Flex>
-		);
-	} else return null;
+		return <PackEmptyState />;
+	}
+
+	return null;
 };
