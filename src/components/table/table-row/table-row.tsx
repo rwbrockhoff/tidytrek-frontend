@@ -156,6 +156,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 													<Button
 														onClick={() => setToggleGearButtons(!toggleGearButtons)}
 														variant="ghost"
+														size="sm"
 														data-testid="move-pack-item-button"
 														aria-label="Move pack item"
 														iconLeft={<ShareIcon size={16} />}
@@ -170,6 +171,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 													<Flex align="center">
 														<Button
 															variant="ghost"
+															size="sm"
 															data-testid="delete-pack-item-button"
 															aria-label="Delete pack item"
 															iconLeft={<TrashIcon size={16} />}

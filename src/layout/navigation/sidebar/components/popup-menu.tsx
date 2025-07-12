@@ -19,7 +19,7 @@ export const PopupMenu = (props: PopupMenuProps) => {
 			<Popover.Trigger>
 				<div>
 					<Link to="/profile" enabled={!isMobile}>
-						<Avatar src={profilePhotoUrl} size="small" />
+						<Avatar src={profilePhotoUrl} size={isMobile ? "medium" : "small"} />
 					</Link>
 				</div>
 			</Popover.Trigger>

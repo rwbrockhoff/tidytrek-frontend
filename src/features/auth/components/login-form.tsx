@@ -73,7 +73,7 @@ export const LogInForm = (props: AuthFormProps) => {
 
 				<Text>or</Text>
 
-				<Box px="4">
+				<Box px="4" mb="4">
 					<Form ref={formRef} onSubmit={handleFormSubmit}>
 						{isRegisterForm && (
 							<>
@@ -130,9 +130,15 @@ export const LogInForm = (props: AuthFormProps) => {
 								id="auth-message"
 							/>
 						)}
-						<Button type="submit" style={{ width: '100%' }} size="md" loading={isLoading}>
-							{isRegisterForm ? 'Create account' : 'Login'}
-						</Button>
+						<Box mt="4">
+							<Button
+								type="submit"
+								style={{ width: '100%' }}
+								size="md"
+								loading={isLoading}>
+								{isRegisterForm ? 'Create account' : 'Login'}
+							</Button>
+						</Box>
 					</Form>
 				</Box>
 
@@ -151,10 +157,12 @@ export const LogInForm = (props: AuthFormProps) => {
 				)}
 
 				{!isRegisterForm && (
-					<Text size="3" mt="4">
-						<RouterLink to={'/register'}>Sign Up</RouterLink> |{' '}
-						<RouterLink to={'/reset-password'}>Forgot Your Password</RouterLink>
-					</Text>
+					<Flex mt="4" justify="center">
+						<Text size="3">
+							<RouterLink to={'/register'}>Sign Up</RouterLink> |{' '}
+							<RouterLink to={'/reset-password'}>Forgot Your Password</RouterLink>
+						</Text>
+					</Flex>
 				)}
 			</Segment>
 		</FormContainer>

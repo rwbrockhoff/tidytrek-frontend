@@ -81,8 +81,8 @@
 
 	.viewLayoutContainer {
 		/* Mobile layout padding - header height + extra space */
-		padding: calc(var(--mobile-header-height) + var(--space-sm)) var(--space-md)
-			var(--space-lg) var(--space-md);
+		padding: calc(var(--mobile-header-height) + var(--space-lg)) var(--space-md)
+			var(--space-xxl) var(--space-md);
 		flex: 1;
 	}
 

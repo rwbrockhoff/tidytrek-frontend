@@ -11,7 +11,12 @@
 
 @media (max-width: 768px) {
 	.newPackButton {
-		font-size: var(--font-size-base);
+		font-size: var(--font-size-xl);
 		margin-top: var(--space-md);
+		padding-left: 0;
+	}
+
+	.menuButton {
+		font-size: var(--font-size-xl);
 	}
 }

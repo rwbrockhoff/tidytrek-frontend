@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './create-pack-menu.module.css';
 import { PlusIcon, ImportIcon } from '@/components/ui';
 import { useAddNewPackMutation } from '@/queries/pack-queries';
-import { Button, Flex, Popover } from '@radix-ui/themes';
+import { Flex, Popover } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { encode } from '@/utils';
 import { ImportPackDialog } from './import-pack-dialog';
 

@@ -6,7 +6,8 @@ import {
 	ShareIcon,
 	ShareLinkIcon,
 } from '@/components/ui';
-import { Popover, Heading, Flex, Button } from '@radix-ui/themes';
+import { Popover, Heading, Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
 import { useUserContext } from '@/hooks/auth/use-user-context';
@@ -52,10 +53,9 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 						<Flex gap="2">
 							<TextField.Standalone value={packLink} readOnly />
 
-							<Button 
+							<Button
 								onClick={handleCopyToClipboard}
-								iconLeft={linkCopied ? <CheckIcon size={16} /> : <ShareIcon size={16} />}
-							>
+								iconLeft={linkCopied ? <CheckIcon size={16} /> : <ShareIcon size={16} />}>
 								{linkCopied ? 'Copied' : 'Copy Link'}
 							</Button>
 						</Flex>

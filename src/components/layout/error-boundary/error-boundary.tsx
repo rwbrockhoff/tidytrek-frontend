@@ -35,7 +35,6 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 			{hasResetFunction && (
 				<Button
 					size="md"
-					variant="primary"
 					className={styles.styledButton}
 					onClick={() => props.resetErrorBoundary()}>
 					Retry Request

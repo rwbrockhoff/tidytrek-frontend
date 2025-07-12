@@ -98,14 +98,16 @@ export const PackInfo = (props: PackInfoProps) => {
 					{packDescription}
 				</Text>
 				<PackLabels pack={currentPack} />
-				<Button
-					variant="outline"
-					size="lg"
-					onClick={handleTogglePackChart}
-					iconLeft={<ChartIcon />}
-					className={styles.toggleChartButton}>
-					{showPackChart ? 'Hide' : 'Show'} Pack Chart
-				</Button>
+				<Flex my="6">
+					<Button
+						variant="outline"
+						size="lg"
+						onClick={handleTogglePackChart}
+						iconLeft={<ChartIcon size={16} />}
+						className={styles.toggleChartButton}>
+						{showPackChart ? 'Hide' : 'Show'} Pack Chart
+					</Button>
+				</Flex>
 			</div>
 
 			{/* Right Hand Panel */}

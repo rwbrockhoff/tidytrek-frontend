@@ -5,6 +5,7 @@
 }
 
 .outerContainer {
+	position: relative;
 	overflow: visible;
 	border: none;
 	border-radius: 0px;

@@ -22,3 +22,9 @@
 	top: 0;
 	padding-right: var(--space-xs);
 }
+
+@media (max-width: 768px) {
+	.styledText {
+		font-size: var(--font-size-xl);
+	}
+}

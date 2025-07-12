@@ -1,12 +1,9 @@
 .flexContainer {
 	height: 100%;
 	justify-content: center;
-	gap: var(--space-xs);
-}
-
-.flexContainer > * {
-	padding: var(--space-xs);
-	cursor: pointer;
+	padding: 0 var(--space-min);
+	gap: var(--space-min);
+	margin-right: var(--space-min);
 }
 
 .flexContainer svg {

@@ -40,7 +40,7 @@ export const DeleteModal = (props: DeleteModalProps) => {
 					<Dialog.Close>
 						<Button
 							variant="danger"
-							size="lg"
+							size="md"
 							onClick={onClickDelete}
 							iconLeft={<TrashIcon size={16} />}>
 							Delete
@@ -49,7 +49,7 @@ export const DeleteModal = (props: DeleteModalProps) => {
 
 					{!simple && (
 						<Dialog.Close>
-							<Button size="3" onClick={onClickMove}>
+							<Button size="md" onClick={onClickMove}>
 								<ShareIcon size={16} /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>
@@ -88,8 +88,8 @@ export const DeleteItemModal = (props: DeleteItemModalProps) => {
 				<Flex gap="3" mt="4" justify="end">
 					<Dialog.Close>
 						<Button
-							color="tomato"
-							size="3"
+							variant="danger"
+							size="md"
 							onClick={handleDelete}
 							aria-label="Delete pack item permanently">
 							<TrashIcon size={16} /> Delete
@@ -99,7 +99,7 @@ export const DeleteItemModal = (props: DeleteItemModalProps) => {
 					{hasPackId && (
 						<Dialog.Close>
 							<Button
-								size="3"
+								size="md"
 								onClick={onClickMove}
 								aria-label="Move pack item to gear closet">
 								<ShareIcon size={16} /> Move to Gear Closet

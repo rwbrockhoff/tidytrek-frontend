@@ -14,7 +14,7 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 			className={cn(
 				styles.sidebarButton,
 				isSidebar && styles.isSidebar,
-				!isSidebar && mx.mobileHidden,
+				isSidebar && mx.mobileHidden,
 			)}
 			onClick={onClick}
 			variant="ghost">

@@ -246,16 +246,15 @@ export const PackItemEdit = () => {
 			</FormRoot>
 
 			<div className={styles.actionButtons}>
-				<Button onClick={handleSave} size="3" disabled={editItemMutation.isPending}>
+				<Button onClick={handleSave} size="md" disabled={editItemMutation.isPending}>
 					<SaveIcon size={16} />
 					Save Item
 				</Button>
 
 				<Button
 					onClick={handleDelete}
-					size="3"
-					color="tomato"
-					variant="outline"
+					variant="danger"
+					size="md"
 					disabled={deleteItemMutation.isPending}>
 					Delete Item
 				</Button>

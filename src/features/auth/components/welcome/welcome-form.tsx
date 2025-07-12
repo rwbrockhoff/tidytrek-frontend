@@ -100,14 +100,13 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 			</Heading>
 
 			<Segment radius="2">
-				<Heading as="h3" size="6" color="jade" mb="4">
+				<Heading as="h3" size="6" mb="6">
 					Welcome to Tidytrek!
 				</Heading>
 
 				<Form onSubmit={handleFormSubmit}>
 					<TextField.Input
 						name="username"
-						label="Username"
 						value={username}
 						onChange={handleInput}
 						placeholder="Username"
@@ -121,7 +120,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 								type="button"
 								onClick={handleGenerateUsername}
 								aria-label="Generate random username">
-								<RefreshIcon />
+								<RefreshIcon size={16} />
 							</IconButton>
 						}
 					/>
@@ -131,7 +130,6 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 						value={trailName}
 						placeholder="Trail Name"
 						onChange={handleInput}
-						label="Trail Name"
 						error={formErrors.trailName}
 					/>
 

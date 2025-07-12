@@ -92,7 +92,11 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 							</Select.Group>
 						</Select.Content>
 					</Select.Root>
-					<Button size="md" disabled={!categoryId} onClick={handleMoveItemToPack} iconLeft={<MoveDownIcon size={16} />}>
+					<Button
+						size="sm"
+						disabled={!categoryId}
+						onClick={handleMoveItemToPack}
+						iconLeft={<MoveDownIcon fontSize={'1em'} />}>
 						Move Item
 					</Button>
 				</Flex>
