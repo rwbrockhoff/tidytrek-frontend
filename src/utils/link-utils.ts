@@ -1,18 +1,34 @@
-export const normalizeURL = (link: string) => {
+// Normalize URLs before sending to API
+export const normalizeURL = (link: string): string => {
 	if (!link) return '';
-	if (link.includes('http:')) return link.replace('http:', 'https:');
-	if (link.includes('https://')) return link;
-	else return `https://${link}`;
+
+	const trimmed = link.trim();
+
+	if (trimmed.startsWith('https://')) return trimmed;
+
+	// Handle http
+	if (trimmed.startsWith('http://')) {
+		return trimmed.replace('http://', 'https://');
+	}
+
+	// Fallback - add https
+	return `https://${trimmed}`;
 };
 
-// Shorten social link for display in profile badges
-export const shortenURL = (link: string, socialName: string) => {
-	const baseLink = link.replace(/^https?\:\/\//i, '');
-	// handle custom links
-	if (socialName === 'custom') return baseLink;
-	// handle social media links
-	const initialIndex = baseLink.indexOf('/');
-	const index = initialIndex >= 0 ? initialIndex : 0;
+// Shorten URL for profile badges
+export const shortenURL = (link: string, socialName: string): string => {
+	if (!link) return '';
 
-	return baseLink.slice(index);
+	// Remove https://
+	const withoutHttps = link.replace(/^https?:\/\//i, '');
+
+	// For custom links, show the whole link
+	if (socialName === 'custom') return withoutHttps;
+
+	// For social media links, show only the username/handle
+	const pathStartIndex = withoutHttps.indexOf('/');
+
+	if (pathStartIndex === -1) return withoutHttps;
+
+	return withoutHttps.slice(pathStartIndex);
 };
