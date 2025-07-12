@@ -15,19 +15,3 @@
   margin: 0 var(--space-min);
 }
 
-.displayLink {
-  display: flex;
-  align-items: center;
-}
-
-.displayLink svg {
-  margin-right: var(--space-min);
-}
-
-.displayLink span {
-  color: var(--color-primary);
-}
-
-.displayLink:hover {
-  filter: brightness(85%);
-}

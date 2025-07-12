@@ -59,6 +59,7 @@ const Content = forwardRef<React.ElementRef<typeof Dialog.Content>, ModalContent
 	({ className, size = 'md', children, ...props }, ref) => {
 		return (
 			<Dialog.Portal>
+				<Overlay />
 				<Dialog.Content
 					ref={ref}
 					className={cn(

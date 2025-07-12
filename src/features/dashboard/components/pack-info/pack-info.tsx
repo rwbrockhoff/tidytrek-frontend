@@ -5,14 +5,14 @@ import styles from './pack-info.module.css';
 import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon } from '@/components/ui';
+import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/ui';
 import { Flex, Heading, Button, Text } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
-import { DisplayLink } from '@/components/ui';
+import { ExternalLink } from '@/components/ui';
 import { ShareSettings } from './share-settings';
 import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info';
@@ -57,7 +57,6 @@ export const PackInfo = (props: PackInfoProps) => {
 						publicProfile={publicProfile}
 					/>
 				)}
-
 				<Flex align="center" gap="2" mb="2">
 					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
@@ -84,24 +83,20 @@ export const PackInfo = (props: PackInfoProps) => {
 						</PackModal>
 					)}
 				</Flex>
-
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
-
 				{packUrl && (
-					<DisplayLink
-						url={packUrl}
-						text={packUrlName || packUrl || 'Pack Link'}
-						showIcon
-						margin="var(--space-xs)0 0 0"
-					/>
+					<ExternalLink 
+						href={packUrl}
+						className={styles.packLink}
+					>
+						<LinkIcon size={16} />
+						{packUrlName || packUrl || 'Pack Link'}
+					</ExternalLink>
 				)}
-
 				<Text my="2" className={styles.descriptionText}>
 					{packDescription}
 				</Text>
-
 				<PackLabels pack={currentPack} />
-
 				<Button
 					variant="outline"
 					my="6"

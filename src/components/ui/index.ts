@@ -3,6 +3,8 @@ export * from './delete-photo-button/delete-photo-button';
 export * from './container/container';
 export * from './dimmer/dimmer';
 export * from './link/link';
+export { ExternalLink } from './link/external-link';
+export { LandingLink } from './link/landing-link';
 export * from './message/message';
 export * from './modals/modals';
 export * from './icons';

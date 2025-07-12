@@ -4,7 +4,7 @@ import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/ui/alpine';
 import { GripButton, MobileToggleButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { DisplayLink } from '@/components/ui';
+import { ExternalLink, LinkIcon } from '@/components/ui';
 import { LinkPopup } from './link-popup';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
@@ -60,11 +60,10 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					<LinkPopup displayIcon={displayIcon} />
 				</Flex>
 			) : packItemUrl ? (
-				<DisplayLink
-					url={packItemUrl || ''}
-					text={packItemName || packItemUrl || 'Pack Item'}
-					showIcon
-				/>
+				<ExternalLink href={packItemUrl}>
+					<LinkIcon size={16} />
+					{packItemName || packItemUrl || 'Pack Item'}
+				</ExternalLink>
 			) : (
 				<TextField.Standalone
 					value={packItemName || ''}

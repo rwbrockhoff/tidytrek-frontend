@@ -2,7 +2,7 @@ import { type SocialLinkInfo } from '@/types/profile-types';
 import styles from './social-button.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Badge, IconButton, Flex } from '@radix-ui/themes';
-import { Link, CloseIcon } from '@/components/ui';
+import { ExternalLink, CloseIcon } from '@/components/ui';
 import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
 
 type SocialButtonProps = {
@@ -37,10 +37,10 @@ export const SocialButton = (props: SocialButtonProps) => {
 	return (
 		<Flex asChild align="center" className={styles.styledBadge} onClick={handleClick}>
 			<Badge radius="large">
-				<Link to={socialLinkUrl} externalLink>
+				<ExternalLink href={socialLinkUrl || ''}>
 					{icon}
 					{displayLink || 'Link'}
-				</Link>
+				</ExternalLink>
 				{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
 			</Badge>
 		</Flex>
