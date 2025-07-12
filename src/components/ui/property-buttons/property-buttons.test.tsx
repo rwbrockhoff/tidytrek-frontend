@@ -85,7 +85,9 @@ describe('PropertyButtons', () => {
 			});
 			wrappedRender(<PropertyButtons {...props} />);
 
-			const favoriteIcon = screen.getByLabelText(/toggle favorite/i);
+			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+			const favoriteIcon = favoriteButton.querySelector('svg');
+			
 			expect(favoriteIcon).toHaveClass(/disabledIcon/);
 			expect(favoriteIcon).toHaveStyle({ 'pointer-events': 'none' });
 		});
@@ -101,13 +103,17 @@ describe('PropertyButtons', () => {
 			});
 			wrappedRender(<PropertyButtons {...props} />);
 
-			const favoriteIcon = screen.getByLabelText(/toggle favorite/i);
-			const consumableIcon = screen.getByLabelText(/toggle consumables/i);
-			const wornWeightIcon = screen.getByLabelText(/toggle worn weight/i);
+			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+			const consumableButton = screen.getByLabelText(/toggle consumables/i);
+			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
 
-			expect(favoriteIcon).toHaveStyle({ opacity: '100' });
-			expect(consumableIcon).toHaveStyle({ opacity: '100' });
-			expect(wornWeightIcon).toHaveStyle({ opacity: '100' });
+			const favoriteIcon = favoriteButton.querySelector('svg');
+			const consumableIcon = consumableButton.querySelector('svg');
+			const wornWeightIcon = wornWeightButton.querySelector('svg');
+
+			expect(favoriteIcon).toHaveStyle({ opacity: '1' });
+			expect(consumableIcon).toHaveStyle({ opacity: '1' });
+			expect(wornWeightIcon).toHaveStyle({ opacity: '1' });
 		});
 
 		it('shows only active buttons when showAlways is false', () => {
@@ -119,13 +125,17 @@ describe('PropertyButtons', () => {
 			});
 			wrappedRender(<PropertyButtons {...props} />);
 
-			const favoriteIcon = screen.getByLabelText(/toggle favorite/i);
-			const consumableIcon = screen.getByLabelText(/toggle consumables/i);
-			const wornWeightIcon = screen.getByLabelText(/toggle worn weight/i);
+			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+			const consumableButton = screen.getByLabelText(/toggle consumables/i);
+			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
 
-			expect(favoriteIcon).toHaveStyle({ opacity: '100' });
+			const favoriteIcon = favoriteButton.querySelector('svg');
+			const consumableIcon = consumableButton.querySelector('svg');
+			const wornWeightIcon = wornWeightButton.querySelector('svg');
+
+			expect(favoriteIcon).toHaveStyle({ opacity: '1' });
 			expect(consumableIcon).toHaveStyle({ opacity: '0' });
-			expect(wornWeightIcon).toHaveStyle({ opacity: '100' });
+			expect(wornWeightIcon).toHaveStyle({ opacity: '1' });
 		});
 	});
 
@@ -139,9 +149,17 @@ describe('PropertyButtons', () => {
 			});
 			wrappedRender(<PropertyButtons {...props} />);
 
-			expect(screen.getByLabelText(/toggle favorite/i)).toHaveClass(/favoriteActive/);
-			expect(screen.getByLabelText(/toggle consumables/i)).toHaveClass(/consumableActive/);
-			expect(screen.getByLabelText(/toggle worn weight/i)).toHaveClass(/wornWeightActive/);
+			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+			const consumableButton = screen.getByLabelText(/toggle consumables/i);
+			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
+
+			const favoriteIcon = favoriteButton.querySelector('svg');
+			const consumableIcon = consumableButton.querySelector('svg');
+			const wornWeightIcon = wornWeightButton.querySelector('svg');
+
+			expect(favoriteIcon).toHaveClass(/favoriteActive/);
+			expect(consumableIcon).toHaveClass(/consumableActive/);
+			expect(wornWeightIcon).toHaveClass(/wornWeightActive/);
 		});
 	});
 });

@@ -55,7 +55,7 @@ export const PropertyButtons = ({
 							favorite && styles.favoriteActive,
 							isDisabled && styles.disabledIcon,
 						)}
-						style={{ opacity: showAlways || favorite ? 100 : 0 }}
+						style={{ opacity: showAlways || favorite ? 1 : 0 }}
 					/>
 				}
 			/>
@@ -73,7 +73,7 @@ export const PropertyButtons = ({
 								consumable && styles.consumableActive,
 								isDisabled && styles.disabledIcon,
 							)}
-							style={{ opacity: showAlways || consumable ? 100 : 0 }}
+							style={{ opacity: showAlways || consumable ? 1 : 0 }}
 						/>
 					}
 				/>
@@ -92,7 +92,7 @@ export const PropertyButtons = ({
 								wornWeight && styles.wornWeightActive,
 								isDisabled && styles.disabledIcon,
 							)}
-							style={{ opacity: showAlways || wornWeight ? 100 : 0 }}
+							style={{ opacity: showAlways || wornWeight ? 1 : 0 }}
 						/>
 					}
 				/>

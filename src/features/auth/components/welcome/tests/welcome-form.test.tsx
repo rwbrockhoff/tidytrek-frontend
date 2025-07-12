@@ -93,7 +93,7 @@ describe('WelcomeForm', () => {
 	});
 
 	describe('Form Validation', () => {
-		it('shows validation error when submitting without username', async () => {
+		it('shows validation error with empty username', async () => {
 			const { user } = renderWelcomeForm('initial_username');
 
 			// Clear the username field
@@ -103,14 +103,13 @@ describe('WelcomeForm', () => {
 			// Save username/submit form
 			await user.click(screen.getByRole('button', { name: /save/i }));
 
-			// Should show validation error (and be accessible)
 			await vi.waitFor(() => {
-				// Input accessibility
-				expect(usernameInput).toHaveAccessibleName();
-				expect(usernameInput).toHaveAttribute('aria-invalid', 'true');
-				expect(usernameInput).toHaveAttribute('aria-describedby', 'username-error');
-				
-				// Error message accessibility and content
+				// Re-query the input after state change
+				const usernameInputAfterValidation = screen.getByLabelText('Username');
+
+				expect(usernameInputAfterValidation).toHaveAccessibleName();
+				expect(usernameInputAfterValidation).toHaveAttribute('aria-invalid', 'true');
+
 				const errorMessage = document.getElementById('username-error');
 				expect(errorMessage).toBeInTheDocument();
 				expect(errorMessage).toHaveTextContent('Username must be at least');

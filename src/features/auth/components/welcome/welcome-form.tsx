@@ -110,6 +110,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 						value={username}
 						onChange={handleInput}
 						placeholder="Username"
+						aria-label="Username"
 						error={formErrors.username}
 						variant="icon"
 						iconPosition="right"
