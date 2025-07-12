@@ -96,7 +96,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 						size="sm"
 						disabled={!categoryId}
 						onClick={handleMoveItemToPack}
-						iconLeft={<MoveDownIcon fontSize={'1em'} />}>
+						iconLeft={<MoveDownIcon />}>
 						Move Item
 					</Button>
 				</Flex>

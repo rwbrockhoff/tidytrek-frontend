@@ -1,8 +1,8 @@
-import { Popover, IconButton, Flex } from '@radix-ui/themes';
+import { Popover, Flex } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { CheckIcon, SaveIcon, TrashIcon } from '@/components/ui';
-import { cleanUpLink } from '@/utils/link-utils';
+import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import { LinkIcon } from '@/components/ui';
@@ -37,7 +37,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 
 	const handleSaveLink = () => {
 		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
-			const cleanUrl = cleanUpLink(newPackItemUrl);
+			const cleanUrl = normalizeURL(newPackItemUrl);
 			// Only edit if this is a pack item
 			if (isPackItem(packItem)) {
 				editPackItem({
@@ -62,16 +62,21 @@ export const LinkPopup = (props: LinkPopupProps) => {
 		return (
 			<Popover.Root>
 				<Popover.Trigger>
-					<IconButton
+					<Button
 						variant="ghost"
-						m="2"
+						size="lg"
+						override
 						className={cn(
 							styles.linkButton,
 							mx.mobileHidden,
 							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
-						)}>
-						<LinkIcon className={hasLink ? styles.linkIconActive : styles.linkIcon} />
-					</IconButton>
+						)}
+						iconLeft={
+							<LinkIcon
+								className={cn(hasLink ? styles.linkIconActive : styles.linkIcon)}
+							/>
+						}
+					/>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
 					<Flex justify="between" align="center" gap="2" p="1">
@@ -86,7 +91,6 @@ export const LinkPopup = (props: LinkPopupProps) => {
 
 						<Button
 							onClick={handleSaveLink}
-							size="md"
 							disabled={!newPackItemUrl.trim()}
 							iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
 							{isSuccess ? 'Saved' : 'Save'}
@@ -96,7 +100,6 @@ export const LinkPopup = (props: LinkPopupProps) => {
 								variant="danger"
 								onClick={handleDeleteLink}
 								disabled={!newPackItemUrl.trim()}
-								size="md"
 								iconLeft={<TrashIcon />}
 							/>
 						)}

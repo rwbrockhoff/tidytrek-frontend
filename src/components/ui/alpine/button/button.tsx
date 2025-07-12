@@ -5,9 +5,11 @@ import styles from './button.module.css';
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: 'default' | 'danger' | 'outline' | 'secondary' | 'ghost' | 'link';
 	size?: 'sm' | 'md' | 'lg';
+	radius?: 'default' | 'circle';
 	loading?: boolean;
 	iconLeft?: React.ReactNode;
 	iconRight?: React.ReactNode;
+	override?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -15,9 +17,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		{
 			variant = 'default',
 			size = 'md',
+			radius = 'default',
 			loading = false,
 			iconLeft,
 			iconRight,
+			override = false,
 			className,
 			disabled,
 			children,
@@ -39,9 +43,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			size === 'sm' && styles.buttonSm,
 			size === 'md' && styles.buttonMd,
 			size === 'lg' && styles.buttonLg,
+			radius === 'circle' && styles.buttonRadiusCircle,
 			loading && styles.buttonLoading,
 			(disabled || loading) && styles.buttonDisabled,
 			isIconOnly && styles.buttonIconOnly,
+			override && 'aow',
 			className,
 		);
 

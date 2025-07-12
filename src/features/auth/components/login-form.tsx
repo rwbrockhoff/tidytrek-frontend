@@ -73,7 +73,7 @@ export const LogInForm = (props: AuthFormProps) => {
 
 				<Text>or</Text>
 
-				<Box px="4" mb="4">
+				<Box px="4" my="4">
 					<Form ref={formRef} onSubmit={handleFormSubmit}>
 						{isRegisterForm && (
 							<>
@@ -131,11 +131,7 @@ export const LogInForm = (props: AuthFormProps) => {
 							/>
 						)}
 						<Box mt="4">
-							<Button
-								type="submit"
-								style={{ width: '100%' }}
-								size="md"
-								loading={isLoading}>
+							<Button type="submit" style={{ width: '100%' }} loading={isLoading}>
 								{isRegisterForm ? 'Create account' : 'Login'}
 							</Button>
 						</Box>

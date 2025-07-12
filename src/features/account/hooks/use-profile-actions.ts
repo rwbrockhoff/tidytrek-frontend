@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { type UserInfo } from '@/types/profile-types';
 import { useProfileSettingsMutations } from './use-profile-mutations';
-import { cleanUpLink } from '@/utils/link-utils';
+import { normalizeURL } from '@/utils';
 
 export const useProfileActions = () => {
 	const mutations = useProfileSettingsMutations();
@@ -9,9 +9,9 @@ export const useProfileActions = () => {
 
 	// Add socia link
 	const handleAddSocialLink = useCallback(
-		(platformName: string, socialLinkUrl: string) => {
-			const cleanLink = cleanUpLink(socialLinkUrl);
-			addSocialLink.mutate({ platformName, socialLinkUrl: cleanLink });
+		(socialLinkUrl: string) => {
+			const cleanLink = normalizeURL(socialLinkUrl);
+			addSocialLink.mutate(cleanLink);
 		},
 		[addSocialLink],
 	);

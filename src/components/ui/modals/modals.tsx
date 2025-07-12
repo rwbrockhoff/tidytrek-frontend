@@ -38,18 +38,14 @@ export const DeleteModal = (props: DeleteModalProps) => {
 
 				<Flex gap="3" mt="4" justify="end">
 					<Dialog.Close>
-						<Button
-							variant="danger"
-							size="md"
-							onClick={onClickDelete}
-							iconLeft={<TrashIcon />}>
+						<Button variant="danger" onClick={onClickDelete} iconLeft={<TrashIcon />}>
 							Delete
 						</Button>
 					</Dialog.Close>
 
 					{!simple && (
 						<Dialog.Close>
-							<Button size="md" onClick={onClickMove}>
+							<Button onClick={onClickMove}>
 								<ShareIcon /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>

@@ -148,7 +148,9 @@ export const TableRowComponent = (props: TableRowProps) => {
 											<Button
 												onClick={() => setToggleGearButtons(!toggleGearButtons)}
 												variant="ghost"
-												size="sm"
+												size="md"
+												override
+												className={styles.tableActionButton}
 												data-testid="move-pack-item-button"
 												aria-label="Move pack item"
 												iconLeft={<ShareIcon />}
@@ -163,7 +165,9 @@ export const TableRowComponent = (props: TableRowProps) => {
 											<Flex align="center">
 												<Button
 													variant="ghost"
-													size="sm"
+													size="md"
+													override
+													className={styles.tableActionButton}
 													data-testid="delete-pack-item-button"
 													aria-label="Delete pack item"
 													iconLeft={<TrashIcon />}

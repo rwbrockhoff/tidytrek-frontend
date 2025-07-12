@@ -46,12 +46,17 @@ export const PackGraphic = (props: PackGraphicProps) => {
 									align="center"
 									key={category.categoryId}
 									className={styles.chartItem}>
-									<CircleIcon
-										className={styles.themeIcon}
-										style={{ color: `var(--${category.chartColor})` }}
-									/>
 									<Text className={styles.styledText}>
-										{category.categoryName || 'Category'}
+										<Flex align="center" gap="2">
+											<CircleIcon
+												className="lucide-sm"
+												style={{
+													fill: `var(--${category.chartColor})`,
+													color: 'transparent',
+												}}
+											/>
+											{category.categoryName || 'Category'}
+										</Flex>
 									</Text>
 									<Badge color="gray" ml="auto">
 										{category.totalWeight} lbs

@@ -31,11 +31,15 @@
 
 .headerCell {
 	vertical-align: middle;
-	color: var(--color-text-primary);
+	/* color: var(--color-text-primary); */
 }
 
 @media (max-width: 768px) {
 	.tableRow.minimized {
 		opacity: 1;
 	}
+}
+
+:global(.aow).tableActionButton {
+	padding: 0 var(--space-xs);
 }

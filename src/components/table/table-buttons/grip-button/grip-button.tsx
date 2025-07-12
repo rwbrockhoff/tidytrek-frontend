@@ -18,7 +18,7 @@ export const GripButton = ({
 			className={cn(styles.gripContainer, display && styles.gripContainerVisible)}
 			data-testid={testId}
 			{...props}>
-			<GripIcon size={20} />
+			<GripIcon className="lucide-sm" />
 		</Flex>
 	);
 };

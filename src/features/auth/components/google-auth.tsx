@@ -122,7 +122,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	};
 
 	return (
-		<Flex justify="center" width="100%" height="8" mb="4">
+		<Flex justify="center" width="100%" height="8" mb="2">
 			<div ref={google_button} />
 		</Flex>
 	);

@@ -2,7 +2,7 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect, type FormEvent } from 'react';
 import styles from './profile-form.module.css';
-import { Flex, IconButton } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { Form } from '@radix-ui/react-form';
 import { Message, RefreshIcon, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
@@ -141,14 +141,13 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 							iconPosition="right"
 							iconIsButton={true}
 							icon={
-								<IconButton
-									radius="medium"
-									size="1"
+								<Button
+									size="sm"
 									type="button"
 									onClick={handleGenerateUsername}
-									aria-label="Generate random username">
-									<RefreshIcon />
-								</IconButton>
+									aria-label="Generate random username"
+									iconLeft={<RefreshIcon />}
+								/>
 							}
 						/>
 

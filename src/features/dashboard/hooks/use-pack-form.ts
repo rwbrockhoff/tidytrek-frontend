@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
-import { cleanUpLink } from '@/utils/link-utils';
+import { normalizeURL } from '@/utils/link-utils';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import { packNameSchema } from '@/schemas/zod-schemas';
@@ -21,33 +21,44 @@ type PackFormInputs = z.infer<typeof packFormSchema>;
 
 export const usePackForm = (pack: Pack) => {
 	const { mutate: editPack } = useEditPackMutation();
-	
+
 	const [packChanged, setPackChanged] = useState(false);
 	const [modifiedPack, setModifiedPack] = useState<Pack>(pack);
 
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<PackFormInputs>(['packName']);
+	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<PackFormInputs>([
+		'packName',
+	]);
 
-	const handleClearErrors = useCallback((e: InputEvent | TextAreaEvent) => {
-		clearZodErrors<PackFormInputs>(e, formErrors, resetFormErrors);
-	}, [formErrors, resetFormErrors]);
+	const handleClearErrors = useCallback(
+		(e: InputEvent | TextAreaEvent) => {
+			clearZodErrors<PackFormInputs>(e, formErrors, resetFormErrors);
+		},
+		[formErrors, resetFormErrors],
+	);
 
-	const handleFormChange = useCallback((e: InputEvent | TextAreaEvent) => {
-		setModifiedPack((prevFormData) => ({
-			...prevFormData,
-			[e?.target?.name]: e?.target?.value,
-		}));
-		// Clear validation errors when user starts typing
-		handleClearErrors(e);
-		if (!packChanged) setPackChanged(true);
-	}, [packChanged, handleClearErrors]);
+	const handleFormChange = useCallback(
+		(e: InputEvent | TextAreaEvent) => {
+			setModifiedPack((prevFormData) => ({
+				...prevFormData,
+				[e?.target?.name]: e?.target?.value,
+			}));
+			// Clear validation errors when user starts typing
+			handleClearErrors(e);
+			if (!packChanged) setPackChanged(true);
+		},
+		[packChanged, handleClearErrors],
+	);
 
-	const handleCheckBox = useCallback((updatedCheckbox: Checkboxes) => {
-		setModifiedPack((prev) => ({
-			...prev,
-			...updatedCheckbox,
-		}));
-		if (!packChanged) setPackChanged(true);
-	}, [packChanged]);
+	const handleCheckBox = useCallback(
+		(updatedCheckbox: Checkboxes) => {
+			setModifiedPack((prev) => ({
+				...prev,
+				...updatedCheckbox,
+			}));
+			if (!packChanged) setPackChanged(true);
+		},
+		[packChanged],
+	);
 
 	const handleSubmitPack = useCallback(() => {
 		if (packChanged) {
@@ -61,7 +72,7 @@ export const usePackForm = (pack: Pack) => {
 
 			const { packId } = pack;
 			const { packUrl } = modifiedPack;
-			const cleanUrl = cleanUpLink(packUrl);
+			const cleanUrl = normalizeURL(packUrl);
 			editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
 			return true; // Success
 		}

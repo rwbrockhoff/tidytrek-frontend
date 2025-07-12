@@ -1,4 +1,8 @@
-import { type ProfileInfo, type SocialLink, type UserProfile } from '@/types/profile-types';
+import {
+	type ProfileInfo,
+	type SocialLink,
+	type UserProfile,
+} from '@/types/profile-types';
 
 // Create mock data
 export const createMockProfileInfo = (overrides?: Partial<ProfileInfo>): ProfileInfo => ({
@@ -16,13 +20,11 @@ export const createMockProfileInfo = (overrides?: Partial<ProfileInfo>): Profile
 export const createMockSocialLinks = (): SocialLink[] => [
 	{
 		socialLinkUrl: 'https://instagram.com/jimhalpert',
-		platformName: 'Instagram',
 		socialLinkId: 1,
 		userId: 1,
 	},
 	{
 		socialLinkUrl: 'https://twitter.com/jimhalpert',
-		platformName: 'Twitter',
 		socialLinkId: 2,
 		userId: 1,
 	},

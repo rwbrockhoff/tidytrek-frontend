@@ -18,13 +18,13 @@ export const ExternalLinkModal = ({
 }: ExternalLinkModalProps) => {
 	return (
 		<Modal.Root open={isOpen} onOpenChange={onClose}>
-			<Modal.Content size="md">
+			<Modal.Content>
 				<Modal.Header>
 					<Modal.Title>External Link</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Modal.Description>{message}</Modal.Description>
-					<p style={{ marginTop: '1rem', color: 'var(--color-text-secondary)' }}>
+					<p style={{ color: 'var(--color-text-secondary)' }}>
 						You're being redirected to: <strong>{domain}</strong>
 					</p>
 				</Modal.Body>

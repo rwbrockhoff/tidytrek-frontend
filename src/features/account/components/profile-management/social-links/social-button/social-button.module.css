@@ -15,3 +15,7 @@
 .styledBadge a:hover {
 	color: var(--color-text-secondary);
 }
+
+:global(.aow).socialButtonPicker svg {
+	color: var(--color-constant-white);
+}

@@ -3,62 +3,43 @@ import { Flex } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
-import { SocialButtonPicker } from './social-button/social-button';
-import socialMediaUI from '../../../constants/social-media-ui';
-import { useProfileActions } from '../../../hooks/use-profile-actions';
 import { PlusIcon } from '@/components/ui';
-import { detectPlatformFromUrl } from '@/utils/social-platform-detector';
+import { useAddSocialLinkMutation } from '@/queries/profile-settings-queries';
+import { normalizeURL } from '@/utils';
 
 export const AddLink = () => {
-	const DEFAULTS = {
-		socialLink: '',
-		socialService: 'custom',
-	};
+	const { mutate: addSocialLink, isPending } = useAddSocialLinkMutation();
 
-	const {
-		addSocialLink,
-		mutations: {
-			addSocialLink: { isPending },
-		},
-	} = useProfileActions();
-
-	const [service, setService] = useState(DEFAULTS.socialService);
 	const [socialLink, setSocialLink] = useState('');
+	const [linkError, setLinkError] = useState(false);
 
 	const handleAddLink = () => {
-		addSocialLink(service, socialLink);
-		setService(DEFAULTS.socialService);
-		setSocialLink(DEFAULTS.socialLink);
-	};
-
-	const handleUpdateService = (value: string) => {
-		const detectedPlatform = detectPlatformFromUrl(value);
-		if (detectedPlatform !== service) setService(detectedPlatform);
+		const cleanURL = normalizeURL(socialLink);
+		addSocialLink(cleanURL, {
+			onSuccess: () => setSocialLink(''),
+			onError: () => setLinkError(true),
+		});
 	};
 
 	const handleInput = (e: InputEvent) => {
 		setSocialLink(e.target.value);
-		handleUpdateService(e.target.value);
 	};
 
-	const currentSocial = socialMediaUI[service];
-
 	return (
-		<Flex align="center" gap="2" my="6">
-			<SocialButtonPicker currentSocial={currentSocial} />
-			<TextField.Standalone
-				placeholder="Paste your link..."
-				value={socialLink}
-				onChange={handleInput}
-				width={'30%'}
-			/>
-			<Button
-				variant="secondary"
-				disabled={!socialLink || isPending}
-				onClick={handleAddLink}>
-				<PlusIcon />
-				Add Link
-			</Button>
+		<Flex direction="column">
+			<Flex align="center" gap="2" my="6">
+				<TextField.Standalone
+					placeholder="Paste your link..."
+					value={socialLink}
+					onChange={handleInput}
+					width={'30%'}
+				/>
+				<Button disabled={!socialLink || isPending} onClick={handleAddLink}>
+					<PlusIcon />
+					Add Link
+				</Button>
+			</Flex>
+			{linkError && <p>There was an error adding your link at this time.</p>}
 		</Flex>
 	);
 };

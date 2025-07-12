@@ -76,11 +76,6 @@
 	margin-right: var(--space-xs);
 }
 
-.themeIcon {
-	width: 1.5rem;
-	margin-right: var(--space-xs);
-}
-
 .graphicPanel svg {
 	margin-right: var(--space-xs);
 }

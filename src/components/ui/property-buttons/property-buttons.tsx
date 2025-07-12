@@ -1,4 +1,5 @@
-import { Flex, IconButton, Tooltip } from '@radix-ui/themes';
+import { Flex, Tooltip } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
@@ -38,52 +39,63 @@ export const PropertyButtons = ({
 	};
 
 	return (
-		<Flex 
+		<Flex
 			className={cn(styles.flexContainer, className)}
 			role="group"
-			aria-labelledby={ariaLabelledBy}
-		>
-			<IconButton variant="ghost" size="2">
-				<FavoriteIcon
-					name="favorite"
-					aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
-					className={cn(
-						favorite && styles.favoriteActive,
-						isDisabled && styles.disabledIcon,
-					)}
-					style={{ opacity: showAlways || favorite ? 100 : 0 }}
-					onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
-				/>
-			</IconButton>
-
-			<Tooltip content="Consumable items like food or fuel.">
-				<IconButton variant="ghost" size="2">
-					<ConsumableIcon
-						name="food"
-						aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
+			aria-labelledby={ariaLabelledBy}>
+			<Button
+				variant="ghost"
+				size="sm"
+				onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
+				aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
+				iconLeft={
+					<FavoriteIcon
+						name="favorite"
 						className={cn(
-							consumable && styles.consumableActive,
+							favorite && styles.favoriteActive,
 							isDisabled && styles.disabledIcon,
 						)}
-						style={{ opacity: showAlways || consumable ? 100 : 0 }}
-						onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
+						style={{ opacity: showAlways || favorite ? 100 : 0 }}
 					/>
-				</IconButton>
+				}
+			/>
+
+			<Tooltip content="Consumable items like food or fuel.">
+				<Button
+					variant="ghost"
+					size="sm"
+					onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
+					aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
+					iconLeft={
+						<ConsumableIcon
+							name="food"
+							className={cn(
+								consumable && styles.consumableActive,
+								isDisabled && styles.disabledIcon,
+							)}
+							style={{ opacity: showAlways || consumable ? 100 : 0 }}
+						/>
+					}
+				/>
 			</Tooltip>
 
 			<Tooltip content="Worn weight like shorts or trail runners.">
-				<IconButton variant="ghost" size="2">
-					<WornIcon
-						name="wornWeight"
-						aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
-						className={cn(
-							wornWeight && styles.wornWeightActive,
-							isDisabled && styles.disabledIcon,
-						)}
-						style={{ opacity: showAlways || wornWeight ? 100 : 0 }}
-						onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
-					/>
-				</IconButton>
+				<Button
+					variant="ghost"
+					size="sm"
+					onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
+					aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
+					iconLeft={
+						<WornIcon
+							name="wornWeight"
+							className={cn(
+								wornWeight && styles.wornWeightActive,
+								isDisabled && styles.disabledIcon,
+							)}
+							style={{ opacity: showAlways || wornWeight ? 100 : 0 }}
+						/>
+					}
+				/>
 			</Tooltip>
 		</Flex>
 	);

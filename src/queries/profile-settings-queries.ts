@@ -26,14 +26,13 @@ export const useUpdateUsernameMutation = (): SimpleMutation<
 	});
 };
 
-export const useAddSocialLinkMutation = (): SimpleMutation<
-	{ platformName: string; socialLinkUrl: string },
-	{ message?: string }
-> => {
+export const useAddSocialLinkMutation = (): SimpleMutation<string> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (socialInfo: { platformName: string; socialLinkUrl: string }) =>
-			tidyTrekAPI.post('/profile-settings/social-link', socialInfo).then(extractData),
+		mutationFn: (socialLinkUrl: string) =>
+			tidyTrekAPI
+				.post('/profile-settings/social-link', { socialLinkUrl })
+				.then(extractData),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 		},

@@ -47,7 +47,6 @@ export type SocialObject = {
 
 export type SocialLink = {
 	socialLinkUrl: string;
-	platformName: string;
 	socialLinkId: number;
 	userId: number;
 };

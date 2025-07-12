@@ -1,7 +1,7 @@
 import { type InputEvent } from '@/types/form-types';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { Flex, Text, Heading, IconButton } from '@radix-ui/themes';
+import { Flex, Text, Heading } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { Link, Segment, RefreshIcon } from '@/components/ui';
 import { TextField } from '@/components/ui/alpine';
@@ -114,14 +114,13 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 						variant="icon"
 						iconPosition="right"
 						icon={
-							<IconButton
-								radius="medium"
-								size="1"
+							<Button
+								size="sm"
 								type="button"
 								onClick={handleGenerateUsername}
-								aria-label="Generate random username">
-								<RefreshIcon />
-							</IconButton>
+								aria-label="Generate random username"
+								iconLeft={<RefreshIcon />}
+							/>
 						}
 					/>
 
@@ -136,7 +135,6 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 					<Button
 						type="submit"
 						loading={isPending}
-						size="lg"
 						style={{ width: '100%', cursor: 'pointer' }}>
 						Save
 					</Button>
@@ -144,7 +142,9 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 				<Flex justify="center" mt="4">
 					<Link to={'/'}>
-						<Text size="3">Keep default username</Text>
+						<Text size="3" color="gray">
+							Keep default username
+						</Text>
 					</Link>
 				</Flex>
 			</Segment>

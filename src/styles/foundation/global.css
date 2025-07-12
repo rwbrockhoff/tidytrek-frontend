@@ -19,3 +19,19 @@ body {
 	width: 1em;
 	height: 1em;
 }
+
+/* Icon size utilities */
+.lucide.lucide-sm {
+	width: var(--icon-sm);
+	height: var(--icon-sm);
+}
+
+.lucide.lucide-md {
+	width: var(--icon-md);
+	height: var(--icon-md);
+}
+
+.lucide.lucide-lg {
+	width: var(--icon-lg);
+	height: var(--icon-lg);
+}

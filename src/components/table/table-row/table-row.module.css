@@ -22,3 +22,7 @@
 .tableRowDragging {
 	box-shadow: var(--shadow-classic);
 }
+
+:global(.aow).tableActionButton {
+	padding: 0 var(--space-xs);
+}

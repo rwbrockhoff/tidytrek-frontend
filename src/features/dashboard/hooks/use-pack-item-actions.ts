@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
-import { cleanUpLink } from '@/utils/link-utils';
+import { normalizeURL } from '@/utils/link-utils';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
 
 type AddItemInfo = { packId: number; packCategoryId: number };
@@ -21,7 +21,7 @@ export const usePackItemActions = () => {
 	const handleEditPackItem = useCallback(
 		(packItem: BaseTableRowItem) => {
 			const { packItemId, packItemUrl } = packItem;
-			const cleanUrl = cleanUpLink(packItemUrl);
+			const cleanUrl = normalizeURL(packItemUrl);
 
 			if (isPackItem(packItem)) {
 				editPackItem.mutate({

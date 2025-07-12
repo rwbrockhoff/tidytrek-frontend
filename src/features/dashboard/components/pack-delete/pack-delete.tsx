@@ -12,12 +12,11 @@ import { type Pack } from '@/types/pack-types';
 type PackDeleteProps = {
 	pack: Pick<Pack, 'packId' | 'packName'>;
 	children?: React.ReactNode;
-	buttonSize?: 'sm' | 'md' | 'lg';
 };
 
 const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;
 
-export const PackDelete = ({ pack, children, buttonSize = 'md' }: PackDeleteProps) => {
+export const PackDelete = ({ pack, children }: PackDeleteProps) => {
 	const navigate = useNavigate();
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
@@ -58,11 +57,7 @@ export const PackDelete = ({ pack, children, buttonSize = 'md' }: PackDeleteProp
 
 	return (
 		<>
-			<Button
-				variant="danger"
-				size={buttonSize}
-				onClick={handleToggleDeleteModal}
-				iconLeft={<TrashIcon />}>
+			<Button variant="danger" onClick={handleToggleDeleteModal} iconLeft={<TrashIcon />}>
 				Delete Pack
 			</Button>
 

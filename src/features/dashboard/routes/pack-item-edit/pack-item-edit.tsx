@@ -246,7 +246,7 @@ export const PackItemEdit = () => {
 			</FormRoot>
 
 			<div className={styles.actionButtons}>
-				<Button onClick={handleSave} size="md" disabled={editItemMutation.isPending}>
+				<Button onClick={handleSave} disabled={editItemMutation.isPending}>
 					<SaveIcon />
 					Save Item
 				</Button>
@@ -254,7 +254,6 @@ export const PackItemEdit = () => {
 				<Button
 					onClick={handleDelete}
 					variant="danger"
-					size="md"
 					disabled={deleteItemMutation.isPending}>
 					Delete Item
 				</Button>

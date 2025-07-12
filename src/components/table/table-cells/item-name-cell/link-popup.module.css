@@ -14,11 +14,15 @@
 	opacity: 1;
 }
 
-
 .linkIcon {
 	color: var(--color-text-secondary);
 }
 
 .linkIconActive {
 	color: var(--sage-500);
+}
+
+:global(.aow).linkButton {
+	padding: 0;
+	margin-left: var(--space-min);
 }

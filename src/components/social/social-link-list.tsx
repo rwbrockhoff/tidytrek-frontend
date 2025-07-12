@@ -1,7 +1,9 @@
 import { Flex } from '@radix-ui/themes';
+import { useMemo } from 'react';
 import { SocialButton } from '@/features/account/components/profile-management/social-links';
 import { SocialLink } from '@/types/profile-types';
 import socialMediaUI from '@/features/account/constants/social-media-ui';
+import { detectPlatform } from './detect-platform';
 
 type SocialLinkListProps = {
 	socialLinks: SocialLink[];
@@ -12,23 +14,33 @@ type SocialLinkListProps = {
 export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false } = props;
 
+	const socialButtonsData = useMemo(() => {
+		return socialLinks.map(({ socialLinkUrl, socialLinkId }, index) => {
+			const platform = detectPlatform(socialLinkUrl);
+			const { socialName, icon } = socialMediaUI[platform] || socialMediaUI.custom;
+
+			return {
+				key: index,
+				socialLinkId,
+				socialName,
+				icon,
+				socialLinkUrl,
+			};
+		});
+	}, [socialLinks]);
+
 	return (
 		<Flex wrap="wrap" gap="2" mt="2">
-			{socialLinks.map((link, index) => {
-				const socialInfo = socialMediaUI[link.platformName] || socialMediaUI.custom;
-				const { socialName, icon } = socialInfo;
-				const { socialLinkId: id } = link;
-				return (
-					<SocialButton
-						key={index}
-						socialLinkId={id}
-						socialName={socialName}
-						icon={icon}
-						socialLinkUrl={link.socialLinkUrl}
-						deleteEnabled={deleteEnabled}
-					/>
-				);
-			})}
+			{socialButtonsData.map(({ key, socialLinkId, socialName, icon, socialLinkUrl }) => (
+				<SocialButton
+					key={key}
+					socialLinkId={socialLinkId}
+					socialName={socialName}
+					icon={icon}
+					socialLinkUrl={socialLinkUrl}
+					deleteEnabled={deleteEnabled}
+				/>
+			))}
 		</Flex>
 	);
 };

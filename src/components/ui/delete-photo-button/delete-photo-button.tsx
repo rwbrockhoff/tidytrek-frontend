@@ -1,4 +1,4 @@
-import { IconButton } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TrashIcon } from '@/components/ui';
 import styles from './delete-photo-button.module.css';
 
@@ -9,13 +9,14 @@ type DeletePhotoButtonProps = {
 
 export const DeletePhotoButton = ({ disabled, onClick }: DeletePhotoButtonProps) => {
 	return (
-		<IconButton
-			color="gray"
-			radius="full"
+		<Button
+			variant="ghost"
+			size="sm"
+			radius="circle"
 			disabled={disabled}
 			onClick={onClick}
-			className={styles.deletePhotoButton}>
-			<TrashIcon />
-		</IconButton>
+			className={styles.deletePhotoButton}
+			iconLeft={<TrashIcon />}
+		/>
 	);
 };

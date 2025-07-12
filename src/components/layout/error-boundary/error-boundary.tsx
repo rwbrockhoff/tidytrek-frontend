@@ -2,7 +2,7 @@ import { useRouteError } from 'react-router-dom';
 import { Flex, Text, Heading } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import styles from './error-boundary.module.css';
-import { TreeIcon } from '@/components/ui';
+import { RefreshIcon, TreeIcon } from '@/components/ui';
 
 // react router is opinionated on error handling
 // this fn allows us to bubble errors outside of the router
@@ -24,9 +24,11 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 			justify="center"
 			direction="column"
 			className={styles.errorContainer}>
-			<TreeIcon size={48} />
-			<Heading as="h1" size="8" align="center">
-				Oops! There was an error.
+			<Heading as="h1" size="6" align="center">
+				<Flex align="center" gap="6" direction="column">
+					<TreeIcon fontSize={'2em'} />
+					Oops! There was an error.
+				</Flex>
 			</Heading>
 			<Text align="center" size="3">
 				Your error has been sent to our engineers who might be trail running or fly
@@ -34,8 +36,8 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 			</Text>
 			{hasResetFunction && (
 				<Button
-					size="md"
 					className={styles.styledButton}
+					iconLeft={<RefreshIcon />}
 					onClick={() => props.resetErrorBoundary()}>
 					Retry Request
 				</Button>

@@ -14,7 +14,7 @@
 	border: 1px solid transparent;
 	text-decoration: none;
 	position: relative;
-	gap: var(--space-xs);
+	gap: var(--space-min);
 }
 
 .button:focus-visible {
@@ -24,39 +24,40 @@
 
 /* Button - Sizes */
 .buttonSm {
-	height: 2rem;
-	padding: 0 var(--space-xs);
+	padding: var(--space-min) var(--space-xs);
 	font-size: var(--font-size-sm);
 }
 
 .buttonMd {
-	height: 2.5rem;
-	padding: 0 var(--space-sm);
+	padding: var(--space-xs) var(--space-sm);
 	font-size: var(--font-size-base);
 }
 
 .buttonLg {
-	height: 3rem;
-	padding: 0 var(--space-md);
+	padding: var(--space-sm) var(--space-md);
 	font-size: var(--font-size-lg);
 }
 
 /* Button - Icon Only */
 .buttonIconOnly {
 	aspect-ratio: 1;
-	padding: 0;
 }
 
 .buttonSm.buttonIconOnly {
-	width: 2rem;
+	padding: var(--space-min);
 }
 
 .buttonMd.buttonIconOnly {
-	width: 2.5rem;
+	padding: var(--space-xs);
 }
 
 .buttonLg.buttonIconOnly {
-	width: 3rem;
+	padding: var(--space-sm);
+}
+
+/* Button - Radius */
+.buttonRadiusCircle {
+	border-radius: var(--radius-circle);
 }
 
 /* Button - Variants */

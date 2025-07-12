@@ -10,7 +10,12 @@ export const MobileNavbar = ({ onClick }: { onClick: () => void }) => {
 			<Heading as="h1" size="8">
 				tidytrek
 			</Heading>
-			<Button className={styles.menuButton} onClick={onClick} size="lg" iconLeft={<MenuIcon size={20} />} />
+			<Button
+				className={styles.menuButton}
+				onClick={onClick}
+				size="lg"
+				iconLeft={<MenuIcon className="lucide-md" />}
+			/>
 		</header>
 	);
 };
