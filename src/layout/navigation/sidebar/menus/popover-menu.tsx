@@ -1,16 +1,16 @@
 import { Avatar, Link } from '@/components/ui';
-import { AvatarMenu } from './menus';
+import { AvatarMenu } from './avatar-menu';
 import { Popover } from '@radix-ui/themes';
 import { HoverContext } from '@/contexts/hover-context';
 import { useContext } from 'react';
 
-type PopupMenuProps = {
+type PopoverMenuProps = {
 	profilePhotoUrl: string | undefined;
 	isMobile: boolean;
 	logout: () => void;
 };
 
-export const PopupMenu = (props: PopupMenuProps) => {
+export const PopoverMenu = (props: PopoverMenuProps) => {
 	const { profilePhotoUrl, isMobile, logout } = props;
 	const isHovering = useContext(HoverContext);
 
@@ -19,7 +19,7 @@ export const PopupMenu = (props: PopupMenuProps) => {
 			<Popover.Trigger>
 				<div>
 					<Link to="/profile" enabled={!isMobile}>
-						<Avatar src={profilePhotoUrl} size={isMobile ? "medium" : "small"} />
+						<Avatar src={profilePhotoUrl} size={isMobile ? 'medium' : 'small'} />
 					</Link>
 				</div>
 			</Popover.Trigger>

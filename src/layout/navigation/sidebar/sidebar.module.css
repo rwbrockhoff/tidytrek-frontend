@@ -30,13 +30,13 @@
 }
 
 /* Transition for sidebar visibility */
-.sidebarHidden {
+.sidebar[data-visible="false"] {
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
 }
 
-.sidebarVisible {
+.sidebar[data-visible="true"] {
 	opacity: 1;
 	visibility: visible;
 	pointer-events: auto;
@@ -95,16 +95,22 @@
 	}
 
 	/* Tablet uses transform animation instead of display toggle */
-	.sidebarHidden {
+	.sidebar[data-visible="false"] {
 		display: flex; /* In DOM but positioned off-screen */
 		transform: translateX(-100%); /* Slide out to left */
 		transition: transform var(--transition);
+		opacity: 1; /* Override desktop opacity - visible but off-screen */
+		visibility: visible; /* Override desktop visibility */
+		pointer-events: none; /* Keep disabled when hidden */
 	}
 
-	.sidebarVisible {
+	.sidebar[data-visible="true"] {
 		display: flex;
 		transform: translateX(0); /* Slide in from left */
 		transition: transform var(--transition);
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
 	}
 }
 

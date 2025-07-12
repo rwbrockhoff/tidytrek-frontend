@@ -1,21 +1,19 @@
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Heading, Separator } from '@radix-ui/themes';
 import styles from './sidebar.module.css';
 import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
-import { encode, lazyImport } from '@/utils';
-import { SidebarButton } from './components/sidebar-button';
-import { cn } from '@/styles/utils';
+import { encode } from '@/utils';
+import { SidebarButton } from './sidebar-button';
 import supabase from '@/api/supabaseClient';
-import { SidebarFallback } from '../../fallback';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { MouseOver } from '@/contexts/mouse-over-context';
 import { ThemeToggle } from '@/components/ui';
-const { SidebarMenu } = lazyImport(() => import('./components/menus'), 'SidebarMenu');
-const { PackList } = lazyImport(() => import('./components/pack-list'), 'PackList');
-const { PopupMenu } = lazyImport(() => import('./components/popup-menu'), 'PopupMenu');
+import { SidebarMenu } from './menus/sidebar-menu/sidebar-menu';
+import { PackList } from './pack-list/pack-list';
+import { PopoverMenu } from './menus/popover-menu';
 
 declare const google: any;
 
@@ -35,7 +33,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const { mutate: logout } = useLogoutMutation();
 
 	const packList = packListData?.packList || [];
-	const defaultPackId = packListData?.packList[0].packId;
+	const defaultPackId = packListData?.packList?.[0]?.packId;
 
 	const encodedId = paramPackId || encode(defaultPackId);
 	const { data: packData } = useGetPackQuery(encodedId);
@@ -55,7 +53,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			return navigate(`/pack/${encodedId}`);
 			// query disabled until ID, so this does not fetch twice
 		}
-	}, [currentPackId]);
+	}, [currentPackId, paramPackId, location.pathname, navigate]);
 
 	useEffect(() => {
 		// Hide sidebar when navigating on mobile/tablet
@@ -66,50 +64,49 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
-		await google.accounts.id.disableAutoSelect();
+		if (typeof google !== 'undefined') {
+			await google.accounts.id.disableAutoSelect();
+		}
 		logout();
 		navigate('/');
 	};
 
 	return (
 		<aside
-			className={cn(
-				styles.sidebar,
-				showSidebar ? styles.sidebarVisible : styles.sidebarHidden,
-			)}>
+			className={styles.sidebar}
+			data-visible={showSidebar}
+			aria-label="Main navigation">
 			<div className={styles.sidebarContainer}>
 				<div className={styles.sidebarHeader}>
-					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle}>
+					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle()}>
 						<Heading as="h1" mb="1">
 							tidytrek
 						</Heading>
 					</Link>
-					{showSidebar && <SidebarButton isSidebar={true} onClick={onToggle} />}
+					{showSidebar && <SidebarButton isSidebar onClick={onToggle} />}
 				</div>
 
-				<Suspense fallback={<SidebarFallback />}>
-					<div className={styles.avatarSection}>
-						<MouseOver>
-							<PopupMenu
-								profilePhotoUrl={user?.profilePhotoUrl}
-								isMobile={isMobile}
-								logout={handleLogout}
-							/>
-						</MouseOver>
-					</div>
+				<div className={styles.avatarSection}>
+					<MouseOver>
+						<PopoverMenu
+							profilePhotoUrl={user?.profilePhotoUrl}
+							isMobile={isMobile}
+							logout={handleLogout}
+						/>
+					</MouseOver>
+				</div>
 
-					<SidebarMenu />
+				<SidebarMenu />
 
-					<Separator my="4" className={styles.separator} />
+				<Separator my="4" className={styles.separator} />
 
-					<Heading as="h3" size="5" mb="2">
-						Packs
-					</Heading>
+				<Heading as="h3" size="5" mb="2">
+					Packs
+				</Heading>
 
-					<PackList currentPackId={currentPackId} packList={packList} />
+				<PackList currentPackId={currentPackId} packList={packList} />
 
-					<div className={styles.sidebarFooter}>{showSidebar && <ThemeToggle />}</div>
-				</Suspense>
+				<div className={styles.sidebarFooter}>{showSidebar && <ThemeToggle />}</div>
 			</div>
 		</aside>
 	);

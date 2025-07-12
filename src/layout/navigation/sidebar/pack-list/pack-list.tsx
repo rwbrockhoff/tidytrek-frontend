@@ -6,7 +6,7 @@ import { Separator } from '@radix-ui/themes';
 import { type PackListItem as PackListItemType } from '@/types/pack-types';
 import { DragDropContext, DropResult } from '@/components';
 import { PackListItem } from './pack-list-item';
-import { CreatePackMenu } from './create-pack-menu';
+import { CreatePackMenu } from './create-pack-menu/create-pack-menu';
 import { useMovePackMutation } from '@/queries/pack-queries';
 import { packListKeys } from '@/queries/query-keys';
 import { encode, calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';

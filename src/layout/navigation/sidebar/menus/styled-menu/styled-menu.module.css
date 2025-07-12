@@ -29,7 +29,8 @@
 	filter: var(--brightness-dark-1);
 }
 
-.styledMenuWithTopMargin {
+
+.topMargin {
 	margin-top: var(--space-xl);
 }
 

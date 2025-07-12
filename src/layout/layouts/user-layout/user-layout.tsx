@@ -1,6 +1,6 @@
 import styles from './user-layout.module.css';
 import { Sidebar, MobileNavbar, Fallback } from '@/layout';
-import { SidebarButton } from '@/layout/navigation/sidebar/components/sidebar-button';
+import { SidebarButton } from '@/layout/navigation/sidebar/sidebar-button';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense, useState, useEffect } from 'react';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
@@ -8,7 +8,7 @@ import { cn } from '@/styles/utils';
 
 export const UserLayout = () => {
 	const { isMobile, isTablet } = useCheckScreen();
-	const [showSidebar, setShowSidebar] = useState(true);
+	const [showSidebar, setShowSidebar] = useState(false);
 
 	// Default sidebar to hidden on tablet and mobile
 	useEffect(() => {

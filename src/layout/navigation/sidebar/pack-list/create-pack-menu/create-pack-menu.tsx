@@ -6,7 +6,7 @@ import { useAddNewPackMutation } from '@/queries/pack-queries';
 import { Flex, Popover } from '@radix-ui/themes';
 import { Button } from '@/components/ui/alpine';
 import { encode } from '@/utils';
-import { ImportPackDialog } from './import-pack-dialog';
+import { ImportPackDialog } from './import-pack-dialog/import-pack-dialog';
 
 export const CreatePackMenu = () => {
 	const navigate = useNavigate();
