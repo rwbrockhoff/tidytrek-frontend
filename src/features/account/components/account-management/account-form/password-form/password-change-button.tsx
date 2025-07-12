@@ -11,7 +11,7 @@ export const PasswordChangeButton = ({ onChangeSection }: PasswordChangeButtonPr
 		<Button
 			variant="outline"
 			onClick={() => onChangeSection(FORM_SECTIONS.CONFIRMATION)}
-			iconLeft={<PasswordIcon size={16} />}>
+			iconLeft={<PasswordIcon />}>
 			Change Password
 		</Button>
 	);

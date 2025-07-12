@@ -16,7 +16,7 @@ export const TableErrorRow = ({ error }: { error: FormError }) => {
 				colSpan={24}
 				verticalAlign="middle">
 				<Flex justify="center" align="center" height="100%">
-					<WarningIcon size={16} />
+					<WarningIcon />
 					<Text trim="both" ml="2" weight="light">
 						{error.message}
 					</Text>

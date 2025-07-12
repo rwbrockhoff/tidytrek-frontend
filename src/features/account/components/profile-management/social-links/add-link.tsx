@@ -56,7 +56,7 @@ export const AddLink = () => {
 				variant="secondary"
 				disabled={!socialLink || isPending}
 				onClick={handleAddLink}>
-				<PlusIcon size={16} />
+				<PlusIcon />
 				Add Link
 			</Button>
 		</Flex>

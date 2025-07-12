@@ -120,7 +120,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 								type="button"
 								onClick={handleGenerateUsername}
 								aria-label="Generate random username">
-								<RefreshIcon size={16} />
+								<RefreshIcon />
 							</IconButton>
 						}
 					/>

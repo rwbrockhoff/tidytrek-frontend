@@ -25,24 +25,24 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 			<HoverCard.Root>
 				<HoverCard.Trigger>
 					<Flex mt="2" className={styles.popupListItem} style={{ cursor: 'pointer' }}>
-						<BackpackIcon size={16} /> Total Weight: <Badge ml="auto">{totalWeight} lbs</Badge>
+						<BackpackIcon /> Total Weight: <Badge ml="auto">{totalWeight} lbs</Badge>
 					</Flex>
 				</HoverCard.Trigger>
 				<HoverCard.Content side="top">
 					<Flex direction="column">
 						<Flex my="2" className={styles.popupListItem}>
-							<WeightIcon size={16} />
+							<WeightIcon />
 							Base Weight:
 							<Badge ml="auto">{baseWeight}</Badge>
 						</Flex>
 
 						<Flex my="2" className={styles.popupListItem}>
-							<ConsumableIcon size={16} />
+							<ConsumableIcon />
 							Consumables:
 							<Badge ml="auto">{consumables}</Badge>
 						</Flex>
 						<Flex my="2" className={styles.popupListItem}>
-							<WornIcon size={16} />
+							<WornIcon />
 							Worn Weight:
 							<Badge ml="auto">{wornWeight}</Badge>
 						</Flex>
@@ -59,7 +59,7 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 
 			{showPrices && (
 				<Flex mt="2" className={styles.popupListItem}>
-					<MoneyIcon size={16} /> Total Price:
+					<MoneyIcon /> Total Price:
 					<Badge ml="auto">{totalPackPrice}</Badge>
 				</Flex>
 			)}

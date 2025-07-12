@@ -7,13 +7,13 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 		<StyledMenu>
 			<li>
 				<Link to="/account">
-					<UserIcon size={16} />
+					<UserIcon />
 					Account
 				</Link>
 			</li>
 
 			<li onClick={logout}>
-				<LogoutIcon size={16} />
+				<LogoutIcon />
 				Log Out
 			</li>
 		</StyledMenu>
@@ -25,13 +25,13 @@ export const SidebarMenu = () => {
 		<StyledMenu className="styledMenuWithTopMargin">
 			<li>
 				<Link to="/profile">
-					<UserIcon size={16} />
+					<UserIcon />
 					Profile
 				</Link>
 			</li>
 			<li>
 				<Link to="/gear-closet">
-					<ClosetIcon size={16} />
+					<ClosetIcon />
 					Gear Closet
 				</Link>
 			</li>

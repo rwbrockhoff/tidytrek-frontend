@@ -25,19 +25,19 @@
 /* Button - Sizes */
 .buttonSm {
 	height: 2rem;
-	padding: 0 var(--space-sm);
+	padding: 0 var(--space-xs);
 	font-size: var(--font-size-sm);
 }
 
 .buttonMd {
 	height: 2.5rem;
-	padding: 0 var(--space-md);
+	padding: 0 var(--space-sm);
 	font-size: var(--font-size-base);
 }
 
 .buttonLg {
 	height: 3rem;
-	padding: 0 var(--space-lg);
+	padding: 0 var(--space-md);
 	font-size: var(--font-size-lg);
 }
 

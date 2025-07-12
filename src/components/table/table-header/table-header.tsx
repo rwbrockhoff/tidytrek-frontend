@@ -61,7 +61,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 								variant="ghost"
 								size="sm"
 								data-testid="minimize-category-button"
-								iconLeft={isMinimized ? <PlusIcon size={16} /> : <MinusIcon size={16} />}
+								iconLeft={isMinimized ? <PlusIcon /> : <MinusIcon />}
 								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}
 							/>
 						</Flex>
@@ -75,7 +75,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 									variant="ghost"
 									size="sm"
 									data-testid="delete-category-button"
-									iconLeft={<TrashIcon size={16} />}
+									iconLeft={<TrashIcon />}
 									aria-label="Delete category"
 								/>
 							</Flex>

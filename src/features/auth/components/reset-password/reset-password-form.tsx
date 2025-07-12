@@ -91,7 +91,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							/>
 						)}
 
-						<Button size="lg" style={{ width: '100%' }} type="submit">
+						<Button size="md" style={{ width: '100%' }} type="submit">
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 					</Form>

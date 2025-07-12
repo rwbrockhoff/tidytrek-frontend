@@ -63,7 +63,7 @@ export const MobileToggleButton = ({ onToggle }: MobileToggleProps) => {
 				mx.hidden,
 				mx.mobileBlock,
 			)}>
-			<CaretDownIcon size={16} />
+			<CaretDownIcon />
 		</IconButton>
 	);
 };
@@ -79,14 +79,14 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 			onClick={onToggle}
 			className={cn(styles.tableButton, !display && styles.tableButtonHidden)}
 			aria-label="Drag pack item">
-			<ShareIcon size={16} />
+			<ShareIcon />
 		</IconButton>
 	);
 };
 
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
-		<Button variant="outline" size="md" onClick={onClick} iconLeft={<PlusIcon size={16} />}>
+		<Button variant="outline" size="md" onClick={onClick} iconLeft={<PlusIcon />}>
 			Add Category
 		</Button>
 	);

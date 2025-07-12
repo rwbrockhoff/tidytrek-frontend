@@ -43,7 +43,7 @@ export const WarningMessage = (props: WarningMessageProps) => {
 	return (
 		<Callout.Root color="amber" variant="outline" {...calloutProps} style={{ width }}>
 			<Callout.Icon>
-				<WarningIcon size={16} />
+				<WarningIcon />
 			</Callout.Icon>
 			<Callout.Text> {message}</Callout.Text>
 		</Callout.Root>

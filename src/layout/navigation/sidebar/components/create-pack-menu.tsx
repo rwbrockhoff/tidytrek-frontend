@@ -36,7 +36,7 @@ export const CreatePackMenu = () => {
 					color="gray"
 					className={styles.newPackButton}
 					aria-label="Open pack creation menu">
-					<PlusIcon size={16} />
+					<PlusIcon />
 					Create New Pack
 				</Button>
 			</Popover.Trigger>
@@ -49,7 +49,7 @@ export const CreatePackMenu = () => {
 							aria-label="Create a new empty pack"
 							className={styles.menuButton}>
 							<Flex display="inline-flex" align="center" justify="start" gap="2">
-								<PlusIcon size={16} />
+								<PlusIcon />
 								Create New Pack
 							</Flex>
 						</Button>

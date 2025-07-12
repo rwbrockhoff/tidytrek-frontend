@@ -147,7 +147,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 									type="button"
 									onClick={handleGenerateUsername}
 									aria-label="Generate random username">
-									<RefreshIcon size={16} />
+									<RefreshIcon />
 								</IconButton>
 							}
 						/>
@@ -185,7 +185,7 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 						{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
 						<Flex justify="start" mt="2">
-							<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon size={16} />}>
+							<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
 								Save Profile
 							</Button>
 						</Flex>

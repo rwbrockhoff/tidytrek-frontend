@@ -52,12 +52,12 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 					<Flex align="center" gap="1" my="1">
 						{packPublic ? (
 							<>
-								<PublicIcon size={16} />
+								<PublicIcon />
 								<Text size="2">Public</Text>
 							</>
 						) : (
 							<>
-								<PrivateIcon size={16} />
+								<PrivateIcon />
 								<Text size="2">Private</Text>
 							</>
 						)}
@@ -69,7 +69,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 				{userView && (
 					<Card.Footer className={styles.cardFooter}>
 						<Flex align="center" className={styles.cardFooterText}>
-							<ViewsIcon size={16} />
+							<ViewsIcon />
 							<Text>{packViews} Views</Text>
 						</Flex>
 					</Card.Footer>

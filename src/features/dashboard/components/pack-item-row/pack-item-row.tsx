@@ -33,7 +33,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 		// For mobile, navigate to edit page
 		const encodedPackItemId = encodePackItemId(item.packItemId);
 		const hasPack = item.packId !== null;
-		
+
 		if (hasPack) {
 			// Navigate to pack item edit
 			navigate(`/pack-item/edit/${encodedPackItemId}`, {
@@ -108,7 +108,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									color="gray"
 									onClick={handleEdit}
 									aria-label="Edit item">
-									<EditPencilIcon size={16} />
+									<EditPencilIcon />
 								</Button>
 							)}
 
@@ -118,7 +118,11 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									hasPackId={isPackItem(item)}
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
-									<Button variant="ghost" aria-label="Move to closet" iconLeft={<ShareIcon size={16} />} />
+									<Button
+										variant="ghost"
+										aria-label="Move to closet"
+										iconLeft={<ShareIcon />}
+									/>
 								</DeleteItemModal>
 							)}
 
@@ -128,7 +132,11 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									hasPackId={isPackItem(item)}
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
-									<Button variant="ghost" aria-label="Delete item" iconLeft={<TrashIcon size={16} />} />
+									<Button
+										variant="ghost"
+										aria-label="Delete item"
+										iconLeft={<TrashIcon />}
+									/>
 								</DeleteItemModal>
 							)}
 						</div>

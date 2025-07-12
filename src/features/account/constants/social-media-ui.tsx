@@ -16,33 +16,33 @@ const socialMediaUI: SocialObject = {
 	custom: {
 		socialName: 'custom',
 		color: 'var(--gray-800)',
-		icon: <LinkIcon size={16} />,
+		icon: <LinkIcon />,
 	},
-	facebook: { socialName: 'facebook', color: '#3b5998', icon: <FacebookIcon  /> },
+	facebook: { socialName: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
 	instagram: {
 		socialName: 'instagram',
 		color: '#d62976',
-		icon: <InstagramIcon  />,
+		icon: <InstagramIcon />,
 	},
 	twitter: {
 		socialName: 'twitter',
 		color: '#000000',
-		icon: <TwitterIcon  />,
+		icon: <TwitterIcon />,
 	},
 	tiktok: {
 		socialName: 'tiktok',
 		color: '#000000',
-		icon: <TiktokIcon  />,
+		icon: <TiktokIcon />,
 	},
-	youtube: { socialName: 'youtube', color: '#ff0000', icon: <YoutubeIcon  /> },
-	reddit: { socialName: 'reddit', color: '#ff4500', icon: <RedditIcon  /> },
+	youtube: { socialName: 'youtube', color: '#ff0000', icon: <YoutubeIcon /> },
+	reddit: { socialName: 'reddit', color: '#ff4500', icon: <RedditIcon /> },
 	venmo: {
 		socialName: 'venmo',
 		color: '#008cff',
-		icon: <VenmoIcon  />,
+		icon: <VenmoIcon />,
 	},
-	paypal: { socialName: 'paypal', color: '#001c64', icon: <PaypalIcon  /> },
-	patreon: { socialName: 'patreon', color: '#000000', icon: <PatreonIcon  /> },
+	paypal: { socialName: 'paypal', color: '#001c64', icon: <PaypalIcon /> },
+	patreon: { socialName: 'patreon', color: '#000000', icon: <PatreonIcon /> },
 };
 
 export default socialMediaUI;

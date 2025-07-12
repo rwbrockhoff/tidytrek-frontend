@@ -60,7 +60,7 @@ export const GearCloset = () => {
 						name="searchInput"
 						value={searchInput}
 						onChange={handleInputChange}
-						icon={<SearchIcon size={16} />}
+						icon={<SearchIcon />}
 						iconPosition="left"
 					/>
 				</div>

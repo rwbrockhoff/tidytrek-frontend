@@ -33,7 +33,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 		return (
 			<Flex align="start">
 				<p className={styles.lightText}>
-					<PublicIcon size={16} /> Public
+					<PublicIcon /> Public
 				</p>
 				<Popover.Root
 					onOpenChange={handleReset}
@@ -41,7 +41,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 				>
 					<Popover.Trigger>
 						<p className={styles.shareText}>
-							<ShareLinkIcon size={16} />
+							<ShareLinkIcon />
 							Share Pack
 						</p>
 					</Popover.Trigger>
@@ -55,7 +55,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 
 							<Button
 								onClick={handleCopyToClipboard}
-								iconLeft={linkCopied ? <CheckIcon size={16} /> : <ShareIcon size={16} />}>
+								iconLeft={linkCopied ? <CheckIcon /> : <ShareIcon />}>
 								{linkCopied ? 'Copied' : 'Copy Link'}
 							</Button>
 						</Flex>
@@ -66,7 +66,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 	} else {
 		return (
 			<p className={styles.lightText}>
-				<PrivateIcon size={16} /> Private
+				<PrivateIcon /> Private
 			</p>
 		);
 	}

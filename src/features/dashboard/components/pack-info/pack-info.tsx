@@ -70,7 +70,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							data-testid="pack-edit-button"
 							aria-label="Edit pack details"
 							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
-							<EditPencilIcon size={16} />
+							<EditPencilIcon />
 						</Button>
 					) : (
 						<PackModal pack={currentPack}>
@@ -79,18 +79,15 @@ export const PackInfo = (props: PackInfoProps) => {
 								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
 								data-testid="pack-edit-button"
 								aria-label="Edit pack details">
-								<EditPencilIcon size={16} />
+								<EditPencilIcon />
 							</Button>
 						</PackModal>
 					)}
 				</Flex>
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 				{packUrl && (
-					<ExternalLink 
-						href={packUrl}
-						className={styles.packLink}
-					>
-						<LinkIcon size={16} />
+					<ExternalLink href={packUrl} className={styles.packLink}>
+						<LinkIcon />
 						{packUrlName || packUrl || 'Pack Link'}
 					</ExternalLink>
 				)}
@@ -103,7 +100,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						variant="outline"
 						size="lg"
 						onClick={handleTogglePackChart}
-						iconLeft={<ChartIcon size={16} />}
+						iconLeft={<ChartIcon />}
 						className={styles.toggleChartButton}>
 						{showPackChart ? 'Hide' : 'Show'} Pack Chart
 					</Button>

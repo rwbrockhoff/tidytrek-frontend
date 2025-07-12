@@ -70,10 +70,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							mx.mobileHidden,
 							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
 						)}>
-						<LinkIcon
-							size={16}
-							className={hasLink ? styles.linkIconActive : styles.linkIcon}
-						/>
+						<LinkIcon className={hasLink ? styles.linkIconActive : styles.linkIcon} />
 					</IconButton>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
@@ -91,7 +88,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							onClick={handleSaveLink}
 							size="md"
 							disabled={!newPackItemUrl.trim()}
-							iconLeft={isSuccess ? <CheckIcon size={16} /> : <SaveIcon size={16} />}>
+							iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
 							{isSuccess ? 'Saved' : 'Save'}
 						</Button>
 						{packItemUrl && (
@@ -99,8 +96,8 @@ export const LinkPopup = (props: LinkPopupProps) => {
 								variant="danger"
 								onClick={handleDeleteLink}
 								disabled={!newPackItemUrl.trim()}
-								size="lg"
-								iconLeft={<TrashIcon size={16} />}
+								size="md"
+								iconLeft={<TrashIcon />}
 							/>
 						)}
 					</Flex>

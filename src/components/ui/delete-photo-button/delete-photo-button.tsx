@@ -15,7 +15,7 @@ export const DeletePhotoButton = ({ disabled, onClick }: DeletePhotoButtonProps)
 			disabled={disabled}
 			onClick={onClick}
 			className={styles.deletePhotoButton}>
-			<TrashIcon size={16} />
+			<TrashIcon />
 		</IconButton>
 	);
 };

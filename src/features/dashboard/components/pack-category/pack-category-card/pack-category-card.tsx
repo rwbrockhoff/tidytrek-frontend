@@ -108,7 +108,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 						size="sm"
 						onClick={handleAddItem}
 						aria-label="Add new item to list"
-						iconLeft={<PlusIcon size={16} />}>
+						iconLeft={<PlusIcon />}>
 						Add Item
 					</Button>
 				</Card.Footer>

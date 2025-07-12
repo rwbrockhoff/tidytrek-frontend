@@ -61,7 +61,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 				</Flex>
 			) : packItemUrl ? (
 				<ExternalLink href={packItemUrl}>
-					<LinkIcon size={16} />
+					<LinkIcon />
 					{packItemName || packItemUrl || 'Pack Item'}
 				</ExternalLink>
 			) : (

@@ -63,7 +63,7 @@ export const PackModal = (props: PackModalProps) => {
 				<Flex justify="end" gap="3" mt="2" mx="4" mb="2">
 					<PackDelete pack={pack} />
 
-					<Button onClick={handleSaveAndClose} iconLeft={<SaveIcon size={16} />}>
+					<Button onClick={handleSaveAndClose} iconLeft={<SaveIcon />}>
 						Save Pack
 					</Button>
 				</Flex>

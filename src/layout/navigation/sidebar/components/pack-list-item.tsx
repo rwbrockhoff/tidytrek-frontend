@@ -22,7 +22,7 @@ export const PackListItem = ({ pack, onClick, dragProps }: PackListItemProps) =>
 					className={styles.gripContainer}
 					{...dragProps}
 					data-testid="pack-list-grip">
-					<GripIcon size={16} className={mx.invisible} />
+					<GripIcon className={mx.invisible} />
 				</span>
 				{pack.packName}
 			</Text>
