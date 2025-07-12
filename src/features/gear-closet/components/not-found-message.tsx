@@ -6,7 +6,7 @@ export const NotFoundMessage = () => {
 		<Table.Body>
 			<Table.Row>
 				<Table.Cell colSpan={24} style={{ opacity: 0.4 }} align="center">
-					<Flex asChild justify="center">
+					<Flex asChild justify="center" align="center" p="3" gap="1">
 						<p>
 							<SearchIcon size={16} />
 							No Items Found

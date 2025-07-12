@@ -198,8 +198,13 @@
 
 /* Theme color utilities */
 .primaryBg {
-	background-color: var(--color-primary);
+	background-color: var(--color-bg-primary);
 }
+
+.secondaryBg {
+	background-color: var(--color-bg-secondary);
+}
+
 .primaryText {
 	color: var(--color-primary);
 }

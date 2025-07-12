@@ -8,6 +8,7 @@ import {
 } from 'react-beautiful-dnd';
 import { EmptyTableRow } from './empty-table-row';
 import { Table } from '@radix-ui/themes';
+import { Children } from 'react';
 
 export type DropResult = Result;
 
@@ -61,21 +62,19 @@ type DropTableBodyProps = {
 
 export const DropTableBody = (props: DropTableBodyProps) => {
 	const { droppableId, type, disabled, children } = props;
+
+	// children returns truthy for empty pack category
+	// use count() to get actual count and render empty row when empty
+	const hasChildren = Children.count(children) > 0;
+
 	return (
 		<Droppable droppableId={`${droppableId}`} type={type} isDropDisabled={disabled}>
-			{(provided, { isDraggingOver }) => (
+			{(provided) => (
 				<Table.Body
 					ref={provided.innerRef}
 					style={{ minHeight: 10 }}
 					{...provided.droppableProps}>
-					{children ? (
-						children
-					) : (
-						<EmptyTableRow
-							isDraggingOver={isDraggingOver}
-							noChildren={!children ? true : false}
-						/>
-					)}
+					{hasChildren ? children : <EmptyTableRow />}
 
 					{provided.placeholder}
 				</Table.Body>

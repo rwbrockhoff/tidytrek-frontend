@@ -8,7 +8,7 @@ import { PackPhotoPanel } from '../pack-modal/pack-photo-panel';
 import styles from './pack-form.module.css';
 import { cn } from '@/styles/utils';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
-import { type FormErrors } from '@/hooks/form/use-zod-error';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 type Checkboxes = {
 	packAffiliate?: boolean;
@@ -21,7 +21,7 @@ type PackFormProps = {
 	handleFormChange: (e: InputEvent | TextAreaEvent) => void;
 	handleCheckBox: (updatedCheckbox: Checkboxes) => void;
 	className?: string;
-	formErrors?: FormErrors<{ packName: string }>;
+	formErrors?: ZodFormErrors<{ packName: string }>;
 };
 
 const affiliateMessage =
