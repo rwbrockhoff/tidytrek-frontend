@@ -1,7 +1,8 @@
 import styles from './confirmation-form.module.css';
-import { SendIcon, CheckIcon, Message } from '@/components/ui';
+import { Message } from '@/components/ui';
+import { SendIcon, CheckIcon } from '@/components/icons';
 import { Callout, Heading, Text, Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 
 type ConfirmationFormProps = {
 	sendConfirmation: () => void;

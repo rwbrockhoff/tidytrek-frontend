@@ -1,7 +1,6 @@
 import { type GearClosetItem } from '@/types/pack-types';
-import { Card } from '@/components/ui/alpine';
-import { Button } from '@/components/ui/alpine';
-import { PlusIcon } from '@/components/ui/icons';
+import { Button, Card } from '@/components/alpine';
+import { PlusIcon } from '@/components/icons';
 import { PackItemRow } from '@/features/dashboard/components/pack-item-row/pack-item-row';
 import { cn } from '@/styles/utils';
 import styles from './gear-closet-card.module.css';

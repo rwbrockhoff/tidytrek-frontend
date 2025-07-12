@@ -1,8 +1,8 @@
 import { useRouteError } from 'react-router-dom';
 import { Flex, Text, Heading } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import styles from './error-boundary.module.css';
-import { RefreshIcon, TreeIcon } from '@/components/ui';
+import { RefreshIcon, TreeIcon } from '@/components/icons';
 
 // react router is opinionated on error handling
 // this fn allows us to bubble errors outside of the router

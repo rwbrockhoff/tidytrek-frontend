@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { type Pack } from '@/types/pack-types';
 import { Heading } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { SaveIcon, BackArrow } from '@/components/ui/icons';
+import { Button } from '@/components/alpine';
+import { SaveIcon, BackArrow } from '@/components/icons';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../../components/pack-form/pack-form';
 import { PackDelete } from '../../components/pack-delete/pack-delete';
 import { useGetPackQuery } from '@/queries/pack-queries';
-import { Spinner } from '@/components/ui';
+import { Spinner } from '@/components/primitives';
 
 import styles from './pack-edit.module.css';
 

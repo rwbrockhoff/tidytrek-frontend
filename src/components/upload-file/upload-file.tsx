@@ -1,6 +1,6 @@
 import styles from './upload-file.module.css';
 import { mx } from '@/styles/utils';
-import { UploadIcon } from '@/components/ui';
+import { UploadIcon } from '@/components/icons';
 import { ChangeEvent, useRef } from 'react';
 
 type UploadFileProps = {

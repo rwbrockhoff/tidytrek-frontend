@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './create-pack-menu.module.css';
-import { PlusIcon, ImportIcon } from '@/components/ui';
+import { PlusIcon, ImportIcon } from '@/components/icons';
 import { useAddNewPackMutation } from '@/queries/pack-queries';
 import { Flex, Popover } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { encode } from '@/utils';
 import { ImportPackDialog } from './import-pack-dialog/import-pack-dialog';
 

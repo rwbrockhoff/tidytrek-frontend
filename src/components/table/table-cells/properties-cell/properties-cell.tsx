@@ -1,5 +1,5 @@
 import { type PackItemProperty } from '@/types/pack-types';
-import { Table } from '@/components/ui/alpine';
+import { Table } from '@/components/alpine';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useContext } from 'react';

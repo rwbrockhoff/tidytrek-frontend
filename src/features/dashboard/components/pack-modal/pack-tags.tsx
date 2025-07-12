@@ -1,5 +1,5 @@
 import { type InputEvent } from '@/types/form-types';
-import { TextField } from '@/components/ui/alpine';
+import { TextField } from '@/components/alpine';
 import { Flex } from '@radix-ui/themes';
 
 type PackTagsProps = {

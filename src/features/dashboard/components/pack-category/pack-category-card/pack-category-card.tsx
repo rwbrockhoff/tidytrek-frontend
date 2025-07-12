@@ -2,14 +2,13 @@ import { type PackListItem, type Category, type PackItem } from '@/types/pack-ty
 import { useCallback } from 'react';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
-import { Card } from '@/components/ui/alpine';
+import { Card, Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { PackItemRow } from '../../pack-item-row/pack-item-row';
-import { PlusIcon, MinusIcon } from '@/components/ui/icons';
+import { PlusIcon, MinusIcon } from '@/components/icons';
 import { ThemeButton } from '@/components/table/table-buttons';
-import { Button } from '@/components/ui/alpine';
 
 type PackCategoryCardProps = {
 	category: Category;

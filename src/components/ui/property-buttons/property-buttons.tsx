@@ -1,8 +1,8 @@
 import { Flex, Tooltip } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
-import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/ui';
+import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/icons';
 import styles from './property-buttons.module.css';
 
 type ButtonTypes = {

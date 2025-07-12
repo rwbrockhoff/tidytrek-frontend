@@ -1,6 +1,6 @@
 import { type User } from '@/types/user-types';
 import { Heading } from '@radix-ui/themes';
-import { Segment } from '@/components/ui';
+import { Segment } from '@/components/primitives';
 
 type AccountInfoDisplayProps = {
 	user: User | null;

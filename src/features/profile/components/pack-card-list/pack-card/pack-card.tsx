@@ -1,7 +1,8 @@
 import { type Pack } from '@/types/pack-types';
 import { Flex, Heading, Inset, Text } from '@radix-ui/themes';
-import { ViewsIcon, Link, PublicIcon, PrivateIcon } from '@/components/ui';
-import { Card } from '@/components/ui/alpine';
+import { ViewsIcon, PublicIcon, PrivateIcon } from '@/components/icons';
+import { Card } from '@/components/alpine';
+import { Link } from '@/components/ui';
 import styles from './pack-card.module.css';
 import { mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';

@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { Link, LandingLink } from '@/components/ui';
 
 export const ProfileBanner = () => {

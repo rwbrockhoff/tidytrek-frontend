@@ -1,4 +1,5 @@
-import { Avatar, Link } from '@/components/ui';
+import { Link } from '@/components/ui';
+import { Avatar } from '@/components/media';
 import { AvatarMenu } from './avatar-menu';
 import { Popover } from '@radix-ui/themes';
 import { HoverContext } from '@/contexts/hover-context';

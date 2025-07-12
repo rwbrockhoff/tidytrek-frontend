@@ -1,6 +1,7 @@
 import { Flex, Text } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { Link, CloseIcon } from '../../ui';
+import { Button } from '@/components/alpine';
+import { Link } from '@/components/ui';
+import { CloseIcon } from '@/components/icons';
 import { useParams } from 'react-router-dom';
 
 export const GuestPreviewBanner = () => {

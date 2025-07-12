@@ -1,11 +1,11 @@
 import { Badge } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { useNavigate } from 'react-router-dom';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { convertCurrency, encodePackItemId } from '@/utils';
 import { isPackItem } from '@/types/pack-types';
-import { DeleteItemModal } from '@/components/ui';
-import { EditPencilIcon, ShareIcon, TrashIcon, LinkIcon } from '@/components/ui/icons';
+import { DeleteItemModal } from '@/components/ui/modals/modals';
+import { EditPencilIcon, ShareIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import styles from './pack-item-row.module.css';
 
 type PackItemRowProps<T extends BaseTableRowItem = BaseTableRowItem> = {

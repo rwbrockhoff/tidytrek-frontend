@@ -1,4 +1,4 @@
-import { SearchIcon } from '@/components/ui';
+import { SearchIcon } from '@/components/icons';
 import { Table, Flex } from '@radix-ui/themes';
 
 export const NotFoundMessage = () => {

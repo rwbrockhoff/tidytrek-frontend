@@ -1,10 +1,11 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
-import { TextField, Table } from '@/components/ui/alpine';
+import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { ExternalLink, LinkIcon } from '@/components/ui';
+import { ExternalLink } from '@/components/ui';
+import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
 import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';

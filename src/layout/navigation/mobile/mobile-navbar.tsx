@@ -1,6 +1,6 @@
 import { Heading } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { MenuIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { MenuIcon } from '@/components/icons';
 import { cn, mx } from '@/styles/utils';
 import styles from './mobile-navbar.module.css';
 

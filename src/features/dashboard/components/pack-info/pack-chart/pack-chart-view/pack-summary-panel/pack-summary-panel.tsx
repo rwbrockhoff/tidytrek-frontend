@@ -7,7 +7,7 @@ import {
 	WornIcon,
 	MoneyIcon,
 	BackpackIcon,
-} from '@/components/ui';
+} from '@/components/icons';
 
 type PackSummaryPanelProps = {
 	totalWeight: number;

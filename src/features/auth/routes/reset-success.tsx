@@ -1,6 +1,6 @@
-import { Segment } from '@/components/ui';
+import { Segment } from '@/components/primitives';
 import { Heading, Text } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import {
 	AuthContainer,
 	FormContainer,

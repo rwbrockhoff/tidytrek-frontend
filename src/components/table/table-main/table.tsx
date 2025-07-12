@@ -1,4 +1,4 @@
-import { Table as AlpineTable } from '@/components/ui/alpine/';
+import { Table as AlpineTable } from '@/components/alpine/';
 import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import styles from './table.module.css';
 

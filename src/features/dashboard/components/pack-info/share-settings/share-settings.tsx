@@ -5,10 +5,9 @@ import {
 	PublicIcon,
 	ShareIcon,
 	ShareLinkIcon,
-} from '@/components/ui';
+} from '@/components/icons';
 import { Popover, Heading, Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { TextField } from '@/components/ui/alpine';
+import { TextField, Button } from '@/components/alpine';
 import { useState } from 'react';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { frontendURL } from '@/api/tidytrekAPI';

@@ -1,5 +1,4 @@
-import { Modal } from '@/components/ui/alpine';
-import { Button } from '@/components/ui/alpine';
+import { Button, Modal } from '@/components/alpine';
 
 type ExternalLinkModalProps = {
 	isOpen: boolean;

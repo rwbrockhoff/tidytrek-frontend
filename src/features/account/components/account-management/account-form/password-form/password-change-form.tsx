@@ -7,9 +7,8 @@ import {
 import styles from './password-form.module.css';
 import mx from '@/styles/utils/mixins.module.css';
 import { Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button, TextField } from '@/components/alpine';
 import { Form } from '@radix-ui/react-form';
-import { TextField } from '@/components/ui/alpine/';
 import { Message } from '@/components/ui';
 import { z, passwordSchema } from '@/schemas';
 import { useZodError } from '@/hooks/form/use-zod-error';

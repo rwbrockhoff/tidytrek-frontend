@@ -1,5 +1,5 @@
 import { Flex } from '@radix-ui/themes';
-import { Table } from '@/components/ui/alpine';
+import { Table } from '@/components/alpine';
 import { cn } from '@/styles/utils';
 import { useContext } from 'react';
 import { TableRowContext } from '../../context/table-row-context';

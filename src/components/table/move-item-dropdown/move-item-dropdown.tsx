@@ -3,8 +3,8 @@ import styles from './move-item-dropdown.module.css';
 import { BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
 import { Flex, Select, Table } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { MoveDownIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { MoveDownIcon } from '@/components/icons';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
 import { mx } from '@/styles/utils';
 

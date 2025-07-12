@@ -1,6 +1,6 @@
 import { Flex } from '@radix-ui/themes';
 import { cn } from '@/styles/utils';
-import { GripIcon } from '@/components/ui';
+import { GripIcon } from '@/components/icons';
 import styles from './grip-button.module.css';
 
 export const GripButton = ({

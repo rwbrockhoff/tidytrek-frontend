@@ -3,7 +3,7 @@ import { type PackItemProperty } from '@/types/pack-types';
 import styles from './pack-weight-cell.module.css';
 import { useContext } from 'react';
 import { Flex, Badge } from '@radix-ui/themes';
-import { TextField, Table } from '@/components/ui/alpine';
+import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { TableRowContext } from '../../context/table-row-context';

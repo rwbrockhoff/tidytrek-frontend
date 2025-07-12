@@ -1,7 +1,8 @@
 import { Heading } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { Segment } from '@/components/ui';
-import { DeleteModal, TrashIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { Segment } from '@/components/primitives';
+import { TrashIcon } from '@/components/icons';
+import { DeleteModal } from '@/components/ui';
 
 type DeleteAccountSectionProps = {
 	onDeleteAccount: () => void;

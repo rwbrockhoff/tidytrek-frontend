@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/alpine';
-import { PlusIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { PlusIcon } from '@/components/icons';
 
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (

@@ -1,6 +1,6 @@
 import { Callout } from '@radix-ui/themes';
 import type { ComponentProps } from 'react';
-import { CheckIcon, ErrorIcon, WarningIcon } from '../';
+import { CheckIcon, ErrorIcon, WarningIcon } from '@/components/icons';
 
 type MessageProps = {
 	messageType: 'success' | 'error';

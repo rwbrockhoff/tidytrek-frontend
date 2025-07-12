@@ -2,7 +2,7 @@ import { type User } from '@/types/user-types';
 import { type FormSection } from '@/features/account/types';
 import { useState } from 'react';
 import { Flex } from '@radix-ui/themes';
-import { Segment, SegmentGroup } from '@/components/ui';
+import { Segment, SegmentGroup } from '@/components/primitives';
 import { PasswordForm } from './password-form/password-form';
 import { AccountInfoDisplay } from '../account-info-display';
 import { DeleteAccountSection } from '../delete-account-section';

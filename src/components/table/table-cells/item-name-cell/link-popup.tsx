@@ -1,11 +1,9 @@
 import { Popover, Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { TextField } from '@/components/ui/alpine';
-import { CheckIcon, SaveIcon, TrashIcon } from '@/components/ui';
+import { Button, TextField } from '@/components/alpine';
+import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
-import { LinkIcon } from '@/components/ui';
 import { useContext, useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { TableRowContext } from '../../context/table-row-context';

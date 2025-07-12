@@ -2,7 +2,7 @@ import styles from './banner-photo.module.css';
 import { useState } from 'react';
 import { cn, mx } from '@/styles/utils';
 import { UploadFile } from '@/components';
-import { Dimmer, Spinner } from '@/components/ui';
+import { Dimmer, Spinner } from '@/components/primitives';
 import { defaultBannerPhoto } from '@/utils';
 
 type BannerPhotoProps = {

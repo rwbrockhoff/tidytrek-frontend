@@ -1,7 +1,7 @@
 import { cn, mx } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
-import { Button } from '@/components/ui/alpine';
-import { SidebarIcon, BackArrow } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { SidebarIcon, BackArrow } from '@/components/icons';
 
 type SidebarButtonProps = {
 	onClick: () => void;

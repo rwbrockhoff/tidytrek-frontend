@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { cn, mx } from '@/styles/utils';
 import styles from './pack-photo.module.css';
-import { Dimmer, Spinner, DeletePhotoButton } from '@/components/ui';
+import { Dimmer, Spinner } from '@/components/primitives';
+import { DeletePhotoButton } from '@/components/media';
 import { defaultPackPhoto } from '@/utils';
 import { UploadFile } from '@/components';
 
@@ -30,7 +31,9 @@ export const PackPhoto = (props: PackPhotoProps) => {
 			className={cn(styles.container, mx.uploadHoverContainer)}
 			onMouseOver={() => setShowButton(true)}
 			onMouseLeave={() => setShowButton(false)}>
-			{displayDeleteButton && <DeletePhotoButton disabled={isPending} onClick={onDelete} />}
+			{displayDeleteButton && (
+				<DeletePhotoButton disabled={isPending} onClick={onDelete} />
+			)}
 
 			<img
 				src={photoSource}

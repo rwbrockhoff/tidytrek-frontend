@@ -1,8 +1,8 @@
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
-import { SaveIcon, CloseIcon } from '@/components/ui';
+import { SaveIcon, CloseIcon } from '@/components/icons';
 import { Dialog, Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete/pack-delete';

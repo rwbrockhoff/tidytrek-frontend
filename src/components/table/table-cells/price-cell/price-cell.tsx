@@ -1,8 +1,7 @@
 import { type InputEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Text } from '@radix-ui/themes';
-import { Table } from '@/components/ui/alpine';
-import { TextField } from '@/components/ui/alpine';
+import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { convertCurrency } from '@/utils';
 import { TableRowContext } from '../../context/table-row-context';

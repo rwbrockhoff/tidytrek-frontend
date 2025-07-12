@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/alpine';
-import { TrashIcon } from '@/components/ui/icons';
+import { Button } from '@/components/alpine';
+import { TrashIcon } from '@/components/icons';
 import { DeleteModal } from '@/components/ui';
 import {
 	useDeletePackMutation,

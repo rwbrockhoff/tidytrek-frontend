@@ -1,7 +1,6 @@
 import { useContext } from 'react';
-import { Table } from '@/components/ui/alpine';
+import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { TextField } from '@/components/ui/alpine';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import { TableRowContext } from '../../context/table-row-context';
 import { mx } from '@/styles/utils';

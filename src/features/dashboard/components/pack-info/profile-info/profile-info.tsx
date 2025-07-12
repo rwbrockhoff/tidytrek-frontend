@@ -3,7 +3,8 @@ import {
 	type ProfileInfo as ProfileInfoType,
 	type SocialLink,
 } from '@/types/profile-types';
-import { Avatar, Link } from '@/components/ui';
+import { Link } from '@/components/ui';
+import { Avatar } from '@/components/media';
 import { SocialLinkList } from '@/components';
 import styles from './profile-info.module.css';
 

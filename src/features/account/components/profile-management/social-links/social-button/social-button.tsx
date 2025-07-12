@@ -1,7 +1,8 @@
 import styles from './social-button.module.css';
 import { Badge, Flex } from '@radix-ui/themes';
 import { useMemo } from 'react';
-import { ExternalLink, CloseIcon } from '@/components/ui';
+import { ExternalLink } from '@/components/ui';
+import { CloseIcon } from '@/components/icons';
 import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
 import { shortenURL } from '@/utils';
 

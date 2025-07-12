@@ -1,9 +1,8 @@
 import { type InputEvent } from '@/types/form-types';
 import { Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { TextField } from '@/components/ui/alpine';
+import { Button, TextField } from '@/components/alpine';
 import { useState } from 'react';
-import { PlusIcon } from '@/components/ui';
+import { PlusIcon } from '@/components/icons';
 import { useAddSocialLinkMutation } from '@/queries/profile-settings-queries';
 import { normalizeURL } from '@/utils';
 

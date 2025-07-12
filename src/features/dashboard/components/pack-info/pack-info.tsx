@@ -5,9 +5,9 @@ import styles from './pack-info.module.css';
 import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/ui';
+import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
 import { Flex, Heading, Text } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { useCategoryInfo } from '../../hooks/use-category-info';
@@ -43,7 +43,7 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { publicProfile } = settings || {};
-	
+
 	const { packHasWeight } = useCategoryInfo(packCategories, 'lb');
 
 	return (

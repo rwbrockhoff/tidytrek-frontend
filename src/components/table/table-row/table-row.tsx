@@ -7,10 +7,10 @@ import {
 	type PackItemProperty,
 	isPackItem,
 } from '@/types/pack-types';
-import { DeleteItemModal, ShareIcon, TrashIcon } from '../../ui';
+import { DeleteItemModal } from '@/components/ui/modals/modals';
+import { ShareIcon, TrashIcon } from '@/components/icons';
 import { Flex } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
-import { Table } from '@/components/ui/alpine';
+import { Button, Table } from '@/components/alpine';
 import { ActionButtons } from '@/components/table/table-buttons';
 import {
 	ItemNameCell,

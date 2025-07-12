@@ -1,4 +1,4 @@
-import { Table } from '@/components/ui/alpine';
+import { Table } from '@/components/alpine';
 import { HeaderCell } from '@/components/table';
 import { cn } from '@/styles/utils';
 import styles from './gear-closet-header.module.css';

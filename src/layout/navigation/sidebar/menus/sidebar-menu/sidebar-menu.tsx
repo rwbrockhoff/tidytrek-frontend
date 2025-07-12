@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { UserIcon, ClosetIcon } from '@/components/ui';
+import { UserIcon, ClosetIcon } from '@/components/icons';
 import { StyledMenu } from '../styled-menu/styled-menu';
 import styles from '../styled-menu/styled-menu.module.css';
 

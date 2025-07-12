@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/alpine';
-import { PasswordIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { PasswordIcon } from '@/components/icons';
 import { type FormSection, FORM_SECTIONS } from '@/features/account/types';
 
 type PasswordChangeButtonProps = {

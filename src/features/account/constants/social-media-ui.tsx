@@ -1,5 +1,5 @@
 import { type SocialObject } from '@/types/profile-types';
-import { LinkIcon } from '@/components/ui';
+import { LinkIcon } from '@/components/icons';
 import {
 	FacebookIcon,
 	TwitterIcon,
@@ -10,7 +10,7 @@ import {
 	VenmoIcon,
 	PaypalIcon,
 	PatreonIcon,
-} from '@/components/ui/icons/social-icons';
+} from '@/components/icons/social-icons';
 
 const socialMediaUI: SocialObject = {
 	custom: {

@@ -22,6 +22,3 @@ export const AuthRoutes = () => {
 	);
 };
 
-// routes available as public + protected
-export * from './welcome';
-export * from './reset-success';

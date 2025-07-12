@@ -1,4 +1,4 @@
-import { GripIcon } from '@/components/ui';
+import { GripIcon } from '@/components/icons';
 import { PackListItem as ListItem } from '@/types/pack-types';
 import { Text } from '@radix-ui/themes';
 import styles from './pack-list-item.module.css';

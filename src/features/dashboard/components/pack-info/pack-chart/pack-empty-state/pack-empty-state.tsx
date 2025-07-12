@@ -1,6 +1,6 @@
 import { Flex, Text } from '@radix-ui/themes';
 import { cn, mx } from '@/styles/utils';
-import { DownArrowIcon } from '@/components/ui';
+import { DownArrowIcon } from '@/components/icons';
 import CampGraphic from '@/assets/camping.svg';
 import styles from './pack-empty-state.module.css';
 

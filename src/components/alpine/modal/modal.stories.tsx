@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import * as Modal from './modal';
-import { Button } from '@/components/ui/alpine';
+import { Button } from '@/components/alpine';
 
 const meta: Meta<typeof Modal.Root> = {
 	title: 'Alpine/Modal',
@@ -42,4 +42,3 @@ export const Default: Story = {
 		);
 	},
 };
-

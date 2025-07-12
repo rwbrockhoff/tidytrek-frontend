@@ -1,10 +1,11 @@
 import { Navigate } from 'react-router-dom';
 import { UserLayout } from '@/layout';
-import { ResetPassword } from '@/features/auth/routes/reset-password';
-import { Welcome } from '../features/auth/routes/welcome';
-import { ResetSuccess } from '../features/auth/routes/reset-success';
 import { lazyImport } from '@/utils';
-import { BubbleError } from '@/components/layout';
+
+const { ResetPassword } = lazyImport(() => import('@/features/auth/routes/reset-password'), 'ResetPassword');
+const { Welcome } = lazyImport(() => import('../features/auth/routes/welcome'), 'Welcome');
+const { ResetSuccess } = lazyImport(() => import('../features/auth/routes/reset-success'), 'ResetSuccess');
+import { BubbleError } from '@/components';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
 const { PackEdit } = lazyImport(() => import('@/features/dashboard/'), 'PackEdit');
@@ -14,7 +15,10 @@ const { PackItemEdit } = lazyImport(
 );
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
-const { AccountRoot } = lazyImport(() => import('@/features/account/routes'), 'AccountRoot');
+const { AccountRoot } = lazyImport(
+	() => import('@/features/account/routes'),
+	'AccountRoot',
+);
 const { AccountSettings } = lazyImport(
 	() => import('@/features/account/routes'),
 	'AccountSettings',

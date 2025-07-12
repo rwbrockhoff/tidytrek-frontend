@@ -1,7 +1,7 @@
 import styles from './profile-header.module.css';
 import { type UserProfile } from '@/types/profile-types';
-import { LocationIcon } from '@/components/ui';
-import { Avatar } from '@/components/ui';
+import { LocationIcon } from '@/components/icons';
+import { Avatar } from '@/components/media';
 import { SocialLinkList } from '@/components';
 import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
 import { useUserContext } from '@/hooks/auth/use-user-context';

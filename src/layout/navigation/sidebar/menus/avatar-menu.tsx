@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { UserIcon, LogoutIcon } from '@/components/ui';
+import { UserIcon, LogoutIcon } from '@/components/icons';
 import { StyledMenu } from './styled-menu/styled-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {

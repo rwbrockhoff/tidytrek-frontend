@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/alpine';
-import { TrashIcon } from '@/components/ui';
+import { Button } from '@/components/alpine';
+import { TrashIcon } from '@/components/icons';
 import styles from './delete-photo-button.module.css';
 
 type DeletePhotoButtonProps = {

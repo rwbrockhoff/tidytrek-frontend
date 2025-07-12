@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Heading, Select } from '@radix-ui/themes';
-import { Button } from '@/components/ui/alpine';
 import { Root as FormRoot } from '@radix-ui/react-form';
-import { TextField } from '@/components/ui/alpine';
-import { SaveIcon, BackArrow } from '@/components/ui/icons';
+import { TextField, Button } from '@/components/alpine';
+import { SaveIcon, BackArrow } from '@/components/icons';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import {
@@ -16,7 +15,7 @@ import {
 	useEditPackItemMutation,
 	useDeletePackItemMutation,
 } from '@/queries/pack-queries';
-import { Spinner } from '@/components/ui';
+import { Spinner } from '@/components/primitives';
 import {
 	type PackItem,
 	type BaseTableRowItem,
