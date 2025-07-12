@@ -32,13 +32,13 @@ export const useTableRowInput = (item: BaseTableRowItem) => {
 	const onChange = (e: InputEvent) => {
 		const { name, value } = e.target as HTMLInputElement;
 		updateField(name, value);
-		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors as any);
+		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
 	};
 
 	const onSelect = (e: SelectEvent) => {
 		const { name, value } = e.target as HTMLSelectElement;
 		updateField(name, value);
-		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors as any);
+		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
 	};
 
 	return {

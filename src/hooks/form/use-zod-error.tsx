@@ -35,12 +35,16 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 		}
 	};
 
-	// Reset individual error
-	const resetFormErrors = (inputName: string) => {
-		setFormErrors((prev) => ({
-			...prev,
-			...{ [inputName]: { error: false, message: '' } },
-		}));
+	// Reset individual error or all errors
+	const resetFormErrors = (inputName?: string) => {
+		if (inputName) {
+			setFormErrors((prev) => ({
+				...prev,
+				...{ [inputName]: { error: false, message: '' } },
+			}));
+		} else {
+			setFormErrors(createFormErrorShape<T>(formInputs));
+		}
 		setPrimaryError({ error: false, message: '' });
 	};
 

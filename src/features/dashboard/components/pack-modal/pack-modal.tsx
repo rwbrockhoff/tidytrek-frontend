@@ -5,6 +5,7 @@ import { Button, Dialog, Flex, IconButton } from '@radix-ui/themes';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete/pack-delete';
+import { useState } from 'react';
 
 type PackModalProps = {
 	children: React.ReactNode;
@@ -13,14 +14,22 @@ type PackModalProps = {
 
 export const PackModal = (props: PackModalProps) => {
 	const { children, pack } = props;
+	const [isOpen, setIsOpen] = useState(false);
 
-	const { modifiedPack, handleFormChange, handleCheckBox, handleSubmitPack } =
+	const { modifiedPack, handleFormChange, handleCheckBox, handleSubmitPack, formErrors } =
 		usePackForm(pack);
 
 	const { packName } = modifiedPack;
 
+	const handleSaveAndClose = () => {
+		const success = handleSubmitPack();
+		if (success) {
+			setIsOpen(false);
+		}
+	};
+
 	return (
-		<Dialog.Root>
+		<Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 			<Dialog.Trigger>
 				<div>{children}</div>
 			</Dialog.Trigger>
@@ -47,17 +56,16 @@ export const PackModal = (props: PackModalProps) => {
 					pack={modifiedPack}
 					handleFormChange={handleFormChange}
 					handleCheckBox={handleCheckBox}
+					formErrors={formErrors}
 				/>
 
 				<Flex justify="end" gap="3" mt="2" mx="4" mb="2">
 					<PackDelete pack={pack} />
 
-					<Dialog.Close>
-						<Button onClick={handleSubmitPack}>
-							<SaveIcon size={16} />
-							Save Pack
-						</Button>
-					</Dialog.Close>
+					<Button onClick={handleSaveAndClose}>
+						<SaveIcon size={16} />
+						Save Pack
+					</Button>
 				</Flex>
 			</Dialog.Content>
 		</Dialog.Root>

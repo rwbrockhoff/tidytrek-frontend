@@ -63,7 +63,7 @@ export const ResetPassword = () => {
 	};
 
 	const handleClearErrors = (inputName?: string) => {
-		if (inputName) resetFormErrors(inputName);
+		resetFormErrors(inputName);
 		if (serverError.error) resetAxiosError();
 	};
 
