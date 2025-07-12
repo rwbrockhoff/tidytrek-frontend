@@ -24,7 +24,7 @@ import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input
 import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+
 import { TableRowContext } from '../context/table-row-context';
 import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
 import { TableErrorRow } from '../table-error-row/table-error-row';
@@ -52,7 +52,6 @@ const packItemSchema = z.object({
 export const TableRowComponent = (props: TableRowProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
-	const { isMobile } = useCheckScreen();
 
 	const { item, index, disabled } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
@@ -68,7 +67,6 @@ export const TableRowComponent = (props: TableRowProps) => {
 	} = useTableRowInput(item);
 
 	const [toggleRow, setToggleRow] = useState(false);
-	const [viewAllCells, setViewAllCells] = useState(false);
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 
 	const handleToggle = () => {
@@ -84,8 +82,6 @@ export const TableRowComponent = (props: TableRowProps) => {
 		}
 	};
 
-	const handleToggleViewAllCells = () => setViewAllCells(!viewAllCells);
-
 	const handleChangeProperty = (property: PackItemProperty) =>
 		handleOnSave({ ...packItem, ...property });
 
@@ -97,7 +93,6 @@ export const TableRowComponent = (props: TableRowProps) => {
 	const availablePacks = props?.packList || [];
 	const dropId = `item${packItemId}`;
 
-	const showAllCells = !isMobile || viewAllCells;
 	const hasPackId = isPackItem(packItem);
 
 	return (
@@ -127,60 +122,55 @@ export const TableRowComponent = (props: TableRowProps) => {
 								<ItemNameCell
 									displayIcon={toggleRow}
 									dragProps={{ ...provided.dragHandleProps }}
-									toggleMobileView={handleToggleViewAllCells}
 									onToggleOff={handleToggle}
 								/>
 
-								{showAllCells && (
-									<>
-										<DescriptionCell onToggleOff={handleToggle} />
+								<DescriptionCell onToggleOff={handleToggle} />
 
-										<PropertiesCell
-											onClick={handleChangeProperty}
-											isDisabled={!!disabled}
-											display={toggleRow}
-										/>
+								<PropertiesCell
+									onClick={handleChangeProperty}
+									isDisabled={!!disabled}
+									display={toggleRow}
+								/>
 
-										<QuantityCell onToggleOff={handleToggle} />
+								<QuantityCell onToggleOff={handleToggle} />
 
-										<PackWeightCell
-											onToggleOff={handleToggle}
-											onSelect={handleChangeProperty}
-										/>
+								<PackWeightCell
+									onToggleOff={handleToggle}
+									onSelect={handleChangeProperty}
+								/>
 
-										{showPrices && <PriceCell onToggleOff={handleToggle} />}
+								{showPrices && <PriceCell onToggleOff={handleToggle} />}
 
-										{userView && (
-											<ActionButtons display={toggleRow}>
-												<Flex align="center">
-													<Button
-														onClick={() => setToggleGearButtons(!toggleGearButtons)}
-														variant="ghost"
-														size="sm"
-														data-testid="move-pack-item-button"
-														aria-label="Move pack item"
-														iconLeft={<ShareIcon />}
-													/>
-												</Flex>
+								{userView && (
+									<ActionButtons display={toggleRow}>
+										<Flex align="center">
+											<Button
+												onClick={() => setToggleGearButtons(!toggleGearButtons)}
+												variant="ghost"
+												size="sm"
+												data-testid="move-pack-item-button"
+												aria-label="Move pack item"
+												iconLeft={<ShareIcon />}
+											/>
+										</Flex>
 
-												<DeleteItemModal
-													id={packItemId}
-													hasPackId={hasPackId}
-													onClickMove={handleMoveItemToCloset}
-													onClickDelete={() => handleDelete(packItemId)}>
-													<Flex align="center">
-														<Button
-															variant="ghost"
-															size="sm"
-															data-testid="delete-pack-item-button"
-															aria-label="Delete pack item"
-															iconLeft={<TrashIcon />}
-														/>
-													</Flex>
-												</DeleteItemModal>
-											</ActionButtons>
-										)}
-									</>
+										<DeleteItemModal
+											id={packItemId}
+											hasPackId={hasPackId}
+											onClickMove={handleMoveItemToCloset}
+											onClickDelete={() => handleDelete(packItemId)}>
+											<Flex align="center">
+												<Button
+													variant="ghost"
+													size="sm"
+													data-testid="delete-pack-item-button"
+													aria-label="Delete pack item"
+													iconLeft={<TrashIcon />}
+												/>
+											</Flex>
+										</DeleteItemModal>
+									</ActionButtons>
 								)}
 							</Table.Row>
 							{toggleGearButtons && userView && !isDragging && (

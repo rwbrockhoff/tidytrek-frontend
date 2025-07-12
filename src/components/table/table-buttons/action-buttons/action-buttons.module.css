@@ -1,0 +1,35 @@
+.flexContainer {
+	height: 100%;
+	justify-content: center;
+	padding: 0 var(--space-min);
+	gap: var(--space-min);
+	margin-right: var(--space-min);
+}
+
+.flexContainer svg {
+	cursor: pointer;
+	color: var(--gray-500);
+}
+
+.flexContainer svg:hover {
+	filter: var(--brightness-dark-2);
+}
+
+.flexVisible {
+	opacity: 1;
+}
+
+.flexHidden {
+	opacity: 0;
+}
+
+@media (max-width: 768px) {
+	.headerCell {
+		width: 25%;
+	}
+
+	.flexContainer {
+		opacity: 1;
+		width: 100%;
+	}
+}

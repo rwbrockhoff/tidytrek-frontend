@@ -2,7 +2,7 @@ import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { useContext } from 'react';
 import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/ui/alpine';
-import { GripButton, MobileToggleButton } from '../../table-buttons';
+import { GripButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { ExternalLink, LinkIcon } from '@/components/ui';
 import { LinkPopup } from './link-popup';
@@ -17,7 +17,6 @@ type ItemNameCellProps = {
 	displayIcon: boolean;
 	dragProps: object;
 	onToggleOff: () => void;
-	toggleMobileView: () => void;
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
@@ -27,7 +26,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	const { ref, width } = useCellWidth(isDragging);
 
 	const { displayIcon, dragProps } = props;
-	const { onToggleOff, toggleMobileView } = props;
+	const { onToggleOff } = props;
 
 	const handleToggleOff = () => {
 		userView && onToggleOff();
@@ -56,7 +55,6 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						disabled={!userView}
 						className={mx.textEllipsis}
 					/>
-					<MobileToggleButton onToggle={toggleMobileView} />
 					<LinkPopup displayIcon={displayIcon} />
 				</Flex>
 			) : packItemUrl ? (
