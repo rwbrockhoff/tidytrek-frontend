@@ -19,7 +19,7 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 			onClick={onClick}
 			variant="ghost"
 			color="gray">
-			{isSidebar ? <BackArrow /> : <SidebarIcon />}
+			{isSidebar ? <BackArrow size={18} /> : <SidebarIcon />}
 		</Button>
 	);
 };

@@ -6,8 +6,6 @@
 
 .sidebarButton svg {
 	color: var(--color-text-secondary);
-	width: var(--icon-match);
-	height: var(--icon-match);
 }
 
 button.sidebarButton:not(.isSidebar) {
