@@ -3,7 +3,8 @@ import { TextField } from '@/components/ui/alpine';
 import { useImportPackMutation } from '@/queries/pack-queries';
 import { type InputEvent } from '@/types/form-types';
 import { Form } from '@radix-ui/react-form';
-import { Dialog, Flex, Button } from '@radix-ui/themes';
+import { Dialog, Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Spinner } from '@/components/ui';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
@@ -104,20 +105,16 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 					<Flex gap="3" mt="6" justify="end">
 						<Dialog.Close>
-							<Button color="gray">{isSuccessImport ? 'Close' : 'Cancel'}</Button>
+							<Button variant="secondary">{isSuccessImport ? 'Close' : 'Cancel'}</Button>
 						</Dialog.Close>
 
 						<Button
 							type="submit"
 							disabled={isPendingImport || invalidLink}
+							loading={isPendingImport}
+							iconLeft={!isPendingImport ? <BackpackIcon /> : undefined}
 							className={styles.importButton}>
-							{isPendingImport ? (
-								<Spinner active size="1" />
-							) : (
-								<>
-									<BackpackIcon /> Import Pack
-								</>
-							)}
+							Import Pack
 						</Button>
 					</Flex>
 				</Form>

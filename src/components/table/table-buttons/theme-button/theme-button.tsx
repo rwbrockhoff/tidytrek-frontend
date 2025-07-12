@@ -1,6 +1,6 @@
 import styles from './theme-button.module.css';
 import { Flex, Popover } from '@radix-ui/themes';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { paletteList } from '@/styles/palette/palette-constants';
 import { cn, mx } from '@/styles/utils';
 

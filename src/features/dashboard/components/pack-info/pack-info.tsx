@@ -6,7 +6,8 @@ import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/ui';
-import { Flex, Heading, Button, Text } from '@radix-ui/themes';
+import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { encode } from '@/utils';
@@ -99,11 +100,10 @@ export const PackInfo = (props: PackInfoProps) => {
 				<PackLabels pack={currentPack} />
 				<Button
 					variant="outline"
-					my="6"
-					size="3"
+					size="lg"
 					onClick={handleTogglePackChart}
+					iconLeft={<ChartIcon />}
 					className={styles.toggleChartButton}>
-					<ChartIcon />
 					{showPackChart ? 'Hide' : 'Show'} Pack Chart
 				</Button>
 			</div>

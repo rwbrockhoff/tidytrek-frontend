@@ -1,6 +1,6 @@
 import { cn, mx } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { SidebarIcon, BackArrow } from '@/components/ui';
 
 type SidebarButtonProps = {
@@ -17,8 +17,7 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 				!isSidebar && mx.mobileHidden,
 			)}
 			onClick={onClick}
-			variant="ghost"
-			color="gray">
+			variant="ghost">
 			{isSidebar ? <BackArrow size={18} /> : <SidebarIcon />}
 		</Button>
 	);

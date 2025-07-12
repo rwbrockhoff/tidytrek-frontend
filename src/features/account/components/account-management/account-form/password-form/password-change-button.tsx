@@ -1,4 +1,4 @@
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { PasswordIcon } from '@/components/ui';
 import { type FormSection, FORM_SECTIONS } from '@/features/account/types';
 
@@ -10,9 +10,8 @@ export const PasswordChangeButton = ({ onChangeSection }: PasswordChangeButtonPr
 	return (
 		<Button
 			variant="outline"
-			color="gray"
-			onClick={() => onChangeSection(FORM_SECTIONS.CONFIRMATION)}>
-			<PasswordIcon size={16} />
+			onClick={() => onChangeSection(FORM_SECTIONS.CONFIRMATION)}
+			iconLeft={<PasswordIcon size={16} />}>
 			Change Password
 		</Button>
 	);

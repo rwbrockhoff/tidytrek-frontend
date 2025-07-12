@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Heading, Select } from '@radix-ui/themes';
+import { Heading, Select } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Root as FormRoot } from '@radix-ui/react-form';
 import { TextField } from '@/components/ui/alpine';
 import { SaveIcon, BackArrow } from '@/components/ui/icons';
@@ -143,8 +144,7 @@ export const PackItemEdit = () => {
 	return (
 		<div className={styles.pageContainer}>
 			<div className={styles.actionHeader}>
-				<Button variant="ghost" color="gray" onClick={handleCancel}>
-					<BackArrow />
+				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
 				</Button>
 			</div>

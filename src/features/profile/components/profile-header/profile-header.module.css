@@ -1,14 +1,14 @@
 .avatarContainer {
 	width: fit-content;
 	position: absolute;
-	top: 200px;
-	left: var(--space-xxl);
+	top: 175px;
+	left: var(--space-xl);
 }
 
 .profileInfoContainer {
 	min-height: 175px;
 	height: fit-content;
-	padding: var(--space-lg) 0px;
+	padding: var(--space-lg) var(--space-sm);
 	background-color: var(--color-bg-secondary);
 	border-bottom-left-radius: var(--space-lg);
 	border-bottom-right-radius: var(--space-lg);
@@ -16,7 +16,7 @@
 
 .profileTextContainer {
 	height: 100%;
-	margin-left: 250px;
+	margin-left: 200px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

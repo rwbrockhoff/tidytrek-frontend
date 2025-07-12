@@ -9,7 +9,7 @@ import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { PackItemRow } from '../../pack-item-row/pack-item-row';
 import { PlusIcon, MinusIcon } from '@/components/ui/icons';
 import { ThemeButton } from '@/components/table/table-buttons';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 
 type PackCategoryCardProps = {
 	category: Category;
@@ -71,9 +71,9 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 						onClick={handleMinimizeCategory}
 						variant="ghost"
 						data-testid="minimize-category-button"
-						aria-label={isMinimized ? 'Expand category' : 'Minimize category'}>
-						{isMinimized ? <PlusIcon size={20} /> : <MinusIcon size={20} />}
-					</Button>
+						aria-label={isMinimized ? 'Expand category' : 'Minimize category'}
+						iconLeft={isMinimized ? <PlusIcon size={20} /> : <MinusIcon size={20} />}
+					/>
 				</div>
 				{showCategoryItems && (
 					<div className={styles.categoryTotals} style={bgColorCategory}>
@@ -105,11 +105,10 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 				<Card.Footer className={cn('aow', styles.categoryFooter)}>
 					<Button
 						variant="outline"
-						color="gray"
-						size="1"
+						size="sm"
 						onClick={handleAddItem}
-						aria-label="Add new item to list">
-						<PlusIcon size={16} />
+						aria-label="Add new item to list"
+						iconLeft={<PlusIcon size={16} />}>
 						Add Item
 					</Button>
 				</Card.Footer>

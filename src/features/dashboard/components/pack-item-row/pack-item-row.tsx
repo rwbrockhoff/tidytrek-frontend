@@ -1,4 +1,5 @@
-import { Badge, Button } from '@radix-ui/themes';
+import { Badge } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { useNavigate } from 'react-router-dom';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { convertCurrency, encodePackItemId } from '@/utils';
@@ -117,9 +118,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									hasPackId={isPackItem(item)}
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
-									<Button variant="ghost" color="gray" aria-label="Move to closet">
-										<ShareIcon size={16} />
-									</Button>
+									<Button variant="ghost" aria-label="Move to closet" iconLeft={<ShareIcon size={16} />} />
 								</DeleteItemModal>
 							)}
 
@@ -129,9 +128,7 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 									hasPackId={isPackItem(item)}
 									onClickMove={handleMoveToCloset}
 									onClickDelete={handleDelete}>
-									<Button variant="ghost" color="gray" aria-label="Delete item">
-										<TrashIcon size={16} />
-									</Button>
+									<Button variant="ghost" aria-label="Delete item" iconLeft={<TrashIcon size={16} />} />
 								</DeleteItemModal>
 							)}
 						</div>

@@ -1,5 +1,6 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { Button, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Table } from '@/components/ui/alpine';
 import { CategoryNameCell } from '../table-cells';
 import { ActionButtons } from '../table-buttons/';
@@ -59,9 +60,9 @@ export const TableHeader = (props: TableHeaderProps) => {
 								onClick={minimizeCategory}
 								variant="ghost"
 								data-testid="minimize-category-button"
-								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}>
-								{isMinimized ? <PlusIcon size={16} /> : <MinusIcon size={16} />}
-							</Button>
+								iconLeft={isMinimized ? <PlusIcon size={16} /> : <MinusIcon size={16} />}
+								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}
+							/>
 						</Flex>
 						<DeleteModal
 							header="Are you sure?"
@@ -72,9 +73,9 @@ export const TableHeader = (props: TableHeaderProps) => {
 								<Button
 									variant="ghost"
 									data-testid="delete-category-button"
-									aria-label="Delete category">
-									<TrashIcon size={16} />
-								</Button>
+									iconLeft={<TrashIcon size={16} />}
+									aria-label="Delete category"
+								/>
 							</Flex>
 						</DeleteModal>
 					</ActionButtons>

@@ -1,5 +1,6 @@
 import { type InputEvent } from '@/types/form-types';
-import { Button, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { useState } from 'react';
 import { SocialButtonPicker } from './social-button/social-button';
@@ -52,12 +53,10 @@ export const AddLink = () => {
 				width={'30%'}
 			/>
 			<Button
-				size="2"
-				color="gray"
-				variant="outline"
+				variant="secondary"
 				disabled={!socialLink || isPending}
 				onClick={handleAddLink}>
-				<PlusIcon />
+				<PlusIcon size={16} />
 				Add Link
 			</Button>
 		</Flex>

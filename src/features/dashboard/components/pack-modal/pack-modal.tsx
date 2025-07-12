@@ -1,7 +1,8 @@
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
 import { SaveIcon, CloseIcon } from '@/components/ui';
-import { Button, Dialog, Flex, IconButton } from '@radix-ui/themes';
+import { Dialog, Flex, IconButton } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete/pack-delete';
@@ -62,8 +63,7 @@ export const PackModal = (props: PackModalProps) => {
 				<Flex justify="end" gap="3" mt="2" mx="4" mb="2">
 					<PackDelete pack={pack} />
 
-					<Button onClick={handleSaveAndClose}>
-						<SaveIcon size={16} />
+					<Button onClick={handleSaveAndClose} iconLeft={<SaveIcon size={16} />}>
 						Save Pack
 					</Button>
 				</Flex>

@@ -6,7 +6,8 @@ import {
 } from '@/types/form-types';
 import styles from './password-form.module.css';
 import mx from '@/styles/utils/mixins.module.css';
-import { Flex, Button } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Form } from '@radix-ui/react-form';
 import { TextField } from '@/components/ui/alpine/';
 import { Message } from '@/components/ui';
@@ -118,11 +119,11 @@ export const PasswordChangeForm = ({
 			{isFormSuccess && <Message messageType="success" text={successMessage} />}
 
 			<Flex justify="end" gap="3" mt="3" className={styles.buttonContainer}>
-				<Button variant="outline" color="gray" onClick={onCancel}>
+				<Button variant="outline" onClick={onCancel}>
 					{isFormSuccess ? 'Close' : 'Cancel'}
 				</Button>
-				<Button type="submit" disabled={changePassword.isPending}>
-					{changePassword.isPending ? 'Saving...' : 'Save Password'}
+				<Button type="submit" loading={changePassword.isPending}>
+					Save Password
 				</Button>
 			</Flex>
 		</Form>

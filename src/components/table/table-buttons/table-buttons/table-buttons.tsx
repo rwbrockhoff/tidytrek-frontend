@@ -1,4 +1,5 @@
-import { Flex, Button, IconButton } from '@radix-ui/themes';
+import { Flex, IconButton } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Table } from '@/components/ui/alpine';
 import { cn, mx } from '@/styles/utils';
 import styles from './table-buttons.module.css';
@@ -85,8 +86,7 @@ export const MoveItemButton = ({ display, onToggle }: MoveButtonProps) => {
 
 export const AddCategoryButton = ({ onClick }: { onClick: () => void }) => {
 	return (
-		<Button variant="outline" color="gray" size="2" radius="medium" onClick={onClick}>
-			<PlusIcon size={16} />
+		<Button variant="outline" size="md" onClick={onClick} iconLeft={<PlusIcon size={16} />}>
 			Add Category
 		</Button>
 	);

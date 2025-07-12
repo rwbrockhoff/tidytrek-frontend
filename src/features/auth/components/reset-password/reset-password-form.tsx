@@ -3,7 +3,8 @@ import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Form } from '@radix-ui/react-form';
 import { Message, Segment } from '@/components/ui';
-import { Flex, Text, Heading, Button } from '@radix-ui/themes';
+import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components/form-components';
@@ -90,7 +91,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							/>
 						)}
 
-						<Button size="3" mt="2" style={{ width: '100%' }} type="submit">
+						<Button size="lg" style={{ width: '100%' }} type="submit">
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 					</Form>

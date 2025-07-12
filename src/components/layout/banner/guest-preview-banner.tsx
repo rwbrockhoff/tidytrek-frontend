@@ -1,4 +1,5 @@
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { Flex, Text } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Link, CloseIcon } from '../../ui';
 import { useParams } from 'react-router-dom';
 
@@ -8,8 +9,7 @@ export const GuestPreviewBanner = () => {
 	return (
 		<Flex align="center" gap="4">
 			<Link to={`/pack/${packId}`}>
-				<Button size="1" variant="outline" radius="large">
-					<CloseIcon size={16} />
+				<Button size="sm" variant="outline" iconLeft={<CloseIcon size={16} />}>
 					Exit Preview
 				</Button>
 			</Link>

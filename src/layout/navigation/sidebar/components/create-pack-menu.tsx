@@ -58,11 +58,9 @@ export const CreatePackMenu = () => {
 						<Button
 							variant="ghost"
 							aria-label="Import pack from Lighterpack"
-							className={styles.menuButton}>
-							<Flex display="inline-flex" align="center" justify="start" gap="2">
-								<ImportIcon />
-								Import Pack
-							</Flex>
+							className={styles.menuButton}
+							iconLeft={<ImportIcon />}>
+							Import Pack
 						</Button>
 					</ImportPackDialog>
 				</Flex>

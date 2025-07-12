@@ -1,6 +1,6 @@
 import { type GearClosetItem } from '@/types/pack-types';
 import { Card } from '@/components/ui/alpine';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { PlusIcon } from '@/components/ui/icons';
 import { PackItemRow } from '@/features/dashboard/components/pack-item-row/pack-item-row';
 import { cn } from '@/styles/utils';
@@ -45,11 +45,10 @@ export const GearClosetCard = ({
 				<Card.Footer className={cn('aow', styles.cardFooter)}>
 					<Button
 						variant="outline"
-						color="gray"
-						size="1"
+						size="sm"
 						onClick={onAddItem}
+						iconLeft={<PlusIcon />}
 						aria-label="Add new item to gear closet">
-						<PlusIcon />
 						Add Item
 					</Button>
 				</Card.Footer>

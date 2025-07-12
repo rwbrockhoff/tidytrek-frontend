@@ -3,8 +3,9 @@ import { type FormError, type InputEvent } from '@/types/form-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { Form } from '@radix-ui/react-form';
 import { LandingLink } from '@/components/ui';
-import { Segment, Message, Spinner } from '@/components/ui';
-import { Heading, Button, Text, Flex, Box } from '@radix-ui/themes';
+import { Segment, Message } from '@/components/ui';
+import { Heading, Text, Flex, Box } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from './form-components/form-components';
 import styles from './form-components/form-components.module.css';
@@ -129,25 +130,14 @@ export const LogInForm = (props: AuthFormProps) => {
 								id="auth-message"
 							/>
 						)}
-						<Button
-							type="submit"
-							style={{ width: '100%' }}
-							size="3"
-							my="4"
-							disabled={isLoading}>
-							{isLoading ? (
-								<Spinner active size="1" />
-							) : isRegisterForm ? (
-								'Create account'
-							) : (
-								'Login'
-							)}
+						<Button type="submit" style={{ width: '100%' }} size="md" loading={isLoading}>
+							{isRegisterForm ? 'Create account' : 'Login'}
 						</Button>
 					</Form>
 				</Box>
 
 				{isRegisterForm && (
-					<Flex direction="column">
+					<Flex direction="column" mt="4">
 						<Text color="gray" size="1" my="4">
 							By clicking "Create account" or "Continue with Google", you agree to the
 							Tidytrek <LandingLink to="terms-of-service">Terms of Service</LandingLink>{' '}

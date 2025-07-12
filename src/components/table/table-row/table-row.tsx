@@ -8,7 +8,8 @@ import {
 	isPackItem,
 } from '@/types/pack-types';
 import { DeleteItemModal, ShareIcon, TrashIcon } from '../../ui';
-import { Flex, Button } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Table } from '@/components/ui/alpine';
 import { ActionButtons } from '@/components/table/table-buttons';
 import {
@@ -156,9 +157,9 @@ export const TableRowComponent = (props: TableRowProps) => {
 														onClick={() => setToggleGearButtons(!toggleGearButtons)}
 														variant="ghost"
 														data-testid="move-pack-item-button"
-														aria-label="Move pack item">
-														<ShareIcon size={16} />
-													</Button>
+														aria-label="Move pack item"
+														iconLeft={<ShareIcon size={16} />}
+													/>
 												</Flex>
 
 												<DeleteItemModal
@@ -170,9 +171,9 @@ export const TableRowComponent = (props: TableRowProps) => {
 														<Button
 															variant="ghost"
 															data-testid="delete-pack-item-button"
-															aria-label="Delete pack item">
-															<TrashIcon size={16} />
-														</Button>
+															aria-label="Delete pack item"
+															iconLeft={<TrashIcon size={16} />}
+														/>
 													</Flex>
 												</DeleteItemModal>
 											</ActionButtons>

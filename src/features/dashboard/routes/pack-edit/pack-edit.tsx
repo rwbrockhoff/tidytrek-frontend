@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { type Pack } from '@/types/pack-types';
-import { Button, Heading } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { SaveIcon, BackArrow } from '@/components/ui/icons';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../../components/pack-form/pack-form';
@@ -35,8 +36,7 @@ export const PackEdit = () => {
 	return (
 		<div className={styles.pageContainer}>
 			<div className={styles.actionHeader}>
-				<Button variant="ghost" color="gray" onClick={handleCancel}>
-					<BackArrow />
+				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
 				</Button>
 			</div>

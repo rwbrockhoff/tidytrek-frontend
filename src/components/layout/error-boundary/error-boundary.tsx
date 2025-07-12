@@ -1,5 +1,6 @@
 import { useRouteError } from 'react-router-dom';
-import { Flex, Text, Heading, Button } from '@radix-ui/themes';
+import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import styles from './error-boundary.module.css';
 import { TreeIcon } from '@/components/ui';
 
@@ -33,8 +34,8 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 			</Text>
 			{hasResetFunction && (
 				<Button
-					size="2"
-					color="jade"
+					size="md"
+					variant="primary"
 					className={styles.styledButton}
 					onClick={() => props.resetErrorBoundary()}>
 					Retry Request

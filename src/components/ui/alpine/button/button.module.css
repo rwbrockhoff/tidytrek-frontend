@@ -171,6 +171,12 @@
 	height: var(--icon-md);
 }
 
+/* Default, Danger Variant - white svg color */
+.buttonDefault svg,
+.buttonDanger svg {
+	color: var(--color-constant-white);
+}
+
 /* Button - Loading */
 .spinner {
 	position: absolute;

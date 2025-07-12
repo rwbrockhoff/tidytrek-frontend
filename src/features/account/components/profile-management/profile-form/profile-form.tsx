@@ -2,7 +2,8 @@ import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { useState, useEffect, type FormEvent } from 'react';
 import styles from './profile-form.module.css';
-import { Button, Flex, IconButton } from '@radix-ui/themes';
+import { Flex, IconButton } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Form } from '@radix-ui/react-form';
 import { Message, RefreshIcon, SaveIcon, Segment, SegmentGroup } from '@/components/ui';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
@@ -183,9 +184,8 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 
 						{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-						<Flex justify="start">
-							<Button mt="4" type="submit" disabled={!isProfileChanged}>
-								<SaveIcon size={16} />
+						<Flex justify="start" mt="2">
+							<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon size={16} />}>
 								Save Profile
 							</Button>
 						</Flex>

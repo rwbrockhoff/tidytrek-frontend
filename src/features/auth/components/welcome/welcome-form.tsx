@@ -1,7 +1,8 @@
 import { type InputEvent } from '@/types/form-types';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { Flex, Text, Heading, Button, IconButton } from '@radix-ui/themes';
+import { Flex, Text, Heading, IconButton } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Link, Segment, RefreshIcon } from '@/components/ui';
 import { TextField } from '@/components/ui/alpine';
 import { FormContainer } from '../form-components/form-components';
@@ -136,9 +137,8 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 					<Button
 						type="submit"
-						disabled={isPending}
-						size="3"
-						mt="4"
+						loading={isPending}
+						size="lg"
 						style={{ width: '100%', cursor: 'pointer' }}>
 						Save
 					</Button>

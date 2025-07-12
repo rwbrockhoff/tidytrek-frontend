@@ -1,4 +1,5 @@
-import { Badge, Button } from '@radix-ui/themes';
+import { Badge } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Table } from '@/components/ui/alpine';
 import { PlusIcon } from '../../ui';
 import { useTableColumnWidths } from '../hooks/use-table-column-widths';
@@ -34,12 +35,10 @@ export const TableFooter = ({
 					{userView && (
 						<Button
 							variant="outline"
-							color="gray"
-							size="1"
-							ml="2"
+							size="sm"
 							onClick={handleAddItem}
+							iconLeft={<PlusIcon size={16} />}
 							aria-label="Add new item to list">
-							<PlusIcon size={16} />
 							Add Item
 						</Button>
 					)}

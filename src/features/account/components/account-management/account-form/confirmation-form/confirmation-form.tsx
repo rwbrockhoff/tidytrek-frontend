@@ -1,6 +1,7 @@
 import styles from './confirmation-form.module.css';
 import { SendIcon, CheckIcon, Message } from '@/components/ui';
-import { Callout, Button, Heading, Text, Flex } from '@radix-ui/themes';
+import { Callout, Heading, Text, Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 
 type ConfirmationFormProps = { 
 	sendConfirmation: () => void; 
@@ -31,8 +32,7 @@ export const ConfirmationForm = ({ sendConfirmation, confirmationSent, isError, 
 						<Message messageType="error" text={errorMessage} />
 					)}
 					
-					<Button color="gray" variant="outline" onClick={sendConfirmation}>
-						<SendIcon size={16} />
+					<Button variant="outline" onClick={sendConfirmation} iconLeft={<SendIcon size={16} />}>
 						Send Email
 					</Button>
 				</Callout.Root>

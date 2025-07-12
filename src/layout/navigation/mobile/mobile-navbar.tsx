@@ -1,4 +1,5 @@
-import { Heading, Button } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { MenuIcon } from '@/components/ui';
 import { cn, mx } from '@/styles/utils';
 import styles from './mobile-navbar.module.css';
@@ -9,9 +10,7 @@ export const MobileNavbar = ({ onClick }: { onClick: () => void }) => {
 			<Heading as="h1" size="8">
 				tidytrek
 			</Heading>
-			<Button className={styles.menuButton} onClick={onClick} size="4">
-				<MenuIcon size={20} />
-			</Button>
+			<Button className={styles.menuButton} onClick={onClick} size="lg" iconLeft={<MenuIcon size={20} />} />
 		</header>
 	);
 };

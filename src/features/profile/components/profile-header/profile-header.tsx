@@ -1,5 +1,4 @@
 import styles from './profile-header.module.css';
-import { mx } from '@/styles/utils';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/ui';
 import { Avatar } from '@/components/ui';
@@ -8,7 +7,6 @@ import { useProfileActions } from '@/features/account/hooks/use-profile-actions'
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
-import { cn } from '@/styles/utils/cn';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
@@ -84,7 +82,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				/>
 			</div>
 			<div className={styles.profileInfoContainer}>
-				<div className={cn(styles.profileTextContainer, mx.responsiveContent)}>
+				<div className={styles.profileTextContainer}>
 					<Heading as="h3" className={styles.usernameHeader}>
 						{username || firstName}
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
@@ -114,7 +112,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 							<Text color="gray">{statusMessage.subtitle}</Text>
 						</Box>
 					) : (
-						<Text mt="0">{userBio}</Text>
+						<Text mt="4">{userBio}</Text>
 					)}
 				</div>
 			</div>

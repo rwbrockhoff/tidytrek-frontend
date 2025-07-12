@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { TrashIcon } from '@/components/ui/icons';
 import { DeleteModal } from '@/components/ui';
 import {
@@ -12,12 +12,12 @@ import { type Pack } from '@/types/pack-types';
 type PackDeleteProps = {
 	pack: Pick<Pack, 'packId' | 'packName'>;
 	children?: React.ReactNode;
-	buttonSize?: '2' | '3';
+	buttonSize?: 'sm' | 'md' | 'lg';
 };
 
 const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;
 
-export const PackDelete = ({ pack, children, buttonSize = '2' }: PackDeleteProps) => {
+export const PackDelete = ({ pack, children, buttonSize = 'md' }: PackDeleteProps) => {
 	const navigate = useNavigate();
 	const { mutate: deletePack } = useDeletePackMutation();
 	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
@@ -59,11 +59,10 @@ export const PackDelete = ({ pack, children, buttonSize = '2' }: PackDeleteProps
 	return (
 		<>
 			<Button
-				variant="solid"
-				color="tomato"
+				variant="danger"
 				size={buttonSize}
-				onClick={handleToggleDeleteModal}>
-				<TrashIcon size={16} />
+				onClick={handleToggleDeleteModal}
+				iconLeft={<TrashIcon size={16} />}>
 				Delete Pack
 			</Button>
 

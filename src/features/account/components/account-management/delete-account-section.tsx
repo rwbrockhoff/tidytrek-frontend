@@ -1,4 +1,5 @@
-import { Heading, Button } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import { Segment } from '@/components/ui';
 import { DeleteModal, TrashIcon } from '@/components/ui';
 
@@ -25,9 +26,8 @@ export const DeleteAccountSection = ({ onDeleteAccount }: DeleteAccountSectionPr
 				header="Delete Your Account"
 				message={deleteMessage}
 				onClickDelete={onDeleteAccount}>
-				<div>
-					<Button color="tomato" mt="4">
-						<TrashIcon size={16} />
+				<div style={{ marginTop: '1rem' }}>
+					<Button variant="danger" iconLeft={<TrashIcon size={16} />}>
 						Delete Account
 					</Button>
 				</div>

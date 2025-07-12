@@ -52,18 +52,11 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 						<Flex gap="2">
 							<TextField.Standalone value={packLink} readOnly />
 
-							<Button onClick={handleCopyToClipboard}>
-								{linkCopied ? (
-									<>
-										<CheckIcon size={16} />
-										Copied
-									</>
-								) : (
-									<>
-										<ShareIcon size={16} />
-										Copy Link
-									</>
-								)}
+							<Button 
+								onClick={handleCopyToClipboard}
+								iconLeft={linkCopied ? <CheckIcon size={16} /> : <ShareIcon size={16} />}
+							>
+								{linkCopied ? 'Copied' : 'Copy Link'}
 							</Button>
 						</Flex>
 					</Popover.Content>

@@ -1,5 +1,6 @@
 import { Segment } from '@/components/ui';
-import { Heading, Button, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import {
 	AuthContainer,
 	FormContainer,
@@ -22,7 +23,7 @@ export const ResetSuccess = () => {
 					<Text>
 						Your password has been successfully updated and you are now logged in.
 					</Text>
-					<Button size="3" style={{ width: '100%' }} mt="4" onClick={() => navigate('/')}>
+					<Button size="lg" style={{ width: '100%' }} onClick={() => navigate('/')}>
 						Go To Dashboard
 					</Button>
 				</Segment>

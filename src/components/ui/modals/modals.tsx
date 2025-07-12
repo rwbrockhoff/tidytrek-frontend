@@ -1,4 +1,5 @@
-import { Dialog, Flex, Button } from '@radix-ui/themes';
+import { Dialog, Flex } from '@radix-ui/themes';
+import { Button } from '@/components/ui/alpine';
 import React from 'react';
 import { ShareIcon, TrashIcon } from '../icons';
 
@@ -38,11 +39,11 @@ export const DeleteModal = (props: DeleteModalProps) => {
 				<Flex gap="3" mt="4" justify="end">
 					<Dialog.Close>
 						<Button
-							// variant="soft"
-							color="tomato"
-							size="3"
-							onClick={onClickDelete}>
-							<TrashIcon size={16} /> Delete
+							variant="danger"
+							size="lg"
+							onClick={onClickDelete}
+							iconLeft={<TrashIcon size={16} />}>
+							Delete
 						</Button>
 					</Dialog.Close>
 
