@@ -1,6 +1,5 @@
 import styles from './table-row.module.css';
 import { useState, memo } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
 import {
 	type PackListItem,
 	type BaseTableRowItem,
@@ -10,24 +9,17 @@ import {
 import { DeleteItemModal } from '@/components/ui/modals/modals';
 import { ShareIcon, TrashIcon } from '@/components/icons';
 import { Flex } from '@radix-ui/themes';
-import { Button, Table } from '@/components/alpine';
-import { ActionButtons } from '@/components/table/table-buttons';
-import {
-	ItemNameCell,
-	PackWeightCell,
-	PropertiesCell,
-	QuantityCell,
-	PriceCell,
-	DescriptionCell,
-} from '@/components/table/table-cells';
+import { Button } from '@/components/alpine';
+
 import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
 import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
-import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 
 import { TableRowContext } from '../context/table-row-context';
-import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
 import { TableErrorRow } from '../table-error-row/table-error-row';
+import { useTableRowValidation } from './hooks/use-table-row-validation';
+import { DraggableTableRow } from './draggable-table-row';
+import { TableRowContent } from './table-row-content';
 import { shallowEqual } from '@/utils';
 
 type TableRowProps = {
@@ -40,18 +32,11 @@ type TableRowProps = {
 	handleDelete: (packItemId: number) => void;
 };
 
-const packItemSchema = z.object({
-	packItemWeight: weightSchema,
-	packItemQuantity: quantitySchema,
-	packItemPrice: priceSchema,
-});
-
 // Table Row is used in PackCategory + GearCloset
 // Memoized exported component below
 
 export const TableRowComponent = (props: TableRowProps) => {
 	const userView = useUserContext();
-	const showPrices = usePricingContext();
 
 	const { item, index, disabled } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
@@ -66,18 +51,17 @@ export const TableRowComponent = (props: TableRowProps) => {
 		primaryError,
 	} = useTableRowInput(item);
 
+	const { validatePackItem } = useTableRowValidation();
+
 	const [toggleRow, setToggleRow] = useState(false);
 	const [toggleGearButtons, setToggleGearButtons] = useState(false);
 
 	const handleToggle = () => {
 		if (packItemChanged) {
-			// validation
-			const data = packItemSchema.safeParse(packItem);
-			if (!data.success) {
-				const result = JSON.parse(data.error.message);
-				return updateFormErrors(result);
+			const { isValid, errors } = validatePackItem(packItem);
+			if (!isValid) {
+				return updateFormErrors(errors);
 			}
-			// save valid pack item
 			handleOnSave(packItem);
 		}
 	};
@@ -91,102 +75,69 @@ export const TableRowComponent = (props: TableRowProps) => {
 
 	const { packItemId } = packItem;
 	const availablePacks = props?.packList || [];
-	const dropId = `item${packItemId}`;
-
 	const hasPackId = isPackItem(packItem);
 
 	return (
-		<Draggable
-			key={dropId}
-			draggableId={dropId}
-			index={index}
-			isDragDisabled={!userView || disabled}>
-			{(provided, { isDragging }) => {
-				return (
-					<TableRowContext.Provider
-						value={{
-							packItem,
-							onChange,
-							onSelect,
-							isDragging,
-							formErrors,
-						}}>
-						<>
-							<Table.Row
-								data-testid="pack-item-row"
-								onMouseOver={() => setToggleRow(true)}
-								onMouseLeave={() => setToggleRow(false)}
-								ref={provided.innerRef}
-								className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
-								{...provided.draggableProps}>
-								<ItemNameCell
-									displayIcon={toggleRow}
-									dragProps={{ ...provided.dragHandleProps }}
-									onToggleOff={handleToggle}
+		<DraggableTableRow index={index} packItemId={packItemId} disabled={disabled}>
+			{(provided, { isDragging }) => (
+				<TableRowContext.Provider
+					value={{
+						packItem,
+						onChange,
+						onSelect,
+						isDragging,
+						formErrors,
+					}}>
+					<>
+						<TableRowContent
+							toggleRow={toggleRow}
+							isDragging={isDragging}
+							provided={provided}
+							disabled={disabled}
+							onToggle={handleToggle}
+							onChangeProperty={handleChangeProperty}
+							onMouseOver={() => setToggleRow(true)}
+							onMouseLeave={() => setToggleRow(false)}>
+							<Flex align="center">
+								<Button
+									onClick={() => setToggleGearButtons(!toggleGearButtons)}
+									variant="ghost"
+									size="md"
+									override
+									className={styles.tableActionButton}
+									data-testid="move-pack-item-button"
+									aria-label="Move pack item"
+									iconLeft={<ShareIcon />}
 								/>
+							</Flex>
 
-								<DescriptionCell onToggleOff={handleToggle} />
+							<DeleteItemModal
+								id={packItemId}
+								hasPackId={hasPackId}
+								onClickMove={handleMoveItemToCloset}
+								onClickDelete={() => handleDelete(packItemId)}>
+								<Flex align="center">
+									<Button
+										variant="ghost"
+										size="md"
+										override
+										className={styles.tableActionButton}
+										data-testid="delete-pack-item-button"
+										aria-label="Delete pack item"
+										iconLeft={<TrashIcon />}
+									/>
+								</Flex>
+							</DeleteItemModal>
+						</TableRowContent>
+						{toggleGearButtons && userView && !isDragging && (
+							<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
+						)}
 
-								<PropertiesCell
-									onClick={handleChangeProperty}
-									isDisabled={!!disabled}
-									display={toggleRow}
-								/>
-
-								<QuantityCell onToggleOff={handleToggle} />
-
-								<PackWeightCell
-									onToggleOff={handleToggle}
-									onSelect={handleChangeProperty}
-								/>
-
-								{showPrices && <PriceCell onToggleOff={handleToggle} />}
-
-								{userView && (
-									<ActionButtons display={toggleRow}>
-										<Flex align="center">
-											<Button
-												onClick={() => setToggleGearButtons(!toggleGearButtons)}
-												variant="ghost"
-												size="md"
-												override
-												className={styles.tableActionButton}
-												data-testid="move-pack-item-button"
-												aria-label="Move pack item"
-												iconLeft={<ShareIcon />}
-											/>
-										</Flex>
-
-										<DeleteItemModal
-											id={packItemId}
-											hasPackId={hasPackId}
-											onClickMove={handleMoveItemToCloset}
-											onClickDelete={() => handleDelete(packItemId)}>
-											<Flex align="center">
-												<Button
-													variant="ghost"
-													size="md"
-													override
-													className={styles.tableActionButton}
-													data-testid="delete-pack-item-button"
-													aria-label="Delete pack item"
-													iconLeft={<TrashIcon />}
-												/>
-											</Flex>
-										</DeleteItemModal>
-									</ActionButtons>
-								)}
-							</Table.Row>
-							{toggleGearButtons && userView && !isDragging && (
-								<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
-							)}
-
-							<TableErrorRow error={primaryError} />
-						</>
-					</TableRowContext.Provider>
-				);
-			}}
-		</Draggable>
+						<TableErrorRow error={primaryError} />
+					</>
+				</TableRowContext.Provider>
+			)}
+		</DraggableTableRow>
 	);
 };
 
