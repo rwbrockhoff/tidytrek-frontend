@@ -6,6 +6,9 @@ import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { DropTableBody } from '@/components';
 import { usePackCategory } from '../../hooks/use-pack-category';
+import { useAddNewPackItemMutation, useMoveItemToClosetMutation, useEditPackItemMutation, useDeletePackItemMutation } from '@/queries/pack-queries';
+import { normalizeURL } from '@/utils/link-utils';
+import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 
 type PackCategoryProps = {
 	category: Category;
@@ -20,17 +23,43 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		packCategoryName,
 		packCategoryColor,
 		packCategoryId,
+		packId,
 		packItems,
 		isMinimized,
-		handleAddItem,
 		handleMinimizeCategory,
-		moveItemToCloset,
-		editPackItem,
-		deletePackItem,
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
 	} = usePackCategory(category);
+
+	const { mutate: addPackItem } = useAddNewPackItemMutation();
+	const { mutate: moveItemToCloset } = useMoveItemToClosetMutation();
+	const { mutate: editPackItem } = useEditPackItemMutation();
+	const { mutate: deletePackItem } = useDeletePackItemMutation();
+
+	const handleAddItem = () => {
+		addPackItem({ packId, packCategoryId });
+	};
+
+	const handleEditPackItem = (packItem: BaseTableRowItem) => {
+		const { packItemId, packItemUrl } = packItem;
+		const cleanUrl = normalizeURL(packItemUrl);
+
+		if (isPackItem(packItem)) {
+			editPackItem({
+				packItemId,
+				packItem: { ...packItem, packItemUrl: cleanUrl },
+			});
+		}
+	};
+
+	const handleMoveItemToCloset = (packItemId: number) => {
+		moveItemToCloset(packItemId);
+	};
+
+	const handleDeleteItem = (packItemId: number) => {
+		deletePackItem(packItemId);
+	};
 
 	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
 
@@ -65,9 +94,9 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										index={index}
 										packList={packList}
 										disabled={!userView}
-										moveToCloset={moveItemToCloset}
-										handleOnSave={editPackItem}
-										handleDelete={deletePackItem}
+										moveToCloset={handleMoveItemToCloset}
+										handleOnSave={handleEditPackItem}
+										handleDelete={handleDeleteItem}
 									/>
 								))}
 						</DropTableBody>

@@ -3,7 +3,10 @@ import { Flex } from '@radix-ui/themes';
 import { Button, Table } from '@/components/alpine';
 import { CategoryNameCell } from '../table-cells';
 import { ActionButtons } from '../table-buttons/';
-import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
+import {
+	useDeletePackCategoryMutation,
+	useDeletePackCategoryAndItemsMutation,
+} from '@/queries/pack-queries';
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { DeleteModal } from '@/components/ui';
@@ -19,7 +22,8 @@ type TableHeaderProps = {
 };
 
 export const TableHeader = (props: TableHeaderProps) => {
-	const { deletePackCategory, deletePackCategoryAndItems } = usePackCategoryActions();
+	const { mutate: deletePackCategory } = useDeletePackCategoryMutation();
+	const { mutate: deletePackCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
 

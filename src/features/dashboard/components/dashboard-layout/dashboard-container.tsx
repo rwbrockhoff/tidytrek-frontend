@@ -19,7 +19,9 @@ import {
 	type DropResult,
 } from '@/components';
 import { useGuestData } from '../../hooks/use-guest-data';
-import { usePackCategoryActions } from '../../hooks/use-pack-category-actions';
+import { usePackDragHandler } from '../../hooks/use-pack-drag-handler';
+import { useAddPackCategoryMutation } from '@/queries/pack-queries';
+import { getNextCategoryColor } from '../../utils/get-next-category-color';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
@@ -42,7 +44,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 	// Check if current user owns this pack
 	const isUsersPack = user && pack ? user.userId === pack.userId : false;
 
-	const { onDragEnd, addPackCategory } = usePackCategoryActions();
+	const { onDragEnd } = usePackDragHandler();
+	const { mutate: addPackCategory } = useAddPackCategoryMutation();
 
 	//--Guest View Data--//
 	const { userProfile, settings } = useGuestData(currentPack);
@@ -53,6 +56,13 @@ export const DashboardContainer = (props: DashboardProps) => {
 			// Attach categories to pack object for drag handler
 			const packWithCategories = { ...pack, categories: packCategories };
 			onDragEnd(result, packWithCategories, paramPackId);
+		}
+	};
+
+	const handleAddCategory = () => {
+		if (packId) {
+			const categoryColor = getNextCategoryColor(packCategories);
+			addPackCategory({ packId, categoryColor });
 		}
 	};
 
@@ -101,9 +111,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 				{userView && (
 					<Flex justify="center" width="100%">
-						<AddCategoryButton
-							onClick={() => packId && addPackCategory(packId, packCategories)}
-						/>
+						<AddCategoryButton onClick={handleAddCategory} />
 					</Flex>
 				)}
 

@@ -1,10 +1,17 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
-import { useCallback } from 'react';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card, Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
+import {
+	useEditPackCategoryMutation,
+	useAddNewPackItemMutation,
+	useMoveItemToClosetMutation,
+	useEditPackItemMutation,
+	useDeletePackItemMutation,
+} from '@/queries/pack-queries';
+import { normalizeURL } from '@/utils/link-utils';
+import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { PackItemRow } from '../../pack-item-row/pack-item-row';
 import { PlusIcon, MinusIcon } from '@/components/icons';
@@ -18,29 +25,52 @@ type PackCategoryCardProps = {
 
 export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	const userView = useUserContext();
-	const { editPackCategory } = usePackCategoryActions();
+	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const {
 		packCategoryName,
 		packCategoryColor,
 		packCategoryId,
+		packId,
 		packItems,
 		isMinimized,
-		handleAddItem,
 		handleMinimizeCategory,
-		moveItemToCloset,
-		editPackItem,
-		deletePackItem,
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
 	} = usePackCategory(category);
 
-	const handleChangeColor = useCallback(
-		(packCategoryColor: string) =>
-			editPackCategory({ packCategoryColor, packCategoryId }),
-		[editPackCategory, packCategoryId],
-	);
+	const { mutate: addPackItem } = useAddNewPackItemMutation();
+	const { mutate: moveItemToCloset } = useMoveItemToClosetMutation();
+	const { mutate: editPackItem } = useEditPackItemMutation();
+	const { mutate: deletePackItem } = useDeletePackItemMutation();
+
+	const handleChangeColor = (packCategoryColor: string) =>
+		editPackCategory({ packCategoryColor, packCategoryId });
+
+	const handleAddItem = () => {
+		addPackItem({ packId, packCategoryId });
+	};
+
+	const handleEditPackItem = (packItem: BaseTableRowItem) => {
+		const { packItemId, packItemUrl } = packItem;
+		const cleanUrl = normalizeURL(packItemUrl);
+
+		if (isPackItem(packItem)) {
+			editPackItem({
+				packItemId,
+				packItem: { ...packItem, packItemUrl: cleanUrl },
+			});
+		}
+	};
+
+	const handleMoveItemToCloset = (packItemId: number) => {
+		moveItemToCloset(packItemId);
+	};
+
+	const handleDeleteItem = (packItemId: number) => {
+		deletePackItem(packItemId);
+	};
 
 	// Use pack category color
 	const bgColorCategory = {
@@ -93,9 +123,9 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 							key={item.packItemId || index}
 							item={item}
 							userView={userView}
-							onEdit={editPackItem}
-							onMoveToCloset={moveItemToCloset}
-							onDelete={deletePackItem}
+							onEdit={handleEditPackItem}
+							onMoveToCloset={handleMoveItemToCloset}
+							onDelete={handleDeleteItem}
 						/>
 					))}
 				</Card.Body>

@@ -1,6 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
 import { type Category } from '@/types/pack-types';
-import { usePackItemActions } from './use-pack-item-actions';
 import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
 
 export const usePackCategory = (category: Category) => {
@@ -8,14 +7,6 @@ export const usePackCategory = (category: Category) => {
 		category;
 
 	const [isMinimized, setMinimized] = useState(false);
-
-	const { addPackItem, moveItemToCloset, editPackItem, deletePackItem } =
-		usePackItemActions();
-
-	const handleAddItem = useCallback(
-		() => addPackItem({ packId, packCategoryId }),
-		[addPackItem, packId, packCategoryId],
-	);
 
 	const handleMinimizeCategory = useCallback(
 		() => setMinimized(!isMinimized),
@@ -47,15 +38,7 @@ export const usePackCategory = (category: Category) => {
 
 		// State
 		isMinimized,
-
-		// Handlers
-		handleAddItem,
 		handleMinimizeCategory,
-
-		// Pack item actions
-		moveItemToCloset,
-		editPackItem,
-		deletePackItem,
 
 		// Calculated values
 		convertedCategoryWeight,

@@ -1,85 +1,42 @@
 import { useCallback } from 'react';
 import { type DropResult } from 'react-beautiful-dnd';
-import {
-	type HeaderInfo,
-	type Pack,
-	type Category,
-	type PackQueryState,
-} from '@/types/pack-types';
-import { usePackCategoryMutations } from '../mutations/use-category-mutations';
+import { type Pack, type PackQueryState } from '@/types/pack-types';
+import { useMovePackCategoryMutation } from '@/queries/pack-queries';
 import { usePackItemMutations } from '../mutations/use-item-mutations';
-import { paletteList } from '@/styles/palette/palette-constants';
 import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { packKeys } from '@/queries/query-keys';
 import { getCategoryIndex } from '@/queries/pack-queries';
 
-export const usePackCategoryActions = () => {
-	const mutations = usePackCategoryMutations();
+export const usePackDragHandler = () => {
+	const { mutate: movePackCategory } = useMovePackCategoryMutation();
 	const { movePackItem } = usePackItemMutations();
 	const queryClient = useQueryClient();
 
-	const {
-		addPackCategory,
-		deletePackCategory,
-		deletePackCategoryAndItems,
-		editPackCategory,
-		movePackCategory,
-	} = mutations;
-
-	// Add Category
-	const handleAddPackCategory = useCallback(
-		(packId: number, categories: Category[]) => {
-			const nextColorIndex = categories.length % paletteList.length;
-			const categoryColor = paletteList[nextColorIndex];
-			addPackCategory.mutate({ packId, categoryColor });
-		},
-		[addPackCategory],
-	);
-
-	// Edit Category
-	const handleEditCategory = useCallback(
-		(categoryChanges: HeaderInfo) => {
-			editPackCategory.mutate(categoryChanges);
-		},
-		[editPackCategory],
-	);
-
-	// Delete Category
-	const handleDeleteCategory = useCallback(
-		(packCategoryId: number) => {
-			deletePackCategory.mutate(packCategoryId);
-		},
-		[deletePackCategory],
-	);
-
-	// Delete Category and Items
-	const handleDeleteCategoryAndItems = useCallback(
-		(packCategoryId: number) => {
-			deletePackCategoryAndItems.mutate(packCategoryId);
-		},
-		[deletePackCategoryAndItems],
-	);
-
-	// Complex drag handler with optimistic updates
 	const handleOnDragEnd = useCallback(
 		(result: DropResult, pack: Pack, paramPackId: string | undefined) => {
 			const { draggableId, destination, source, type } = result;
 
+			// User dropped outside of any droppable area
 			if (!destination) return;
 			const sameIndex = destination.index === source.index;
 
+			// CATEGORY REORDERING
+
+			// User is dragging a whole category to reorder it
 			if (type === 'category') {
-				if (sameIndex) return;
+				if (sameIndex) return; // No change in position
 				if (!pack || !pack.packId) return;
 
 				const categories = pack.categories || [];
+				// Figure out what categories are before/after the drop position for fractional indexing
 				const { prevItem: prevCategory, nextItem: nextCategory } = calculateAdjacentItems(
 					categories,
 					source.index,
 					destination.index,
 				);
 
+				// Update UI immediately for smooth drag experience
 				applySynchronousDragUpdate<PackQueryState>(
 					queryClient,
 					packKeys.packId(pack.packId),
@@ -88,7 +45,8 @@ export const usePackCategoryActions = () => {
 					'categories',
 				);
 
-				movePackCategory.mutate({
+				// Send the reorder to the server with fractional index positions
+				movePackCategory({
 					packId: pack.packId,
 					paramPackId,
 					packCategoryId: draggableId,
@@ -96,11 +54,14 @@ export const usePackCategoryActions = () => {
 					nextCategoryIndex: nextCategory?.packCategoryIndex,
 				});
 			} else {
+				// ITEM REORDERING
+				// User is dragging an item within or between categories
 				const sameCategory = destination.droppableId === source.droppableId;
-				if (sameIndex && sameCategory) return;
+				if (sameIndex && sameCategory) return; // No actual movement
 
 				let prevItem: any, nextItem: any;
 
+				// If moving within the same category, we can calculate neighbors easily
 				if (sameCategory) {
 					const currentData = queryClient.getQueryData<PackQueryState>(
 						packKeys.packId(pack.packId),
@@ -110,6 +71,7 @@ export const usePackCategoryActions = () => {
 						const categoryIndex = getCategoryIndex(categories, source.droppableId);
 						const originalItems = categories[categoryIndex].packItems;
 
+						// Get the items that will be before/after for fractional indexing
 						const adjacentItems = calculateAdjacentItems(
 							originalItems,
 							source.index,
@@ -122,6 +84,7 @@ export const usePackCategoryActions = () => {
 
 				let updatedDestItems: any[] = [];
 
+				// Update the UI immediately by moving items around in our cached data
 				queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
 					if (!old) return old;
 
@@ -129,6 +92,7 @@ export const usePackCategoryActions = () => {
 					const prevCategoryIndex = getCategoryIndex(categories, source.droppableId);
 
 					if (sameCategory) {
+						// Moving within the same category - just reorder the array
 						const result = Array.from(categories[prevCategoryIndex].packItems);
 						const [removed] = result.splice(source.index, 1);
 						result.splice(destination.index, 0, removed);
@@ -136,6 +100,7 @@ export const usePackCategoryActions = () => {
 						categories[prevCategoryIndex].packItems = result;
 						updatedDestItems = result;
 					} else {
+						// Moving between categories - remove from source and add to destination
 						const [item] = categories[prevCategoryIndex].packItems.splice(
 							source.index,
 							1,
@@ -151,25 +116,27 @@ export const usePackCategoryActions = () => {
 					return old;
 				});
 
-				// Determine prevItemIndex and nextItemIndex based on move type
+				// Figure out the fractional index values for the server
+				// This is where the complex positioning logic happens
 				let finalPrevItemIndex: string | undefined;
 				let finalNextItemIndex: string | undefined;
 
 				if (sameCategory) {
+					// Use the neighbors we calculated earlier
 					finalPrevItemIndex = prevItem?.packItemIndex;
 					finalNextItemIndex = nextItem?.packItemIndex;
 				} else if (destination.index === 0) {
-					// Different category, index 0
+					// Dropped at the top of a different category
 					finalPrevItemIndex = undefined;
 					finalNextItemIndex = updatedDestItems[1]?.packItemIndex;
 				} else {
-					// Different category
+					// Dropped somewhere in the middle of a different category
 					finalPrevItemIndex = updatedDestItems[destination.index - 1]?.packItemIndex;
 					finalNextItemIndex = updatedDestItems[destination.index + 1]?.packItemIndex;
 				}
 
-				// Move item with proper prev/next item index values
-				const dragId = draggableId.replace(/\D/g, '');
+				// Send the move to the server with all the fractional index data
+				const dragId = draggableId.replace(/\D/g, ''); // Extract numeric ID
 				movePackItem.mutate({
 					packId: paramPackId ? pack.packId : null,
 					packItemId: dragId,
@@ -183,12 +150,7 @@ export const usePackCategoryActions = () => {
 		[queryClient, movePackCategory, movePackItem],
 	);
 
-	// Use as const to infer exact types from SimpleMutation
 	return {
-		addPackCategory: handleAddPackCategory,
-		editPackCategory: handleEditCategory,
-		deletePackCategory: handleDeleteCategory,
-		deletePackCategoryAndItems: handleDeleteCategoryAndItems,
 		onDragEnd: handleOnDragEnd,
-	} as const;
+	};
 };

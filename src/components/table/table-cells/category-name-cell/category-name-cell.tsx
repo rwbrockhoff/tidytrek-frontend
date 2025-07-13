@@ -6,7 +6,7 @@ import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton, GripButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
+import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -16,7 +16,7 @@ type CategoryNameCellProps = {
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const userView = useUserContext();
-	const { editPackCategory } = usePackCategoryActions();
+	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const { disabled, categoryHeaderInfo, dragProps } = props;
 
