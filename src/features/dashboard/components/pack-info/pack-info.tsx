@@ -98,7 +98,9 @@ export const PackInfo = (props: PackInfoProps) => {
 					{packDescription}
 				</Text>
 				<PackLabels pack={currentPack} />
-				{packHasWeight && (
+
+				{/* mobile chart toggle button */}
+				{packHasWeight && isMobile && (
 					<Flex my="6">
 						<Button
 							variant="outline"
@@ -113,7 +115,6 @@ export const PackInfo = (props: PackInfoProps) => {
 			</div>
 
 			{/* Right Hand Panel */}
-
 			<PackGraphic
 				fetching={fetching}
 				packCategories={packCategories}
