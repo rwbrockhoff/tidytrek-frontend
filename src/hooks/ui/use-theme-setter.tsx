@@ -32,14 +32,11 @@ export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 
 	useEffect(() => {
 		// If user has database settings, use those; otherwise fall back to system preference
-		let modeToUse = currentMode;
-		let themeToUse: PaletteName = currentPalette;
+		const modeToUse = darkMode !== undefined 
+			? (darkMode ? 'dark' : 'light')
+			: getPreferredMode();
 
-		if (darkMode !== undefined) modeToUse = darkMode ? 'dark' : 'light';
-		else modeToUse = getPreferredMode();
-
-		if (palette) themeToUse = palette;
-		else themeToUse = getPreferredTheme();
+		const themeToUse = palette || getPreferredTheme();
 
 		document.body.setAttribute('data-theme', modeToUse);
 		document.body.setAttribute('data-theme-palette', themeToUse);

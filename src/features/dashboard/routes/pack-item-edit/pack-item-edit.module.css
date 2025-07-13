@@ -16,37 +16,6 @@
 	margin-top: 0;
 }
 
-.formContainer {
-	display: flex;
-	flex-direction: column;
-}
-
-.weightGroup {
-	display: flex;
-	gap: var(--space-sm);
-	align-items: center;
-}
-
-.weightUnit {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-xs);
-	min-width: 80px;
-	justify-content: flex-end;
-}
-
-.unitLabel {
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-medium);
-	color: var(--color-text-primary);
-}
-
-.propertiesSection {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-sm);
-}
-
 
 .actionButtons {
 	display: flex;

@@ -1,54 +1,34 @@
-import { useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Heading, Select } from '@radix-ui/themes';
-import { Root as FormRoot } from '@radix-ui/react-form';
-import { TextField, Button } from '@/components/alpine';
+import { useParams, useLocation } from 'react-router-dom';
+import { Heading } from '@radix-ui/themes';
+import { Button } from '@/components/alpine';
 import { SaveIcon, BackArrow } from '@/components/icons';
-import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useGetPackQuery } from '@/queries/pack-queries';
-import {
-	useGetGearClosetQuery,
-	useEditGearClosetItemMutation,
-} from '@/queries/closet-queries';
-import mx from '@/styles/utils/mixins.module.css';
-import {
-	useEditPackItemMutation,
-	useDeletePackItemMutation,
-} from '@/queries/pack-queries';
+import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { Spinner } from '@/components/primitives';
-import {
-	type PackItem,
-	type BaseTableRowItem,
-	type GearClosetItem,
-} from '@/types/pack-types';
-import { decodePackItemId, encode, convertCurrency } from '@/utils';
-import { useToggle } from '@/hooks/ui/use-toggle';
+import { decodePackItemId } from '@/utils';
+import { usePackItemEditForm } from '@/features/dashboard/hooks/use-pack-item-edit-form';
+import { usePackItemEditActions } from '@/features/dashboard/hooks/use-pack-item-edit-actions';
+import { PackItemEditForm } from '@/features/dashboard/components/pack-item-edit-form/pack-item-edit-form';
 import styles from './pack-item-edit.module.css';
 
 export const PackItemEdit = () => {
 	const { packItemId } = useParams<{ packItemId: string }>();
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { packId, packCategoryId, gearCloset } = location.state || {};
 
-	// decode/encode
 	const decodedPackItemId = packItemId ? decodePackItemId(packItemId) : null;
-	const encodedPackId = encode(packId);
 
-	// mutations
+	// Data fetching
 	const {
 		data: packData,
 		isLoading: packLoading,
 		error: packError,
-	} = useGetPackQuery(encodedPackId);
+	} = useGetPackQuery(packId);
 	const {
 		data: gearClosetData,
 		isLoading: closetLoading,
 		error: closetError,
 	} = useGetGearClosetQuery();
-	const editItemMutation = useEditPackItemMutation();
-	const editGearClosetItemMutation = useEditGearClosetItemMutation();
-	const deleteItemMutation = useDeletePackItemMutation();
 
 	// Find packItem by id within query state pack or gear closet
 	const packItem = gearCloset
@@ -62,78 +42,36 @@ export const PackItemEdit = () => {
 	const isLoading = gearCloset ? closetLoading : packLoading;
 	const error = gearCloset ? closetError : packError;
 
-	const [formData, setFormData] = useState<BaseTableRowItem | null>(packItem || null);
-	const { isToggled: isPriceEditing, toggle: togglePriceEdit } = useToggle();
+	// Custom hooks for form and actions
+	const {
+		formData,
+		isPriceEditing,
+		formErrors,
+		handleInputChange,
+		handleNumericChange,
+		handlePriceChange,
+		handleWeightUnitChange,
+		handlePropertyChange,
+		getFormattedPrice,
+		handlePriceFocus,
+		handlePriceBlur,
+	} = usePackItemEditForm({ initialItem: packItem || null });
 
-	// Update form data when pack item loads
-	if (packItem && !formData) {
-		setFormData(packItem);
-	}
+	const {
+		handleSave,
+		handleDelete,
+		handleCancel,
+		isLoading: isSaving,
+		isDeleting,
+	} = usePackItemEditActions({
+		packItemId: decodedPackItemId,
+		packId,
+		gearCloset: !!gearCloset,
+	});
 
-	const handleInputChange = (field: keyof BaseTableRowItem, value: any) => {
+	const onSave = () => {
 		if (formData) {
-			setFormData({ ...formData, [field]: value });
-		}
-	};
-
-	const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (!e.target.value) e.target.value = '0';
-		e.target.value = e.target.value.replace(/[^0-9\.-]+/g, '');
-		handleInputChange('packItemPrice', Number(e.target.value));
-	};
-
-	const handleWeightUnitChange = (unit: string) => {
-		handleInputChange('packItemUnit', unit);
-	};
-
-	const handlePropertyChange = (property: any) => {
-		if (formData) {
-			setFormData({ ...formData, ...property });
-		}
-	};
-
-	const handleSave = () => {
-		if (formData && decodedPackItemId) {
-			if (gearCloset) {
-				const gearClosetItem: GearClosetItem = {
-					...formData,
-					packId: null,
-					packCategoryId: null,
-				};
-				editGearClosetItemMutation.mutate(gearClosetItem, {
-					onSuccess: () => navigate('/gear-closet'),
-				});
-			} else {
-				const packItem: PackItem = {
-					...formData,
-					packId: formData.packId!,
-					packCategoryId: formData.packCategoryId!,
-				};
-				editItemMutation.mutate(
-					{ packItemId: decodedPackItemId, packItem },
-					{
-						onSuccess: () => navigate(`/pack/${encodedPackId}`),
-					},
-				);
-			}
-		}
-	};
-
-	const handleDelete = () => {
-		if (decodedPackItemId) {
-			deleteItemMutation.mutate(decodedPackItemId, {
-				onSuccess: () => {
-					navigate(`/pack/${encodedPackId}`);
-				},
-			});
-		}
-	};
-
-	const handleCancel = () => {
-		if (gearCloset) {
-			navigate('/gear-closet');
-		} else {
-			navigate(`/pack/${encodedPackId}`);
+			handleSave(formData);
 		}
 	};
 
@@ -151,101 +89,21 @@ export const PackItemEdit = () => {
 				<Heading size="6">Edit Item</Heading>
 			</div>
 
-			<FormRoot className={styles.formContainer}>
-				<TextField.Input
-					name="packItemName"
-					label="Item Name"
-					value={formData.packItemName || ''}
-					onChange={(e) => handleInputChange('packItemName', e.target.value)}
-					placeholder="Enter item name"
-				/>
-
-				<TextField.Input
-					name="packItemDescription"
-					label="Description"
-					value={formData.packItemDescription || ''}
-					onChange={(e) => handleInputChange('packItemDescription', e.target.value)}
-					placeholder="Enter description"
-				/>
-
-				<TextField.Input
-					name="packItemUrl"
-					label="Pack Item URL"
-					value={formData.packItemUrl || ''}
-					onChange={(e) => handleInputChange('packItemUrl', e.target.value)}
-					placeholder="Enter link"
-				/>
-
-				<TextField.Input
-					name="packItemQuantity"
-					label="Quantity"
-					type="number"
-					value={formData.packItemQuantity || ''}
-					onChange={(e) => handleInputChange('packItemQuantity', Number(e.target.value))}
-					placeholder="1"
-				/>
-
-				<div className={styles.weightGroup}>
-					<TextField.Input
-						name="packItemWeight"
-						label="Weight"
-						type="number"
-						step="0.1"
-						value={formData.packItemWeight || ''}
-						onChange={(e) => handleInputChange('packItemWeight', Number(e.target.value))}
-						placeholder="0"
-						width="70%"
-					/>
-					<div className={styles.weightUnit}>
-						<label className={styles.unitLabel}>Unit</label>
-						<Select.Root
-							size="2"
-							value={formData.packItemUnit || 'oz'}
-							onValueChange={handleWeightUnitChange}>
-							<Select.Trigger variant="surface" />
-							<Select.Content style={{ height: 'fit-content' }}>
-								<Select.Item value="oz">oz</Select.Item>
-								<Select.Item value="lb">lb</Select.Item>
-								<Select.Item value="g">g</Select.Item>
-								<Select.Item value="kg">kg</Select.Item>
-							</Select.Content>
-						</Select.Root>
-					</div>
-				</div>
-
-				<TextField.Input
-					name="packItemPrice"
-					label="Price"
-					value={
-						isPriceEditing
-							? formData.packItemPrice === 0
-								? ''
-								: formData.packItemPrice?.toString() || ''
-							: convertCurrency(formData.packItemPrice || 0, 'USD')
-					}
-					onChange={handlePriceChange}
-					onFocus={() => !isPriceEditing && togglePriceEdit()}
-					onBlur={() => isPriceEditing && togglePriceEdit()}
-					placeholder="0"
-				/>
-
-				<div className={styles.propertiesSection}>
-					<label id="properties-label" className={mx.visuallyHidden}>
-						Pack Item Properties
-					</label>
-					<PropertyButtons
-						wornWeight={formData.wornWeight || false}
-						consumable={formData.consumable || false}
-						favorite={formData.favorite || false}
-						showAlways={true}
-						onClick={handlePropertyChange}
-						ariaLabelledBy="properties-label"
-					/>
-				</div>
-			</FormRoot>
+			<PackItemEditForm
+				formData={formData}
+				formErrors={formErrors}
+				getFormattedPrice={getFormattedPrice}
+				onInputChange={handleInputChange}
+				onNumericChange={handleNumericChange}
+				onPriceChange={handlePriceChange}
+				onWeightUnitChange={handleWeightUnitChange}
+				onPropertyChange={handlePropertyChange}
+				onPriceFocus={handlePriceFocus}
+				onPriceBlur={handlePriceBlur}
+			/>
 
 			<div className={styles.actionButtons}>
-				<Button onClick={handleSave} disabled={editItemMutation.isPending}>
+				<Button onClick={onSave} disabled={isSaving}>
 					<SaveIcon />
 					Save Item
 				</Button>
@@ -253,7 +111,7 @@ export const PackItemEdit = () => {
 				<Button
 					onClick={handleDelete}
 					variant="danger"
-					disabled={deleteItemMutation.isPending}>
+					disabled={isDeleting}>
 					Delete Item
 				</Button>
 			</div>
