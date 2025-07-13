@@ -1,11 +1,8 @@
 import { Badge } from '@radix-ui/themes';
-import { Button } from '@/components/alpine';
-import { useNavigate } from 'react-router-dom';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { convertCurrency, encodePackItemId } from '@/utils';
-import { isPackItem } from '@/types/pack-types';
-import { DeleteItemModal } from '@/components/ui/modals/modals';
-import { EditPencilIcon, ShareIcon, TrashIcon, LinkIcon } from '@/components/icons';
+import { usePackItemNavigation } from '../../hooks/use-pack-item-navigation';
+import { PackItemDisplay } from './pack-item-display';
+import { PackItemActions } from './pack-item-actions';
 import styles from './pack-item-row.module.css';
 
 type PackItemRowProps<T extends BaseTableRowItem = BaseTableRowItem> = {
@@ -27,28 +24,13 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 	showMoveToCloset = true,
 	className,
 }: PackItemRowProps<T>) => {
-	const navigate = useNavigate();
+	const { navigateToEdit } = usePackItemNavigation();
 
 	const handleEdit = () => {
-		// For mobile, navigate to edit page
-		const encodedPackItemId = encodePackItemId(item.packItemId);
-		const hasPack = item.packId !== null;
-
-		if (hasPack) {
-			// Navigate to pack item edit
-			navigate(`/pack-item/edit/${encodedPackItemId}`, {
-				state: {
-					packId: item.packId,
-					packCategoryId: item.packCategoryId,
-				},
-			});
+		if (onEdit) {
+			onEdit(item);
 		} else {
-			// Navigate to gear closet item edit
-			navigate(`/closet-item/edit/${encodedPackItemId}`, {
-				state: {
-					gearCloset: true,
-				},
-			});
+			navigateToEdit(item);
 		}
 	};
 
@@ -62,86 +44,25 @@ export const PackItemRow = <T extends BaseTableRowItem>({
 
 	return (
 		<div className={`${styles.itemCard} ${className || ''}`}>
-			<div className={styles.itemHeader}>
-				<div className={styles.itemNameContainer}>
-					{item.packItemUrl ? (
-						<a
-							href={item.packItemUrl}
-							className={styles.itemNameLink}
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label="View pack item product link">
-							<LinkIcon />
-							<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
-						</a>
-					) : (
-						<h4 className={styles.itemName}>{item.packItemName || 'Name'}</h4>
+			<PackItemDisplay item={item} />
+			<div className={styles.itemPropertiesRow}>
+				<div className={styles.itemProperties}>
+					<Badge color="gray" size="1">
+						{item.packItemWeight} {item.packItemUnit}
+					</Badge>
+					{item.packItemQuantity > 1 && (
+						<span className={styles.property}>x{item.packItemQuantity}</span>
 					)}
 				</div>
-				{item.packItemPrice && (
-					<span className={styles.itemPrice}>
-						{convertCurrency(item.packItemPrice, 'USD')}
-					</span>
+				{userView && (
+					<PackItemActions
+						item={item}
+						onEdit={onEdit ? handleEdit : undefined}
+						onMoveToCloset={onMoveToCloset ? handleMoveToCloset : undefined}
+						onDelete={onDelete ? handleDelete : undefined}
+						showMoveToCloset={showMoveToCloset}
+					/>
 				)}
-			</div>
-
-			<div className={styles.itemDetails}>
-				{item.packItemDescription && (
-					<p className={styles.itemDescription}>{item.packItemDescription}</p>
-				)}
-
-				<div className={styles.itemPropertiesRow}>
-					<div className={styles.itemProperties}>
-						<Badge color="gray" size="1">
-							{item.packItemWeight} {item.packItemUnit}
-						</Badge>
-						{item.packItemQuantity > 1 && (
-							<span className={styles.property}>x{item.packItemQuantity}</span>
-						)}
-					</div>
-
-					{userView && (
-						<div className={styles.itemActions}>
-							{onEdit && (
-								<Button
-									variant="ghost"
-									color="gray"
-									onClick={handleEdit}
-									aria-label="Edit item">
-									<EditPencilIcon />
-								</Button>
-							)}
-
-							{showMoveToCloset && onMoveToCloset && (
-								<DeleteItemModal
-									id={item.packItemId}
-									hasPackId={isPackItem(item)}
-									onClickMove={handleMoveToCloset}
-									onClickDelete={handleDelete}>
-									<Button
-										variant="ghost"
-										aria-label="Move to closet"
-										iconLeft={<ShareIcon />}
-									/>
-								</DeleteItemModal>
-							)}
-
-							{onDelete && (
-								<DeleteItemModal
-									id={item.packItemId}
-									hasPackId={isPackItem(item)}
-									onClickMove={handleMoveToCloset}
-									onClickDelete={handleDelete}>
-									<Button
-										variant="ghost"
-										aria-label="Delete item"
-										iconLeft={<TrashIcon />}
-									/>
-								</DeleteItemModal>
-							)}
-						</div>
-					)}
-				</div>
 			</div>
 		</div>
 	);

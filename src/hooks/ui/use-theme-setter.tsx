@@ -38,12 +38,15 @@ export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 
 		const themeToUse = palette || getPreferredTheme();
 
-		document.body.setAttribute('data-theme', modeToUse);
-		document.body.setAttribute('data-theme-palette', themeToUse);
+		// Only update if changed to prevent unnecessary work
+		if (currentMode !== modeToUse || currentPalette !== themeToUse) {
+			document.body.setAttribute('data-theme', modeToUse);
+			document.body.setAttribute('data-theme-palette', themeToUse);
 
-		setCurrentMode(modeToUse);
-		setCurrentPalette(themeToUse);
-	}, [darkMode, palette]);
+			setCurrentMode(modeToUse);
+			setCurrentPalette(themeToUse);
+		}
+	}, [darkMode, palette, currentMode, currentPalette]);
 
 	return { currentMode, currentPalette };
 }

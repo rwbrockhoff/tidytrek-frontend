@@ -4,7 +4,10 @@ import { useRegisterFlow } from '../hooks/use-register-flow';
 import { useLoginFlow } from '../hooks/use-login-flow';
 import { useMutationErrors } from '@/hooks/form/use-axios-error';
 import { useCombineErrors, type MutationError } from '../hooks/use-combine-errors';
-import { useCombinePendingStatus, type MutationPending } from '../hooks/use-combine-status';
+import {
+	useCombinePendingStatus,
+	type MutationPending,
+} from '../hooks/use-combine-status';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -12,7 +15,8 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 	const { pathname } = useLocation();
 	const registerFlow = useRegisterFlow();
 	const loginFlow = useLoginFlow();
-	const { serverError, updateAxiosError, resetAxiosError, setAxiosError } = useMutationErrors();
+	const { serverError, updateAxiosError, resetAxiosError, setAxiosError } =
+		useMutationErrors();
 
 	const [formError] = useCombineErrors([
 		registerFlow.registerData as MutationError,
@@ -24,14 +28,14 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 		loginFlow.loginData as MutationPending,
 	]);
 
-	// Clear state when route changes (login <-> register)
+	// Clear state when route changes (login/register)
 	useEffect(() => {
 		registerFlow.resetAllFormErrors();
 		loginFlow.resetAllFormErrors();
 		if (serverError.error) resetAxiosError();
 		registerFlow.resetRegister();
 		loginFlow.resetLogin();
-	}, [pathname, registerFlow, loginFlow, resetAxiosError, serverError.error]);
+	}, [pathname]);
 
 	// Subscribe to query errors
 	useEffect(() => {
@@ -40,7 +44,8 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 		}
 	}, [formError.error, formError.message, updateAxiosError]);
 
-	const handleRegister = (formData: any) => registerFlow.handleRegister(formData, setAxiosError);
+	const handleRegister = (formData: any) =>
+		registerFlow.handleRegister(formData, setAxiosError);
 	const handleLogin = (formData: any) => loginFlow.handleLogin(formData, setAxiosError);
 
 	if (isRegisterForm) {

@@ -21,7 +21,7 @@ button.sidebarButton:not(.isSidebar) {
 /* Adjust left position on tablet (hidden on mobile) */
 @media (max-width: 1280px) {
 	button.sidebarButton:not(.isSidebar) {
-		left: 2em; /* Half of 4em app layout padding */
+		left: 1em; /* Half of 2em app layout padding */
 	}
 }
 
