@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { type DropResult } from 'react-beautiful-dnd';
 import { type Pack, type PackQueryState } from '@/types/pack-types';
-import { useMovePackCategoryMutation } from '@/queries/pack-queries';
-import { usePackItemMutations } from '../mutations/use-item-mutations';
+import { useMovePackCategoryMutation, useMovePackItemMutation } from '@/queries/pack-queries';
 import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { packKeys } from '@/queries/query-keys';
@@ -10,7 +9,7 @@ import { getCategoryIndex } from '@/queries/pack-queries';
 
 export const usePackDragHandler = () => {
 	const { mutate: movePackCategory } = useMovePackCategoryMutation();
-	const { movePackItem } = usePackItemMutations();
+	const { mutate: movePackItem } = useMovePackItemMutation();
 	const queryClient = useQueryClient();
 
 	const handleOnDragEnd = useCallback(
@@ -137,7 +136,7 @@ export const usePackDragHandler = () => {
 
 				// Send the move to the server with all the fractional index data
 				const dragId = draggableId.replace(/\D/g, ''); // Extract numeric ID
-				movePackItem.mutate({
+				movePackItem({
 					packId: paramPackId ? pack.packId : null,
 					packItemId: dragId,
 					packCategoryId: destination.droppableId,

@@ -3,7 +3,7 @@ import { Badge, Flex } from '@radix-ui/themes';
 import { useMemo } from 'react';
 import { ExternalLink } from '@/components/ui';
 import { CloseIcon } from '@/components/icons';
-import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
+import { useDeleteSocialLinkMutation } from '@/queries/profile-settings-queries';
 import { shortenURL } from '@/utils';
 
 type SocialButtonProps = {
@@ -25,12 +25,14 @@ export const SocialButton = (props: SocialButtonProps) => {
 		onClick,
 	} = props;
 
-	const { deleteSocialLink } = useProfileActions();
+	const { mutate: deleteSocialLink, isPending } = useDeleteSocialLinkMutation();
 
 	const handleClick = () => onClick && onClick(socialName);
 
 	const handleDelete = () => {
-		if (deleteEnabled) deleteSocialLink(socialLinkId);
+		if (deleteEnabled && socialLinkId && !isPending) {
+			deleteSocialLink(socialLinkId);
+		}
 	};
 
 	const displayLink = useMemo(() => {

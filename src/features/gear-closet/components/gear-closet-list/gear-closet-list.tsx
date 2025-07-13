@@ -1,7 +1,6 @@
 import {
 	type PackListItem,
 	type GearClosetItem,
-	type BaseTableRowItem,
 } from '@/types/pack-types';
 import { Table } from '@/components/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
@@ -9,7 +8,9 @@ import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
 import { PricingContext } from '@/contexts/pricing-context';
 import { NotFoundMessage } from '../not-found-message';
-import { useGearClosetActions } from '../../hooks/use-gear-closet-actions';
+import { useAddGearClosetItemMutation, useEditGearClosetItemMutation, useDeleteGearClosetItemMutation } from '@/queries/closet-queries';
+import { useGearClosetDragHandler } from '../../hooks/use-gear-closet-drag-handler';
+import { type BaseTableRowItem, isGearClosetItem } from '@/types/pack-types';
 
 export type GearClosetListProps = {
 	packList: PackListItem[] | [];
@@ -21,14 +22,26 @@ export type GearClosetListProps = {
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
 
-	const { addGearClosetItem, editGearClosetItem, deleteGearClosetItem, onDragEnd } =
-		useGearClosetActions();
+	const { mutate: addGearClosetItem } = useAddGearClosetItemMutation();
+	const { mutate: editGearClosetItem } = useEditGearClosetItemMutation();
+	const { mutate: deleteGearClosetItem } = useDeleteGearClosetItemMutation();
+	const { onDragEnd } = useGearClosetDragHandler();
 
-	// Hooks already use useCallback, no need for double memoization
-	const handleOnSave = (item: BaseTableRowItem) => editGearClosetItem(item);
-	const handleDelete = (packItemId: number) => deleteGearClosetItem(packItemId);
-	const handleAddItem = () => addGearClosetItem();
-	const handleOnDragEnd = (result: DropResult) => onDragEnd(result, gearClosetList);
+	const handleOnSave = (item: BaseTableRowItem) => {
+		if (isGearClosetItem(item)) editGearClosetItem(item);
+	};
+
+	const handleDelete = (packItemId: number) => {
+		deleteGearClosetItem(packItemId);
+	};
+
+	const handleAddItem = () => {
+		addGearClosetItem();
+	};
+
+	const handleOnDragEnd = (result: DropResult) => {
+		onDragEnd(result, gearClosetList);
+	};
 
 	return (
 		<PricingContext.Provider value={true}>

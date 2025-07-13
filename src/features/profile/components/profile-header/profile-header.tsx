@@ -3,7 +3,7 @@ import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/icons';
 import { Avatar } from '@/components/media';
 import { SocialLinkList } from '@/components';
-import { useProfileActions } from '@/features/account/hooks/use-profile-actions';
+import { useUploadProfilePhotoMutation, useUploadBannerPhotoMutation } from '@/queries/profile-settings-queries';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
@@ -51,14 +51,14 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	} = profileInfo || {};
 
 	const {
-		mutations: {
-			uploadProfilePhoto: {
-				mutate: uploadProfilePhoto,
-				isPending: isPendingProfilePhoto,
-			},
-			uploadBannerPhoto: { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto },
-		},
-	} = useProfileActions();
+		mutate: uploadProfilePhoto,
+		isPending: isPendingProfilePhoto,
+	} = useUploadProfilePhotoMutation();
+
+	const {
+		mutate: uploadBannerPhoto,
+		isPending: isPendingBannerPhoto,
+	} = useUploadBannerPhotoMutation();
 
 	const hasSocialLinks = socialLinks?.length ? true : false;
 

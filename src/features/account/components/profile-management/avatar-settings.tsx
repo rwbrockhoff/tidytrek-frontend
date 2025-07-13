@@ -2,7 +2,7 @@ import { Heading, Flex, Text } from '@radix-ui/themes';
 import { Avatar } from '@/components/media';
 import { WarningMessage } from '@/components/ui';
 import { Segment } from '@/components/primitives';
-import { useProfileActions } from '../../hooks/use-profile-actions';
+import { useUploadProfilePhotoMutation, useDeleteProfilePhotoMutation } from '@/queries/profile-settings-queries';
 
 export const AvatarSettings = ({
 	profilePhotoUrl,
@@ -10,15 +10,12 @@ export const AvatarSettings = ({
 	profilePhotoUrl: string | undefined;
 }) => {
 	const {
-		deleteProfilePhoto,
-		mutations: {
-			uploadProfilePhoto: {
-				mutate: uploadProfilePhoto,
-				isPending: isUploadingPhoto,
-				isError: isUploadError,
-			},
-		},
-	} = useProfileActions();
+		mutate: uploadProfilePhoto,
+		isPending: isUploadingPhoto,
+		isError: isUploadError,
+	} = useUploadProfilePhotoMutation();
+
+	const { mutate: deleteProfilePhoto } = useDeleteProfilePhotoMutation();
 
 	return (
 		<Segment>

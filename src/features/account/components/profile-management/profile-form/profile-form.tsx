@@ -11,7 +11,7 @@ import { Segment, SegmentGroup } from '@/components/primitives';
 import { z, usernameSchema, basicInputSchema } from '@/schemas';
 import { setFormInput } from '@/utils';
 import { SocialLinks } from '../social-links';
-import { useProfileActions } from '../../../hooks/use-profile-actions';
+import { useEditProfileMutation } from '@/queries/profile-settings-queries';
 import { AvatarSettings } from '../avatar-settings';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
@@ -57,16 +57,12 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 	});
 
 	const {
-		mutations: {
-			editProfile: {
-				mutate: editProfile,
-				isSuccess,
-				isError,
-				error,
-				reset: resetEditProfileState,
-			},
-		},
-	} = useProfileActions();
+		mutate: editProfile,
+		isSuccess,
+		isError,
+		error,
+		reset: resetEditProfileState,
+	} = useEditProfileMutation();
 
 	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<FormInputs>([
 		'username',
