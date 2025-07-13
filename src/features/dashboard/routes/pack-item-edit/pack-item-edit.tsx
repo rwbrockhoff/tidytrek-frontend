@@ -45,7 +45,6 @@ export const PackItemEdit = () => {
 	// Custom hooks for form and actions
 	const {
 		formData,
-		isPriceEditing,
 		formErrors,
 		handleInputChange,
 		handleNumericChange,

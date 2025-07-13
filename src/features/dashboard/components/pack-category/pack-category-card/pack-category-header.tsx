@@ -10,8 +10,8 @@ type PackCategoryHeaderProps = {
 	isMinimized: boolean;
 	userView: boolean;
 	itemQuantity: number;
-	convertedCategoryWeight: string;
-	formattedTotalPrice: string;
+	convertedCategoryWeight: number;
+	formattedTotalPrice: string | number;
 	onChangeColor: (color: string) => void;
 	onMinimizeCategory: () => void;
 };

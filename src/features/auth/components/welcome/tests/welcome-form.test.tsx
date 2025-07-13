@@ -19,6 +19,9 @@ vi.mock('@/queries/profile-settings-queries', () => ({
 		mutateAsync: vi.fn(),
 		isPending: false,
 	}),
+	useGenerateUsernameQuery: () => ({
+		refetch: vi.fn().mockResolvedValue({ data: { username: 'generated_username' } }),
+	}),
 }));
 
 // Mock the API (dependency, not used for test logic)
@@ -39,7 +42,7 @@ describe('WelcomeForm', () => {
 
 			expect(screen.getByDisplayValue('jim_halpert')).toBeInTheDocument();
 			expect(screen.getByPlaceholderText('Trail Name')).toBeInTheDocument();
-			expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
+			expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument();
 		});
 
 		it('renders welcome form with empty username', () => {
@@ -101,7 +104,7 @@ describe('WelcomeForm', () => {
 			await user.clear(usernameInput);
 
 			// Save username/submit form
-			await user.click(screen.getByRole('button', { name: /save/i }));
+			await user.click(screen.getByRole('button', { name: /continue/i }));
 
 			await vi.waitFor(() => {
 				// Re-query the input after state change

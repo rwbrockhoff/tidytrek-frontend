@@ -11,7 +11,7 @@ import styles from './pack-item-edit-form.module.css';
 type PackItemEditFormProps = {
 	formData: BaseTableRowItem;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
-	getFormattedPrice: () => string;
+	getFormattedPrice: () => string | number;
 	onInputChange: (e: InputEvent) => void;
 	onNumericChange: (field: keyof BaseTableRowItem, value: number) => void;
 	onPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

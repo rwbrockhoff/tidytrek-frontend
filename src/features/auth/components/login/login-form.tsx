@@ -8,7 +8,7 @@ import { type LoginUserFormData } from '@/types/user-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
-type LoginFormProps = {
+export type LoginFormProps = {
 	isLoading: boolean;
 	formErrors: ZodFormErrors<LoginUserFormData>;
 	serverError: FormError;

@@ -27,7 +27,7 @@ export const PackItemActions = ({
 				</Button>
 			)}
 
-			{showMoveToCloset && onMoveToCloset && (
+			{showMoveToCloset && onMoveToCloset && onDelete && (
 				<DeleteItemModal
 					id={item.packItemId}
 					hasPackId={isPackItem(item)}
@@ -37,7 +37,7 @@ export const PackItemActions = ({
 				</DeleteItemModal>
 			)}
 
-			{onDelete && (
+			{onDelete && onMoveToCloset && (
 				<DeleteItemModal
 					id={item.packItemId}
 					hasPackId={isPackItem(item)}

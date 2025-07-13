@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import { useRedirects } from '../ui/use-redirects';
 import { tidyTrekAPI } from '@/api/tidytrekAPI';
 
@@ -24,7 +24,10 @@ describe('useRedirects', () => {
 
 		const { result } = renderHook(() => useRedirects());
 
-		const response = await result.current.checkRedirect('https://youtube.com/test');
+		let response: any;
+		await act(async () => {
+			response = await result.current.checkRedirect('https://youtube.com/test');
+		});
 
 		expect(response).toEqual({ redirectUrl: 'https://youtube.com/test' });
 	});
@@ -41,7 +44,10 @@ describe('useRedirects', () => {
 
 		const { result } = renderHook(() => useRedirects());
 
-		const response = await result.current.checkRedirect('https://badsite.com');
+		let response: any;
+		await act(async () => {
+			response = await result.current.checkRedirect('https://badsite.com');
+		});
 
 		expect(response.warning).toBeDefined();
 		expect(response.warning?.domain).toBe('badsite.com');
