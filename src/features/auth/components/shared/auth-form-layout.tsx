@@ -11,7 +11,7 @@ import { type FormError } from '@/types/form-types';
 
 type AuthFormLayoutProps = {
 	title: string;
-	googleContext: 'signin' | 'signup';
+	authMethod: 'signin' | 'signup';
 	isRegister: boolean;
 	serverError: FormError;
 	children: ReactNode;
@@ -20,7 +20,7 @@ type AuthFormLayoutProps = {
 
 export const AuthFormLayout = ({
 	title,
-	googleContext,
+	authMethod,
 	isRegister,
 	serverError,
 	children,
@@ -37,7 +37,7 @@ export const AuthFormLayout = ({
 						{title}
 					</Heading>
 
-					<GoogleAuth context={googleContext} updateServerError={updateServerError} />
+					<GoogleAuth authMethod={authMethod} updateServerError={updateServerError} />
 
 					<Text align="center" my="4">
 						or

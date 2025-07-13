@@ -67,15 +67,13 @@ export const LoginForm = ({
 		</Form>
 	);
 
-
 	return (
 		<AuthFormLayout
 			title="Log in to your account"
-			googleContext="signin"
+			authMethod="signin"
 			isRegister={false}
 			serverError={serverError}
-			updateServerError={updateServerError}
-		>
+			updateServerError={updateServerError}>
 			{formContent}
 		</AuthFormLayout>
 	);

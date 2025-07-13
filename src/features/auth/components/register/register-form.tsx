@@ -58,7 +58,7 @@ export const RegisterForm = ({
 					error={formErrors.firstName}
 					data-testid="first-name-input"
 				/>
-				
+
 				<TextField.Input
 					name="lastName"
 					placeholder="Last Name"
@@ -104,15 +104,13 @@ export const RegisterForm = ({
 		</>
 	);
 
-
 	return (
 		<AuthFormLayout
 			title="Create your account"
-			googleContext="signup"
+			authMethod="signup"
 			isRegister={true}
 			serverError={serverError}
-			updateServerError={updateServerError}
-		>
+			updateServerError={updateServerError}>
 			{formContent}
 		</AuthFormLayout>
 	);
