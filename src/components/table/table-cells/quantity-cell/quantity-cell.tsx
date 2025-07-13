@@ -1,18 +1,27 @@
-import { useContext } from 'react';
+import { type InputEvent } from '@/types/form-types';
+import { type BaseTableRowItem } from '@/types/pack-types';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Badge, Flex, Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
-type ButtonProps = {
+type QuantityCellProps = {
 	onToggleOff: () => void;
+	packItem: BaseTableRowItem;
+	onChange: (e: InputEvent) => void;
+	isDragging: boolean;
+	formErrors: ZodFormErrors<any> | null;
 };
 
-export const QuantityCell = ({ onToggleOff }: ButtonProps) => {
+export const QuantityCell = ({ 
+	onToggleOff, 
+	packItem, 
+	onChange, 
+	isDragging, 
+	formErrors 
+}: QuantityCellProps) => {
 	const userView = useUserContext();
-
-	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemQuantity } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 

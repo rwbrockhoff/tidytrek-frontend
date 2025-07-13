@@ -1,20 +1,29 @@
 import { type InputEvent } from '@/types/form-types';
-import { useContext } from 'react';
+import { type BaseTableRowItem } from '@/types/pack-types';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { convertCurrency } from '@/utils';
-import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 
 type PriceCellProps = {
 	onToggleOff: () => void;
+	packItem: BaseTableRowItem;
+	onChange: (e: InputEvent) => void;
+	isDragging: boolean;
+	formErrors: ZodFormErrors<any> | null;
 };
 
-export const PriceCell = ({ onToggleOff }: PriceCellProps) => {
+export const PriceCell = ({ 
+	onToggleOff, 
+	packItem, 
+	onChange, 
+	isDragging, 
+	formErrors 
+}: PriceCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange, isDragging, formErrors } = useContext(TableRowContext);
 	const { packItemPrice = 0 } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();

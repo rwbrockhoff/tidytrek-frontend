@@ -15,7 +15,6 @@ import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input
 import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 
-import { TableRowContext } from '../context/table-row-context';
 import { TableErrorRow } from '../table-error-row/table-error-row';
 import { useTableRowValidation } from './hooks/use-table-row-validation';
 import { DraggableTableRow } from './draggable-table-row';
@@ -44,7 +43,6 @@ export const TableRowComponent = (props: TableRowProps) => {
 	const {
 		packItem,
 		onChange,
-		onSelect,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
@@ -80,20 +78,15 @@ export const TableRowComponent = (props: TableRowProps) => {
 	return (
 		<DraggableTableRow index={index} packItemId={packItemId} disabled={disabled}>
 			{(provided, { isDragging }) => (
-				<TableRowContext.Provider
-					value={{
-						packItem,
-						onChange,
-						onSelect,
-						isDragging,
-						formErrors,
-					}}>
-					<>
+				<>
 						<TableRowContent
 							toggleRow={toggleRow}
 							isDragging={isDragging}
 							provided={provided}
 							disabled={disabled}
+							packItem={packItem}
+							onChange={onChange}
+							formErrors={formErrors}
 							onToggle={handleToggle}
 							onChangeProperty={handleChangeProperty}
 							onMouseOver={() => setToggleRow(true)}
@@ -134,8 +127,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 						)}
 
 						<TableErrorRow error={primaryError} />
-					</>
-				</TableRowContext.Provider>
+				</>
 			)}
 		</DraggableTableRow>
 	);

@@ -1,5 +1,5 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
-import { useContext } from 'react';
+import { type BaseTableRowItem } from '@/types/pack-types';
 import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../../table-buttons';
@@ -7,7 +7,6 @@ import { useUserContext } from '@/hooks/auth/use-user-context';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
-import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import { mx } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
@@ -18,16 +17,16 @@ type ItemNameCellProps = {
 	displayIcon: boolean;
 	dragProps: object;
 	onToggleOff: () => void;
+	packItem: BaseTableRowItem;
+	onChange: (e: InputEvent) => void;
+	isDragging: boolean;
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange, isDragging } = useContext(TableRowContext);
+	const { packItem, onChange, isDragging, displayIcon, dragProps, onToggleOff } = props;
 	const { packItemName, packItemUrl } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
-
-	const { displayIcon, dragProps } = props;
-	const { onToggleOff } = props;
 
 	const handleToggleOff = () => {
 		userView && onToggleOff();
@@ -56,7 +55,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						disabled={!userView}
 						className={mx.textEllipsis}
 					/>
-					<LinkPopup displayIcon={displayIcon} />
+					<LinkPopup displayIcon={displayIcon} packItem={packItem} />
 				</Flex>
 			) : packItemUrl ? (
 				<ExternalLink href={packItemUrl}>

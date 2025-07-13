@@ -4,25 +4,24 @@ import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
-import { TableRowContext } from '../../context/table-row-context';
+import { type BaseTableRowItem } from '@/types/pack-types';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
 	displayIcon: boolean;
+	packItem: BaseTableRowItem;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
 	const userView = useUserContext();
 	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
 
-	const { packItem } = useContext(TableRowContext);
+	const { displayIcon, packItem } = props;
 	const { packItemUrl } = packItem || {};
-
-	const { displayIcon } = props;
 	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
 	const displayButton = displayIcon || packItemUrl ? true : false;

@@ -1,22 +1,21 @@
-import { type PackItemProperty } from '@/types/pack-types';
+import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { Table } from '@/components/alpine';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { useContext } from 'react';
-import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 
-type ButtonProps = {
+type PropertiesCellProps = {
 	display: boolean;
 	isDisabled: boolean;
 	onClick: (property: PackItemProperty) => void;
+	packItem: BaseTableRowItem;
+	isDragging: boolean;
 };
 
-export const PropertiesCell = (props: ButtonProps) => {
-	const { display, isDisabled, onClick } = props;
+export const PropertiesCell = (props: PropertiesCellProps) => {
+	const { display, isDisabled, onClick, packItem, isDragging } = props;
 
 	const userView = useUserContext();
-	const { packItem, isDragging } = useContext(TableRowContext);
 	const { wornWeight, consumable, favorite } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 

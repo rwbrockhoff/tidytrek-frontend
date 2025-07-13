@@ -1,8 +1,6 @@
 import { Flex } from '@radix-ui/themes';
 import { Table } from '@/components/alpine';
 import { cn } from '@/styles/utils';
-import { useContext } from 'react';
-import { TableRowContext } from '../../context/table-row-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
 import styles from './action-buttons.module.css';
 
@@ -10,13 +8,12 @@ type ActionButtonsProps = {
 	header?: boolean;
 	size?: number;
 	display?: boolean;
+	isDragging?: boolean;
 	children: React.ReactNode;
 };
 
 export const ActionButtons = (props: ActionButtonsProps) => {
-	const { header, display = true, children } = props;
-
-	const { isDragging } = useContext(TableRowContext);
+	const { header, display = true, isDragging = false, children } = props;
 	const { ref, width } = useCellWidth(isDragging);
 
 	if (header) {

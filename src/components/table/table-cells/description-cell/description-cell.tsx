@@ -1,17 +1,24 @@
-import { useContext } from 'react';
+import { type InputEvent } from '@/types/form-types';
+import { type BaseTableRowItem } from '@/types/pack-types';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCellWidth } from '@/components/table/hooks/use-cell-width';
-import { TableRowContext } from '../../context/table-row-context';
 import { mx } from '@/styles/utils';
 
-type TableCellProps = {
+type DescriptionCellProps = {
 	onToggleOff: () => void;
+	packItem: BaseTableRowItem;
+	onChange: (e: InputEvent) => void;
+	isDragging: boolean;
 };
 
-export const DescriptionCell = ({ onToggleOff }: TableCellProps) => {
+export const DescriptionCell = ({ 
+	onToggleOff, 
+	packItem, 
+	onChange, 
+	isDragging 
+}: DescriptionCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange, isDragging } = useContext(TableRowContext);
 	const { packItemDescription } = packItem || {};
 
 	const { width, ref } = useCellWidth(isDragging);

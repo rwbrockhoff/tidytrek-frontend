@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { type InputEvent, type SelectEvent } from '@/types/form-types';
+import { type InputEvent } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 
@@ -35,16 +35,9 @@ export const useTableRowInput = (item: BaseTableRowItem) => {
 		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
 	};
 
-	const onSelect = (e: SelectEvent) => {
-		const { name, value } = e.target as HTMLSelectElement;
-		updateField(name, value);
-		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
-	};
-
 	return {
 		packItem,
 		onChange,
-		onSelect,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
