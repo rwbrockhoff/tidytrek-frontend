@@ -1,42 +1,19 @@
-import { useRef, type FormEvent } from 'react';
-import {
-	type InputEvent,
-	type TextAreaEvent,
-	type PasswordInfo,
-} from '@/types/form-types';
+import { type FormEvent } from 'react';
 import styles from './password-form.module.css';
 import mx from '@/styles/utils/mixins.module.css';
 import { Flex } from '@radix-ui/themes';
-import { Button, TextField } from '@/components/alpine';
+import { Button } from '@/components/alpine';
 import { Form } from '@radix-ui/react-form';
 import { Message } from '@/components/ui';
-import { z, passwordSchema } from '@/schemas';
-import { useZodError } from '@/hooks/form/use-zod-error';
-import { clearZodErrors } from '@/hooks/form/use-zod-error';
-import { usePasswordActions } from '@/features/account/hooks';
+import { usePasswordChangeForm } from '@/features/account/hooks/use-password-change-form';
+import { usePasswordChangeMutation } from '@/features/account/hooks/use-password-change-mutation';
+import { PasswordChangeFormFields } from './password-change-form-fields';
 
 type PasswordChangeFormProps = {
 	onFormSuccess: () => void;
 	onCancel: () => void;
 	isFormSuccess: boolean;
 };
-
-type ZodInputs = {
-	password: string;
-	confirmPassword: string;
-	emailCode: string;
-};
-
-const changePasswordSchema = z
-	.object({
-		password: passwordSchema,
-		confirmPassword: passwordSchema,
-		emailCode: z.string().min(6, { message: 'Invalid confirmation code.' }),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Passwords do not match.',
-		path: ['confirmPassword'],
-	});
 
 const supabaseErrorMessage =
 	'There was an error updating your password. You might need to try again.';
@@ -48,72 +25,32 @@ export const PasswordChangeForm = ({
 	onCancel,
 	isFormSuccess,
 }: PasswordChangeFormProps) => {
-	const formRef = useRef<HTMLFormElement | null>(null);
-	const { changePassword } = usePasswordActions();
+	const { formRef, formErrors, validateForm, handleClearErrors, resetForm } =
+		usePasswordChangeForm();
 
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<ZodInputs>([
-		'password',
-		'confirmPassword',
-		'emailCode',
-	]);
+	const { handleSubmit, isError, isPending } = usePasswordChangeMutation({
+		onSuccess: onFormSuccess,
+		resetForm,
+	});
 
-	const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = Object.fromEntries(new FormData(e.currentTarget)) as PasswordInfo;
-		const schemaData = changePasswordSchema.safeParse(data);
+		const formData = new FormData(e.currentTarget);
+		const validation = validateForm(formData);
 
-		if (!schemaData.success) {
-			const errorList = JSON.parse(schemaData.error.message);
-			return updateFormErrors(errorList);
+		if (validation.isValid && validation.data) {
+			handleSubmit(validation.data);
 		}
-
-		const { password, emailCode } = data;
-		changePassword.mutate(
-			{ password, emailCode },
-			{
-				onSuccess: () => {
-					formRef?.current && formRef.current.reset();
-					onFormSuccess();
-				},
-			},
-		);
-	};
-
-	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
-		clearZodErrors<ZodInputs>(e, formErrors, resetFormErrors);
 	};
 
 	return (
 		<Form className={mx.halfWidth} ref={formRef} onSubmit={handleSubmitForm}>
-			<TextField.Input
-				name="password"
-				label="New Password"
-				error={formErrors.password}
-				onChange={handleClearErrors}
-				type="password"
-				placeholder="New Password"
+			<PasswordChangeFormFields
+				formErrors={formErrors}
+				onClearErrors={handleClearErrors}
 			/>
 
-			<TextField.Input
-				name="confirmPassword"
-				label="Confirm Password"
-				error={formErrors.confirmPassword}
-				onChange={handleClearErrors}
-				type="password"
-				placeholder="Confirm Password"
-			/>
-
-			<TextField.Input
-				name="emailCode"
-				label="Email Code"
-				error={formErrors.emailCode}
-				onChange={handleClearErrors}
-				placeholder="Email Code"
-			/>
-
-			{changePassword.isError && (
-				<Message messageType="error" text={supabaseErrorMessage} />
-			)}
+			{isError && <Message messageType="error" text={supabaseErrorMessage} />}
 
 			{isFormSuccess && <Message messageType="success" text={successMessage} />}
 
@@ -121,7 +58,7 @@ export const PasswordChangeForm = ({
 				<Button variant="outline" onClick={onCancel}>
 					{isFormSuccess ? 'Close' : 'Cancel'}
 				</Button>
-				<Button type="submit" loading={changePassword.isPending}>
+				<Button type="submit" loading={isPending}>
 					Save Password
 				</Button>
 			</Flex>
