@@ -6,10 +6,6 @@
 	cursor: pointer;
 }
 
-.linkButtonHidden {
-	opacity: 0;
-}
-
 .linkButtonVisible {
 	opacity: 1;
 }

@@ -8,13 +8,10 @@
 	margin-left: 10px;
 	touch-action: manipulation;
 	opacity: 0;
+	cursor: pointer;
 }
 
 .gripContainer svg {
 	color: var(--gray-400);
 }
 
-.gripContainerVisible {
-	opacity: 1;
-	cursor: pointer;
-}

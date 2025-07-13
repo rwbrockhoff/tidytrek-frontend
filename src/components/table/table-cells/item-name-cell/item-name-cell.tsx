@@ -14,7 +14,6 @@ import styles from './item-name-cell.module.css';
 export type OnChange = (e: InputEvent | SelectEvent) => void;
 
 type ItemNameCellProps = {
-	displayIcon: boolean;
 	dragProps: object;
 	onToggleOff: () => void;
 	packItem: BaseTableRowItem;
@@ -24,7 +23,7 @@ type ItemNameCellProps = {
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const userView = useUserContext();
-	const { packItem, onChange, isDragging, displayIcon, dragProps, onToggleOff } = props;
+	const { packItem, onChange, isDragging, dragProps, onToggleOff } = props;
 	const { packItemName, packItemUrl } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
@@ -39,7 +38,6 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			style={{ width }}
 			className={styles.styledCell}>
 			<GripButton
-				display={displayIcon && userView}
 				testId="pack-item-grip"
 				{...dragProps}
 			/>
@@ -55,7 +53,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						disabled={!userView}
 						className={mx.textEllipsis}
 					/>
-					<LinkPopup displayIcon={displayIcon} packItem={packItem} />
+					<LinkPopup packItem={packItem} />
 				</Flex>
 			) : packItemUrl ? (
 				<ExternalLink href={packItemUrl}>

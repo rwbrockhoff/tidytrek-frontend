@@ -4,6 +4,7 @@ import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
+import hoverStyles from '../../hover-styles.module.css';
 import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
@@ -12,7 +13,6 @@ import { useUserContext } from '@/hooks/auth/use-user-context';
 import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
-	displayIcon: boolean;
 	packItem: BaseTableRowItem;
 };
 
@@ -20,11 +20,11 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const userView = useUserContext();
 	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
 
-	const { displayIcon, packItem } = props;
+	const { packItem } = props;
 	const { packItemUrl } = packItem || {};
 	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
-	const displayButton = displayIcon || packItemUrl ? true : false;
+	const hasUrl = !!packItemUrl;
 	const hasLink = packItemUrl !== '' || undefined;
 
 	const handleOnChange = (e: InputEvent) => {
@@ -66,7 +66,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						className={cn(
 							styles.linkButton,
 							mx.mobileHidden,
-							displayButton ? styles.linkButtonVisible : styles.linkButtonHidden,
+							hasUrl ? styles.linkButtonVisible : hoverStyles.showOnHover,
 						)}
 						iconLeft={
 							<LinkIcon

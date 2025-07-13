@@ -6,6 +6,7 @@
 	margin-right: var(--space-xs);
 }
 
+
 .flexContainer svg {
 	cursor: pointer;
 	color: var(--color-text-secondary);
@@ -13,14 +14,6 @@
 
 .flexContainer svg:hover {
 	filter: var(--brightness-dark-2);
-}
-
-.flexVisible {
-	opacity: 1;
-}
-
-.flexHidden {
-	opacity: 0;
 }
 
 @media (max-width: 768px) {

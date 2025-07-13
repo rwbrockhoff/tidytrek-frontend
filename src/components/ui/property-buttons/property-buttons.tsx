@@ -4,6 +4,7 @@ import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/icons';
 import styles from './property-buttons.module.css';
+import hoverStyles from '@/components/table/hover-styles.module.css';
 
 type ButtonTypes = {
 	wornWeight?: boolean;
@@ -16,7 +17,6 @@ type PropertyButtonsProps = {
 	consumable: boolean;
 	favorite: boolean;
 	isDisabled?: boolean;
-	showAlways?: boolean; // forms vs table cells
 	onClick: (property: PackItemProperty) => void;
 	className?: string;
 	ariaLabelledBy?: string;
@@ -27,7 +27,6 @@ export const PropertyButtons = ({
 	consumable,
 	favorite,
 	isDisabled = false,
-	showAlways = false,
 	onClick,
 	className,
 	ariaLabelledBy,
@@ -48,6 +47,7 @@ export const PropertyButtons = ({
 				size="sm"
 				onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
 				aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
+				className={cn(favorite ? '' : hoverStyles.showOnHover)}
 				iconLeft={
 					<FavoriteIcon
 						name="favorite"
@@ -55,7 +55,6 @@ export const PropertyButtons = ({
 							favorite && styles.favoriteActive,
 							isDisabled && styles.disabledIcon,
 						)}
-						style={{ opacity: showAlways || favorite ? 1 : 0 }}
 					/>
 				}
 			/>
@@ -66,6 +65,7 @@ export const PropertyButtons = ({
 					size="sm"
 					onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
 					aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
+					className={cn(consumable ? '' : hoverStyles.showOnHover)}
 					iconLeft={
 						<ConsumableIcon
 							name="food"
@@ -73,7 +73,6 @@ export const PropertyButtons = ({
 								consumable && styles.consumableActive,
 								isDisabled && styles.disabledIcon,
 							)}
-							style={{ opacity: showAlways || consumable ? 1 : 0 }}
 						/>
 					}
 				/>
@@ -85,6 +84,7 @@ export const PropertyButtons = ({
 					size="sm"
 					onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
 					aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
+					className={cn(wornWeight ? '' : hoverStyles.showOnHover)}
 					iconLeft={
 						<WornIcon
 							name="wornWeight"
@@ -92,7 +92,6 @@ export const PropertyButtons = ({
 								wornWeight && styles.wornWeightActive,
 								isDisabled && styles.disabledIcon,
 							)}
-							style={{ opacity: showAlways || wornWeight ? 1 : 0 }}
 						/>
 					}
 				/>

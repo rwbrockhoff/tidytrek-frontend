@@ -16,7 +16,6 @@ import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 type TableRowContentProps = {
-	toggleRow: boolean;
 	isDragging: boolean;
 	provided: any;
 	disabled?: boolean;
@@ -25,13 +24,10 @@ type TableRowContentProps = {
 	formErrors: ZodFormErrors<any> | null;
 	onToggle: () => void;
 	onChangeProperty: (property: PackItemProperty) => void;
-	onMouseOver: () => void;
-	onMouseLeave: () => void;
-	children: React.ReactNode; // Action buttons content
+	children: React.ReactNode;
 };
 
 export const TableRowContent = ({
-	toggleRow,
 	isDragging,
 	provided,
 	disabled,
@@ -40,8 +36,6 @@ export const TableRowContent = ({
 	formErrors,
 	onToggle,
 	onChangeProperty,
-	onMouseOver,
-	onMouseLeave,
 	children
 }: TableRowContentProps) => {
 	const userView = useUserContext();
@@ -50,14 +44,11 @@ export const TableRowContent = ({
 	return (
 		<Table.Row
 			data-testid="pack-item-row"
-			onMouseOver={onMouseOver}
-			onMouseLeave={onMouseLeave}
 			ref={provided.innerRef}
 			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
 			{...provided.draggableProps}>
 			
 			<ItemNameCell
-				displayIcon={toggleRow}
 				dragProps={{ ...provided.dragHandleProps }}
 				onToggleOff={onToggle}
 				packItem={packItem}
@@ -75,7 +66,6 @@ export const TableRowContent = ({
 			<PropertiesCell
 				onClick={onChangeProperty}
 				isDisabled={!!disabled}
-				display={toggleRow}
 				packItem={packItem}
 				isDragging={isDragging}
 			/>
@@ -108,7 +98,7 @@ export const TableRowContent = ({
 			)}
 
 			{userView && (
-				<ActionButtons display={toggleRow} isDragging={isDragging}>
+				<ActionButtons isDragging={isDragging}>
 					{children}
 				</ActionButtons>
 			)}
