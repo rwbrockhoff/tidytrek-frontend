@@ -1,153 +1,55 @@
-import { type InputEvent } from '@/types/form-types';
-import { useState, type FormEvent } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Flex, Text, Heading } from '@radix-ui/themes';
-import { Button, TextField } from '@/components/alpine';
 import { Link } from '@/components/ui';
 import { Segment } from '@/components/primitives';
-import { RefreshIcon } from '@/components/icons';
 import { FormContainer } from '../form-components/form-components';
+import { WelcomeFormFields } from './welcome-form-fields';
+import { useWelcomeForm } from '../../hooks/use-welcome-form';
 import styles from '../form-components/form-components.module.css';
-import { Form } from '@radix-ui/react-form';
-import { z, usernameSchema, trailNameSchema } from '@/schemas';
-import { useUpdateUsernameMutation } from '@/queries/profile-settings-queries';
-import { clearZodErrors } from '@/hooks/form/use-zod-error';
-import { useMutationErrors } from '@/hooks/form/use-axios-error';
-import { useZodError } from '@/hooks/form/use-zod-error';
-import { setFormInput } from '@/utils';
-import { useQueryClient } from '@tanstack/react-query';
-import { profileSettingsKeys } from '@/queries/query-keys';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
-
-const formSchema = z.object({
-	username: usernameSchema,
-	trailName: trailNameSchema,
-});
-
-type ZodInputs = {
-	username: string;
-	trailName: string;
-};
 
 type WelcomeFormProps = {
 	defaultUsername: string | undefined;
 };
 
 export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
-	const [formData, setFormData] = useState<ZodInputs>({
-		username: defaultUsername || '',
-		trailName: '',
-	});
-
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
-	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
-
-	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
-	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<ZodInputs>([
-		'username',
-		'trailName',
-	]);
-
-	const handleInput = (e: InputEvent) => {
-		setFormInput(e, setFormData);
-		handleClearErrors(e);
-	};
-
-	const handleGenerateUsername = async () => {
-		const { username } = await generateUsername();
-		setFormData((prev) => ({ ...prev, username }));
-	};
-
-	const generateUsername = async () => {
-		return await queryClient.fetchQuery({
-			queryKey: profileSettingsKeys.username,
-			queryFn: () =>
-				tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
-		});
-	};
-
-	const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// validate form data
-		const data = formSchema.safeParse(formData);
-		if (!data.success) {
-			const result = JSON.parse(data.error.message);
-			return updateFormErrors(result);
-		}
-		// allow empty input and navigate to dashboard
-		const { username, trailName } = formData;
-		if (!username && !trailName) navigate('/');
-		try {
-			await saveUsername(formData);
-			navigate('/');
-		} catch (error) {
-			// catch + display errors (already taken username)
-			updateAxiosError(error);
-		}
-	};
-
-	const handleClearErrors = (e: InputEvent) => {
-		clearZodErrors<ZodInputs>(e, formErrors, resetFormErrors);
-		if (serverError.error) resetAxiosError();
-	};
-
-	const { username, trailName } = formData;
+	const {
+		formData,
+		isPending,
+		serverError,
+		formErrors,
+		handleInput,
+		handleGenerateUsername,
+		handleFormSubmit,
+	} = useWelcomeForm({ defaultUsername });
 
 	return (
 		<FormContainer>
 			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
-				<RouterLink to="/">tidytrek</RouterLink>
+				<Link to="/">tidytrek</Link>
 			</Heading>
-
 			<Segment radius="2">
-				<Heading as="h3" size="6" mb="6">
-					Welcome to Tidytrek!
+				<Heading as="h3" size="7" mb="6">
+					Welcome to tidytrek!
 				</Heading>
 
-				<Form onSubmit={handleFormSubmit}>
-					<TextField.Input
-						name="username"
-						value={username}
-						onChange={handleInput}
-						placeholder="Username"
-						aria-label="Username"
-						error={formErrors.username}
-						variant="icon"
-						iconPosition="right"
-						icon={
-							<Button
-								size="sm"
-								type="button"
-								onClick={handleGenerateUsername}
-								aria-label="Generate random username"
-								iconLeft={<RefreshIcon />}
-							/>
-						}
-					/>
+				<Text as="p" mb="4">
+					Please choose a username and trail name to get started.
+				</Text>
 
-					<TextField.Input
-						name="trailName"
-						value={trailName}
-						placeholder="Trail Name"
-						onChange={handleInput}
-						error={formErrors.trailName}
-					/>
+				<WelcomeFormFields
+					formData={formData}
+					isPending={isPending}
+					serverError={serverError}
+					formErrors={formErrors}
+					onInput={handleInput}
+					onGenerateUsername={handleGenerateUsername}
+					onSubmit={handleFormSubmit}
+				/>
 
-					<Button
-						type="submit"
-						loading={isPending}
-						style={{ width: '100%', cursor: 'pointer' }}>
-						Save
-					</Button>
-				</Form>
-
-				<Flex justify="center" mt="4">
-					<Link to={'/'}>
-						<Text size="3" color="gray">
-							Keep default username
-						</Text>
-					</Link>
+				<Flex mt="4" justify="center">
+					<Text size="3">
+						<RouterLink to={'/'}>Back to login</RouterLink>
+					</Text>
 				</Flex>
 			</Segment>
 		</FormContainer>
