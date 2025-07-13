@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Badge } from '@radix-ui/themes';
 import { Button, Table } from '@/components/alpine';
 import { PlusIcon } from '@/components/icons';
@@ -23,9 +24,11 @@ export const TableFooter = ({
 	const hasItems = showTotals && itemQuantity > 0;
 
 	// Calculate colSpan using same logic as our table
-	const summaryColumns = hasItems ? 2 + (showPrices ? 1 : 0) : 0; // qty, weight, [price]
-	const actionColumns = userView ? 1 : 0; // empty action cell always present when userView
-	const addButtonColSpan = totalColumns - summaryColumns - actionColumns;
+	const addButtonColSpan = useMemo(() => {
+		const summaryColumns = hasItems ? 2 + (showPrices ? 1 : 0) : 0; // qty, weight, [price]
+		const actionColumns = userView ? 1 : 0; // empty action cell always present when userView
+		return totalColumns - summaryColumns - actionColumns;
+	}, [hasItems, showPrices, userView, totalColumns]);
 
 	return (
 		<tfoot className={styles.footer}>

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
@@ -43,7 +44,11 @@ export const PriceCell = ({
 		onChange && onChange(e);
 	};
 
-	const formattedPrice = convertCurrency(packItemPrice, 'USD').toString();
+	const formattedPrice = useMemo(
+		() => convertCurrency(packItemPrice, 'USD').toString(),
+		[packItemPrice]
+	);
+	
 	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();
 	return (
 		<Table.Cell

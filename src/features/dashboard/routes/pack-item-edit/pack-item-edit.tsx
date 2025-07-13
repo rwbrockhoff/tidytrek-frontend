@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { Heading } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
@@ -31,13 +32,15 @@ export const PackItemEdit = () => {
 	} = useGetGearClosetQuery();
 
 	// Find packItem by id within query state pack or gear closet
-	const packItem = gearCloset
-		? gearClosetData?.gearClosetList?.find(
-				(item) => item.packItemId === decodedPackItemId,
-			)
-		: packData?.categories
-				?.find((cat) => cat.packCategoryId === packCategoryId)
-				?.packItems?.find((item) => item.packItemId === decodedPackItemId);
+	const packItem = useMemo(() => {
+		return gearCloset
+			? gearClosetData?.gearClosetList?.find(
+					(item) => item.packItemId === decodedPackItemId,
+				)
+			: packData?.categories
+					?.find((cat) => cat.packCategoryId === packCategoryId)
+					?.packItems?.find((item) => item.packItemId === decodedPackItemId);
+	}, [gearCloset, gearClosetData, packData, decodedPackItemId, packCategoryId]);
 
 	const isLoading = gearCloset ? closetLoading : packLoading;
 	const error = gearCloset ? closetError : packError;
