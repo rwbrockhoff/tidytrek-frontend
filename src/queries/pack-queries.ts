@@ -1,6 +1,6 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from '@/utils';
 import {

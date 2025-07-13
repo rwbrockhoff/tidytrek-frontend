@@ -5,7 +5,7 @@ import {
 	useUpdateUsernameMutation,
 	useEditProfileMutation,
 } from '@/queries/profile-settings-queries';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 
 // Mock API calls and utils

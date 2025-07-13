@@ -1,4 +1,4 @@
-import { frontendURL } from '@/api/tidytrekAPI';
+import { frontendURL } from '@/api/tidytrek-api';
 
 type LandingLinkProps = {
 	to?: string;

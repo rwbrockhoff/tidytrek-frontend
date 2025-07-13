@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { profileSettingsKeys, profileKeys, userKeys } from './query-keys';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
+import { tidyTrekAPI } from '../api/tidytrek-api';
 import { ProfileQueryState } from '../types/profile-types';
 import { type UserInfo } from '../types/profile-types';
 import { type SimpleMutation } from './mutation-types';
@@ -15,7 +15,8 @@ export const useGetProfileSettingsQuery = () =>
 export const useGenerateUsernameQuery = () =>
 	useQuery<{ username: string }>({
 		queryKey: profileSettingsKeys.username,
-		queryFn: () => tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
+		queryFn: () =>
+			tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
 		enabled: false, // Only run when manually triggered
 	});
 

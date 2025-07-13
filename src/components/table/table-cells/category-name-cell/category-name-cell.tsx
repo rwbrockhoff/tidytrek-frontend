@@ -7,6 +7,7 @@ import { TextField, Table } from '@/components/alpine';
 import { ThemeButton, GripButton } from '../../table-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
+import hoverStyles from '../../hover-styles.module.css';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -27,7 +28,6 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	} = categoryHeaderInfo;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
-	const [showGrip, setShowGrip] = useState(false);
 
 	const handleBlur = () => {
 		if (categoryName !== packCategoryName) {
@@ -38,26 +38,16 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const handleChangeColor = (packCategoryColor: string) =>
 		editPackCategory({ packCategoryColor, packCategoryId });
 
-	const handleOnMouseOver = () => {
-		setShowGrip(true);
-	};
-
-	const handleOnMouseLeave = () => {
-		setShowGrip(false);
-	};
-
 	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	return (
-		<Table.HeaderCell
-			className={styles.headerCell}
-			onMouseOver={handleOnMouseOver}
-			onMouseLeave={handleOnMouseLeave}>
-			<GripButton
-				display={showGrip && userView}
-				testId="pack-category-grip"
-				{...dragProps}
-			/>
+		<Table.HeaderCell className={styles.headerCell}>
+			<div className={hoverStyles.showOnHoverAbsolute}>
+				<GripButton
+					testId="pack-category-grip"
+					{...dragProps}
+				/>
+			</div>
 
 			<Flex align="center">
 				<ThemeButton

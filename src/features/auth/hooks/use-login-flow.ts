@@ -1,7 +1,7 @@
 import { type LoginUserFormData } from '@/types/user-types';
 import { useLoginMutation } from '@/queries/user-queries';
 import { useZodError } from '@/hooks/form/use-zod-error';
-import supabase from '@/api/supabaseClient';
+import supabase from '@/api/supabase-client';
 import { loginSchema } from '../schemas/auth-schemas';
 
 const signinError = 'Invalid login credentials.';
@@ -13,7 +13,10 @@ export const useLoginFlow = () => {
 	const { formErrors, updateFormErrors, resetFormErrors, resetAllFormErrors } =
 		useZodError<LoginUserFormData>(['email', 'password']);
 
-	const handleLogin = async (formData: LoginUserFormData, setAxiosError: (error: string) => void) => {
+	const handleLogin = async (
+		formData: LoginUserFormData,
+		setAxiosError: (error: string) => void,
+	) => {
 		const schemaData = loginSchema.safeParse(formData);
 		if (!schemaData.success) {
 			const result = JSON.parse(schemaData.error.message);
@@ -34,7 +37,7 @@ export const useLoginFlow = () => {
 		// Log in user
 		const userId = data.user.id;
 		const supabaseRefreshToken = data?.session?.refresh_token;
-		
+
 		if (userId) {
 			loginUser({
 				userId,

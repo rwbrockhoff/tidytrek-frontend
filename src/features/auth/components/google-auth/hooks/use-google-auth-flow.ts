@@ -1,5 +1,5 @@
 import { type Session, type User } from '@supabase/supabase-js';
-import supabase from '@/api/supabaseClient';
+import supabase from '@/api/supabase-client';
 import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { type GoogleCredentialResponse, type AuthMethod } from '../google-types';
 

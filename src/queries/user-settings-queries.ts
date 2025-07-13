@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './query-keys';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
+import { tidyTrekAPI } from '../api/tidytrek-api';
 import { type Settings } from '../types/settings-types';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from '../utils';

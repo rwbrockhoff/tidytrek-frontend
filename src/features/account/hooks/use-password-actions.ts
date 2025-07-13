@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { reauthenticateUser, updatePassword } from '@/api/supabaseClient';
+import { reauthenticateUser, updatePassword } from '@/api/supabase-client';
 
 export const usePasswordActions = () => {
 	const reauthenticate = useMutation({
@@ -11,7 +11,13 @@ export const usePasswordActions = () => {
 	});
 
 	const changePassword = useMutation({
-		mutationFn: async ({ password, emailCode }: { password: string; emailCode: string }) => {
+		mutationFn: async ({
+			password,
+			emailCode,
+		}: {
+			password: string;
+			emailCode: string;
+		}) => {
 			const { error } = await updatePassword(password, emailCode);
 			if (error) throw error;
 			return true;

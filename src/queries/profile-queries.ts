@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { profileKeys } from './query-keys';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
+import { tidyTrekAPI } from '../api/tidytrek-api';
 import { type BaseProfileState } from '../types/profile-types';
 import { STALE_TIME } from './query-config';
 

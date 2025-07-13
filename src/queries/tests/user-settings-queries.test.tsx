@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 
 // Mock API calls and utils

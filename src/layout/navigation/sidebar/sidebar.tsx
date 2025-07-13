@@ -6,7 +6,7 @@ import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode } from '@/utils';
 import { SidebarButton } from './sidebar-button';
-import supabase from '@/api/supabaseClient';
+import supabase from '@/api/supabase-client';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { MouseOver } from '@/contexts/mouse-over-context';

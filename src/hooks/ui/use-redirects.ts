@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 
 type RedirectResponse = {
 	redirectUrl?: string;

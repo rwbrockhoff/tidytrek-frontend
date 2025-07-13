@@ -1,7 +1,7 @@
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { AccountForm } from '../components';
 import { useDeleteAccountMutation } from '@/queries/user-queries';
-import supabase from '@/api/supabaseClient';
+import supabase from '@/api/supabase-client';
 
 export const AccountSettings = () => {
 	const { user } = useGetAuth();

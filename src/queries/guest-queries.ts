@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
+import { tidyTrekAPI } from '../api/tidytrek-api';
 import { guestKeys } from './query-keys';
 import { decode, extractData } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';

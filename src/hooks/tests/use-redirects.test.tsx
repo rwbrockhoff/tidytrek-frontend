@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useRedirects } from '../ui/use-redirects';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 
 vi.mock('@/api/tidytrekAPI', () => ({
 	tidyTrekAPI: {

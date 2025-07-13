@@ -126,7 +126,6 @@ export const PackItemEditForm = ({
 					wornWeight={formData.wornWeight || false}
 					consumable={formData.consumable || false}
 					favorite={formData.favorite || false}
-					showAlways={true}
 					onClick={onPropertyChange}
 					ariaLabelledBy="properties-label"
 				/>

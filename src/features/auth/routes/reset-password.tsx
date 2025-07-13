@@ -1,8 +1,8 @@
 import { type ResetPasswordData } from '../types/auth-types';
 import { useEffect, useState } from 'react';
 import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
-import supabase from '@/api/supabaseClient';
-import { frontendURL } from '@/api/tidytrekAPI';
+import supabase from '@/api/supabase-client';
+import { frontendURL } from '@/api/tidytrek-api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '@/queries/user-queries';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';

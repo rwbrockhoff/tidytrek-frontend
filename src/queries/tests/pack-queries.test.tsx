@@ -12,7 +12,7 @@ import {
 	useDeletePackItemMutation,
 	useAddPackCategoryMutation,
 } from '@/queries/pack-queries';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 import {
 	createMockInitialState,

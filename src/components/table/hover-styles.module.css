@@ -6,8 +6,10 @@
 	opacity: 0;
 }
 
-/* Show all hover elements when hovering anywhere in the row */
+/* Show all hover elements when hovering anywhere in the row or header */
 tr:hover .showOnHover,
-tr:hover .showOnHoverAbsolute {
+tr:hover .showOnHoverAbsolute,
+th:hover .showOnHover,
+th:hover .showOnHoverAbsolute {
 	opacity: 1;
 }

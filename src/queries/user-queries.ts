@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './query-keys';
-import { tidyTrekAPI } from '../api/tidytrekAPI';
-import supabase from '../api/supabaseClient';
+import { tidyTrekAPI } from '../api/tidytrek-api';
+import supabase from '../api/supabase-client';
 import { LoginUser, type RegisterUser, type User } from '../types/user-types';
 import { type Settings } from '../types/settings-types';
 import { type SimpleMutation } from './mutation-types';

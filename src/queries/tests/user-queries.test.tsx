@@ -6,8 +6,8 @@ import {
 	useLogoutMutation,
 	type AuthStatusResponse,
 } from '@/queries/user-queries';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
-import supabase from '@/api/supabaseClient';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
+import supabase from '@/api/supabase-client';
 import {
 	createMockLoginUser,
 	createMockUser,
@@ -34,7 +34,6 @@ vi.mock('@/api/supabaseClient', () => ({
 vi.mock('@/utils', () => ({
 	extractData: vi.fn((res) => res.data),
 }));
-
 
 const mockAuthResponse: AuthStatusResponse = {
 	isAuthenticated: true,

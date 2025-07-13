@@ -7,7 +7,7 @@ import {
 	type GuestProfileViewState,
 	isGuestProfileData,
 } from '@/queries/guest-queries';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 import { createMockPack, createMockCategory } from '@/tests/mocks/pack-mocks';
 import { createMockUserProfile } from '@/tests/mocks/profile-mocks';
