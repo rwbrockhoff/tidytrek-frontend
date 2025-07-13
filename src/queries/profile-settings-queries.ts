@@ -12,6 +12,13 @@ export const useGetProfileSettingsQuery = () =>
 		queryFn: () => tidyTrekAPI.get('/profile-settings/').then((res) => res.data),
 	});
 
+export const useGenerateUsernameQuery = () =>
+	useQuery<{ username: string }>({
+		queryKey: profileSettingsKeys.username,
+		queryFn: () => tidyTrekAPI.get('/profile-settings/random-username').then((res) => res.data),
+		enabled: false, // Only run when manually triggered
+	});
+
 export const useUpdateUsernameMutation = (): SimpleMutation<
 	{ username: string; trailName: string },
 	{ message?: string }
