@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
 import { normalizeURL } from '@/utils/link-utils';
@@ -29,38 +29,29 @@ export const usePackForm = (pack: Pack) => {
 		'packName',
 	]);
 
-	const handleClearErrors = useCallback(
-		(e: InputEvent | TextAreaEvent) => {
-			clearZodErrors<PackFormInputs>(e, formErrors, resetFormErrors);
-		},
-		[formErrors, resetFormErrors],
-	);
+	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
+		clearZodErrors<PackFormInputs>(e, formErrors, resetFormErrors);
+	};
 
-	const handleFormChange = useCallback(
-		(e: InputEvent | TextAreaEvent) => {
-			setModifiedPack((prevFormData) => ({
-				...prevFormData,
-				[e?.target?.name]: e?.target?.value,
-			}));
-			// Clear validation errors when user starts typing
-			handleClearErrors(e);
-			if (!packChanged) setPackChanged(true);
-		},
-		[packChanged, handleClearErrors],
-	);
+	const handleFormChange = (e: InputEvent | TextAreaEvent) => {
+		setModifiedPack((prevFormData) => ({
+			...prevFormData,
+			[e?.target?.name]: e?.target?.value,
+		}));
+		// Clear validation errors when user starts typing
+		handleClearErrors(e);
+		if (!packChanged) setPackChanged(true);
+	};
 
-	const handleCheckBox = useCallback(
-		(updatedCheckbox: Checkboxes) => {
-			setModifiedPack((prev) => ({
-				...prev,
-				...updatedCheckbox,
-			}));
-			if (!packChanged) setPackChanged(true);
-		},
-		[packChanged],
-	);
+	const handleCheckBox = (updatedCheckbox: Checkboxes) => {
+		setModifiedPack((prev) => ({
+			...prev,
+			...updatedCheckbox,
+		}));
+		if (!packChanged) setPackChanged(true);
+	};
 
-	const handleSubmitPack = useCallback(() => {
+	const handleSubmitPack = () => {
 		if (packChanged) {
 			// Validate pack form before submitting
 			const result = packFormSchema.safeParse(modifiedPack);
@@ -77,13 +68,13 @@ export const usePackForm = (pack: Pack) => {
 			return true; // Success
 		}
 		return true; // No changes, can close
-	}, [packChanged, pack, modifiedPack, editPack, updateFormErrors]);
+	};
 
-	const resetForm = useCallback(() => {
+	const resetForm = () => {
 		setModifiedPack(pack);
 		setPackChanged(false);
 		resetFormErrors();
-	}, [pack, resetFormErrors]);
+	};
 
 	return {
 		modifiedPack,

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { type Category } from '@/types/pack-types';
 import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
 
@@ -8,10 +8,7 @@ export const usePackCategory = (category: Category) => {
 
 	const [isMinimized, setMinimized] = useState(false);
 
-	const handleMinimizeCategory = useCallback(
-		() => setMinimized(!isMinimized),
-		[isMinimized],
-	);
+	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
 	const { totalWeight: convertedCategoryWeight, totalPrice } = useMemo(
 		() => convertWeight(packItems, 'lb'),
