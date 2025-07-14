@@ -41,7 +41,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const defaultPackUrl = `/pack/${encodedId}`;
 	const currentPackId = packData?.pack?.packId;
 
-	const { isMobile, isTablet } = useCheckScreen();
+	const { isMobile, isMedium } = useCheckScreen();
 
 	useEffect(() => {
 		const { pathname } = location;
@@ -57,7 +57,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	useEffect(() => {
 		// Hide sidebar when navigating on mobile/tablet
-		if ((isMobile || isTablet) && showSidebar) {
+		if ((isMobile || isMedium) && showSidebar) {
 			onToggle();
 		}
 	}, [location.pathname]);

@@ -7,17 +7,17 @@ import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { cn } from '@/styles/utils';
 
 export const UserLayout = () => {
-	const { isMobile, isTablet } = useCheckScreen();
+	const { isMobile, isMedium } = useCheckScreen();
 	const [showSidebar, setShowSidebar] = useState(false);
 
 	// Default sidebar to hidden on tablet and mobile
 	useEffect(() => {
-		if (isMobile || isTablet) {
+		if (isMobile || isMedium) {
 			setShowSidebar(false);
 		} else {
 			setShowSidebar(true);
 		}
-	}, [isMobile, isTablet]);
+	}, [isMobile, isMedium]);
 
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 

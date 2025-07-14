@@ -1,17 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import { useDebounce } from '../utils/use-debounce';
+
+const MOBILE_BREAKPOINT = 768;
+const MEDIUM_BREAKPOINT = 1280;
 
 export const useCheckScreen = () => {
 	const [width, setWidth] = useState(window.innerWidth);
+	const debouncedWidth = useDebounce(width, 100);
+
 	const handleWindowSizeChange = () => {
 		setWidth(window.innerWidth);
 	};
 
-	useEffect(() => {
+	//synchronous, before first paint unlike useEffect
+	useLayoutEffect(() => {
 		window.addEventListener('resize', handleWindowSizeChange);
 		return () => {
 			window.removeEventListener('resize', handleWindowSizeChange);
 		};
 	}, []);
 
-	return { isMobile: width <= 768, isTablet: width <= 1280 };
+	// hook still fires/updates for resizing
+	// values for components use debounced width to avoid excess re-renders
+	return {
+		isMobile: debouncedWidth <= MOBILE_BREAKPOINT,
+		isMedium: debouncedWidth <= MEDIUM_BREAKPOINT,
+	};
 };
