@@ -9,7 +9,6 @@ interface PropertyButtonsProps {
 	consumable: boolean;
 	favorite: boolean;
 	isDisabled?: boolean;
-	showAlways?: boolean;
 	onClick: (property: PackItemProperty) => void;
 	className?: string;
 	ariaLabelledBy?: string;
@@ -20,7 +19,6 @@ const createDefaultProps = (overrides?: Partial<PropertyButtonsProps>) => ({
 	consumable: false,
 	favorite: false,
 	isDisabled: false,
-	showAlways: false,
 	onClick: vi.fn(),
 	...overrides,
 });
@@ -30,136 +28,93 @@ describe('PropertyButtons', () => {
 		vi.clearAllMocks();
 	});
 
-	describe('Rendering', () => {
-		it('renders all three property buttons with accessibility', () => {
-			const props = createDefaultProps({ ariaLabelledBy: 'test-label' });
-			wrappedRender(<PropertyButtons {...props} />);
+	it('renders all three property buttons with accessibility', () => {
+		const props = createDefaultProps({ ariaLabelledBy: 'test-label' });
+		wrappedRender(<PropertyButtons {...props} />);
 
-			expect(screen.getByLabelText(/toggle favorite/i)).toBeInTheDocument();
-			expect(screen.getByLabelText(/toggle consumables/i)).toBeInTheDocument();
-			expect(screen.getByLabelText(/toggle worn weight/i)).toBeInTheDocument();
-			
-			const group = screen.getByRole('group');
-			expect(group).toHaveAttribute('aria-labelledby', 'test-label');
-		});
+		expect(screen.getByLabelText(/toggle favorite/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/toggle consumables/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/toggle worn weight/i)).toBeInTheDocument();
+		
+		const group = screen.getByRole('group');
+		expect(group).toHaveAttribute('aria-labelledby', 'test-label');
 	});
 
-	describe('Click Handling', () => {
-		it('calls onClick with correct property values for each button', async () => {
-			const mockOnClick = vi.fn();
-			const props = createDefaultProps({
-				onClick: mockOnClick,
-				showAlways: true,
-			});
-			const { user } = wrappedRender(<PropertyButtons {...props} />);
+	it('calls onClick with correct property values for each button', async () => {
+		const mockOnClick = vi.fn();
+		const props = createDefaultProps({ onClick: mockOnClick });
+		const { user } = wrappedRender(<PropertyButtons {...props} />);
 
-			await user.click(screen.getByLabelText(/toggle favorite on/i));
-			expect(mockOnClick).toHaveBeenCalledWith({ favorite: true });
+		await user.click(screen.getByLabelText(/toggle favorite on/i));
+		expect(mockOnClick).toHaveBeenCalledWith({ favorite: true });
 
-			await user.click(screen.getByLabelText(/toggle consumables on/i));
-			expect(mockOnClick).toHaveBeenCalledWith({ consumable: true });
+		await user.click(screen.getByLabelText(/toggle consumables on/i));
+		expect(mockOnClick).toHaveBeenCalledWith({ consumable: true });
 
-			await user.click(screen.getByLabelText(/toggle worn weight on/i));
-			expect(mockOnClick).toHaveBeenCalledWith({ wornWeight: true });
-		});
-
-		it('toggles property values correctly', async () => {
-			const mockOnClick = vi.fn();
-			const props = createDefaultProps({
-				favorite: true,
-				onClick: mockOnClick,
-				showAlways: true,
-			});
-			const { user } = wrappedRender(<PropertyButtons {...props} />);
-
-			await user.click(screen.getByLabelText(/toggle favorite off/i));
-			expect(mockOnClick).toHaveBeenCalledWith({ favorite: false });
-		});
+		await user.click(screen.getByLabelText(/toggle worn weight on/i));
+		expect(mockOnClick).toHaveBeenCalledWith({ wornWeight: true });
 	});
 
-	describe('Disabled State', () => {
-		it('applies disabled styling and prevents interaction', () => {
-			const props = createDefaultProps({
-				isDisabled: true,
-				showAlways: true,
-			});
-			wrappedRender(<PropertyButtons {...props} />);
-
-			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
-			const favoriteIcon = favoriteButton.querySelector('svg');
-			
-			expect(favoriteIcon).toHaveClass(/disabledIcon/);
-			expect(favoriteIcon).toHaveStyle({ 'pointer-events': 'none' });
+	it('toggles property values correctly when active', async () => {
+		const mockOnClick = vi.fn();
+		const props = createDefaultProps({
+			favorite: true,
+			onClick: mockOnClick,
 		});
+		const { user } = wrappedRender(<PropertyButtons {...props} />);
+
+		await user.click(screen.getByLabelText(/toggle favorite off/i));
+		expect(mockOnClick).toHaveBeenCalledWith({ favorite: false });
 	});
 
-	describe('Visibility Logic', () => {
-		it('shows all buttons when showAlways is true', () => {
-			const props = createDefaultProps({
-				showAlways: true,
-				favorite: false,
-				consumable: false,
-				wornWeight: false,
-			});
-			wrappedRender(<PropertyButtons {...props} />);
+	it('applies disabled styling when isDisabled is true', () => {
+		const props = createDefaultProps({ isDisabled: true });
+		wrappedRender(<PropertyButtons {...props} />);
 
-			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
-			const consumableButton = screen.getByLabelText(/toggle consumables/i);
-			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
-
-			const favoriteIcon = favoriteButton.querySelector('svg');
-			const consumableIcon = consumableButton.querySelector('svg');
-			const wornWeightIcon = wornWeightButton.querySelector('svg');
-
-			expect(favoriteIcon).toHaveStyle({ opacity: '1' });
-			expect(consumableIcon).toHaveStyle({ opacity: '1' });
-			expect(wornWeightIcon).toHaveStyle({ opacity: '1' });
-		});
-
-		it('shows only active buttons when showAlways is false', () => {
-			const props = createDefaultProps({
-				showAlways: false,
-				favorite: true,
-				consumable: false,
-				wornWeight: true,
-			});
-			wrappedRender(<PropertyButtons {...props} />);
-
-			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
-			const consumableButton = screen.getByLabelText(/toggle consumables/i);
-			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
-
-			const favoriteIcon = favoriteButton.querySelector('svg');
-			const consumableIcon = consumableButton.querySelector('svg');
-			const wornWeightIcon = wornWeightButton.querySelector('svg');
-
-			expect(favoriteIcon).toHaveStyle({ opacity: '1' });
-			expect(consumableIcon).toHaveStyle({ opacity: '0' });
-			expect(wornWeightIcon).toHaveStyle({ opacity: '1' });
-		});
+		const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+		const favoriteIcon = favoriteButton.querySelector('svg');
+		
+		expect(favoriteIcon).toHaveClass(/disabledIcon/);
 	});
 
-	describe('Active State Styling', () => {
-		it('applies active classes when properties are true', () => {
-			const props = createDefaultProps({
-				favorite: true,
-				consumable: true,
-				wornWeight: true,
-				showAlways: true,
-			});
-			wrappedRender(<PropertyButtons {...props} />);
-
-			const favoriteButton = screen.getByLabelText(/toggle favorite/i);
-			const consumableButton = screen.getByLabelText(/toggle consumables/i);
-			const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
-
-			const favoriteIcon = favoriteButton.querySelector('svg');
-			const consumableIcon = consumableButton.querySelector('svg');
-			const wornWeightIcon = wornWeightButton.querySelector('svg');
-
-			expect(favoriteIcon).toHaveClass(/favoriteActive/);
-			expect(consumableIcon).toHaveClass(/consumableActive/);
-			expect(wornWeightIcon).toHaveClass(/wornWeightActive/);
+	it('applies active classes when properties are true', () => {
+		const props = createDefaultProps({
+			favorite: true,
+			consumable: true,
+			wornWeight: true,
 		});
+		wrappedRender(<PropertyButtons {...props} />);
+
+		const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+		const consumableButton = screen.getByLabelText(/toggle consumables/i);
+		const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
+
+		const favoriteIcon = favoriteButton.querySelector('svg');
+		const consumableIcon = consumableButton.querySelector('svg');
+		const wornWeightIcon = wornWeightButton.querySelector('svg');
+
+		expect(favoriteIcon).toHaveClass(/favoriteActive/);
+		expect(consumableIcon).toHaveClass(/consumableActive/);
+		expect(wornWeightIcon).toHaveClass(/wornWeightActive/);
+	});
+
+	it('applies showOnHover class to inactive buttons', () => {
+		const props = createDefaultProps({
+			favorite: false,
+			consumable: true,
+			wornWeight: false,
+		});
+		wrappedRender(<PropertyButtons {...props} />);
+
+		const favoriteButton = screen.getByLabelText(/toggle favorite/i);
+		const consumableButton = screen.getByLabelText(/toggle consumables/i);
+		const wornWeightButton = screen.getByLabelText(/toggle worn weight/i);
+
+		// Inactive buttons should have showOnHover class
+		expect(favoriteButton).toHaveClass(/showOnHover/);
+		expect(wornWeightButton).toHaveClass(/showOnHover/);
+		
+		// Active button should not have showOnHover class
+		expect(consumableButton).not.toHaveClass(/showOnHover/);
 	});
 });

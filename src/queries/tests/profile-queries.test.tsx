@@ -8,7 +8,7 @@ import { createMockPack } from '@/tests/mocks/pack-mocks';
 import { createMockSettings } from '@/tests/mocks/user-mocks';
 
 // Mock API calls
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 	},

@@ -201,8 +201,26 @@ export const useEditPackItemMutation = (): SimpleMutation<
 				.put(`/packs/pack-items/${packItemId}`, packItem)
 				.then(extractData);
 		},
-		onSuccess: (_response, { packItem }) => {
-			queryClient.invalidateQueries({ queryKey: packKeys.packId(packItem.packId) });
+		onSuccess: (updatedItem, { packItem }) => {
+			// only update changed item in cache
+			queryClient.setQueryData<PackQueryState>(
+				packKeys.packId(packItem.packId),
+				(old) => {
+					if (!old) return old;
+					
+					return {
+						...old,
+						categories: old.categories.map(category => ({
+							...category,
+							packItems: category.packItems.map(item => 
+								item.packItemId === updatedItem.packItemId 
+									? updatedItem 
+									: item
+							),
+						})),
+					};
+				}
+			);
 		},
 	});
 };

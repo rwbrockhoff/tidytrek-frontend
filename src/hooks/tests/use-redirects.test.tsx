@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useRedirects } from '../ui/use-redirects';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		post: vi.fn(),
 		defaults: { baseURL: 'http://localhost:4001' },

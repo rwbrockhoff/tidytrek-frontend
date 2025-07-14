@@ -38,15 +38,13 @@ export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 
 		const themeToUse = palette || getPreferredTheme();
 
-		// Only update if changed to prevent unnecessary work
-		if (currentMode !== modeToUse || currentPalette !== themeToUse) {
-			document.body.setAttribute('data-theme', modeToUse);
-			document.body.setAttribute('data-theme-palette', themeToUse);
+		// Always update DOM attributes to ensure portals get the changes
+		document.body.setAttribute('data-theme', modeToUse);
+		document.body.setAttribute('data-theme-palette', themeToUse);
 
-			setCurrentMode(modeToUse);
-			setCurrentPalette(themeToUse);
-		}
-	}, [darkMode, palette, currentMode, currentPalette]);
+		setCurrentMode(modeToUse);
+		setCurrentPalette(themeToUse);
+	}, [darkMode, palette]);
 
 	return { currentMode, currentPalette };
 }

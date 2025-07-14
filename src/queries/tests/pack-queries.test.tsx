@@ -22,7 +22,7 @@ import {
 } from '@/tests/mocks/pack-mocks';
 
 // Mock API calls and utils
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 		post: vi.fn(),

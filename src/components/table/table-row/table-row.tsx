@@ -4,8 +4,8 @@ import {
 	type BaseTableRowItem,
 } from '@/types/pack-types';
 
-import { useTableRowInput } from '@/features/dashboard/hooks/use-table-row-input';
-import { MoveItemDropdown } from '../move-item-dropdown/move-item-dropdown';
+import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
+import { MoveItemDropdown } from '@/shared/components/pack-item-management/move-item-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 
 import { TableErrorRow } from '../table-error-row/table-error-row';
@@ -42,7 +42,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 		formErrors,
 		updateFormErrors,
 		primaryError,
-	} = useTableRowInput(item);
+	} = usePackItemInput(item);
 
 	const {
 		handleToggle,

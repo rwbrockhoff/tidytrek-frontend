@@ -1,0 +1,1 @@
+export { GearClosetItemRow } from './gear-closet-item-row';

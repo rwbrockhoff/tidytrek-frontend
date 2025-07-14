@@ -7,7 +7,7 @@ import { useZodError } from '@/hooks/form/use-zod-error';
 // fields that should be cast from string to number on input
 const numericFields = new Set(['packItemQuantity', 'packItemWeight', 'packItemPrice']);
 
-export const useTableRowInput = (item: BaseTableRowItem) => {
+export const usePackItemInput = (item: BaseTableRowItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
 	const [packItem, setPackItem] = useState<BaseTableRowItem>(item);
 

@@ -1,15 +1,13 @@
 import { type GearClosetItem } from '@/types/pack-types';
 import { Button, Card } from '@/components/alpine';
 import { PlusIcon } from '@/components/icons';
-import { PackItemRow } from '@/features/dashboard/components/pack-item-row/pack-item-row';
+import { GearClosetItemRow } from '../gear-closet-item-row';
 import { cn } from '@/styles/utils';
 import styles from './gear-closet-card.module.css';
 
 type GearClosetCardProps = {
 	items: GearClosetItem[];
 	userView?: boolean;
-	onEdit?: (item: GearClosetItem) => void;
-	onDelete?: (itemId: number) => void;
 	onAddItem?: () => void;
 	className?: string;
 };
@@ -17,8 +15,6 @@ type GearClosetCardProps = {
 export const GearClosetCard = ({
 	items,
 	userView = false,
-	onEdit,
-	onDelete,
 	onAddItem,
 	className,
 }: GearClosetCardProps) => {
@@ -29,13 +25,10 @@ export const GearClosetCard = ({
 			className={`${styles.closetCard} ${className || ''}`}>
 			<Card.Body className={styles.itemsContainer}>
 				{items.map((item: GearClosetItem, index) => (
-					<PackItemRow
+					<GearClosetItemRow
 						key={item.packItemId || index}
 						item={item}
 						userView={userView}
-						onEdit={onEdit}
-						onDelete={onDelete}
-						showMoveToCloset={false}
 					/>
 				))}
 			</Card.Body>

@@ -25,7 +25,7 @@ vi.mock('../../hooks/use-profile-actions', () => ({
 }));
 
 // Mock API (dependency, not used for test logic)
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 	},

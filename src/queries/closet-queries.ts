@@ -41,8 +41,23 @@ export const useEditGearClosetItemMutation = (): SimpleMutation<
 			tidyTrekAPI
 				.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem)
 				.then(extractData),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: closetKeys.all });
+		onSuccess: (updatedItem) => {
+			// only update changed item in cache
+			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
+				closetKeys.all,
+				(old) => {
+					if (!old) return old;
+					
+					return {
+						...old,
+						gearClosetList: old.gearClosetList.map(item => 
+							item.packItemId === updatedItem.packItemId 
+								? updatedItem 
+								: item
+						),
+					};
+				}
+			);
 		},
 	});
 };

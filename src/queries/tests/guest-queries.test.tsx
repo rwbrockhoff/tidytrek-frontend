@@ -14,7 +14,7 @@ import { createMockUserProfile } from '@/tests/mocks/profile-mocks';
 import { createMockSettings } from '@/tests/mocks/user-mocks';
 
 // Mock API calls and utils
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 	},

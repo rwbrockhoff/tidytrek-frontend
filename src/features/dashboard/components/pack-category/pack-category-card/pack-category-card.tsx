@@ -33,9 +33,6 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 	const {
 		handleChangeColor,
 		handleAddItem,
-		handleEditPackItem,
-		handleMoveItemToCloset,
-		handleDeleteItem,
 	} = usePackCategoryActions({ packCategoryId, packId });
 
 	return (
@@ -61,9 +58,6 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 				packItems={packItems}
 				userView={userView}
 				isMinimized={isMinimized}
-				onEdit={handleEditPackItem}
-				onMoveToCloset={handleMoveItemToCloset}
-				onDelete={handleDeleteItem}
 				onAddItem={handleAddItem}
 			/>
 		</Card.Root>

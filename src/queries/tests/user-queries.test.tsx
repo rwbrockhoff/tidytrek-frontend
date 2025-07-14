@@ -15,7 +15,7 @@ import {
 } from '@/tests/mocks/user-mocks';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 		post: vi.fn(),
@@ -23,7 +23,7 @@ vi.mock('@/api/tidytrekAPI', () => ({
 	},
 }));
 
-vi.mock('@/api/supabaseClient', () => ({
+vi.mock('@/api/supabase-client', () => ({
 	default: {
 		auth: {
 			signOut: vi.fn(),

@@ -27,8 +27,15 @@ export const GearClosetList = (props: GearClosetListProps) => {
 	const { mutate: deleteGearClosetItem } = useDeleteGearClosetItemMutation();
 	const { onDragEnd } = useGearClosetDragHandler();
 
-	const handleOnSave = (item: BaseTableRowItem) => {
-		if (isGearClosetItem(item)) editGearClosetItem(item);
+	const handleOnSave = (formData: BaseTableRowItem) => {
+		if (isGearClosetItem(formData)) {
+			const gearClosetItem: GearClosetItem = {
+				...formData,
+				packId: null,
+				packCategoryId: null,
+			};
+			editGearClosetItem(gearClosetItem);
+		}
 	};
 
 	const handleDelete = (packItemId: number) => {

@@ -1,17 +1,14 @@
 import { Card, Button } from '@/components/alpine';
-import { PackItemRow } from '../../pack-item-row/pack-item-row';
+import { DashboardPackItemRow } from '../../dashboard-pack-item-row';
 import { PlusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
-import { type PackItem, type BaseTableRowItem } from '@/types/pack-types';
+import { type PackItem } from '@/types/pack-types';
 import styles from './pack-category-card.module.css';
 
 type PackCategoryItemsProps = {
 	packItems: PackItem[];
 	userView: boolean;
 	isMinimized: boolean;
-	onEdit: (packItem: BaseTableRowItem) => void;
-	onMoveToCloset: (packItemId: number) => void;
-	onDelete: (packItemId: number) => void;
 	onAddItem: () => void;
 };
 
@@ -19,9 +16,6 @@ export const PackCategoryItems = ({
 	packItems,
 	userView,
 	isMinimized,
-	onEdit,
-	onMoveToCloset,
-	onDelete,
 	onAddItem,
 }: PackCategoryItemsProps) => {
 	const showCategoryItems = !isMinimized;
@@ -34,13 +28,10 @@ export const PackCategoryItems = ({
 		<>
 			<Card.Body className={styles.itemsContainer}>
 				{packItems.map((item: PackItem, index) => (
-					<PackItemRow
+					<DashboardPackItemRow
 						key={item.packItemId || index}
 						item={item}
 						userView={userView}
-						onEdit={onEdit}
-						onMoveToCloset={onMoveToCloset}
-						onDelete={onDelete}
 					/>
 				))}
 			</Card.Body>

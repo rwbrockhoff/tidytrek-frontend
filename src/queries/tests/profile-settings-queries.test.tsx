@@ -9,7 +9,7 @@ import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 
 // Mock API calls and utils
-vi.mock('@/api/tidytrekAPI', () => ({
+vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 		put: vi.fn(),
