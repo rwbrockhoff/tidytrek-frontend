@@ -1,1 +1,1 @@
-export * from './use-password-actions';
+export { usePasswordActions } from './use-password-actions';

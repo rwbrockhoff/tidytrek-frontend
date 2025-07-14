@@ -1,1 +1,1 @@
-export * from './routes/gear-closet';
+export { GearCloset } from './routes/gear-closet';

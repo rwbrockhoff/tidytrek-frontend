@@ -1,3 +1,3 @@
-export * from './social-button/social-button';
-export * from './social-links';
-export * from './add-link';
+export { SocialButton } from './social-button/social-button';
+export { SocialLinks } from './social-links';
+export { AddLink } from './add-link';

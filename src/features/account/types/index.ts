@@ -1,1 +1,1 @@
-export * from './account-types';
+export { FORM_SECTIONS, type FormSection } from './account-types';

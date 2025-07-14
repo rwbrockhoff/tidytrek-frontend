@@ -1,1 +1,1 @@
-export * from './routes/profile';
+export { Profile } from './routes/profile';
