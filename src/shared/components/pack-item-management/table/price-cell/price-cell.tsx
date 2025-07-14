@@ -6,7 +6,7 @@ import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { convertCurrency } from '@/utils';
-import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 
 type PriceCellProps = {
@@ -17,12 +17,12 @@ type PriceCellProps = {
 	formErrors: ZodFormErrors<any> | null;
 };
 
-export const PriceCell = ({ 
-	onToggleOff, 
-	packItem, 
-	onChange, 
-	isDragging, 
-	formErrors 
+export const PriceCell = ({
+	onToggleOff,
+	packItem,
+	onChange,
+	isDragging,
+	formErrors,
 }: PriceCellProps) => {
 	const userView = useUserContext();
 	const { packItemPrice = 0 } = packItem || {};
@@ -46,9 +46,9 @@ export const PriceCell = ({
 
 	const formattedPrice = useMemo(
 		() => convertCurrency(packItemPrice, 'USD').toString(),
-		[packItemPrice]
+		[packItemPrice],
 	);
-	
+
 	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();
 	return (
 		<Table.Cell

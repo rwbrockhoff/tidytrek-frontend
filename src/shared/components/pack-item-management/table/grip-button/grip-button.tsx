@@ -2,7 +2,7 @@ import { Flex } from '@radix-ui/themes';
 import { cn } from '@/styles/utils';
 import { GripIcon } from '@/components/icons';
 import styles from './grip-button.module.css';
-import hoverStyles from '../../hover-styles.module.css';
+import hoverStyles from '../hover-styles.module.css';
 
 export const GripButton = ({
 	testId = 'grip-button',

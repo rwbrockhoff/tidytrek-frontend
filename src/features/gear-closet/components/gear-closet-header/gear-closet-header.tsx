@@ -1,5 +1,5 @@
 import { Table } from '@/components/alpine';
-import { HeaderCell } from '@/components/table';
+import { HeaderCell } from '@/shared/components/pack-item-management/table';
 import { cn } from '@/styles/utils';
 import styles from './gear-closet-header.module.css';
 

@@ -1,14 +1,18 @@
+import { type PackListItem, type GearClosetItem } from '@/types/pack-types';
 import {
-	type PackListItem,
-	type GearClosetItem,
-} from '@/types/pack-types';
-import { Table } from '@/components/table';
+	Table,
+	TableRow,
+	TableFooter,
+} from '@/shared/components/pack-item-management/table';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
-import { TableRow, TableFooter } from '@/components/table';
 import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
 import { PricingContext } from '@/contexts/pricing-context';
 import { NotFoundMessage } from '../not-found-message';
-import { useAddGearClosetItemMutation, useEditGearClosetItemMutation, useDeleteGearClosetItemMutation } from '@/queries/closet-queries';
+import {
+	useAddGearClosetItemMutation,
+	useEditGearClosetItemMutation,
+	useDeleteGearClosetItemMutation,
+} from '@/queries/closet-queries';
 import { useGearClosetDragHandler } from '../../hooks/use-gear-closet-drag-handler';
 import { type BaseTableRowItem, isGearClosetItem } from '@/types/pack-types';
 

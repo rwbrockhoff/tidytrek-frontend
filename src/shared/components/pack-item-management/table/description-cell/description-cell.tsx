@@ -2,7 +2,7 @@ import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useCellWidth } from '../hooks/use-cell-width';
 import { mx } from '@/styles/utils';
 
 type DescriptionCellProps = {
@@ -12,11 +12,11 @@ type DescriptionCellProps = {
 	isDragging: boolean;
 };
 
-export const DescriptionCell = ({ 
-	onToggleOff, 
-	packItem, 
-	onChange, 
-	isDragging 
+export const DescriptionCell = ({
+	onToggleOff,
+	packItem,
+	onChange,
+	isDragging,
 }: DescriptionCellProps) => {
 	const userView = useUserContext();
 	const { packItemDescription } = packItem || {};

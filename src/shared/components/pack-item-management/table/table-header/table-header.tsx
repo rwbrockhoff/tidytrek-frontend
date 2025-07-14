@@ -1,8 +1,9 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { Flex } from '@radix-ui/themes';
 import { Button, Table } from '@/components/alpine';
-import { CategoryNameCell } from '../table-cells';
-import { ActionButtons } from '../table-buttons/';
+import { CategoryNameCell } from '@/features/dashboard/components/table';
+import { ActionButtons } from '../action-buttons/action-buttons';
+import { HeaderCell } from './header-cell';
 import {
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
@@ -99,40 +100,3 @@ export const TableHeader = (props: TableHeaderProps) => {
 const deleteCategoryMessage =
 	'You can permanently delete your category or move the items to your gear closet.';
 
-export const HeaderCell = ({
-	children,
-	colSpan,
-	textAlign,
-	paddingLeft,
-	className,
-}: {
-	children?: React.ReactNode;
-	colSpan?: number;
-	textAlign?: 'center' | 'start' | 'end';
-	paddingLeft?: string;
-	className?: string;
-}) => (
-	<Table.HeaderCell
-		className={cn(styles.headerCell, className)}
-		colSpan={colSpan}
-		textAlign={textAlign}
-		style={{ paddingLeft }}>
-		{children}
-	</Table.HeaderCell>
-);
-
-export const TableText = ({
-	children,
-	width,
-	paddingLeft,
-	paddingRight,
-}: {
-	children: React.ReactNode;
-	width?: string;
-	paddingLeft?: string;
-	paddingRight?: string;
-}) => (
-	<p className={styles.tableText} style={{ width, paddingLeft, paddingRight }}>
-		{children}
-	</p>
-);

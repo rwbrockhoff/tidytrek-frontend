@@ -2,11 +2,21 @@ import { type PackListItem, type Category, type PackItem } from '@/types/pack-ty
 import styles from './pack-category.module.css';
 import { cn } from '@/styles/utils';
 import { Draggable } from 'react-beautiful-dnd';
-import { Table, TableRow, TableHeader, TableFooter } from '@/components/table';
+import {
+	Table,
+	TableRow,
+	TableHeader,
+	TableFooter,
+} from '@/shared/components/pack-item-management/table';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { DropTableBody } from '@/components';
 import { usePackCategory } from '../../hooks/use-pack-category';
-import { useAddNewPackItemMutation, useMoveItemToClosetMutation, useEditPackItemMutation, useDeletePackItemMutation } from '@/queries/pack-queries';
+import {
+	useAddNewPackItemMutation,
+	useMoveItemToClosetMutation,
+	useEditPackItemMutation,
+	useDeletePackItemMutation,
+} from '@/queries/pack-queries';
 import { normalizeURL } from '@/utils/link-utils';
 import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 

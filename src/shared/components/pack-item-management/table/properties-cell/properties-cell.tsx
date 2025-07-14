@@ -2,7 +2,7 @@ import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types
 import { Table } from '@/components/alpine';
 import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useCellWidth } from '../hooks/use-cell-width';
 
 type PropertiesCellProps = {
 	isDisabled: boolean;

@@ -4,7 +4,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Badge, Flex, Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useCellWidth } from '../hooks/use-cell-width';
 
 type QuantityCellProps = {
 	onToggleOff: () => void;
@@ -14,12 +14,12 @@ type QuantityCellProps = {
 	formErrors: ZodFormErrors<any> | null;
 };
 
-export const QuantityCell = ({ 
-	onToggleOff, 
-	packItem, 
-	onChange, 
-	isDragging, 
-	formErrors 
+export const QuantityCell = ({
+	onToggleOff,
+	packItem,
+	onChange,
+	isDragging,
+	formErrors,
 }: QuantityCellProps) => {
 	const userView = useUserContext();
 	const { packItemQuantity } = packItem || {};

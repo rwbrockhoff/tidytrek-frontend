@@ -1,14 +1,14 @@
 import styles from './table-row.module.css';
 import { Table } from '@/components/alpine';
-import { 
+import {
 	ItemNameCell,
 	PackWeightCell,
 	PropertiesCell,
 	QuantityCell,
 	PriceCell,
 	DescriptionCell,
-} from '@/components/table/table-cells';
-import { ActionButtons } from '@/components/table/table-buttons';
+} from '@/shared/components/pack-item-management/table';
+import { ActionButtons } from '../action-buttons/action-buttons';
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
@@ -36,7 +36,7 @@ export const TableRowContent = ({
 	formErrors,
 	onToggle,
 	onChangeProperty,
-	children
+	children,
 }: TableRowContentProps) => {
 	const userView = useUserContext();
 	const showPrices = usePricingContext();
@@ -47,7 +47,6 @@ export const TableRowContent = ({
 			ref={provided.innerRef}
 			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
 			{...provided.draggableProps}>
-			
 			<ItemNameCell
 				dragProps={{ ...provided.dragHandleProps }}
 				onToggleOff={onToggle}
@@ -56,8 +55,8 @@ export const TableRowContent = ({
 				isDragging={isDragging}
 			/>
 
-			<DescriptionCell 
-				onToggleOff={onToggle} 
+			<DescriptionCell
+				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
 				isDragging={isDragging}
@@ -70,7 +69,7 @@ export const TableRowContent = ({
 				isDragging={isDragging}
 			/>
 
-			<QuantityCell 
+			<QuantityCell
 				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
@@ -88,7 +87,7 @@ export const TableRowContent = ({
 			/>
 
 			{showPrices && (
-				<PriceCell 
+				<PriceCell
 					onToggleOff={onToggle}
 					packItem={packItem}
 					onChange={onChange}
@@ -97,11 +96,7 @@ export const TableRowContent = ({
 				/>
 			)}
 
-			{userView && (
-				<ActionButtons isDragging={isDragging}>
-					{children}
-				</ActionButtons>
-			)}
+			{userView && <ActionButtons isDragging={isDragging}>{children}</ActionButtons>}
 		</Table.Row>
 	);
 };

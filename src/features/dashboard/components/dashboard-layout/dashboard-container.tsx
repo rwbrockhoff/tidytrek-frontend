@@ -1,6 +1,6 @@
 import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
-import { AddCategoryButton } from '@/components/table';
+import { AddCategoryButton } from '../table';
 import { Flex } from '@radix-ui/themes';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { PricingContext } from '@/contexts/pricing-context';

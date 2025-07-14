@@ -1,5 +1,5 @@
 import { Card, Button } from '@/components/alpine';
-import { ThemeButton } from '@/components/table/table-buttons';
+import { ThemeButton } from '../../table';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';

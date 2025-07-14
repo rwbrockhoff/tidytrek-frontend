@@ -4,7 +4,7 @@ import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
-import hoverStyles from '../../hover-styles.module.css';
+import hoverStyles from '../hover-styles.module.css';
 import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';

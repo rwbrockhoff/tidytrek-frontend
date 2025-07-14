@@ -4,10 +4,11 @@ import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/alpine';
-import { ThemeButton, GripButton } from '../../table-buttons';
+import { ThemeButton } from '../theme-button/theme-button';
+import { GripButton } from '@/shared/components/pack-item-management/table';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
-import hoverStyles from '../../hover-styles.module.css';
+import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -43,10 +44,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	return (
 		<Table.HeaderCell className={styles.headerCell}>
 			<div className={hoverStyles.showOnHoverAbsolute}>
-				<GripButton
-					testId="pack-category-grip"
-					{...dragProps}
-				/>
+				<GripButton testId="pack-category-grip" {...dragProps} />
 			</div>
 
 			<Flex align="center">

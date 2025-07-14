@@ -2,12 +2,12 @@ import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { Flex } from '@radix-ui/themes';
 import { TextField, Table } from '@/components/alpine';
-import { GripButton } from '../../table-buttons';
+import { GripButton } from '../grip-button/grip-button';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
-import { useCellWidth } from '@/components/table/hooks/use-cell-width';
+import { useCellWidth } from '../hooks/use-cell-width';
 import { mx } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
 
