@@ -1,4 +1,5 @@
-import { Badge, Flex } from '@radix-ui/themes';
+import { Badge } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { LocationIcon, SeasonIcon, DurationIcon, HikingIcon } from '@/components/icons';
 import { Pack } from '@/types/pack-types';
 
@@ -6,7 +7,7 @@ export const PackLabels = ({ pack }: { pack: Pack }) => {
 	const { packLocationTag, packDurationTag, packSeasonTag, packDistanceTag } = pack;
 
 	return (
-		<Flex wrap="wrap" mt="3">
+		<Flex className="flex-wrap mt-3">
 			{packLocationTag && (
 				<PackLabel name={packLocationTag} icon={<LocationIcon size={12} />} />
 			)}

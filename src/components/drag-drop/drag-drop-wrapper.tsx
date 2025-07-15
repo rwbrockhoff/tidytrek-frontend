@@ -7,7 +7,7 @@ import {
 	ResponderProvided,
 } from 'react-beautiful-dnd';
 import { EmptyTableRow } from './empty-table-row';
-import { Table } from '@radix-ui/themes';
+import { Table } from '../alpine';
 import { Children } from 'react';
 
 export type DropResult = Result;

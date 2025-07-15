@@ -83,6 +83,10 @@
 	background-color: var(--color-bg-secondary);
 }
 
+.rt-PopoverContent:where(.rt-r-size-2) {
+	--popover-content-padding: var(--space-2);
+}
+
 /* -- Tables -- */
 /* .rt-TableRootTable tbody {
 	background-color: var(--color-bg-secondary);

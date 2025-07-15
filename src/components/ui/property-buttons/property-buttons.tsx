@@ -1,4 +1,5 @@
-import { Flex, Tooltip } from '@radix-ui/themes';
+import { Tooltip } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';

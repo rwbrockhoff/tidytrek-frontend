@@ -4,7 +4,8 @@ import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { ClosetIcon, SearchIcon } from '@/components/icons';
 import { TextField } from '@/components/alpine';
-import { Flex, Heading } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
+import { Heading } from '@radix-ui/themes';
 import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
@@ -42,7 +43,7 @@ export const GearCloset = () => {
 		<UserViewContext.Provider value={true}>
 			<PageLayout>
 				<Heading size="6" my="4">
-					<Flex align="center" justify="center" gap="2">
+					<Flex className="items-center justify-center gap-2">
 						<ClosetIcon />
 						Gear Closet
 					</Flex>

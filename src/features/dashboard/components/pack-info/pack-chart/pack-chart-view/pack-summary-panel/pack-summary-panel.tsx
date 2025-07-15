@@ -1,5 +1,7 @@
 import styles from './pack-summary-panel.module.css';
-import { Flex, Badge, Separator, HoverCard } from '@radix-ui/themes';
+import { cn } from '@/styles/utils';
+import { Flex, Stack } from '@/components/layout';
+import { Badge, Separator, HoverCard } from '@radix-ui/themes';
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import {
 	ConsumableIcon,
@@ -24,24 +26,24 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 		<>
 			<HoverCard.Root>
 				<HoverCard.Trigger>
-					<Flex mt="2" className={styles.popupListItem} style={{ cursor: 'pointer' }}>
+					<Flex className={cn(styles.popupListItem, 'mt-2')} style={{ cursor: 'pointer' }}>
 						<BackpackIcon /> Total Weight: <Badge ml="auto">{totalWeight} lbs</Badge>
 					</Flex>
 				</HoverCard.Trigger>
 				<HoverCard.Content side="top">
-					<Flex direction="column">
-						<Flex my="2" className={styles.popupListItem}>
+					<Stack>
+						<Flex className={cn(styles.popupListItem, 'my-2')}>
 							<WeightIcon />
 							Base Weight:
 							<Badge ml="auto">{baseWeight}</Badge>
 						</Flex>
 
-						<Flex my="2" className={styles.popupListItem}>
+						<Flex className={cn(styles.popupListItem, 'my-2')}>
 							<ConsumableIcon />
 							Consumables:
 							<Badge ml="auto">{consumables}</Badge>
 						</Flex>
-						<Flex my="2" className={styles.popupListItem}>
+						<Flex className={cn(styles.popupListItem, 'my-2')}>
 							<WornIcon />
 							Worn Weight:
 							<Badge ml="auto">{wornWeight}</Badge>
@@ -53,12 +55,12 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 							Total Weight:
 							<Badge ml="auto">{totalWeight} lbs</Badge>
 						</Flex>
-					</Flex>
+				</Stack>
 				</HoverCard.Content>
 			</HoverCard.Root>
 
 			{showPrices && (
-				<Flex mt="2" className={styles.popupListItem}>
+				<Flex className={cn(styles.popupListItem, 'mt-2')}>
 					<MoneyIcon /> Total Price:
 					<Badge ml="auto">{totalPackPrice}</Badge>
 				</Flex>

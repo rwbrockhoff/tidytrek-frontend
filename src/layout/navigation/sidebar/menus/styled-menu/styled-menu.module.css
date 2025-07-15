@@ -1,7 +1,4 @@
 .styledMenu {
-	padding-inline-start: 0;
-	margin: 0;
-	padding: 0;
 }
 
 .styledMenu a {
@@ -12,10 +9,6 @@
 .styledMenu li {
 	list-style: none;
 	cursor: pointer;
-	display: flex;
-	align-items: center;
-	margin: var(--space-xs) var(--space-xs);
-	margin-right: var(--space-md);
 }
 
 .styledMenu li:hover {
@@ -23,20 +16,13 @@
 }
 
 .styledMenu li svg {
-	margin-right: var(--space-xs);
 	width: 0.9rem;
 	height: 0.9rem;
 	filter: var(--brightness-dark-1);
 }
 
-
-.topMargin {
-	margin-top: var(--space-xl);
-}
-
 @media (max-width: 768px) {
 	.styledMenu li {
 		font-size: var(--font-size-xl);
-		margin-left: 0;
 	}
 }

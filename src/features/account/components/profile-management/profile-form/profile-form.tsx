@@ -1,5 +1,5 @@
 import { type SocialLink, type ProfileInfo } from '@/types/profile-types';
-import { Flex } from '@radix-ui/themes';
+import { Stack } from '@/components/layout';
 import { Segment, SegmentGroup } from '@/components/primitives';
 import { SocialLinks } from '../social-links';
 import { AvatarSettings } from '../avatar-settings';
@@ -26,8 +26,8 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 
 	const { profilePhotoUrl } = profileInfo || {};
 	return (
-		<Flex direction="column">
-			<SegmentGroup direction="column">
+		<Stack>
+			<SegmentGroup>
 				<AvatarSettings profilePhotoUrl={profilePhotoUrl} />
 				<Segment>
 					<ProfileFormFields
@@ -46,6 +46,6 @@ export const ProfileForm = ({ profileInfo, socialLinks }: ProfileFormProps) => {
 					<SocialLinks socialLinks={socialLinks} />
 				</Segment>
 			</SegmentGroup>
-		</Flex>
+		</Stack>
 	);
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton } from '../theme-button/theme-button';
 import { GripButton } from '@/shared/components/pack-item-management/table';
@@ -47,7 +47,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 				<GripButton testId="pack-category-grip" {...dragProps} />
 			</div>
 
-			<Flex align="center">
+			<Flex className="items-center">
 				<ThemeButton
 					paletteColor={packCategoryColor}
 					disabled={!userView}

@@ -1,4 +1,5 @@
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { CloseIcon } from '@/components/icons';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ export const GuestPreviewBanner = () => {
 	};
 
 	return (
-		<Flex align="center" gap="4">
+		<Flex className="items-center gap-4">
 			<Button
 				size="sm"
 				variant="outline"

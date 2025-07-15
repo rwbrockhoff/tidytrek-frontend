@@ -1,21 +1,26 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserIcon, LogoutIcon } from '@/components/icons';
-import { StyledMenu } from './styled-menu/styled-menu';
+import { PopoverMenuItem } from '@/components/ui/popover-menu';
 
 export const AvatarMenu = ({ logout }: { logout: () => void }) => {
-	return (
-		<StyledMenu>
-			<li>
-				<Link to="/account">
-					<UserIcon />
-					Account
-				</Link>
-			</li>
+	const navigate = useNavigate();
 
-			<li onClick={logout}>
-				<LogoutIcon />
-				Log Out
-			</li>
-		</StyledMenu>
+	const handleAccountClick = () => {
+		navigate('/account');
+	};
+
+	return (
+		<>
+			<PopoverMenuItem
+				icon={<UserIcon />}
+				label="Account"
+				onClick={handleAccountClick}
+			/>
+			<PopoverMenuItem
+				icon={<LogoutIcon />}
+				label="Log Out"
+				onClick={logout}
+			/>
+		</>
 	);
 };

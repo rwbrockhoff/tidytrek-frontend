@@ -1,4 +1,4 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { useMemo } from 'react';
 import { SocialButton } from '@/features/account/components/profile-management/social-links';
 import { SocialLink } from '@/types/profile-types';
@@ -30,7 +30,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	}, [socialLinks]);
 
 	return (
-		<Flex wrap="wrap" gap="2" mt="2">
+		<Flex className="flex-wrap gap-2 mt-2">
 			{socialButtonsData.map(({ key, socialLinkId, socialName, icon, socialLinkUrl }) => (
 				<SocialButton
 					key={key}

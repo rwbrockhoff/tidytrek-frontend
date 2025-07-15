@@ -1,4 +1,4 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { cn } from '@/styles/utils';
 import { GripIcon } from '@/components/icons';
 import styles from './grip-button.module.css';
@@ -12,9 +12,7 @@ export const GripButton = ({
 }) => {
 	return (
 		<Flex
-			align="center"
-			justify="center"
-			className={cn(styles.gripContainer, hoverStyles.showOnHoverAbsolute)}
+			className={cn(styles.gripContainer, hoverStyles.showOnHoverAbsolute, 'items-center justify-center')}
 			data-testid={testId}
 			{...props}>
 			<GripIcon className="lucide-sm" />

@@ -1,7 +1,7 @@
 import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '../table';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { PricingContext } from '@/contexts/pricing-context';
 import {
@@ -110,7 +110,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 				</DragDropContext>
 
 				{userView && (
-					<Flex justify="center" width="100%">
+					<Flex className="justify-center w-full">
 						<AddCategoryButton onClick={handleAddCategory} />
 					</Flex>
 				)}

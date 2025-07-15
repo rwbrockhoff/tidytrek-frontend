@@ -1,12 +1,16 @@
 import styles from './profile-header.module.css';
+import { Box, Heading, Text } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/icons';
 import { Avatar } from '@/components/media';
 import { SocialLinkList } from '@/components';
-import { useUploadProfilePhotoMutation, useUploadBannerPhotoMutation } from '@/queries/profile-settings-queries';
+import {
+	useUploadProfilePhotoMutation,
+	useUploadBannerPhotoMutation,
+} from '@/queries/profile-settings-queries';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
-import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
@@ -50,15 +54,11 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 		firstName,
 	} = profileInfo || {};
 
-	const {
-		mutate: uploadProfilePhoto,
-		isPending: isPendingProfilePhoto,
-	} = useUploadProfilePhotoMutation();
+	const { mutate: uploadProfilePhoto, isPending: isPendingProfilePhoto } =
+		useUploadProfilePhotoMutation();
 
-	const {
-		mutate: uploadBannerPhoto,
-		isPending: isPendingBannerPhoto,
-	} = useUploadBannerPhotoMutation();
+	const { mutate: uploadBannerPhoto, isPending: isPendingBannerPhoto } =
+		useUploadBannerPhotoMutation();
 
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
@@ -88,7 +88,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
 					</Heading>
 
-					<Flex align="center" wrap="wrap">
+					<Flex className="flex-wrap items-center">
 						{userLocation && (
 							<Text mr="4" className={styles.locationText}>
 								<LocationIcon /> {userLocation}

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { cn } from '@/styles/utils';
 
 interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -6,10 +6,14 @@ interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-export const Flex = ({ children, className, ...props }: FlexProps) => {
-	return (
-		<div className={cn('flex', className)} {...props}>
-			{children}
-		</div>
-	);
-};
+export const Flex = forwardRef<HTMLDivElement, FlexProps>(
+	({ children, className, ...props }, ref) => {
+		return (
+			<div ref={ref} className={cn('flex', className)} {...props}>
+				{children}
+			</div>
+		);
+	}
+);
+
+Flex.displayName = 'Flex';

@@ -6,7 +6,8 @@ import {
 	ShareIcon,
 	ShareLinkIcon,
 } from '@/components/icons';
-import { Popover, Heading, Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
+import { Popover, Heading } from '@radix-ui/themes';
 import { TextField, Button } from '@/components/alpine';
 import { useState } from 'react';
 import { useUserContext } from '@/hooks/auth/use-user-context';
@@ -30,7 +31,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 
 	if (packPublic) {
 		return (
-			<Flex align="start">
+			<Flex className="items-start">
 				<p className={styles.lightText}>
 					<PublicIcon /> Public
 				</p>
@@ -49,7 +50,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 							Share Your Pack
 						</Heading>
 
-						<Flex gap="2">
+						<Flex className="gap-2">
 							<TextField.Standalone value={packLink} readOnly />
 
 							<Button

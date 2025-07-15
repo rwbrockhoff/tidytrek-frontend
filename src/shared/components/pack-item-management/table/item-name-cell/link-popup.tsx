@@ -1,4 +1,5 @@
-import { Popover, Flex } from '@radix-ui/themes';
+import { Popover } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button, TextField } from '@/components/alpine';
 import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { normalizeURL } from '@/utils/link-utils';
@@ -76,7 +77,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 					/>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex justify="between" align="center" gap="2" p="1">
+					<Flex className="justify-between items-center gap-2 p-1">
 						<div className={mx.fullWidth}>
 							<TextField.Standalone
 								name="packItemUrl"

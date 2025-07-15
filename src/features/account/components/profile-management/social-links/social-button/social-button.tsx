@@ -1,6 +1,7 @@
 import styles from './social-button.module.css';
-import { Badge, Flex } from '@radix-ui/themes';
+import { Badge } from '@radix-ui/themes';
 import { useMemo } from 'react';
+import { cn } from '@/styles/utils';
 import { ExternalLink } from '@/components/ui';
 import { CloseIcon } from '@/components/icons';
 import { useDeleteSocialLinkMutation } from '@/queries/profile-settings-queries';
@@ -40,14 +41,16 @@ export const SocialButton = (props: SocialButtonProps) => {
 	}, [socialLinkUrl, socialName]);
 
 	return (
-		<Flex asChild align="center" className={styles.styledBadge} onClick={handleClick}>
-			<Badge radius="large">
-				<ExternalLink href={socialLinkUrl || ''}>
-					{icon}
-					{displayLink || 'Link'}
-				</ExternalLink>
-				{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
-			</Badge>
-		</Flex>
+		<Badge 
+			radius="large" 
+			className={cn(styles.styledBadge, 'flex items-center')} 
+			onClick={handleClick}
+		>
+			<ExternalLink href={socialLinkUrl || ''}>
+				{icon}
+				{displayLink || 'Link'}
+			</ExternalLink>
+			{deleteEnabled && <CloseIcon onClick={handleDelete} size={15} />}
+		</Badge>
 	);
 };

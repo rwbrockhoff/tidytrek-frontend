@@ -1,6 +1,6 @@
 import { type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button, TextField, TextArea } from '@/components/alpine';
 import { RefreshIcon, SaveIcon } from '@/components/icons';
 import { Message } from '@/components/ui';
@@ -99,7 +99,7 @@ export const ProfileFormFields = ({
 
 			{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-			<Flex justify="start" mt="2">
+			<Flex className="justify-start mt-2">
 				<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
 					Save Profile
 				</Button>

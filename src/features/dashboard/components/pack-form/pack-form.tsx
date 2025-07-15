@@ -1,6 +1,7 @@
 import { type Pack } from '@/types/pack-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
-import { Flex, Separator, Switch, Text } from '@radix-ui/themes';
+import { Separator, Switch, Text } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
 import { Form } from '@radix-ui/react-form';
 import { TextField, TextArea } from '@/components/alpine';
 import { LinkIcon, MoneyIcon, PublicIcon } from '@/components/icons';
@@ -56,7 +57,7 @@ export const PackForm = ({
 			<div className={styles.mainDetails}>
 				<div className={styles.leftPanel}>
 					<Form aria-label="Pack basic information">
-						<Flex direction="column">
+						<Stack>
 							<TextField.Input
 								name="packName"
 								value={packName ?? ''}
@@ -75,15 +76,17 @@ export const PackForm = ({
 								onChange={handleFormChange}
 							/>
 
-							<Flex align="center" my="2">
-								<Flex justify="center" direction="column">
+							<Flex className="items-center my-2">
+								<Stack className="justify-center">
 									<label htmlFor="pack-public-switch">
-										<PublicIcon /> Public
+										<Flex className="items-center gap-2">
+											<PublicIcon /> Public
+										</Flex>
 									</label>
 									<Text size="2" color="gray">
 										Make your pack public or private.
 									</Text>
-								</Flex>
+								</Stack>
 								<Switch
 									id="pack-public-switch"
 									radius="medium"
@@ -94,7 +97,7 @@ export const PackForm = ({
 									onClick={() => handleCheckBox({ packPublic: !packPublic })}
 								/>
 							</Flex>
-						</Flex>
+						</Stack>
 					</Form>
 				</div>
 
@@ -105,7 +108,7 @@ export const PackForm = ({
 
 			<div className={styles.extraDetails}>
 				<Form aria-label="Pack additional details and settings">
-					<Flex direction="column">
+					<Stack>
 						<div className={styles.tagsContainer}>
 							<TextField.Input
 								name="packLocationTag"
@@ -162,15 +165,17 @@ export const PackForm = ({
 
 						<Separator size="4" my="4" />
 
-						<Flex align="center" my="2">
-							<Flex justify="center" direction="column">
+						<Flex className="items-center my-2">
+							<Stack className="justify-center">
 								<label htmlFor="pack-pricing-switch">
-									<MoneyIcon /> Pack Prices
+									<Flex className="items-center gap-2">
+										<MoneyIcon /> Pack Prices
+									</Flex>
 								</label>
 								<Text size="2" color="gray">
 									Show a price column on your pack to track expenses.
 								</Text>
-							</Flex>
+							</Stack>
 							<Switch
 								id="pack-pricing-switch"
 								radius="medium"
@@ -182,15 +187,17 @@ export const PackForm = ({
 							/>
 						</Flex>
 
-						<Flex align="center" my="2">
-							<Flex justify="center" direction="column">
+						<Flex className="items-center my-2">
+							<Stack className="justify-center">
 								<label htmlFor="pack-affiliate-switch">
-									<LinkIcon /> Affiliate Links
+									<Flex className="items-center gap-2">
+										<LinkIcon /> Affiliate Links
+									</Flex>
 								</label>
 								<Text size="2" color="gray">
 									Enable if you use affiliate links for any of your pack items.
 								</Text>
-							</Flex>
+							</Stack>
 							<Switch
 								id="pack-affiliate-switch"
 								radius="medium"
@@ -211,7 +218,7 @@ export const PackForm = ({
 								label="Custom Affiliate Message"
 							/>
 						)}
-					</Flex>
+					</Stack>
 				</Form>
 			</div>
 		</div>

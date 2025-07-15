@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './create-pack-menu.module.css';
 import { PlusIcon, ImportIcon } from '@/components/icons';
 import { useAddNewPackMutation } from '@/queries/pack-queries';
-import { Flex, Popover } from '@radix-ui/themes';
+import { Popover } from '@radix-ui/themes';
+import { PopoverMenu, PopoverMenuItem } from '@/components/ui/popover-menu';
 import { Button } from '@/components/alpine';
 import { encode } from '@/utils';
 import { ImportPackDialog } from './import-pack-dialog/import-pack-dialog';
@@ -29,8 +30,8 @@ export const CreatePackMenu = () => {
 	}, [addNewPackData, paramPackId, navigate]);
 
 	return (
-		<Popover.Root>
-			<Popover.Trigger>
+		<PopoverMenu
+			trigger={
 				<Button
 					variant="ghost"
 					color="gray"
@@ -39,33 +40,21 @@ export const CreatePackMenu = () => {
 					<PlusIcon />
 					Create New Pack
 				</Button>
-			</Popover.Trigger>
-			<Popover.Content>
-				<Flex direction="column" gap="2">
-					<Popover.Close>
-						<Button
-							variant="ghost"
-							onClick={() => addPack()}
-							aria-label="Create a new empty pack"
-							className={styles.menuButton}>
-							<Flex display="inline-flex" align="center" justify="start" gap="2">
-								<PlusIcon />
-								Create New Pack
-							</Flex>
-						</Button>
-					</Popover.Close>
+			}>
+			<Popover.Close>
+				<PopoverMenuItem
+					icon={<PlusIcon />}
+					label="Create New Pack"
+					onClick={() => addPack()}
+				/>
+			</Popover.Close>
 
-					<ImportPackDialog>
-						<Button
-							variant="ghost"
-							aria-label="Import pack from Lighterpack"
-							className={styles.menuButton}
-							iconLeft={<ImportIcon />}>
-							Import Pack
-						</Button>
-					</ImportPackDialog>
-				</Flex>
-			</Popover.Content>
-		</Popover.Root>
+			<ImportPackDialog>
+				<PopoverMenuItem
+					icon={<ImportIcon />}
+					label="Import Pack"
+				/>
+			</ImportPackDialog>
+		</PopoverMenu>
 	);
 };

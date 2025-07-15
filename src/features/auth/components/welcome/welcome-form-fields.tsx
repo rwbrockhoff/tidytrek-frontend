@@ -1,6 +1,7 @@
 import { type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Stack } from '@/components/layout';
 import { Button, TextField } from '@/components/alpine';
 import { RefreshIcon } from '@/components/icons';
 import { Message } from '@/components/ui';
@@ -71,14 +72,14 @@ export const WelcomeFormFields = ({
 				/>
 			)}
 
-			<Flex mt="4" justify="center" direction="column" gap="4">
+			<Stack className="mt-4 justify-center gap-4">
 				<Button type="submit" style={{ width: '100%' }} loading={isPending}>
 					Continue
 				</Button>
 				<Text size="2" align="center" color="gray">
 					You can always change this later in your account settings.
 				</Text>
-			</Flex>
+			</Stack>
 		</Form>
 	);
 };

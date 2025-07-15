@@ -4,7 +4,8 @@ import { BackpackIcon } from '@/components/icons';
 import { useImportPackMutation } from '@/queries/pack-queries';
 import { type InputEvent } from '@/types/form-types';
 import { Form } from '@radix-ui/react-form';
-import { Dialog, Flex } from '@radix-ui/themes';
+import { Dialog } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
 import { useAxiosErrorMessage } from '@/hooks/form/use-axios-error';
@@ -85,7 +86,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 					You can import a shareable pack link from Lighterpack below:
 				</Dialog.Description>
 				<Form onSubmit={handleSubmit}>
-					<Flex direction="column">
+					<Stack>
 						<TextField.Input
 							name="packUrl"
 							value={packUrl}
@@ -94,7 +95,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 							label="Pack URL"
 							error={formErrors.packUrl}
 						/>
-					</Flex>
+					</Stack>
 
 					{isSuccessImport && (
 						<Message messageType="success" text="Your pack was imported successfully." />
@@ -102,7 +103,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 					{isImportError && <Message messageType="error" text={serverErrorMessage} />}
 
-					<Flex gap="3" mt="6" justify="end">
+					<Flex className="gap-2 mt-6 justify-end">
 						<Dialog.Close>
 							<Button variant="secondary">{isSuccessImport ? 'Close' : 'Cancel'}</Button>
 						</Dialog.Close>

@@ -1,8 +1,10 @@
 import { useRouteError } from 'react-router-dom';
-import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Text, Heading } from '@radix-ui/themes';
+import { Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import styles from './error-boundary.module.css';
 import { RefreshIcon, TreeIcon } from '@/components/icons';
+import { cn } from '@/styles/utils';
 
 // react router is opinionated on error handling
 // this fn allows us to bubble errors outside of the router
@@ -19,16 +21,12 @@ type ErrorBoundaryProps = {
 export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 	const hasResetFunction = props?.resetErrorBoundary !== undefined;
 	return (
-		<Flex
-			align="center"
-			justify="center"
-			direction="column"
-			className={styles.errorContainer}>
+		<Stack className={cn(styles.errorContainer, 'items-center justify-center')}>
 			<Heading as="h1" size="6" align="center">
-				<Flex align="center" gap="6" direction="column">
+				<Stack className="items-center gap-6">
 					<TreeIcon fontSize={'2em'} />
 					Oops! There was an error.
-				</Flex>
+				</Stack>
 			</Heading>
 			<Text align="center" size="3">
 				Your error has been sent to our engineers who might be trail running or fly
@@ -46,6 +44,6 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 				If you're feeling social, you can reach out to our support team anyway:
 				<a href="mailto: info@tidytrek.co"> info@tidytrek.co</a>
 			</Text>
-		</Flex>
+		</Stack>
 	);
 };

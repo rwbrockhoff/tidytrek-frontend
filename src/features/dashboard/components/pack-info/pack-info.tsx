@@ -6,7 +6,8 @@ import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
@@ -48,11 +49,11 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	return (
 		<Flex
-			align="center"
-			display="inline-flex"
-			mt="6"
-			mb="9"
-			className={cn(styles.packInfoContainer, mx.responsiveContent)}>
+			className={cn(
+				styles.packInfoContainer,
+				mx.responsiveContent,
+				'items-start mt-6 mb-8 min-h-fit md:items-center justify-between',
+			)}>
 			<div className={cn(mx.responsivePanel, styles.userInfoPanel)}>
 				{!userView && (
 					<ProfileInfo
@@ -61,7 +62,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						publicProfile={publicProfile}
 					/>
 				)}
-				<Flex align="center" gap="2" mb="2">
+				<Flex className="items-center gap-2 mb-2">
 					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
 					</Heading>
@@ -101,7 +102,7 @@ export const PackInfo = (props: PackInfoProps) => {
 
 				{/* mobile chart toggle button */}
 				{packHasWeight && isMobile && (
-					<Flex my="6">
+					<Flex className="my-6">
 						<Button
 							variant="outline"
 							size="lg"
@@ -118,7 +119,7 @@ export const PackInfo = (props: PackInfoProps) => {
 			<PackGraphic
 				fetching={fetching}
 				packCategories={packCategories}
-				display={showPackChart}
+				display={isMobile ? showPackChart : true}
 			/>
 		</Flex>
 	);

@@ -1,14 +1,14 @@
 import { type Pack } from '@/types/pack-types';
-import { Flex, Heading, Inset, Text } from '@radix-ui/themes';
+import { Heading, Inset, Text } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { ViewsIcon, PublicIcon, PrivateIcon } from '@/components/icons';
 import { Card } from '@/components/alpine';
 import { Link } from '@/components/ui';
 import styles from './pack-card.module.css';
-import { mx } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';
 import { encode } from '@/utils';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
-import { cn } from '@/styles/utils/cn';
 
 type PackCardProps = {
 	pack: Pack;
@@ -50,7 +50,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 							{packName}
 						</Link>
 					</Heading>
-					<Flex align="center" gap="1" my="1">
+					<Flex className="items-center gap-1 my-1">
 						{packPublic ? (
 							<>
 								<PublicIcon />
@@ -69,7 +69,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 
 				{userView && (
 					<Card.Footer className={styles.cardFooter}>
-						<Flex align="center" className={styles.cardFooterText}>
+						<Flex className={cn(styles.cardFooterText, 'items-center')}>
 							<ViewsIcon />
 							<Text>{packViews} Views</Text>
 						</Flex>

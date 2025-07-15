@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styles from './move-item-dropdown.module.css';
 import { BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
-import { Flex, Select, Table } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
+import { Select, Table } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
 import { MoveDownIcon } from '@/components/icons';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
@@ -57,11 +58,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	return (
 		<Table.Row className={styles.tableRow}>
 			<Table.Cell colSpan={24} className={mx.pxs}>
-				<Flex
-					justify="end"
-					align="center"
-					ml="auto"
-					direction={{ initial: 'column', sm: 'row' }}>
+				<Flex className="justify-end items-center ml-auto flex-col sm:flex-row">
 					<Select.Root onValueChange={handleSelectPack}>
 						<Select.Trigger className="dropdown-primary" placeholder="Choose a pack..." />
 						<Select.Content style={{ height: 'fit-content' }}>

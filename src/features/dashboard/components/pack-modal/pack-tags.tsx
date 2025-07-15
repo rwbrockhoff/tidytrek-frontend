@@ -1,6 +1,6 @@
 import { type InputEvent } from '@/types/form-types';
+import { Flex } from '@/components/layout';
 import { TextField } from '@/components/alpine';
-import { Flex } from '@radix-ui/themes';
 
 type PackTagsProps = {
 	packLocationTag: string;
@@ -19,7 +19,7 @@ export const PackTags = (props: PackTagsProps) => {
 		handleFormChange,
 	} = props;
 	return (
-		<Flex justify="between" mb="2">
+		<Flex className="justify-between mb-2">
 			<TextField.Input
 				name="packLocationTag"
 				value={packLocationTag ?? ''}

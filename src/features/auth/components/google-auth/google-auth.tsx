@@ -1,4 +1,4 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { useGoogleOAuth } from './hooks/use-google-oauth';
 import { useGoogleAuthFlow } from './hooks/use-google-auth-flow';
 import { useGoogleAuthNavigation } from './hooks/use-google-auth-navigation';
@@ -34,7 +34,7 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	const { google_button } = useGoogleOAuth({ onGoogleAuth: handleGoogleAuth });
 
 	return (
-		<Flex justify="center" width="100%" height="8" mb="2">
+		<Flex className="justify-center w-full h-8 mb-2">
 			<div ref={google_button} />
 		</Flex>
 	);

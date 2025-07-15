@@ -1,7 +1,9 @@
 import styles from './confirmation-form.module.css';
 import { Message } from '@/components/ui';
+import { cn } from '@/styles/utils';
 import { SendIcon, CheckIcon } from '@/components/icons';
-import { Callout, Heading, Text, Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
+import { Callout, Heading, Text } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
 
 type ConfirmationFormProps = {
@@ -21,7 +23,7 @@ export const ConfirmationForm = ({
 		<div className={styles.confirmationContainer}>
 			{confirmationSent ? (
 				<Callout.Root color="grass" variant="surface">
-					<Flex align="center" className={styles.styledHeading}>
+					<Flex className={cn(styles.styledHeading, 'items-center')}>
 						<Heading size="4">
 							<CheckIcon />
 							Email Sent!

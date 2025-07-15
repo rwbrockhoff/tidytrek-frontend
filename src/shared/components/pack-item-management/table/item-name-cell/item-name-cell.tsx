@@ -1,6 +1,6 @@
 import { type InputEvent, type SelectEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../grip-button/grip-button';
 import { useUserContext } from '@/hooks/auth/use-user-context';
@@ -43,7 +43,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			/>
 
 			{userView ? (
-				<Flex display="inline-flex" width="100%">
+				<Flex className="inline-flex w-full">
 					<TextField.Standalone
 						value={packItemName || ''}
 						name={'packItemName'}

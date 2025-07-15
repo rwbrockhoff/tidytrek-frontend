@@ -1,4 +1,4 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Table } from '@/components/alpine';
 import { cn } from '@/styles/utils';
 import { useCellWidth } from '../hooks/use-cell-width';

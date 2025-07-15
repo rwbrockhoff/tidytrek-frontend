@@ -2,7 +2,8 @@ import { type InputEvent } from '@/types/form-types';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import styles from './pack-weight-cell.module.css';
-import { Flex, Badge } from '@radix-ui/themes';
+import { Badge } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
@@ -43,7 +44,7 @@ export const PackWeightCell = ({
 	return (
 		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
 			{userView ? (
-				<Flex display="inline-flex" align="baseline" gap="1">
+				<Flex className="inline-flex items-baseline gap-1">
 					<TextField.Standalone
 						variant="minimal"
 						className={styles.input}
@@ -57,7 +58,7 @@ export const PackWeightCell = ({
 					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleWeightUnit} />
 				</Flex>
 			) : (
-				<Flex justify="center">
+				<Flex className="justify-center">
 					<Badge
 						radius="large"
 						color="gray"

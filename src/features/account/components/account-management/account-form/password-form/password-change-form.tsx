@@ -1,7 +1,6 @@
 import { type FormEvent } from 'react';
-import styles from './password-form.module.css';
 import mx from '@/styles/utils/mixins.module.css';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { Form } from '@radix-ui/react-form';
 import { Message } from '@/components/ui';
@@ -54,7 +53,7 @@ export const PasswordChangeForm = ({
 
 			{isFormSuccess && <Message messageType="success" text={successMessage} />}
 
-			<Flex justify="end" gap="3" mt="3" className={styles.buttonContainer}>
+			<Flex className="justify-end gap-3 w-full mt-6 md:w-auto md:mt-0">
 				<Button variant="outline" onClick={onCancel}>
 					{isFormSuccess ? 'Close' : 'Cancel'}
 				</Button>

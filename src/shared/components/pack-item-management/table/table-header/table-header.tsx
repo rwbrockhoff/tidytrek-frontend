@@ -1,5 +1,5 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button, Table } from '@/components/alpine';
 import { CategoryNameCell } from '@/features/dashboard/components/table';
 import { ActionButtons } from '../action-buttons/action-buttons';
@@ -60,7 +60,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 				)}
 				{userView && (
 					<ActionButtons header>
-						<Flex align="center">
+						<Flex className="items-center">
 							<Button
 								onClick={minimizeCategory}
 								variant="ghost"
@@ -81,7 +81,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 								onClick: () => deletePackCategory(packCategoryId),
 								icon: <ShareIcon />
 							}}>
-							<Flex align="center" aria-label="Delete category">
+							<Flex className="items-center" aria-label="Delete category">
 								<Button
 									variant="ghost"
 									size="md"

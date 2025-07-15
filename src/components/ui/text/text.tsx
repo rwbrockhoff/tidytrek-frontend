@@ -1,4 +1,5 @@
-import { Text as RadixText, Flex } from '@radix-ui/themes';
+import { Text as RadixText } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import styles from './text.module.css';
 
 type TextProps = {
@@ -10,7 +11,7 @@ export const Text = (props: TextProps) => {
 	const { children, icon } = props;
 	return (
 		<RadixText mr="4">
-			<Flex align="center">
+			<Flex className="items-center">
 				<div className={styles.iconContainer}>{icon}</div>
 				{children}
 			</Flex>

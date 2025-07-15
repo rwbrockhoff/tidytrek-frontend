@@ -8,7 +8,10 @@ interface StyledMenuProps {
 }
 
 export const StyledMenu = ({ children, style, className, ...props }: StyledMenuProps) => (
-	<menu className={cn(styles.styledMenu, className)} style={style} {...props}>
+	<menu
+		className={cn(styles.styledMenu, 'm-0 p-0 flex flex-col', className)}
+		style={style}
+		{...props}>
 		{children}
 	</menu>
 );

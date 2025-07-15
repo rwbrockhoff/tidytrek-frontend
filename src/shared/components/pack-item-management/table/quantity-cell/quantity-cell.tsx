@@ -1,7 +1,8 @@
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
-import { Badge, Flex, Text } from '@radix-ui/themes';
+import { Badge, Text } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCellWidth } from '../hooks/use-cell-width';
@@ -43,7 +44,7 @@ export const QuantityCell = ({
 					style={{ textAlign: 'center' }}
 				/>
 			) : (
-				<Flex justify="center">
+				<Flex className="justify-center">
 					<Badge radius="large" color="gray" highContrast>
 						<Text>{`x ${packItemQuantity}`}</Text>
 					</Badge>

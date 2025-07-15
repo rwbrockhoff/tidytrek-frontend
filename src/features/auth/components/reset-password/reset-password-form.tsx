@@ -4,7 +4,8 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Form } from '@radix-ui/react-form';
 import { Message } from '@/components/ui';
 import { Segment } from '@/components/primitives';
-import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
+import { Text, Heading } from '@radix-ui/themes';
 import { Button, TextField } from '@/components/alpine';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components/form-components';
@@ -103,7 +104,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							id="reset-password-message"
 						/>
 					)}
-					<Flex justify="center" mt="4">
+					<Flex className="justify-center mt-4">
 						<Text size="3">
 							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
 						</Text>

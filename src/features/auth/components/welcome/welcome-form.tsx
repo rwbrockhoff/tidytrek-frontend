@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Flex, Text, Heading } from '@radix-ui/themes';
+import { Text, Heading } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Link } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { FormContainer } from '../form-components/form-components';
@@ -46,7 +47,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 					onSubmit={handleFormSubmit}
 				/>
 
-				<Flex mt="4" justify="center">
+				<Flex className="mt-4 justify-center">
 					<Text size="3">
 						<RouterLink to={'/'}>Back to login</RouterLink>
 					</Text>

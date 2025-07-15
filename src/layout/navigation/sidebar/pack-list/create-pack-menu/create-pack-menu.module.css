@@ -4,9 +4,8 @@
 	background: transparent;
 }
 
-.menuButton {
-	width: 100%;
-	justify-content: flex-start;
+.newPackButton {
+	padding-left: 0;
 }
 
 @media (max-width: 768px) {
@@ -14,9 +13,5 @@
 		font-size: var(--font-size-xl);
 		margin-top: var(--space-md);
 		padding-left: 0;
-	}
-
-	.menuButton {
-		font-size: var(--font-size-xl);
 	}
 }

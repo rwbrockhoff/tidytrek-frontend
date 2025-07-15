@@ -1,9 +1,7 @@
 import { type PackListItem, type GearClosetItem } from '@/types/pack-types';
-import {
-	Table,
-	TableRow,
-	TableFooter,
-} from '@/shared/components/pack-item-management/table';
+import { Table } from '@/shared/components/pack-item-management/table';
+import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
+import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
 import { PricingContext } from '@/contexts/pricing-context';

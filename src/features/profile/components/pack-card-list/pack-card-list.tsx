@@ -1,5 +1,5 @@
 import { type Pack } from '@/types/pack-types';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import styles from './pack-card-list.module.css';
 import { PackCard } from './pack-card/pack-card';
 import { useUserContext } from '@/hooks/auth/use-user-context';
@@ -22,7 +22,7 @@ export const PackCardList = (props: PackCardListProps) => {
 			{packList.map((pack, index) => {
 				return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
 			})}
-			{/* Show skeleton UI on bad request */}
+			{/* Show skeleton UI on error */}
 			{showSkeletonCards &&
 				emptyList &&
 				Array(3)

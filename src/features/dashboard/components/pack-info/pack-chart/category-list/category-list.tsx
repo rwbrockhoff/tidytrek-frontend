@@ -1,7 +1,9 @@
-import { Badge, Flex, Text } from '@radix-ui/themes';
+import { Badge, Text } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
 import { CircleIcon } from '@/components/icons';
 import { CategoryInfo } from '../types';
 import styles from './category-list.module.css';
+import { cn } from '@/styles/utils';
 
 type CategoryListProps = {
 	categories: CategoryInfo[];
@@ -9,11 +11,11 @@ type CategoryListProps = {
 
 export const CategoryList = ({ categories }: CategoryListProps) => {
 	return (
-		<Flex role="list" direction="column" className={styles.chartList}>
+		<Stack role="list" className={styles.chartList}>
 			{categories.map((category) => (
-				<Flex align="center" key={category.categoryId} className={styles.chartItem}>
+				<Flex key={category.categoryId} className={cn(styles.chartItem, 'items-center')}>
 					<Text className={styles.styledText}>
-						<Flex align="center" gap="2">
+						<Flex className="items-center gap-2">
 							<CircleIcon
 								className="lucide-sm"
 								style={{
@@ -29,6 +31,6 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
 					</Badge>
 				</Flex>
 			))}
-		</Flex>
+		</Stack>
 	);
 };

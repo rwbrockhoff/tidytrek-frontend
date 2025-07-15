@@ -1,7 +1,7 @@
 import { type User } from '@/types/user-types';
 import { type FormSection } from '@/features/account/types';
 import { useState } from 'react';
-import { Flex } from '@radix-ui/themes';
+import { Stack } from '@/components/layout';
 import { Segment, SegmentGroup } from '@/components/primitives';
 import { PasswordForm } from './password-form/password-form';
 import { AccountInfoDisplay } from '../account-info-display';
@@ -21,8 +21,8 @@ export const AccountForm = (props: AccountFormProps) => {
 		setDisplayFormSection(section);
 
 	return (
-		<Flex direction="column">
-			<SegmentGroup direction="column">
+		<Stack>
+			<SegmentGroup>
 				<AccountInfoDisplay user={user} />
 				<Segment stacked>
 					<PasswordForm
@@ -32,6 +32,6 @@ export const AccountForm = (props: AccountFormProps) => {
 				</Segment>
 				<DeleteAccountSection onDeleteAccount={deleteAccount} />
 			</SegmentGroup>
-		</Flex>
+		</Stack>
 	);
 };

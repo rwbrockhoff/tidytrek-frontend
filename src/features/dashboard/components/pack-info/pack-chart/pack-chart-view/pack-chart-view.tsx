@@ -1,4 +1,5 @@
-import { Flex, Separator } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
+import { Separator } from '@radix-ui/themes';
 import { cn, mx } from '@/styles/utils';
 import { Category } from '@/types/pack-types';
 import { PackChart } from '../pack-chart';
@@ -27,11 +28,8 @@ export const PackChartView = ({
 	display,
 }: PackChartViewProps) => {
 	return (
-		<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
-			<Flex
-				direction="column"
-				align="end"
-				className={cn(styles.summaryPanel, mx.responsiveContent)}>
+		<Flex className={cn(styles.outerPanel, !display && styles.hidden, 'items-center h-auto')}>
+			<Stack className={cn(styles.summaryPanel, mx.responsiveContent, 'items-end h-auto')}>
 				<CategoryList categories={chartCategoryInfo} />
 				<Separator size="4" my="2" style={{ opacity: 0.5 }} />
 				<PackSummaryPanel
@@ -39,8 +37,8 @@ export const PackChartView = ({
 					descriptivePackWeight={descriptivePackWeight}
 					totalPackPrice={totalPackPrice}
 				/>
-			</Flex>
-			<Flex align="center" justify="end" className={styles.chartPanel}>
+			</Stack>
+			<Flex className={cn(styles.chartPanel, 'items-center justify-end')}>
 				<PackChart categories={packCategories} categoryWeights={categoryWeights} />
 			</Flex>
 		</Flex>

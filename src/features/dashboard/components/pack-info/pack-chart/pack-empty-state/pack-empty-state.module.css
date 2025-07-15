@@ -1,13 +1,21 @@
 .graphicPanel {
+	width: 50%;
 	height: 100%;
-	min-height: 200px;
-	max-height: 400px;
+	max-width: 400px;
 }
 
-.graphicPanel img {
-	height: 100%;
+.campingImage {
+	width: 80%;
+	height: auto;
+	max-width: 300px;
 }
 
 .graphicPanel svg {
 	margin-right: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+	.graphicPanel {
+		width: 100%;
+	}
 }

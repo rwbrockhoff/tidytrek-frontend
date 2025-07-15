@@ -1,4 +1,5 @@
-import { Dialog, Flex } from '@radix-ui/themes';
+import { Dialog } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { ShareIcon, TrashIcon } from '@/components/icons';
 import React from 'react';
@@ -28,7 +29,7 @@ export const DeletePackItemModal = (props: DeletePackItemModalProps) => {
 				<Dialog.Description>
 					{hasPackId ? packMessage : gearClosetMessage}
 				</Dialog.Description>
-				<Flex gap="3" mt="4" justify="end">
+				<Flex className="gap-3 mt-4 justify-end">
 					<Dialog.Close>
 						<Button
 							variant="danger"

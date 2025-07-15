@@ -1,4 +1,5 @@
-import { Heading, Flex, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Stack } from '@/components/layout';
 import { Avatar } from '@/components/media';
 import { WarningMessage } from '@/components/ui';
 import { Segment } from '@/components/primitives';
@@ -23,7 +24,7 @@ export const AvatarSettings = ({
 				Profile Settings
 			</Heading>
 
-			<Flex direction="column" justify="center" width="max-content">
+			<Stack className="justify-center w-max">
 				<Heading as="h5" size="3">
 					Avatar
 				</Heading>
@@ -46,7 +47,7 @@ export const AvatarSettings = ({
 						mr="auto"
 					/>
 				)}
-			</Flex>
+			</Stack>
 		</Segment>
 	);
 };

@@ -1,10 +1,11 @@
+import { Stack } from '@/components/layout';
+import { Text } from '@radix-ui/themes';
+import styles from './pack-photo-panel.module.css';
 import { PackPhoto } from '@/components';
 import {
 	useDeletePackPhotoMutation,
 	useUploadPackPhotoMutation,
 } from '@/queries/pack-queries';
-import { Flex, Text } from '@radix-ui/themes';
-import styles from './pack-photo-panel.module.css';
 
 type PackPhotoPanel = {
 	packPhotoUrl: string;
@@ -27,7 +28,7 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 
 	const photoPending = isPendingUpload || isPendingDelete;
 	return (
-		<Flex direction="column" className={styles.rightPanel}>
+		<Stack className={styles.rightPanel}>
 			<Text size="2" weight="bold" color="gray">
 				Pack Photo
 			</Text>
@@ -42,7 +43,6 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 				onUpload={handleUploadPhoto}
 				onDelete={handleDeletePhoto}
 			/>
-		</Flex>
+		</Stack>
 	);
 };
-

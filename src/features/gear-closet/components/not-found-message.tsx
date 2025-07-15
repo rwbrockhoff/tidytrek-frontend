@@ -1,12 +1,13 @@
 import { SearchIcon } from '@/components/icons';
-import { Table, Flex } from '@radix-ui/themes';
+import { Table } from '@/components/alpine';
+import { Flex } from '@/components/layout';
 
 export const NotFoundMessage = () => {
 	return (
 		<Table.Body>
 			<Table.Row>
 				<Table.Cell colSpan={24} style={{ opacity: 0.4 }} align="center">
-					<Flex asChild justify="center" align="center" p="3" gap="1">
+					<Flex className="justify-center items-center p-3 gap-1">
 						<p>
 							<SearchIcon />
 							No Items Found

@@ -1,7 +1,7 @@
 import styles from './table-row.module.css';
 import { DeletePackItemModal } from '@/features/dashboard/components/modals';
 import { ShareIcon, TrashIcon } from '@/components/icons';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { isPackItem } from '@/types/pack-types';
@@ -23,7 +23,7 @@ export const TableRowActions = ({
 
   return (
     <>
-      <Flex align="center">
+      <Flex className="items-center">
         <Button
           onClick={onToggleGearButtons}
           variant="ghost"
@@ -41,7 +41,7 @@ export const TableRowActions = ({
         hasPackId={hasPackId}
         onClickMove={onMoveToCloset}
         onClickDelete={onDelete}>
-        <Flex align="center">
+        <Flex className="items-center">
           <Button
             variant="ghost"
             size="md"

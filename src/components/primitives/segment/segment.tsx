@@ -1,4 +1,3 @@
-import { Flex } from '@radix-ui/themes';
 import styles from './segment.module.css';
 import { cn } from '@/styles/utils';
 
@@ -25,8 +24,6 @@ export const Segment = ({
 	style,
 	...domProps
 }: SegmentProps) => {
-	// stacked and radius are already destructured above, domProps contains remaining HTML attributes
-
 	return (
 		<div
 			className={cn(styles.segment, className)}
@@ -39,13 +36,3 @@ export const Segment = ({
 		</div>
 	);
 };
-
-export const SegmentGroup = ({
-	children,
-	className,
-	...props
-}: React.ComponentProps<typeof Flex>) => (
-	<Flex className={className} {...props}>
-		{children}
-	</Flex>
-);

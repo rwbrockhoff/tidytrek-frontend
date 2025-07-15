@@ -1,5 +1,5 @@
 import { type InputEvent } from '@/types/form-types';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
 import { Button, TextField } from '@/components/alpine';
 import { useState } from 'react';
 import { PlusIcon } from '@/components/icons';
@@ -25,8 +25,8 @@ export const AddLink = () => {
 	};
 
 	return (
-		<Flex direction="column">
-			<Flex align="center" gap="2" my="6">
+		<Stack>
+			<Flex className="items-center gap-2 my-6">
 				<TextField.Standalone
 					placeholder="Paste your link..."
 					value={socialLink}
@@ -39,6 +39,6 @@ export const AddLink = () => {
 				</Button>
 			</Flex>
 			{linkError && <p>There was an error adding your link at this time.</p>}
-		</Flex>
+		</Stack>
 	);
 };

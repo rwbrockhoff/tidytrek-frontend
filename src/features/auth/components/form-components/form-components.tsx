@@ -1,5 +1,5 @@
 import styles from './form-components.module.css';
-import { Flex } from '@radix-ui/themes';
+import { cn } from '@/styles/utils';
 
 export const FormContainer = ({ children, ...props }: { children: React.ReactNode }) => (
 	<div className={styles.formContainer} {...props}>
@@ -8,16 +8,10 @@ export const FormContainer = ({ children, ...props }: { children: React.ReactNod
 );
 
 export const AuthContainer = ({ children, ...props }: { children: React.ReactNode }) => (
-	<Flex 
-		asChild
-		justify="center" 
-		align="center" 
-		direction="column"
-		className={styles.authContainer}
+	<main 
+		className={cn(styles.authContainer, "flex flex-col justify-center items-center")}
 		{...props}
 	>
-		<main>
-			{children}
-		</main>
-	</Flex>
+		{children}
+	</main>
 );

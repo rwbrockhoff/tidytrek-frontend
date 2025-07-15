@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { cn } from '@/styles/utils';
 
 interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -6,10 +6,14 @@ interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-export const Stack = ({ children, className, ...props }: StackProps) => {
-	return (
-		<div className={cn('flex flex-col', className)} {...props}>
-			{children}
-		</div>
-	);
-};
+export const Stack = forwardRef<HTMLDivElement, StackProps>(
+	({ children, className, ...props }, ref) => {
+		return (
+			<div ref={ref} className={cn('flex flex-col', className)} {...props}>
+				{children}
+			</div>
+		);
+	}
+);
+
+Stack.displayName = 'Stack';

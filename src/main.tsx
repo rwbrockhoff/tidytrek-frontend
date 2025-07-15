@@ -1,8 +1,4 @@
 import ReactDOM from 'react-dom/client';
-// Import only the required css files from Radix
-// import '@radix-ui/themes/tokens.css';
-// import '@radix-ui/themes/components.css';
-// import '@radix-ui/themes/utilities.css';
 import '@radix-ui/themes/styles.css';
 import './styles/index.css';
 import './index.css';

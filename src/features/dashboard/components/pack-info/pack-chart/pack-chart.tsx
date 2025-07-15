@@ -1,8 +1,8 @@
 import { type Category } from '@/types/pack-types';
+import { Flex } from '@/components/layout';
 import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { Flex } from '@radix-ui/themes';
 
 type PackChartProps = {
 	categories: Category[];
@@ -56,7 +56,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	return (
-		<Flex justify="center" align="center" width="100%">
+		<Flex className="justify-center items-center w-full">
 			<Doughnut data={chartData} />
 		</Flex>
 	);
