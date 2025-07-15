@@ -14,10 +14,10 @@ import { DashboardFooter } from './dashboard-footer';
 import {
 	DragDropContext,
 	Drop,
-	GuestPreviewBanner,
-	ProfileBanner,
 	type DropResult,
 } from '@/components';
+import { GuestPreviewBanner } from '../guest-preview-banner';
+import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { usePackDragHandler } from '../../hooks/use-pack-drag-handler';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';

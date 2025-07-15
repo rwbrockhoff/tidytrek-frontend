@@ -3,7 +3,7 @@ import { Flex } from '@radix-ui/themes';
 import styles from './pack-card-list.module.css';
 import { PackCard } from './pack-card/pack-card';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { SkeletonCard } from '@/components/layout';
+import { SkeletonCard } from '@/components/ui';
 
 type PackCardListProps = {
 	packThumbnailList: Pack[] | undefined;

@@ -1,5 +1,5 @@
 import styles from './table-row.module.css';
-import { DeleteItemModal } from '@/components/ui/modals/modals';
+import { DeletePackItemModal } from '@/features/dashboard/components/modals';
 import { ShareIcon, TrashIcon } from '@/components/icons';
 import { Flex } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
@@ -36,7 +36,7 @@ export const TableRowActions = ({
         />
       </Flex>
 
-      <DeleteItemModal
+      <DeletePackItemModal
         id={packItem.packItemId}
         hasPackId={hasPackId}
         onClickMove={onMoveToCloset}
@@ -52,7 +52,7 @@ export const TableRowActions = ({
             iconLeft={<TrashIcon />}
           />
         </Flex>
-      </DeleteItemModal>
+      </DeletePackItemModal>
     </>
   );
 };

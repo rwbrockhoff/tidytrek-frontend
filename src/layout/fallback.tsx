@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { SidebarSkeleton, ContentSkeleton, AuthSkeleton } from '@/components/layout';
+import { SidebarSkeleton, ContentSkeleton, AuthSkeleton } from '@/components/ui';
 
 export const Fallback = () => {
 	const [showSkeleton, setShowSkeleton] = useState(false);

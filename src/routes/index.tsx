@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
-import { DashboardSkeleton, AuthSkeleton } from '@/components/layout';
+import { DashboardSkeleton, AuthSkeleton } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';

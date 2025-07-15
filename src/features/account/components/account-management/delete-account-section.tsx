@@ -23,10 +23,9 @@ export const DeleteAccountSection = ({ onDeleteAccount }: DeleteAccountSectionPr
 				any important information first.
 			</p>
 			<DeleteModal
-				simple
-				header="Delete Your Account"
-				message={deleteMessage}
-				onClickDelete={onDeleteAccount}>
+				title="Delete Your Account"
+				description={deleteMessage}
+				onDelete={onDeleteAccount}>
 				<div style={{ marginTop: '1rem' }}>
 					<Button variant="danger" iconLeft={<TrashIcon />}>
 						Delete Account

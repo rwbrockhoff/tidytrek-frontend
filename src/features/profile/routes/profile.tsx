@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { ProfileBanner } from '@/components';
+import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { ProfileHeader } from '../components/profile-header/profile-header';
 import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';

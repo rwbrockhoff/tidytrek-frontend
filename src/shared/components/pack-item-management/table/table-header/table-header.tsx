@@ -11,7 +11,7 @@ import {
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { DeleteModal } from '@/components/ui';
-import { MinusIcon, PlusIcon, TrashIcon } from '@/components/icons';
+import { MinusIcon, PlusIcon, ShareIcon, TrashIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
 
@@ -73,10 +73,14 @@ export const TableHeader = (props: TableHeaderProps) => {
 							/>
 						</Flex>
 						<DeleteModal
-							header="Are you sure?"
-							message={deleteCategoryMessage}
-							onClickMove={() => deletePackCategory(packCategoryId)}
-							onClickDelete={() => deletePackCategoryAndItems(packCategoryId)}>
+							title="Are you sure?"
+							description={deleteCategoryMessage}
+							onDelete={() => deletePackCategoryAndItems(packCategoryId)}
+							secondaryAction={{
+								text: "Move to Gear Closet",
+								onClick: () => deletePackCategory(packCategoryId),
+								icon: <ShareIcon />
+							}}>
 							<Flex align="center" aria-label="Delete category">
 								<Button
 									variant="ghost"

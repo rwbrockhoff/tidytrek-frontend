@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/alpine';
-import { TrashIcon } from '@/components/icons';
+import { ShareIcon, TrashIcon } from '@/components/icons';
 import { DeleteModal } from '@/components/ui';
 import {
 	useDeletePackMutation,
@@ -44,12 +44,16 @@ export const PackDelete = ({ pack, children }: PackDeleteProps) => {
 				<div onClick={handleToggleDeleteModal}>{children}</div>
 
 				<DeleteModal
-					header={`Delete ${pack.packName} Pack?`}
-					message={deletePackMessage}
+					title={`Delete ${pack.packName} Pack?`}
+					description={deletePackMessage}
 					open={showDeleteModal}
-					toggleOpen={handleToggleDeleteModal}
-					onClickDelete={handleDeletePackAndItems}
-					onClickMove={handleDeletePack}
+					onOpenChange={handleToggleDeleteModal}
+					onDelete={handleDeletePackAndItems}
+					secondaryAction={{
+						text: "Move to Gear Closet",
+						onClick: handleDeletePack,
+						icon: <ShareIcon />
+					}}
 				/>
 			</>
 		);
@@ -62,12 +66,16 @@ export const PackDelete = ({ pack, children }: PackDeleteProps) => {
 			</Button>
 
 			<DeleteModal
-				header={`Delete ${pack.packName} Pack?`}
-				message={deletePackMessage}
+				title={`Delete ${pack.packName} Pack?`}
+				description={deletePackMessage}
 				open={showDeleteModal}
-				toggleOpen={handleToggleDeleteModal}
-				onClickDelete={handleDeletePackAndItems}
-				onClickMove={handleDeletePack}
+				onOpenChange={handleToggleDeleteModal}
+				onDelete={handleDeletePackAndItems}
+				secondaryAction={{
+					text: "Move to Gear Closet",
+					onClick: handleDeletePack,
+					icon: <ShareIcon />
+				}}
 			/>
 		</>
 	);

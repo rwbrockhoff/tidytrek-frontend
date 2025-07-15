@@ -3,60 +3,7 @@ import { Button } from '@/components/alpine';
 import { ShareIcon, TrashIcon } from '@/components/icons';
 import React from 'react';
 
-type DeleteModalProps = {
-	children?: React.ReactNode;
-	simple?: boolean;
-	header?: string;
-	message?: string;
-	open?: boolean;
-	toggleOpen?: () => void;
-	onClickMove?: () => void;
-	onClickDelete: () => void;
-};
-
-export const DeleteModal = (props: DeleteModalProps) => {
-	const {
-		children,
-		simple,
-		header,
-		message,
-		open = false,
-		toggleOpen,
-		onClickDelete,
-		onClickMove,
-	} = props;
-	const hasChildren = children !== undefined;
-	// modal can be controlled within children or uncontrolled by default (radix modal primitive)
-	const controlledProps = hasChildren ? {} : { open, onOpenChange: toggleOpen };
-	return (
-		<Dialog.Root {...controlledProps}>
-			{hasChildren && <Dialog.Trigger>{children}</Dialog.Trigger>}
-			<Dialog.Content style={{ maxWidth: 400 }}>
-				<Dialog.Title>{header}</Dialog.Title>
-
-				<Dialog.Description>{message}</Dialog.Description>
-
-				<Flex gap="3" mt="4" justify="end">
-					<Dialog.Close>
-						<Button variant="danger" onClick={onClickDelete} iconLeft={<TrashIcon />}>
-							Delete
-						</Button>
-					</Dialog.Close>
-
-					{!simple && (
-						<Dialog.Close>
-							<Button onClick={onClickMove}>
-								<ShareIcon /> Move to Gear Closet
-							</Button>
-						</Dialog.Close>
-					)}
-				</Flex>
-			</Dialog.Content>
-		</Dialog.Root>
-	);
-};
-
-type DeleteItemModalProps = {
+type DeletePackItemModalProps = {
 	children: React.ReactNode;
 	id: number | null;
 	hasPackId: boolean;
@@ -64,7 +11,7 @@ type DeleteItemModalProps = {
 	onClickMove: () => void | undefined;
 };
 
-export const DeleteItemModal = (props: DeleteItemModalProps) => {
+export const DeletePackItemModal = (props: DeletePackItemModalProps) => {
 	const { children, id, hasPackId, onClickDelete, onClickMove } = props;
 
 	const packMessage = 'Do you want to delete or move your item to your gear closet?';
