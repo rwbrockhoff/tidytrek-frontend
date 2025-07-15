@@ -1,4 +1,5 @@
-/* Global HTML/body layout */
+@import 'tailwindcss';
+
 html,
 body,
 body > div#root {
@@ -6,7 +7,6 @@ body > div#root {
 	margin: 0;
 }
 
-/* Global element styling */
 button,
 .rt-Button {
 	cursor: pointer;
@@ -22,7 +22,6 @@ a:visited {
 	}
 }
 
-/* Global text elements */
 p,
 li,
 span {
