@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
-import { Heading, Text, Box } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Box } from '@/components/layout';
 import { LandingLink } from '@/components/ui';
 import { Message } from '@/components/ui';
 import { Segment } from '@/components/primitives';
@@ -43,7 +44,7 @@ export const AuthFormLayout = ({
 						or
 					</Text>
 
-					<Box px="4" my="4">
+					<Box className="px-4 my-4">
 						{children}
 					</Box>
 

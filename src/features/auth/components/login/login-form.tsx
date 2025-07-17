@@ -1,6 +1,6 @@
 import { useRef, type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
-import { Box } from '@radix-ui/themes';
+import { Box } from '@/components/layout';
 import { TextField, Button } from '@/components/alpine';
 import { AuthFormLayout } from '../shared/auth-form-layout';
 import { type FormError, type InputEvent } from '@/types/form-types';
@@ -59,7 +59,7 @@ export const LoginForm = ({
 				data-testid="password-input"
 			/>
 
-			<Box mt="4">
+			<Box className="mt-4">
 				<Button type="submit" style={{ width: '100%' }} loading={isLoading}>
 					Login
 				</Button>

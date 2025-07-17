@@ -1,6 +1,8 @@
 import styles from './profile-header.module.css';
-import { Box, Heading, Text } from '@radix-ui/themes';
-import { Flex } from '@/components/layout';
+import { Heading, Text } from '@radix-ui/themes';
+import { Flex, Box } from '@/components/layout';
+import mx from '@/styles/utils/mixins.module.css';
+import { cn } from '@/styles/utils';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/icons';
 import { Avatar } from '@/components/media';
@@ -63,7 +65,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const hasSocialLinks = socialLinks?.length ? true : false;
 
 	return (
-		<Box position="relative">
+		<Box className="relative">
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
 				uploadEnabled={userView}
@@ -105,7 +107,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					</Flex>
 
 					{statusMessage ? (
-						<Box mt="3" style={{ textAlign: 'center' }}>
+						<Box className={cn(mx.textCenter, 'mt-3')}>
 							<Heading size="4" mb="1">
 								{statusMessage.title}
 							</Heading>
