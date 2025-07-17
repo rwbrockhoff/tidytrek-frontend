@@ -1,4 +1,3 @@
-/* Base skeleton styles with shimmer animation */
 .skeleton {
 	background: var(--color-bg-secondary);
 	background-position: -500px 0;
@@ -15,7 +14,6 @@
 	border-radius: var(--radius);
 }
 
-/* Disable animation for static UI use */
 .skeleton.noAnimation {
 	animation: none;
 	background: var(--color-bg-secondary);
@@ -31,7 +29,6 @@
 	}
 }
 
-/* Variant styles */
 .text {
 	height: var(--font-size-base);
 	border-radius: var(--radius-lg);
@@ -45,7 +42,6 @@
 	border-radius: var(--radius);
 }
 
-/* Component styles */
 .textContainer {
 	display: flex;
 	flex-direction: column;

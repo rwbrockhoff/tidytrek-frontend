@@ -31,7 +31,6 @@
 	z-index: 5;
 }
 
-/* Size variants */
 .small {
 	width: 50px;
 	height: 50px;
@@ -52,7 +51,6 @@
 	height: 150px;
 }
 
-/* Border variant */
 .withBorder {
 	border: 3px solid var(--color-bg-primary);
 }

@@ -1,9 +1,9 @@
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
+import { mx } from '@/styles/utils';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCellWidth } from '../hooks/use-cell-width';
-import { mx } from '@/styles/utils';
 
 type DescriptionCellProps = {
 	onToggleOff: () => void;
@@ -26,7 +26,7 @@ export const DescriptionCell = ({
 	const handleToggleOff = () => userView && onToggleOff();
 
 	return (
-		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff} className={mx.px0}>
+		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff} className="px-0">
 			<TextField.Standalone
 				variant="minimal"
 				value={packItemDescription || ''}

@@ -6,7 +6,6 @@ import { protectedRoutes } from './protected.tsx';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useThemeSetter } from '@/hooks/ui/use-theme-setter';
 import { useDelayedLoading } from '@/hooks/ui/use-delayed-loading';
-import { mx } from '@/styles/utils';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, settings } = useGetAuth();
@@ -34,7 +33,7 @@ export const AppRouter = () => {
 		<div
 			data-theme={currentMode}
 			data-theme-palette={currentPalette}
-			className={mx.fullHeight}>
+			className="h-full">
 			<Theme accentColor="jade" radius="small" scaling="100%">
 				<RouterProvider router={appRouter} />
 			</Theme>

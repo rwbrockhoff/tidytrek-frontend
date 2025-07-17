@@ -37,14 +37,14 @@
 	max-width: 1280px;
 }
 
-/* Desktop and larger screens */
+/* Medium and desktop screens */
 @media (min-width: 769px) {
 	.viewLayoutContainer {
 		padding: var(--app-layout-padding);
 	}
 }
 
-/* When viewport is smaller than max-width - sidebar becomes overlay */
+/* Sidebar becomes overlay below max-width */
 @media (max-width: 1280px) {
 	.appViewContainer {
 		/* Keep flex layout - sidebar becomes overlay */

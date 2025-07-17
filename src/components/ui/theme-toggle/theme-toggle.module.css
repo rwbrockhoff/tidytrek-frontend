@@ -37,7 +37,7 @@
 	opacity: 0;
 }
 
-/* Dark mode icon visibility */
+/* Sun icon hidden in dark mode */
 :global([data-theme='dark']) .iconSun {
 	opacity: 0;
 }

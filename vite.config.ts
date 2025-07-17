@@ -18,21 +18,26 @@ export default defineConfig(({ mode }) => ({
 	build: {
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					// React
-					'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-					// UI
-					'vendor-ui': ['@radix-ui/themes', '@radix-ui/react-form'],
-					// Data fetching
-					'vendor-query': ['@tanstack/react-query', '@tanstack/react-query-devtools'],
-					// Charts
-					'vendor-chart': ['chart.js', 'react-chartjs-2'],
-					// Drag and drop
-					'vendor-dnd': ['react-beautiful-dnd'],
-					// Auth & API
-					'vendor-auth': ['@supabase/supabase-js', 'axios'],
-					// Utilities
-					'vendor-utils': ['zod', 'hashids', 'lucide-react'],
+				manualChunks: (id) => {
+					// Keep components together to avoid circular deps
+					if (id.includes('src/components')) return 'components';
+
+					// Libraries
+					if (
+						id.includes('react') ||
+						id.includes('react-dom') ||
+						id.includes('react-router-dom')
+					)
+						return 'react';
+					if (id.includes('@radix-ui/themes') || id.includes('@radix-ui/react-form'))
+						return 'radix';
+					if (id.includes('@tanstack/react-query')) return 'query';
+					if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
+					if (id.includes('react-beautiful-dnd')) return 'dnd';
+					if (id.includes('@supabase/supabase-js') || id.includes('axios'))
+						return 'supabase';
+					if (id.includes('zod') || id.includes('hashids') || id.includes('lucide-react'))
+						return 'utils';
 				},
 			},
 		},

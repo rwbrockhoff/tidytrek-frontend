@@ -1,7 +1,7 @@
 import { Root as FormRoot } from '@radix-ui/react-form';
 import { Select } from '@radix-ui/themes';
 import { TextField } from '@/components/alpine';
-import { PropertyButtons } from '@/components/ui/property-buttons/property-buttons';
+import { PropertyButtons } from '@/shared/components/pack-item-management/property-buttons';
 import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';

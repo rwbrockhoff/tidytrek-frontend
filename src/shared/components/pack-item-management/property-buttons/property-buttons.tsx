@@ -5,7 +5,7 @@ import { cn } from '@/styles/utils';
 import { type PackItemProperty } from '@/types/pack-types';
 import { FavoriteIcon, WornIcon, ConsumableIcon } from '@/components/icons';
 import styles from './property-buttons.module.css';
-import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
+import hoverStyles from '../table/hover-styles.module.css';
 
 type ButtonTypes = {
 	wornWeight?: boolean;

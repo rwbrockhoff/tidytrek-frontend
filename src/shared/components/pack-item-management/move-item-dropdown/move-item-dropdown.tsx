@@ -7,7 +7,6 @@ import { Select, Table } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
 import { MoveDownIcon } from '@/components/icons';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
-import { mx } from '@/styles/utils';
 
 type MoveItemDropdownProps = {
 	packItem: BaseTableRowItem;
@@ -57,7 +56,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 
 	return (
 		<Table.Row className={styles.tableRow}>
-			<Table.Cell colSpan={24} className={mx.pxs}>
+			<Table.Cell colSpan={24} className="px-2">
 				<Flex className="justify-end items-center ml-auto flex-col sm:flex-row">
 					<Select.Root onValueChange={handleSelectPack}>
 						<Select.Trigger className="dropdown-primary" placeholder="Choose a pack..." />
