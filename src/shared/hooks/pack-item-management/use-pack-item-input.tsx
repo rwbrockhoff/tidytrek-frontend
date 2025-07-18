@@ -4,9 +4,6 @@ import { type InputEvent } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 
-// fields that should be cast from string to number on input
-const numericFields = new Set(['packItemQuantity', 'packItemWeight', 'packItemPrice']);
-
 export const usePackItemInput = (item: BaseTableRowItem) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
 	const [packItem, setPackItem] = useState<BaseTableRowItem>(item);
@@ -25,7 +22,7 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 	const updateField = (name: string, value: string) => {
 		setPackItem((prevFormData) => ({
 			...prevFormData,
-			[name]: numericFields.has(name) ? Number(value) : value,
+			[name]: value,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
 	};

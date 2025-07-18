@@ -30,7 +30,7 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	}, [socialLinks]);
 
 	return (
-		<Flex className="flex-wrap gap-2 mt-2">
+		<Flex className="flex-wrap gap-2">
 			{socialButtonsData.map(({ key, socialLinkId, socialName, icon, socialLinkUrl }) => (
 				<SocialButton
 					key={key}

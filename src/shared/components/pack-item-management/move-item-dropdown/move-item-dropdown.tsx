@@ -57,7 +57,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	return (
 		<Table.Row className={styles.tableRow}>
 			<Table.Cell colSpan={24} className="px-2">
-				<Flex className="justify-end items-center ml-auto flex-col sm:flex-row">
+				<Flex className="flex justify-end items-center ml-auto py-2 flex-col sm:flex-row">
 					<Select.Root onValueChange={handleSelectPack}>
 						<Select.Trigger className="dropdown-primary" placeholder="Choose a pack..." />
 						<Select.Content style={{ height: 'fit-content' }}>

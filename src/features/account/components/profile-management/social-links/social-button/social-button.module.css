@@ -1,5 +1,4 @@
 .styledBadge {
-	padding: var(--space-min) var(--space-xs);
 	background-color: var(--color-bg-primary);
 	border: 1px solid var(--color-bg-tertiary);
 }
@@ -10,7 +9,7 @@
 	cursor: pointer;
 }
 
-/* Override base link text color styles to be more subtle */
+/* More subtle link style (secondary */
 .styledBadge a,
 .styledBadge a:hover {
 	color: var(--color-text-secondary);

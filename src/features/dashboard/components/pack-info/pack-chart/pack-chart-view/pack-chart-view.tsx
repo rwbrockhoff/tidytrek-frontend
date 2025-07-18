@@ -28,7 +28,7 @@ export const PackChartView = ({
 	display,
 }: PackChartViewProps) => {
 	return (
-		<Flex className={cn(styles.outerPanel, !display && styles.hidden, 'items-center h-auto')}>
+		<Flex className={cn(styles.outerPanel, !display && styles.hidden, 'items-center h-auto gap-4')}>
 			<Stack className={cn(styles.summaryPanel, mx.responsiveContent, 'items-end h-auto')}>
 				<CategoryList categories={chartCategoryInfo} />
 				<Separator size="4" my="2" style={{ opacity: 0.5 }} />

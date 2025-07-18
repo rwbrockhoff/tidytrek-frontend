@@ -77,8 +77,8 @@ export const LinkPopup = (props: LinkPopupProps) => {
 					/>
 				</Popover.Trigger>
 				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex className="justify-between items-center gap-2 p-1">
-						<div className={mx.fullWidth}>
+					<Flex className="items-center gap-2 p-1">
+						<div className="w-full">
 							<TextField.Standalone
 								name="packItemUrl"
 								value={newPackItemUrl}

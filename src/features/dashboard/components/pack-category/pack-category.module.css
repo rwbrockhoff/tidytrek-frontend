@@ -1,9 +1,3 @@
-.tableContainer {
-	width: 100%;
-	text-align: center;
-	margin-bottom: var(--space-xxl);
-	display: flex;
-}
 
 .tableContainerDragging {
 	box-shadow: var(--shadow-classic);
@@ -12,7 +6,6 @@
 @media (max-width: 768px) {
 	.tableContainer {
 		height: fit-content;
-		margin-bottom: var(--space-xxl);
 	}
 
 	.tableContainer.minimized {

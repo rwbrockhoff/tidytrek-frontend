@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
 import { Heading, Text } from '@radix-ui/themes';
-import { Flex } from '@/components/layout';
+import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
@@ -52,9 +52,9 @@ export const PackInfo = (props: PackInfoProps) => {
 			className={cn(
 				styles.packInfoContainer,
 				mx.responsiveContent,
-				'items-start mt-6 mb-8 min-h-fit md:items-center justify-between',
+				'flex-col items-center my-8 min-h-fit gap-4 md:flex-row md:items-center md:justify-between',
 			)}>
-			<div className={cn(mx.responsivePanel, styles.userInfoPanel)}>
+			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, "gap-2")}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -62,7 +62,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						publicProfile={publicProfile}
 					/>
 				)}
-				<Flex className="items-center gap-2 mb-2">
+				<Flex className="items-center gap-2">
 					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
 					</Heading>
@@ -70,7 +70,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					{isMobile && userView ? (
 						<Button
 							variant="ghost"
-							className={cn(`editIcon ${styles.editIcon}`)}
+							className={cn(`editIcon ${styles.editIcon}`, "my-auto")}
 							data-testid="pack-edit-button"
 							aria-label="Edit pack details"
 							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
@@ -80,7 +80,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						<PackModal pack={currentPack}>
 							<Button
 								variant="ghost"
-								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
+								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden, "my-auto")}
 								data-testid="pack-edit-button"
 								aria-label="Edit pack details">
 								<EditPencilIcon />
@@ -90,30 +90,30 @@ export const PackInfo = (props: PackInfoProps) => {
 				</Flex>
 				<ShareSettings packPublic={packPublic} packId={paramPackId} />
 				{packUrl && (
-					<ExternalLink href={packUrl} className={styles.packLink}>
+					<ExternalLink href={packUrl}>
 						<LinkIcon />
 						{packUrlName || packUrl || 'Pack Link'}
 					</ExternalLink>
 				)}
-				<Text my="2" className={styles.descriptionText}>
+				<Text className={styles.descriptionText}>
 					{packDescription}
 				</Text>
 				<PackLabels pack={currentPack} />
 
 				{/* mobile chart toggle button */}
 				{packHasWeight && isMobile && (
-					<Flex className="my-6">
+					<Flex className="my-4">
 						<Button
 							variant="outline"
-							size="lg"
+							size="md"
 							onClick={handleTogglePackChart}
 							iconLeft={<ChartIcon />}
-							className={styles.toggleChartButton}>
+							className={cn(styles.toggleChartButton, "flex md:hidden")}>
 							{showPackChart ? 'Hide' : 'Show'} Pack Chart
 						</Button>
 					</Flex>
 				)}
-			</div>
+			</Stack>
 
 			{/* Right Hand Panel */}
 			<PackGraphic

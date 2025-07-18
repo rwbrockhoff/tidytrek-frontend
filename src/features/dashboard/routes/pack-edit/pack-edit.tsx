@@ -8,8 +8,8 @@ import { PackForm } from '../../components/pack-form/pack-form';
 import { PackDelete } from '../../components/pack-delete/pack-delete';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import { Spinner } from '@/components/primitives';
-
-import styles from './pack-edit.module.css';
+import { Box, Stack } from '@/components/layout';
+import { mx } from '@/styles/utils';
 
 export const PackEdit = () => {
 	const { packId } = useParams<{ packId: string }>();
@@ -34,15 +34,15 @@ export const PackEdit = () => {
 	if (error || !pack) return <div>Pack not found</div>;
 
 	return (
-		<div className={styles.pageContainer}>
-			<div className={styles.actionHeader}>
+		<Box className="mx-auto pt-3">
+			<Box>
 				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
 				</Button>
-			</div>
-			<div className={styles.header}>
+			</Box>
+			<Box className={mx.textCenter}>
 				<Heading size="5">Edit Pack</Heading>
-			</div>
+			</Box>
 
 			<PackForm
 				pack={modifiedPack}
@@ -50,14 +50,14 @@ export const PackEdit = () => {
 				handleCheckBox={handleCheckBox}
 			/>
 
-			<div className={styles.actionButtons}>
+			<Stack className="gap-4 mt-6">
 				<Button onClick={handleSave}>
 					<SaveIcon />
 					Save Pack
 				</Button>
 
 				<PackDelete pack={pack} />
-			</div>
-		</div>
+			</Stack>
+		</Box>
 	);
 };

@@ -1,8 +1,8 @@
 import styles from './profile-header.module.css';
 import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Box } from '@/components/layout';
-import mx from '@/styles/utils/mixins.module.css';
-import { cn } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
+import { Stack } from '@/components/layout';
 import { type UserProfile } from '@/types/profile-types';
 import { LocationIcon } from '@/components/icons';
 import { Avatar } from '@/components/media';
@@ -73,7 +73,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				onUpload={uploadBannerPhoto}
 			/>
 
-			<div className={styles.avatarContainer}>
+			<div className={cn(styles.avatarContainer, 'left-8')}>
 				<Avatar
 					withBorder
 					uploadEnabled={userView}
@@ -83,17 +83,20 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					onUpload={uploadProfilePhoto}
 				/>
 			</div>
-			<div className={styles.profileInfoContainer}>
-				<div className={styles.profileTextContainer}>
-					<Heading as="h3" className={styles.usernameHeader}>
+			<div className={cn(styles.profileInfoContainer, 'p-6')}>
+				<Stack className={cn(styles.profileTextContainer, 'justify-center mx-4 md:mx-0 gap-3')}>
+					<Heading as="h3" className={cn(styles.usernameHeader)}>
 						{username || firstName}
-						{trailName && <span className={styles.trailName}>{trailName}</span>}
+						{trailName && (
+							<span className={cn(styles.trailName, 'ml-2')}>{trailName}</span>
+						)}
 					</Heading>
 
-					<Flex className="flex-wrap items-center">
+					<Flex className="flex-wrap items-center gap-2">
 						{userLocation && (
-							<Text mr="4" className={styles.locationText}>
-								<LocationIcon /> {userLocation}
+							<Text
+								className={cn(styles.locationText, 'inline-flex items-center')}>
+								<LocationIcon className="mr-1" /> {userLocation}
 							</Text>
 						)}
 
@@ -107,16 +110,16 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					</Flex>
 
 					{statusMessage ? (
-						<Box className={cn(mx.textCenter, 'mt-3')}>
-							<Heading size="4" mb="1">
+						<Box className={cn(mx.textCenter)}>
+							<Heading size="4">
 								{statusMessage.title}
 							</Heading>
 							<Text color="gray">{statusMessage.subtitle}</Text>
 						</Box>
 					) : (
-						<Text mt="4">{userBio}</Text>
+						<Text size="2">{userBio}</Text>
 					)}
-				</div>
+				</Stack>
 			</div>
 		</Box>
 	);

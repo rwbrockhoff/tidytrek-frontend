@@ -1,6 +1,7 @@
 import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
 import styles from './pack-category.module.css';
-import { cn } from '@/styles/utils';
+import { cn, mx } from '@/styles/utils';
+import { Flex } from '@/components/layout';
 import { Draggable } from 'react-beautiful-dnd';
 import { Table } from '@/shared/components/pack-item-management/table';
 import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
@@ -80,10 +81,10 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 			isDragDisabled={!userView}
 			index={index}>
 			{(provided) => (
-				<div
+				<Flex
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					className={cn(styles.tableContainer, isMinimized && styles.minimized)}
+					className={cn(styles.tableContainer, isMinimized && styles.minimized, "w-full mb-12", mx.textCenter)}
 					data-testid="pack-category-row">
 					<Table>
 						<TableHeader
@@ -119,7 +120,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 							/>
 						)}
 					</Table>
-				</div>
+				</Flex>
 			)}
 		</Draggable>
 	);

@@ -1,7 +1,0 @@
-.packCardContainer {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-lg);
-	margin-top: var(--space-xl);
-	align-items: stretch;
-}

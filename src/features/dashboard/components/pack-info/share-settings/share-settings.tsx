@@ -7,6 +7,7 @@ import {
 	ShareLinkIcon,
 } from '@/components/icons';
 import { Flex } from '@/components/layout';
+import { cn } from '@/styles/utils';
 import { Popover, Heading } from '@radix-ui/themes';
 import { TextField, Button } from '@/components/alpine';
 import { useState } from 'react';
@@ -31,8 +32,8 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 
 	if (packPublic) {
 		return (
-			<Flex className="items-start">
-				<p className={styles.lightText}>
+			<Flex className="items-center gap-4">
+				<p className={cn(styles.lightText, "flex items-center")}>
 					<PublicIcon /> Public
 				</p>
 				<Popover.Root
@@ -40,7 +41,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 					// onClose={handleReset}
 				>
 					<Popover.Trigger>
-						<p className={styles.shareText}>
+						<p className={cn(styles.shareText, "flex items-center")}>
 							<ShareLinkIcon />
 							Share Pack
 						</p>
@@ -65,7 +66,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 		);
 	} else {
 		return (
-			<p className={styles.lightText}>
+			<p className={cn(styles.lightText, "flex items-center")}>
 				<PrivateIcon /> Private
 			</p>
 		);

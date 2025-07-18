@@ -26,17 +26,20 @@ export const AddLink = () => {
 
 	return (
 		<Stack>
-			<Flex className="items-center gap-2 my-6">
-				<TextField.Standalone
-					placeholder="Paste your link..."
-					value={socialLink}
-					onChange={handleInput}
-					width={'30%'}
-				/>
-				<Button disabled={!socialLink || isPending} onClick={handleAddLink}>
-					<PlusIcon />
-					Add Link
-				</Button>
+			<Flex className="flex-col gap-4 my-6 md:flex-row md:items-center">
+				<div className="w-full md:w-80">
+					<TextField.Standalone
+						placeholder="Paste your link..."
+						value={socialLink}
+						onChange={handleInput}
+					/>
+				</div>
+				<div className="w-auto">
+					<Button disabled={!socialLink || isPending} onClick={handleAddLink}>
+						<PlusIcon />
+						Add Link
+					</Button>
+				</div>
 			</Flex>
 			{linkError && <p>There was an error adding your link at this time.</p>}
 		</Stack>

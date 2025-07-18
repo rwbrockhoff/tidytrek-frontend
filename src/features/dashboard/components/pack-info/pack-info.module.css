@@ -8,7 +8,6 @@
 }
 
 .descriptionText {
-	display: flex;
 	max-width: 60ch;
 }
 
@@ -16,32 +15,21 @@
 	font-size: var(--font-size-base);
 	cursor: pointer;
 	opacity: 0;
-	margin: auto 0;
 }
 
-.packLink {
-	margin: var(--space-xs) 0 0 0;
-}
 
 .toggleChartButton {
 	width: 100%;
-	display: none;
 	text-align: center;
 }
 
 @media (max-width: 768px) {
 	.packInfoContainer {
 		height: fit-content;
-		flex-direction: column;
-		margin-top: 3vh;
-		margin-bottom: 0;
 	}
 
 	.editIcon {
 		opacity: 1;
 	}
 
-	.toggleChartButton {
-		display: flex;
-	}
 }

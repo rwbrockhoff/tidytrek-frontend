@@ -10,7 +10,8 @@ import { decodePackItemId } from '@/utils';
 import { usePackItemEditForm } from '@/features/dashboard/hooks/use-pack-item-edit-form';
 import { usePackItemEditActions } from '@/features/dashboard/hooks/use-pack-item-edit-actions';
 import { PackItemEditForm } from '@/features/dashboard/components/pack-item-edit-form/pack-item-edit-form';
-import styles from './pack-item-edit.module.css';
+import { Box, Stack } from '@/components/layout';
+import { mx } from '@/styles/utils';
 
 export const PackItemEdit = () => {
 	const { packItemId } = useParams<{ packItemId: string }>();
@@ -81,15 +82,15 @@ export const PackItemEdit = () => {
 	if (error || !packItem || !formData) return <div>Pack item not found</div>;
 
 	return (
-		<div className={styles.pageContainer}>
-			<div className={styles.actionHeader}>
+		<Box className="mx-auto pt-3">
+			<Box>
 				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
 				</Button>
-			</div>
-			<div className={styles.header}>
+			</Box>
+			<Box className={mx.textCenter}>
 				<Heading size="6">Edit Item</Heading>
-			</div>
+			</Box>
 
 			<PackItemEditForm
 				formData={formData}
@@ -104,7 +105,7 @@ export const PackItemEdit = () => {
 				onPriceBlur={handlePriceBlur}
 			/>
 
-			<div className={styles.actionButtons}>
+			<Stack className="gap-4 mt-6">
 				<Button onClick={onSave} disabled={isSaving}>
 					<SaveIcon />
 					Save Item
@@ -116,7 +117,7 @@ export const PackItemEdit = () => {
 					disabled={isDeleting}>
 					Delete Item
 				</Button>
-			</div>
-		</div>
+			</Stack>
+		</Box>
 	);
 };

@@ -16,8 +16,8 @@
 
 .uploadContainer {
 	position: absolute;
-	bottom: var(--space-md);
-	right: var(--space-md);
+	bottom: 0;
+	right: var(--space-xl);
 }
 
 .styledDimmer {

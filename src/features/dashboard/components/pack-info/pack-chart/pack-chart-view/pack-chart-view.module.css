@@ -11,11 +11,9 @@
 
 .chartPanel {
 	width: 50%;
-	margin-left: var(--space-min);
 }
 
 .summaryPanel {
-	padding-right: var(--space-md);
 	height: 100%;
 }
 
@@ -30,13 +28,11 @@
 
 	.chartPanel {
 		width: 100%;
-		margin-left: 0;
 		margin-bottom: var(--space-xl);
 		padding: 0 var(--space-sm);
 	}
 
 	.summaryPanel {
-		padding-right: 0;
 		align-items: center;
 	}
 }

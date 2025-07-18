@@ -1,4 +1,3 @@
-import styles from './dashboard-footer.module.css';
 import { Flex } from '@/components/layout';
 import { Text } from '@radix-ui/themes';
 
@@ -9,7 +8,7 @@ type DashboardFooterProps = {
 
 export const DashboardFooter = ({ affiliate, description }: DashboardFooterProps) => {
 	return (
-		<footer className={styles.footer}>
+		<footer className="py-4 mt-auto">
 			{affiliate && (
 				<Flex className="items-end justify-center">
 					<Text align="center" weight="light" color="gray" size="2">
