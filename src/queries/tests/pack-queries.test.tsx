@@ -42,7 +42,7 @@ describe('useGetPackQuery', () => {
 	});
 
 	it('should call correct API endpoint with decoded ID', () => {
-		const packId = '123';
+		const packId = 123;
 
 		renderHook(() => useGetPackQuery(packId), {
 			wrapper: createQueryWrapper(),
@@ -60,7 +60,7 @@ describe('useGetPackQuery', () => {
 	});
 
 	it('should return transformed data correctly', async () => {
-		const packId = '123';
+		const packId = 123;
 		const mockPackData = createMockInitialState();
 		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockPackData });
 

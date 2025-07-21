@@ -4,13 +4,16 @@ import { UserViewContext } from '@/contexts/user-view-context';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { decode } from '@/utils';
 
 export const Dashboard = ({ userView }: { userView: boolean }) => {
 	const { packId: paramPackId } = useParams();
 	const { isAuthenticated } = useGetAuth();
 
+	const decodedPackId = paramPackId ? decode(paramPackId) : null;
+
 	const { data, isPending } = userView
-		? useGetPackQuery(paramPackId)
+		? useGetPackQuery(decodedPackId)
 		: useViewPackQuery(paramPackId);
 
 	const { data: packListData } = userView

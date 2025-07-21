@@ -10,7 +10,6 @@ export const usePackItemNavigation = () => {
 		const hasPack = item.packId !== null;
 
 		if (hasPack) {
-			// Navigate to pack item edit
 			navigate(`/pack-item/edit/${encodedPackItemId}`, {
 				state: {
 					packId: item.packId,
@@ -18,7 +17,6 @@ export const usePackItemNavigation = () => {
 				},
 			});
 		} else {
-			// Navigate to gear closet item edit
 			navigate(`/closet-item/edit/${encodedPackItemId}`, {
 				state: {
 					gearCloset: true,

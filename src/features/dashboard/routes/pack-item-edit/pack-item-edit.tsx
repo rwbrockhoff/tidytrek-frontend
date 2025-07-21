@@ -17,7 +17,6 @@ export const PackItemEdit = () => {
 	const { packItemId } = useParams<{ packItemId: string }>();
 	const location = useLocation();
 	const { packId, packCategoryId, gearCloset } = location.state || {};
-
 	const decodedPackItemId = packItemId ? decodePackItemId(packItemId) : null;
 
 	// Data fetching
@@ -26,6 +25,7 @@ export const PackItemEdit = () => {
 		isLoading: packLoading,
 		error: packError,
 	} = useGetPackQuery(packId);
+
 	const {
 		data: gearClosetData,
 		isLoading: closetLoading,
@@ -79,7 +79,8 @@ export const PackItemEdit = () => {
 	};
 
 	if (isLoading) return <Spinner />;
-	if (error || !packItem || !formData) return <div>Pack item not found</div>;
+	if (error || !packItem) return <div>Pack item not found</div>;
+	if (!formData) return <Spinner />;
 
 	return (
 		<Box className="mx-auto pt-3">
@@ -111,10 +112,7 @@ export const PackItemEdit = () => {
 					Save Item
 				</Button>
 
-				<Button
-					onClick={handleDelete}
-					variant="danger"
-					disabled={isDeleting}>
+				<Button onClick={handleDelete} variant="danger" disabled={isDeleting}>
 					Delete Item
 				</Button>
 			</Stack>

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { type GearClosetItem } from '@/types/pack-types';
 import { useEditGearClosetItemMutation } from '@/queries/closet-queries';
-import { encode } from '@/utils';
+import { encodePackItemId } from '@/utils';
 
 export const useGearClosetOperations = () => {
 	const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const useGearClosetOperations = () => {
 	};
 
 	const navigateToEdit = (item: GearClosetItem) => {
-		const encodedPackItemId = encode(item.packItemId);
+		const encodedPackItemId = encodePackItemId(item.packItemId);
 		navigate(`/closet-item/edit/${encodedPackItemId}`, {
 			state: { gearCloset: true },
 		});

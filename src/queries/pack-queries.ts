@@ -16,7 +16,6 @@ import {
 	type PackWithCategories,
 } from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
-import { decode } from '@/utils';
 import { paletteList } from '@/styles/palette/palette-constants';
 import { STALE_TIME } from './query-config';
 
@@ -26,13 +25,12 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 	);
 };
 
-export const useGetPackQuery = (packId: string | undefined) => {
-	const decodedId = packId ? decode(packId) : null;
+export const useGetPackQuery = (packId: number | null | undefined) => {
 	return useQuery<PackQueryState>({
-		queryKey: packKeys.packId(decodedId as number | null),
-		enabled: packId ? true : false,
+		queryKey: packKeys.packId(packId),
+		enabled: Boolean(packId),
 		staleTime: STALE_TIME,
-		queryFn: () => tidyTrekAPI.get(`/packs/${decodedId}`).then((res) => res.data),
+		queryFn: () => tidyTrekAPI.get(`/packs/${packId}`).then((res) => res.data),
 	});
 };
 

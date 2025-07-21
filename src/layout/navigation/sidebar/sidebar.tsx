@@ -4,7 +4,7 @@ import { Heading, Separator } from '@radix-ui/themes';
 import styles from './sidebar.module.css';
 import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
-import { encode } from '@/utils';
+import { encode, decode } from '@/utils';
 import { SidebarButton } from './sidebar-button';
 import supabase from '@/api/supabase-client';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
@@ -36,7 +36,8 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const defaultPackId = packListData?.packList?.[0]?.packId;
 
 	const encodedId = paramPackId || encode(defaultPackId);
-	const { data: packData } = useGetPackQuery(encodedId);
+	const decodedId = encodedId ? decode(encodedId) : null;
+	const { data: packData } = useGetPackQuery(decodedId);
 
 	const defaultPackUrl = `/pack/${encodedId}`;
 	const currentPackId = packData?.pack?.packId;
@@ -48,7 +49,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		const isNotDisplayingPack = currentPackId && !paramPackId;
 		// subscribe to user clicking on a different pack
 		// subscribe to user loading default dashboard and load packId in url
-		if ((pathname.includes('pack') || pathname === '/') && isNotDisplayingPack) {
+		if ((pathname.startsWith('/pack/') || pathname === '/' || pathname === '/pack') && isNotDisplayingPack) {
 			const encodedId = encode(currentPackId);
 			return navigate(`/pack/${encodedId}`);
 			// query disabled until ID, so this does not fetch twice

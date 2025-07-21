@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { type PackItem } from '@/types/pack-types';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
-import { encode } from '@/utils';
+import { encode, encodePackItemId } from '@/utils';
 
 export const usePackItemOperations = () => {
 	const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const usePackItemOperations = () => {
 	};
 
 	const navigateToEdit = (item: PackItem) => {
-		const encodedPackItemId = encode(item.packItemId);
+		const encodedPackItemId = encodePackItemId(item.packItemId);
 		navigate(`/pack-item/edit/${encodedPackItemId}`, {
 			state: {
 				packId: item.packId,

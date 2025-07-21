@@ -10,7 +10,7 @@ export const encode = (packId: number | undefined) => {
 
 export const decode = (displayId: string) => {
 	const decodedId = hashids.decode(displayId);
-	return decodedId[0];
+	return Number(decodedId[0]);
 };
 
 export const encodePackItemId = (packItemId: number) => {

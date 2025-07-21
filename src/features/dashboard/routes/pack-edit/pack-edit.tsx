@@ -10,12 +10,14 @@ import { useGetPackQuery } from '@/queries/pack-queries';
 import { Spinner } from '@/components/primitives';
 import { Box, Stack } from '@/components/layout';
 import { mx } from '@/styles/utils';
+import { decode } from '@/utils';
 
 export const PackEdit = () => {
 	const { packId } = useParams<{ packId: string }>();
 	const navigate = useNavigate();
 
-	const { data: packData, isLoading, error } = useGetPackQuery(packId);
+	const decodedPackId = packId ? decode(packId) : null;
+	const { data: packData, isLoading, error } = useGetPackQuery(decodedPackId);
 	const pack = packData?.pack;
 
 	const { modifiedPack, handleFormChange, handleCheckBox, handleSubmitPack } =

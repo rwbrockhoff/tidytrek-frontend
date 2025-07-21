@@ -12,7 +12,7 @@ export const userKeys = {
 
 export const packKeys = {
 	all: [Pack] as const,
-	packId: (packId: number | null) => [Pack, packId] as const,
+	packId: (packId: number | null | undefined) => [Pack, packId] as const,
 };
 
 export const packListKeys = {

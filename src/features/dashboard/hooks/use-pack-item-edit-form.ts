@@ -10,7 +10,7 @@ type UsePackItemEditFormProps = {
 };
 
 export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) => {
-	const [formData, setFormData] = useState<BaseTableRowItem | null>(null);
+	const [formData, setFormData] = useState<BaseTableRowItem | null>(initialItem);
 	const [itemChanged, setItemChanged] = useState(false);
 	const { isToggled: isPriceEditing, toggle: togglePriceEdit } = useToggle();
 
@@ -22,8 +22,10 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 	]);
 
 	useEffect(() => {
-		if (initialItem) setFormData(initialItem);
-	}, [initialItem]);
+		if (initialItem && !formData) {
+			setFormData(initialItem);
+		}
+	}, [initialItem, formData]);
 
 	const handleClearErrors = (e: InputEvent) => {
 		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);

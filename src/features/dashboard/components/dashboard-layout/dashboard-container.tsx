@@ -70,13 +70,13 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	if (!pack) return;
 
-	const showPromotion = !isAuthenticated;
+	const showGuestBanners = !isAuthenticated;
 	const showPreviewMode = !userView && isUsersPack;
 	return (
 		<PricingContext.Provider value={packPricing}>
 			<PageLayout>
-				{/* Show promotional banner for non-authenticated visitors */}
-				{showPromotion && <ProfileBanner />}
+				{/* Show promotional banner for non-auth visitors */}
+				{showGuestBanners && <ProfileBanner />}
 
 				{/* Show preview banner if user is viewing their own pack in guest mode */}
 				{showPreviewMode && <GuestPreviewBanner />}
@@ -113,8 +113,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</Flex>
 				)}
 
-				{/* promotional footer for non-authenticated visitors */}
-				{showPromotion && (
+				{/* optional affiliate message footer for non-auth visitors */}
+				{showGuestBanners && (
 					<DashboardFooter
 						affiliate={packAffiliate}
 						description={packAffiliateDescription}
