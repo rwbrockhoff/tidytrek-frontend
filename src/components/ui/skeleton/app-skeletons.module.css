@@ -1,5 +1,4 @@
 .heroSection {
-	margin-bottom: var(--space-xl);
 	border-radius: var(--radius-lg);
 }
 
@@ -30,7 +29,6 @@
 .packMeta {
 	display: flex;
 	gap: var(--space-sm);
-	margin-top: var(--space-xs);
 }
 
 .tableContainer {
@@ -58,7 +56,6 @@
 
 .packInfoSection {
 	margin-top: 1.5rem;
-	margin-bottom: 3em;
 }
 
 .packInfo {
@@ -114,10 +111,6 @@
 	background: var(--color-bg-secondary);
 	border: 1px solid var(--color-border-primary);
 	border-radius: var(--radius-lg);
-}
-
-.authTitle {
-	margin-bottom: var(--space-md);
 }
 
 .authButton {

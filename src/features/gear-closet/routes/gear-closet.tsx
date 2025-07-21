@@ -54,7 +54,7 @@ export const GearCloset = () => {
 						</p>
 					)}
 
-					<Box className={cn(mx.responsiveContent, 'mx-auto mb-8')}>
+					<Box className={cn(mx.responsiveContent, 'mx-auto mb-4')}>
 						<TextField.Standalone
 							variant="icon"
 							placeholder="Search..."
