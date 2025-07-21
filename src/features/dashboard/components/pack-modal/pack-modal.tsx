@@ -60,7 +60,7 @@ export const PackModal = (props: PackModalProps) => {
 					formErrors={formErrors}
 				/>
 
-				<Flex className="justify-end gap-3 my-2 mx-4">
+				<Flex className="justify-end gap-3 my-2">
 					<PackDelete pack={pack} />
 
 					<Button onClick={handleSaveAndClose} iconLeft={<SaveIcon />}>

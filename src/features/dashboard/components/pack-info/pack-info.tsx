@@ -52,9 +52,9 @@ export const PackInfo = (props: PackInfoProps) => {
 			className={cn(
 				styles.packInfoContainer,
 				mx.responsiveContent,
-				'flex-col items-center my-8 min-h-fit gap-4 md:flex-row md:items-center md:justify-between',
+				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-center md:justify-between md:mb-12',
 			)}>
-			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, "gap-2")}>
+			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-2')}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -70,7 +70,7 @@ export const PackInfo = (props: PackInfoProps) => {
 					{isMobile && userView ? (
 						<Button
 							variant="ghost"
-							className={cn(`editIcon ${styles.editIcon}`, "my-auto")}
+							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
 							data-testid="pack-edit-button"
 							aria-label="Edit pack details"
 							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
@@ -80,7 +80,11 @@ export const PackInfo = (props: PackInfoProps) => {
 						<PackModal pack={currentPack}>
 							<Button
 								variant="ghost"
-								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden, "my-auto")}
+								className={cn(
+									`editIcon ${styles.editIcon}`,
+									!userView && mx.hidden,
+									'my-auto',
+								)}
 								data-testid="pack-edit-button"
 								aria-label="Edit pack details">
 								<EditPencilIcon />
@@ -95,9 +99,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packUrlName || packUrl || 'Pack Link'}
 					</ExternalLink>
 				)}
-				<Text className={styles.descriptionText}>
-					{packDescription}
-				</Text>
+				<Text className={styles.descriptionText}>{packDescription}</Text>
 				<PackLabels pack={currentPack} />
 
 				{/* mobile chart toggle button */}
@@ -108,7 +110,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							size="md"
 							onClick={handleTogglePackChart}
 							iconLeft={<ChartIcon />}
-							className={cn(styles.toggleChartButton, "flex md:hidden")}>
+							className={cn(styles.toggleChartButton, 'flex md:hidden')}>
 							{showPackChart ? 'Hide' : 'Show'} Pack Chart
 						</Button>
 					</Flex>

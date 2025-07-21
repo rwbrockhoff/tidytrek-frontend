@@ -1,6 +1,5 @@
 .itemCard {
 	padding: var(--space-md);
-	padding-bottom: var(--space-xs);
 	border-bottom: 1px solid var(--color-border-primary);
 	background-color: var(--color-bg-primary);
 }
@@ -13,7 +12,6 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	margin-bottom: var(--space-sm);
 }
 
 .itemNameContainer {
@@ -65,14 +63,11 @@
 	white-space: nowrap;
 }
 
-.itemDetails {
-	margin-bottom: var(--space-sm);
-}
 
 .itemDescription {
 	font-size: var(--font-size-sm);
 	color: var(--color-text-secondary);
-	margin: 0 0 var(--space-xs) 0;
+	margin: 0;
 }
 
 .itemProperties {
@@ -103,7 +98,6 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: var(--space-md);
 }
 
 .itemActions {

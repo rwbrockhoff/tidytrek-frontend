@@ -84,7 +84,12 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 				<Flex
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					className={cn(styles.tableContainer, isMinimized && styles.minimized, "w-full mb-12", mx.textCenter)}
+					className={cn(
+						styles.tableContainer,
+						isMinimized && styles.minimized,
+						'w-full',
+						mx.textCenter,
+					)}
 					data-testid="pack-category-row">
 					<Table>
 						<TableHeader

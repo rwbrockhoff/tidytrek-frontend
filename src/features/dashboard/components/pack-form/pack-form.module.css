@@ -6,7 +6,6 @@
 .mainDetails {
 	display: flex;
 	gap: var(--space-lg);
-	margin-bottom: var(--space-lg);
 }
 
 .leftPanel {
@@ -21,11 +20,9 @@
 .extraDetails {
 	width: 100%;
 }
-
 .tagsContainer {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: var(--space-sm);
 }
 
 .linkContainer {

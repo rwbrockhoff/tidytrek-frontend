@@ -4,7 +4,7 @@ import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
 import { ClosetIcon, SearchIcon } from '@/components/icons';
 import { TextField } from '@/components/alpine';
-import { Flex } from '@/components/layout';
+import { Flex, Stack, Box } from '@/components/layout';
 import { Heading } from '@radix-ui/themes';
 import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
@@ -17,7 +17,7 @@ import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
 
-	const { data } = useGetGearClosetQuery();
+	const { data, isLoading } = useGetGearClosetQuery();
 	const { gearClosetList } = data || { gearClosetList: [] };
 
 	const { data: packListData } = useGetPackListQuery();
@@ -25,54 +25,54 @@ export const GearCloset = () => {
 
 	const handleInputChange = (e: InputEvent) => setSearchInput(e.target.value);
 
-	const filteredClosetList =
-		gearClosetList.filter(
-			(item) =>
-				searchMatch(searchInput, item.packItemName, 'i') ||
-				searchMatch(searchInput, item.packItemDescription, 'i'),
-		) || [];
+	const filteredClosetList = gearClosetList.filter(
+		(item) =>
+			searchMatch(searchInput, item.packItemName, 'i') ||
+			searchMatch(searchInput, item.packItemDescription, 'i'),
+	);
 
 	const isSearching = searchInput.length > 0;
-	const dragDisabled = isSearching ? true : false;
-	const originalListHasItems = gearClosetList.length > 0;
-	const displayListHasItems = isSearching
-		? filteredClosetList.length > 0
-		: originalListHasItems;
-	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
+	const dragDisabled = isSearching || isLoading;
+	const hasItems = gearClosetList.length > 0;
+	const filteredList = isSearching ? filteredClosetList : gearClosetList;
+	const showResults = isSearching ? filteredClosetList.length > 0 : hasItems;
+	const showEmptyListDescription = !hasItems && !isLoading;
 	return (
 		<UserViewContext.Provider value={true}>
 			<PageLayout>
-				<Heading size="6" my="4">
-					<Flex className="items-center justify-center gap-2">
-						<ClosetIcon />
-						Gear Closet
-					</Flex>
-				</Heading>
+				<Stack className="gap-4">
+					<Heading size="6">
+						<Flex className="items-center justify-center gap-2">
+							<ClosetIcon />
+							Gear Closet
+						</Flex>
+					</Heading>
 
-				{!originalListHasItems && (
-					<p className={styles.descriptionText}>
-						Keep track of other pack items that don't have a pack list yet!
-					</p>
-				)}
+					{showEmptyListDescription && (
+						<p className={styles.descriptionText}>
+							Keep track of other pack items that don't have a pack list yet!
+						</p>
+					)}
 
-				<div className={cn(styles.searchContainer, mx.responsiveContent)}>
-					<TextField.Standalone
-						variant="icon"
-						placeholder="Search..."
-						name="searchInput"
-						value={searchInput}
-						onChange={handleInputChange}
-						icon={<SearchIcon />}
-						iconPosition="left"
+					<Box className={cn(mx.responsiveContent, 'mx-auto mb-8')}>
+						<TextField.Standalone
+							variant="icon"
+							placeholder="Search..."
+							name="searchInput"
+							value={searchInput}
+							onChange={handleInputChange}
+							icon={<SearchIcon />}
+							iconPosition="left"
+						/>
+					</Box>
+
+					<ResponsiveGearCloset
+						gearClosetList={filteredList}
+						packList={packList}
+						listHasItems={showResults}
+						dragDisabled={dragDisabled}
 					/>
-				</div>
-
-				<ResponsiveGearCloset
-					gearClosetList={listToDisplay}
-					packList={packList}
-					listHasItems={displayListHasItems}
-					dragDisabled={dragDisabled}
-				/>
+				</Stack>
 			</PageLayout>
 		</UserViewContext.Provider>
 	);

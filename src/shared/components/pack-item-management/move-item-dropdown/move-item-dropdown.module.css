@@ -3,10 +3,6 @@
 	border-bottom: 1px solid var(--color-border-primary);
 }
 
-.tableRow button {
-	margin: 0 var(--space-xs);
-}
-
 .tableRow button:not(:last-child) {
 	min-width: 150px;
 }

@@ -41,7 +41,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 			rounded="md"
 			shadow="paper"
 			override
-			className={cn(styles.categoryCard, isMinimized && styles.minimized)}
+			className={cn(isMinimized && styles.minimized, 'w-full')}
 			data-testid="pack-category-card">
 			<PackCategoryHeader
 				packCategoryName={packCategoryName}

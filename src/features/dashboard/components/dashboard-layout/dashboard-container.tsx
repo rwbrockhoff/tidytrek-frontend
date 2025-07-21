@@ -1,7 +1,7 @@
 import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '../table';
-import { Flex } from '@/components/layout';
+import { Flex, Stack } from '@/components/layout';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { PricingContext } from '@/contexts/pricing-context';
 import {
@@ -11,11 +11,7 @@ import {
 } from '@/types/pack-types';
 import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 import { DashboardFooter } from './dashboard-footer';
-import {
-	DragDropContext,
-	Drop,
-	type DropResult,
-} from '@/components';
+import { DragDropContext, Drop, type DropResult } from '@/components';
 import { GuestPreviewBanner } from '../guest-preview-banner';
 import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
@@ -95,22 +91,24 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 				<DragDropContext onDragEnd={handleOnDragEnd}>
 					<Drop droppableId={'dashboard-drop-window'} type="category">
-						{packCategories.length > 0 &&
-							packCategories.map((category: Category, index: number) => {
-								return (
-									<ResponsivePackCategory
-										category={category}
-										packList={packList}
-										index={index}
-										key={category.packCategoryId}
-									/>
-								);
-							})}
+						<Stack className="gap-12">
+							{packCategories.length > 0 &&
+								packCategories.map((category: Category, index: number) => {
+									return (
+										<ResponsivePackCategory
+											category={category}
+											packList={packList}
+											index={index}
+											key={category.packCategoryId}
+										/>
+									);
+								})}
+						</Stack>
 					</Drop>
 				</DragDropContext>
 
 				{userView && (
-					<Flex className="justify-center w-full">
+					<Flex className="justify-center w-full mt-12">
 						<AddCategoryButton onClick={handleAddCategory} />
 					</Flex>
 				)}

@@ -1,11 +1,5 @@
-.searchContainer {
-	margin-bottom: var(--space-xl);
-	margin-left: auto;
-	margin-right: auto;
-}
 
 .descriptionText {
-	margin-bottom: var(--space-xl);
 	text-align: center;
 	color: var(--color-text-tertiary);
 }
