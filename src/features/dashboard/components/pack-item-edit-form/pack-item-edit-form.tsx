@@ -37,10 +37,6 @@ export const PackItemEditForm = ({
 		onNumericChange('packItemQuantity', Number(e.target.value));
 	};
 
-	const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		onNumericChange('packItemWeight', Number(e.target.value));
-	};
-
 	return (
 		<FormRoot className={styles.formContainer}>
 			<TextField.Input
@@ -83,9 +79,8 @@ export const PackItemEditForm = ({
 					name="packItemWeight"
 					label="Weight"
 					type="number"
-					step="0.1"
 					value={formData.packItemWeight || ''}
-					onChange={handleWeightChange}
+					onChange={onInputChange}
 					placeholder="0"
 					width="70%"
 					error={formErrors?.packItemWeight}

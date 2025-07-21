@@ -30,6 +30,12 @@ export const PackWeightCell = ({
 	const { packItemWeight, packItemUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
+	const getFormattedWeight = () => {
+		const weight = packItemWeight;
+		if (weight === undefined || weight === null || isNaN(weight)) return '';
+		return weight % 1 === 0 ? weight.toFixed(0) : weight.toString();
+	};
+
 	const handleToggleOff = () => userView && onToggleOff();
 
 	const handleOnChange = (e: InputEvent) => {
@@ -48,7 +54,7 @@ export const PackWeightCell = ({
 					<TextField.Standalone
 						variant="minimal"
 						className={styles.input}
-						value={packItemWeight?.toString() || ''}
+						value={getFormattedWeight()}
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleOnChange}
@@ -62,7 +68,7 @@ export const PackWeightCell = ({
 					<Badge
 						radius="large"
 						color="gray"
-						highContrast>{`${packItemWeight}  ${packItemUnit}`}</Badge>
+						highContrast>{`${getFormattedWeight()}  ${packItemUnit}`}</Badge>
 				</Flex>
 			)}
 		</Table.Cell>

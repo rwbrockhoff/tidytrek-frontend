@@ -38,9 +38,8 @@ button.sidebarButton:hover {
 	margin: 0;
 }
 
-/* Hide sidebar buttons on mobile */
+/* Hide only the sidebar toggle button on mobile */
 @media only screen and (max-width: 768px) {
-	button.sidebarButton.isSidebar,
 	button.sidebarButton:not(.isSidebar) {
 		display: none;
 	}
