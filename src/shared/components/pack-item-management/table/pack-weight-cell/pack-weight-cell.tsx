@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
@@ -8,6 +9,7 @@ import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useCellWidth } from '../hooks/use-cell-width';
+import { useToggle } from '@/hooks/ui/use-toggle';
 
 type PackWeightCellProps = {
 	onToggleOff: () => void;
@@ -29,18 +31,40 @@ export const PackWeightCell = ({
 	const userView = useUserContext();
 	const { packItemWeight, packItemUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
+	const { isToggled, toggle } = useToggle();
+	const [hasDecimalInput, setHasDecimalInput] = useState(false);
 
-	const getFormattedWeight = () => {
-		const weight = packItemWeight;
-		if (weight === undefined || weight === null || isNaN(weight)) return '';
-		return weight % 1 === 0 ? weight.toFixed(0) : weight.toString();
+	const toggleToEdit = () => !isToggled && toggle();
+
+	const toggleToCell = () => {
+		if (isToggled) {
+			toggle();
+			setHasDecimalInput(false);
+			userView && onToggleOff();
+		}
 	};
 
-	const handleToggleOff = () => userView && onToggleOff();
-
-	const handleOnChange = (e: InputEvent) => {
-		if (!e.target.value) e.target.value = '0';
+	const handleWeightChange = (e: InputEvent) => {
+		// set decimal flag based on input change
+		const value = e.target.value;
+		if (value.includes('.') || hasDecimalInput) {
+			setHasDecimalInput(true);
+		}
 		onChange(e);
+	};
+
+	const getDisplayValue = () => {
+		// example: shows 3 or 3.5 for pack item weight
+		if (packItemWeight === undefined || packItemWeight === null) return '';
+		const numericalWeight = Number(packItemWeight);
+		if (isNaN(numericalWeight)) return '';
+		return numericalWeight.toString();
+	};
+
+	const getInputValue = () => {
+		if (!isToggled) return getDisplayValue();
+		if (hasDecimalInput) return packItemWeight?.toString() || '';
+		return getDisplayValue();
 	};
 
 	const handleWeightUnit = (unit: string) => {
@@ -48,16 +72,17 @@ export const PackWeightCell = ({
 	};
 
 	return (
-		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff}>
+		<Table.Cell ref={ref} style={{ width }} onFocus={toggleToEdit} onBlur={toggleToCell}>
 			{userView ? (
 				<Flex className="inline-flex items-baseline gap-1">
 					<TextField.Standalone
 						variant="minimal"
 						className={styles.input}
-						value={getFormattedWeight()}
+						inputMode="decimal"
+						value={getInputValue()}
 						name={'packItemWeight'}
 						placeholder={`0`}
-						onChange={handleOnChange}
+						onChange={handleWeightChange}
 						data-invalid={formErrors?.packItemWeight.error}
 					/>
 
@@ -68,7 +93,7 @@ export const PackWeightCell = ({
 					<Badge
 						radius="large"
 						color="gray"
-						highContrast>{`${getFormattedWeight()}  ${packItemUnit}`}</Badge>
+						highContrast>{`${getDisplayValue() || 0}  ${packItemUnit}`}</Badge>
 				</Flex>
 			)}
 		</Table.Cell>

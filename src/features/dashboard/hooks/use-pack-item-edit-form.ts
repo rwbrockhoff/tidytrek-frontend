@@ -70,11 +70,12 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 	const getFormattedPrice = () => {
 		if (!formData) return '';
 
-		return isPriceEditing
-			? formData.packItemPrice === 0
-				? ''
-				: formData.packItemPrice?.toString() || ''
-			: convertCurrency(formData.packItemPrice || 0, 'USD');
+		if (isPriceEditing) {
+			if (formData.packItemPrice === 0) return '';
+			return formData.packItemPrice?.toString() || '';
+		}
+
+		return convertCurrency(formData.packItemPrice || 0, 'USD');
 	};
 
 	const handlePriceFocus = () => {

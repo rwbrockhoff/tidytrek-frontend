@@ -2,9 +2,18 @@ import { Navigate } from 'react-router-dom';
 import { UserLayout } from '@/layout';
 import { lazyImport } from '@/utils';
 
-const { ResetPassword } = lazyImport(() => import('@/features/auth/routes/reset-password'), 'ResetPassword');
-const { Welcome } = lazyImport(() => import('../features/auth/routes/welcome'), 'Welcome');
-const { ResetSuccess } = lazyImport(() => import('../features/auth/routes/reset-success'), 'ResetSuccess');
+const { ResetPassword } = lazyImport(
+	() => import('@/features/auth/routes/reset-password'),
+	'ResetPassword',
+);
+const { Welcome } = lazyImport(
+	() => import('../features/auth/routes/welcome'),
+	'Welcome',
+);
+const { ResetSuccess } = lazyImport(
+	() => import('../features/auth/routes/reset-success'),
+	'ResetSuccess',
+);
 import { BubbleError } from '@/components';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
