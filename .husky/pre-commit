@@ -1,7 +1,1 @@
-#!/usr/bin/env sh
-
-# Run linting
-npm run lint
-
-# Run TypeScript type checking
-npx tsc --noEmit
+npm run lint && npx tsc --noEmit
