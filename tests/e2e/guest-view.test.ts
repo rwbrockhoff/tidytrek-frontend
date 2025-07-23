@@ -88,11 +88,6 @@ test.describe('Guest View Functionality', () => {
 		await page.goto('/user/testUser123');
 		await page.waitForLoadState('networkidle');
 
-		// Verify promotional banner is shown for non-auth users
-		const profileBanner = page
-			.locator('[data-testid="profile-banner"]')
-			.or(page.getByText(/sign up/i).or(page.getByText(/create account/i)));
-
 		// Verify signup button is visible
 		const signupText = page
 			.getByText(/sign up/i)

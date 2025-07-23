@@ -24,7 +24,7 @@ export const AccountForm = (props: AccountFormProps) => {
 		<Stack>
 			<SegmentGroup>
 				<AccountInfoDisplay user={user} />
-				<Segment stacked>
+				<Segment>
 					<PasswordForm
 						displayFormSection={displayFormSection}
 						changeFormSection={handleChangeFormSection}

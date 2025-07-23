@@ -17,9 +17,6 @@ type MoveItemDropdownProps = {
 export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const { packItem, availablePacks } = props;
 
-	// Hide dropdown if no packs are available
-	if (!availablePacks || availablePacks.length === 0) return null;
-
 	const { packItemId, packItemIndex } = packItem;
 
 	const { mutate: moveItemToPack } = useMoveItemToPackMutation();
@@ -32,6 +29,9 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 	const availableCategories = currentPack?.packCategories || [];
 
 	const { packList, categoryList } = usePackDropdown(availablePacks, availableCategories);
+
+	// Hide dropdown if no packs are available
+	if (!availablePacks || availablePacks.length === 0) return null;
 
 	const handleSelectPack = (value: string) => {
 		if (value) {

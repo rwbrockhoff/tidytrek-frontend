@@ -29,8 +29,8 @@ export const useGoogleAuthFlow = ({
 	} = useLoginMutation();
 
 	const createUserInfo = (data: { user: User; session: Session }) => {
-		const { email, avatar_url, full_name } = data?.user?.user_metadata;
-		const splitName = full_name.split(' ');
+		const { email, avatar_url, full_name } = data?.user?.user_metadata || {};
+		const splitName = full_name?.split(' ') || [];
 		return {
 			userId: data?.user?.id,
 			email,

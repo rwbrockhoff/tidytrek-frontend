@@ -10,18 +10,18 @@ export const SegmentGroup = ({
 	stacked = true, // Default to stacked (vertical) layout
 	className,
 	children,
-	...props
+	...domProps
 }: SegmentGroupProps) => {
 	if (stacked) {
 		return (
-			<Stack className={className} {...props}>
+			<Stack className={className} {...domProps}>
 				{children}
 			</Stack>
 		);
 	}
 
 	return (
-		<Flex className={className} {...props}>
+		<Flex className={className} {...domProps}>
 			{children}
 		</Flex>
 	);

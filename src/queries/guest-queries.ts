@@ -5,6 +5,7 @@ import { decode, extractData } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
 import { type BaseProfileState, type UserProfile } from '../types/profile-types';
+import { isAxiosError } from '../hooks/form/use-axios-error';
 
 export type GuestQueryState = {
 	pack: Pack;
@@ -21,28 +22,24 @@ export type GuestProfileViewState = BaseProfileState & {
 };
 
 // Type check util if data is from guest profile query
-export const isGuestProfileData = (data: any): data is GuestProfileViewState => {
-	return (
-		!!data &&
-		(data.notFound !== undefined ||
-			data.isPrivate !== undefined ||
-			data.hasError !== undefined)
-	);
+const hasGuestProfileProperties = (obj: object): obj is GuestProfileViewState => {
+	return 'notFound' in obj || 'isPrivate' in obj || 'hasError' in obj;
+};
+
+export const isGuestProfileData = (data: unknown): data is GuestProfileViewState => {
+	return !!data && typeof data === 'object' && hasGuestProfileProperties(data);
 };
 
 export const useViewPackQuery = (packId: string | undefined) => {
 	const decodedId = packId ? decode(packId) : null;
 
 	return useQuery<GuestQueryState>({
-		queryKey: guestKeys.packId(decodedId as number | null),
-		queryFn: () => {
-			if (packId) {
-				const decodedId = decode(packId);
-				return tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData);
-			} else return tidyTrekAPI.get('/guests/pack').then(extractData);
-		},
+		queryKey: guestKeys.packId(decodedId),
+		queryFn: () => tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData),
+		enabled: !!packId,
 	});
 };
+
 
 const defaultProfileState = {
 	userProfile: null,
@@ -65,9 +62,9 @@ export const useViewProfileQuery = (username: string | undefined) => {
 					};
 				}
 				return data;
-			} catch (error: any) {
+			} catch (error: unknown) {
 				// Handle 404 - user not found
-				if (error.response?.status === 404) {
+				if (isAxiosError(error) && error.response?.status === 404) {
 					return {
 						...defaultProfileState,
 						notFound: true,
@@ -80,5 +77,6 @@ export const useViewProfileQuery = (username: string | undefined) => {
 				};
 			}
 		},
+		enabled: !!username,
 	});
 };

@@ -32,7 +32,7 @@ export const ResetPassword = () => {
 				if (id && email) login({ email, userId: id });
 			});
 		}
-	}, []);
+	}, [isAuthenticated, login]);
 
 	const handleResetPasswordRequest = async (formData: ResetPasswordData) => {
 		const data = emailRequestSchema.safeParse(formData);

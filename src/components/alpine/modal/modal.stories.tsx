@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import * as Modal from './modal';
 import { Button } from '@/components/alpine';
 
@@ -14,31 +13,45 @@ const meta: Meta<typeof Modal.Root> = {
 export default meta;
 type Story = StoryObj<typeof Modal.Root>;
 
-export const Default: Story = {
-	render: () => {
-		const [open, setOpen] = useState(false);
+export const Open: Story = {
+	render: () => (
+		<Modal.Root open={true} onOpenChange={() => {}}>
+			<Modal.Overlay />
+			<Modal.Content>
+				<Modal.Header>
+					<Modal.Title>Example Modal</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Modal.Description>This is a basic modal example.</Modal.Description>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="ghost">Cancel</Button>
+					<Button>Confirm</Button>
+				</Modal.Footer>
+			</Modal.Content>
+		</Modal.Root>
+	),
+};
 
-		return (
-			<>
-				<Button onClick={() => setOpen(true)}>Open Modal</Button>
-				<Modal.Root open={open} onOpenChange={setOpen}>
-					<Modal.Overlay />
-					<Modal.Content>
-						<Modal.Header>
-							<Modal.Title>Example Modal</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<Modal.Description>This is a basic modal example.</Modal.Description>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button variant="ghost" onClick={() => setOpen(false)}>
-								Cancel
-							</Button>
-							<Button onClick={() => setOpen(false)}>Confirm</Button>
-						</Modal.Footer>
-					</Modal.Content>
-				</Modal.Root>
-			</>
-		);
-	},
+export const Closed: Story = {
+	render: () => (
+		<>
+			<Button>Open Modal</Button>
+			<Modal.Root open={false} onOpenChange={() => {}}>
+				<Modal.Overlay />
+				<Modal.Content>
+					<Modal.Header>
+						<Modal.Title>Example Modal</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<Modal.Description>This is a basic modal example.</Modal.Description>
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="ghost">Cancel</Button>
+						<Button>Confirm</Button>
+					</Modal.Footer>
+				</Modal.Content>
+			</Modal.Root>
+		</>
+	),
 };

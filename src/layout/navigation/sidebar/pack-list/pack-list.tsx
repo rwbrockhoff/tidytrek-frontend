@@ -76,7 +76,7 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 								<PackListItem
 									pack={pack}
 									onClick={handleGetPack}
-									dragProps={{ ...provided.dragHandleProps }}
+									dragProps={provided.dragHandleProps || undefined}
 								/>
 							</div>
 						);
@@ -94,7 +94,7 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 												<PackListItem
 													pack={pack}
 													onClick={handleGetPack}
-													dragProps={{ ...provided.dragHandleProps }}
+													dragProps={provided.dragHandleProps || undefined}
 												/>
 											</div>
 										)}

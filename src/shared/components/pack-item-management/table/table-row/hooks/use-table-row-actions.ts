@@ -1,4 +1,5 @@
 import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
+import { z } from 'zod';
 import { useTableRowValidation } from './use-table-row-validation';
 
 type UseTableRowActionsProps = {
@@ -7,7 +8,7 @@ type UseTableRowActionsProps = {
   handleOnSave: (packItem: BaseTableRowItem) => void;
   handleDelete: (packItemId: number) => void;
   moveToCloset?: (packItemId: number) => void;
-  updateFormErrors: (errors: any) => void;
+  updateFormErrors: (errors: z.ZodIssue[]) => void;
 };
 
 export const useTableRowActions = ({

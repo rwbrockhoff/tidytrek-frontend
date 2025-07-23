@@ -1,4 +1,5 @@
 import { searchMatch, isInputEvent } from '../form-helpers';
+import type { InputEvent, CheckboxEvent } from '@/types/form-types';
 
 describe('formHelpers', () => {
   describe('searchMatch', () => {
@@ -45,12 +46,12 @@ describe('formHelpers', () => {
 
   describe('isInputEvent', () => {
     it('should return true for input change events', () => {
-      const inputEvent = { type: 'change', target: { value: 'test' } } as any;
+      const inputEvent = { type: 'change', target: { value: 'test' } } as InputEvent;
       expect(isInputEvent(inputEvent)).toBe(true);
     });
 
     it('should return false for non-change events', () => {
-      const clickEvent = { type: 'click', target: { value: 'test' } } as any;
+      const clickEvent = { type: 'click', target: { value: 'test' } } as unknown as CheckboxEvent;
       expect(isInputEvent(clickEvent)).toBe(false);
     });
   });

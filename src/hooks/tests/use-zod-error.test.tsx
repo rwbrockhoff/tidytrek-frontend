@@ -3,6 +3,8 @@ import { renderHook, act } from '@testing-library/react';
 import { z } from 'zod';
 import { useZodError, clearZodErrors } from '../form/use-zod-error';
 
+type MockInputEvent = React.ChangeEvent<HTMLInputElement>;
+
 // Test form type
 type TestForm = {
 	firstName: string;
@@ -306,7 +308,7 @@ describe('clearZodErrors Utility Function', () => {
 
 		const mockEvent = {
 			target: { name: 'firstName' },
-		} as any;
+		} as MockInputEvent;
 
 		clearZodErrors(mockEvent, formErrors, mockReset);
 
@@ -324,7 +326,7 @@ describe('clearZodErrors Utility Function', () => {
 
 		const mockEvent = {
 			target: { name: 'firstName' },
-		} as any;
+		} as MockInputEvent;
 
 		clearZodErrors(mockEvent, formErrors, mockReset);
 
@@ -339,7 +341,7 @@ describe('clearZodErrors Utility Function', () => {
 
 		const mockEvent = {
 			target: {},
-		} as any;
+		} as MockInputEvent;
 
 		clearZodErrors(mockEvent, formErrors, mockReset);
 
@@ -352,7 +354,7 @@ describe('clearZodErrors Utility Function', () => {
 			firstName: { error: true, message: 'Error' },
 		};
 
-		const mockEvent = {} as any;
+		const mockEvent = { target: { name: 'testField' } } as MockInputEvent;
 
 		clearZodErrors(mockEvent, formErrors, mockReset);
 
@@ -367,7 +369,7 @@ describe('clearZodErrors Utility Function', () => {
 
 		const mockEvent = {
 			target: { name: 'nonExistentField' },
-		} as any;
+		} as MockInputEvent;
 
 		clearZodErrors(mockEvent, formErrors, mockReset);
 

@@ -1,7 +1,7 @@
 // Shallow comparison utility for React.memo
 // Compares properties of two objects
 
-export const shallowEqual = <T extends Record<string, any>>(
+export const shallowEqual = <T extends Record<string, unknown>>(
 	obj1: T,
 	obj2: T,
 ): boolean => {

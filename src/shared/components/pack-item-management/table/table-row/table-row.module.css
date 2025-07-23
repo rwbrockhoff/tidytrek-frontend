@@ -23,6 +23,11 @@
 	box-shadow: var(--shadow-classic);
 }
 
+/* Apply to the parent table when any row is dragging */
+:global(table:has(.tableRowDragging)) {
+	table-layout: fixed;
+}
+
 :global(.aow).tableActionButton {
 	padding: 0 var(--space-xs);
 }

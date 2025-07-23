@@ -14,14 +14,15 @@ import { useUserContext } from '@/hooks/auth/use-user-context';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
+import { type DraggableProvided } from 'react-beautiful-dnd';
 
 type TableRowContentProps = {
 	isDragging: boolean;
-	provided: any;
+	provided: DraggableProvided;
 	disabled?: boolean;
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
-	formErrors: ZodFormErrors<any> | null;
+	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	onToggle: () => void;
 	onChangeProperty: (property: PackItemProperty) => void;
 	children: React.ReactNode;

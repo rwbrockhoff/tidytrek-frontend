@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 
-type RedirectResponse = {
+export type RedirectResponse = {
 	redirectUrl?: string;
 	warning?: {
 		message: string;

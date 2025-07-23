@@ -5,6 +5,8 @@ export type AdjacentItems<T> = {
 	nextItem?: T;
 };
 
+// Figures out what items will be before/after a dragged item in its new position
+// Needed for calculating the correct sort order when sending to the backend
 export function calculateAdjacentItems<T>(
 	allItems: T[],
 	sourceIndex: number,
@@ -26,7 +28,9 @@ export function calculateAdjacentItems<T>(
 	return { prevItem, nextItem };
 }
 
-export function applySynchronousDragUpdate<TData>(
+// Instantly updates React Query cache when dragging items around
+// for better drag & drop experience
+export function applySynchronousDragUpdate<TQueryData>(
 	// React Query expects key to be readonly
 	queryClient: QueryClient,
 	queryKey: readonly unknown[],
@@ -34,23 +38,27 @@ export function applySynchronousDragUpdate<TData>(
 	destinationIndex: number,
 	arrayPath?: string,
 ) {
-	queryClient.setQueryData<TData>(queryKey, (old: any) => {
-		if (!old) return old;
+	queryClient.setQueryData<TQueryData>(
+		queryKey,
+		(old: TQueryData | undefined): TQueryData | undefined => {
+			if (!old) return old;
 
-		const arrayToUpdate = arrayPath ? old[arrayPath] : old;
-		if (!Array.isArray(arrayToUpdate)) return old;
+			const oldAsRecord = old as unknown as Record<string, unknown>;
+			const arrayToUpdate = arrayPath ? oldAsRecord[arrayPath] : old;
+			if (!Array.isArray(arrayToUpdate)) return old;
 
-		const result = Array.from(arrayToUpdate);
-		const [removed] = result.splice(sourceIndex, 1);
-		result.splice(destinationIndex, 0, removed);
+			const result = Array.from(arrayToUpdate);
+			const [removed] = result.splice(sourceIndex, 1);
+			result.splice(destinationIndex, 0, removed);
 
-		if (arrayPath) {
-			return {
-				...old,
-				[arrayPath]: result,
-			};
-		}
+			if (arrayPath) {
+				return {
+					...old,
+					[arrayPath]: result,
+				};
+			}
 
-		return result;
-	});
+			return result as TQueryData;
+		},
+	);
 }

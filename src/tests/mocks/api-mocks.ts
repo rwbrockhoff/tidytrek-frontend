@@ -12,7 +12,7 @@ export const createMockAxiosError = (
 		data: { error: errorMessage || 'Server error' },
 		statusText: 'Error',
 		headers: {},
-		config: {} as any,
+		config: {} as never,
 	};
 	return error;
 };

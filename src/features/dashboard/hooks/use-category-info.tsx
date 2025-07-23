@@ -12,7 +12,7 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 		let wornWeight = 0;
 		let totalPackPrice = 0;
 
-		let categories = packCategories || [];
+		const categories = packCategories || [];
 
 		// Calculate different weights properties for each category's pack items
 		const categoryWeights = categories.map((category) => {
@@ -55,7 +55,7 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 			descriptivePackWeight,
 			totalPackPrice: convertCurrency(totalPackPrice, 'USD'),
 		};
-	}, [packCategories]);
+	}, [packCategories, outputUnit]);
 };
 
 const convertToDisplayWeight = (weight: number, outputUnit: string) => {

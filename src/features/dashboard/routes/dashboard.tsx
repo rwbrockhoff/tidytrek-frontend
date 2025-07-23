@@ -12,13 +12,17 @@ export const Dashboard = ({ userView }: { userView: boolean }) => {
 
 	const decodedPackId = paramPackId ? decode(paramPackId) : null;
 
-	const { data, isPending } = userView
-		? useGetPackQuery(decodedPackId)
-		: useViewPackQuery(paramPackId);
+	const userPackQuery = useGetPackQuery(decodedPackId);
+	const guestPackQuery = useViewPackQuery(paramPackId);
+	
+	// Select the appropriate data based on context
+	// For guests without a packId, we should redirect them to a valid pack
+	const { data, isPending } = userView 
+		? userPackQuery
+		: guestPackQuery;
 
-	const { data: packListData } = userView
-		? useGetPackListQuery()
-		: { data: { packList: [] } };
+	const userPackListQuery = useGetPackListQuery();
+	const packListData = userView ? userPackListQuery.data : { packList: [] };
 
 	return (
 		<UserViewContext.Provider value={userView}>

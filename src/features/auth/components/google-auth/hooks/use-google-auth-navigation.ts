@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+type LoginResponse = {
+	newUser?: boolean;
+	message?: string;
+};
+
 const generalErrorMessage = 'There was an unexpected error. Contact support if needed.';
 
 type UseGoogleAuthNavigationProps = {
@@ -8,7 +13,7 @@ type UseGoogleAuthNavigationProps = {
 	isRegisterError: boolean;
 	isLoginSuccess: boolean;
 	isLoginError: boolean;
-	loginData: any;
+	loginData: LoginResponse | undefined;
 	updateServerError: (message: string) => void;
 };
 

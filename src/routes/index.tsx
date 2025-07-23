@@ -30,7 +30,7 @@ export const AppRouter = () => {
 	const appRouter = createBrowserRouter(isAuthenticated ? protectedRoutes : publicRoutes);
 
 	return (
-		<div data-theme={currentMode} data-theme-palette={currentPalette} className="h-full">
+		<div data-theme={currentMode} data-theme-palette={currentPalette}>
 			<Theme accentColor="jade" radius="small" scaling="100%">
 				<RouterProvider router={appRouter} />
 			</Theme>

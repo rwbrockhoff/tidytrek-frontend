@@ -14,7 +14,7 @@ type PriceCellProps = {
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
 	isDragging: boolean;
-	formErrors: ZodFormErrors<any> | null;
+	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 };
 
 export const PriceCell = ({
@@ -40,7 +40,7 @@ export const PriceCell = ({
 
 	const handleOnChange = (e: InputEvent) => {
 		if (!e.target.value) e.target.value = '0';
-		e.target.value = e.target.value.replace(/[^0-9\.-]+/g, '');
+		e.target.value = e.target.value.replace(/[^0-9.-]+/g, '');
 		onChange && onChange(e);
 	};
 

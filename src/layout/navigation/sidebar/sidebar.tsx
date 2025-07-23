@@ -15,7 +15,15 @@ import { SidebarMenu } from './menus/sidebar-menu/sidebar-menu';
 import { PackList } from './pack-list/pack-list';
 import { PopoverMenu } from './menus/popover-menu';
 
-declare const google: any;
+declare const google:
+	| {
+			accounts: {
+				id: {
+					disableAutoSelect: () => Promise<void>;
+				};
+			};
+	}
+	| undefined;
 
 type SidebarProps = {
 	showSidebar: boolean;
@@ -49,11 +57,16 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		const isNotDisplayingPack = currentPackId && !paramPackId;
 		// subscribe to user clicking on a different pack
 		// subscribe to user loading default dashboard and load packId in url
-		if ((pathname.startsWith('/pack/') || pathname === '/' || pathname === '/pack') && isNotDisplayingPack) {
+		if (
+			(pathname.startsWith('/pack/') || pathname === '/' || pathname === '/pack') &&
+			isNotDisplayingPack
+		) {
 			const encodedId = encode(currentPackId);
 			return navigate(`/pack/${encodedId}`);
 			// query disabled until ID, so this does not fetch twice
 		}
+		// this dependency list is intentional to get our desired toggle behavior
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentPackId, paramPackId, location.pathname, navigate]);
 
 	useEffect(() => {
@@ -61,6 +74,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 		if ((isMobile || isMedium) && showSidebar) {
 			onToggle();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.pathname]);
 
 	const handleLogout = async () => {

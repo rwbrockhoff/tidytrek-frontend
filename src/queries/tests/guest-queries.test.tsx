@@ -8,6 +8,7 @@ import {
 	isGuestProfileData,
 } from '@/queries/guest-queries';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
+import { createNotFoundError } from '@/tests/mocks/api-mocks';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 import { createMockPack, createMockCategory } from '@/tests/mocks/pack-mocks';
 import { createMockUserProfile } from '@/tests/mocks/profile-mocks';
@@ -53,12 +54,12 @@ describe('useViewPackQuery', () => {
 		expect(tidyTrekAPI.get).toHaveBeenCalledWith('/guests/pack/123');
 	});
 
-	it('should call default guest pack endpoint when no ID provided', () => {
+	it('should not make API call when no pack ID provided', () => {
 		renderHook(() => useViewPackQuery(undefined), {
 			wrapper: createQueryWrapper(),
 		});
 
-		expect(tidyTrekAPI.get).toHaveBeenCalledWith('/guests/pack');
+		expect(tidyTrekAPI.get).not.toHaveBeenCalled();
 	});
 
 	it('should return transformed data correctly', async () => {
@@ -77,6 +78,7 @@ describe('useViewPackQuery', () => {
 		expect(result.current.data).toEqual(mockData);
 	});
 });
+
 
 describe('useViewProfileQuery', () => {
 	beforeEach(() => {
@@ -128,9 +130,7 @@ describe('useViewProfileQuery', () => {
 
 	it('should handle user not found (404 error)', async () => {
 		const username = 'nonexistentuser';
-		const mockError = {
-			response: { status: 404 },
-		};
+		const mockError = createNotFoundError();
 		vi.mocked(tidyTrekAPI.get).mockRejectedValue(mockError);
 
 		const { result } = renderHook(() => useViewProfileQuery(username), {

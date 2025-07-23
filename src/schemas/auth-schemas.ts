@@ -22,7 +22,7 @@ export const passwordSchema = z
 	});
 
 const validateNoSpaces = (input: string) => {
-	let filterSpaces = /^\S*$/;
+	const filterSpaces = /^\S*$/;
 	const regex = new RegExp(filterSpaces);
 	return regex.test(input);
 };

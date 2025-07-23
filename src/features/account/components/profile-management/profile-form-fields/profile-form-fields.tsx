@@ -21,7 +21,7 @@ type ProfileFormFieldsProps = {
 	isProfileChanged: boolean;
 	isSuccess: boolean;
 	isError: boolean;
-	error: any;
+	error: Error | unknown | null;
 	formErrors: ZodFormErrors<FormInputs>;
 	onInput: (e: InputEvent | TextAreaEvent) => void;
 	onSubmit: (e: FormEvent<HTMLFormElement>) => void;

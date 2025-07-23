@@ -15,13 +15,14 @@ import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
 	packItem: BaseTableRowItem;
+	isDragging?: boolean;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
 	const userView = useUserContext();
 	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
 
-	const { packItem } = props;
+	const { packItem, isDragging = false } = props;
 	const { packItemUrl } = packItem || {};
 	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
@@ -67,7 +68,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						className={cn(
 							styles.linkButton,
 							mx.mobileHidden,
-							hasUrl ? styles.linkButtonVisible : hoverStyles.showOnHover,
+							hasUrl || isDragging ? styles.linkButtonVisible : hoverStyles.showOnHover,
 						)}
 						iconLeft={
 							<LinkIcon

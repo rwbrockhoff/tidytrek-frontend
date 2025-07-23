@@ -1,9 +1,16 @@
 @import 'tailwindcss';
 
-html,
-body,
-body > div#root {
+html {
 	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	margin: 0;
+}
+
+body > div#root {
+	min-height: 100vh;
 	margin: 0;
 }
 

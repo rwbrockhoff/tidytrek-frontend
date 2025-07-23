@@ -22,7 +22,7 @@ export const useGoogleOAuth = ({ onGoogleAuth }: UseGoogleOAuthProps) => {
 				size: 'large',
 			});
 		}
-	}, [google_button.current, onGoogleAuth]);
+	}, [onGoogleAuth]);
 
 	return {
 		google_button,

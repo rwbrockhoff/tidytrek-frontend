@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useRedirects } from '../ui/use-redirects';
+import { useRedirects, type RedirectResponse } from '../ui/use-redirects';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 
 vi.mock('@/api/tidytrek-api', () => ({
@@ -24,7 +24,7 @@ describe('useRedirects', () => {
 
 		const { result } = renderHook(() => useRedirects());
 
-		let response: any;
+		let response!: RedirectResponse;
 		await act(async () => {
 			response = await result.current.checkRedirect('https://youtube.com/test');
 		});
@@ -44,7 +44,7 @@ describe('useRedirects', () => {
 
 		const { result } = renderHook(() => useRedirects());
 
-		let response: any;
+		let response!: RedirectResponse;
 		await act(async () => {
 			response = await result.current.checkRedirect('https://badsite.com');
 		});

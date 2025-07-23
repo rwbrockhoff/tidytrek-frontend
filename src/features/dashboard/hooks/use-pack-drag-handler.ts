@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { type DropResult } from 'react-beautiful-dnd';
-import { type Pack, type PackQueryState } from '@/types/pack-types';
+import { type Pack, type PackQueryState, type PackItem } from '@/types/pack-types';
 import { useMovePackCategoryMutation, useMovePackItemMutation } from '@/queries/pack-queries';
 import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
@@ -58,7 +58,7 @@ export const usePackDragHandler = () => {
 				const sameCategory = destination.droppableId === source.droppableId;
 				if (sameIndex && sameCategory) return; // No actual movement
 
-				let prevItem: any, nextItem: any;
+				let prevItem: PackItem | undefined, nextItem: PackItem | undefined;
 
 				// If moving within the same category, we can calculate neighbors easily
 				if (sameCategory) {
@@ -81,7 +81,7 @@ export const usePackDragHandler = () => {
 					}
 				}
 
-				let updatedDestItems: any[] = [];
+				let updatedDestItems: PackItem[] = [];
 
 				// Update the UI immediately by moving items around in our cached data
 				queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {

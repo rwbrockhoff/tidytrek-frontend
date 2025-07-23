@@ -69,7 +69,7 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 		try {
 			await saveUsername(formData);
 			navigate('/');
-		} catch (error: any) {
+		} catch (error: unknown) {
 			// catch + display errors (already taken username)
 			updateAxiosError(error);
 		}

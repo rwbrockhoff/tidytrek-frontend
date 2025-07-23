@@ -49,7 +49,7 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 
 	const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.value) e.target.value = '0';
-		e.target.value = e.target.value.replace(/[^0-9\.-]+/g, '');
+		e.target.value = e.target.value.replace(/[^0-9.-]+/g, '');
 		handleNumericChange('packItemPrice', Number(e.target.value));
 	};
 

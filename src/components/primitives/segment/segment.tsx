@@ -9,7 +9,6 @@ const radiusChart = {
 } as const;
 
 interface SegmentProps extends React.HTMLAttributes<HTMLDivElement> {
-	stacked?: boolean;
 	radius?: keyof typeof radiusChart;
 	className?: string;
 	children?: React.ReactNode;
@@ -17,7 +16,6 @@ interface SegmentProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Segment = ({
-	stacked,
 	radius,
 	className,
 	children,

@@ -12,7 +12,7 @@ type QuantityCellProps = {
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
 	isDragging: boolean;
-	formErrors: ZodFormErrors<any> | null;
+	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 };
 
 export const QuantityCell = ({

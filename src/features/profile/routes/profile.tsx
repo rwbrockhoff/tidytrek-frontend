@@ -13,7 +13,10 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 	const { isAuthenticated } = useGetAuth();
 	const showPromotion = !isAuthenticated;
 
-	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
+	const userProfileQuery = useGetProfileQuery();
+	const guestProfileQuery = useViewProfileQuery(userView ? undefined : paramUserId);
+	
+	const { data } = userView ? userProfileQuery : guestProfileQuery;
 
 	const userProfile = data?.userProfile ?? null;
 	const packThumbnailList = data?.packThumbnailList ?? [];

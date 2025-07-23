@@ -24,8 +24,8 @@ export const closetKeys = {
 };
 
 export const guestKeys = {
-	packId: (packId: number | null) => [Guest, packId] as const,
-	username: (username: string | undefined) => [Guest, username] as const,
+	packId: (packId: number | null) => [Guest, 'pack', packId] as const,
+	username: (username: string | undefined) => [Guest, 'user', username] as const,
 };
 
 export const profileKeys = {

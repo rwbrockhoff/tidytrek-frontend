@@ -19,7 +19,7 @@ export function useZodError<T>(formInputs: (keyof T)[]) {
 	// update formErrors based on array of Zod Issues
 	const updateFormErrors = (result: z.ZodIssue[]) => {
 		// create typed error object with ZodIssue(s)
-		let errorObject: ZodFormErrors<T> = result.reduce((acc, error: z.ZodIssue) => {
+		const errorObject: ZodFormErrors<T> = result.reduce((acc, error: z.ZodIssue) => {
 			// get input name (firstName, email, etc) + error
 			const name = error.path[0] as keyof T;
 			const message = error.message;
