@@ -9,3 +9,19 @@
 	color: var(--color-constant-white);
 	font-size: var(--font-size-sm);
 }
+
+/* Mobile: Bottom positioning above mobile nav */
+@media (max-width: 767px) {
+	.offlineBanner {
+		bottom: var(--mobile-nav-height);
+		top: auto;
+	}
+}
+
+/* Desktop: Top positioning */
+@media (min-width: 768px) {
+	.offlineBanner {
+		top: 0;
+		bottom: auto;
+	}
+}
