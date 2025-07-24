@@ -47,4 +47,5 @@ export {
 	AlertCircle as ErrorIcon,
 	MoveDown as MoveDownIcon,
 	TreePine as TreeIcon2,
+	Settings as SettingsIcon,
 } from 'lucide-react';

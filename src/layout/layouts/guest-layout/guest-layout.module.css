@@ -25,7 +25,7 @@
 
 @media (min-width: 769px) {
 	.guestViewLayoutContainer {
-		padding: var(--app-layout-padding);
+		padding: var(--app-layout-padding-y) var(--app-layout-padding-x);
 	}
 }
 

@@ -98,8 +98,9 @@
 
 	/* -- Layout -- */
 	--max-width: 1280px;
-	--app-layout-padding: var(--space-xxl) 4em var(--space-xxl) 4em;
-	--mobile-header-height: 5rem;
+	--app-layout-padding-x: 4em;
+	--app-layout-padding-y: var(--space-xxl);
+	--mobile-nav-height: 4rem;
 
 	/* -- Icons -- */
 	--icon-match: 1em; /* - match text */

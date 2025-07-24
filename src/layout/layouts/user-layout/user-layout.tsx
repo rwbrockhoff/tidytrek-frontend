@@ -1,5 +1,5 @@
 import styles from './user-layout.module.css';
-import { Sidebar, MobileNavbar, Fallback } from '@/layout';
+import { Sidebar, MobileNavbar, MobileBottomNav, Fallback } from '@/layout';
 import { SidebarButton } from '@/layout/navigation/sidebar/sidebar-button';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense, useState, useEffect } from 'react';
@@ -42,6 +42,7 @@ export const UserLayout = () => {
 					</Suspense>
 				</div>
 			</div>
+			<MobileBottomNav />
 		</div>
 	);
 };

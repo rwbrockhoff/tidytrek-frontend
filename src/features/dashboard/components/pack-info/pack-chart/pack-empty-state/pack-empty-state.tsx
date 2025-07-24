@@ -2,17 +2,28 @@ import { Flex, Stack } from '@/components/layout';
 import { Text } from '@radix-ui/themes';
 import { cn, mx } from '@/styles/utils';
 import { DownArrowIcon } from '@/components/icons';
-import CampGraphic from '@/assets/camping.svg';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import campGraphicDay from '@/assets/camping-default-graphic-day.svg';
+import campGraphicNight from '@/assets/camping-default-graphic-night.svg';
 import styles from './pack-empty-state.module.css';
 
 export const PackEmptyState = () => {
+	const { settings } = useGetAuth();
+	const isDarkMode = settings?.darkMode || false;
+	const campGraphic = isDarkMode ? campGraphicNight : campGraphicDay;
+
 	return (
-		<Flex className={cn(styles.graphicPanel, mx.mobileHidden, 'items-center justify-end')}>
+		<Flex
+			className={cn(styles.graphicPanel, mx.mobileHidden, 'items-center justify-end')}>
 			<Stack className="h-auto items-center">
-				<img src={CampGraphic} alt="Camping illustration" className={styles.campingImage} />
-				<Flex className="justify-center items-center">
+				<img
+					src={campGraphic}
+					alt="Camping illustration"
+					className={styles.campingImage}
+				/>
+				<Flex className="justify-center items-center mt-2">
 					<DownArrowIcon />
-					<Text>Add items below to get started</Text>
+					<Text size="2">Add items below to get started</Text>
 				</Flex>
 			</Stack>
 		</Flex>

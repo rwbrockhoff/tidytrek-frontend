@@ -38,7 +38,7 @@
 /* Medium and desktop screens */
 @media (min-width: 769px) {
 	.viewLayoutContainer {
-		padding: var(--app-layout-padding);
+		padding: var(--app-layout-padding-y) var(--app-layout-padding-x);
 	}
 }
 
@@ -78,9 +78,9 @@
 	}
 
 	.viewLayoutContainer {
-		/* Mobile layout padding - header height + extra space */
-		padding: calc(var(--mobile-header-height) + var(--space-lg)) var(--space-md)
-			var(--space-xxl) var(--space-md);
+		/* Mobile layout padding - nav height + extra space for both top and bottom */
+		padding: calc(var(--mobile-nav-height) + var(--space-lg)) var(--space-md)
+			calc(var(--mobile-nav-height) + var(--space-lg)) var(--space-md);
 		flex: 1;
 	}
 

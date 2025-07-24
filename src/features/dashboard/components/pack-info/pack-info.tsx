@@ -52,7 +52,7 @@ export const PackInfo = (props: PackInfoProps) => {
 			className={cn(
 				styles.packInfoContainer,
 				mx.responsiveContent,
-				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-center md:justify-between md:mb-12',
+				'flex-col items-center mb-4 gap-8 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12',
 			)}>
 			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-2')}>
 				{!userView && (

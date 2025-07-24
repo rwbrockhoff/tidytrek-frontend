@@ -1,6 +1,6 @@
 .header {
 	background-color: var(--color-primary);
-	height: var(--mobile-header-height);
+	height: var(--mobile-nav-height);
 	width: 100%;
 	position: fixed;
 	z-index: 100;
