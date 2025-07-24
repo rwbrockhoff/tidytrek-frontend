@@ -1,3 +1,4 @@
+import './instrument';
 import ReactDOM from 'react-dom/client';
 import '@radix-ui/themes/styles.css';
 import './styles/index.css';
@@ -7,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AppErrorFallback } from './components';
+import * as Sentry from '@sentry/react';
 import { RETRY_COUNT, RETRY_DELAY } from './queries/query-config';
 
 const queryClient = new QueryClient({
@@ -19,10 +21,12 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<ErrorBoundary FallbackComponent={AppErrorFallback}>
-		<QueryClientProvider client={queryClient}>
-			<AppRouter />
-			<ReactQueryDevtools initialIsOpen={false} />
-		</QueryClientProvider>
-	</ErrorBoundary>,
+	<Sentry.ErrorBoundary>
+		<ErrorBoundary FallbackComponent={AppErrorFallback}>
+			<QueryClientProvider client={queryClient}>
+				<AppRouter />
+				<ReactQueryDevtools initialIsOpen={false} />
+			</QueryClientProvider>
+		</ErrorBoundary>
+	</Sentry.ErrorBoundary>,
 );
