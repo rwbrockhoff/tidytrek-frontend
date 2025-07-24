@@ -1,0 +1,11 @@
+.offlineBanner {
+	background-color: var(--color-warning);
+	color: var(--color-constant-white);
+	padding: var(--space-min) var(--space-md);
+	gap: var(--space-xs);
+}
+
+.offlineBanner span {
+	color: var(--color-constant-white);
+	font-size: var(--font-size-sm);
+}

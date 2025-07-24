@@ -48,4 +48,5 @@ export {
 	MoveDown as MoveDownIcon,
 	TreePine as TreeIcon2,
 	Settings as SettingsIcon,
+	WifiOff as WifiOffIcon,
 } from 'lucide-react';
