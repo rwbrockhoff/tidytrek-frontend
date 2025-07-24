@@ -25,7 +25,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 
 	const noPackWeight = userView && !packHasWeight;
 
-	if (fetching) return null;
+	if (fetching || !packCategories) return null;
 
 	if (packHasWeight) {
 		return (

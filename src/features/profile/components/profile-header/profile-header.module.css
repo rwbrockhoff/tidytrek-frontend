@@ -25,9 +25,14 @@
 	color: var(--color-text-secondary);
 }
 
+.usernameHeader {
+	display: flex;
+	flex-direction: row;
+}
 
 .usernameHeader .trailName {
 	color: var(--color-text-secondary);
+	font-size: var(--font-size-md);
 }
 
 @media (max-width: 768px) {

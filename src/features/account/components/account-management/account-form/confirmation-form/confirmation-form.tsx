@@ -38,7 +38,12 @@ export const ConfirmationForm = ({
 
 					{isError && errorMessage && <Message messageType="error" text={errorMessage} />}
 
-					<Button variant="outline" onClick={sendConfirmation} iconLeft={<SendIcon />}>
+					<Button
+						variant="outline"
+						onClick={sendConfirmation}
+						iconLeft={<SendIcon />}
+						override
+						className="outline-button-dark">
 						Send Email
 					</Button>
 				</Callout.Root>

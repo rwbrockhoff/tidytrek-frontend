@@ -35,3 +35,12 @@ body {
 	width: var(--icon-lg);
 	height: var(--icon-lg);
 }
+
+/* Override border color for outline buttons on secondary background */
+.aow.outline-button-dark {
+	border-color: var(--color-border-secondary);
+}
+
+.aow.outline-button-dark:hover {
+	border-color: var(--color-border-tertiary);
+}

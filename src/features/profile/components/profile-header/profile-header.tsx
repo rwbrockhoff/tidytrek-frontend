@@ -84,18 +84,21 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				/>
 			</div>
 			<div className={cn(styles.profileInfoContainer, 'p-6')}>
-				<Stack className={cn(styles.profileTextContainer, 'justify-center mx-4 md:mx-0 gap-3')}>
+				<Stack
+					className={cn(
+						styles.profileTextContainer,
+						'justify-center mx-4 md:mx-0 gap-3',
+					)}>
 					<Heading as="h3" className={cn(styles.usernameHeader)}>
 						{username || firstName}
 						{trailName && (
-							<span className={cn(styles.trailName, 'ml-2')}>{trailName}</span>
+							<span className={cn(styles.trailName, 'ml-2')}>({trailName})</span>
 						)}
 					</Heading>
 
 					<Flex className="flex-wrap items-center gap-2">
 						{userLocation && (
-							<Text
-								className={cn(styles.locationText, 'inline-flex items-center')}>
+							<Text className={cn(styles.locationText, 'inline-flex items-center')}>
 								<LocationIcon className="mr-1" /> {userLocation}
 							</Text>
 						)}
@@ -111,9 +114,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 
 					{statusMessage ? (
 						<Box className={cn(mx.textCenter)}>
-							<Heading size="4">
-								{statusMessage.title}
-							</Heading>
+							<Heading size="4">{statusMessage.title}</Heading>
 							<Text color="gray">{statusMessage.subtitle}</Text>
 						</Box>
 					) : (

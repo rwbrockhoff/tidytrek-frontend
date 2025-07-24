@@ -11,7 +11,9 @@ export const PasswordChangeButton = ({ onChangeSection }: PasswordChangeButtonPr
 		<Button
 			variant="outline"
 			onClick={() => onChangeSection(FORM_SECTIONS.CONFIRMATION)}
-			iconLeft={<PasswordIcon />}>
+			iconLeft={<PasswordIcon />}
+			override
+			className="outline-button-dark">
 			Change Password
 		</Button>
 	);
