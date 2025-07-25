@@ -1,6 +1,5 @@
-import { Heading } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
-import { Segment } from '@/components/primitives';
+import { Segment, SegmentHeader } from '@/components/primitives';
 import { TrashIcon } from '@/components/icons';
 import { DeleteModal } from '@/components/ui';
 
@@ -14,14 +13,10 @@ const deleteMessage =
 export const DeleteAccountSection = ({ onDeleteAccount }: DeleteAccountSectionProps) => {
 	return (
 		<Segment>
-			<Heading as="h4" size="3" mb="4">
-				Delete Your Account
-			</Heading>
-
-			<p>
-				Deleting your account will permanently delete all of your packs. Be sure to save
-				any important information first.
-			</p>
+			<SegmentHeader 
+				title="Delete Your Account" 
+				description="Deleting your account will permanently delete all of your packs. Be sure to save any important information first." 
+			/>
 			<DeleteModal
 				title="Delete Your Account"
 				description={deleteMessage}

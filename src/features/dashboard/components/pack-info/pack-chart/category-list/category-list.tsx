@@ -4,12 +4,15 @@ import { CircleIcon } from '@/components/icons';
 import { CategoryInfo } from '../types';
 import styles from './category-list.module.css';
 import { cn } from '@/styles/utils';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 
 type CategoryListProps = {
 	categories: CategoryInfo[];
 };
 
 export const CategoryList = ({ categories }: CategoryListProps) => {
+	const weightUnit = useUserWeightUnit();
+
 	return (
 		<Stack role="list" className={styles.chartList}>
 			{categories.map((category) => (
@@ -27,7 +30,7 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
 						</Flex>
 					</Text>
 					<Badge color="gray" ml="auto">
-						{category.totalWeight} lbs
+						{category.totalWeight} {weightUnit}
 					</Badge>
 				</Flex>
 			))}

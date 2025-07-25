@@ -6,6 +6,7 @@ import { Segment, SegmentGroup } from '@/components/primitives';
 import { PasswordForm } from './password-form/password-form';
 import { AccountInfoDisplay } from '../account-info-display';
 import { DeleteAccountSection } from '../delete-account-section';
+import { UserPreferencesSection } from '../user-preferences-section';
 
 type AccountFormProps = {
 	user: User | null;
@@ -24,6 +25,7 @@ export const AccountForm = (props: AccountFormProps) => {
 		<Stack>
 			<SegmentGroup>
 				<AccountInfoDisplay user={user} />
+				<UserPreferencesSection />
 				<Segment>
 					<PasswordForm
 						displayFormSection={displayFormSection}

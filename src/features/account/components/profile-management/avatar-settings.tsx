@@ -1,9 +1,11 @@
-import { Heading, Text } from '@radix-ui/themes';
 import { Stack } from '@/components/layout';
 import { Avatar } from '@/components/media';
 import { WarningMessage } from '@/components/ui';
-import { Segment } from '@/components/primitives';
-import { useUploadProfilePhotoMutation, useDeleteProfilePhotoMutation } from '@/queries/profile-settings-queries';
+import { Segment, SegmentHeader } from '@/components/primitives';
+import {
+	useUploadProfilePhotoMutation,
+	useDeleteProfilePhotoMutation,
+} from '@/queries/profile-settings-queries';
 
 export const AvatarSettings = ({
 	profilePhotoUrl,
@@ -20,17 +22,11 @@ export const AvatarSettings = ({
 
 	return (
 		<Segment>
-			<Heading as="h4" size="3" mb="4">
-				Profile Settings
-			</Heading>
-
+			<SegmentHeader 
+				title="Profile Photo" 
+				description="You can upload .jpg or .png photos." 
+			/>
 			<Stack className="justify-center w-max">
-				<Heading as="h5" size="3">
-					Avatar
-				</Heading>
-				<Text size="2" color="gray" mt="1" mb="4">
-					You can upload .jpg or .png photos.
-				</Text>
 				<Avatar
 					src={profilePhotoUrl}
 					size="big"

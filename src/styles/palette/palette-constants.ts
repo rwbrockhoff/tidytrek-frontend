@@ -1,9 +1,15 @@
-export const PALETTE_NAMES = ['earth-tones'] as const;
+export const PALETTE_NAMES = [
+	'tidytrek',
+	'earth-tones',
+	'southwest',
+	'atlas',
+	'colorado',
+] as const;
 
-// extracts array values into a union type: "fern-greens" | "bright-colors"
+// extracts array values into a union type: "atlas" | "earth-tones" | "tidytrek"
 export type PaletteName = (typeof PALETTE_NAMES)[number];
 
-export const DEFAULT_PALETTE: PaletteName = 'earth-tones';
+export const DEFAULT_PALETTE: PaletteName = 'tidytrek';
 
 export const paletteList = [
 	'palette-01',

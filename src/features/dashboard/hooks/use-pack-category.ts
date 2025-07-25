@@ -1,12 +1,13 @@
 import { useState, useMemo } from 'react';
 import { type Category } from '@/types/pack-types';
-import { convertCurrency, convertWeight, convertQuantity } from '@/utils';
+import { useConvertCurrency, convertWeight, convertQuantity } from '@/utils';
 
 export const usePackCategory = (category: Category) => {
 	const { packCategoryName, packCategoryColor, packCategoryId, packId, packItems } =
 		category;
 
 	const [isMinimized, setMinimized] = useState(false);
+	const convertCurrency = useConvertCurrency();
 
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
@@ -16,8 +17,8 @@ export const usePackCategory = (category: Category) => {
 	);
 
 	const formattedTotalPrice = useMemo(
-		() => convertCurrency(totalPrice, 'USD'),
-		[totalPrice],
+		() => convertCurrency(totalPrice),
+		[totalPrice, convertCurrency],
 	);
 
 	const itemQuantity = useMemo(

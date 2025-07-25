@@ -61,7 +61,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 				<Flex className="flex justify-end items-center gap-2 ml-auto py-1 flex-col sm:flex-row">
 					<Select.Root onValueChange={handleSelectPack}>
 						<Select.Trigger className="dropdown-primary" placeholder="Choose a pack..." />
-						<Select.Content style={{ height: 'fit-content' }}>
+						<Select.Content>
 							<Select.Group>
 								<Select.Label>Packs</Select.Label>
 								{packList.map((packItem, index) => (
@@ -78,7 +78,7 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 							className="dropdown-secondary"
 							placeholder="Choose a category..."
 						/>
-						<Select.Content style={{ height: 'fit-content' }}>
+						<Select.Content>
 							<Select.Group>
 								<Select.Label>Categories</Select.Label>
 								{categoryList.map((category, index) => (

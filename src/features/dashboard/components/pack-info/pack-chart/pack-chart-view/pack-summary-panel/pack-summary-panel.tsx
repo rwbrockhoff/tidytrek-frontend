@@ -3,6 +3,7 @@ import { cn } from '@/styles/utils';
 import { Flex, Stack } from '@/components/layout';
 import { Badge, Separator, HoverCard } from '@radix-ui/themes';
 import { usePricingContext } from '@/hooks/auth/use-pricing-context';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import {
 	ConsumableIcon,
 	WeightIcon,
@@ -21,13 +22,14 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 	const { totalWeight, descriptivePackWeight, totalPackPrice } = props;
 	const { baseWeight, consumables, wornWeight } = descriptivePackWeight;
 	const showPrices = usePricingContext();
+	const weightUnit = useUserWeightUnit();
 
 	return (
 		<>
 			<HoverCard.Root>
 				<HoverCard.Trigger>
 					<Flex className={cn(styles.popupListItem, 'mt-2')} style={{ cursor: 'pointer' }}>
-						<BackpackIcon /> Total Weight: <Badge ml="auto">{totalWeight} lbs</Badge>
+						<BackpackIcon /> Total Weight: <Badge ml="auto">{totalWeight} {weightUnit}</Badge>
 					</Flex>
 				</HoverCard.Trigger>
 				<HoverCard.Content side="top">
@@ -53,7 +55,7 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 
 						<Flex className={styles.popupListItem}>
 							Total Weight:
-							<Badge ml="auto">{totalWeight} lbs</Badge>
+							<Badge ml="auto">{totalWeight} {weightUnit}</Badge>
 						</Flex>
 				</Stack>
 				</HoverCard.Content>

@@ -21,7 +21,7 @@ describe('useUpdateSettingsMutation', () => {
 	});
 
 	it('should call correct API endpoint with settings data', async () => {
-		const settingsUpdate = { darkMode: true, weightUnit: 'kg' as const };
+		const settingsUpdate = { darkMode: true, weightUnit: 'metric' as const };
 		vi.mocked(tidyTrekAPI.put).mockResolvedValue({
 			data: { message: 'Settings updated' },
 		});

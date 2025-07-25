@@ -6,7 +6,7 @@
 
 /* Dynamically use palette color for top border for each category */
 .table :global(thead.withPrimaryBorder) {
-	border-top: 3px solid var(--color-primary);
+	border-top: 3px solid var(--palette-01, var(--color-primary, #338866));
 }
 
 @media (max-width: 768px) {

@@ -11,7 +11,7 @@ type MessageProps = {
 export const Message = (props: MessageProps) => {
 	const { messageType, text, id } = props;
 	const isSuccess = messageType === 'success';
-	const iconSize = 16;
+
 	const messageColor = isSuccess ? 'grass' : 'tomato';
 
 	return (
@@ -25,9 +25,7 @@ export const Message = (props: MessageProps) => {
 			role="alert"
 			aria-invalid={isSuccess ? 'false' : 'true'}
 			aria-errormessage={isSuccess ? '' : text}>
-			<Callout.Icon>
-				{isSuccess ? <CheckIcon size={iconSize} /> : <ErrorIcon size={iconSize} />}
-			</Callout.Icon>
+			<Callout.Icon>{isSuccess ? <CheckIcon /> : <ErrorIcon />}</Callout.Icon>
 			<Callout.Text>{text}</Callout.Text>
 		</Callout.Root>
 	);

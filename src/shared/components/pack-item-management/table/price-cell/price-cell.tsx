@@ -5,7 +5,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
-import { convertCurrency } from '@/utils';
+import { useConvertCurrency } from '@/utils';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 
@@ -25,6 +25,7 @@ export const PriceCell = ({
 	formErrors,
 }: PriceCellProps) => {
 	const userView = useUserContext();
+	const convertCurrency = useConvertCurrency();
 	const { packItemPrice = 0 } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
@@ -45,8 +46,8 @@ export const PriceCell = ({
 	};
 
 	const formattedPrice = useMemo(
-		() => convertCurrency(packItemPrice, 'USD').toString(),
-		[packItemPrice],
+		() => convertCurrency(packItemPrice).toString(),
+		[packItemPrice, convertCurrency],
 	);
 
 	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();

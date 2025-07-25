@@ -1,12 +1,14 @@
 import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
-import { convertCurrency, convertWeight } from '@/utils';
+import { useConvertCurrency, convertWeight } from '@/utils';
 
 // useCategoryInfo summarizes the weight (and price) of the entire pack
 // it returns totalWeight, consumables, wornWeight, totalPackPrice
 // and returns data required for the Pack Chart
 
 export const useCategoryInfo = (packCategories: Category[], outputUnit: string) => {
+	const convertCurrency = useConvertCurrency();
+
 	return useMemo(() => {
 		let consumables = 0;
 		let wornWeight = 0;
@@ -53,9 +55,9 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 			totalWeight,
 			packHasWeight,
 			descriptivePackWeight,
-			totalPackPrice: convertCurrency(totalPackPrice, 'USD'),
+			totalPackPrice: convertCurrency(totalPackPrice),
 		};
-	}, [packCategories, outputUnit]);
+	}, [packCategories, outputUnit, convertCurrency]);
 };
 
 const convertToDisplayWeight = (weight: number, outputUnit: string) => {

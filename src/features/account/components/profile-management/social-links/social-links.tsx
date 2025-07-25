@@ -1,20 +1,22 @@
 import { type SocialLink } from '@/types/profile-types';
-import styles from './social-links.module.css';
+import { Segment, SegmentHeader } from '@/components/primitives';
 import { AddLink } from './add-link';
 import { SocialLinkList } from '@/components';
 import { Stack } from '@/components/layout';
 
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 	return (
-		<Stack className="gap-2">
-			<p className={styles.text}> Profile Links </p>
-			<p className={styles.textSubtle}>
-				Add links that others can see on your profile. 4 link maximum to keep things tidy.
-			</p>
+		<Segment>
+			<Stack className="gap-4">
+				<SegmentHeader
+					title="Profile Links"
+					description="Add links that others can see on your profile. 4 link maximum to keep things tidy."
+				/>
 
-			<SocialLinkList socialLinks={socialLinks} deleteEnabled />
+				<SocialLinkList socialLinks={socialLinks} deleteEnabled />
 
-			<AddLink />
-		</Stack>
+				<AddLink />
+			</Stack>
+		</Segment>
 	);
 };

@@ -92,7 +92,7 @@ export const PackItemEditForm = ({
 						value={formData.packItemUnit || 'oz'}
 						onValueChange={onWeightUnitChange}>
 						<Select.Trigger variant="surface" />
-						<Select.Content style={{ height: 'fit-content' }}>
+						<Select.Content>
 							<Select.Item value="oz">oz</Select.Item>
 							<Select.Item value="lb">lb</Select.Item>
 							<Select.Item value="g">g</Select.Item>

@@ -1,8 +1,9 @@
 import { type Category } from '@/types/pack-types';
 import { Flex } from '@/components/layout';
 import { useMemo } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 
 type PackChartProps = {
 	categories: Category[];
@@ -13,10 +14,6 @@ type PackChartProps = {
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.overrides.doughnut.plugins.legend.display = false;
 ChartJS.defaults.plugins.tooltip.displayColors = false;
-ChartJS.defaults.plugins.tooltip.callbacks.label = (context) => {
-	let label = context.formattedValue || '0';
-	return (label += ' lbs');
-};
 
 // New utility fn that converts variable -> computed value for chart
 const getPaletteColor = (colorName: string): string => {
@@ -30,6 +27,8 @@ const getPaletteColor = (colorName: string): string => {
 };
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
+	const weightUnit = useUserWeightUnit();
+	
 	const categoryLabels = useMemo(
 		() => (categories || []).map((category) => category.packCategoryName),
 		[categories],
@@ -39,6 +38,22 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 		() =>
 			(categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
 		[categories],
+	);
+
+	const chartOptions = useMemo(
+		() => ({
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: (context: TooltipItem<'doughnut'>) => {
+							const label = context.formattedValue || '0';
+							return `${label} ${weightUnit}`;
+						},
+					},
+				},
+			},
+		}),
+		[weightUnit],
 	);
 
 	const chartData = useMemo(
@@ -57,7 +72,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 
 	return (
 		<Flex className="justify-center items-center w-full">
-			<Doughnut data={chartData} />
+			<Doughnut data={chartData} options={chartOptions} />
 		</Flex>
 	);
 };

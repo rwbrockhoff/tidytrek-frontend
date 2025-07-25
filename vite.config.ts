@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
 			org: process.env.SENTRY_ORG,
 			project: process.env.SENTRY_PROJECT,
 			authToken: process.env.SENTRY_AUTH_TOKEN,
+			telemetry: false, // stop Sentry usage data - console warning in dev
 		})
 	].filter(Boolean),
 	// Production app ran from s3-bucket in /app/ directory

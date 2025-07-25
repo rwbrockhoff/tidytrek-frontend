@@ -40,6 +40,14 @@
 	outline-offset: 0;
 }
 
+.rt-SelectTrigger:where(.rt-variant-surface) {
+	width: fit-content;
+}
+
+.rt-SelectContent {
+	height: fit-content;
+}
+
 .rt-SelectContent {
 	background-color: var(--color-bg-primary);
 	border: 1px solid var(--color-bg-tertiary);

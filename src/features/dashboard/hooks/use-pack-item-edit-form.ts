@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
-import { convertCurrency } from '@/utils';
+import { useConvertCurrency } from '@/utils';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 
@@ -13,6 +13,7 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 	const [formData, setFormData] = useState<BaseTableRowItem | null>(initialItem);
 	const [itemChanged, setItemChanged] = useState(false);
 	const { isToggled: isPriceEditing, toggle: togglePriceEdit } = useToggle();
+	const convertCurrency = useConvertCurrency();
 
 	const { formErrors, resetFormErrors } = useZodError<BaseTableRowItem>([
 		'packItemName',
@@ -75,7 +76,7 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 			return formData.packItemPrice?.toString() || '';
 		}
 
-		return convertCurrency(formData.packItemPrice || 0, 'USD');
+		return convertCurrency(formData.packItemPrice || 0);
 	};
 
 	const handlePriceFocus = () => {

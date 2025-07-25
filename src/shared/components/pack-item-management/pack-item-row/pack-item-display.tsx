@@ -1,4 +1,4 @@
-import { convertCurrency } from '@/utils';
+import { useConvertCurrency } from '@/utils';
 import { LinkIcon } from '@/components/icons';
 import { Stack } from '@/components/layout';
 import { type BaseTableRowItem } from '@/types/pack-types';
@@ -10,6 +10,8 @@ type PackItemDisplayProps = {
 };
 
 export const PackItemDisplay = ({ item, className }: PackItemDisplayProps) => {
+	const convertCurrency = useConvertCurrency();
+
 	return (
 		<div className={className}>
 			<Stack className="gap-3">
@@ -31,7 +33,7 @@ export const PackItemDisplay = ({ item, className }: PackItemDisplayProps) => {
 					</div>
 					{item.packItemPrice && (
 						<span className={styles.itemPrice}>
-							{convertCurrency(item.packItemPrice, 'USD')}
+							{convertCurrency(item.packItemPrice)}
 						</span>
 					)}
 				</div>

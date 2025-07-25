@@ -14,6 +14,8 @@ export const createMockUser = (overrides?: Partial<User>): User => ({
 	username: 'testuser',
 	trailName: 'Test Trail',
 	profilePhotoUrl: 'https://example.com/photo.jpg',
+	weightUnit: 'imperial',
+	currencyUnit: 'USD',
 	...overrides,
 });
 
@@ -31,7 +33,8 @@ export const createMockSettings = (overrides?: Partial<Settings>): Settings => (
 	darkMode: false,
 	palette: DEFAULT_PALETTE,
 	publicProfile: true,
-	weightUnit: 'lb',
+	weightUnit: 'imperial',
+	currencyUnit: 'USD',
 	...overrides,
 });
 

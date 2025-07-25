@@ -1,6 +1,7 @@
 import { type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
 import { Flex } from '@/components/layout';
+import { Segment, SegmentHeader } from '@/components/primitives';
 import { Button, TextField, TextArea } from '@/components/alpine';
 import { RefreshIcon, SaveIcon } from '@/components/icons';
 import { Message } from '@/components/ui';
@@ -45,65 +46,71 @@ export const ProfileFormFields = ({
 	const serverErrorMessage = useAxiosErrorMessage(error);
 
 	return (
-		<Form className={styles.form} onSubmit={onSubmit}>
-			<TextField.Input
-				name="username"
-				label="Username"
-				value={username}
-				onChange={onInput}
-				placeholder="Username"
-				error={formErrors.username}
-				variant="icon"
-				iconPosition="right"
-				iconIsButton={true}
-				icon={
-					<Button
-						size="sm"
-						type="button"
-						onClick={onGenerateUsername}
-						aria-label="Generate random username"
-						iconLeft={<RefreshIcon />}
-					/>
-				}
+		<Segment>
+			<SegmentHeader
+				title="Profile Info"
+				description="Update your username, trail name, and profile details."
 			/>
+			<Form className={styles.form} onSubmit={onSubmit}>
+				<TextField.Input
+					name="username"
+					label="Username"
+					value={username}
+					onChange={onInput}
+					placeholder="Username"
+					error={formErrors.username}
+					variant="icon"
+					iconPosition="right"
+					iconIsButton={true}
+					icon={
+						<Button
+							size="sm"
+							type="button"
+							onClick={onGenerateUsername}
+							aria-label="Generate random username"
+							iconLeft={<RefreshIcon />}
+						/>
+					}
+				/>
 
-			<TextField.Input
-				name="trailName"
-				value={trailName}
-				placeholder="Trail Name"
-				onChange={onInput}
-				label="Trail Name"
-				error={formErrors.trailName}
-			/>
+				<TextField.Input
+					name="trailName"
+					value={trailName}
+					placeholder="Trail Name"
+					onChange={onInput}
+					label="Trail Name"
+					error={formErrors.trailName}
+				/>
 
-			<TextField.Input
-				name="userLocation"
-				value={userLocation}
-				placeholder="Denver, Colorado"
-				onChange={onInput}
-				label="Based In"
-				error={formErrors.userLocation}
-			/>
+				<TextField.Input
+					name="userLocation"
+					value={userLocation}
+					placeholder="Denver, Colorado"
+					onChange={onInput}
+					label="Based In"
+					error={formErrors.userLocation}
+				/>
 
-			<TextArea.Input
-				name="userBio"
-				value={userBio}
-				label="Your Bio"
-				placeholder="Bio for your profile"
-				onChange={onInput}
-				maxLength={maxLength}
-				error={formErrors.userBio}
-			/>
+				<TextArea.Input
+					name="userBio"
+					value={userBio}
+					label="Your Bio"
+					placeholder="Bio for your profile"
+					onChange={onInput}
+					maxLength={maxLength}
+					error={formErrors.userBio}
+				/>
 
-			{isError && <Message messageType="error" text={serverErrorMessage} />}
+				{isError && <Message messageType="error" text={serverErrorMessage} />}
 
-			{isSuccess && <Message messageType="success" text="Profile updated!" />}
+				{isSuccess && <Message messageType="success" text="Profile updated!" />}
 
-			<Flex className="justify-start mt-2">
-				<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
-					Save Profile
-				</Button>
-			</Flex>
-		</Form>
+				<Flex className="justify-start mt-2">
+					<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
+						Save Profile
+					</Button>
+				</Flex>
+			</Form>
+		</Segment>
 	);
 };

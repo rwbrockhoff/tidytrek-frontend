@@ -3,6 +3,7 @@ import { ThemeButton } from '../../table';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 
 type PackCategoryHeaderProps = {
 	packCategoryName: string;
@@ -27,6 +28,7 @@ export const PackCategoryHeader = ({
 	onChangeColor,
 	onMinimizeCategory,
 }: PackCategoryHeaderProps) => {
+	const weightUnit = useUserWeightUnit();
 	const bgColorCategory = {
 		backgroundColor: packCategoryColor ? `var(--${packCategoryColor})` : 'inherit',
 	};
@@ -57,7 +59,7 @@ export const PackCategoryHeader = ({
 						{itemQuantity} {itemQuantity === 1 ? 'item' : 'items'}
 					</span>
 
-					<span className={styles.totalWeight}>{`${convertedCategoryWeight} lbs`}</span>
+					<span className={styles.totalWeight}>{`${convertedCategoryWeight} ${weightUnit}`}</span>
 					<span className={styles.totalPrice}>{formattedTotalPrice}</span>
 				</div>
 			)}

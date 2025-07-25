@@ -4,6 +4,7 @@ import { Button, Table } from '@/components/alpine';
 import { PlusIcon } from '@/components/icons';
 import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import styles from './table-footer.module.css';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 
 type TableFooterProps = {
 	handleAddItem: () => void;
@@ -21,6 +22,7 @@ export const TableFooter = ({
 	price = 0,
 }: TableFooterProps) => {
 	const { totalColumns, showPrices, isUser: userView } = useTableColumnWidths();
+	const weightUnit = useUserWeightUnit();
 	const hasItems = showTotals && itemQuantity > 0;
 
 	// Calculate colSpan using same logic as our table
@@ -53,7 +55,7 @@ export const TableFooter = ({
 								x{itemQuantity}
 							</Badge>
 						</Table.Cell>
-						<Table.Cell className={styles.summaryCell}>{`${weight} lbs`}</Table.Cell>
+						<Table.Cell className={styles.summaryCell}>{`${weight} ${weightUnit}`}</Table.Cell>
 						{showPrices && (
 							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
 						)}

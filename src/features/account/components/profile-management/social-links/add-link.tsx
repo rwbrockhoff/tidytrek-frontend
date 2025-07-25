@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { PlusIcon } from '@/components/icons';
 import { useAddSocialLinkMutation } from '@/queries/profile-settings-queries';
 import { normalizeURL } from '@/utils';
+import { Message } from '@/components/ui';
 
 export const AddLink = () => {
 	const { mutate: addSocialLink, isPending } = useAddSocialLinkMutation();
@@ -26,7 +27,7 @@ export const AddLink = () => {
 
 	return (
 		<Stack>
-			<Flex className="flex-col gap-4 my-6 md:flex-row md:items-center">
+			<Flex className="flex-col gap-4 md:flex-row md:items-center">
 				<div className="w-full md:w-80">
 					<TextField.Standalone
 						placeholder="Paste your link..."
@@ -41,7 +42,12 @@ export const AddLink = () => {
 					</Button>
 				</div>
 			</Flex>
-			{linkError && <p>There was an error adding your link at this time.</p>}
+			{linkError && (
+				<Message
+					messageType="error"
+					text="There was an error adding your link at this time."
+				/>
+			)}
 		</Stack>
 	);
 };

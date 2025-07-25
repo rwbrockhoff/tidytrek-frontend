@@ -1,4 +1,6 @@
-// Cache currency formatter in object to avoid recreating them
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useMemo } from 'react';
+
 const formatters: Record<string, Intl.NumberFormat> = {};
 
 const getCurrencyFormatter = (currency: string): Intl.NumberFormat => {
@@ -11,10 +13,18 @@ const getCurrencyFormatter = (currency: string): Intl.NumberFormat => {
 	return formatters[currency];
 };
 
-export const convertCurrency = (price: number, currency: string = 'USD') => {
-	const isInvalid = isNaN(price);
-	if (isInvalid) return price;
+export const useConvertCurrency = () => {
+	const { settings } = useGetAuth();
+	const userCurrency = settings?.currencyUnit || 'USD';
 
-	const formatter = getCurrencyFormatter(currency);
-	return formatter.format(price);
+	return useMemo(
+		() => (price: number) => {
+			const isInvalid = isNaN(price);
+			if (isInvalid) return price;
+
+			const formatter = getCurrencyFormatter(userCurrency);
+			return formatter.format(price);
+		},
+		[userCurrency]
+	);
 };
