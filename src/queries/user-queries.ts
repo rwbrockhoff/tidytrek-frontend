@@ -5,7 +5,7 @@ import supabase from '../api/supabase-client';
 import { LoginUser, type RegisterUser, type User } from '../types/user-types';
 import { type Settings } from '../types/settings-types';
 import { type SimpleMutation } from './mutation-types';
-import { extractData } from '../utils';
+import { extractData } from './extract-data';
 
 export type AuthStatusResponse = {
 	isAuthenticated: boolean;
@@ -21,14 +21,14 @@ type LoginResponse = {
 export const useGetAuthStatusQuery = () =>
 	useQuery<AuthStatusResponse>({
 		queryKey: userKeys.all,
-		queryFn: () => tidyTrekAPI.get('/auth/status').then((res) => res.data),
+		queryFn: () => tidyTrekAPI.get('/auth/status').then(extractData<AuthStatusResponse>),
 	});
 
 export const useLoginMutation = (): SimpleMutation<LoginUser, LoginResponse> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (info: LoginUser) =>
-			tidyTrekAPI.post('/auth/login', info).then(extractData),
+			tidyTrekAPI.post('/auth/login', info).then(extractData<LoginResponse>),
 		retry: false,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
@@ -43,7 +43,9 @@ export const useRegisterMutation = (): SimpleMutation<
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (registerData: RegisterUser) =>
-			tidyTrekAPI.post('/auth/register', registerData).then(extractData),
+			tidyTrekAPI
+				.post('/auth/register', registerData)
+				.then(extractData<{ message?: string }>),
 		retry: false,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
@@ -58,7 +60,7 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 			// Sign out from Supabase
 			await supabase.auth.signOut();
 			// Clear server-side cookies
-			return tidyTrekAPI.post('/auth/logout');
+			return tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 		},
 		onSuccess: () => {
 			// Immediately set auth state to logged out
@@ -70,14 +72,14 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 
 export const useRefreshSupabaseMutation = (): SimpleMutation<void, void> => {
 	return useMutation({
-		mutationFn: () => tidyTrekAPI.post('/auth/refresh'),
+		mutationFn: () => tidyTrekAPI.post('/auth/refresh').then(extractData<void>),
 	});
 };
 
 export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: () => tidyTrekAPI.delete('/auth/account'),
+		mutationFn: () => tidyTrekAPI.delete('/auth/account').then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 			queryClient.clear();

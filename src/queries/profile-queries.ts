@@ -3,6 +3,7 @@ import { profileKeys } from './query-keys';
 import { tidyTrekAPI } from '../api/tidytrek-api';
 import { type BaseProfileState } from '../types/profile-types';
 import { STALE_TIME } from './query-config';
+import { extractData } from './extract-data';
 
 export type ProfileQueryState = BaseProfileState & {
 	hasError?: boolean;
@@ -21,7 +22,7 @@ export const useGetProfileQuery = () =>
 		queryFn: async () => {
 			try {
 				const response = await tidyTrekAPI.get('/profile/');
-				return response.data;
+				return extractData<ProfileQueryState>(response);
 			} catch (error) {
 				return {
 					...defaultProfileState,

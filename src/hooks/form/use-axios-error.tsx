@@ -6,7 +6,7 @@ export const useAxiosErrorMessage = (error: Error | unknown | null) => {
 	return useMemo(() => {
 		const defaultError = 'Oops! There was an error.';
 		if (axios.isAxiosError(error)) {
-			return error?.response ? error.response.data?.error : defaultError;
+			return error?.response ? error.response.data?.error?.message || error.response.data?.error : defaultError;
 		} else {
 			return defaultError;
 		}
@@ -28,7 +28,7 @@ export const isAxiosError = (error: unknown): error is AxiosError =>
 const getAxiosErrorMessage = (error: unknown): string => {
 	const defaultError = 'Oops! There was an error.';
 	if (axios.isAxiosError(error)) {
-		return error?.response ? error.response.data?.error : defaultError;
+		return error?.response ? error.response.data?.error?.message || error.response.data?.error : defaultError;
 	} else {
 		return defaultError;
 	}

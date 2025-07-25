@@ -8,7 +8,7 @@ import {
 	isGuestProfileData,
 } from '@/queries/guest-queries';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
-import { createNotFoundError } from '@/tests/mocks/api-mocks';
+import { createNotFoundError, createMockApiResponse } from '@/tests/mocks/api-mocks';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 import { createMockPack, createMockCategory } from '@/tests/mocks/pack-mocks';
 import { createMockUserProfile } from '@/tests/mocks/profile-mocks';
@@ -65,7 +65,7 @@ describe('useViewPackQuery', () => {
 	it('should return transformed data correctly', async () => {
 		const packId = '123';
 		const mockData = createMockGuestInitialState();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockData));
 
 		const { result } = renderHook(() => useViewPackQuery(packId), {
 			wrapper: createQueryWrapper(),
@@ -98,7 +98,7 @@ describe('useViewProfileQuery', () => {
 	it('should return profile data when user exists and profile is public', async () => {
 		const username = 'testuser';
 		const mockData = createMockGuestProfileState();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockData));
 
 		const { result } = renderHook(() => useViewProfileQuery(username), {
 			wrapper: createQueryWrapper(),
@@ -114,7 +114,7 @@ describe('useViewProfileQuery', () => {
 	it('should handle private profile (null user data in 200 response)', async () => {
 		const username = 'privateuser';
 		const mockData = { userProfile: null, packThumbnailList: [], settings: null };
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockData));
 
 		const { result } = renderHook(() => useViewProfileQuery(username), {
 			wrapper: createQueryWrapper(),

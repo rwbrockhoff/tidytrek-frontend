@@ -6,6 +6,7 @@ import { createQueryWrapper } from '@/tests/wrapper-utils';
 import { createMockUserProfile } from '@/tests/mocks/profile-mocks';
 import { createMockPack } from '@/tests/mocks/pack-mocks';
 import { createMockSettings } from '@/tests/mocks/user-mocks';
+import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 
 // Mock API calls
 vi.mock('@/api/tidytrek-api', () => ({
@@ -35,7 +36,7 @@ describe('useGetProfileQuery', () => {
 
 	it('should return profile data when API call succeeds', async () => {
 		const mockData = createMockProfileState();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockData));
 
 		const { result } = renderHook(() => useGetProfileQuery(), {
 			wrapper: createQueryWrapper(),

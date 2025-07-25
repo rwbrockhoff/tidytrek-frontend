@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { tidyTrekAPI } from '../api/tidytrek-api';
 import { guestKeys } from './query-keys';
-import { decode, extractData } from '../utils';
+import { extractData } from './extract-data';
+import { decode } from '../utils';
 import { type Pack, type Category } from '../types/pack-types';
 import { type Settings } from '../types/settings-types';
 import { type BaseProfileState, type UserProfile } from '../types/profile-types';
@@ -35,11 +36,11 @@ export const useViewPackQuery = (packId: string | undefined) => {
 
 	return useQuery<GuestQueryState>({
 		queryKey: guestKeys.packId(decodedId),
-		queryFn: () => tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData),
+		queryFn: () =>
+			tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData<GuestQueryState>),
 		enabled: !!packId,
 	});
 };
-
 
 const defaultProfileState = {
 	userProfile: null,
@@ -53,7 +54,7 @@ export const useViewProfileQuery = (username: string | undefined) => {
 		queryFn: async () => {
 			try {
 				const response = await tidyTrekAPI.get(`/guests/user/${username}`);
-				const data = extractData(response);
+				const data = extractData<BaseProfileState>(response);
 				// Check if profile is private (200 response but null user data)
 				if (data.userProfile === null) {
 					return {

@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 // Mock AxiosError for testing error responses
 export const createMockAxiosError = (
@@ -9,7 +9,12 @@ export const createMockAxiosError = (
 	error.isAxiosError = true;
 	error.response = {
 		status: status || 500,
-		data: { error: errorMessage || 'Server error' },
+		data: {
+			success: false,
+			error: {
+				message: errorMessage || 'Server error',
+			},
+		},
 		statusText: 'Error',
 		headers: {},
 		config: {} as never,
@@ -24,3 +29,16 @@ export const createUnauthorizedError = () => createMockAxiosError(401, 'Unauthor
 
 export const createServerError = (message = 'Internal server error') =>
 	createMockAxiosError(500, message);
+
+// Generate mock for successful API responses
+export const createMockApiResponse = <T>(data: T, message?: string): AxiosResponse => ({
+	data: {
+		success: true,
+		data,
+		message,
+	},
+	status: 200,
+	statusText: 'OK',
+	headers: {},
+	config: {} as never,
+});

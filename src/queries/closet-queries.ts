@@ -8,7 +8,7 @@ import {
 import { closetKeys, packKeys } from './query-keys';
 import { STALE_TIME } from './query-config';
 import { type SimpleMutation } from './mutation-types';
-import { extractData } from '../utils';
+import { extractData } from './extract-data';
 
 type GearClosetQueryState = {
 	gearClosetList: GearClosetItem[];
@@ -18,13 +18,13 @@ export const useGetGearClosetQuery = () =>
 	useQuery<GearClosetQueryState>({
 		queryKey: closetKeys.all,
 		staleTime: STALE_TIME,
-		queryFn: () => tidyTrekAPI.get('/closet/').then((res) => res.data),
+		queryFn: () => tidyTrekAPI.get('/closet/').then(extractData<GearClosetQueryState>),
 	});
 
 export const useAddGearClosetItemMutation = (): SimpleMutation<void, GearClosetItem> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: () => tidyTrekAPI.post('/closet/items').then(extractData),
+		mutationFn: () => tidyTrekAPI.post('/closet/items').then(extractData<GearClosetItem>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
@@ -40,23 +40,21 @@ export const useEditGearClosetItemMutation = (): SimpleMutation<
 		mutationFn: (gearClosetItem: GearClosetItem) =>
 			tidyTrekAPI
 				.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem)
-				.then(extractData),
+				.then(extractData<GearClosetItem>),
 		onSuccess: (updatedItem) => {
 			// only update changed item in cache
 			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
 				closetKeys.all,
 				(old) => {
 					if (!old) return old;
-					
+
 					return {
 						...old,
-						gearClosetList: old.gearClosetList.map(item => 
-							item.packItemId === updatedItem.packItemId 
-								? updatedItem 
-								: item
+						gearClosetList: old.gearClosetList.map((item) =>
+							item.packItemId === updatedItem.packItemId ? updatedItem : item,
 						),
 					};
-				}
+				},
 			);
 		},
 	});
@@ -71,10 +69,12 @@ export const useMoveGearClosetItemMutation = (): SimpleMutation<
 		mutationKey: ['moveGearClosetItem'],
 		mutationFn: (moveInfo: MoveGearClosetItemProps) => {
 			const { packItemId, prevItemIndex, nextItemIndex } = moveInfo;
-			return tidyTrekAPI.put(`/closet/items/index/${packItemId}`, {
-				prev_item_index: prevItemIndex,
-				next_item_index: nextItemIndex,
-			});
+			return tidyTrekAPI
+				.put(`/closet/items/index/${packItemId}`, {
+					prev_item_index: prevItemIndex,
+					next_item_index: nextItemIndex,
+				})
+				.then(extractData<void>);
 		},
 		onError: () => {
 			// Only invalidate on error to refetch correct data
@@ -94,7 +94,9 @@ export const useMoveItemToPackMutation = (): SimpleMutation<PackInfo, void> => {
 	return useMutation({
 		mutationFn: (packInfo: PackInfo) => {
 			const { packItemId } = packInfo;
-			return tidyTrekAPI.put(`/closet/packs/${packItemId}`, packInfo);
+			return tidyTrekAPI
+				.put(`/closet/packs/${packItemId}`, packInfo)
+				.then(extractData<void>);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
@@ -106,7 +108,8 @@ export const useMoveItemToPackMutation = (): SimpleMutation<PackInfo, void> => {
 export const useDeleteGearClosetItemMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packItemId: number) => tidyTrekAPI.delete(`/closet/items/${packItemId}`),
+		mutationFn: (packItemId: number) =>
+			tidyTrekAPI.delete(`/closet/items/${packItemId}`).then(extractData<void>),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: closetKeys.all }),
 	});
 };

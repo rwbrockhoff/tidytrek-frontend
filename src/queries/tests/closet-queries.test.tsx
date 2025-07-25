@@ -12,6 +12,7 @@ import {
 	createMockGearClosetList,
 	createMockGearClosetItem,
 } from '@/tests/mocks/closet-mocks';
+import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 
 // Mock API calls and utils
 vi.mock('@/api/tidytrek-api', () => ({
@@ -42,7 +43,7 @@ describe('useGetGearClosetQuery', () => {
 
 	it('should return transformed data correctly', async () => {
 		const mockGearClosetData = createMockGearClosetList();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockGearClosetData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockGearClosetData));
 
 		const { result } = renderHook(() => useGetGearClosetQuery(), {
 			wrapper: createQueryWrapper(),

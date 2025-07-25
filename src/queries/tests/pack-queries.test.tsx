@@ -20,6 +20,7 @@ import {
 	createMockPackItem,
 	createMockPackList,
 } from '@/tests/mocks/pack-mocks';
+import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 
 // Mock API calls and utils
 vi.mock('@/api/tidytrek-api', () => ({
@@ -62,7 +63,7 @@ describe('useGetPackQuery', () => {
 	it('should return transformed data correctly', async () => {
 		const packId = 123;
 		const mockPackData = createMockInitialState();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockPackData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockPackData));
 
 		const { result } = renderHook(() => useGetPackQuery(packId), {
 			wrapper: createQueryWrapper(),
@@ -91,7 +92,7 @@ describe('useGetPackListQuery', () => {
 
 	it('should return transformed data correctly', async () => {
 		const mockPackListData = createMockPackList();
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockPackListData });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockPackListData));
 
 		const { result } = renderHook(() => useGetPackListQuery(), {
 			wrapper: createQueryWrapper(),

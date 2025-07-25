@@ -14,6 +14,7 @@ import {
 	createMockSettings,
 } from '@/tests/mocks/user-mocks';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
+import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 
 vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
@@ -55,7 +56,7 @@ describe('useGetAuthStatusQuery', () => {
 	});
 
 	it('should return transformed auth data correctly', async () => {
-		vi.mocked(tidyTrekAPI.get).mockResolvedValue({ data: mockAuthResponse });
+		vi.mocked(tidyTrekAPI.get).mockResolvedValue(createMockApiResponse(mockAuthResponse));
 
 		const { result } = renderHook(() => useGetAuthStatusQuery(), {
 			wrapper: createQueryWrapper(),
