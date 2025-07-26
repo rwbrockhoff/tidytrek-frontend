@@ -1,7 +1,10 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { type InputEvent } from '@/types/form-types';
-import { useUpdateUsernameMutation, useGenerateUsernameQuery } from '@/queries/profile-settings-queries';
+import {
+	useUpdateUsernameMutation,
+	useGenerateUsernameQuery,
+} from '@/queries/profile-settings-queries';
 import { useMutationErrors } from '@/hooks/form/use-axios-error';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import { setFormInput } from '@/utils';
@@ -64,13 +67,13 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 		}
 		// allow empty input and navigate to dashboard
 		const { username, trailName } = formData;
-		if (!username && !trailName) navigate('/');
-		
+
+		if (!username && !trailName) return navigate('/');
+
 		try {
 			await saveUsername(formData);
 			navigate('/');
 		} catch (error: unknown) {
-			// catch + display errors (already taken username)
 			updateAxiosError(error);
 		}
 	};

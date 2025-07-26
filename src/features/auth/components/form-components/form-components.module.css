@@ -14,4 +14,9 @@
 
 .brandHeading {
 	letter-spacing: -0.025rem;
+	text-align: center;
+}
+
+.welcomeFormFields {
+	text-align: left;
 }

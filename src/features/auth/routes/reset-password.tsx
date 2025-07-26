@@ -4,8 +4,8 @@ import { ResetPasswordForm } from '../components/reset-password/reset-password-f
 import supabase from '@/api/supabase-client';
 import { frontendURL } from '@/api/tidytrek-api';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '@/queries/user-queries';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuthActions } from '../hooks/use-auth-actions';
 import { useMutationErrors } from '@/hooks/form/use-axios-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 import { z, emailSchema, passwordSchema } from '@/schemas';
@@ -15,7 +15,7 @@ export const ResetPassword = () => {
 	const navigate = useNavigate();
 
 	const { isAuthenticated } = useGetAuth();
-	const { mutate: login } = useLoginMutation();
+	const { loginWithoutNavigation } = useAuthActions();
 	const [emailSent, setEmailSent] = useState(false);
 
 	const { formErrors, updateFormErrors, resetFormErrors } =
@@ -24,15 +24,21 @@ export const ResetPassword = () => {
 	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
 
 	useEffect(() => {
-		// Check for existing session
+		// Check for existing session (user clicked password reset link)
 		if (isAuthenticated === false) {
 			supabase.auth.getSession().then(({ data: { session } }) => {
 				const user = session?.user;
 				const { id, email } = user || {};
-				if (id && email) login({ email, userId: id });
+				if (id && email) {
+					loginWithoutNavigation({
+						email,
+						userId: id,
+						supabaseRefreshToken: session?.refresh_token,
+					});
+				}
 			});
 		}
-	}, [isAuthenticated, login]);
+	}, [isAuthenticated, loginWithoutNavigation]);
 
 	const handleResetPasswordRequest = async (formData: ResetPasswordData) => {
 		const data = emailRequestSchema.safeParse(formData);

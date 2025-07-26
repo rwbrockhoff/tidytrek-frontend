@@ -1,7 +1,7 @@
 import { type Session, type User } from '@supabase/supabase-js';
 import supabase from '@/api/supabase-client';
-import { useRegisterMutation, useLoginMutation } from '@/queries/user-queries';
 import { type GoogleCredentialResponse, type AuthMethod } from '../google-types';
+import { useAuthActions } from '../../../hooks/use-auth-actions';
 
 const googleErrorMessage = 'There was an error connecting with Google at this time.';
 const generalErrorMessage = 'There was an unexpected error. Contact support if needed.';
@@ -15,18 +15,7 @@ export const useGoogleAuthFlow = ({
 	authMethod,
 	updateServerError,
 }: UseGoogleAuthFlowProps) => {
-	const {
-		mutate: registerUser,
-		isError: isRegisterError,
-		isSuccess: isRegisterSuccess,
-	} = useRegisterMutation();
-
-	const {
-		mutate: loginUser,
-		isError: isLoginError,
-		isSuccess: isLoginSuccess,
-		data: loginData,
-	} = useLoginMutation();
+	const { login, register } = useAuthActions();
 
 	const createUserInfo = (data: { user: User; session: Session }) => {
 		const { email, avatar_url, full_name } = data?.user?.user_metadata || {};
@@ -57,17 +46,18 @@ export const useGoogleAuthFlow = ({
 
 		// continue register/sign in process
 		const user = createUserInfo(data);
-		if (authMethod === 'signup') {
-			registerUser(user);
-		} else loginUser(user);
+		try {
+			if (authMethod === 'signup') {
+				await register(user);
+			} else {
+				await login(user);
+			}
+		} catch (error) {
+			updateServerError(generalErrorMessage);
+		}
 	};
 
 	return {
 		handleGoogleAuth,
-		isRegisterSuccess,
-		isRegisterError,
-		isLoginSuccess,
-		isLoginError,
-		loginData,
 	};
 };

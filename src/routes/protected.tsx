@@ -6,10 +6,7 @@ const { ResetPassword } = lazyImport(
 	() => import('@/features/auth/routes/reset-password'),
 	'ResetPassword',
 );
-const { Welcome } = lazyImport(
-	() => import('../features/auth/routes/welcome'),
-	'Welcome',
-);
+import { Welcome } from '../features/auth/routes/welcome';
 const { ResetSuccess } = lazyImport(
 	() => import('../features/auth/routes/reset-success'),
 	'ResetSuccess',

@@ -19,6 +19,7 @@ export {
 	AlertTriangle as WarningIcon,
 	ArrowDown as DownArrowIcon,
 	ArrowLeft as BackArrow,
+	ArrowRight as ForwardArrowIcon,
 	Eye as PublicIcon,
 	EyeOff as PrivateIcon,
 	Mail as EmailIcon,

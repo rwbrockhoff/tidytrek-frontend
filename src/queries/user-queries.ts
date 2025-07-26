@@ -66,6 +66,8 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 			// Immediately set auth state to logged out
 			queryClient.setQueryData(userKeys.all, { isAuthenticated: false });
 			queryClient.clear();
+
+			window.location.href = '/login';
 		},
 	});
 };
@@ -83,6 +85,8 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 			queryClient.clear();
+
+			window.location.href = '/login';
 		},
 	});
 };

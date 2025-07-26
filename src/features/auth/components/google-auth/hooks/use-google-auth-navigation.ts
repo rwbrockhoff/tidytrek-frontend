@@ -30,13 +30,14 @@ export const useGoogleAuthNavigation = ({
 	useEffect(() => {
 		// subscribe to register changes
 		if (isRegisterSuccess) navigate('/welcome');
+
 		if (isRegisterError) updateServerError(generalErrorMessage);
 	}, [isRegisterSuccess, isRegisterError, navigate, updateServerError]);
 
 	useEffect(() => {
-		// subscribe to login changes
-		if (isLoginSuccess && loginData) {
-			if (loginData.newUser) navigate('/welcome');
+		// subscribe to new user event
+		if (isLoginSuccess && loginData && loginData.newUser) {
+			navigate('/welcome');
 		}
 		if (isLoginError) updateServerError(generalErrorMessage);
 	}, [isLoginSuccess, loginData, isLoginError, navigate, updateServerError]);

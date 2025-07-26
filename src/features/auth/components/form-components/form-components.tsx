@@ -8,10 +8,9 @@ export const FormContainer = ({ children, ...props }: { children: React.ReactNod
 );
 
 export const AuthContainer = ({ children, ...props }: { children: React.ReactNode }) => (
-	<main 
-		className={cn(styles.authContainer, "flex flex-col justify-center items-center")}
-		{...props}
-	>
+	<main
+		className={cn(styles.authContainer, 'flex flex-col justify-center items-center')}
+		{...props}>
 		{children}
 	</main>
 );

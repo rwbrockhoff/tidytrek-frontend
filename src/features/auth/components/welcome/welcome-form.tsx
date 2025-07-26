@@ -1,15 +1,16 @@
-import { Link as RouterLink } from 'react-router-dom';
 import { Text, Heading } from '@radix-ui/themes';
-import { Flex } from '@/components/layout';
+import { Flex, Stack } from '@/components/layout';
 import { Link } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { FormContainer } from '../form-components/form-components';
+import { ForwardArrowIcon } from '@/components/icons';
 import { WelcomeFormFields } from './welcome-form-fields';
 import { useWelcomeForm } from '../../hooks/use-welcome-form';
 import styles from '../form-components/form-components.module.css';
 
 type WelcomeFormProps = {
 	defaultUsername: string | undefined;
+	authFlowType: string;
 };
 
 export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
@@ -29,29 +30,33 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 				<Link to="/">tidytrek</Link>
 			</Heading>
 			<Segment radius="2">
-				<Heading as="h3" size="7" mb="6">
-					Welcome to tidytrek!
-				</Heading>
+				<Stack className="gap-2">
+					<Heading as="h3" size="7">
+						Welcome!
+					</Heading>
 
-				<Text as="p" mb="4">
-					Please choose a username and trail name to get started.
-				</Text>
+					<Text>Pick your username and trail name.</Text>
 
-				<WelcomeFormFields
-					formData={formData}
-					isPending={isPending}
-					serverError={serverError}
-					formErrors={formErrors}
-					onInput={handleInput}
-					onGenerateUsername={handleGenerateUsername}
-					onSubmit={handleFormSubmit}
-				/>
+					<div className={styles.welcomeFormFields}>
+						<WelcomeFormFields
+							formData={formData}
+							isPending={isPending}
+							serverError={serverError}
+							formErrors={formErrors}
+							onInput={handleInput}
+							onGenerateUsername={handleGenerateUsername}
+							onSubmit={handleFormSubmit}
+						/>
+					</div>
 
-				<Flex className="mt-4 justify-center">
-					<Text size="3">
-						<RouterLink to={'/'}>Back to login</RouterLink>
-					</Text>
-				</Flex>
+					<Flex className="justify-center">
+						<Text size="3">
+							<Link to="/">
+								<ForwardArrowIcon /> Skip this step for now
+							</Link>
+						</Text>
+					</Flex>
+				</Stack>
 			</Segment>
 		</FormContainer>
 	);

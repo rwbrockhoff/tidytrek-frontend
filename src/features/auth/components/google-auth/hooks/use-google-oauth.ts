@@ -22,10 +22,11 @@ export const useGoogleOAuth = ({ onGoogleAuth }: UseGoogleOAuthProps) => {
 				size: 'large',
 			});
 		}
-	}, [onGoogleAuth]);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return {
 		google_button,
 	};
 };
-

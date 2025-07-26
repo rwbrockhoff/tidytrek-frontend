@@ -33,7 +33,7 @@ vi.mock('@/api/tidytrek-api', () => ({
 
 describe('WelcomeForm', () => {
 	const renderWelcomeForm = (defaultUsername?: string) => {
-		return wrappedRender(<WelcomeForm defaultUsername={defaultUsername} />);
+		return wrappedRender(<WelcomeForm defaultUsername={defaultUsername} authFlowType="test" />);
 	};
 
 	describe('Form UI', () => {

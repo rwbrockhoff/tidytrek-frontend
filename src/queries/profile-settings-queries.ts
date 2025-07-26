@@ -35,6 +35,8 @@ export const useUpdateUsernameMutation = (): SimpleMutation<
 				.then(extractData<{ message?: string }>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -48,6 +50,8 @@ export const useAddSocialLinkMutation = (): SimpleMutation<string> => {
 				.then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -61,6 +65,8 @@ export const useDeleteSocialLinkMutation = (): SimpleMutation<number, void> => {
 				.then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -77,6 +83,8 @@ export const useEditProfileMutation = (): SimpleMutation<
 				.then(extractData<{ message?: string }>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
+			queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
 };
