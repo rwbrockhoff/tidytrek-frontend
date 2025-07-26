@@ -19,6 +19,7 @@ import { ExternalLink } from '@/components/ui';
 import { ShareSettings } from './share-settings/share-settings';
 import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info/profile-info';
+import { PackStarterCard } from './pack-starter-card/pack-starter-card';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -47,12 +48,20 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const { packHasWeight } = useCategoryInfo(packCategories, 'lb');
 
+	const isDefaultUntouchedPack = getIsDefaultUntouchedPack(
+		userView,
+		packCategories,
+		currentPack,
+		packDescription,
+		packUrl,
+	);
+
 	return (
 		<Flex
 			className={cn(
 				styles.packInfoContainer,
 				mx.responsiveContent,
-				'flex-col items-center mb-4 gap-8 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12',
+				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12',
 			)}>
 			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-2')}>
 				{!userView && (
@@ -102,6 +111,9 @@ export const PackInfo = (props: PackInfoProps) => {
 				<Text className={styles.descriptionText}>{packDescription}</Text>
 				<PackLabels pack={currentPack} />
 
+				{/* Show starter card for untouched default packs */}
+				{isDefaultUntouchedPack && <PackStarterCard />}
+
 				{/* mobile chart toggle button */}
 				{packHasWeight && isMobile && (
 					<Flex className="my-4">
@@ -124,5 +136,30 @@ export const PackInfo = (props: PackInfoProps) => {
 				display={isMobile ? showPackChart : true}
 			/>
 		</Flex>
+	);
+};
+
+// checks if pack is default/untouched
+const getIsDefaultUntouchedPack = (
+	userView: boolean,
+	packCategories: Category[],
+	currentPack: Pack,
+	packDescription: string,
+	packUrl: string,
+): boolean => {
+	return (
+		userView &&
+		packCategories.length <= 1 &&
+		(packCategories.length === 0 || packCategories[0].packItems?.length <= 1) &&
+		(packCategories.length === 0 ||
+			!packCategories[0].packItems?.length ||
+			!packCategories[0].packItems[0].packItemName ||
+			packCategories[0].packItems[0].packItemName.trim() === '') &&
+		!packDescription &&
+		!packUrl &&
+		!currentPack.packLocationTag &&
+		!currentPack.packDurationTag &&
+		!currentPack.packSeasonTag &&
+		!currentPack.packDistanceTag
 	);
 };

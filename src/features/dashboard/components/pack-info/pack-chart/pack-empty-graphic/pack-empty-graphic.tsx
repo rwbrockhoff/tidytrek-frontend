@@ -5,16 +5,16 @@ import { DownArrowIcon } from '@/components/icons';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import campGraphicDay from '@/assets/camping-default-graphic-day.svg';
 import campGraphicNight from '@/assets/camping-default-graphic-night.svg';
-import styles from './pack-empty-state.module.css';
+import styles from './pack-empty-graphic.module.css';
 
-export const PackEmptyState = () => {
+export const PackEmptyGraphic = () => {
 	const { settings } = useGetAuth();
 	const isDarkMode = settings?.darkMode || false;
 	const campGraphic = isDarkMode ? campGraphicNight : campGraphicDay;
 
 	return (
 		<Flex
-			className={cn(styles.graphicPanel, mx.mobileHidden, 'items-center justify-end')}>
+			className={cn(styles.graphicPanel, mx.mobileHidden, 'items-start justify-end')}>
 			<Stack className="h-auto items-center">
 				<img
 					src={campGraphic}

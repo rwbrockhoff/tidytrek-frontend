@@ -2,7 +2,7 @@ import { Category } from '@/types/pack-types';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { PackChartView } from './pack-chart-view';
-import { PackEmptyState } from './pack-empty-state';
+import { PackEmptyGraphic } from './pack-empty-graphic/pack-empty-graphic';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -23,8 +23,6 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		totalPackPrice,
 	} = useCategoryInfo(packCategories, 'lb');
 
-	const noPackWeight = userView && !packHasWeight;
-
 	if (fetching || !packCategories) return null;
 
 	if (packHasWeight) {
@@ -41,8 +39,9 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		);
 	}
 
-	if (noPackWeight) {
-		return <PackEmptyState />;
+	// only show empty pack for users with pack categories (without weight)
+	if (userView && !packHasWeight) {
+		return <PackEmptyGraphic />;
 	}
 
 	return null;
