@@ -2,10 +2,11 @@ import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { Select, Text } from '@radix-ui/themes';
 import { useMemo } from 'react';
+import { WeightUnit } from '@/types/pack-types';
 
 type WeightDropdownProps = {
-	unit: string;
-	onChange: (unit: string) => void;
+	unit: WeightUnit;
+	onChange: (unit: WeightUnit) => void;
 };
 
 export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
@@ -15,8 +16,8 @@ export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
 	const orderedOptions = useMemo(() => {
 		const isMetric = settings?.weightUnit === 'metric';
 		return isMetric
-			? [{ value: 'g', label: 'g' }, { value: 'kg', label: 'kg' }, { value: 'oz', label: 'oz' }, { value: 'lb', label: 'lb' }]
-			: [{ value: 'oz', label: 'oz' }, { value: 'lb', label: 'lb' }, { value: 'g', label: 'g' }, { value: 'kg', label: 'kg' }];
+			? [{ value: WeightUnit.g, label: 'g' }, { value: WeightUnit.kg, label: 'kg' }, { value: WeightUnit.oz, label: 'oz' }, { value: WeightUnit.lb, label: 'lb' }]
+			: [{ value: WeightUnit.oz, label: 'oz' }, { value: WeightUnit.lb, label: 'lb' }, { value: WeightUnit.g, label: 'g' }, { value: WeightUnit.kg, label: 'kg' }];
 	}, [settings?.weightUnit]);
 
 	if (userView) {

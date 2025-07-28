@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
+import { type BaseTableRowItem, type PackItemProperty, WeightUnit } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { useConvertCurrency } from '@/utils';
 import { useToggle } from '@/hooks/ui/use-toggle';
@@ -54,9 +54,9 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 		handleNumericChange('packItemPrice', Number(e.target.value));
 	};
 
-	const handleWeightUnitChange = (unit: string) => {
+	const handleWeightUnitChange = (unit: WeightUnit) => {
 		if (formData) {
-			setFormData({ ...formData, packItemUnit: unit });
+			setFormData({ ...formData, packItemWeightUnit: unit });
 			if (!itemChanged) setItemChanged(true);
 		}
 	};

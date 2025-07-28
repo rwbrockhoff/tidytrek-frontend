@@ -37,7 +37,7 @@ export const PackItemRow = ({
 				<div className={styles.itemPropertiesRow}>
 					<div className={styles.itemProperties}>
 						<Badge color="gray" size="1">
-							{item.packItemWeight} {item.packItemUnit}
+							{item.packItemWeight} {item.packItemWeightUnit}
 						</Badge>
 						{item.packItemQuantity > 1 && (
 							<span className={styles.property}>x{item.packItemQuantity}</span>

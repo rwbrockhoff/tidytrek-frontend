@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { type Category } from '@/types/pack-types';
+import { type Category, WeightUnit } from '@/types/pack-types';
 import { useConvertCurrency, convertWeight, convertQuantity } from '@/utils';
 
 export const usePackCategory = (category: Category) => {
@@ -12,7 +12,7 @@ export const usePackCategory = (category: Category) => {
 	const handleMinimizeCategory = () => setMinimized(!isMinimized);
 
 	const { totalWeight: convertedCategoryWeight, totalPrice } = useMemo(
-		() => convertWeight(packItems, 'lb'),
+		() => convertWeight(packItems, WeightUnit.lb),
 		[packItems],
 	);
 

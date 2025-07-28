@@ -46,7 +46,7 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const { publicProfile } = settings || {};
 
-	const { packHasWeight } = useCategoryInfo(packCategories, 'lb');
+	const { packHasWeight } = useCategoryInfo(packCategories);
 
 	const isDefaultUntouchedPack = getIsDefaultUntouchedPack(
 		userView,

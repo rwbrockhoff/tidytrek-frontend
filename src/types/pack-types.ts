@@ -1,3 +1,10 @@
+export enum WeightUnit {
+	oz = 'oz',
+	lb = 'lb',
+	kg = 'kg',
+	g = 'g',
+}
+
 export type PackQueryState = {
 	packList: PackListItem[];
 	pack: Pack;
@@ -49,7 +56,7 @@ export type BaseTableRowItem = {
 	packItemName: string;
 	packItemDescription: string;
 	packItemWeight: number;
-	packItemUnit: string;
+	packItemWeightUnit: WeightUnit;
 	packItemQuantity: number;
 	packItemUrl: string;
 	wornWeight: boolean;

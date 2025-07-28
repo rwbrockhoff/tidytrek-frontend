@@ -1,13 +1,15 @@
 import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
 import { useConvertCurrency, convertWeight } from '@/utils';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 
 // useCategoryInfo summarizes the weight (and price) of the entire pack
 // it returns totalWeight, consumables, wornWeight, totalPackPrice
 // and returns data required for the Pack Chart
 
-export const useCategoryInfo = (packCategories: Category[], outputUnit: string) => {
+export const useCategoryInfo = (packCategories: Category[]) => {
 	const convertCurrency = useConvertCurrency();
+	const outputUnit = useUserWeightUnit();
 
 	return useMemo(() => {
 		let consumables = 0;
@@ -44,9 +46,9 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 		// Calculate and format descriptive weights (baseweight, consumabels, wornweight)
 		const baseWeight = totalWeight - (consumables + wornWeight);
 		const descriptivePackWeight = {
-			consumables: convertToDisplayWeight(consumables, 'lb'),
-			wornWeight: convertToDisplayWeight(wornWeight, 'lb'),
-			baseWeight: convertToDisplayWeight(baseWeight, 'lb'),
+			consumables: convertToDisplayWeight(consumables, outputUnit),
+			wornWeight: convertToDisplayWeight(wornWeight, outputUnit),
+			baseWeight: convertToDisplayWeight(baseWeight, outputUnit),
 		};
 
 		return {
@@ -61,9 +63,8 @@ export const useCategoryInfo = (packCategories: Category[], outputUnit: string) 
 };
 
 const convertToDisplayWeight = (weight: number, outputUnit: string) => {
-	if (!weight) return `0 ${outputUnit}s`;
-	else {
-		const numericalWeight = Number(weight).toFixed(2);
-		return `${numericalWeight} ${outputUnit}s`;
-	}
+	if (!weight) return `0 ${outputUnit}`;
+	const numericalWeight = Number(weight).toFixed(2);
+	const unit = Number(numericalWeight) === 1 ? outputUnit.slice(0, -1) : outputUnit;
+	return `${numericalWeight} ${unit}`;
 };

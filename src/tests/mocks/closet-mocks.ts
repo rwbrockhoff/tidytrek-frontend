@@ -1,4 +1,4 @@
-import type { GearClosetItem, MoveGearClosetItemProps } from '@/types/pack-types';
+import { type GearClosetItem, type MoveGearClosetItemProps, WeightUnit } from '@/types/pack-types';
 
 export const createMockGearClosetItem = (
 	overrides?: Partial<GearClosetItem>,
@@ -10,7 +10,7 @@ export const createMockGearClosetItem = (
 	packItemName: 'Z-Packs Duplex 2P',
 	packItemDescription: 'Two-person ultralight tent',
 	packItemWeight: 21,
-	packItemUnit: 'oz',
+	packItemWeightUnit: WeightUnit.oz,
 	packItemQuantity: 1,
 	packItemUrl: 'https://zpacks.com/duplex-mock-tent',
 	wornWeight: false,

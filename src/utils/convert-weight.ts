@@ -1,117 +1,126 @@
-import { type PackItem } from '@/types/pack-types';
+import { type PackItem, WeightUnit } from '@/types/pack-types';
 
 // convertWeight sums the total weight of all pack items into one weight metric
 // it also returns the total price, consumable weight, and wornWeight
 // useCategoryInfo is the more complex hook used to summarize a pack (this hook is for a pack category);
 
-export const convertWeight = (itemList: PackItem[], outputUnit: string) => {
-	if (itemList[0]) {
-		let totalConsumableWeight = 0;
-		let totalWornWeight = 0;
-		let totalPrice = 0;
+export type WeightConversionResult = {
+	totalWeight: number;
+	totalWornWeight: number;
+	totalConsumableWeight: number;
+	totalPrice: number;
+};
 
-		const totalWeight = itemList
-			.map((item: PackItem) => {
-				const {
-					packItemWeight,
-					packItemUnit,
-					packItemQuantity,
-					wornWeight,
-					consumable,
-					packItemPrice,
-				} = item || {};
-
-				if (!item) return 0;
-
-				// handle pricing first
-				if (packItemPrice) totalPrice += packItemPrice * packItemQuantity;
-
-				// Ensure we always return number type for reducer
-				let convertedWeight = 0;
-				const itemWeight = Number(packItemWeight) * packItemQuantity;
-
-				if (packItemUnit === outputUnit || itemWeight === 0) {
-					return itemWeight;
-				}
-				if (outputUnit === 'oz') {
-					convertedWeight = convertToOunces(itemWeight, packItemUnit);
-				} else if (outputUnit === 'lb') {
-					convertedWeight = convertToPounds(itemWeight, packItemUnit);
-				} else if (outputUnit === 'kg') {
-					convertedWeight = convertToKilograms(itemWeight, packItemUnit);
-				} else if (outputUnit === 'g') {
-					convertedWeight = convertToGrams(itemWeight, packItemUnit);
-				} else convertedWeight = itemWeight;
-
-				if (wornWeight) totalWornWeight += convertedWeight;
-				if (consumable) totalConsumableWeight += convertedWeight;
-
-				return convertedWeight;
-			})
-			.reduce((weight: number, sum: number = 0) => (sum += weight))
-			.toFixed(2);
-
-		return {
-			totalWeight: Number(totalWeight),
-			totalWornWeight,
-			totalConsumableWeight,
-			totalPrice: totalPrice,
-		};
-	} else
+export const convertWeight = (itemList: PackItem[], outputUnit: WeightUnit): WeightConversionResult => {
+	if (!itemList.length) {
 		return {
 			totalWeight: 0,
 			totalWornWeight: 0,
 			totalConsumableWeight: 0,
 			totalPrice: 0,
 		};
+	}
+
+	let totalConsumableWeight = 0;
+	let totalWornWeight = 0;
+	let totalPrice = 0;
+
+	const totalWeight = itemList.reduce((acc, item) => {
+		const {
+			packItemWeight = 0,
+			packItemWeightUnit = WeightUnit.oz,
+			packItemQuantity = 1,
+			wornWeight = false,
+			consumable = false,
+			packItemPrice = 0,
+		} = item;
+
+		// account for item quantities in weight & price
+		const itemWeight = packItemWeight * packItemQuantity;
+		totalPrice += packItemPrice * packItemQuantity;
+
+		// convert weight unit if needed
+		const convertedWeight =
+			packItemWeightUnit === outputUnit
+				? itemWeight
+				: convertToUnit(itemWeight, packItemWeightUnit, outputUnit);
+
+		// add to wornWeight or consumables if item has property
+		if (wornWeight) totalWornWeight += convertedWeight;
+		if (consumable) totalConsumableWeight += convertedWeight;
+
+		return acc + convertedWeight;
+	}, 0);
+
+	return {
+		totalWeight: Number(totalWeight.toFixed(2)),
+		totalWornWeight: Number(totalWornWeight.toFixed(2)),
+		totalConsumableWeight: Number(totalConsumableWeight.toFixed(2)),
+		totalPrice,
+	};
 };
 
-function convertToOunces(weight: number, unit: string) {
+const convertToUnit = (weight: number, fromUnit: WeightUnit, toUnit: WeightUnit): number => {
+	switch (toUnit) {
+		case WeightUnit.oz:
+			return convertToOunces(weight, fromUnit);
+		case WeightUnit.lb:
+			return convertToPounds(weight, fromUnit);
+		case WeightUnit.kg:
+			return convertToKilograms(weight, fromUnit);
+		case WeightUnit.g:
+			return convertToGrams(weight, fromUnit);
+		default:
+			return weight;
+	}
+};
+
+function convertToOunces(weight: number, unit: WeightUnit) {
 	switch (unit) {
-		case 'lb':
+		case WeightUnit.lb:
 			return weight * 16;
-		case 'kg':
-			return weight * 0.0283495;
-		case 'g':
-			return weight * 28.3495;
+		case WeightUnit.kg:
+			return weight * 35.274;
+		case WeightUnit.g:
+			return weight / 28.3495;
 		default:
 			return weight;
 	}
 }
 
-function convertToPounds(weight: number, unit: string) {
+function convertToPounds(weight: number, unit: WeightUnit) {
 	switch (unit) {
-		case 'oz':
+		case WeightUnit.oz:
 			return weight / 16;
-		case 'kg':
+		case WeightUnit.kg:
 			return weight * 2.20462;
-		case 'g':
+		case WeightUnit.g:
 			return weight * 0.00220462;
 		default:
 			return weight;
 	}
 }
 
-function convertToKilograms(weight: number, unit: string) {
+function convertToKilograms(weight: number, unit: WeightUnit) {
 	switch (unit) {
-		case 'oz':
-			return weight * 0.0283495;
-		case 'lb':
+		case WeightUnit.oz:
+			return weight / 35.274;
+		case WeightUnit.lb:
 			return weight * 0.453592;
-		case 'g':
+		case WeightUnit.g:
 			return weight / 1000;
 		default:
 			return weight;
 	}
 }
 
-function convertToGrams(weight: number, unit: string) {
+function convertToGrams(weight: number, unit: WeightUnit) {
 	switch (unit) {
-		case 'oz':
+		case WeightUnit.oz:
 			return weight * 28.3495;
-		case 'lb':
+		case WeightUnit.lb:
 			return weight * 453.592;
-		case 'kg':
+		case WeightUnit.kg:
 			return weight * 1000;
 		default:
 			return weight;

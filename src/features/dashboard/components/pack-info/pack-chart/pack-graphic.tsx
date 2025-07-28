@@ -21,7 +21,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		packHasWeight,
 		descriptivePackWeight,
 		totalPackPrice,
-	} = useCategoryInfo(packCategories, 'lb');
+	} = useCategoryInfo(packCategories);
 
 	if (fetching || !packCategories) return null;
 

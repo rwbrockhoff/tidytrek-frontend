@@ -2,7 +2,7 @@ import { Root as FormRoot } from '@radix-ui/react-form';
 import { Select } from '@radix-ui/themes';
 import { TextField } from '@/components/alpine';
 import { PropertyButtons } from '@/shared/components/pack-item-management/property-buttons';
-import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
+import { type BaseTableRowItem, type PackItemProperty, WeightUnit } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import mx from '@/styles/utils/mixins.module.css';
@@ -14,7 +14,7 @@ type PackItemEditFormProps = {
 	getFormattedPrice: () => string | number;
 	onInputChange: (e: InputEvent) => void;
 	onPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onWeightUnitChange: (unit: string) => void;
+	onWeightUnitChange: (unit: WeightUnit) => void;
 	onPropertyChange: (property: PackItemProperty) => void;
 	onPriceFocus: () => void;
 	onPriceBlur: () => void;
@@ -83,14 +83,14 @@ export const PackItemEditForm = ({
 					<label className={styles.unitLabel}>Unit</label>
 					<Select.Root
 						size="2"
-						value={formData.packItemUnit || 'oz'}
+						value={formData.packItemWeightUnit || WeightUnit.oz}
 						onValueChange={onWeightUnitChange}>
 						<Select.Trigger variant="surface" />
 						<Select.Content>
-							<Select.Item value="oz">oz</Select.Item>
-							<Select.Item value="lb">lb</Select.Item>
-							<Select.Item value="g">g</Select.Item>
-							<Select.Item value="kg">kg</Select.Item>
+							<Select.Item value={WeightUnit.oz}>oz</Select.Item>
+							<Select.Item value={WeightUnit.lb}>lb</Select.Item>
+							<Select.Item value={WeightUnit.g}>g</Select.Item>
+							<Select.Item value={WeightUnit.kg}>kg</Select.Item>
 						</Select.Content>
 					</Select.Root>
 				</div>

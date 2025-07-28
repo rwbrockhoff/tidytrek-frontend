@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
-import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
+import { type PackItemProperty, type BaseTableRowItem, WeightUnit } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import styles from './pack-weight-cell.module.css';
 import { Badge } from '@radix-ui/themes';
@@ -8,6 +8,7 @@ import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
 import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 
@@ -29,7 +30,8 @@ export const PackWeightCell = ({
 	formErrors,
 }: PackWeightCellProps) => {
 	const userView = useUserContext();
-	const { packItemWeight, packItemUnit } = packItem || {};
+	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
+	const { packItemWeight, packItemWeightUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
 	const [hasDecimalInput, setHasDecimalInput] = useState(false);
@@ -67,8 +69,8 @@ export const PackWeightCell = ({
 		return getDisplayValue();
 	};
 
-	const handleWeightUnit = (unit: string) => {
-		onSelect({ packItemUnit: unit });
+	const handleWeightUnit = (unit: WeightUnit) => {
+		onSelect({ packItemWeightUnit: unit });
 	};
 
 	return (
@@ -86,14 +88,14 @@ export const PackWeightCell = ({
 						data-invalid={formErrors?.packItemWeight.error}
 					/>
 
-					<WeightDropdown unit={packItemUnit || 'oz'} onChange={handleWeightUnit} />
+					<WeightDropdown unit={packItemWeightUnit || defaultWeightUnit} onChange={handleWeightUnit} />
 				</Flex>
 			) : (
 				<Flex className="justify-center">
 					<Badge
 						radius="large"
 						color="gray"
-						highContrast>{`${getDisplayValue() || 0}  ${packItemUnit}`}</Badge>
+						highContrast>{`${getDisplayValue() || 0}  ${packItemWeightUnit}`}</Badge>
 				</Flex>
 			)}
 		</Table.Cell>

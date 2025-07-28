@@ -1,12 +1,13 @@
 import { paletteList } from '@/styles/palette/palette-constants';
-import type {
-	Pack,
-	PackListItem,
-	PackQueryState,
-	Category,
-	PackWithCategories,
-	PackInfo,
-	PackItem,
+import {
+	type Pack,
+	type PackListItem,
+	type PackQueryState,
+	type Category,
+	type PackWithCategories,
+	type PackInfo,
+	type PackItem,
+	WeightUnit,
 } from '@/types/pack-types';
 
 export const createMockPack = (overrides?: Partial<Pack>): Pack => ({
@@ -58,7 +59,7 @@ export const createMockPackItem = (overrides?: Partial<PackItem>): PackItem => (
 	packItemName: 'Hyperlite Mountain Gear SW 2400',
 	packItemDescription: '40 Liter UL',
 	packItemWeight: 28,
-	packItemUnit: 'oz',
+	packItemWeightUnit: WeightUnit.oz,
 	packItemQuantity: 1,
 	packItemUrl: '',
 	wornWeight: false,
