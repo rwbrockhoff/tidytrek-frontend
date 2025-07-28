@@ -101,7 +101,6 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 		isPriceEditing,
 		formErrors,
 		handleInputChange,
-		handleNumericChange,
 		handlePriceChange,
 		handleWeightUnitChange,
 		handlePropertyChange,

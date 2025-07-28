@@ -13,7 +13,6 @@ type PackItemEditFormProps = {
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	getFormattedPrice: () => string | number;
 	onInputChange: (e: InputEvent) => void;
-	onNumericChange: (field: keyof BaseTableRowItem, value: number) => void;
 	onPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onWeightUnitChange: (unit: string) => void;
 	onPropertyChange: (property: PackItemProperty) => void;
@@ -26,17 +25,12 @@ export const PackItemEditForm = ({
 	formErrors,
 	getFormattedPrice,
 	onInputChange,
-	onNumericChange,
 	onPriceChange,
 	onWeightUnitChange,
 	onPropertyChange,
 	onPriceFocus,
 	onPriceBlur,
 }: PackItemEditFormProps) => {
-	const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		onNumericChange('packItemQuantity', Number(e.target.value));
-	};
-
 	return (
 		<FormRoot className={styles.formContainer}>
 			<TextField.Input
@@ -69,7 +63,7 @@ export const PackItemEditForm = ({
 				label="Quantity"
 				type="number"
 				value={formData.packItemQuantity || ''}
-				onChange={handleQuantityChange}
+				onChange={onInputChange}
 				placeholder="1"
 				error={formErrors?.packItemQuantity}
 			/>

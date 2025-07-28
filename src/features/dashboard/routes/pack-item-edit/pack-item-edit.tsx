@@ -51,7 +51,6 @@ export const PackItemEdit = () => {
 		formData,
 		formErrors,
 		handleInputChange,
-		handleNumericChange,
 		handlePriceChange,
 		handleWeightUnitChange,
 		handlePropertyChange,
@@ -98,7 +97,6 @@ export const PackItemEdit = () => {
 				formErrors={formErrors}
 				getFormattedPrice={getFormattedPrice}
 				onInputChange={handleInputChange}
-				onNumericChange={handleNumericChange}
 				onPriceChange={handlePriceChange}
 				onWeightUnitChange={handleWeightUnitChange}
 				onPropertyChange={handlePropertyChange}

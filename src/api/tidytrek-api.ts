@@ -10,7 +10,7 @@ const baseUrlMap = {
 } as const;
 
 export const baseURL =
-	baseUrlMap[(process.env.NODE_ENV as keyof typeof baseUrlMap) || 'dev'];
+	baseUrlMap[(process.env.NODE_ENV as keyof typeof baseUrlMap) || 'development'];
 
 export const tidyTrekAPI = axios.create({
 	baseURL,

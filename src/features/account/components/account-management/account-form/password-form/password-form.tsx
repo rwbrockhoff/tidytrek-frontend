@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { type FormSection, FORM_SECTIONS } from '@/features/account/types';
+import { FormSection } from '@/features/account/types';
 import { Heading } from '@radix-ui/themes';
 import { PasswordChangeButton } from './password-change-button';
 import { PasswordChangeForm } from './password-change-form';
@@ -23,7 +23,7 @@ export const PasswordForm = ({
 	const { reauthenticate } = usePasswordActions();
 
 	const handleSendConfirmation = () => {
-		changeFormSection(FORM_SECTIONS.PASSWORD);
+		changeFormSection(FormSection.PASSWORD);
 		reauthenticate.mutate(undefined, {
 			onSuccess: () => {
 				setConfirmationSent(true);
@@ -36,31 +36,26 @@ export const PasswordForm = ({
 	};
 
 	const handleCloseForm = () => {
-		changeFormSection(FORM_SECTIONS.INITIAL);
+		changeFormSection(FormSection.INITIAL);
 		setFormSuccess(false);
 		setConfirmationSent(false);
 		reauthenticate.reset();
 	};
 
-	const showConfirmationForm =
-		(!formSuccess && displayFormSection === FORM_SECTIONS.CONFIRMATION) ||
-		(displayFormSection === FORM_SECTIONS.PASSWORD && confirmationSent && !formSuccess);
-
 	const sectionComponents = {
-		[FORM_SECTIONS.INITIAL]: () => (
+		[FormSection.INITIAL]: () => (
 			<PasswordChangeButton onChangeSection={changeFormSection} />
 		),
-		[FORM_SECTIONS.CONFIRMATION]: () => 
-			showConfirmationForm ? (
-				<ConfirmationForm
-					sendConfirmation={handleSendConfirmation}
-					confirmationSent={confirmationSent}
-					isError={reauthenticate.isError}
-					errorMessage={confirmationErrorMessage}
-				/>
-			) : null,
-		[FORM_SECTIONS.PASSWORD]: () => 
-			showConfirmationForm ? (
+		[FormSection.CONFIRMATION]: () => (
+			<ConfirmationForm
+				sendConfirmation={handleSendConfirmation}
+				confirmationSent={confirmationSent}
+				isError={reauthenticate.isError}
+				errorMessage={confirmationErrorMessage}
+			/>
+		),
+		[FormSection.PASSWORD]: () => 
+			confirmationSent && !formSuccess ? (
 				<ConfirmationForm
 					sendConfirmation={handleSendConfirmation}
 					confirmationSent={confirmationSent}

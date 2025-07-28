@@ -1,5 +1,5 @@
 import { type User } from '@/types/user-types';
-import { type FormSection } from '@/features/account/types';
+import { FormSection } from '@/features/account/types';
 import { useState } from 'react';
 import { Stack } from '@/components/layout';
 import { Segment, SegmentGroup } from '@/components/primitives';
@@ -16,7 +16,7 @@ type AccountFormProps = {
 export const AccountForm = (props: AccountFormProps) => {
 	const { user, deleteAccount } = props;
 
-	const [displayFormSection, setDisplayFormSection] = useState<FormSection>('initial');
+	const [displayFormSection, setDisplayFormSection] = useState<FormSection>(FormSection.INITIAL);
 
 	const handleChangeFormSection = (section: FormSection) =>
 		setDisplayFormSection(section);
