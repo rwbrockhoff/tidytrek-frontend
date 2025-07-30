@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 
 type PackChartProps = {
 	categories: Category[];
@@ -28,7 +29,9 @@ const getPaletteColor = (colorName: string): string => {
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	const weightUnit = useUserWeightUnit();
-	
+	const { settings } = useGetAuth();
+	const isDarkMode = settings?.darkMode || false;
+
 	const categoryLabels = useMemo(
 		() => (categories || []).map((category) => category.packCategoryName),
 		[categories],
@@ -39,6 +42,8 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 			(categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
 		[categories],
 	);
+
+	const borderColor = isDarkMode ? '#000000' : '#ffffff';
 
 	const chartOptions = useMemo(
 		() => ({
@@ -64,10 +69,11 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 					data: categoryWeights,
 					backgroundColor: categoryColors,
 					borderWidth: 2,
+					borderColor,
 				},
 			],
 		}),
-		[categoryLabels, categoryColors, categoryWeights],
+		[categoryLabels, categoryColors, categoryWeights, borderColor],
 	);
 
 	return (
