@@ -1,5 +1,5 @@
 .iconContainer {
 	display: flex;
 	align-items: center;
-	margin-right: var(--space-xs);
+	margin-right: var(--space-2);
 }

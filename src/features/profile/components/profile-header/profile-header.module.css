@@ -8,8 +8,8 @@
 	min-height: 175px;
 	height: fit-content;
 	background-color: var(--color-bg-secondary);
-	border-bottom-left-radius: var(--space-lg);
-	border-bottom-right-radius: var(--space-lg);
+	border-bottom-left-radius: var(--space-6);
+	border-bottom-right-radius: var(--space-6);
 }
 
 .profileTextContainer {
@@ -32,7 +32,7 @@
 
 .usernameHeader .trailName {
 	color: var(--color-text-secondary);
-	font-size: var(--font-size-md);
+	font-size: var(--font-size-4);
 }
 
 @media (max-width: 768px) {

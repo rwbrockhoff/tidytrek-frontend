@@ -5,7 +5,7 @@
 .cardGrid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	gap: var(--space-lg);
+	gap: var(--space-6);
 }
 
 .packCard {
@@ -23,12 +23,12 @@
 .packInfo {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 }
 
 .packMeta {
 	display: flex;
-	gap: var(--space-sm);
+	gap: var(--space-3);
 }
 
 .tableContainer {
@@ -36,21 +36,21 @@
 	border-radius: var(--radius-lg);
 	border: 1px solid var(--color-border-primary);
 	overflow: hidden;
-	margin: var(--space-md) 0;
+	margin: var(--space-4) 0;
 }
 
 .tableHeader {
 	display: flex;
-	padding: var(--space-md);
-	gap: var(--space-lg);
+	padding: var(--space-4);
+	gap: var(--space-6);
 	background: var(--color-bg-secondary);
 	border-bottom: 1px solid var(--color-border-primary);
 }
 
 .tableRow {
 	display: flex;
-	padding: var(--space-sm) var(--space-md);
-	gap: var(--space-lg);
+	padding: var(--space-3) var(--space-4);
+	gap: var(--space-6);
 	border-bottom: 1px solid var(--color-border-primary);
 }
 
@@ -61,23 +61,23 @@
 .packInfo {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 }
 
 .packCategories {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-xl);
+	gap: var(--space-8);
 }
 
 .categorySection {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-md);
+	gap: var(--space-4);
 }
 
 .spreadSidebarItems {
-	gap: var(--space-md);
+	gap: var(--space-4);
 }
 
 .authContainer {
@@ -85,7 +85,7 @@
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
-	padding: var(--space-lg);
+	padding: var(--space-6);
 	background: var(--color-bg-primary);
 }
 
@@ -93,21 +93,21 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--space-xl);
+	gap: var(--space-8);
 	width: 100%;
 	max-width: 400px;
 }
 
 .authLogo {
-	margin-bottom: var(--space-md);
+	margin-bottom: var(--space-4);
 }
 
 .authCard {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-md);
+	gap: var(--space-4);
 	width: 100%;
-	padding: var(--space-xl);
+	padding: var(--space-8);
 	background: var(--color-bg-secondary);
 	border: 1px solid var(--color-border-primary);
 	border-radius: var(--radius-lg);
@@ -123,10 +123,10 @@
 	}
 
 	.authContainer {
-		padding: var(--space-md);
+		padding: var(--space-4);
 	}
 
 	.authCard {
-		padding: var(--space-lg);
+		padding: var(--space-6);
 	}
 }

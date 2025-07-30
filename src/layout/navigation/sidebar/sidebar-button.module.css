@@ -11,11 +11,11 @@
 button.sidebarButton:not(.isSidebar) {
 	position: fixed;
 	top: calc(
-		var(--space-xxl) + var(--space-lg)
+		var(--space-12) + var(--space-6)
 	); /* Container padding + header positioning */
 	left: calc(50% - 640px); /* Match sidebar positioning on large screens */
 	z-index: 10;
-	padding: var(--space-min);
+	padding: var(--space-1);
 }
 
 /* Adjust left position on tablet (hidden on mobile) */
@@ -32,7 +32,7 @@ button.sidebarButton:hover {
 .sidebarButton.isSidebar {
 	color: var(--gray-300);
 	opacity: var(--opacity-80);
-	padding: var(--space-min);
+	padding: var(--space-1);
 	min-width: 32px;
 	min-height: 32px;
 	margin: 0;

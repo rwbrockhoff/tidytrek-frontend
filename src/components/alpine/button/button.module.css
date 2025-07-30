@@ -7,14 +7,14 @@
 	justify-content: center;
 	white-space: nowrap;
 	border-radius: var(--radius);
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	font-weight: var(--font-weight-medium);
 	transition: var(--transition);
 	cursor: pointer;
 	border: 1px solid transparent;
 	text-decoration: none;
 	position: relative;
-	gap: var(--space-min);
+	gap: var(--space-1);
 }
 
 .button:focus-visible {
@@ -24,18 +24,18 @@
 
 /* Button - Sizes */
 .buttonSm {
-	padding: var(--space-min) var(--space-xs);
-	font-size: var(--font-size-sm);
+	padding: var(--space-1) var(--space-2);
+	font-size: var(--font-size-2);
 }
 
 .buttonMd {
-	padding: var(--space-xs) var(--space-sm);
-	font-size: var(--font-size-base);
+	padding: var(--space-2) var(--space-3);
+	font-size: var(--font-size-3);
 }
 
 .buttonLg {
-	padding: var(--space-sm) var(--space-md);
-	font-size: var(--font-size-lg);
+	padding: var(--space-3) var(--space-4);
+	font-size: var(--font-size-5);
 }
 
 /* Button - Icon Only */
@@ -44,15 +44,15 @@
 }
 
 .buttonSm.buttonIconOnly {
-	padding: var(--space-min);
+	padding: var(--space-1);
 }
 
 .buttonMd.buttonIconOnly {
-	padding: var(--space-xs);
+	padding: var(--space-2);
 }
 
 .buttonLg.buttonIconOnly {
-	padding: var(--space-sm);
+	padding: var(--space-3);
 }
 
 /* Button - Radius */

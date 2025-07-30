@@ -3,9 +3,8 @@
 }
 
 .lightText svg {
-	margin-right: var(--space-min);
+	margin-right: var(--space-1);
 }
-
 
 .shareText {
 	color: var(--gray-500);
@@ -13,7 +12,7 @@
 }
 
 .shareText svg {
-	margin-right: var(--space-min);
+	margin-right: var(--space-1);
 }
 
 .shareText:hover {

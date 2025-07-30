@@ -10,6 +10,6 @@
 @media (max-width: 768px) {
 	.tableRow button {
 		width: 90%;
-		margin: var(--space-md) 0;
+		margin: var(--space-4) 0;
 	}
 }

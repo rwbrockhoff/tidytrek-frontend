@@ -5,8 +5,8 @@
 
 .closeModalButton {
 	position: absolute;
-	right: var(--space-xl);
-	top: var(--space-xl);
+	right: var(--space-8);
+	top: var(--space-8);
 	cursor: pointer;
 }
 

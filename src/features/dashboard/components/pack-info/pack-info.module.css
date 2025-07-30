@@ -12,11 +12,10 @@
 }
 
 .editIcon {
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	cursor: pointer;
 	opacity: 0;
 }
-
 
 .toggleChartButton {
 	width: 100%;
@@ -31,5 +30,4 @@
 	.editIcon {
 		opacity: 1;
 	}
-
 }

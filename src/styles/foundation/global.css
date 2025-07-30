@@ -2,7 +2,7 @@ body {
 	background-color: var(--color-bg-primary);
 	color: var(--color-text-primary);
 	line-height: var(--line-height-normal);
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	margin: 0;
 	transition:
 		background-color var(--transition),

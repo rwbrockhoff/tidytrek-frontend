@@ -3,6 +3,6 @@
 	height: var(--icon-sm);
 	border-radius: 50%;
 	padding: 0;
-	margin: var(--space-min) var(--space-sm);
+	margin: var(--space-1) var(--space-3);
 	border: none;
 }

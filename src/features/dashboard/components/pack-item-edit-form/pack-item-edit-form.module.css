@@ -5,20 +5,20 @@
 
 .weightGroup {
 	display: flex;
-	gap: var(--space-sm);
+	gap: var(--space-3);
 	align-items: center;
 }
 
 .weightUnit {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 	min-width: 80px;
 	justify-content: flex-end;
 }
 
 .unitLabel {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	font-weight: var(--font-weight-medium);
 	color: var(--color-text-primary);
 }
@@ -26,5 +26,5 @@
 .propertiesSection {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-sm);
+	gap: var(--space-3);
 }

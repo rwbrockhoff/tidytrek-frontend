@@ -1,13 +1,13 @@
 .offlineBanner {
 	background-color: var(--color-warning);
 	color: var(--color-constant-white);
-	padding: var(--space-min) var(--space-md);
-	gap: var(--space-xs);
+	padding: var(--space-1) var(--space-4);
+	gap: var(--space-2);
 }
 
 .offlineBanner span {
 	color: var(--color-constant-white);
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 }
 
 /* Mobile: Bottom positioning above mobile nav */

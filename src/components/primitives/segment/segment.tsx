@@ -3,8 +3,8 @@ import { cn } from '@/styles/utils';
 
 const radiusChart = {
 	none: 'none',
-	'1': 'var(--space-min)',
-	'2': 'var(--space-md)',
+	'1': 'var(--space-1)',
+	'2': 'var(--space-4)',
 	'50%': '50%',
 } as const;
 

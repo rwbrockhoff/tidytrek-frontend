@@ -30,7 +30,7 @@
 
 :global(.aow) .cardFooter {
 	margin-top: auto;
-	padding: var(--space-xs) var(--space-md);
+	padding: var(--space-2) var(--space-4);
 }
 
 .cardFooterText {
@@ -38,5 +38,5 @@
 }
 
 .cardFooterText svg {
-	margin-right: var(--space-xs);
+	margin-right: var(--space-2);
 }

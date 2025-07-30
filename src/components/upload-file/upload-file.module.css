@@ -1,11 +1,10 @@
 .uploadLabel {
 	color: white;
 	cursor: pointer;
-	font-size: var(--font-size-2xl);
-	padding: var(--space-md);
+	font-size: var(--font-size-7);
+	padding: var(--space-4);
 }
 
 .uploadLabel svg {
 	margin: 0;
 }
-

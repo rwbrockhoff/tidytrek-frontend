@@ -29,5 +29,5 @@
 }
 
 :global(.aow).tableActionButton {
-	padding: 0 var(--space-xs);
+	padding: 0 var(--space-2);
 }

@@ -6,7 +6,7 @@
 	z-index: 100;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 var(--space-xl);
+	padding: 0 var(--space-8);
 }
 
 .header h1 {

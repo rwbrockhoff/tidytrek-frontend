@@ -1,6 +1,6 @@
 .confirmationContainer {
 	width: 40%;
-	margin: var(--space-xl) 0;
+	margin: var(--space-8) 0;
 }
 
 .confirmationContainer button {
@@ -8,5 +8,5 @@
 }
 
 .styledHeading svg {
-	margin-right: var(--space-xs);
+	margin-right: var(--space-2);
 }

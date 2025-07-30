@@ -9,8 +9,8 @@
 
 @media (max-width: 768px) {
 	.newPackButton {
-		font-size: var(--font-size-xl);
-		margin-top: var(--space-md);
+		font-size: var(--font-size-6);
+		margin-top: var(--space-4);
 		padding-left: 0;
 	}
 }

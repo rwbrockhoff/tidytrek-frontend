@@ -10,7 +10,7 @@
 	justify-content: space-around;
 	align-items: center;
 	z-index: 100;
-	padding: 0 var(--space-md);
+	padding: 0 var(--space-4);
 }
 
 @media (min-width: 768px) {
@@ -27,10 +27,10 @@
 	text-decoration: none;
 	color: var(--color-text-secondary);
 	transition: color var(--transition);
-	padding: var(--space-xs);
+	padding: var(--space-2);
 	border-radius: var(--radius);
 	min-width: 60px;
-	gap: var(--space-min);
+	gap: var(--space-1);
 }
 
 .bottomNav .navItem:hover {
@@ -57,7 +57,7 @@
 }
 
 .navLabel {
-	font-size: var(--font-size-xs);
+	font-size: var(--font-size-1);
 	font-weight: var(--font-weight-medium);
 	text-align: center;
 	line-height: var(--line-height-tight);

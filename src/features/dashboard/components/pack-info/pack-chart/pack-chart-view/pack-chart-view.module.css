@@ -23,13 +23,13 @@
 		overflow: hidden;
 		flex-direction: column-reverse;
 		max-height: 100%;
-		margin-bottom: var(--space-xxl);
+		margin-bottom: var(--space-12);
 	}
 
 	.chartPanel {
 		width: 100%;
-		margin-bottom: var(--space-xl);
-		padding: 0 var(--space-sm);
+		margin-bottom: var(--space-8);
+		padding: 0 var(--space-3);
 	}
 
 	.summaryPanel {

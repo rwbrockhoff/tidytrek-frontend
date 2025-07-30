@@ -5,8 +5,8 @@
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-min);
-	margin: var(--space-xs) 0;
+	gap: var(--space-1);
+	margin: var(--space-2) 0;
 }
 
 @media (max-width: 768px) {
@@ -16,18 +16,18 @@
 }
 
 .label {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	font-weight: var(--font-weight-medium);
 	color: var(--color-text-secondary);
-	margin-left: var(--space-min);
+	margin-left: var(--space-1);
 }
 
 /* Base input */
 .input {
 	font-family: inherit;
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	color: var(--color-text-primary);
-	padding: var(--space-xs);
+	padding: var(--space-2);
 	border-radius: var(--radius);
 	transition: var(--transition);
 	outline: none;
@@ -90,7 +90,7 @@
 .inputIcon {
 	background-color: var(--color-bg-primary);
 	border: none;
-	padding: var(--space-xs) var(--space-sm);
+	padding: var(--space-2) var(--space-3);
 }
 
 .inputIcon:focus {
@@ -102,7 +102,7 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-min);
+	gap: var(--space-1);
 }
 
 .rootIcon .inputContainer {
@@ -133,7 +133,7 @@
 /* Icon slot */
 .slot {
 	position: absolute;
-	left: var(--space-sm);
+	left: var(--space-3);
 	display: flex;
 	align-items: center;
 	color: var(--color-text-tertiary);
@@ -148,19 +148,19 @@
 
 .slotRight {
 	left: auto;
-	right: var(--space-sm);
+	right: var(--space-3);
 }
 
 /* Adjust input padding when icon is present */
 .rootIcon .inputIcon {
 	/* icon width + icon padding + input text padding */
-	padding-left: calc(1rem + var(--space-sm) + var(--space-xs));
+	padding-left: calc(1rem + var(--space-3) + var(--space-2));
 }
 
 .rootIcon:has(.slotRight) .inputIcon {
-	padding-left: var(--space-sm);
+	padding-left: var(--space-3);
 	/* icon width + icon padding + input text padding */
-	padding-right: calc(1rem + var(--space-sm) + var(--space-xs));
+	padding-right: calc(1rem + var(--space-3) + var(--space-2));
 }
 
 /* Error state */
@@ -186,9 +186,9 @@
 
 /* Message */
 .message {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	color: var(--color-error);
-	margin-left: var(--space-min);
+	margin-left: var(--space-1);
 }
 
 /* Placeholder */

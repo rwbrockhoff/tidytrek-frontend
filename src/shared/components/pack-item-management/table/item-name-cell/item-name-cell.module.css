@@ -1,5 +1,5 @@
 .styledCell {
 	position: relative;
-	padding-left: var(--space-sm);
+	padding-left: var(--space-3);
 	vertical-align: middle;
 }

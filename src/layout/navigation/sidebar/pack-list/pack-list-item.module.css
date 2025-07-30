@@ -1,5 +1,5 @@
 .packListItemContainer {
-	padding: var(--space-min) 0;
+	padding: var(--space-1) 0;
 	cursor: pointer;
 }
 
@@ -9,22 +9,22 @@
 
 .styledText {
 	position: relative;
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 }
 
 .gripContainer {
 	position: absolute;
-	left: calc(-1 * var(--space-lg));
+	left: calc(-1 * var(--space-6));
 	cursor: grab;
 	display: flex;
 	align-items: center;
 	height: 100%;
 	top: 0;
-	padding-right: var(--space-xs);
+	padding-right: var(--space-2);
 }
 
 @media (max-width: 768px) {
 	.styledText {
-		font-size: var(--font-size-xl);
+		font-size: var(--font-size-6);
 	}
 }

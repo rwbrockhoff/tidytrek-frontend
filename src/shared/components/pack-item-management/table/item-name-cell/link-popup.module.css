@@ -20,5 +20,5 @@
 
 :global(.aow).linkButton {
 	padding: 0;
-	margin-left: var(--space-min);
+	margin-left: var(--space-1);
 }

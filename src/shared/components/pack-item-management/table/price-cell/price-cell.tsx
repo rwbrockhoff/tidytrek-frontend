@@ -57,7 +57,7 @@ export const PriceCell = ({
 			textAlign="center"
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}
-			style={{ width, padding: '0 var(--space-md)' }}>
+			style={{ width, padding: '0 var(--space-4)' }}>
 			{userView ? (
 				<TextField.Standalone
 					variant="minimal"

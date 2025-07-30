@@ -28,15 +28,15 @@
 
 /* Card - Sizes */
 .cardSize1 {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 }
 
 .cardSize2 {
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 }
 
 .cardSize3 {
-	font-size: var(--font-size-md);
+	font-size: var(--font-size-4);
 }
 
 /* Card - Interactive */
@@ -54,7 +54,7 @@
 
 /* Card - Header */
 .header {
-	padding: var(--space-md);
+	padding: var(--space-4);
 	border-bottom: 1px solid var(--color-border-primary);
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-primary);
@@ -68,13 +68,13 @@
 
 /* Card - Components */
 .body {
-	padding: var(--space-md);
+	padding: var(--space-4);
 	color: var(--color-text-primary);
 	flex: 1;
 }
 
 .footer {
-	padding: var(--space-md);
+	padding: var(--space-4);
 	border-top: 1px solid var(--color-border-primary);
 	background-color: var(--color-bg-secondary);
 	color: var(--color-text-secondary);
@@ -88,19 +88,19 @@
 .cardSize1 .header,
 .cardSize1 .body,
 .cardSize1 .footer {
-	padding: var(--space-sm);
+	padding: var(--space-3);
 }
 
 .cardSize2 .header,
 .cardSize2 .body,
 .cardSize2 .footer {
-	padding: var(--space-md);
+	padding: var(--space-4);
 }
 
 .cardSize3 .header,
 .cardSize3 .body,
 .cardSize3 .footer {
-	padding: var(--space-lg);
+	padding: var(--space-6);
 }
 
 .cardRounded,
@@ -132,12 +132,12 @@
 
 @media (max-width: 768px) {
 	.card {
-		font-size: var(--font-size-sm);
+		font-size: var(--font-size-2);
 	}
 
 	.header,
 	.body,
 	.footer {
-		padding: var(--space-sm);
+		padding: var(--space-3);
 	}
 }

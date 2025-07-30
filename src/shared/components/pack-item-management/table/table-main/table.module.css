@@ -11,12 +11,12 @@
 
 @media (max-width: 768px) {
 	.table {
-		font-size: var(--font-size-sm);
+		font-size: var(--font-size-2);
 	}
 
 	/* Reduce padding on mobile */
 	.table th,
 	.table td {
-		padding: var(--space-xs);
+		padding: var(--space-2);
 	}
 }

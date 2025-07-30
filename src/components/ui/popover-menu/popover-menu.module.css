@@ -5,6 +5,6 @@
 
 @media (max-width: 768px) {
 	.menuButton {
-		font-size: var(--font-size-xl);
+		font-size: var(--font-size-6);
 	}
 }

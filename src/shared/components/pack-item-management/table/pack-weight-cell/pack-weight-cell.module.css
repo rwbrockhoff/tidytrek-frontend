@@ -1,5 +1,5 @@
 .input {
-  padding-right: var(--space-min);
-  padding-left: 0;
-  text-align: right;
+	padding-right: var(--space-1);
+	padding-left: 0;
+	text-align: right;
 }

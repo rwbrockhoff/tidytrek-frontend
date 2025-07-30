@@ -1,5 +1,5 @@
 .itemCard {
-	padding: var(--space-md);
+	padding: var(--space-4);
 	border-bottom: 1px solid var(--color-border-primary);
 	background-color: var(--color-bg-primary);
 }
@@ -17,11 +17,11 @@
 .itemNameContainer {
 	display: flex;
 	align-items: center;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 }
 
 .itemHeader .itemName {
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	font-weight: var(--font-weight-medium);
 	color: var(--color-text-primary);
 	margin: 0;
@@ -30,7 +30,7 @@
 .itemNameLink {
 	display: flex;
 	align-items: center;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 	text-decoration: none;
 	color: var(--color-primary);
 	transition: color 0.2s ease;
@@ -52,39 +52,38 @@
 
 .itemNameLink .itemName {
 	color: var(--color-primary);
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-3);
 	font-weight: var(--font-weight-medium);
 }
 
 .itemPrice {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	font-weight: var(--font-weight-medium);
 	color: var(--color-text-secondary);
 	white-space: nowrap;
 }
 
-
 .itemDescription {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	color: var(--color-text-secondary);
 	margin: 0;
 }
 
 .itemProperties {
 	display: flex;
-	gap: var(--space-sm);
+	gap: var(--space-3);
 }
 
 .property {
-	font-size: var(--font-size-xs);
+	font-size: var(--font-size-1);
 	color: var(--color-text-secondary);
 	background-color: var(--color-bg-tertiary);
-	padding: var(--space-min) var(--space-sm);
+	padding: var(--space-1) var(--space-3);
 	border-radius: var(--radius);
 }
 
 .itemLink {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-size-2);
 	color: var(--color-accent-primary);
 	text-decoration: none;
 	display: inline-block;
@@ -102,8 +101,8 @@
 
 .itemActions {
 	display: flex;
-	gap: var(--space-lg);
+	gap: var(--space-6);
 	align-items: center;
-	margin-right: var(--space-min);
+	margin-right: var(--space-1);
 	color: var(--color-text-secondary);
 }

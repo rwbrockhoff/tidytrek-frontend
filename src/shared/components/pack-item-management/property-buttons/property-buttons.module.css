@@ -1,11 +1,11 @@
 .flexContainer {
 	justify-content: space-between;
-	gap: var(--space-xs);
+	gap: var(--space-2);
 }
 
 .flexContainer button {
 	gap: 0;
-	padding: var(--space-xs);
+	padding: var(--space-2);
 	min-width: auto;
 }
 
@@ -45,11 +45,11 @@
 @media (max-width: 768px) {
 	.flexContainer {
 		justify-content: space-around;
-		gap: var(--space-md);
+		gap: var(--space-4);
 	}
 
 	.flexContainer button {
-		padding: var(--space-sm);
+		padding: var(--space-3);
 		min-height: 44px;
 		min-width: 44px;
 	}
