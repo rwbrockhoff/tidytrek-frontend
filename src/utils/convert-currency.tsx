@@ -19,11 +19,10 @@ export const useConvertCurrency = () => {
 
 	return useMemo(
 		() => (price: number) => {
-			const isInvalid = isNaN(price);
-			if (isInvalid) return price;
+			const validPrice = !Number.isFinite(price) || price < 0 ? 0 : price;
 
 			const formatter = getCurrencyFormatter(userCurrency);
-			return formatter.format(price);
+			return formatter.format(validPrice);
 		},
 		[userCurrency]
 	);

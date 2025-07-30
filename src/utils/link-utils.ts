@@ -3,16 +3,20 @@ export const normalizeURL = (link: string): string => {
 	if (!link) return '';
 
 	const trimmed = link.trim();
+	if (!trimmed) return '';
 
 	if (trimmed.startsWith('https://')) return trimmed;
 
-	// Handle http
 	if (trimmed.startsWith('http://')) {
 		return trimmed.replace('http://', 'https://');
 	}
 
-	// Fallback - add https
-	return `https://${trimmed}`;
+	try {
+		new URL(`https://${trimmed}`);
+		return `https://${trimmed}`;
+	} catch {
+		return '';
+	}
 };
 
 // Shorten URL for profile badges

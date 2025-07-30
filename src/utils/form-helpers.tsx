@@ -18,13 +18,18 @@ export function setFormInput<T>(
 	}));
 }
 
-export function searchMatch(search: string, name: string | null | undefined, conditions: string) {
+export function searchMatch(
+	search: string,
+	name: string | null | undefined,
+	options: { caseSensitive?: boolean } = {}
+) {
 	if (!search || !name) return false;
 	
 	const searchInput = search.replace(/\s/g, '').trim();
 	const item = name.replace(/\s/g, '').trim();
 
-	const mustHave = new RegExp(searchInput, conditions);
+	const flags = options.caseSensitive ? '' : 'i';
+	const mustHave = new RegExp(searchInput, flags);
 
 	return mustHave.test(item.trim());
 }

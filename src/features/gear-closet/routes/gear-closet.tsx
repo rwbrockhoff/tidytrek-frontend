@@ -27,8 +27,8 @@ export const GearCloset = () => {
 
 	const filteredClosetList = gearClosetList.filter(
 		(item) =>
-			searchMatch(searchInput, item.packItemName, 'i') ||
-			searchMatch(searchInput, item.packItemDescription, 'i'),
+			searchMatch(searchInput, item.packItemName) ||
+			searchMatch(searchInput, item.packItemDescription),
 	);
 
 	const isSearching = searchInput.length > 0;

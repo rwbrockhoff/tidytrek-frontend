@@ -1,5 +1,18 @@
 import { type PackItem, WeightUnit } from '@/types/pack-types';
 
+const CONVERSIONS = {
+	LB_TO_OZ: 16,
+	KG_TO_OZ: 35.274,
+	G_TO_OZ: 28.3495,
+	KG_TO_LB: 2.20462,
+	G_TO_LB: 0.00220462,
+	LB_TO_KG: 0.453592,
+	G_TO_KG: 1000,
+	OZ_TO_G: 28.3495,
+	LB_TO_G: 453.592,
+	KG_TO_G: 1000,
+} as const;
+
 // convertWeight sums the total weight of all pack items into one weight metric
 // it also returns the total price, consumable weight, and wornWeight
 // useCategoryInfo is the more complex hook used to summarize a pack (this hook is for a pack category);
@@ -78,11 +91,11 @@ const convertToUnit = (weight: number, fromUnit: WeightUnit, toUnit: WeightUnit)
 function convertToOunces(weight: number, unit: WeightUnit) {
 	switch (unit) {
 		case WeightUnit.lb:
-			return weight * 16;
+			return weight * CONVERSIONS.LB_TO_OZ;
 		case WeightUnit.kg:
-			return weight * 35.274;
+			return weight * CONVERSIONS.KG_TO_OZ;
 		case WeightUnit.g:
-			return weight / 28.3495;
+			return weight / CONVERSIONS.G_TO_OZ;
 		default:
 			return weight;
 	}
@@ -91,11 +104,11 @@ function convertToOunces(weight: number, unit: WeightUnit) {
 function convertToPounds(weight: number, unit: WeightUnit) {
 	switch (unit) {
 		case WeightUnit.oz:
-			return weight / 16;
+			return weight / CONVERSIONS.LB_TO_OZ;
 		case WeightUnit.kg:
-			return weight * 2.20462;
+			return weight * CONVERSIONS.KG_TO_LB;
 		case WeightUnit.g:
-			return weight * 0.00220462;
+			return weight * CONVERSIONS.G_TO_LB;
 		default:
 			return weight;
 	}
@@ -104,11 +117,11 @@ function convertToPounds(weight: number, unit: WeightUnit) {
 function convertToKilograms(weight: number, unit: WeightUnit) {
 	switch (unit) {
 		case WeightUnit.oz:
-			return weight / 35.274;
+			return weight / CONVERSIONS.KG_TO_OZ;
 		case WeightUnit.lb:
-			return weight * 0.453592;
+			return weight * CONVERSIONS.LB_TO_KG;
 		case WeightUnit.g:
-			return weight / 1000;
+			return weight / CONVERSIONS.G_TO_KG;
 		default:
 			return weight;
 	}
@@ -117,11 +130,11 @@ function convertToKilograms(weight: number, unit: WeightUnit) {
 function convertToGrams(weight: number, unit: WeightUnit) {
 	switch (unit) {
 		case WeightUnit.oz:
-			return weight * 28.3495;
+			return weight * CONVERSIONS.OZ_TO_G;
 		case WeightUnit.lb:
-			return weight * 453.592;
+			return weight * CONVERSIONS.LB_TO_G;
 		case WeightUnit.kg:
-			return weight * 1000;
+			return weight * CONVERSIONS.KG_TO_G;
 		default:
 			return weight;
 	}

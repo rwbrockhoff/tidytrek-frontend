@@ -3,8 +3,8 @@ import { Text } from '@radix-ui/themes';
 import { cn, mx } from '@/styles/utils';
 import { DownArrowIcon } from '@/components/icons';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
-import campGraphicDay from '@/assets/camping-default-graphic-day.svg';
-import campGraphicNight from '@/assets/camping-default-graphic-night.svg';
+import campGraphicDay from '@/assets/camping-graphic-day.svg';
+import campGraphicNight from '@/assets/camping-graphic-night.svg';
 import styles from './pack-empty-graphic.module.css';
 
 export const PackEmptyGraphic = () => {
@@ -13,8 +13,7 @@ export const PackEmptyGraphic = () => {
 	const campGraphic = isDarkMode ? campGraphicNight : campGraphicDay;
 
 	return (
-		<Flex
-			className={cn(styles.graphicPanel, mx.mobileHidden, 'items-start justify-end')}>
+		<Flex className={cn(styles.graphicPanel, mx.mobileHidden, 'items-start justify-end')}>
 			<Stack className="h-auto items-center">
 				<img
 					src={campGraphic}
