@@ -1,13 +1,17 @@
-import { Card, Button } from '@/components/alpine';
+import { useState } from 'react';
+import { Card, Button, TextField } from '@/components/alpine';
 import { ThemeButton } from '../../table';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { useEditPackCategoryMutation } from '@/queries/pack-queries';
+import { type InputEvent } from '@/types/form-types';
 
-type PackCategoryHeaderProps = {
+type EditableCategoryHeaderProps = {
 	packCategoryName: string;
 	packCategoryColor: string;
+	packCategoryId: number;
 	isMinimized: boolean;
 	userView: boolean;
 	itemQuantity: number;
@@ -17,9 +21,10 @@ type PackCategoryHeaderProps = {
 	onMinimizeCategory: () => void;
 };
 
-export const PackCategoryHeader = ({
-	packCategoryName,
+export const EditableCategoryHeader = ({
+	packCategoryName: initialName,
 	packCategoryColor,
+	packCategoryId,
 	isMinimized,
 	userView,
 	itemQuantity,
@@ -27,13 +32,30 @@ export const PackCategoryHeader = ({
 	formattedTotalPrice,
 	onChangeColor,
 	onMinimizeCategory,
-}: PackCategoryHeaderProps) => {
+}: EditableCategoryHeaderProps) => {
 	const weightUnit = useUserWeightUnit();
+	const { mutate: editPackCategory } = useEditPackCategoryMutation();
+	
+	const [packCategoryName, setPackCategoryName] = useState(initialName);
+
 	const bgColorCategory = {
 		backgroundColor: packCategoryColor ? `var(--${packCategoryColor})` : 'inherit',
 	};
 
 	const showCategoryItems = !isMinimized;
+
+	const handleBlur = () => {
+		if (initialName !== packCategoryName) {
+			editPackCategory({ packCategoryName, packCategoryId });
+		}
+	};
+
+	const handleChangeColor = (newColor: string) => {
+		editPackCategory({ packCategoryColor: newColor, packCategoryId });
+		onChangeColor(newColor);
+	};
+
+	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	return (
 		<Card.Header className={cn('aow', styles.categoryHeader)}>
@@ -41,10 +63,20 @@ export const PackCategoryHeader = ({
 				<ThemeButton
 					paletteColor={packCategoryColor}
 					disabled={!userView}
-					onClick={onChangeColor}
+					onClick={handleChangeColor}
 				/>
 
-				<h3 className={styles.categoryName}>{packCategoryName}</h3>
+				<TextField.Standalone
+					className={styles.categoryName}
+					value={packCategoryName}
+					name="packCategoryName"
+					placeholder={userView ? 'Category' : ''}
+					variant="minimal"
+					onChange={handleInput}
+					onBlur={userView ? handleBlur : undefined}
+					disabled={!userView}
+				/>
+				
 				<Button
 					onClick={onMinimizeCategory}
 					variant="ghost"
@@ -59,7 +91,10 @@ export const PackCategoryHeader = ({
 						{itemQuantity} {itemQuantity === 1 ? 'item' : 'items'}
 					</span>
 
-					<span className={styles.totalWeight}>{`${convertedCategoryWeight} ${weightUnit}`}</span>
+					<span
+						className={
+							styles.totalWeight
+						}>{`${convertedCategoryWeight} ${weightUnit}`}</span>
 					<span className={styles.totalPrice}>{formattedTotalPrice}</span>
 				</div>
 			)}

@@ -5,7 +5,7 @@ import { Card } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
-import { PackCategoryHeader } from './pack-category-header';
+import { EditableCategoryHeader } from './editable-category-header';
 import { PackCategoryItems } from './pack-category-items';
 
 type PackCategoryCardProps = {
@@ -43,9 +43,10 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 			override
 			className={cn(isMinimized && styles.minimized, 'w-full')}
 			data-testid="pack-category-card">
-			<PackCategoryHeader
+			<EditableCategoryHeader
 				packCategoryName={packCategoryName}
 				packCategoryColor={packCategoryColor}
+				packCategoryId={packCategoryId}
 				isMinimized={isMinimized}
 				userView={userView}
 				itemQuantity={itemQuantity}
