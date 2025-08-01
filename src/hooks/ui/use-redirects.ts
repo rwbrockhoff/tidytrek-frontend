@@ -1,5 +1,15 @@
 import { useState } from 'react';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
+import { extractData } from '@/queries/extract-data';
+
+type RedirectAPIResponse = {
+	trusted?: boolean;
+	redirectUrl?: string;
+	warning?: boolean;
+	message?: string;
+	destination?: string;
+	continueUrl?: string;
+};
 
 export type RedirectResponse = {
 	redirectUrl?: string;
@@ -17,27 +27,24 @@ export const useRedirects = () => {
 		setIsLoading(true);
 		try {
 			const response = await tidyTrekAPI.post('/redirect', { url });
+			const responseData = extractData<RedirectAPIResponse>(response);
 
-			// If trusted, return the redirect URL
-			if (response.data.trusted) {
-				return { redirectUrl: response.data.redirectUrl };
+			if (responseData.trusted) {
+				return { redirectUrl: responseData.redirectUrl };
 			}
 
-			// If warning, return warning info
-			if (response.data.warning) {
+			if (responseData.warning) {
 				return {
 					warning: {
-						message: response.data.message,
-						domain: response.data.destination,
-						continueUrl: response.data.continueUrl,
+						message: responseData.message || 'This link may not be safe.',
+						domain: responseData.destination || 'unknown',
+						continueUrl: responseData.continueUrl || url,
 					},
 				};
 			}
 
-			// Fallback
 			return { redirectUrl: url };
 		} catch (error) {
-			// If API fails, treat as unsafe
 			return {
 				warning: {
 					message: 'This link may not be safe. Proceed with caution.',
@@ -46,7 +53,6 @@ export const useRedirects = () => {
 				},
 			};
 		} finally {
-			// regardless of success/fail, set loading to false
 			setIsLoading(false);
 		}
 	};

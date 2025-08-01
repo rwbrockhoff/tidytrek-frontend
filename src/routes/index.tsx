@@ -30,7 +30,7 @@ export const AppRouter = () => {
 
 	return (
 		<div data-theme={currentMode} data-theme-palette={currentPalette}>
-			<Theme accentColor="jade" radius="small" scaling="100%">
+			<Theme accentColor="jade" radius="small" scaling="95%">
 				<RouterProvider router={appRouter} />
 			</Theme>
 		</div>

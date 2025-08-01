@@ -16,6 +16,7 @@ export const ThemeToggle = ({ className }: ThemeToggleProps) => {
 		const newDarkMode = !currentDarkMode;
 
 		localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+		document.documentElement.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
 		document.body.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
 
 		updateSettings({ darkMode: newDarkMode });

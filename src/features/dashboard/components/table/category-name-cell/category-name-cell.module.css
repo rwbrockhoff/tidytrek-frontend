@@ -6,6 +6,7 @@
 .headerCellInput {
 	/* Very specific size works for text proportions */
 	font-size: 1.05rem;
+	padding: var(--space-1) var(--space-2);
 }
 
 @media (max-width: 768px) {

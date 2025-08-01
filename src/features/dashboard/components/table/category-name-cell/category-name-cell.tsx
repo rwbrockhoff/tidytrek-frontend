@@ -9,6 +9,7 @@ import { GripButton } from '@/shared/components/pack-item-management/table';
 import { useUserContext } from '@/hooks/auth/use-user-context';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
+import { cn, mx } from '@/styles/utils';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -54,7 +55,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 					onClick={handleChangeColor}
 				/>
 				<TextField.Standalone
-					className={styles.headerCellInput}
+					className={cn(styles.headerCellInput, mx.textEllipsis)}
 					value={packCategoryName}
 					name="packCategoryName"
 					placeholder={userView ? 'Category' : ''}

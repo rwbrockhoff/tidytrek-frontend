@@ -39,6 +39,7 @@ export function useThemeSetter(darkMode?: boolean, palette?: PaletteName) {
 		const themeToUse = palette || getPreferredTheme();
 
 		// Always update DOM attributes to ensure portals get the changes
+		document.documentElement.setAttribute('data-theme', modeToUse);
 		document.body.setAttribute('data-theme', modeToUse);
 		document.body.setAttribute('data-theme-palette', themeToUse);
 

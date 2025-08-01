@@ -109,7 +109,7 @@ export const PackForm = ({
 
 				<div className={styles.extraDetails}>
 					<Form aria-label="Pack additional details and settings">
-						<Stack className="gap-3">
+						<Stack className="gap-1">
 							<div className={styles.tagsContainer}>
 								<TextField.Input
 									name="packLocationTag"

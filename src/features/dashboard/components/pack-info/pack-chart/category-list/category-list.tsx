@@ -17,18 +17,18 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
 		<Stack role="list" className={styles.chartList}>
 			{categories.map((category) => (
 				<Flex key={category.categoryId} className={cn(styles.chartItem, 'items-center')}>
-					<Text className={styles.styledText}>
-						<Flex className="items-center gap-2">
-							<CircleIcon
-								className="lucide-sm"
-								style={{
-									fill: `var(--${category.chartColor})`,
-									color: 'transparent',
-								}}
-							/>
+					<Flex className="items-center gap-2 flex-nowrap">
+						<CircleIcon
+							className="lucide-sm"
+							style={{
+								fill: `var(--${category.chartColor})`,
+								color: 'transparent',
+							}}
+						/>
+						<Text className={styles.styledText}>
 							{category.categoryName || 'Category'}
-						</Flex>
-					</Text>
+						</Text>
+					</Flex>
 					<Badge color="gray" ml="auto">
 						{category.totalWeight} {weightUnit}
 					</Badge>
