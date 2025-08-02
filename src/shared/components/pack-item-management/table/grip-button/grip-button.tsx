@@ -6,13 +6,19 @@ import hoverStyles from '../hover-styles.module.css';
 
 export const GripButton = ({
 	testId = 'grip-button',
+	disabled = false,
 	...props
 }: {
 	testId?: string;
+	disabled?: boolean;
 }) => {
 	return (
 		<Flex
-			className={cn(styles.gripContainer, hoverStyles.showOnHoverAbsolute, 'items-center justify-center')}
+			className={cn(
+				styles.gripContainer, 
+				!disabled && hoverStyles.showOnHoverAbsolute, 
+				'items-center justify-center'
+			)}
 			data-testid={testId}
 			{...props}>
 			<GripIcon className="lucide-sm" />

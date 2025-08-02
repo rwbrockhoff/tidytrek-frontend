@@ -19,7 +19,7 @@ describe('useRedirects', () => {
 
 	it('returns redirect URL for trusted domains', async () => {
 		mockPost.mockResolvedValue({
-			data: { trusted: true, redirectUrl: 'https://youtube.com/test' },
+			data: { data: { trusted: true, redirectUrl: 'https://youtube.com/test' } },
 		});
 
 		const { result } = renderHook(() => useRedirects());
@@ -35,10 +35,12 @@ describe('useRedirects', () => {
 	it('returns warning for untrusted domains', async () => {
 		mockPost.mockResolvedValue({
 			data: {
-				warning: true,
-				message: "You're about to leave TidyTrek",
-				destination: 'badsite.com',
-				continueUrl: 'https://badsite.com',
+				data: {
+					warning: true,
+					message: "You're about to leave TidyTrek",
+					destination: 'badsite.com',
+					continueUrl: 'https://badsite.com',
+				},
 			},
 		});
 

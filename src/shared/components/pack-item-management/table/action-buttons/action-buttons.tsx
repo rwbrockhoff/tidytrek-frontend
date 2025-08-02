@@ -9,11 +9,12 @@ type ActionButtonsProps = {
 	header?: boolean;
 	size?: number;
 	isDragging?: boolean;
+	disabled?: boolean;
 	children: React.ReactNode;
 };
 
 export const ActionButtons = (props: ActionButtonsProps) => {
-	const { header, isDragging = false, children } = props;
+	const { header, isDragging = false, disabled = false, children } = props;
 	const { ref, width } = useCellWidth(isDragging);
 
 	if (header) {
@@ -25,7 +26,7 @@ export const ActionButtons = (props: ActionButtonsProps) => {
 	} else {
 		return (
 			<Table.Cell verticalAlign="middle" ref={ref} style={{ width }}>
-				<Flex className={cn(styles.flexContainer, hoverStyles.showOnHover)}>
+				<Flex className={cn(styles.flexContainer, !disabled && hoverStyles.showOnHover)}>
 					{children}
 				</Flex>
 			</Table.Cell>

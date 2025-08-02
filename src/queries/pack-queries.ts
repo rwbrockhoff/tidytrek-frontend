@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import {
 	type MovePackItemProps,
 	type MovePackCategoryProps,
@@ -26,17 +27,22 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 };
 
 export const useGetPackQuery = (packId: number | null | undefined) => {
+	const { isAuthenticated } = useGetAuth();
+	
 	return useQuery<PackQueryState>({
 		queryKey: packKeys.packId(packId),
-		enabled: Boolean(packId),
+		enabled: Boolean(packId) && isAuthenticated,
 		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get(`/packs/${packId}`).then(extractData<PackQueryState>),
 	});
 };
 
 export const useGetPackListQuery = () => {
+	const { isAuthenticated } = useGetAuth();
+	
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,
+		enabled: isAuthenticated,
 		staleTime: STALE_TIME,
 		queryFn: () =>
 			tidyTrekAPI.get('/packs/pack-list').then(extractData<{ packList: PackListItem[] }>),

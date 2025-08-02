@@ -1,5 +1,4 @@
 import { type Category } from '@/types/pack-types';
-import { Flex } from '@/components/layout';
 import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -47,6 +46,8 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 
 	const chartOptions = useMemo(
 		() => ({
+			responsive: true,
+			maintainAspectRatio: false,
 			plugins: {
 				tooltip: {
 					callbacks: {
@@ -77,8 +78,12 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	return (
-		<Flex className="justify-center items-center w-full">
+		<div style={{ 
+			width: '100%', 
+			height: '100%',
+			position: 'relative'
+		}}>
 			<Doughnut data={chartData} options={chartOptions} />
-		</Flex>
+		</div>
 	);
 };

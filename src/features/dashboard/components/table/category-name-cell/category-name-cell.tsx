@@ -6,7 +6,7 @@ import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton } from '../theme-button/theme-button';
 import { GripButton } from '@/shared/components/pack-item-management/table';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackOwner } from '@/hooks/auth/use-pack-owner';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
 import { cn, mx } from '@/styles/utils';
@@ -18,7 +18,7 @@ type CategoryNameCellProps = {
 };
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const userView = useUserContext();
+	const { isPackOwner } = usePackOwner();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const { disabled, categoryHeaderInfo, dragProps } = props;
@@ -44,26 +44,32 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	return (
 		<Table.HeaderCell className={styles.headerCell}>
-			<div className={hoverStyles.showOnHoverAbsolute}>
-				<GripButton testId="pack-category-grip" {...dragProps} />
+			<div className={cn(isPackOwner && hoverStyles.showOnHoverAbsolute)}>
+				<GripButton testId="pack-category-grip" disabled={!isPackOwner} {...dragProps} />
 			</div>
 
 			<Flex className="items-center">
 				<ThemeButton
 					paletteColor={packCategoryColor}
-					disabled={!userView}
+					disabled={!isPackOwner}
 					onClick={handleChangeColor}
 				/>
-				<TextField.Standalone
-					className={cn(styles.headerCellInput, mx.textEllipsis)}
-					value={packCategoryName}
-					name="packCategoryName"
-					placeholder={userView ? 'Category' : ''}
-					variant="minimal"
-					onChange={handleInput}
-					onBlur={userView ? handleBlur : undefined}
-					disabled={disabled || !userView}
-				/>
+				{isPackOwner ? (
+					<TextField.Standalone
+						className={cn(styles.headerCellInput, mx.textEllipsis)}
+						value={packCategoryName}
+						name="packCategoryName"
+						placeholder="Category"
+						variant="minimal"
+						onChange={handleInput}
+						onBlur={handleBlur}
+						disabled={disabled}
+					/>
+				) : (
+					<span className={cn(styles.headerCellText, mx.textEllipsis)}>
+						{packCategoryName || 'Category'}
+					</span>
+				)}
 			</Flex>
 		</Table.HeaderCell>
 	);

@@ -18,3 +18,18 @@
 	text-overflow: ellipsis;
 	max-width: 12ch;
 }
+
+@media (max-width: 768px) {
+	.chartList {
+		max-height: 100%;
+		padding: 0 var(--space-2);
+	}
+	
+	.chartItem {
+		height: 2rem;
+	}
+	
+	.styledText {
+		max-width: none;
+	}
+}

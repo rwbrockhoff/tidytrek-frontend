@@ -20,11 +20,12 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 	const { username, trailName, firstName, profilePhotoUrl } = userInfo || {};
 
 	return (
-		<Flex className="items-center mb-4">
+		<Flex className="items-center mb-8 md:mb-4">
 			<Link to={`/user/${username}`} enabled={publicProfile}>
-				<Avatar src={profilePhotoUrl} size="medium" />
+				<Avatar src={profilePhotoUrl} size="small" />
 			</Link>
-			<Stack className="justify-center ml-4">
+
+			<Stack className="justify-center gap-2 ml-4">
 				<Heading as="h4" size="4" className={styles.usernameHeader}>
 					<Link to={`/user/${username}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}

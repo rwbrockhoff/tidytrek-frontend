@@ -18,7 +18,7 @@ import { useGuestData } from '../../hooks/use-guest-data';
 import { usePackDragHandler } from '../../hooks/use-pack-drag-handler';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { usePackOwner } from '@/hooks/auth/use-pack-owner';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 type DashboardProps = {
@@ -31,14 +31,13 @@ type DashboardProps = {
 
 export const DashboardContainer = (props: DashboardProps) => {
 	const userView = useUserContext();
-	const { user } = useGetAuth();
 	const { isAuthenticated, isPending, paramPackId, currentPack, packList } = props;
 	const { pack, categories } = currentPack || {};
 	const packCategories = categories || [];
 	const packId = pack?.packId || null;
 
 	// Check if current user owns this pack
-	const isUsersPack = user && pack ? user.userId === pack.userId : false;
+	const { isPackOwner: isUsersPack } = usePackOwner({ pack });
 
 	const { onDragEnd } = usePackDragHandler();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();

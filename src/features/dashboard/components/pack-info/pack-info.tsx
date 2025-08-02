@@ -10,6 +10,7 @@ import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackOwner } from '@/hooks/auth/use-pack-owner';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { useCategoryInfo } from '../../hooks/use-category-info';
 import { encode } from '@/utils';
@@ -32,6 +33,7 @@ type PackInfoProps = {
 export const PackInfo = (props: PackInfoProps) => {
 	const navigate = useNavigate();
 	const userView = useUserContext();
+	const { isPackOwner } = usePackOwner({ pack: props.currentPack });
 	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
 
@@ -55,15 +57,14 @@ export const PackInfo = (props: PackInfoProps) => {
 		packDescription,
 		packUrl,
 	);
-
 	return (
 		<Flex
 			className={cn(
 				styles.packInfoContainer,
 				mx.responsiveContent,
-				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12',
+				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12 md:gap-8',
 			)}>
-			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-2')}>
+			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1')}>
 				{!userView && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -71,12 +72,13 @@ export const PackInfo = (props: PackInfoProps) => {
 						publicProfile={publicProfile}
 					/>
 				)}
+
 				<Flex className="items-center gap-2">
 					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
 					</Heading>
 
-					{isMobile && userView ? (
+					{isMobile && isPackOwner ? (
 						<Button
 							variant="ghost"
 							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
@@ -86,22 +88,20 @@ export const PackInfo = (props: PackInfoProps) => {
 							<EditPencilIcon />
 						</Button>
 					) : (
-						<PackModal pack={currentPack}>
-							<Button
-								variant="ghost"
-								className={cn(
-									`editIcon ${styles.editIcon}`,
-									!userView && mx.hidden,
-									'my-auto',
-								)}
-								data-testid="pack-edit-button"
-								aria-label="Edit pack details">
-								<EditPencilIcon />
-							</Button>
-						</PackModal>
+						isPackOwner && (
+							<PackModal pack={currentPack}>
+								<Button
+									variant="ghost"
+									className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
+									data-testid="pack-edit-button"
+									aria-label="Edit pack details">
+									<EditPencilIcon />
+								</Button>
+							</PackModal>
+						)
 					)}
 				</Flex>
-				<ShareSettings packPublic={packPublic} packId={paramPackId} />
+				{isPackOwner && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
 				{packUrl && (
 					<ExternalLink href={packUrl}>
 						<LinkIcon />

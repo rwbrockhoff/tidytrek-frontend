@@ -8,7 +8,7 @@ import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
 import { useCellWidth } from '../hooks/use-cell-width';
-import { mx } from '@/styles/utils';
+import { mx, cn } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
@@ -39,6 +39,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			className={styles.styledCell}>
 			<GripButton
 				testId="pack-item-grip"
+				disabled={!userView}
 				{...dragProps}
 			/>
 
@@ -61,15 +62,9 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					{packItemName || packItemUrl || 'Pack Item'}
 				</ExternalLink>
 			) : (
-				<TextField.Standalone
-					value={packItemName || ''}
-					name={'packItemName'}
-					placeholder={'Name'}
-					variant="minimal"
-					onChange={onChange}
-					disabled={!userView}
-					className={mx.textEllipsis}
-				/>
+				<span className={cn(mx.textEllipsis, 'px-2')}>
+					{packItemName || 'Name'}
+				</span>
 			)}
 		</Table.Cell>
 	);

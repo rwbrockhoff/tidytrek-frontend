@@ -8,7 +8,7 @@ export const ProfileBanner = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Flex className="items-center mb-4">
+		<Flex className="items-center mb-12">
 			<LandingLink>
 				<Heading as="h2" ml="6">
 					tidytrek

@@ -21,8 +21,9 @@ import {
 	createMockPackList,
 } from '@/tests/mocks/pack-mocks';
 import { createMockApiResponse } from '@/tests/mocks/api-mocks';
+import { createMockUser } from '@/tests/mocks/user-mocks';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 
-// Mock API calls and utils
 vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
@@ -30,6 +31,15 @@ vi.mock('@/api/tidytrek-api', () => ({
 		put: vi.fn(),
 		delete: vi.fn(),
 	},
+}));
+
+vi.mock('@/hooks/auth/use-get-auth', () => ({
+	useGetAuth: vi.fn(() => ({
+		user: createMockUser(),
+		isLoading: false,
+		isAuthenticated: true,
+		settings: null,
+	})),
 }));
 
 vi.mock('@/utils', () => ({
@@ -54,6 +64,22 @@ describe('useGetPackQuery', () => {
 
 	it('should be disabled when packId is undefined', () => {
 		renderHook(() => useGetPackQuery(undefined), {
+			wrapper: createQueryWrapper(),
+		});
+
+		expect(tidyTrekAPI.get).not.toHaveBeenCalled();
+	});
+
+	it('should be disabled when user is not authenticated', () => {
+		// Mock unauthenticated state
+		vi.mocked(useGetAuth).mockReturnValueOnce({
+			user: null,
+			isLoading: false,
+			isAuthenticated: false,
+			settings: null,
+		});
+
+		renderHook(() => useGetPackQuery(123), {
 			wrapper: createQueryWrapper(),
 		});
 
@@ -88,6 +114,22 @@ describe('useGetPackListQuery', () => {
 		});
 
 		expect(tidyTrekAPI.get).toHaveBeenCalledWith('/packs/pack-list');
+	});
+
+	it('should be disabled when user is not authenticated', () => {
+		// Mock unauthenticated state
+		vi.mocked(useGetAuth).mockReturnValueOnce({
+			user: null,
+			isLoading: false,
+			isAuthenticated: false,
+			settings: null,
+		});
+
+		renderHook(() => useGetPackListQuery(), {
+			wrapper: createQueryWrapper(),
+		});
+
+		expect(tidyTrekAPI.get).not.toHaveBeenCalled();
 	});
 
 	it('should return transformed data correctly', async () => {

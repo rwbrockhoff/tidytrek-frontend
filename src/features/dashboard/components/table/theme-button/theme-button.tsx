@@ -18,14 +18,25 @@ export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProp
 		backgroundColor: paletteColor ? `var(--${paletteColor})` : 'inherit',
 	};
 
+	if (disabled) {
+		return (
+			<Flex className="items-center justify-center m-1">
+				<Button
+					className={cn(styles.circleButton, mx.noPointer)}
+					style={bgColorPalette}
+					disabled={disabled}
+				/>
+			</Flex>
+		);
+	}
+
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
 				<Flex className="items-center justify-center m-1">
 					<Button
-						className={cn(styles.circleButton, disabled && mx.noPointer)}
+						className={styles.circleButton}
 						style={bgColorPalette}
-						disabled={disabled}
 					/>
 				</Flex>
 			</Popover.Trigger>

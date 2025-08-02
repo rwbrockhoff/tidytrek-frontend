@@ -48,7 +48,10 @@ export const PropertyButtons = ({
 				size="sm"
 				onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
 				aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
-				className={cn(favorite ? '' : hoverStyles.showOnHover)}
+				className={cn(
+					favorite ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+					isDisabled && !favorite && 'invisible'
+				)}
 				iconLeft={
 					<FavoriteIcon
 						name="favorite"
@@ -66,7 +69,10 @@ export const PropertyButtons = ({
 					size="sm"
 					onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
 					aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
-					className={cn(consumable ? '' : hoverStyles.showOnHover)}
+					className={cn(
+						consumable ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+						isDisabled && !consumable && 'invisible'
+					)}
 					iconLeft={
 						<ConsumableIcon
 							name="food"
@@ -85,7 +91,10 @@ export const PropertyButtons = ({
 					size="sm"
 					onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
 					aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
-					className={cn(wornWeight ? '' : hoverStyles.showOnHover)}
+					className={cn(
+						wornWeight ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+						isDisabled && !wornWeight && 'invisible'
+					)}
 					iconLeft={
 						<WornIcon
 							name="wornWeight"

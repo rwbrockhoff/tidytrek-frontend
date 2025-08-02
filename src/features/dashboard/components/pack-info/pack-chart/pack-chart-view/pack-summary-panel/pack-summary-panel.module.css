@@ -16,3 +16,10 @@
 	overflow: visible;
 	color: var(--color-text-tertiary);
 }
+
+@media (max-width: 768px) {
+	.popupListItem {
+		padding-left: var(--space-2);
+		padding-right: var(--space-2);
+	}
+}
