@@ -36,11 +36,11 @@ export default defineConfig(({ mode }) => ({
 					if (
 						id.includes('react') ||
 						id.includes('react-dom') ||
-						id.includes('react-router-dom')
+						id.includes('react-router-dom') ||
+						id.includes('@radix-ui/themes') ||
+						id.includes('@radix-ui/react-form')
 					)
 						return 'react';
-					if (id.includes('@radix-ui/themes') || id.includes('@radix-ui/react-form'))
-						return 'radix';
 					if (id.includes('@tanstack/react-query')) return 'query';
 					if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
 					if (id.includes('react-beautiful-dnd')) return 'dnd';
