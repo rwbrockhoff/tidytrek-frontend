@@ -1,8 +1,7 @@
 import { type User } from '@/types/user-types';
 import { FormSection } from '@/features/account/types';
 import { useState } from 'react';
-import { Stack } from '@/components/layout';
-import { Segment, SegmentGroup } from '@/components/primitives';
+import { SegmentGroup } from '@/components/primitives';
 import { PasswordForm } from './password-form/password-form';
 import { AccountInfoDisplay } from '../account-info-display';
 import { DeleteAccountSection } from '../delete-account-section';
@@ -16,24 +15,22 @@ type AccountFormProps = {
 export const AccountForm = (props: AccountFormProps) => {
 	const { user, deleteAccount } = props;
 
-	const [displayFormSection, setDisplayFormSection] = useState<FormSection>(FormSection.INITIAL);
+	const [displayFormSection, setDisplayFormSection] = useState<FormSection>(
+		FormSection.INITIAL,
+	);
 
 	const handleChangeFormSection = (section: FormSection) =>
 		setDisplayFormSection(section);
 
 	return (
-		<Stack>
-			<SegmentGroup>
-				<AccountInfoDisplay user={user} />
-				<UserPreferencesSection />
-				<Segment>
-					<PasswordForm
-						displayFormSection={displayFormSection}
-						changeFormSection={handleChangeFormSection}
-					/>
-				</Segment>
-				<DeleteAccountSection onDeleteAccount={deleteAccount} />
-			</SegmentGroup>
-		</Stack>
+		<SegmentGroup>
+			<AccountInfoDisplay user={user} />
+			<UserPreferencesSection />
+			<PasswordForm
+				displayFormSection={displayFormSection}
+				changeFormSection={handleChangeFormSection}
+			/>
+			<DeleteAccountSection onDeleteAccount={deleteAccount} />
+		</SegmentGroup>
 	);
 };

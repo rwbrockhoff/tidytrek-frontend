@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { FormSection } from '@/features/account/types';
-import { Heading } from '@radix-ui/themes';
+import { Heading, Text, Callout } from '@radix-ui/themes';
+import { Segment } from '@/components/primitives';
+import { Stack, Flex } from '@/components/layout';
+import { CheckIcon } from '@/components/icons';
 import { PasswordChangeButton } from './password-change-button';
 import { PasswordChangeForm } from './password-change-form';
 import { ConfirmationForm } from '../confirmation-form/confirmation-form';
@@ -23,10 +26,10 @@ export const PasswordForm = ({
 	const { reauthenticate } = usePasswordActions();
 
 	const handleSendConfirmation = () => {
-		changeFormSection(FormSection.PASSWORD);
 		reauthenticate.mutate(undefined, {
 			onSuccess: () => {
 				setConfirmationSent(true);
+				changeFormSection(FormSection.PASSWORD);
 			},
 		});
 	};
@@ -49,36 +52,38 @@ export const PasswordForm = ({
 		[FormSection.CONFIRMATION]: () => (
 			<ConfirmationForm
 				sendConfirmation={handleSendConfirmation}
-				confirmationSent={confirmationSent}
 				isError={reauthenticate.isError}
 				errorMessage={confirmationErrorMessage}
 			/>
 		),
-		[FormSection.PASSWORD]: () => 
-			confirmationSent && !formSuccess ? (
-				<ConfirmationForm
-					sendConfirmation={handleSendConfirmation}
-					confirmationSent={confirmationSent}
-					isError={reauthenticate.isError}
-					errorMessage={confirmationErrorMessage}
-				/>
-			) : (
+		[FormSection.PASSWORD]: () => (
+			<Stack className="gap-4">
+				{confirmationSent && (
+					<Callout.Root color="grass" variant="surface" className="max-w-sm">
+						<Flex className="items-center gap-2">
+							<CheckIcon />
+							<Heading size="4">Email Sent!</Heading>
+						</Flex>
+						<Text>Check your email for your code to use below.</Text>
+					</Callout.Root>
+				)}
 				<PasswordChangeForm
 					onFormSuccess={handleFormSuccess}
 					onCancel={handleCloseForm}
 					isFormSuccess={formSuccess}
 				/>
-			),
+			</Stack>
+		),
 	};
 
 	const CurrentSection = sectionComponents[displayFormSection];
 
 	return (
-		<>
+		<Segment>
 			<Heading as="h4" size="3" mb="4">
 				Update Your Password
 			</Heading>
 			{CurrentSection && <CurrentSection />}
-		</>
+		</Segment>
 	);
 };

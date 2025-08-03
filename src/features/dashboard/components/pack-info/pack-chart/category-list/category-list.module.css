@@ -30,6 +30,6 @@
 	}
 	
 	.styledText {
-		max-width: none;
+		max-width: 24ch;
 	}
 }

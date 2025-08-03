@@ -47,10 +47,17 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	const chartOptions = useMemo(
 		() => ({
 			responsive: true,
-			maintainAspectRatio: false,
+			maintainAspectRatio: true,
+			aspectRatio: 1,
 			plugins: {
 				tooltip: {
 					callbacks: {
+						title: (context: TooltipItem<'doughnut'>[]) => {
+							const categoryName = context[0]?.label || '';
+							return categoryName.length > 20
+								? categoryName.substring(0, 20) + '...'
+								: categoryName;
+						},
 						label: (context: TooltipItem<'doughnut'>) => {
 							const label = context.formattedValue || '0';
 							return `${label} ${weightUnit}`;
@@ -78,12 +85,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	return (
-		<div
-			style={{
-				width: '100%',
-				height: '100%',
-				position: 'relative',
-			}}>
+		<div className="w-full md:w-fit h-full relative">
 			<Doughnut data={chartData} options={chartOptions} />
 		</div>
 	);

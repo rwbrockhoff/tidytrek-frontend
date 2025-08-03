@@ -39,9 +39,9 @@ export const PackChartView = ({
 					totalPackPrice={totalPackPrice}
 				/>
 			</Stack>
-			<Flex className={cn(styles.chartPanel, 'items-center justify-end')}>
+			<div className={styles.chartPanel}>
 				<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-			</Flex>
+			</div>
 		</Flex>
 	);
 };
