@@ -42,7 +42,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 		[categories],
 	);
 
-	const borderColor = isDarkMode ? '#000000' : '#ffffff';
+	const borderColor = isDarkMode ? '#111827' : '#ffffff';
 
 	const chartOptions = useMemo(
 		() => ({
@@ -78,11 +78,12 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	return (
-		<div style={{ 
-			width: '100%', 
-			height: '100%',
-			position: 'relative'
-		}}>
+		<div
+			style={{
+				width: '100%',
+				height: '100%',
+				position: 'relative',
+			}}>
 			<Doughnut data={chartData} options={chartOptions} />
 		</div>
 	);

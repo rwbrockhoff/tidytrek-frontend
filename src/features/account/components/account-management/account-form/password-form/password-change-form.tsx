@@ -1,6 +1,5 @@
 import { type FormEvent } from 'react';
-import mx from '@/styles/utils/mixins.module.css';
-import { Flex } from '@/components/layout';
+import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { Form } from '@radix-ui/react-form';
 import { Message } from '@/components/ui';
@@ -43,24 +42,30 @@ export const PasswordChangeForm = ({
 	};
 
 	return (
-		<Form className={mx.halfWidth} ref={formRef} onSubmit={handleSubmitForm}>
-			<PasswordChangeFormFields
-				formErrors={formErrors}
-				onClearErrors={handleClearErrors}
-			/>
+		<Form className="max-w-sm" ref={formRef} onSubmit={handleSubmitForm}>
+			<Stack className="gap-4">
+				<PasswordChangeFormFields
+					formErrors={formErrors}
+					onClearErrors={handleClearErrors}
+				/>
 
-			{isError && <Message messageType="error" text={supabaseErrorMessage} />}
+				{isError && <Message messageType="error" text={supabaseErrorMessage} />}
 
-			{isFormSuccess && <Message messageType="success" text={successMessage} />}
+				{isFormSuccess && <Message messageType="success" text={successMessage} />}
 
-			<Flex className="justify-end gap-3 w-full mt-6 md:w-auto md:mt-0">
-				<Button variant="outline" onClick={onCancel}>
-					{isFormSuccess ? 'Close' : 'Cancel'}
-				</Button>
-				<Button type="submit" loading={isPending}>
-					Save Password
-				</Button>
-			</Flex>
+				<Flex className="justify-end gap-2">
+					<Button
+						variant="outline"
+						color="secondary"
+						className="outline-button-dark"
+						onClick={onCancel}>
+						{isFormSuccess ? 'Close' : 'Cancel'}
+					</Button>
+					<Button type="submit" loading={isPending}>
+						Save Password
+					</Button>
+				</Flex>
+			</Stack>
 		</Form>
 	);
 };

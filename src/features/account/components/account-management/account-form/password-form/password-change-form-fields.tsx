@@ -1,4 +1,4 @@
-import { Root as FormRoot } from '@radix-ui/react-form';
+import { Stack } from '@/components/layout';
 import { TextField } from '@/components/alpine';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
@@ -19,7 +19,7 @@ export const PasswordChangeFormFields = ({
   onClearErrors,
 }: PasswordChangeFormFieldsProps) => {
   return (
-    <FormRoot>
+    <Stack className="gap-1">
       <TextField.Input
         name="password"
         label="New Password"
@@ -45,6 +45,6 @@ export const PasswordChangeFormFields = ({
         onChange={onClearErrors}
         placeholder="Email Code"
       />
-    </FormRoot>
+    </Stack>
   );
 };

@@ -1,8 +1,6 @@
-import styles from './confirmation-form.module.css';
 import { Message } from '@/components/ui';
-import { cn } from '@/styles/utils';
 import { SendIcon, CheckIcon } from '@/components/icons';
-import { Flex } from '@/components/layout';
+import { Stack, Flex } from '@/components/layout';
 import { Callout, Heading, Text } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
 
@@ -20,21 +18,21 @@ export const ConfirmationForm = ({
 	errorMessage,
 }: ConfirmationFormProps) => {
 	return (
-		<div className={styles.confirmationContainer}>
+		<Stack className="gap-8 max-w-md my-8">
 			{confirmationSent ? (
 				<Callout.Root color="grass" variant="surface">
-					<Flex className={cn(styles.styledHeading, 'items-center')}>
-						<Heading size="4">
-							<CheckIcon />
-							Email Sent!
-						</Heading>
+					<Flex className="items-center gap-2">
+						<CheckIcon />
+						<Heading size="4">Email Sent!</Heading>
 					</Flex>
-					<Text mb="2">Check your email for your code to use below.</Text>
+					<Text>Check your email for your code to use below.</Text>
 				</Callout.Root>
 			) : (
-				<Callout.Root color="gray" variant="surface">
-					<Heading size="4">Verify Email</Heading>
-					<Text mb="2">Let's send a code to your email to get started.</Text>
+				<Stack className="gap-4" stretch={false}>
+					<Stack className="gap-2">
+						<Heading size="4">Verify Email</Heading>
+						<Text>Let's send a code to your email to get started.</Text>
+					</Stack>
 
 					{isError && errorMessage && <Message messageType="error" text={errorMessage} />}
 
@@ -46,8 +44,8 @@ export const ConfirmationForm = ({
 						className="outline-button-dark">
 						Send Email
 					</Button>
-				</Callout.Root>
+				</Stack>
 			)}
-		</div>
+		</Stack>
 	);
 };
