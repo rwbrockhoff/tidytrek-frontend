@@ -41,7 +41,7 @@ export const useEditGearClosetItemMutation = (): SimpleMutation<
 			tidyTrekAPI
 				.put(`/closet/items/${gearClosetItem.packItemId}`, gearClosetItem)
 				.then(extractData<GearClosetItem>),
-		onSuccess: (updatedItem) => {
+		onSuccess: (_response, variables) => {
 			// only update changed item in cache
 			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
 				closetKeys.all,
@@ -51,7 +51,7 @@ export const useEditGearClosetItemMutation = (): SimpleMutation<
 					return {
 						...old,
 						gearClosetList: old.gearClosetList.map((item) =>
-							item.packItemId === updatedItem.packItemId ? updatedItem : item,
+							item.packItemId === variables.packItemId ? variables : item,
 						),
 					};
 				},

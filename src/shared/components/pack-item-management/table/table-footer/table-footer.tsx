@@ -55,7 +55,8 @@ export const TableFooter = ({
 								x{itemQuantity}
 							</Badge>
 						</Table.Cell>
-						<Table.Cell className={styles.summaryCell}>{`${weight} ${weightUnit}`}</Table.Cell>
+						<Table.Cell
+							className={styles.summaryCell}>{`${weight} ${weightUnit}`}</Table.Cell>
 						{showPrices && (
 							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
 						)}
