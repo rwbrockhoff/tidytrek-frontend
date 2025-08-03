@@ -22,6 +22,10 @@ body {
 	outline-offset: 2px;
 }
 
+label {
+	color: var(--color-text-primary);
+}
+
 /* Lucide icons */
 .lucide {
 	width: 1em;

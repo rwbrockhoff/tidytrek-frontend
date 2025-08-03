@@ -4,6 +4,7 @@ import { Select } from '@radix-ui/themes';
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { Stack } from '@/components/layout';
 import { Message } from '@/components/ui';
+import { cn } from '@/styles/utils';
 import styles from './user-preferences-section.module.css';
 
 const CURRENCY_OPTIONS = [
@@ -44,7 +45,7 @@ export const UserPreferencesSection = () => {
 				<Stack className="justify-center gap-1">
 					<label htmlFor="weight-unit-select">Weight Units</label>
 					<Select.Root value={settings.weightUnit} onValueChange={handleWeightUnitChange}>
-						<Select.Trigger id="weight-unit-select" className={styles.selectTrigger} />
+						<Select.Trigger id="weight-unit-select" className={cn(styles.selectTrigger, 'dropdown-primary')} />
 						<Select.Content>
 							{WEIGHT_UNIT_OPTIONS.map((option) => (
 								<Select.Item key={option.value} value={option.value}>
@@ -58,7 +59,7 @@ export const UserPreferencesSection = () => {
 				<Stack className="justify-center gap-1">
 					<label htmlFor="currency-select">Currency</label>
 					<Select.Root value={settings.currencyUnit} onValueChange={handleCurrencyChange}>
-						<Select.Trigger id="currency-select" className={styles.selectTrigger} />
+						<Select.Trigger id="currency-select" className={cn(styles.selectTrigger, 'dropdown-primary')} />
 						<Select.Content>
 							{CURRENCY_OPTIONS.map((option) => (
 								<Select.Item key={option.value} value={option.value}>
