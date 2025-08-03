@@ -96,7 +96,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						</Button>
 						{packItemUrl && (
 							<Button
-								variant="danger"
+								color="danger"
 								onClick={handleDeleteLink}
 								disabled={!newPackItemUrl.trim()}
 								iconLeft={<TrashIcon />}

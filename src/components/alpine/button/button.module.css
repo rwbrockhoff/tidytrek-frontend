@@ -72,26 +72,24 @@
 	border-color: var(--color-primary-hover);
 }
 
-.buttonDanger {
-	background-color: var(--color-error);
-	color: var(--color-constant-white);
-	border-color: var(--color-error);
-}
-
-.buttonDanger:hover {
-	background-color: var(--color-error-hover);
-	border-color: var(--color-error-hover);
-}
-
 .buttonOutline {
 	background-color: transparent;
-	color: var(--color-text-primary);
-	border-color: var(--color-border-primary);
+	color: var(--btn-text-outline, var(--color-text-primary));
+	border-color: var(--btn-border, var(--color-border-primary));
+}
+
+.buttonOutline svg {
+	color: var(--btn-text-outline, var(--color-text-primary));
 }
 
 .buttonOutline:hover {
-	background-color: var(--color-hover);
-	border-color: var(--color-border-secondary);
+	background-color: var(--btn-bg, var(--color-hover));
+	border-color: var(--btn-border, var(--color-border-secondary));
+	color: var(--btn-text, var(--color-text-primary));
+}
+
+.buttonOutline:hover svg {
+	color: var(--btn-text, var(--color-text-primary));
 }
 
 .buttonSecondary {
@@ -126,15 +124,78 @@
 	text-decoration: none;
 }
 
+/* Button - Colors */
+.buttonColorPrimary {
+	--btn-bg: var(--color-primary);
+	--btn-bg-hover: var(--color-primary-hover);
+	--btn-border: var(--color-primary);
+	--btn-border-hover: var(--color-primary-hover);
+	--btn-text: var(--color-constant-white);
+	--btn-text-outline: var(--color-primary);
+}
+
+.buttonColorSecondary {
+	--btn-bg: var(--color-bg-secondary);
+	--btn-bg-hover: var(--color-bg-tertiary);
+	--btn-border: var(--color-border-primary);
+	--btn-border-hover: var(--color-border-secondary);
+	--btn-text: var(--color-text-primary);
+	--btn-text-outline: var(--color-text-primary);
+}
+
+.buttonColorInfo {
+	--btn-bg: var(--color-info);
+	--btn-bg-hover: var(--color-info-hover);
+	--btn-border: var(--color-info);
+	--btn-border-hover: var(--color-info-hover);
+	--btn-text: var(--color-constant-white);
+	--btn-text-outline: var(--color-info);
+}
+
+.buttonColorDanger {
+	--btn-bg: var(--color-error);
+	--btn-bg-hover: var(--color-error-hover);
+	--btn-border: var(--color-error);
+	--btn-border-hover: var(--color-error-hover);
+	--btn-text: var(--color-constant-white);
+	--btn-text-outline: var(--color-error);
+}
+
+/* Apply color variables to default variant */
+.buttonDefault.buttonColorPrimary,
+.buttonDefault.buttonColorSecondary,
+.buttonDefault.buttonColorInfo,
+.buttonDefault.buttonColorDanger {
+	background-color: var(--btn-bg);
+	color: var(--btn-text);
+	border-color: var(--btn-border);
+}
+
+.buttonDefault.buttonColorPrimary:hover,
+.buttonDefault.buttonColorSecondary:hover,
+.buttonDefault.buttonColorInfo:hover,
+.buttonDefault.buttonColorDanger:hover {
+	background-color: var(--btn-bg-hover);
+	border-color: var(--btn-border-hover);
+}
+
+/* Loading state overrides color */
+.buttonLoading.buttonDefault.buttonColorPrimary,
+.buttonLoading.buttonDefault.buttonColorSecondary,
+.buttonLoading.buttonDefault.buttonColorInfo,
+.buttonLoading.buttonDefault.buttonColorDanger {
+	color: transparent;
+}
+
 /* Button - States */
+.buttonLoading {
+	color: transparent;
+}
+
 .buttonDisabled {
 	opacity: var(--opacity-80);
 	cursor: not-allowed;
 	pointer-events: none;
-}
-
-.buttonLoading {
-	color: transparent;
 }
 
 /* Button - Icons */
@@ -172,9 +233,10 @@
 	height: var(--icon-md);
 }
 
-/* Default, Danger Variant - white svg color */
-.buttonDefault svg,
-.buttonDanger svg {
+/* Colors with white text get white svg color */
+.buttonDefault.buttonColorPrimary svg,
+.buttonDefault.buttonColorInfo svg,
+.buttonDefault.buttonColorDanger svg {
 	color: var(--color-constant-white);
 }
 
@@ -189,8 +251,9 @@
 	animation: spin 1s linear infinite;
 }
 
-.buttonDefault .spinner,
-.buttonDanger .spinner {
+.buttonDefault.buttonColorPrimary .spinner,
+.buttonDefault.buttonColorInfo .spinner,
+.buttonDefault.buttonColorDanger .spinner {
 	border-top-color: var(--color-constant-white);
 }
 

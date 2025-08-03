@@ -5,7 +5,7 @@
 	width: fit-content;
 	padding: var(--space-3);
 	cursor: pointer;
-	transition: all 0.3s ease;
+	transition: box-shadow, transform 0.3s ease;
 }
 
 .disabledThemeSelection {

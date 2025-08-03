@@ -3,7 +3,8 @@ import { cn } from '@/styles/utils';
 import styles from './button.module.css';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	variant?: 'default' | 'danger' | 'outline' | 'secondary' | 'ghost' | 'link';
+	variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link';
+	color?: 'primary' | 'secondary' | 'info' | 'danger';
 	size?: 'sm' | 'md' | 'lg';
 	radius?: 'default' | 'circle';
 	loading?: boolean;
@@ -16,6 +17,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
 		{
 			variant = 'default',
+			color = 'primary',
 			size = 'md',
 			radius = 'default',
 			loading = false,
@@ -35,11 +37,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		const buttonClasses = cn(
 			styles.button,
 			variant === 'default' && styles.buttonDefault,
-			variant === 'danger' && styles.buttonDanger,
 			variant === 'outline' && styles.buttonOutline,
 			variant === 'secondary' && styles.buttonSecondary,
 			variant === 'ghost' && styles.buttonGhost,
 			variant === 'link' && styles.buttonLink,
+			color === 'primary' && styles.buttonColorPrimary,
+			color === 'secondary' && styles.buttonColorSecondary,
+			color === 'info' && styles.buttonColorInfo,
+			color === 'danger' && styles.buttonColorDanger,
 			size === 'sm' && styles.buttonSm,
 			size === 'md' && styles.buttonMd,
 			size === 'lg' && styles.buttonLg,

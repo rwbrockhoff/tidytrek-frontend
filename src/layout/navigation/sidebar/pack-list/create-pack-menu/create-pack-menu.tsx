@@ -34,7 +34,7 @@ export const CreatePackMenu = () => {
 			trigger={
 				<Button
 					variant="ghost"
-					color="gray"
+					color="secondary"
 					className={styles.newPackButton}
 					aria-label="Open pack creation menu">
 					<PlusIcon />
@@ -50,10 +50,7 @@ export const CreatePackMenu = () => {
 			</Popover.Close>
 
 			<ImportPackDialog>
-				<PopoverMenuItem
-					icon={<ImportIcon />}
-					label="Import Pack"
-				/>
+				<PopoverMenuItem icon={<ImportIcon />} label="Import Pack" />
 			</ImportPackDialog>
 		</PopoverMenu>
 	);

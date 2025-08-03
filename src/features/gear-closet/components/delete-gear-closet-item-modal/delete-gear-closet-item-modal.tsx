@@ -33,7 +33,7 @@ export const DeleteGearClosetItemModal = ({
 						Cancel
 					</Button>
 					<Button 
-						variant="danger" 
+						color="danger" 
 						onClick={handleDelete}
 						loading={isDeleting}
 					>

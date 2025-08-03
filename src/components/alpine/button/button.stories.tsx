@@ -18,43 +18,16 @@ export const Default: Story = {
 	},
 };
 
-export const Variants: Story = {
+export const Examples: Story = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-			<Button variant="default">Default</Button>
-			<Button variant="danger">Danger</Button>
+			<Button>Primary</Button>
 			<Button variant="outline">Outline</Button>
-			<Button variant="secondary">Secondary</Button>
-			<Button variant="ghost">Ghost</Button>
-			<Button variant="link">Link</Button>
-		</div>
-	),
-};
-
-export const Sizes: Story = {
-	render: () => (
-		<div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+			<Button color="danger">Delete</Button>
+			<Button color="info">Info</Button>
+			<Button iconLeft="📁">With Icon</Button>
+			<Button loading>Loading</Button>
 			<Button size="sm">Small</Button>
-			<Button size="md">Medium</Button>
-			<Button size="lg">Large</Button>
-		</div>
-	),
-};
-
-export const Loading: Story = {
-	args: {
-		loading: true,
-		children: 'Loading...',
-	},
-};
-
-export const WithIcons: Story = {
-	render: () => (
-		<div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', alignItems: 'flex-start' }}>
-			<Button iconLeft="📁">Open File</Button>
-			<Button iconRight="→">Continue</Button>
-			<Button iconLeft="🔗" iconRight="↗">External Link</Button>
-			<Button variant="outline" iconLeft="❌">Cancel</Button>
 		</div>
 	),
 };

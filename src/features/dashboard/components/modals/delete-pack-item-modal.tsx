@@ -32,7 +32,7 @@ export const DeletePackItemModal = (props: DeletePackItemModalProps) => {
 				<Flex className="gap-3 mt-4 justify-end">
 					<Dialog.Close>
 						<Button
-							variant="danger"
+							color="danger"
 							size="md"
 							onClick={handleDelete}
 							aria-label="Delete pack item permanently">

@@ -13,16 +13,16 @@ const deleteMessage =
 export const DeleteAccountSection = ({ onDeleteAccount }: DeleteAccountSectionProps) => {
 	return (
 		<Segment>
-			<SegmentHeader 
-				title="Delete Your Account" 
-				description="Deleting your account will permanently delete all of your packs. Be sure to save any important information first." 
+			<SegmentHeader
+				title="Delete Your Account"
+				description="Deleting your account will permanently delete all of your packs. Be sure to save any important information first."
 			/>
 			<DeleteModal
 				title="Delete Your Account"
 				description={deleteMessage}
 				onDelete={onDeleteAccount}>
 				<div style={{ marginTop: '1rem' }}>
-					<Button variant="danger" iconLeft={<TrashIcon />}>
+					<Button color="danger" variant="outline" iconLeft={<TrashIcon />}>
 						Delete Account
 					</Button>
 				</div>

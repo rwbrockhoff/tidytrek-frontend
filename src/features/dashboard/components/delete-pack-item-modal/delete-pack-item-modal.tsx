@@ -45,7 +45,7 @@ export const DeletePackItemModal = ({
 						Move to Closet
 					</Button>
 					<Button 
-						variant="danger" 
+						color="danger" 
 						onClick={handleDelete}
 						loading={isDeleting}
 					>

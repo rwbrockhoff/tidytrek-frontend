@@ -1,7 +1,0 @@
-.showOnHover {
-	opacity: 0;
-}
-
-tr:hover .showOnHover {
-	opacity: 1;
-}

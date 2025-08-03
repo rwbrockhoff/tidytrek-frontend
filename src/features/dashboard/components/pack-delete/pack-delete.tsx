@@ -61,7 +61,7 @@ export const PackDelete = ({ pack, children }: PackDeleteProps) => {
 
 	return (
 		<>
-			<Button variant="danger" onClick={handleToggleDeleteModal} iconLeft={<TrashIcon />}>
+			<Button color="danger" onClick={handleToggleDeleteModal} iconLeft={<TrashIcon />}>
 				Delete Pack
 			</Button>
 

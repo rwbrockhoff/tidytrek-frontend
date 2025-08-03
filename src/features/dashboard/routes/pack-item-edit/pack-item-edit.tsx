@@ -110,7 +110,7 @@ export const PackItemEdit = () => {
 					Save Item
 				</Button>
 
-				<Button onClick={handleDelete} variant="danger" disabled={isDeleting}>
+				<Button onClick={handleDelete} color="danger" disabled={isDeleting}>
 					Delete Item
 				</Button>
 			</Stack>

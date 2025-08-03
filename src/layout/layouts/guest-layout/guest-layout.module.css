@@ -1,8 +1,6 @@
 .guestViewWrapper {
 	background-color: var(--color-bg-primary);
-	height: 100vh;
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
+	min-height: 100vh;
 }
 
 .guestViewContainer {
