@@ -1,7 +1,7 @@
 import { type Pack } from '@/types/pack-types';
 import { Flex } from '@/components/layout';
 import { PackCard } from './pack-card/pack-card';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { SkeletonCard } from '@/components/ui';
 
 type PackCardListProps = {
@@ -10,7 +10,7 @@ type PackCardListProps = {
 };
 
 export const PackCardList = (props: PackCardListProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { packThumbnailList, showSkeletonCards } = props;
 
 	const packList = packThumbnailList || [];
@@ -19,7 +19,7 @@ export const PackCardList = (props: PackCardListProps) => {
 		<Flex className="flex-wrap gap-6 mt-8 items-stretch">
 			{/* Show users packs */}
 			{packList.map((pack, index) => {
-				return <PackCard key={pack.packId || index} pack={pack} userView={userView} />;
+				return <PackCard key={pack.packId || index} pack={pack} canEdit={isCreator} />;
 			})}
 			{/* Show skeleton UI on error */}
 			{showSkeletonCards &&

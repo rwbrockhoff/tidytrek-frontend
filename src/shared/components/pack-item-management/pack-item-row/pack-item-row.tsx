@@ -9,7 +9,7 @@ import styles from './pack-item-row.module.css';
 
 type PackItemRowProps = {
 	item: BaseTableRowItem;
-	isPackOwner?: boolean;
+	canEdit?: boolean;
 	onEdit?: () => void;
 	onDelete?: () => void;
 	availablePacks?: PackListItem[];
@@ -18,7 +18,7 @@ type PackItemRowProps = {
 
 export const PackItemRow = ({
 	item,
-	isPackOwner = false,
+	canEdit = false,
 	onEdit,
 	onDelete,
 	availablePacks = [],
@@ -43,7 +43,7 @@ export const PackItemRow = ({
 							<span className={styles.property}>x{item.packItemQuantity}</span>
 						)}
 					</div>
-					{isPackOwner && (
+					{canEdit && (
 						<PackItemActions
 							onEdit={onEdit}
 							onMove={availablePacks.length > 0 ? handleToggleMove : undefined}
@@ -53,7 +53,7 @@ export const PackItemRow = ({
 					)}
 				</div>
 				
-				{showMoveDropdown && isPackOwner && availablePacks.length > 0 && (
+				{showMoveDropdown && canEdit && availablePacks.length > 0 && (
 					<div className={styles.moveDropdownContainer}>
 						<MoveItemDropdown 
 							packItem={item} 

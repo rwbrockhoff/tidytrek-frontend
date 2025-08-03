@@ -7,7 +7,7 @@ import { Badge } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
@@ -29,7 +29,7 @@ export const PackWeightCell = ({
 	isDragging,
 	formErrors,
 }: PackWeightCellProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
 	const { packItemWeight, packItemWeightUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
@@ -42,7 +42,7 @@ export const PackWeightCell = ({
 		if (isToggled) {
 			toggle();
 			setHasDecimalInput(false);
-			userView && onToggleOff();
+			isCreator && onToggleOff();
 		}
 	};
 
@@ -75,7 +75,7 @@ export const PackWeightCell = ({
 
 	return (
 		<Table.Cell ref={ref} style={{ width }} onFocus={toggleToEdit} onBlur={toggleToCell}>
-			{userView ? (
+			{isCreator ? (
 				<Flex className="inline-flex items-baseline gap-1">
 					<TextField.Standalone
 						variant="minimal"

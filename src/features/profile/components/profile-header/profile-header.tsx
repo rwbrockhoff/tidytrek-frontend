@@ -11,7 +11,7 @@ import {
 	useUploadProfilePhotoMutation,
 	useUploadBannerPhotoMutation,
 } from '@/queries/profile-settings-queries';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 
 type ProfileHeaderProps = {
@@ -22,7 +22,7 @@ type ProfileHeaderProps = {
 };
 
 export const ProfileHeader = (props: ProfileHeaderProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { userProfile, notFound, isPrivate, hasError } = props;
 
 	// Show message for error within default UI
@@ -68,7 +68,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 		<Box className="relative">
 			<BannerPhoto
 				bannerPhotoUrl={bannerPhotoUrl}
-				uploadEnabled={userView}
+				uploadEnabled={isCreator}
 				isPending={isPendingBannerPhoto}
 				onUpload={uploadBannerPhoto}
 			/>
@@ -76,7 +76,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 			<div className={cn(styles.avatarContainer, 'left-8')}>
 				<Avatar
 					withBorder
-					uploadEnabled={userView}
+					uploadEnabled={isCreator}
 					src={profilePhotoUrl}
 					size="large"
 					isPending={isPendingProfilePhoto}

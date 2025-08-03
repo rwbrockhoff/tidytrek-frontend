@@ -4,7 +4,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Badge, Text } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { Table, TextField } from '@/components/alpine';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useCellWidth } from '../hooks/use-cell-width';
 
 type QuantityCellProps = {
@@ -22,15 +22,15 @@ export const QuantityCell = ({
 	isDragging,
 	formErrors,
 }: QuantityCellProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { packItemQuantity } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
-	const handleToggleOff = () => userView && onToggleOff();
+	const handleToggleOff = () => isCreator && onToggleOff();
 
 	return (
 		<Table.Cell ref={ref} style={{ width }} textAlign="center" onBlur={handleToggleOff}>
-			{userView ? (
+			{isCreator ? (
 				<TextField.Standalone
 					name="packItemQuantity"
 					value={packItemQuantity}
@@ -38,7 +38,7 @@ export const QuantityCell = ({
 					step={1}
 					inputMode="numeric"
 					variant="minimal"
-					disabled={!userView}
+					disabled={!isCreator}
 					data-invalid={formErrors?.packItemQuantity.error}
 					onChange={onChange}
 					style={{ textAlign: 'center' }}

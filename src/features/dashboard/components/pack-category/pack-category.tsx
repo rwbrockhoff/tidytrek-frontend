@@ -7,7 +7,7 @@ import { Table } from '@/shared/components/pack-item-management/table';
 import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
 import { TableHeader } from '@/shared/components/pack-item-management/table/table-header/table-header';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { DropTableBody } from '@/components';
 import { usePackCategory } from '../../hooks/use-pack-category';
 import {
@@ -26,7 +26,7 @@ type PackCategoryProps = {
 };
 
 export const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 
 	const {
 		packCategoryName,
@@ -78,7 +78,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		<Draggable
 			key={category.packCategoryId}
 			draggableId={`${category.packCategoryId}`}
-			isDragDisabled={!userView}
+			isDragDisabled={!isCreator}
 			index={index}>
 			{(provided) => (
 				<Flex
@@ -107,7 +107,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 										key={item.packItemId}
 										index={index}
 										packList={packList}
-										disabled={!userView}
+										disabled={!isCreator}
 										moveToCloset={handleMoveItemToCloset}
 										handleOnSave={handleEditPackItem}
 										handleDelete={handleDeleteItem}

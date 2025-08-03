@@ -9,7 +9,8 @@ import { Heading } from '@radix-ui/themes';
 import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
-import { UserViewContext } from '@/contexts/user-view-context';
+import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
+import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { searchMatch } from '@/utils';
 import { cn } from '@/styles/utils/cn';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
@@ -37,8 +38,11 @@ export const GearCloset = () => {
 	const filteredList = isSearching ? filteredClosetList : gearClosetList;
 	const showResults = isSearching ? filteredClosetList.length > 0 : hasItems;
 	const showEmptyListDescription = !hasItems && !isLoading;
+
+	const permissions = useUserPermissions();
+
 	return (
-		<UserViewContext.Provider value={true}>
+		<UserPermissionsProvider value={permissions}>
 			<PageLayout>
 				<Stack className="gap-4">
 					<Heading size="6">
@@ -74,6 +78,6 @@ export const GearCloset = () => {
 					/>
 				</Stack>
 			</PageLayout>
-		</UserViewContext.Provider>
+		</UserPermissionsProvider>
 	);
 };

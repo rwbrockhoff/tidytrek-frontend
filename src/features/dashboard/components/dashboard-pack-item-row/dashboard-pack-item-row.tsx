@@ -6,13 +6,13 @@ import { DeletePackItemModal } from '../delete-pack-item-modal/delete-pack-item-
 
 type DashboardPackItemRowProps = {
 	item: PackItem;
-	isPackOwner?: boolean;
+	canEdit?: boolean;
 	availablePacks?: PackListItem[];
 };
 
 export const DashboardPackItemRow = ({
 	item,
-	isPackOwner = false,
+	canEdit = false,
 	availablePacks = [],
 }: DashboardPackItemRowProps) => {
 	const { navigateToEdit } = usePackItemNavigation();
@@ -30,7 +30,7 @@ export const DashboardPackItemRow = ({
 		<>
 			<PackItemRow
 				item={item}
-				isPackOwner={isPackOwner}
+				canEdit={canEdit}
 				onEdit={handleEdit}
 				onDelete={handleDelete}
 				availablePacks={availablePacks}

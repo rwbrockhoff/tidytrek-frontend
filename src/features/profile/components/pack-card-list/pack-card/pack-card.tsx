@@ -12,10 +12,10 @@ import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
 
 type PackCardProps = {
 	pack: Pack;
-	userView: boolean;
+	canEdit: boolean;
 };
 
-export const PackCard = ({ pack, userView }: PackCardProps) => {
+export const PackCard = ({ pack, canEdit }: PackCardProps) => {
 	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
 	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
 		pack || {};
@@ -23,7 +23,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 	const handlePhotoUpload = (formData: FormData) => uploadPackPhoto({ packId, formData });
 
 	const encodedPackId = encode(packId);
-	const userBasedUrl = userView ? 'pack' : 'pk';
+	const userBasedUrl = canEdit ? 'pack' : 'pk';
 	const link = `/${userBasedUrl}/${encodedPackId}`;
 
 	return (
@@ -33,12 +33,12 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 			shadow="paper"
 			override
 			className={cn(styles.styledCard, mx.responsiveContent)}>
-			<Link to={link} enabled={!userView} className="profilePackLink">
+			<Link to={link} enabled={!canEdit} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
 						src={packPhotoUrl}
 						packId={packId}
-						uploadEnabled={!isPending && userView}
+						uploadEnabled={!isPending && canEdit}
 						isPending={isPending}
 						onUpload={handlePhotoUpload}
 					/>
@@ -46,7 +46,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 
 				<Card.Body className={styles.cardBody}>
 					<Heading size="4">
-						<Link to={link} enabled={userView}>
+						<Link to={link} enabled={canEdit}>
 							{packName}
 						</Link>
 					</Heading>
@@ -67,7 +67,7 @@ export const PackCard = ({ pack, userView }: PackCardProps) => {
 					<PackLabels pack={pack} />
 				</Card.Body>
 
-				{userView && (
+				{canEdit && (
 					<Card.Footer className={styles.cardFooter}>
 						<Flex className={cn(styles.cardFooterText, 'items-center')}>
 							<ViewsIcon />

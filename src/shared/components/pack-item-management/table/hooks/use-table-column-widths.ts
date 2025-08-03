@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
-import { usePricingContext } from '@/hooks/auth/use-pricing-context';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 
 export const useTableColumnWidths = () => {
-	const showPrices = usePricingContext() || false;
-	const isUser = useUserContext();
+	const showPrices = usePackPricing() || false;
+	const { isCreator } = useUserPermissionsContext();
 
 	return useMemo(() => {
 		// Fixed columns that always exist
 		const fixedWidth = 8 + 10; // qty + weight = 18%
-		const conditionalWidth = (showPrices ? 12 : 0) + (isUser ? 10 : 0); // price + actions
+		const conditionalWidth = (showPrices ? 12 : 0) + (isCreator ? 10 : 0); // price + actions
 		const propertiesWidth = 10;
 
 		// Remaining width for the two main columns (item + description)
@@ -29,13 +29,13 @@ export const useTableColumnWidths = () => {
 		};
 
 		// Also calculate column counts for footer
-		const totalColumns = 5 + (showPrices ? 1 : 0) + (isUser ? 1 : 0);
+		const totalColumns = 5 + (showPrices ? 1 : 0) + (isCreator ? 1 : 0);
 
 		return {
 			widths,
 			totalColumns,
 			showPrices,
-			isUser,
+			isCreator,
 		};
-	}, [showPrices, isUser]);
+	}, [showPrices, isCreator]);
 };

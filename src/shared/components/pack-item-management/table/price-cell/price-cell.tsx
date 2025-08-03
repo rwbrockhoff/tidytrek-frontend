@@ -4,7 +4,7 @@ import { type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useConvertCurrency } from '@/utils';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
@@ -24,7 +24,7 @@ export const PriceCell = ({
 	isDragging,
 	formErrors,
 }: PriceCellProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const convertCurrency = useConvertCurrency();
 	const { packItemPrice = 0 } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
@@ -58,7 +58,7 @@ export const PriceCell = ({
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}
 			style={{ width, padding: '0 var(--space-4)' }}>
-			{userView ? (
+			{isCreator ? (
 				<TextField.Standalone
 					variant="minimal"
 					value={isToggled ? inputPrice : formattedPrice}

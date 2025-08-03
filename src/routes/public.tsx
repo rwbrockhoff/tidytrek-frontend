@@ -15,12 +15,12 @@ export const publicRoutes = [
 		path: '/user/:userId',
 		element: <GuestLayout />,
 		errorElement: <BubbleError />,
-		children: [{ path: '/user/:userId', element: <Profile userView={false} /> }],
+		children: [{ path: '/user/:userId', element: <Profile isCreator={false} /> }],
 	},
 	{
 		path: '/pk/:packId',
 		element: <GuestLayout />,
 		errorElement: <BubbleError />,
-		children: [{ path: '/pk/:packId', element: <Dashboard userView={false} /> }],
+		children: [{ path: '/pk/:packId', element: <Dashboard isCreator={false} /> }],
 	},
 ];

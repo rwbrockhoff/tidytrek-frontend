@@ -8,8 +8,8 @@ import {
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
 } from '@/queries/pack-queries';
-import { usePricingContext } from '@/hooks/auth/use-pricing-context';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { DeleteModal } from '@/components/ui';
 import { MinusIcon, PlusIcon, ShareIcon, TrashIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
@@ -25,8 +25,8 @@ type TableHeaderProps = {
 export const TableHeader = (props: TableHeaderProps) => {
 	const { mutate: deletePackCategory } = useDeletePackCategoryMutation();
 	const { mutate: deletePackCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
-	const userView = useUserContext();
-	const showPrices = usePricingContext();
+	const { isCreator } = useUserPermissionsContext();
+	const showPrices = usePackPricing();
 
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;
@@ -58,7 +58,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 						{showPrices && <HeaderCell textAlign="center">Price</HeaderCell>}
 					</>
 				)}
-				{userView && (
+				{isCreator && (
 					<ActionButtons header>
 						<Flex className="items-center">
 							<Button

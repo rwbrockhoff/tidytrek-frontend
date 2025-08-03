@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
@@ -19,7 +19,7 @@ type LinkPopupProps = {
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
 
 	const { packItem, isDragging = false } = props;
@@ -57,7 +57,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 		}
 	};
 
-	if (userView) {
+	if (isCreator) {
 		return (
 			<Popover.Root>
 				<Popover.Trigger>

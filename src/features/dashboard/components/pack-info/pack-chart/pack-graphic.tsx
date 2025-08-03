@@ -1,6 +1,6 @@
 import { Category } from '@/types/pack-types';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { PackChartView } from './pack-chart-view';
 import { PackEmptyGraphic } from './pack-empty-graphic/pack-empty-graphic';
 
@@ -11,7 +11,7 @@ type PackGraphicProps = {
 };
 
 export const PackGraphic = (props: PackGraphicProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 
 	const { packCategories, fetching, display } = props;
 	const {
@@ -40,7 +40,7 @@ export const PackGraphic = (props: PackGraphicProps) => {
 	}
 
 	// only show empty pack for users with pack categories (without weight)
-	if (userView && !packHasWeight) {
+	if (isCreator && !packHasWeight) {
 		return <PackEmptyGraphic />;
 	}
 

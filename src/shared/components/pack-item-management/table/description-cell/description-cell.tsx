@@ -2,7 +2,7 @@ import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { mx, cn } from '@/styles/utils';
 import { Table, TextField } from '@/components/alpine';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useCellWidth } from '../hooks/use-cell-width';
 
 type DescriptionCellProps = {
@@ -18,23 +18,23 @@ export const DescriptionCell = ({
 	onChange,
 	isDragging,
 }: DescriptionCellProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { packItemDescription } = packItem || {};
 
 	const { width, ref } = useCellWidth(isDragging);
 
-	const handleToggleOff = () => userView && onToggleOff();
+	const handleToggleOff = () => isCreator && onToggleOff();
 
 	return (
 		<Table.Cell ref={ref} style={{ width }} onBlur={handleToggleOff} className="px-0">
-			{userView ? (
+			{isCreator ? (
 				<TextField.Standalone
 					variant="minimal"
 					value={packItemDescription || ''}
 					placeholder="Description"
 					name={'packItemDescription'}
 					onChange={onChange}
-					disabled={!userView}
+					disabled={!isCreator}
 					className={mx.textEllipsis}
 				/>
 			) : (

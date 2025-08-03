@@ -11,13 +11,13 @@ import { cn } from '@/styles/utils';
 import { Popover, Heading } from '@radix-ui/themes';
 import { TextField, Button } from '@/components/alpine';
 import { useState } from 'react';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { frontendURL } from '@/api/tidytrek-api';
 
 type ShareSettingsProps = { packPublic: boolean; packId: string | undefined };
 
 export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const packLink = `${frontendURL}/pk/${packId}`;
 	const [linkCopied, setLinkCopied] = useState(false);
 
@@ -28,7 +28,7 @@ export const ShareSettings = ({ packPublic, packId }: ShareSettingsProps) => {
 
 	const handleReset = () => linkCopied && setLinkCopied(false);
 
-	if (!userView) return null;
+	if (!isCreator) return null;
 
 	if (packPublic) {
 		return (

@@ -4,7 +4,7 @@ import { TableRow } from '@/shared/components/pack-item-management/table/table-r
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
 import { DragDropContext, DropResult, DropTableBody } from '@/components';
 import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
-import { PricingContext } from '@/contexts/pricing-context';
+import { PackPricingContext } from '@/contexts/pack-pricing-context';
 import { NotFoundMessage } from '../not-found-message';
 import {
 	useAddGearClosetItemMutation,
@@ -53,7 +53,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 	};
 
 	return (
-		<PricingContext.Provider value={true}>
+		<PackPricingContext.Provider value={true}>
 			<Table>
 				<GearClosetHeader />
 
@@ -82,6 +82,6 @@ export const GearClosetList = (props: GearClosetListProps) => {
 
 				<TableFooter handleAddItem={handleAddItem} showTotals={false} />
 			</Table>
-		</PricingContext.Provider>
+		</PackPricingContext.Provider>
 	);
 };

@@ -3,7 +3,7 @@ import { type BaseTableRowItem } from '@/types/pack-types';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../grip-button/grip-button';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
@@ -22,13 +22,13 @@ type ItemNameCellProps = {
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { packItem, onChange, isDragging, dragProps, onToggleOff } = props;
 	const { packItemName, packItemUrl } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
 	const handleToggleOff = () => {
-		userView && onToggleOff();
+		isCreator && onToggleOff();
 	};
 
 	return (
@@ -39,11 +39,11 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			className={styles.styledCell}>
 			<GripButton
 				testId="pack-item-grip"
-				disabled={!userView}
+				disabled={!isCreator}
 				{...dragProps}
 			/>
 
-			{userView ? (
+			{isCreator ? (
 				<Flex className="inline-flex w-full">
 					<TextField.Standalone
 						value={packItemName || ''}
@@ -51,7 +51,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						placeholder={'Name'}
 						variant="minimal"
 						onChange={onChange}
-						disabled={!userView}
+						disabled={!isCreator}
 						className={mx.textEllipsis}
 					/>
 					<LinkPopup packItem={packItem} isDragging={isDragging} />

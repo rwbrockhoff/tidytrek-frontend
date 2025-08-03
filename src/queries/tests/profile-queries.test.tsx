@@ -8,11 +8,19 @@ import { createMockPack } from '@/tests/mocks/pack-mocks';
 import { createMockSettings } from '@/tests/mocks/user-mocks';
 import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 
-// Mock API calls
 vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
 		get: vi.fn(),
 	},
+}));
+
+vi.mock('@/hooks/auth/use-get-auth', () => ({
+	useGetAuth: vi.fn(() => ({
+		isAuthenticated: true,
+		isLoading: false,
+		user: null,
+		settings: null,
+	})),
 }));
 
 const createMockProfileState = (): ProfileQueryState => ({

@@ -10,9 +10,8 @@
 
 button.sidebarButton:not(.isSidebar) {
 	position: fixed;
-	top: calc(
-		var(--space-12) + var(--space-6)
-	); /* Container padding + header positioning */
+	top: var(--app-layout-padding-y);
+	/* Container padding + header positioning */
 	left: calc(50% - 640px); /* Match sidebar positioning on large screens */
 	z-index: 10;
 	padding: var(--space-1);

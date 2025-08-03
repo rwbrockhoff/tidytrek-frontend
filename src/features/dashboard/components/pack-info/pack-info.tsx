@@ -9,8 +9,7 @@ import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
 import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
-import { useUserContext } from '@/hooks/auth/use-user-context';
-import { usePackOwner } from '@/hooks/auth/use-pack-owner';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { useCategoryInfo } from '../../hooks/use-category-info';
 import { encode } from '@/utils';
@@ -32,8 +31,7 @@ type PackInfoProps = {
 
 export const PackInfo = (props: PackInfoProps) => {
 	const navigate = useNavigate();
-	const userView = useUserContext();
-	const { isPackOwner } = usePackOwner({ pack: props.currentPack });
+	const { isCreator } = useUserPermissionsContext();
 	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
 
@@ -50,8 +48,8 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const { packHasWeight } = useCategoryInfo(packCategories);
 
-	const isDefaultUntouchedPack = getIsDefaultUntouchedPack(
-		userView,
+	const isDefaultUntouchedPack = isUntouchedDefaultPack(
+		isCreator,
 		packCategories,
 		currentPack,
 		packDescription,
@@ -65,7 +63,7 @@ export const PackInfo = (props: PackInfoProps) => {
 				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12 md:gap-8',
 			)}>
 			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1')}>
-				{!userView && (
+				{!isCreator && (
 					<ProfileInfo
 						userInfo={profileInfo}
 						socialLinks={socialLinks}
@@ -78,7 +76,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 					</Heading>
 
-					{isMobile && isPackOwner ? (
+					{isMobile && isCreator ? (
 						<Button
 							variant="ghost"
 							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
@@ -88,7 +86,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							<EditPencilIcon />
 						</Button>
 					) : (
-						isPackOwner && (
+						isCreator && (
 							<PackModal pack={currentPack}>
 								<Button
 									variant="ghost"
@@ -101,7 +99,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						)
 					)}
 				</Flex>
-				{isPackOwner && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
+				{isCreator && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
 				{packUrl && (
 					<ExternalLink href={packUrl}>
 						<LinkIcon />
@@ -140,15 +138,15 @@ export const PackInfo = (props: PackInfoProps) => {
 };
 
 // checks if pack is default/untouched
-const getIsDefaultUntouchedPack = (
-	userView: boolean,
+const isUntouchedDefaultPack = (
+	isCreator: boolean,
 	packCategories: Category[],
 	currentPack: Pack,
 	packDescription: string,
 	packUrl: string,
 ): boolean => {
 	return (
-		userView &&
+		isCreator &&
 		packCategories.length <= 1 &&
 		(packCategories.length === 0 || packCategories[0].packItems?.length <= 1) &&
 		(packCategories.length === 0 ||

@@ -2,8 +2,8 @@ import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '../table';
 import { Flex, Stack } from '@/components/layout';
-import { useUserContext } from '@/hooks/auth/use-user-context';
-import { PricingContext } from '@/contexts/pricing-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { PackPricingContext } from '@/contexts/pack-pricing-context';
 import {
 	PackQueryState as UserState,
 	type Category,
@@ -18,11 +18,9 @@ import { useGuestData } from '../../hooks/use-guest-data';
 import { usePackDragHandler } from '../../hooks/use-pack-drag-handler';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
-import { usePackOwner } from '@/hooks/auth/use-pack-owner';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 type DashboardProps = {
-	isAuthenticated: boolean;
 	isPending: boolean;
 	paramPackId: string | undefined;
 	currentPack: UserState | GuestState | undefined;
@@ -30,14 +28,12 @@ type DashboardProps = {
 };
 
 export const DashboardContainer = (props: DashboardProps) => {
-	const userView = useUserContext();
-	const { isAuthenticated, isPending, paramPackId, currentPack, packList } = props;
+	const { isPending, paramPackId, currentPack, packList } = props;
 	const { pack, categories } = currentPack || {};
 	const packCategories = categories || [];
 	const packId = pack?.packId || null;
 
-	// Check if current user owns this pack
-	const { isPackOwner: isUsersPack } = usePackOwner({ pack });
+	const { isGuest, isAuthenticated, isCreator } = useUserPermissionsContext();
 
 	const { onDragEnd } = usePackDragHandler();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
@@ -69,10 +65,10 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	if (!pack) return;
 
-	const showGuestBanners = !isAuthenticated;
-	const showPreviewMode = !userView && isUsersPack;
+	const showGuestBanners = isGuest;
+	const showPreviewMode = isAuthenticated && !isCreator;
 	return (
-		<PricingContext.Provider value={packPricing}>
+		<PackPricingContext.Provider value={packPricing}>
 			{/* Show promotional banner for non-auth visitors */}
 			{showGuestBanners && <ProfileBanner />}
 			<PageLayout>
@@ -105,7 +101,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</Drop>
 				</DragDropContext>
 
-				{userView && (
+				{isCreator && (
 					<Flex className="justify-center w-full mt-12">
 						<AddCategoryButton onClick={handleAddCategory} />
 					</Flex>
@@ -119,6 +115,6 @@ export const DashboardContainer = (props: DashboardProps) => {
 					/>
 				)}
 			</PageLayout>
-		</PricingContext.Provider>
+		</PackPricingContext.Provider>
 	);
 };

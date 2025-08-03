@@ -7,14 +7,14 @@ import styles from './pack-category-card.module.css';
 
 type PackCategoryItemsProps = {
 	packItems: PackItem[];
-	isPackOwner: boolean;
+	canEdit: boolean;
 	isMinimized: boolean;
 	onAddItem: () => void;
 };
 
 export const PackCategoryItems = ({
 	packItems,
-	isPackOwner,
+	canEdit,
 	isMinimized,
 	onAddItem,
 }: PackCategoryItemsProps) => {
@@ -31,11 +31,11 @@ export const PackCategoryItems = ({
 					<DashboardPackItemRow
 						key={item.packItemId || index}
 						item={item}
-						isPackOwner={isPackOwner}
+						canEdit={canEdit}
 					/>
 				))}
 			</Card.Body>
-			{isPackOwner && (
+			{canEdit && (
 				<Card.Footer className={cn('aow', styles.categoryFooter)}>
 					<Button
 						variant="outline"

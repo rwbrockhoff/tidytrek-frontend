@@ -1,5 +1,5 @@
 import { Draggable, DraggableChildrenFn } from 'react-beautiful-dnd';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 
 type DraggableTableRowProps = {
 	index: number;
@@ -14,7 +14,7 @@ export const DraggableTableRow = ({
 	disabled, 
 	children 
 }: DraggableTableRowProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const dropId = `item${packItemId}`;
 
 	return (
@@ -22,7 +22,7 @@ export const DraggableTableRow = ({
 			key={dropId}
 			draggableId={dropId}
 			index={index}
-			isDragDisabled={!userView || disabled}>
+			isDragDisabled={!isCreator || disabled}>
 			{children}
 		</Draggable>
 	);

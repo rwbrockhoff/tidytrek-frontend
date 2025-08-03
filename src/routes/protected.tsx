@@ -43,11 +43,11 @@ export const protectedRoutes = [
 			{
 				path: '/',
 				index: true,
-				element: <Dashboard userView={true} key="user-dashboard" />,
+				element: <Dashboard isCreator={true} key="user-dashboard" />,
 			},
 			{
 				path: '/pack/:packId',
-				element: <Dashboard userView={true} key="user-dashboard" />,
+				element: <Dashboard isCreator={true} key="user-dashboard" />,
 			},
 			{
 				path: '/pack/edit/:packId',
@@ -60,7 +60,7 @@ export const protectedRoutes = [
 			{
 				path: '/pk/:packId',
 				// Force component remount to prevent hook order mismatch between user/guest modes
-				element: <Dashboard userView={false} key="guest-dashboard" />,
+				element: <Dashboard isCreator={false} key="guest-dashboard" />,
 			},
 			{
 				path: '/gear-closet',
@@ -72,11 +72,11 @@ export const protectedRoutes = [
 			},
 			{
 				path: '/profile',
-				element: <Profile userView={true} key="user-profile" />,
+				element: <Profile isCreator={true} key="user-profile" />,
 			},
 			{
 				path: '/user/:userId',
-				element: <Profile userView={false} key="guest-profile" />,
+				element: <Profile isCreator={false} key="guest-profile" />,
 			},
 			{
 				path: '/account',

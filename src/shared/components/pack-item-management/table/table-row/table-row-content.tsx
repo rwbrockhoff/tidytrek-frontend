@@ -9,8 +9,8 @@ import {
 	DescriptionCell,
 } from '@/shared/components/pack-item-management/table';
 import { ActionButtons } from '../action-buttons/action-buttons';
-import { usePricingContext } from '@/hooks/auth/use-pricing-context';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
@@ -39,8 +39,8 @@ export const TableRowContent = ({
 	onChangeProperty,
 	children,
 }: TableRowContentProps) => {
-	const userView = useUserContext();
-	const showPrices = usePricingContext();
+	const { isCreator } = useUserPermissionsContext();
+	const showPrices = usePackPricing();
 
 	return (
 		<Table.Row
@@ -97,7 +97,7 @@ export const TableRowContent = ({
 				/>
 			)}
 
-			{userView && <ActionButtons isDragging={isDragging}>{children}</ActionButtons>}
+			{isCreator && <ActionButtons isDragging={isDragging}>{children}</ActionButtons>}
 		</Table.Row>
 	);
 };

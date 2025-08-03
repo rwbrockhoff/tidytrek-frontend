@@ -6,7 +6,7 @@ import {
 
 import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
 import { MoveItemDropdown } from '@/shared/components/pack-item-management/move-item-dropdown';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 
 import { TableErrorRow } from '../table-error-row/table-error-row';
 import { useTableRowActions } from './hooks/use-table-row-actions';
@@ -30,7 +30,7 @@ type TableRowProps = {
 // Memoized exported component below
 
 export const TableRowComponent = (props: TableRowProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 
 	const { item, index, disabled } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
@@ -85,7 +85,7 @@ export const TableRowComponent = (props: TableRowProps) => {
 							onDelete={handleDeleteItem}
 						/>
 					</TableRowContent>
-					{toggleGearButtons && userView && !isDragging && (
+					{toggleGearButtons && isCreator && !isDragging && (
 						<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
 					)}
 

@@ -1,4 +1,4 @@
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { Select, Text } from '@radix-ui/themes';
 import { useMemo } from 'react';
@@ -10,7 +10,7 @@ type WeightDropdownProps = {
 };
 
 export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 	const { settings } = useGetAuth();
 	
 	const orderedOptions = useMemo(() => {
@@ -20,7 +20,7 @@ export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
 			: [{ value: WeightUnit.oz, label: 'oz' }, { value: WeightUnit.lb, label: 'lb' }, { value: WeightUnit.g, label: 'g' }, { value: WeightUnit.kg, label: 'kg' }];
 	}, [settings?.weightUnit]);
 
-	if (userView) {
+	if (isCreator) {
 		return (
 			<Select.Root size="2" value={unit} onValueChange={onChange}>
 				<Select.Trigger variant="ghost" />

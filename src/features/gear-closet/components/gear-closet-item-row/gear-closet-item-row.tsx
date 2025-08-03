@@ -6,13 +6,13 @@ import { DeleteGearClosetItemModal } from '../delete-gear-closet-item-modal/dele
 
 type GearClosetItemRowProps = {
 	item: GearClosetItem;
-	isPackOwner?: boolean;
+	canEdit?: boolean;
 	availablePacks?: PackListItem[];
 };
 
 export const GearClosetItemRow = ({
 	item,
-	isPackOwner = false,
+	canEdit = false,
 	availablePacks = [],
 }: GearClosetItemRowProps) => {
 	const { navigateToEdit } = useGearClosetOperations();
@@ -30,7 +30,7 @@ export const GearClosetItemRow = ({
 		<>
 			<PackItemRow
 				item={item}
-				isPackOwner={isPackOwner}
+				canEdit={canEdit}
 				onEdit={handleEdit}
 				onDelete={handleDelete}
 				availablePacks={availablePacks}

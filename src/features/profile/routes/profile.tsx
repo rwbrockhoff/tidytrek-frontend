@@ -3,20 +3,17 @@ import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { ProfileHeader } from '../components/profile-header/profile-header';
 import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
-import { UserViewContext } from '@/contexts/user-view-context';
+import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
+import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
-export const Profile = ({ userView }: { userView: boolean }) => {
+export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 	const { userId: paramUserId } = useParams();
-	const { isAuthenticated } = useGetAuth();
-	const showPromotion = !isAuthenticated;
-
 	const userProfileQuery = useGetProfileQuery();
-	const guestProfileQuery = useViewProfileQuery(userView ? undefined : paramUserId);
-	
-	const { data } = userView ? userProfileQuery : guestProfileQuery;
+	const guestProfileQuery = useViewProfileQuery(isCreator ? undefined : paramUserId);
+
+	const { data } = isCreator ? userProfileQuery : guestProfileQuery;
 
 	const userProfile = data?.userProfile ?? null;
 	const packThumbnailList = data?.packThumbnailList ?? [];
@@ -25,8 +22,12 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 	const notFound = isGuestProfileData(data) ? data.notFound ?? false : false;
 	const isPrivate = isGuestProfileData(data) ? data.isPrivate ?? false : false;
 	const showSkeletonCards = notFound || isPrivate;
+
+	const permissions = useUserPermissions();
+	const showPromotion = permissions.isGuest;
+
 	return (
-		<UserViewContext.Provider value={userView}>
+		<UserPermissionsProvider value={permissions}>
 			<PageLayout>
 				{showPromotion && <ProfileBanner />}
 				<ProfileHeader
@@ -40,6 +41,6 @@ export const Profile = ({ userView }: { userView: boolean }) => {
 					showSkeletonCards={showSkeletonCards}
 				/>
 			</PageLayout>
-		</UserViewContext.Provider>
+		</UserPermissionsProvider>
 	);
 };

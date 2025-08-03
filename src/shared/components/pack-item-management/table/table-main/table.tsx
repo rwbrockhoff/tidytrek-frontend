@@ -3,7 +3,7 @@ import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import styles from './table.module.css';
 
 export const Table = ({ children }: { children: React.ReactNode }) => {
-	const { widths, showPrices, isUser } = useTableColumnWidths();
+	const { widths, showPrices, isCreator } = useTableColumnWidths();
 
 	return (
 		<AlpineTable.Root variant="surface" compact size="1" className={styles.table}>
@@ -14,7 +14,7 @@ export const Table = ({ children }: { children: React.ReactNode }) => {
 				<col width={widths.qty} />
 				<col width={widths.weight} />
 				{showPrices && <col width={widths.price} />}
-				{isUser && <col width={widths.actions} />}
+				{isCreator && <col width={widths.actions} />}
 			</colgroup>
 			{children}
 		</AlpineTable.Root>
