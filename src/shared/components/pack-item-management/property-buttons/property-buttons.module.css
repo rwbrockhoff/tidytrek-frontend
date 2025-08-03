@@ -3,31 +3,35 @@
 	gap: var(--space-2);
 }
 
-.flexContainer button {
+.flexContainer button,
+.propertyButtonsContainer button {
 	gap: 0;
 	padding: var(--space-2);
 	min-width: auto;
 }
 
-.flexContainer svg {
+.flexContainer svg,
+.propertyButtonsContainer svg {
 	cursor: pointer;
 	color: var(--color-text-tertiary);
 	fill: currentColor;
 }
 
-.flexContainer svg:hover {
+.flexContainer svg:hover,
+.propertyButtonsContainer svg:hover {
 	filter: var(--brightness-light-1);
 }
 
-.flexContainer .favoriteActive {
+/* Active colors need higher specificity to override Alpine button styles */
+:global(.aow) .favoriteActive {
 	color: #ffc53d;
 }
 
-.flexContainer .wornWeightActive {
+:global(.aow) .wornWeightActive {
 	color: #00a2c7;
 }
 
-.flexContainer .consumableActive {
+:global(.aow) .consumableActive {
 	color: #3e63dd;
 }
 
@@ -48,13 +52,15 @@
 		gap: var(--space-4);
 	}
 
-	.flexContainer button {
+	.flexContainer button,
+	.propertyButtonsContainer button {
 		padding: var(--space-3);
 		min-height: 44px;
 		min-width: 44px;
 	}
 
-	.flexContainer svg {
+	.flexContainer svg,
+	.propertyButtonsContainer svg {
 		width: 20px;
 		height: 20px;
 	}

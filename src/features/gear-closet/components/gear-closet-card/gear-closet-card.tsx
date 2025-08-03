@@ -7,14 +7,14 @@ import styles from './gear-closet-card.module.css';
 
 type GearClosetCardProps = {
 	items: GearClosetItem[];
-	userView?: boolean;
+	isPackOwner?: boolean;
 	onAddItem?: () => void;
 	className?: string;
 };
 
 export const GearClosetCard = ({
 	items,
-	userView = false,
+	isPackOwner = false,
 	onAddItem,
 	className,
 }: GearClosetCardProps) => {
@@ -28,12 +28,12 @@ export const GearClosetCard = ({
 					<GearClosetItemRow
 						key={item.packItemId || index}
 						item={item}
-						userView={userView}
+						isPackOwner={isPackOwner}
 					/>
 				))}
 			</Card.Body>
 
-			{userView && onAddItem && (
+			{isPackOwner && onAddItem && (
 				<Card.Footer className={cn('aow', styles.cardFooter)}>
 					<Button
 						variant="outline"

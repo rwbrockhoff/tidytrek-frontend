@@ -82,8 +82,8 @@ export const PackItemEdit = () => {
 	if (!formData) return <Spinner />;
 
 	return (
-		<Box className="mx-auto pt-3">
-			<Box>
+		<Box className="mx-auto">
+			<Box className="mb-2">
 				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
 				</Button>

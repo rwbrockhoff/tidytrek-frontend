@@ -12,7 +12,7 @@ export const useCheckScreen = () => {
 		setWidth(window.innerWidth);
 	};
 
-	//synchronous, before first paint unlike useEffect
+	//synchronous, before first paint
 	useLayoutEffect(() => {
 		window.addEventListener('resize', handleWindowSizeChange);
 		return () => {

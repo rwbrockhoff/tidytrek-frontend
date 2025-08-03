@@ -2,7 +2,7 @@ import { type PackListItem, type Category } from '@/types/pack-types';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/alpine';
-import { useUserContext } from '@/hooks/auth/use-user-context';
+import { usePackOwner } from '@/hooks/auth/use-pack-owner';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { EditableCategoryHeader } from './editable-category-header';
@@ -15,7 +15,7 @@ type PackCategoryCardProps = {
 };
 
 export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
-	const userView = useUserContext();
+	const { isPackOwner } = usePackOwner();
 
 	const {
 		packCategoryName,
@@ -48,7 +48,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 				packCategoryColor={packCategoryColor}
 				packCategoryId={packCategoryId}
 				isMinimized={isMinimized}
-				userView={userView}
+				isPackOwner={isPackOwner}
 				itemQuantity={itemQuantity}
 				convertedCategoryWeight={convertedCategoryWeight}
 				formattedTotalPrice={formattedTotalPrice}
@@ -57,7 +57,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 			/>
 			<PackCategoryItems
 				packItems={packItems}
-				userView={userView}
+				isPackOwner={isPackOwner}
 				isMinimized={isMinimized}
 				onAddItem={handleAddItem}
 			/>

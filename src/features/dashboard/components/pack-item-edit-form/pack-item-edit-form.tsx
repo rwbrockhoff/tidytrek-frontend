@@ -2,11 +2,17 @@ import { Root as FormRoot } from '@radix-ui/react-form';
 import { Select } from '@radix-ui/themes';
 import { TextField } from '@/components/alpine';
 import { PropertyButtons } from '@/shared/components/pack-item-management/property-buttons';
-import { type BaseTableRowItem, type PackItemProperty, WeightUnit } from '@/types/pack-types';
+import {
+	type BaseTableRowItem,
+	type PackItemProperty,
+	WeightUnit,
+} from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import mx from '@/styles/utils/mixins.module.css';
 import styles from './pack-item-edit-form.module.css';
+import { Flex, Stack } from '@/components/layout';
+import { cn } from '@/styles/utils';
 
 type PackItemEditFormProps = {
 	formData: BaseTableRowItem;
@@ -68,7 +74,7 @@ export const PackItemEditForm = ({
 				error={formErrors?.packItemQuantity}
 			/>
 
-			<div className={styles.weightGroup}>
+			<Flex className="items-center gap-2">
 				<TextField.Input
 					name="packItemWeight"
 					label="Weight"
@@ -79,10 +85,10 @@ export const PackItemEditForm = ({
 					width="70%"
 					error={formErrors?.packItemWeight}
 				/>
-				<div className={styles.weightUnit}>
+				<Stack className={cn(styles.weightUnit, 'gap-1')}>
 					<label className={styles.unitLabel}>Unit</label>
 					<Select.Root
-						size="2"
+						size="3"
 						value={formData.packItemWeightUnit || WeightUnit.oz}
 						onValueChange={onWeightUnitChange}>
 						<Select.Trigger variant="surface" />
@@ -93,8 +99,8 @@ export const PackItemEditForm = ({
 							<Select.Item value={WeightUnit.kg}>kg</Select.Item>
 						</Select.Content>
 					</Select.Root>
-				</div>
-			</div>
+				</Stack>
+			</Flex>
 
 			<TextField.Input
 				name="packItemPrice"
@@ -107,7 +113,7 @@ export const PackItemEditForm = ({
 				error={formErrors?.packItemPrice}
 			/>
 
-			<div className={styles.propertiesSection}>
+			<div className={cn(styles.propertiesSection)}>
 				<label id="properties-label" className={mx.visuallyHidden}>
 					Pack Item Properties
 				</label>
@@ -117,6 +123,10 @@ export const PackItemEditForm = ({
 					favorite={formData.favorite || false}
 					onClick={onPropertyChange}
 					ariaLabelledBy="properties-label"
+					disableHoverBehavior={true}
+					disableInternalLayout={true}
+					size="md"
+					className={styles.propertyButtonsGrid}
 				/>
 			</div>
 		</FormRoot>

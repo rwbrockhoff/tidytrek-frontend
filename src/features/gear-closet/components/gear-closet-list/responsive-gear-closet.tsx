@@ -28,7 +28,7 @@ export const ResponsiveGearCloset = ({
 		return (
 			<GearClosetCard
 				items={gearClosetList}
-				userView={true}
+				isPackOwner={true}
 				onAddItem={handleAddItem}
 			/>
 		);

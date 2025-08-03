@@ -13,7 +13,7 @@ type EditableCategoryHeaderProps = {
 	packCategoryColor: string;
 	packCategoryId: number;
 	isMinimized: boolean;
-	userView: boolean;
+	isPackOwner: boolean;
 	itemQuantity: number;
 	convertedCategoryWeight: number;
 	formattedTotalPrice: string | number;
@@ -26,7 +26,7 @@ export const EditableCategoryHeader = ({
 	packCategoryColor,
 	packCategoryId,
 	isMinimized,
-	userView,
+	isPackOwner,
 	itemQuantity,
 	convertedCategoryWeight,
 	formattedTotalPrice,
@@ -62,20 +62,25 @@ export const EditableCategoryHeader = ({
 			<div className={styles.categoryHeaderContent}>
 				<ThemeButton
 					paletteColor={packCategoryColor}
-					disabled={!userView}
+					disabled={!isPackOwner}
 					onClick={handleChangeColor}
 				/>
 
-				<TextField.Standalone
-					className={styles.categoryName}
-					value={packCategoryName}
-					name="packCategoryName"
-					placeholder={userView ? 'Category' : ''}
-					variant="minimal"
-					onChange={handleInput}
-					onBlur={userView ? handleBlur : undefined}
-					disabled={!userView}
-				/>
+				{isPackOwner ? (
+					<TextField.Standalone
+						className={styles.categoryName}
+						value={packCategoryName}
+						name="packCategoryName"
+						placeholder="Category"
+						variant="minimal"
+						onChange={handleInput}
+						onBlur={handleBlur}
+					/>
+				) : (
+					<span className={styles.categoryName}>
+						{packCategoryName || 'Category'}
+					</span>
+				)}
 				
 				<Button
 					onClick={onMinimizeCategory}

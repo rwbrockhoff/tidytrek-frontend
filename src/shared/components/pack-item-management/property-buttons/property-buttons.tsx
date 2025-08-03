@@ -21,6 +21,9 @@ type PropertyButtonsProps = {
 	onClick: (property: PackItemProperty) => void;
 	className?: string;
 	ariaLabelledBy?: string;
+	disableHoverBehavior?: boolean;
+	disableInternalLayout?: boolean;
+	size?: 'sm' | 'md';
 };
 
 export const PropertyButtons = ({
@@ -31,6 +34,9 @@ export const PropertyButtons = ({
 	onClick,
 	className,
 	ariaLabelledBy,
+	disableHoverBehavior = false,
+	disableInternalLayout = false,
+	size = 'sm',
 }: PropertyButtonsProps) => {
 	const handleOnClick = (buttonToChange: ButtonTypes, e: React.MouseEvent) => {
 		e.preventDefault();
@@ -38,24 +44,23 @@ export const PropertyButtons = ({
 		if (!isDisabled) onClick(buttonToChange);
 	};
 
-	return (
-		<Flex
-			className={cn(styles.flexContainer, className)}
-			role="group"
-			aria-labelledby={ariaLabelledBy}>
+	const buttonElements = (
+		<>
 			<Button
 				variant="ghost"
-				size="sm"
+				size={size}
+				override={true}
 				onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
 				aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
 				className={cn(
-					favorite ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+					favorite ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
 					isDisabled && !favorite && 'invisible'
 				)}
 				iconLeft={
 					<FavoriteIcon
 						name="favorite"
 						className={cn(
+							'lucide',
 							favorite && styles.favoriteActive,
 							isDisabled && styles.disabledIcon,
 						)}
@@ -66,17 +71,19 @@ export const PropertyButtons = ({
 			<Tooltip content="Consumable items like food or fuel.">
 				<Button
 					variant="ghost"
-					size="sm"
+					size={size}
+					override={true}
 					onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
 					aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
 					className={cn(
-						consumable ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+						consumable ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
 						isDisabled && !consumable && 'invisible'
 					)}
 					iconLeft={
 						<ConsumableIcon
 							name="food"
 							className={cn(
+								'lucide',
 								consumable && styles.consumableActive,
 								isDisabled && styles.disabledIcon,
 							)}
@@ -88,17 +95,19 @@ export const PropertyButtons = ({
 			<Tooltip content="Worn weight like shorts or trail runners.">
 				<Button
 					variant="ghost"
-					size="sm"
+					size={size}
+					override={true}
 					onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
 					aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
 					className={cn(
-						wornWeight ? '' : !isDisabled ? hoverStyles.showOnHover : '',
+						wornWeight ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
 						isDisabled && !wornWeight && 'invisible'
 					)}
 					iconLeft={
 						<WornIcon
 							name="wornWeight"
 							className={cn(
+								'lucide',
 								wornWeight && styles.wornWeightActive,
 								isDisabled && styles.disabledIcon,
 							)}
@@ -106,6 +115,23 @@ export const PropertyButtons = ({
 					}
 				/>
 			</Tooltip>
+		</>
+	);
+
+	if (disableInternalLayout) {
+		return (
+			<div role="group" aria-labelledby={ariaLabelledBy} className={cn(styles.propertyButtonsContainer, className)}>
+				{buttonElements}
+			</div>
+		);
+	}
+
+	return (
+		<Flex
+			className={cn(styles.flexContainer, className)}
+			role="group"
+			aria-labelledby={ariaLabelledBy}>
+			{buttonElements}
 		</Flex>
 	);
 };

@@ -36,7 +36,7 @@ export const PackEdit = () => {
 	if (error || !pack) return <div>Pack not found</div>;
 
 	return (
-		<Box className="mx-auto pt-3">
+		<Box className="mx-auto pb-2">
 			<Box>
 				<Button variant="ghost" onClick={handleCancel} iconLeft={<BackArrow />}>
 					Back
