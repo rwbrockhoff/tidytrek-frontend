@@ -4,6 +4,7 @@ export const PALETTE_NAMES = [
 	'southwest',
 	'atlas',
 	'colorado',
+	'arctic',
 ] as const;
 
 // extracts array values into a union type: "atlas" | "earth-tones" | "tidytrek"

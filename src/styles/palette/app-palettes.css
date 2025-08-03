@@ -56,3 +56,14 @@
 	--palette-07: #535f45;
 	--palette-08: #bcccbc;
 }
+
+[data-theme-palette='arctic'] {
+	--palette-01: #1b4965;
+	--palette-02: #62b6cb;
+	--palette-03: #bee9e8;
+	--palette-04: #cae9ff;
+	--palette-05: #5fa8d3;
+	--palette-06: #abc4ff;
+	--palette-07: #b8bedd;
+	--palette-08: #f0e6ef;
+}
