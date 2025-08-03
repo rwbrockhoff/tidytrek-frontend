@@ -8,13 +8,11 @@ export const ProfileBanner = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Flex className="items-center mb-12">
+		<Flex className="items-center mb-12 px-4">
 			<LandingLink>
-				<Heading as="h2" ml="6">
-					tidytrek
-				</Heading>
+				<Heading as="h2">tidytrek</Heading>
 			</LandingLink>
-			<Flex className="ml-auto mr-6">
+			<Flex className="ml-auto">
 				<Button onClick={() => navigate('/register')}>Sign Up</Button>
 			</Flex>
 		</Flex>

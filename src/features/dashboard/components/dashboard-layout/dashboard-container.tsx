@@ -73,10 +73,9 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const showPreviewMode = !userView && isUsersPack;
 	return (
 		<PricingContext.Provider value={packPricing}>
+			{/* Show promotional banner for non-auth visitors */}
+			{showGuestBanners && <ProfileBanner />}
 			<PageLayout>
-				{/* Show promotional banner for non-auth visitors */}
-				{showGuestBanners && <ProfileBanner />}
-
 				{/* Show preview banner if user is viewing their own pack in guest mode */}
 				{showPreviewMode && <GuestPreviewBanner />}
 

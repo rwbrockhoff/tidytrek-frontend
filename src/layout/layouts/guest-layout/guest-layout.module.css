@@ -1,6 +1,6 @@
 .guestViewWrapper {
 	background-color: var(--color-bg-primary);
-	height: 100%;
+	height: 100vh;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 }
@@ -31,6 +31,6 @@
 
 @media (max-width: 768px) {
 	.guestViewLayoutContainer {
-		padding: var(--space-8) var(--space-4);
+		padding: var(--space-6) var(--space-4);
 	}
 }
