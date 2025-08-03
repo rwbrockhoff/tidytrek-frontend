@@ -1,7 +1,7 @@
 import { Pack } from './pack-types';
 import { Settings } from './settings-types';
 
-export type InitialState = {
+export type ProfileQueryState = {
 	profileInfo: ProfileInfo;
 	socialLinks: SocialLink[];
 };
@@ -29,10 +29,10 @@ export type UserProfile = {
 	socialLinks: SocialLink[];
 };
 
-export type UserProfileWithPack = {
-	userProfile: UserProfile;
+export type BaseProfileState = {
+	userProfile: UserProfile | null;
 	packThumbnailList: Pack[];
-	settings?: Settings;
+	settings: Settings | null;
 };
 
 export type SocialLinkInfo = {
@@ -47,7 +47,6 @@ export type SocialObject = {
 
 export type SocialLink = {
 	socialLinkUrl: string;
-	platformName: string;
 	socialLinkId: number;
 	userId: number;
 };

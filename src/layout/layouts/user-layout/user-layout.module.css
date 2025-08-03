@@ -1,0 +1,93 @@
+.outerContainer {
+	width: 100%;
+	min-height: 100vh;
+	background-color: var(--color-bg-primary);
+}
+
+.appViewContainer {
+	background-color: var(--color-bg-primary);
+	min-height: 100%;
+	max-width: var(--max-width);
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	align-items: stretch;
+}
+
+.viewLayoutContainer {
+	flex: 1;
+	background-color: var(--color-bg-primary);
+	position: relative;
+	min-width: 0;
+	transition:
+		margin-left var(--transition-slow),
+		max-width var(--transition-slow);
+}
+
+.viewLayoutSidebarVisible {
+	margin-left: 250px;
+	max-width: 1030px;
+}
+
+.viewLayoutSidebarHidden {
+	margin-left: 0;
+	max-width: 1280px;
+}
+
+/* Medium and desktop screens */
+@media (min-width: 769px) {
+	.viewLayoutContainer {
+		padding: var(--app-layout-padding-y) var(--app-layout-padding-x);
+	}
+}
+
+/* Sidebar becomes overlay below max-width */
+@media (max-width: 1280px) {
+	.appViewContainer {
+		/* Keep flex layout - sidebar becomes overlay */
+		display: flex;
+		align-items: stretch;
+		min-height: 100%;
+	}
+
+	.viewLayoutContainer {
+		flex: 1;
+		width: 100%;
+	}
+
+	.viewLayoutSidebarVisible,
+	.viewLayoutSidebarHidden {
+		/* Reset positioning when sidebar is overlay */
+		margin-left: 0;
+		width: 100%;
+		max-width: 1280px; /* Use full container width */
+	}
+}
+
+@media (max-width: 480px) {
+	.outerContainer {
+		overflow-y: auto;
+	}
+
+	.appViewContainer {
+		/* Keep flex layout - sidebar overlays */
+		display: flex;
+		align-items: stretch;
+		min-height: 100%;
+	}
+
+	.viewLayoutContainer {
+		/* Mobile layout padding - nav height + extra space for both top and bottom */
+		padding: calc(var(--mobile-nav-height) + var(--space-6)) var(--space-4)
+			calc(var(--mobile-nav-height) + var(--space-6)) var(--space-4);
+		flex: 1;
+	}
+
+	.viewLayoutSidebarVisible,
+	.viewLayoutSidebarHidden {
+		/* Reset any desktop positioning on mobile */
+		margin-left: 0;
+		width: 100%;
+	}
+}

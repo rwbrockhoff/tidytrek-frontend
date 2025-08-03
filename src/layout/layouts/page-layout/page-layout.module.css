@@ -1,0 +1,9 @@
+.pageLayout {
+	min-height: 100%;
+}
+
+@media (max-width: 768px) {
+	.pageLayout {
+		padding-top: var(--space-2);
+	}
+}

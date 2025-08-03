@@ -2,19 +2,23 @@ import styles from './gear-closet.module.css';
 import { mx } from '@/styles/utils';
 import { type InputEvent } from '@/types/form-types';
 import { useState } from 'react';
-import { ClosetIcon, SearchIcon, TextField } from '@/components/ui';
-import { Flex, Heading } from '@radix-ui/themes';
-import { GearClosetList } from '../components/gear-closet-list';
+import { ClosetIcon, SearchIcon } from '@/components/icons';
+import { TextField } from '@/components/alpine';
+import { Flex, Stack, Box } from '@/components/layout';
+import { Heading } from '@radix-ui/themes';
+import { ResponsiveGearCloset } from '../components/gear-closet-list/responsive-gear-closet';
 import { useGetGearClosetQuery } from '@/queries/closet-queries';
 import { useGetPackListQuery } from '@/queries/pack-queries';
-import { UserViewContext } from '@/hooks/use-viewer-context';
+import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
+import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { searchMatch } from '@/utils';
 import { cn } from '@/styles/utils/cn';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const GearCloset = () => {
 	const [searchInput, setSearchInput] = useState('');
 
-	const { data } = useGetGearClosetQuery();
+	const { data, isLoading } = useGetGearClosetQuery();
 	const { gearClosetList } = data || { gearClosetList: [] };
 
 	const { data: packListData } = useGetPackListQuery();
@@ -22,58 +26,58 @@ export const GearCloset = () => {
 
 	const handleInputChange = (e: InputEvent) => setSearchInput(e.target.value);
 
-	const filteredClosetList =
-		gearClosetList.filter(
-			(item) =>
-				searchMatch(searchInput, item.packItemName, 'i') ||
-				searchMatch(searchInput, item.packItemDescription, 'i'),
-		) || [];
+	const filteredClosetList = gearClosetList.filter(
+		(item) =>
+			searchMatch(searchInput, item.packItemName) ||
+			searchMatch(searchInput, item.packItemDescription),
+	);
 
 	const isSearching = searchInput.length > 0;
-	const dragDisabled = isSearching ? true : false;
-	const originalListHasItems = gearClosetList.length > 0;
-	const displayListHasItems = isSearching
-		? filteredClosetList.length > 0
-		: originalListHasItems;
-	const listToDisplay = isSearching ? filteredClosetList : gearClosetList;
+	const dragDisabled = isSearching || isLoading;
+	const hasItems = gearClosetList.length > 0;
+	const filteredList = isSearching ? filteredClosetList : gearClosetList;
+	const showResults = isSearching ? filteredClosetList.length > 0 : hasItems;
+	const showEmptyListDescription = !hasItems && !isLoading;
+
+	const permissions = useUserPermissions();
+
 	return (
-		<main>
-			<UserViewContext.Provider value={true}>
-				<Flex
-					className={styles.headerText}
-					align="center"
-					justify="center"
-					gap="3"
-					mt="9">
-					<ClosetIcon />
-					<Heading size="6">Gear Closet</Heading>
-				</Flex>
+		<UserPermissionsProvider value={permissions}>
+			<PageLayout>
+				<Stack className="gap-4">
+					<Heading size="6">
+						<Flex className="items-center justify-center gap-2">
+							<ClosetIcon />
+							Gear Closet
+						</Flex>
+					</Heading>
 
-				{!originalListHasItems && (
-					<p className={styles.descriptionText}>
-						Keep track of other pack items that don't have a pack list yet!
-					</p>
-				)}
+					{showEmptyListDescription && (
+						<p className={styles.descriptionText}>
+							Keep track of other pack items that don't have a pack list yet!
+						</p>
+					)}
 
-				<div className={cn(styles.searchContainer, mx.responsiveContent)}>
-					<TextField.Standalone
-						variant="icon"
-						placeholder="Search..."
-						name="searchInput"
-						value={searchInput}
-						onChange={handleInputChange}
-						icon={<SearchIcon />}
-						iconPosition="left"
+					<Box className={cn(mx.responsiveContent, 'mx-auto mb-4')}>
+						<TextField.Standalone
+							variant="icon"
+							placeholder="Search..."
+							name="searchInput"
+							value={searchInput}
+							onChange={handleInputChange}
+							icon={<SearchIcon />}
+							iconPosition="left"
+						/>
+					</Box>
+
+					<ResponsiveGearCloset
+						gearClosetList={filteredList}
+						packList={packList}
+						listHasItems={showResults}
+						dragDisabled={dragDisabled}
 					/>
-				</div>
-
-				<GearClosetList
-					gearClosetList={listToDisplay}
-					packList={packList}
-					listHasItems={displayListHasItems}
-					dragDisabled={dragDisabled}
-				/>
-			</UserViewContext.Provider>
-		</main>
+				</Stack>
+			</PageLayout>
+		</UserPermissionsProvider>
 	);
 };

@@ -1,18 +1,8 @@
-type EmptyTableRowProps = {
-	isDraggingOver: boolean;
-	noChildren: boolean;
-};
+import { mx } from '@/styles/utils';
 
-export const EmptyTableRow = ({ isDraggingOver, noChildren }: EmptyTableRowProps) => {
-	const isTransparent = isDraggingOver && noChildren;
-
+export const EmptyTableRow = () => {
 	return (
-		<tr
-			style={{
-				backgroundColor: isTransparent
-					? 'var(--color-bg-secondary)'
-					: 'var(--color-bg-primary)',
-			}}>
+		<tr className={mx.bgSecondary}>
 			<td colSpan={24} />
 		</tr>
 	);

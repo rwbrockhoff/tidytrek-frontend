@@ -6,6 +6,8 @@ export type User = {
 	username: string;
 	trailName: string;
 	profilePhotoUrl: string;
+	weightUnit: 'metric' | 'imperial';
+	currencyUnit: string;
 };
 
 export type RegisterUser = {

@@ -1,0 +1,22 @@
+.formContainer {
+	width: 100%;
+	max-width: 420px;
+	margin: 0 auto;
+}
+
+.authContainer {
+	text-align: center;
+	min-height: 100vh;
+	width: 100%;
+	background-color: var(--color-bg-primary);
+	padding: 0 var(--space-4);
+}
+
+.brandHeading {
+	letter-spacing: -0.025rem;
+	text-align: center;
+}
+
+.welcomeFormFields {
+	text-align: left;
+}

@@ -1,12 +1,15 @@
 import { type FormError, type InputEvent } from '@/types/form-types';
-import { clearZodErrors, type ZodFormErrors } from '@/hooks';
+import { clearZodErrors } from '@/hooks/form/use-zod-error';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Form } from '@radix-ui/react-form';
-import { Message, Segment } from '@/components/ui';
-import { Flex, Text, Heading, Button } from '@radix-ui/themes';
-import { TextField } from '@/components/ui/alpine';
+import { Message } from '@/components/ui';
+import { Segment } from '@/components/primitives';
+import { Flex } from '@/components/layout';
+import { Text, Heading } from '@radix-ui/themes';
+import { Button, TextField } from '@/components/alpine';
 import { Link } from 'react-router-dom';
-import { FormContainer, AuthContainer } from '../form-components';
-import styles from '../form-components.module.css';
+import { FormContainer, AuthContainer } from '../form-components/form-components';
+import styles from '../form-components/form-components.module.css';
 import { type FormEvent } from 'react';
 import { type ResetPasswordData } from '../../types/auth-types';
 
@@ -53,6 +56,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 								error={formErrors.email}
 								onChange={handleClearErrors}
 								placeholder="Email"
+								aria-label="Email"
 							/>
 						)}
 
@@ -64,6 +68,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 									onChange={handleClearErrors}
 									type="password"
 									placeholder="Password"
+									aria-label="Password"
 									data-testid="password-input"
 								/>
 
@@ -73,6 +78,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 									onChange={handleClearErrors}
 									type="password"
 									placeholder="Confirm Password"
+									aria-label="Confirm Password"
 									data-testid="confirm-password-input"
 								/>
 							</>
@@ -86,7 +92,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							/>
 						)}
 
-						<Button size="3" mt="2" style={{ width: '100%' }} type="submit">
+						<Button style={{ width: '100%' }} type="submit">
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 					</Form>
@@ -98,7 +104,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							id="reset-password-message"
 						/>
 					)}
-					<Flex justify="center" mt="4">
+					<Flex className="justify-center mt-4">
 						<Text size="3">
 							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
 						</Text>

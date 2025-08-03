@@ -12,7 +12,7 @@ export const userKeys = {
 
 export const packKeys = {
 	all: [Pack] as const,
-	packId: (packId: number | null) => [Pack, packId] as const,
+	packId: (packId: number | null | undefined) => [Pack, packId] as const,
 };
 
 export const packListKeys = {
@@ -24,8 +24,8 @@ export const closetKeys = {
 };
 
 export const guestKeys = {
-	packId: (packId: number | null) => [Guest, packId] as const,
-	username: (username: string | undefined) => [Guest, username] as const,
+	packId: (packId: number | null) => [Guest, 'pack', packId] as const,
+	username: (username: string | undefined) => [Guest, 'user', username] as const,
 };
 
 export const profileKeys = {

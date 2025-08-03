@@ -1,13 +1,8 @@
-import styles from './pack-graphic.module.css';
-import { cn, mx } from '@/styles/utils';
 import { Category } from '@/types/pack-types';
-import { PackChart } from './pack-chart';
-import { Badge, Flex, Separator, Text } from '@radix-ui/themes';
-import { CircleIcon, DownArrowIcon } from '@/components/ui';
-import CampGraphic from '@/assets/camping.svg';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
-import { PackSummaryPanel } from '../pack-summary-panel';
-import { useUserContext } from '@/hooks';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { PackChartView } from './pack-chart-view';
+import { PackEmptyGraphic } from './pack-empty-graphic/pack-empty-graphic';
 
 type PackGraphicProps = {
 	packCategories: Category[];
@@ -16,7 +11,7 @@ type PackGraphicProps = {
 };
 
 export const PackGraphic = (props: PackGraphicProps) => {
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
 
 	const { packCategories, fetching, display } = props;
 	const {
@@ -26,69 +21,28 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		packHasWeight,
 		descriptivePackWeight,
 		totalPackPrice,
-	} = useCategoryInfo(packCategories, 'lb');
+	} = useCategoryInfo(packCategories);
 
-	const noPackWeight = userView && !packHasWeight;
-
-	if (fetching) return null;
+	if (fetching || !packCategories) return null;
 
 	if (packHasWeight) {
 		return (
-			<Flex align="center" className={cn(styles.outerPanel, !display && styles.hidden)}>
-				<Flex
-					direction="column"
-					align="end"
-					className={cn(styles.summaryPanel, mx.responsiveContent)}>
-					<Flex role="list" direction="column" className={styles.chartList}>
-						{chartCategoryInfo.map((category) => {
-							return (
-								<Flex
-									align="center"
-									key={category.categoryId}
-									className={styles.chartItem}>
-									<CircleIcon
-										className={styles.themeIcon}
-										style={{ color: `var(--${category.chartColor})` }}
-									/>
-									<Text className={styles.styledText}>
-										{category.categoryName || 'Category'}
-									</Text>
-									<Badge color="gray" ml="auto">
-										{category.totalWeight} lbs
-									</Badge>
-								</Flex>
-							);
-						})}
-
-						<Separator size="4" mb="4" style={{ opacity: 0.5 }} />
-
-						<PackSummaryPanel
-							totalWeight={totalWeight}
-							descriptivePackWeight={descriptivePackWeight}
-							totalPackPrice={totalPackPrice}
-						/>
-					</Flex>
-				</Flex>
-				<Flex align="center" justify="end" className={styles.chartPanel}>
-					<PackChart categories={packCategories} categoryWeights={categoryWeights} />
-				</Flex>
-			</Flex>
+			<PackChartView
+				packCategories={packCategories}
+				chartCategoryInfo={chartCategoryInfo}
+				categoryWeights={categoryWeights}
+				totalWeight={totalWeight}
+				descriptivePackWeight={descriptivePackWeight}
+				totalPackPrice={totalPackPrice}
+				display={display}
+			/>
 		);
 	}
-	if (noPackWeight) {
-		return (
-			<Flex
-				align="center"
-				justify="end"
-				className={cn(styles.graphicPanel, mx.mobileHidden, mx.responsiveContent)}>
-				<Flex direction="column" height="auto">
-					<img src={CampGraphic} />
-					<Flex justify="center" align="center">
-						<DownArrowIcon />
-						<Text>Add items below to get started</Text>
-					</Flex>
-				</Flex>
-			</Flex>
-		);
-	} else return null;
+
+	// only show empty pack for users with pack categories (without weight)
+	if (isCreator && !packHasWeight) {
+		return <PackEmptyGraphic />;
+	}
+
+	return null;
 };

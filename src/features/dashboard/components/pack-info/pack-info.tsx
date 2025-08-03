@@ -5,19 +5,21 @@ import styles from './pack-info.module.css';
 import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon, DeleteModal } from '@/components/ui';
-import { Flex, Heading, Button, Text } from '@radix-ui/themes';
-import { useUserContext } from '@/hooks/use-viewer-context';
-import {
-	useDeletePackAndItemsMutation,
-	useDeletePackMutation,
-} from '@/queries/pack-queries';
+import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
+import { Heading, Text } from '@radix-ui/themes';
+import { Flex, Stack } from '@/components/layout';
+import { Button } from '@/components/alpine';
+import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useCategoryInfo } from '../../hooks/use-category-info';
+import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
-import { DisplayLink } from '@/components/ui';
-import { ShareSettings } from './share-settings';
+import { ExternalLink } from '@/components/ui';
+import { ShareSettings } from './share-settings/share-settings';
 import { PackLabels } from '@/components';
-import { ProfileInfo } from './profile-info';
+import { ProfileInfo } from './profile-info/profile-info';
+import { PackStarterCard } from './pack-starter-card/pack-starter-card';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -29,47 +31,39 @@ type PackInfoProps = {
 
 export const PackInfo = (props: PackInfoProps) => {
 	const navigate = useNavigate();
-	const userView = useUserContext();
+	const { isCreator } = useUserPermissionsContext();
+	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
 
 	const { fetching, currentPack, packCategories, userProfile, settings } = props;
 	const { profileInfo, socialLinks } = userProfile || {};
 
-	const { mutate: deletePack } = useDeletePackMutation();
-	const { mutate: deletePackAndItems } = useDeletePackAndItemsMutation();
-
 	const [showPackChart, setShowPackChart] = useState(false);
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
-
-	const handleToggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
-
-	const handleDeletePack = () => {
-		const { packId } = currentPack;
-		deletePack(packId);
-		navigate('/');
-	};
-
-	const handleDeletePackAndItems = () => {
-		const { packId } = currentPack;
-		deletePackAndItems(packId);
-		navigate('/');
-	};
 
 	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
 
 	const { publicProfile } = settings || {};
 
+	const { packHasWeight } = useCategoryInfo(packCategories);
+
+	const isDefaultUntouchedPack = isUntouchedDefaultPack(
+		isCreator,
+		packCategories,
+		currentPack,
+		packDescription,
+		packUrl,
+	);
 	return (
 		<Flex
-			align="center"
-			display="inline-flex"
-			mt="6"
-			mb="9"
-			className={cn(styles.packInfoContainer, mx.responsiveContent)}>
-			<div className={cn(mx.responsivePanel, styles.userInfoPanel)}>
-				{!userView && (
+			className={cn(
+				styles.packInfoContainer,
+				mx.responsiveContent,
+				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12 md:gap-8',
+			)}>
+			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1')}>
+				{!isCreator && (
 					<ProfileInfo
 						userInfo={profileInfo}
 						socialLinks={socialLinks}
@@ -77,68 +71,93 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Heading as="h1" size="6" mb="2" data-testid="pack-name-heading">
-					<Flex>
+				<Flex className="items-center gap-2">
+					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
+					</Heading>
 
-						<PackModal pack={currentPack} showDeleteModal={handleToggleDeleteModal}>
-							<Button
-								variant="ghost"
-								className={cn(`editIcon ${styles.editIcon}`, !userView && mx.hidden)}
-								data-testid="pack-edit-button"
-								aria-label="Edit pack details">
-								<EditPencilIcon />
-							</Button>
-						</PackModal>
-					</Flex>
-				</Heading>
-
-				<ShareSettings packPublic={packPublic} packId={paramPackId} />
-
+					{isMobile && isCreator ? (
+						<Button
+							variant="ghost"
+							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
+							data-testid="pack-edit-button"
+							aria-label="Edit pack details"
+							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
+							<EditPencilIcon />
+						</Button>
+					) : (
+						isCreator && (
+							<PackModal pack={currentPack}>
+								<Button
+									variant="ghost"
+									className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
+									data-testid="pack-edit-button"
+									aria-label="Edit pack details">
+									<EditPencilIcon />
+								</Button>
+							</PackModal>
+						)
+					)}
+				</Flex>
+				{isCreator && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
 				{packUrl && (
-					<DisplayLink
-						url={packUrl}
-						text={packUrlName || packUrl || 'Pack Link'}
-						showIcon
-						margin="var(--space-xs)0 0 0"
-					/>
+					<ExternalLink href={packUrl}>
+						<LinkIcon />
+						{packUrlName || packUrl || 'Pack Link'}
+					</ExternalLink>
 				)}
-
-				<Text my="2" className={styles.descriptionText}>
-					{packDescription}
-				</Text>
-
+				<Text className={styles.descriptionText}>{packDescription}</Text>
 				<PackLabels pack={currentPack} />
 
-				<Button
-					variant="outline"
-					my="6"
-					size="3"
-					onClick={handleTogglePackChart}
-					className={styles.toggleChartButton}>
-					<ChartIcon />
-					Show Pack Chart
-				</Button>
-			</div>
+				{/* Show starter card for untouched default packs */}
+				{isDefaultUntouchedPack && <PackStarterCard />}
+
+				{/* mobile chart toggle button */}
+				{packHasWeight && isMobile && (
+					<Flex className="my-4">
+						<Button
+							variant="outline"
+							size="md"
+							onClick={handleTogglePackChart}
+							iconLeft={<ChartIcon />}
+							className={cn(styles.toggleChartButton, 'flex md:hidden')}>
+							{showPackChart ? 'Hide' : 'Show'} Pack Chart
+						</Button>
+					</Flex>
+				)}
+			</Stack>
 
 			{/* Right Hand Panel */}
-
 			<PackGraphic
 				fetching={fetching}
 				packCategories={packCategories}
-				display={showPackChart}
-			/>
-
-			<DeleteModal
-				header={`Delete ${packName} Pack?`}
-				message={deletePackMessage}
-				open={showDeleteModal}
-				toggleOpen={handleToggleDeleteModal}
-				onClickDelete={handleDeletePackAndItems}
-				onClickMove={handleDeletePack}
+				display={isMobile ? showPackChart : true}
 			/>
 		</Flex>
 	);
 };
 
-const deletePackMessage = `You can delete your pack permanently or move your pack items to your gear closet.`;
+// checks if pack is default/untouched
+const isUntouchedDefaultPack = (
+	isCreator: boolean,
+	packCategories: Category[],
+	currentPack: Pack,
+	packDescription: string,
+	packUrl: string,
+): boolean => {
+	return (
+		isCreator &&
+		packCategories.length <= 1 &&
+		(packCategories.length === 0 || packCategories[0].packItems?.length <= 1) &&
+		(packCategories.length === 0 ||
+			!packCategories[0].packItems?.length ||
+			!packCategories[0].packItems[0].packItemName ||
+			packCategories[0].packItems[0].packItemName.trim() === '') &&
+		!packDescription &&
+		!packUrl &&
+		!currentPack.packLocationTag &&
+		!currentPack.packDurationTag &&
+		!currentPack.packSeasonTag &&
+		!currentPack.packDistanceTag
+	);
+};

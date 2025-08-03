@@ -1,0 +1,30 @@
+.packListItemContainer {
+	padding: var(--space-1) 0;
+	cursor: pointer;
+}
+
+.packListItemContainer:hover svg {
+	opacity: var(--opacity-60);
+}
+
+.styledText {
+	position: relative;
+	font-size: var(--font-size-3);
+}
+
+.gripContainer {
+	position: absolute;
+	left: calc(-1 * var(--space-6));
+	cursor: grab;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	top: 0;
+	padding-right: var(--space-2);
+}
+
+@media (max-width: 768px) {
+	.styledText {
+		font-size: var(--font-size-6);
+	}
+}

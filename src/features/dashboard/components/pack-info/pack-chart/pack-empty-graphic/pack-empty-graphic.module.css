@@ -1,0 +1,20 @@
+.graphicPanel {
+	width: 50%;
+	height: 100%;
+	max-width: 400px;
+}
+
+.campingImage {
+	height: 200px;
+	object-fit: contain;
+}
+
+.graphicPanel svg {
+	margin-right: var(--space-2);
+}
+
+@media (max-width: 768px) {
+	.graphicPanel {
+		width: 100%;
+	}
+}

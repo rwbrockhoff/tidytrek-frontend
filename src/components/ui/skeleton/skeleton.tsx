@@ -6,6 +6,7 @@ type SkeletonProps = {
 	width?: string;
 	height?: string;
 	variant?: 'text' | 'circular' | 'rectangular';
+	noAnimation?: boolean;
 };
 
 export const Skeleton = ({
@@ -13,16 +14,22 @@ export const Skeleton = ({
 	width,
 	height,
 	variant = 'rectangular',
+	noAnimation = false,
 }: SkeletonProps) => {
 	return (
 		<div
-			className={cn(styles.skeleton, styles[variant], className)}
+			className={cn(
+				styles.skeleton, 
+				styles[variant], 
+				noAnimation && styles.noAnimation,
+				className
+			)}
 			style={{ width, height }}
 		/>
 	);
 };
 
-export const SkeletonText = ({ lines = 3 }: { lines?: number }) => (
+export const SkeletonText = ({ lines = 3, noAnimation = false }: { lines?: number; noAnimation?: boolean }) => (
 	<div className={styles.textContainer}>
 		{Array.from({ length: lines }).map((_, i) => (
 			<Skeleton
@@ -30,17 +37,18 @@ export const SkeletonText = ({ lines = 3 }: { lines?: number }) => (
 				variant="text"
 				width={i === lines - 1 ? '60%' : '100%'}
 				className={styles.textLine}
+				noAnimation={noAnimation}
 			/>
 		))}
 	</div>
 );
 
-export const SkeletonCard = () => (
+export const SkeletonCard = ({ noAnimation = false }: { noAnimation?: boolean }) => (
 	<div className={styles.card}>
-		<Skeleton variant="rectangular" height="200px" className={styles.cardImage} />
+		<Skeleton variant="rectangular" height="200px" className={styles.cardImage} noAnimation={noAnimation} />
 		<div className={styles.cardContent}>
-			<Skeleton variant="text" height="24px" className={styles.cardTitle} />
-			<SkeletonText lines={2} />
+			<Skeleton variant="text" height="24px" className={styles.cardTitle} noAnimation={noAnimation} />
+			<SkeletonText lines={2} noAnimation={noAnimation} />
 		</div>
 	</div>
 );

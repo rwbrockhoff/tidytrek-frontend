@@ -1,8 +1,9 @@
+import { type PaletteName } from '@/styles/palette/palette-constants';
+
 export type Settings = {
 	darkMode: boolean;
 	publicProfile: boolean;
-	weightUnit: string;
-	themeName: string;
+	weightUnit: 'metric' | 'imperial';
+	currencyUnit: string;
+	palette: PaletteName;
 };
-
-export const DEFAULT_THEME_NAME = 'earth-tones';

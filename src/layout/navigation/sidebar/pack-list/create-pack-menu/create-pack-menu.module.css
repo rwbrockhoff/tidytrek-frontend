@@ -1,0 +1,16 @@
+.newPackButton:hover,
+.newPackButton:active {
+	background: transparent;
+}
+
+.newPackButton {
+	padding-left: 0;
+}
+
+@media (max-width: 768px) {
+	.newPackButton {
+		font-size: var(--font-size-6);
+		margin-top: var(--space-4);
+		padding-left: 0;
+	}
+}

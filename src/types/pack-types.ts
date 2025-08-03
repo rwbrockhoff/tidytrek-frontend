@@ -1,4 +1,11 @@
-export type InitialState = {
+export enum WeightUnit {
+	oz = 'oz',
+	lb = 'lb',
+	kg = 'kg',
+	g = 'g',
+}
+
+export type PackQueryState = {
 	packList: PackListItem[];
 	pack: Pack;
 	categories: Category[];
@@ -11,7 +18,7 @@ export type PackWithCategories = {
 
 export type Pack = {
 	packId: number;
-	userId: number;
+	userId: string;
 	packIndex: string;
 	packName: string;
 	packDescription: string;
@@ -49,7 +56,7 @@ export type BaseTableRowItem = {
 	packItemName: string;
 	packItemDescription: string;
 	packItemWeight: number;
-	packItemUnit: string;
+	packItemWeightUnit: WeightUnit;
 	packItemQuantity: number;
 	packItemUrl: string;
 	wornWeight: boolean;

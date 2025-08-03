@@ -1,4 +1,5 @@
-import '../src/styles/theme/index.css';
+import React from 'react';
+import '../src/styles/index.css';
 import '../src/index.css';
 
 const preview = {
@@ -17,6 +18,15 @@ const preview = {
 	decorators: [
 		(Story, context) => {
 			const theme = context.globals.theme || 'light';
+
+			// Apply theme to body for Radix portal content
+			React.useEffect(() => {
+				document.body.setAttribute('data-theme', theme);
+				return () => {
+					document.body.removeAttribute('data-theme');
+				};
+			}, [theme]);
+
 			return (
 				<div data-theme={theme}>
 					<Story />

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-// named imports for React.lazy: https://github.com/facebook/react/issues/14603#issuecomment-726551598
+// named imports for React.lazy: https://github.com/facebook/react/issues/14603
 export function lazyImport<
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	T extends React.ComponentType<any>,
 	I extends { [K2 in K]: T },
 	K extends keyof I,

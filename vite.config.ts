@@ -1,30 +1,53 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 export default defineConfig(({ mode }) => ({
-	plugins: [react(), tsconfigPaths()],
+	plugins: [
+		react(),
+		tsconfigPaths(),
+		mode === 'production' && sentryVitePlugin({
+			org: process.env.SENTRY_ORG,
+			project: process.env.SENTRY_PROJECT,
+			authToken: process.env.SENTRY_AUTH_TOKEN,
+			telemetry: false, // stop Sentry usage data - console warning in dev
+		})
+	].filter(Boolean),
 	// Production app ran from s3-bucket in /app/ directory
 	// Use pre-defined mode prop from Vite
 	base: mode === 'production' ? '/app/' : '/',
+	server: {
+		hmr: {
+			overlay: true,
+		},
+		watch: {
+			usePolling: false,
+		},
+	},
 	build: {
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					// React
-					'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-					// UI
-					'vendor-ui': ['@radix-ui/themes', '@radix-ui/react-form'],
-					// Data fetching
-					'vendor-query': ['@tanstack/react-query', '@tanstack/react-query-devtools'],
-					// Charts
-					'vendor-chart': ['chart.js', 'react-chartjs-2'],
-					// Drag and drop
-					'vendor-dnd': ['react-beautiful-dnd'],
-					// Auth & API
-					'vendor-auth': ['@supabase/supabase-js', 'axios'],
-					// Utilities
-					'vendor-utils': ['zod', 'hashids', 'react-icons'],
+				manualChunks: (id) => {
+					// Keep components together to avoid circular deps
+					if (id.includes('src/components')) return 'components';
+
+					// Libraries
+					if (
+						id.includes('react') ||
+						id.includes('react-dom') ||
+						id.includes('react-router-dom')
+					)
+						return 'react';
+					if (id.includes('@radix-ui/themes') || id.includes('@radix-ui/react-form'))
+						return 'radix';
+					if (id.includes('@tanstack/react-query')) return 'query';
+					if (id.includes('chart.js') || id.includes('react-chartjs-2')) return 'charts';
+					if (id.includes('react-beautiful-dnd')) return 'dnd';
+					if (id.includes('@supabase/supabase-js') || id.includes('axios'))
+						return 'supabase';
+					if (id.includes('zod') || id.includes('hashids') || id.includes('lucide-react'))
+						return 'utils';
 				},
 			},
 		},
@@ -34,6 +57,8 @@ export default defineConfig(({ mode }) => ({
 		environment: 'jsdom',
 		setupFiles: './src/tests/setup.ts',
 		css: true,
+		testTimeout: 10000, // increase global test timeout to 10s
+		maxConcurrency: 4, // Reduce parallel test runs
 		exclude: [
 			'**/node_modules/**',
 			'**/dist/**',
@@ -41,5 +66,8 @@ export default defineConfig(({ mode }) => ({
 			'**/playwright-report/**',
 		],
 		include: ['**/src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+		coverage: {
+			exclude: ['**/node_modules/**', '**/dist/**', '**/*.config.*', '**/coverage/**'],
+		},
 	},
 }));

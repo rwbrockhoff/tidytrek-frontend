@@ -1,13 +1,16 @@
-.modalContent {
+.dialogContent {
+	max-width: 700px;
 	position: relative;
-	padding: var(--space-xs);
 }
 
-.leftPanel {
-	height: 250px;
-	margin-bottom: var(--space-md);
+.closeModalButton {
+	position: absolute;
+	right: var(--space-6);
+	top: var(--space-5);
+	cursor: pointer;
 }
 
-.leftPanel textarea {
-	height: 150px;
+.closeModalButton svg {
+	width: var(--icon-md);
+	height: var(--icon-md);
 }

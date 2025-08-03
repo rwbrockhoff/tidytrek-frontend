@@ -1,0 +1,47 @@
+:global(.aow).categoryHeader {
+	padding: 0;
+}
+
+.categoryHeaderContent {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: var(--space-3) var(--space-3) var(--space-3) 0;
+}
+
+.categoryName {
+	font-size: var(--font-size-4);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-text-primary);
+	margin: 0;
+	flex: 1;
+}
+
+.categoryTotals {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--font-size-2);
+	color: var(--color-text-secondary);
+	padding: var(--space-2) var(--space-4);
+	background-color: var(--color-bg-tertiary);
+	filter: var(--brightnes-light-1);
+}
+
+.totalItem,
+.totalWeight,
+.totalPrice {
+	font-weight: var(--font-weight-medium);
+	color: var(--color-constant-white);
+}
+
+.itemsContainer {
+	gap: var(--space-3);
+}
+
+:global(.aow) .itemsContainer {
+	padding: 0;
+}
+
+:global(.aow).categoryFooter {
+	padding: var(--space-3);
+}

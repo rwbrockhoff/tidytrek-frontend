@@ -1,3 +1,3 @@
-export * from './account';
-export * from './account-settings';
-export * from './profile-settings';
+export { AccountRoot } from './account-root';
+export { AccountSettings } from './account-settings';
+export { ProfileSettings } from './profile-settings';

@@ -1,0 +1,33 @@
+.tableRow {
+	position: relative;
+	background-color: var(--color-bg-secondary);
+	transition:
+		background-color,
+		box-shadow 200ms ease-in-out;
+}
+
+.tableRow input {
+	background-color: var(--color-bg-secondary);
+	border-color: var(--color-bg-secondary);
+}
+
+.tableRow td {
+	vertical-align: middle;
+}
+
+.tableRow td:first-child {
+	overflow: visible;
+}
+
+.tableRowDragging {
+	box-shadow: var(--shadow-classic);
+}
+
+/* Apply to the parent table when any row is dragging */
+:global(table:has(.tableRowDragging)) {
+	table-layout: fixed;
+}
+
+:global(.aow).tableActionButton {
+	padding: 0 var(--space-2);
+}

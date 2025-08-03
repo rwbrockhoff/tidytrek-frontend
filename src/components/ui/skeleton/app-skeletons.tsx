@@ -1,7 +1,9 @@
 import { Skeleton, SkeletonText } from './skeleton';
 import styles from './app-skeletons.module.css';
-import userLayoutStyles from '@/layout/user-layout.module.css';
-import sidebarStyles from '@/layout/sidebar/sidebar.module.css';
+import userLayoutStyles from '@/layout/layouts/user-layout/user-layout.module.css';
+import sidebarStyles from '@/layout/navigation/sidebar/sidebar.module.css';
+import { Stack, Flex } from '@/components/layout';
+import { cn } from '@/styles/utils';
 
 // Main app skeleton - shows while checking auth
 export const AppLoadingSkeleton = () => (
@@ -20,12 +22,14 @@ export const AppLoadingSkeleton = () => (
 			{/* Main UI */}
 			<div
 				className={`${userLayoutStyles.viewLayoutContainer} ${userLayoutStyles.viewLayoutSidebarVisible}`}>
-				<Skeleton height="200px" className={styles.heroSection} />
-				<div className={styles.cardGrid}>
-					{Array.from({ length: 6 }).map((_, i) => (
-						<PackCardSkeleton key={i} />
-					))}
-				</div>
+				<Stack className="gap-12">
+					<Skeleton height="200px" />
+					<div className={styles.cardGrid}>
+						{Array.from({ length: 6 }).map((_, i) => (
+							<PackCardSkeleton key={i} />
+						))}
+					</div>
+				</Stack>
 			</div>
 		</div>
 	</div>
@@ -53,12 +57,12 @@ export const PackCardSkeleton = () => (
 	<div className={styles.packCard}>
 		<Skeleton height="180px" className={styles.packImage} />
 		<div className={styles.packInfo}>
-			<Skeleton height="20px" width="80%" className={styles.packTitle} />
+			<Skeleton height="20px" width="80%" />
 			<SkeletonText lines={2} />
-			<div className={styles.packMeta}>
+			<Flex className="gap-2">
 				<Skeleton width="60px" height="16px" />
 				<Skeleton width="40px" height="16px" />
-			</div>
+			</Flex>
 		</div>
 	</div>
 );
@@ -69,7 +73,7 @@ export const DashboardSkeleton = () => (
 		<div className={userLayoutStyles.appViewContainer}>
 			{/* Sidebar skeleton */}
 			<div className={sidebarStyles.sidebar}>
-				<div className={sidebarStyles.sidebarContainer}>
+				<div className={cn(sidebarStyles.sidebarContainer, styles.spreadSidebarItems)}>
 					<Skeleton height="40px" width="60%" />
 					<Skeleton height="60px" width="60px" variant="circular" />
 					{Array.from({ length: 3 }).map((_, i) => (
@@ -81,22 +85,22 @@ export const DashboardSkeleton = () => (
 			{/* Main dashboard content */}
 			<div
 				className={`${userLayoutStyles.viewLayoutContainer} ${userLayoutStyles.viewLayoutSidebarVisible}`}>
-				<div className={styles.packInfoSection}>
+				<Stack className="gap-12">
 					<div className={styles.packInfo}>
 						<Skeleton height="50px" width="200px" />
 						<SkeletonText lines={1} />
 						<SkeletonText lines={1} />
 					</div>
-				</div>
 
-				{/* Pack categories */}
-				<div className={styles.packCategories}>
-					{Array.from({ length: 2 }).map((_, i) => (
-						<div key={i} className={styles.categorySection}>
-							<PackTableSkeleton />
-						</div>
-					))}
-				</div>
+					{/* Pack categories */}
+					<div className={styles.packCategories}>
+						{Array.from({ length: 2 }).map((_, i) => (
+							<div key={i} className={styles.categorySection}>
+								<PackTableSkeleton />
+							</div>
+						))}
+					</div>
+				</Stack>
 			</div>
 		</div>
 	</div>
@@ -104,13 +108,11 @@ export const DashboardSkeleton = () => (
 
 // Suspense - Skeleton UI (Generic Content)
 export const ContentSkeleton = () => (
-	<>
+	<Stack className="gap-12">
 		{/* Pack info section */}
-		<div className={styles.packInfoSection}>
-			<div className={styles.packInfo}>
-				<Skeleton height="32px" width="200px" />
-				<SkeletonText lines={1} />
-			</div>
+		<div className={styles.packInfo}>
+			<Skeleton height="32px" width="200px" />
+			<SkeletonText lines={1} />
 		</div>
 
 		{/* Pack categories */}
@@ -121,7 +123,7 @@ export const ContentSkeleton = () => (
 				</div>
 			))}
 		</div>
-	</>
+	</Stack>
 );
 
 // Pack Table Skeleton
@@ -140,5 +142,24 @@ export const PackTableSkeleton = () => (
 				<Skeleton height="16px" width={'100%'} />
 			</div>
 		))}
+	</div>
+);
+
+// Auth skeleton - simple login form
+export const AuthSkeleton = () => (
+	<div className={styles.authContainer}>
+		<div className={styles.authForm}>
+			<Skeleton height="40px" width="250px" className={styles.authLogo} />
+			<div className={styles.authCard}>
+				<Stack className="gap-4">
+					<Skeleton height="32px" width="200px" />
+					<Skeleton height="48px" width="100%" className={styles.authButton} />
+					<Skeleton height="14px" width="40px" />
+					<Skeleton height="40px" width="100%" />
+					<Skeleton height="40px" width="100%" />
+					<Skeleton height="48px" width="100%" />
+				</Stack>
+			</div>
+		</div>
 	</div>
 );

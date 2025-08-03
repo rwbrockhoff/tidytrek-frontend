@@ -1,0 +1,67 @@
+.flexContainer {
+	justify-content: space-between;
+	gap: var(--space-2);
+}
+
+.flexContainer button,
+.propertyButtonsContainer button {
+	gap: 0;
+	padding: var(--space-2);
+	min-width: auto;
+}
+
+.flexContainer svg,
+.propertyButtonsContainer svg {
+	cursor: pointer;
+	color: var(--color-text-tertiary);
+	fill: currentColor;
+}
+
+.flexContainer svg:hover,
+.propertyButtonsContainer svg:hover {
+	filter: var(--brightness-light-1);
+}
+
+/* Active colors need higher specificity to override Alpine button styles */
+:global(.aow) .favoriteActive {
+	color: #ffc53d;
+}
+
+:global(.aow) .wornWeightActive {
+	color: #00a2c7;
+}
+
+:global(.aow) .consumableActive {
+	color: #3e63dd;
+}
+
+.disabledIcon {
+	cursor: default;
+	pointer-events: none;
+}
+
+.disabledIcon:hover {
+	opacity: inherit;
+	color: inherit;
+	background-color: transparent;
+}
+
+@media (max-width: 768px) {
+	.flexContainer {
+		justify-content: space-around;
+		gap: var(--space-4);
+	}
+
+	.flexContainer button,
+	.propertyButtonsContainer button {
+		padding: var(--space-3);
+		min-height: 44px;
+		min-width: 44px;
+	}
+
+	.flexContainer svg,
+	.propertyButtonsContainer svg {
+		width: 20px;
+		height: 20px;
+	}
+}

@@ -1,1 +1,5 @@
-export type FormSection = 'initial' | 'passwordForm' | 'confirmationForm';
+export enum FormSection {
+	INITIAL = 'initial',
+	CONFIRMATION = 'confirmationForm',
+	PASSWORD = 'passwordForm',
+}

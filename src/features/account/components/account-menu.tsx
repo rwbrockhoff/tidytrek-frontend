@@ -1,21 +1,22 @@
-import { useNavigate } from 'react-router-dom';
-import { Link } from '@/components/ui';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Tabs } from '@radix-ui/themes';
-
-// with onClick, user can click underneath button text and still navigate
-// between pages. So there is a link + navigate in place to ensure it works
-// no matter where they click
+import mx from '@/styles/utils/mixins.module.css';
 
 export const AccountMenu = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	
+	// Determine active tab based on current route
+	const activeTab = location.pathname === '/account/settings' ? 'account' : 'profile';
+	
 	return (
-		<Tabs.Root defaultValue="profile">
+		<Tabs.Root value={activeTab}>
 			<Tabs.List size="2">
-				<Tabs.Trigger value="profile" onClick={() => navigate('/account')}>
-					<Link to="/account">Profile Settings</Link>
+				<Tabs.Trigger value="profile" onClick={() => navigate('/account')} className={mx.pointer}>
+					Profile Settings
 				</Tabs.Trigger>
-				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings')}>
-					<Link to="/account/settings">Account Settings</Link>
+				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings')} className={mx.pointer}>
+					Account Settings
 				</Tabs.Trigger>
 			</Tabs.List>
 		</Tabs.Root>

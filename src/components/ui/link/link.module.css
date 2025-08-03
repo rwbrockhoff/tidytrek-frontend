@@ -1,0 +1,18 @@
+.link {
+	display: inline-flex;
+	align-items: center;
+	height: 100%;
+	color: var(--color-primary);
+	transition:
+		color var(--transition),
+		filter var(--transition);
+}
+
+.link:hover {
+	color: var(--color-primary-hover);
+	filter: brightness(90%);
+}
+
+.link svg {
+	margin: 0 var(--space-1);
+}

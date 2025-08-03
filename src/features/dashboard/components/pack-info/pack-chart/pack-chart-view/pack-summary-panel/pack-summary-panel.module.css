@@ -1,0 +1,25 @@
+.popupListItem {
+	font-size: var(--font-size-2);
+	align-items: center;
+	color: var(--color-text-secondary);
+	padding-right: var(--space-3);
+	width: 100%;
+}
+
+.popupListItem p {
+	margin-right: var(--space-2);
+	text-align: left;
+}
+
+.popupListItem svg {
+	margin-right: var(--space-2);
+	overflow: visible;
+	color: var(--color-text-tertiary);
+}
+
+@media (max-width: 768px) {
+	.popupListItem {
+		padding-left: var(--space-2);
+		padding-right: var(--space-2);
+	}
+}

@@ -20,7 +20,6 @@ export async function performDragDrop(
 		targetIndex,
 		rowSelector,
 		gripSelector,
-		dropOffset = 20,
 		waitAfterDrop = 1000,
 	} = options;
 
@@ -53,7 +52,6 @@ export async function performDragDrop(
 
 	// Get bounding boxes for positioning
 	const gripBox = await sourceGrip.boundingBox();
-	const sourceBox = await sourceRow.boundingBox();
 	const targetBox = await targetRow.boundingBox();
 
 	if (!gripBox || !targetBox) {

@@ -1,5 +1,0 @@
-.dimmer {
-	position: absolute;
-	background-color: black;
-	transition: all var(--transition);
-}

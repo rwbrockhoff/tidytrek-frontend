@@ -1,8 +1,0 @@
-.tooltipSpan {
-	height: 50%;
-}
-
-.tooltipSpan svg {
-	color: var(--gray-800);
-	margin-left: var(--space-xs);
-}

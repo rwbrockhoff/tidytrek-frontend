@@ -22,7 +22,8 @@ prod.env
 /playwright-report/
 /playwright/.cache/
 
-# test auth state
+# tests
+coverage/
 tests/.auth/
 
 # Editor directories and files

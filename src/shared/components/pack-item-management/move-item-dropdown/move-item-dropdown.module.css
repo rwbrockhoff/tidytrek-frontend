@@ -1,0 +1,15 @@
+.tableRow {
+	min-height: 60px;
+	border-bottom: 1px solid var(--color-border-primary);
+}
+
+.tableRow button:not(:last-child) {
+	min-width: 150px;
+}
+
+@media (max-width: 768px) {
+	.tableRow button {
+		width: 90%;
+		margin: var(--space-4) 0;
+	}
+}

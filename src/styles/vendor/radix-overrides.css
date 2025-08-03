@@ -1,0 +1,124 @@
+/* Radix UI Component Overrides */
+
+.radix-themes {
+	height: 100%;
+}
+
+/* Apply secondary text color to Radix Gray Text */
+.rt-Text[color='gray'],
+.rt-DialogContent .rt-Text[color='gray'],
+.rt-Text[data-accent-color='gray'],
+.rt-Text:where([data-accent-color='gray']),
+.rt-DialogContent .rt-Text[data-accent-color] {
+	color: var(--color-text-secondary);
+}
+
+/* Dropdowns & Select */
+.rt-SelectTrigger.dropdown-primary {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+}
+
+.rt-SelectTrigger.dropdown-primary:hover {
+	border-color: var(--color-primary);
+}
+
+.rt-SelectTrigger.dropdown-secondary {
+	background-color: var(--color-bg-secondary);
+	border: 1px solid var(--color-bg-tertiary);
+	color: var(--color-text-primary);
+}
+
+.rt-SelectTrigger.dropdown-secondary:hover {
+	border-color: var(--color-primary);
+}
+
+/* Removes excessive focus-active border */
+.rt-SelectTrigger.dropdown-primary:focus-visible,
+.rt-SelectTrigger.dropdown-secondary:focus-visible {
+	outline-offset: 0;
+}
+
+.rt-SelectTrigger:where(.rt-variant-surface) {
+	width: fit-content;
+}
+
+.rt-SelectContent {
+	height: fit-content;
+}
+
+.rt-SelectContent {
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-bg-tertiary);
+	box-shadow: var(--shadow-classic);
+}
+
+.rt-SelectItem {
+	color: var(--color-text-primary);
+}
+
+.rt-SelectItem:hover {
+	background-color: var(--color-bg-secondary);
+}
+
+.rt-SelectItem[data-highlighted] {
+	background-color: var(--color-bg-secondary);
+	outline: none;
+}
+
+.rt-SelectLabel {
+	color: var(--color-text-secondary);
+}
+
+/* Modals/Popovers */
+.rt-DialogContent {
+	background-color: var(--color-bg-primary);
+	color: var(--color-text-primary);
+}
+
+/* Disable all Dialog animations to prevent flashing */
+.rt-DialogOverlay {
+	animation: none;
+}
+
+.rt-PopoverContent {
+	background-color: var(--color-bg-primary);
+	box-shadow: var(--shadow-classic);
+}
+
+.rt-HoverCardContent {
+	background-color: var(--color-bg-secondary);
+}
+
+.rt-PopoverContent:where(.rt-r-size-2) {
+	--popover-content-padding: var(--space-2);
+}
+
+/* Scroll Behavior */
+
+.rt-ScrollAreaRoot {
+	overflow: visible;
+}
+
+div.rt-ScrollAreaViewport {
+	overflow: visible !important;
+}
+
+/* Other Components */
+.rt-Badge {
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-secondary);
+	margin: inherit 1rem;
+}
+
+.rt-Separator {
+	background-color: var(--color-bg-tertiary);
+	width: 100%;
+}
+
+/* Override Radix selection styles */
+.radix-themes *::selection {
+	background-color: var(--sage-400);
+	color: var(--color-constant-white);
+}

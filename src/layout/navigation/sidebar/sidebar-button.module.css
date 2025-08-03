@@ -1,0 +1,45 @@
+.sidebarButton {
+	opacity: 0.4;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.sidebarButton svg {
+	color: var(--color-text-secondary);
+}
+
+button.sidebarButton:not(.isSidebar) {
+	position: fixed;
+	top: var(--app-layout-padding-y);
+	/* Container padding + header positioning */
+	left: calc(50% - 640px); /* Match sidebar positioning on large screens */
+	z-index: 10;
+	padding: var(--space-1);
+}
+
+/* Adjust left position on tablet (hidden on mobile) */
+@media (max-width: 1280px) {
+	button.sidebarButton:not(.isSidebar) {
+		left: 1em; /* Half of 2em app layout padding */
+	}
+}
+
+button.sidebarButton:hover {
+	filter: var(--brightness-dark-1);
+}
+
+.sidebarButton.isSidebar {
+	color: var(--gray-300);
+	opacity: var(--opacity-80);
+	padding: var(--space-1);
+	min-width: 32px;
+	min-height: 32px;
+	margin: 0;
+}
+
+/* Hide only the sidebar toggle button on mobile */
+@media only screen and (max-width: 768px) {
+	button.sidebarButton:not(.isSidebar) {
+		display: none;
+	}
+}

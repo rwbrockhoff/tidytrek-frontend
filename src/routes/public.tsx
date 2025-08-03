@@ -1,5 +1,5 @@
 import { lazyImport } from '@/utils/lazy-imports';
-import { GuestLayout } from '@/layout/guest-layout';
+import { GuestLayout } from '@/layout';
 import { AuthRoutes } from '@/features/auth';
 import { BubbleError } from '@/components';
 const { Dashboard } = lazyImport(() => import('../features/dashboard'), 'Dashboard');
@@ -15,12 +15,12 @@ export const publicRoutes = [
 		path: '/user/:userId',
 		element: <GuestLayout />,
 		errorElement: <BubbleError />,
-		children: [{ path: '/user/:userId', element: <Profile userView={false} /> }],
+		children: [{ path: '/user/:userId', element: <Profile isCreator={false} /> }],
 	},
 	{
 		path: '/pk/:packId',
 		element: <GuestLayout />,
 		errorElement: <BubbleError />,
-		children: [{ path: '/pk/:packId', element: <Dashboard userView={false} /> }],
+		children: [{ path: '/pk/:packId', element: <Dashboard isCreator={false} /> }],
 	},
 ];

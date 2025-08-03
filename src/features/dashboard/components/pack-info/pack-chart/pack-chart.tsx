@@ -1,8 +1,9 @@
 import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { Flex } from '@radix-ui/themes';
+import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 
 type PackChartProps = {
 	categories: Category[];
@@ -13,10 +14,6 @@ type PackChartProps = {
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.overrides.doughnut.plugins.legend.display = false;
 ChartJS.defaults.plugins.tooltip.displayColors = false;
-ChartJS.defaults.plugins.tooltip.callbacks.label = (context) => {
-	let label = context.formattedValue || '0';
-	return (label += ' lbs');
-};
 
 // New utility fn that converts variable -> computed value for chart
 const getPaletteColor = (colorName: string): string => {
@@ -30,30 +27,66 @@ const getPaletteColor = (colorName: string): string => {
 };
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
+	const weightUnit = useUserWeightUnit();
+	const { settings } = useGetAuth();
+	const isDarkMode = settings?.darkMode || false;
+
 	const categoryLabels = useMemo(
 		() => (categories || []).map((category) => category.packCategoryName),
 		[categories],
 	);
 
 	const categoryColors = useMemo(
-		() => (categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
+		() =>
+			(categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
 		[categories],
 	);
 
-	const chartData = useMemo(() => ({
-		labels: categoryLabels,
-		datasets: [
-			{
-				data: categoryWeights,
-				backgroundColor: categoryColors,
-				borderWidth: 2,
+	const borderColor = isDarkMode ? '#111827' : '#ffffff';
+
+	const chartOptions = useMemo(
+		() => ({
+			responsive: true,
+			maintainAspectRatio: true,
+			aspectRatio: 1,
+			plugins: {
+				tooltip: {
+					callbacks: {
+						title: (context: TooltipItem<'doughnut'>[]) => {
+							const categoryName = context[0]?.label || '';
+							return categoryName.length > 20
+								? categoryName.substring(0, 20) + '...'
+								: categoryName;
+						},
+						label: (context: TooltipItem<'doughnut'>) => {
+							const label = context.formattedValue || '0';
+							return `${label} ${weightUnit}`;
+						},
+					},
+				},
 			},
-		],
-	}), [categoryLabels, categoryColors, categoryWeights]);
+		}),
+		[weightUnit],
+	);
+
+	const chartData = useMemo(
+		() => ({
+			labels: categoryLabels,
+			datasets: [
+				{
+					data: categoryWeights,
+					backgroundColor: categoryColors,
+					borderWidth: 2,
+					borderColor,
+				},
+			],
+		}),
+		[categoryLabels, categoryColors, categoryWeights, borderColor],
+	);
 
 	return (
-		<Flex justify="center" align="center" width="100%">
-			<Doughnut data={chartData} />
-		</Flex>
+		<div className="w-full md:w-fit h-full relative">
+			<Doughnut data={chartData} options={chartOptions} />
+		</div>
 	);
 };

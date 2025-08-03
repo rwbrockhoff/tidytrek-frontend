@@ -1,0 +1,25 @@
+.styledMenu a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.styledMenu li {
+	list-style: none;
+	cursor: pointer;
+}
+
+.styledMenu li:hover {
+	opacity: var(--opacity-60);
+}
+
+.styledMenu li svg {
+	width: 0.9rem;
+	height: 0.9rem;
+	filter: var(--brightness-dark-1);
+}
+
+@media (max-width: 768px) {
+	.styledMenu li {
+		font-size: var(--font-size-6);
+	}
+}

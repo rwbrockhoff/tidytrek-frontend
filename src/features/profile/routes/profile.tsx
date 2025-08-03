@@ -1,30 +1,46 @@
 import { useParams } from 'react-router-dom';
-import { ProfileBanner } from '@/components';
-import { ProfileHeader } from '../components/profile-header';
-import { PackCardList } from '../components/pack-card-list';
+import { ProfileBanner } from '@/features/auth/components/profile-banner';
+import { ProfileHeader } from '../components/profile-header/profile-header';
+import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
-import { UserViewContext } from '@/hooks/use-viewer-context';
-import { useViewProfileQuery } from '@/queries/guest-queries';
-import { useGetAuth } from '@/hooks';
+import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
+import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
+import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
+import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
-export const Profile = ({ userView }: { userView: boolean }) => {
+export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 	const { userId: paramUserId } = useParams();
-	const { isAuthenticated } = useGetAuth();
-	const isNotAuthenticated = !isAuthenticated;
+	const userProfileQuery = useGetProfileQuery();
+	const guestProfileQuery = useViewProfileQuery(isCreator ? undefined : paramUserId);
 
-	const { data } = userView ? useGetProfileQuery() : useViewProfileQuery(paramUserId);
+	const { data } = isCreator ? userProfileQuery : guestProfileQuery;
 
+	const userProfile = data?.userProfile ?? null;
+	const packThumbnailList = data?.packThumbnailList ?? [];
 
-	const userProfile = data?.userProfile;
-	const packThumbnailList = data?.packThumbnailList;
+	// Type-safe access to guest properties
+	const notFound = isGuestProfileData(data) ? data.notFound ?? false : false;
+	const isPrivate = isGuestProfileData(data) ? data.isPrivate ?? false : false;
+	const showSkeletonCards = notFound || isPrivate;
+
+	const permissions = useUserPermissions();
+	const showPromotion = permissions.isGuest;
 
 	return (
-		<UserViewContext.Provider value={userView}>
-			<main>
-					{isNotAuthenticated && <ProfileBanner />}
-					<ProfileHeader userProfile={userProfile} />
-					<PackCardList packThumbnailList={packThumbnailList} />
-			</main>
-		</UserViewContext.Provider>
+		<UserPermissionsProvider value={permissions}>
+			<PageLayout>
+				{showPromotion && <ProfileBanner />}
+				<ProfileHeader
+					userProfile={userProfile}
+					notFound={notFound}
+					isPrivate={isPrivate}
+					hasError={data?.hasError}
+				/>
+				<PackCardList
+					packThumbnailList={packThumbnailList}
+					showSkeletonCards={showSkeletonCards}
+				/>
+			</PageLayout>
+		</UserPermissionsProvider>
 	);
 };

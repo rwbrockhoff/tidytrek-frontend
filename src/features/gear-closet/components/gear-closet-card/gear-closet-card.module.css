@@ -1,0 +1,19 @@
+.closetCard {
+	margin-bottom: var(--space-8);
+	width: 100%;
+}
+
+.itemsContainer {
+	gap: var(--space-3);
+}
+
+:global(.aow) .itemsContainer {
+	padding: 0;
+}
+
+:global(.aow).cardFooter {
+	padding: var(--space-3);
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}

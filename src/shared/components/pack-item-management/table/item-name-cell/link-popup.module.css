@@ -1,0 +1,24 @@
+.linkButton {
+	background-color: transparent;
+	box-shadow: none;
+	margin-left: auto;
+	padding-left: var(--space-3);
+	cursor: pointer;
+}
+
+.linkButtonVisible {
+	opacity: 1;
+}
+
+.linkIcon {
+	color: var(--color-text-secondary);
+}
+
+.linkIconActive {
+	color: var(--sage-500);
+}
+
+:global(.aow).linkButton {
+	padding: 0;
+	margin-left: var(--space-1);
+}

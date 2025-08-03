@@ -1,0 +1,28 @@
+.bannerContainer {
+	position: relative;
+	width: 100%;
+	height: 250px;
+}
+
+.bannerImage {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	margin-bottom: -5px;
+}
+
+.uploadContainer {
+	position: absolute;
+	bottom: 0;
+	right: var(--space-8);
+}
+
+.styledDimmer {
+	top: 0px;
+	width: 100%;
+	height: 250px;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+}

@@ -1,0 +1,22 @@
+.errorContainer {
+	height: 100vh;
+	max-width: 600px;
+	padding: var(--space-8);
+	margin: 0 auto;
+}
+
+.errorContainer h1 {
+	font-size: var(--font-size-7);
+	font-weight: bold;
+	margin: var(--space-4) 0;
+}
+
+.errorContainer button {
+	margin: var(--space-4) 0;
+}
+
+.styledButton {
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radius);
+	cursor: pointer;
+}

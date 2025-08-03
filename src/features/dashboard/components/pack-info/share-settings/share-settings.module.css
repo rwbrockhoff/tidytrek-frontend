@@ -1,0 +1,20 @@
+.lightText {
+	color: var(--gray-500);
+}
+
+.lightText svg {
+	margin-right: var(--space-1);
+}
+
+.shareText {
+	color: var(--gray-500);
+	cursor: pointer;
+}
+
+.shareText svg {
+	margin-right: var(--space-1);
+}
+
+.shareText:hover {
+	color: var(--sage-900);
+}

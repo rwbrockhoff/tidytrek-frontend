@@ -1,12 +1,19 @@
-/* Global HTML/body layout */
-html,
-body,
-body > div#root {
+@import 'tailwindcss';
+
+html {
 	height: 100%;
+}
+
+body {
+	min-height: 100%;
 	margin: 0;
 }
 
-/* Global element styling */
+body > div#root {
+	min-height: 100vh;
+	margin: 0;
+}
+
 button,
 .rt-Button {
 	cursor: pointer;
@@ -22,7 +29,6 @@ a:visited {
 	}
 }
 
-/* Global text elements */
 p,
 li,
 span {
@@ -36,14 +42,4 @@ h4,
 h5,
 h6 {
 	color: var(--color-text-primary);
-}
-
-/* Reset heading margins for last child elements */
-h1:last-child,
-h2:last-child,
-h3:last-child,
-h4:last-child,
-h5:last-child {
-	margin-bottom: revert;
-	margin-top: revert;
 }

@@ -130,7 +130,7 @@ export const userLocationSchema = z
 	.or(z.literal(''));
 
 const validateNoSpaces = (input: string) => {
-	let filterSpaces = /^\S*$/;
+	const filterSpaces = /^\S*$/;
 	const regex = new RegExp(filterSpaces);
 	return regex.test(input);
 };

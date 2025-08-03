@@ -1,0 +1,14 @@
+
+.tableContainerDragging {
+	box-shadow: var(--shadow-classic);
+}
+
+@media (max-width: 768px) {
+	.tableContainer {
+		height: fit-content;
+	}
+
+	.tableContainer.minimized {
+		margin-bottom: 0px;
+	}
+}

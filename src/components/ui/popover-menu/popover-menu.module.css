@@ -1,0 +1,10 @@
+.menuButton {
+	width: 100%;
+	justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+	.menuButton {
+		font-size: var(--font-size-6);
+	}
+}

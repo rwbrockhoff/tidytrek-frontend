@@ -1,0 +1,127 @@
+.sidebar {
+	position: fixed;
+	left: calc(50% - 640px); /* Center minus half of max-width (1280px/2) */
+	top: 0;
+	width: 250px;
+	min-width: 250px;
+	max-width: 250px;
+	height: 100%;
+	background: var(--color-bg-secondary);
+	z-index: 200;
+	transition:
+		opacity var(--transition-slow),
+		visibility var(--transition-slow);
+}
+
+/* Extend sidebar background to fill all space to the left */
+.sidebar::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 100%;
+	width: 100vw;
+	height: 100%;
+	background: var(--color-bg-secondary);
+	z-index: -1;
+}
+
+.sidebar * {
+	color: var(--color-text-primary);
+}
+
+/* Transition for sidebar visibility */
+.sidebar[data-visible='false'] {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.sidebar[data-visible='true'] {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.sidebarContainer {
+	width: 100%;
+	height: 100%;
+	padding: var(--space-12) var(--space-6);
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.sidebarHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--space-6);
+}
+
+.avatarSection {
+	margin: var(--space-6) 0;
+}
+
+.sidebarFooter {
+	margin-top: auto;
+	padding-top: var(--space-6);
+	display: flex;
+	align-items: center;
+}
+
+.separator {
+	background-color: var(--color-constant-white);
+	width: 100%;
+	opacity: 0.1;
+}
+
+/* Screens smaller than our sidebar + user layout size - sidebar becomes overlay (no longer part of main content layout) */
+@media (max-width: 1280px) {
+	.sidebar {
+		/* Override desktop flex behavior - become fixed overlay */
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 1000; /* Above main content */
+		flex: none; /* Remove from flex layout */
+		width: 280px;
+		min-width: 280px;
+		height: 100%;
+	}
+
+	.sidebar::before {
+		display: none; /* No extended background for overlay */
+	}
+
+	/* Tablet uses transform animation instead of display toggle */
+	.sidebar[data-visible='false'] {
+		display: flex; /* In DOM but positioned off-screen */
+		transform: translateX(-100%); /* Slide out to left */
+		transition: transform var(--transition);
+		opacity: 1; /* Override desktop opacity - visible but off-screen */
+		visibility: visible; /* Override desktop visibility */
+		pointer-events: none; /* Keep disabled when hidden */
+	}
+
+	.sidebar[data-visible='true'] {
+		display: flex;
+		transform: translateX(0); /* Slide in from left */
+		transition: transform var(--transition);
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+}
+
+@media (max-width: 480px) {
+	.sidebar {
+		width: 100%; /* Full width on mobile */
+		min-width: 100%;
+		max-width: 100%;
+	}
+
+	.sidebarContainer {
+		padding: var(--space-12) var(--space-8); /* More horizontal padding */
+	}
+}

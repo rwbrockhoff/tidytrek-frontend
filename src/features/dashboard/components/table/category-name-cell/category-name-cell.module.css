@@ -1,0 +1,21 @@
+.headerCell {
+	position: relative;
+	overflow: visible;
+}
+
+.headerCellInput {
+	/* Very specific size works for text proportions */
+	font-size: 1.05rem;
+	padding: var(--space-1) var(--space-2);
+}
+
+.headerCellText {
+	font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+	.headerCell {
+		flex: 1;
+		height: fit-content;
+	}
+}

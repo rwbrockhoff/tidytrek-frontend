@@ -1,0 +1,34 @@
+.guestViewWrapper {
+	background-color: var(--color-bg-primary);
+	min-height: 100vh;
+}
+
+.guestViewContainer {
+	background-color: var(--color-bg-primary);
+	min-height: 100%;
+	max-width: var(--max-width);
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	align-items: stretch;
+}
+
+.guestViewLayoutContainer {
+	background-color: var(--color-bg-primary);
+	position: relative;
+	min-width: 0;
+	flex: 1;
+}
+
+@media (min-width: 769px) {
+	.guestViewLayoutContainer {
+		padding: var(--app-layout-padding-y) var(--app-layout-padding-x);
+	}
+}
+
+@media (max-width: 768px) {
+	.guestViewLayoutContainer {
+		padding: var(--space-6) var(--space-4);
+	}
+}

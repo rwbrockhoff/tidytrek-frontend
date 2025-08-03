@@ -1,6 +1,10 @@
-import { Segment } from '@/components/ui';
-import { Heading, Button, Text } from '@radix-ui/themes';
-import { AuthContainer, FormContainer } from '../components/form-components';
+import { Segment } from '@/components/primitives';
+import { Heading, Text } from '@radix-ui/themes';
+import { Button } from '@/components/alpine';
+import {
+	AuthContainer,
+	FormContainer,
+} from '../components/form-components/form-components';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const ResetSuccess = () => {
@@ -19,7 +23,7 @@ export const ResetSuccess = () => {
 					<Text>
 						Your password has been successfully updated and you are now logged in.
 					</Text>
-					<Button size="3" style={{ width: '100%' }} mt="4" onClick={() => navigate('/')}>
+					<Button size="lg" style={{ width: '100%' }} onClick={() => navigate('/')}>
 						Go To Dashboard
 					</Button>
 				</Segment>

@@ -1,13 +1,14 @@
 import { type HeaderInfo } from '@/types/pack-types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { tidyTrekAPI } from '@/api/tidytrekAPI';
+import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
-import { extractData } from '@/utils';
+import { extractData } from './extract-data';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import {
 	type MovePackItemProps,
 	type MovePackCategoryProps,
 	type MovePackProps,
-	type InitialState,
+	type PackQueryState,
 	type Pack,
 	type PackItem,
 	type GearClosetItem,
@@ -16,8 +17,7 @@ import {
 	type PackWithCategories,
 } from '@/types/pack-types';
 import { packKeys, packListKeys, closetKeys, profileKeys } from './query-keys';
-import { decode } from '@/utils';
-import { paletteList } from '@/styles/theme/palette-constants';
+import { paletteList } from '@/styles/palette/palette-constants';
 import { STALE_TIME } from './query-config';
 
 export const getCategoryIndex = (categories: Category[], categoryId: number | string) => {
@@ -26,28 +26,33 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 	);
 };
 
-export const useGetPackQuery = (packId: string | undefined) => {
-	const decodedId = packId ? decode(packId) : null;
-	return useQuery<InitialState>({
-		queryKey: packKeys.packId(decodedId as number | null),
-		enabled: packId ? true : false,
+export const useGetPackQuery = (packId: number | null | undefined) => {
+	const { isAuthenticated } = useGetAuth();
+	
+	return useQuery<PackQueryState>({
+		queryKey: packKeys.packId(packId),
+		enabled: Boolean(packId) && isAuthenticated,
 		staleTime: STALE_TIME,
-		queryFn: () => tidyTrekAPI.get(`/packs/${decodedId}`).then((res) => res.data),
+		queryFn: () => tidyTrekAPI.get(`/packs/${packId}`).then(extractData<PackQueryState>),
 	});
 };
 
 export const useGetPackListQuery = () => {
+	const { isAuthenticated } = useGetAuth();
+	
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,
+		enabled: isAuthenticated,
 		staleTime: STALE_TIME,
-		queryFn: () => tidyTrekAPI.get('/packs/pack-list').then((res) => res.data),
+		queryFn: () =>
+			tidyTrekAPI.get('/packs/pack-list').then(extractData<{ packList: PackListItem[] }>),
 	});
 };
 
 export const useAddNewPackMutation = (): SimpleMutation<void, PackWithCategories> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: () => tidyTrekAPI.post('/packs').then(extractData),
+		mutationFn: () => tidyTrekAPI.post('/packs').then(extractData<PackWithCategories>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
@@ -59,22 +64,27 @@ export const useImportPackMutation = (): SimpleMutation<string, PackWithCategori
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packUrl: string) =>
-			tidyTrekAPI.post(`/packs/import`, { packUrl, paletteList }).then(extractData),
+			tidyTrekAPI
+				.post(`/packs/import`, { packUrl, paletteList })
+				.then(extractData<PackWithCategories>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 		},
 	});
 };
 
-export const useEditPackMutation = (): SimpleMutation<{
-	packId: number;
-	modifiedPack: Pack;
-}, Pack> => {
+export const useEditPackMutation = (): SimpleMutation<
+	{
+		packId: number;
+		modifiedPack: Pack;
+	},
+	Pack
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packInfo: { packId: number; modifiedPack: Pack }) => {
 			const { packId, modifiedPack } = packInfo;
-			return tidyTrekAPI.put(`/packs/${packId}`, modifiedPack).then(extractData);
+			return tidyTrekAPI.put(`/packs/${packId}`, modifiedPack).then(extractData<Pack>);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -83,17 +93,22 @@ export const useEditPackMutation = (): SimpleMutation<{
 	});
 };
 
-export const useUploadPackPhotoMutation = (): SimpleMutation<{
-	packId: number;
-	formData: FormData;
-}, void> => {
+export const useUploadPackPhotoMutation = (): SimpleMutation<
+	{
+		packId: number;
+		formData: FormData;
+	},
+	void
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (photoInfo: { packId: number; formData: FormData }) => {
 			const { packId, formData } = photoInfo;
-			return tidyTrekAPI.post(`/packs/${packId}/pack-photo`, formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			});
+			return tidyTrekAPI
+				.post(`/packs/${packId}/pack-photo`, formData, {
+					headers: { 'Content-Type': 'multipart/form-data' },
+				})
+				.then(extractData<void>);
 		},
 		onSuccess: (_response, variables) => {
 			const { packId } = variables;
@@ -107,7 +122,8 @@ export const useUploadPackPhotoMutation = (): SimpleMutation<{
 export const useDeletePackPhotoMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/${packId}/pack-photo`),
+		mutationFn: (packId: number) =>
+			tidyTrekAPI.delete(`/packs/${packId}/pack-photo`).then(extractData<void>),
 		onSuccess: (_response, packId) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(null) });
@@ -122,10 +138,12 @@ export const useMovePackMutation = (): SimpleMutation<MovePackProps, void> => {
 		mutationKey: ['movePack'],
 		mutationFn: (moveInfo: MovePackProps) => {
 			const { packId, prevPackIndex, nextPackIndex } = moveInfo;
-			return tidyTrekAPI.put(`/packs/index/${packId}`, {
-				prev_pack_index: prevPackIndex,
-				next_pack_index: nextPackIndex,
-			});
+			return tidyTrekAPI
+				.put(`/packs/index/${packId}`, {
+					prev_pack_index: prevPackIndex,
+					next_pack_index: nextPackIndex,
+				})
+				.then(extractData<void>);
 		},
 		onError: () => {
 			// Only invalidate on error to refetch correct data
@@ -145,7 +163,8 @@ export const useMovePackMutation = (): SimpleMutation<MovePackProps, void> => {
 export const useDeletePackMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/${packId}`),
+		mutationFn: (packId: number) =>
+			tidyTrekAPI.delete(`/packs/${packId}`).then(extractData<void>),
 		onSuccess: (_response, packId) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
@@ -157,7 +176,8 @@ export const useDeletePackMutation = (): SimpleMutation<number, void> => {
 export const useDeletePackAndItemsMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packId: number) => tidyTrekAPI.delete(`/packs/items/${packId}`),
+		mutationFn: (packId: number) =>
+			tidyTrekAPI.delete(`/packs/items/${packId}`).then(extractData<void>),
 		onSuccess: (_response, packId) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
@@ -173,7 +193,9 @@ export const useAddNewPackItemMutation = (): SimpleMutation<
 	return useMutation({
 		mutationFn: (packItem: { packId: number; packCategoryId: number }) => {
 			const { packId, packCategoryId } = packItem;
-			return tidyTrekAPI.post('/packs/pack-items', { packId, packCategoryId }).then(extractData);
+			return tidyTrekAPI
+				.post('/packs/pack-items', { packId, packCategoryId })
+				.then(extractData<PackItem>);
 		},
 		onSuccess: (_response, { packId }) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
@@ -189,10 +211,28 @@ export const useEditPackItemMutation = (): SimpleMutation<
 	return useMutation({
 		mutationFn: (packInfo: { packItemId: number; packItem: PackItem }) => {
 			const { packItemId, packItem } = packInfo;
-			return tidyTrekAPI.put(`/packs/pack-items/${packItemId}`, packItem).then(extractData);
+			return tidyTrekAPI
+				.put(`/packs/pack-items/${packItemId}`, packItem)
+				.then(extractData<PackItem>);
 		},
-		onSuccess: (_response, { packItem }) => {
-			queryClient.invalidateQueries({ queryKey: packKeys.packId(packItem.packId) });
+		onSuccess: (updatedItem, { packItem }) => {
+			// only update changed item in cache
+			queryClient.setQueryData<PackQueryState>(
+				packKeys.packId(packItem.packId),
+				(old) => {
+					if (!old) return old;
+
+					return {
+						...old,
+						categories: old.categories.map((category) => ({
+							...category,
+							packItems: category.packItems.map((item) =>
+								item.packItemId === updatedItem.packItemId ? updatedItem : item,
+							),
+						})),
+					};
+				},
+			);
 		},
 	});
 };
@@ -202,7 +242,9 @@ export const useMovePackItemMutation = (): SimpleMutation<MovePackItemProps, voi
 	return useMutation({
 		mutationFn: (packInfo: MovePackItemProps) => {
 			const { packItemId } = packInfo;
-			return tidyTrekAPI.put(`/packs/pack-items/index/${packItemId}`, packInfo);
+			return tidyTrekAPI
+				.put(`/packs/pack-items/index/${packItemId}`, packInfo)
+				.then(extractData<void>);
 		},
 		onError: (_err, packInfo) => {
 			// Only invalidate on error to refetch correct data
@@ -223,17 +265,17 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packItemId: number) =>
-			tidyTrekAPI.put(`/packs/pack-items/closet/${packItemId}`),
+			tidyTrekAPI.put(`/packs/pack-items/closet/${packItemId}`).then(extractData<void>),
 		onMutate: async (packItemId: number) => {
 			// Cancel any outgoing refetches for both pack and closet queries
 			await queryClient.cancelQueries({ queryKey: packKeys.all });
 			await queryClient.cancelQueries({ queryKey: closetKeys.all });
 
 			// Find which pack contains this item
-			const packQueries = queryClient.getQueriesData<InitialState>({
+			const packQueries = queryClient.getQueriesData<PackQueryState>({
 				queryKey: packKeys.all,
 			});
-			let previousPack: InitialState | undefined;
+			let previousPack: PackQueryState | undefined;
 			let packIdWithItem: number | undefined;
 			let movedItem: PackItem | undefined;
 
@@ -259,7 +301,7 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 			}>(closetKeys.all);
 
 			// Remove item from pack optimistically
-			queryClient.setQueryData<InitialState>(packKeys.packId(packIdWithItem), (old) => {
+			queryClient.setQueryData<PackQueryState>(packKeys.packId(packIdWithItem), (old) => {
 				if (!old) return old;
 
 				const updatedCategories = old.categories.map((category) => ({
@@ -319,7 +361,7 @@ export const useDeletePackItemMutation = (): SimpleMutation<number, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packItemId: number) =>
-			tidyTrekAPI.delete(`/packs/pack-items/${packItemId}`),
+			tidyTrekAPI.delete(`/packs/pack-items/${packItemId}`).then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 		},
@@ -334,7 +376,9 @@ export const useAddPackCategoryMutation = (): SimpleMutation<
 	return useMutation({
 		mutationFn: (categoryData: { packId: number; categoryColor: string }) => {
 			const { packId, categoryColor } = categoryData;
-			return tidyTrekAPI.post(`/packs/categories/${packId}`, { categoryColor }).then(extractData);
+			return tidyTrekAPI
+				.post(`/packs/categories/${packId}`, { categoryColor })
+				.then(extractData<Category>);
 		},
 		onSuccess: (_response, { packId }) => {
 			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
@@ -348,7 +392,9 @@ export const useEditPackCategoryMutation = (): SimpleMutation<HeaderInfo, Catego
 	return useMutation({
 		mutationFn: (categoryInfo: HeaderInfo) => {
 			const { packCategoryId } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/${packCategoryId}`, categoryInfo).then(extractData);
+			return tidyTrekAPI
+				.put(`/packs/categories/${packCategoryId}`, categoryInfo)
+				.then(extractData<Category>);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
@@ -358,16 +404,21 @@ export const useEditPackCategoryMutation = (): SimpleMutation<HeaderInfo, Catego
 	});
 };
 
-export const useMovePackCategoryMutation = (): SimpleMutation<MovePackCategoryProps, void> => {
+export const useMovePackCategoryMutation = (): SimpleMutation<
+	MovePackCategoryProps,
+	void
+> => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationFn: (categoryInfo: MovePackCategoryProps) => {
 			const { packCategoryId, prevCategoryIndex, nextCategoryIndex } = categoryInfo;
-			return tidyTrekAPI.put(`/packs/categories/index/${packCategoryId}`, {
-				prev_category_index: prevCategoryIndex,
-				next_category_index: nextCategoryIndex,
-			});
+			return tidyTrekAPI
+				.put(`/packs/categories/index/${packCategoryId}`, {
+					prev_category_index: prevCategoryIndex,
+					next_category_index: nextCategoryIndex,
+				})
+				.then(extractData<void>);
 		},
 		onError: (_err, categoryInfo) => {
 			// Only invalidate on error to refetch correct data
@@ -387,7 +438,7 @@ export const useDeletePackCategoryMutation = (): SimpleMutation<number, void> =>
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (categoryId: number) =>
-			tidyTrekAPI.delete(`/packs/categories/${categoryId}`),
+			tidyTrekAPI.delete(`/packs/categories/${categoryId}`).then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
@@ -399,7 +450,7 @@ export const useDeletePackCategoryAndItemsMutation = (): SimpleMutation<number, 
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (categoryId: number) =>
-			tidyTrekAPI.delete(`/packs/categories/items/${categoryId}`),
+			tidyTrekAPI.delete(`/packs/categories/items/${categoryId}`).then(extractData<void>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: packKeys.all });
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });

@@ -1,13 +1,10 @@
-import { useContext } from 'react';
-import { Flex } from '@radix-ui/themes';
-import { UserContext } from './account';
-import { AccountForm } from '../components/account-form/account-form';
+import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { AccountForm } from '../components';
 import { useDeleteAccountMutation } from '@/queries/user-queries';
-import supabase from '@/api/supabaseClient';
+import supabase from '@/api/supabase-client';
 
 export const AccountSettings = () => {
-	const { user } = useContext(UserContext);
-
+	const { user, isLoading } = useGetAuth();
 	const { mutate: deleteAccount } = useDeleteAccountMutation();
 
 	const handleDeleteAccount = async () => {
@@ -15,9 +12,7 @@ export const AccountSettings = () => {
 		await supabase.auth.signOut();
 	};
 
-	return (
-		<Flex direction="column">
-			<AccountForm user={user} deleteAccount={handleDeleteAccount} />
-		</Flex>
-	);
+	if (isLoading || !user) return null;
+
+	return <AccountForm user={user} deleteAccount={handleDeleteAccount} />;
 };

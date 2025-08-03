@@ -1,15 +1,30 @@
 import { Navigate } from 'react-router-dom';
-import { UserLayout } from '../layout/user-layout';
-import { ResetPassword } from '@/features/auth/routes/reset-password';
-import { Welcome } from '../features/auth/routes/welcome';
-import { ResetSuccess } from '../features/auth/routes/reset-success';
+import { UserLayout } from '@/layout';
 import { lazyImport } from '@/utils';
-import { BubbleError } from '@/components/error-boundary';
+
+const { ResetPassword } = lazyImport(
+	() => import('@/features/auth/routes/reset-password'),
+	'ResetPassword',
+);
+import { Welcome } from '../features/auth/routes/welcome';
+const { ResetSuccess } = lazyImport(
+	() => import('../features/auth/routes/reset-success'),
+	'ResetSuccess',
+);
+import { BubbleError } from '@/components';
 
 const { Dashboard } = lazyImport(() => import('@/features/dashboard'), 'Dashboard');
+const { PackEdit } = lazyImport(() => import('@/features/dashboard/'), 'PackEdit');
+const { PackItemEdit } = lazyImport(
+	() => import('@/features/dashboard/'),
+	'PackItemEdit',
+);
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
-const { Account } = lazyImport(() => import('@/features/account/routes'), 'Account');
+const { AccountRoot } = lazyImport(
+	() => import('@/features/account/routes'),
+	'AccountRoot',
+);
 const { AccountSettings } = lazyImport(
 	() => import('@/features/account/routes'),
 	'AccountSettings',
@@ -25,30 +40,47 @@ export const protectedRoutes = [
 		element: <UserLayout />,
 		errorElement: <BubbleError />,
 		children: [
-			{ path: '/', index: true, element: <Dashboard userView={true} /> },
+			{
+				path: '/',
+				index: true,
+				element: <Dashboard isCreator={true} key="user-dashboard" />,
+			},
 			{
 				path: '/pack/:packId',
-				element: <Dashboard userView={true} />,
+				element: <Dashboard isCreator={true} key="user-dashboard" />,
+			},
+			{
+				path: '/pack/edit/:packId',
+				element: <PackEdit />,
+			},
+			{
+				path: '/pack-item/edit/:packItemId',
+				element: <PackItemEdit />,
 			},
 			{
 				path: '/pk/:packId',
-				element: <Dashboard userView={false} />,
+				// Force component remount to prevent hook order mismatch between user/guest modes
+				element: <Dashboard isCreator={false} key="guest-dashboard" />,
 			},
 			{
 				path: '/gear-closet',
 				element: <GearCloset />,
 			},
 			{
+				path: '/closet-item/edit/:packItemId',
+				element: <PackItemEdit />,
+			},
+			{
 				path: '/profile',
-				element: <Profile userView={true} />,
+				element: <Profile isCreator={true} key="user-profile" />,
 			},
 			{
 				path: '/user/:userId',
-				element: <Profile userView={false} />,
+				element: <Profile isCreator={false} key="guest-profile" />,
 			},
 			{
 				path: '/account',
-				element: <Account />,
+				element: <AccountRoot />,
 				children: [
 					{
 						path: '/account',
