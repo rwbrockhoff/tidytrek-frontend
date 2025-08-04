@@ -45,7 +45,17 @@ export const ProfilePalette = () => {
 								borderColor: isCurrentPalette ? 'var(--color-primary)' : '',
 							}}
 							key={`${paletteTheme}-palette`}
-							onClick={() => handlePaletteChange(paletteTheme)}>
+							onClick={() => handlePaletteChange(paletteTheme)}
+							tabIndex={0}
+							role="button"
+							aria-label={`Select ${paletteTheme} palette theme`}
+							aria-pressed={isCurrentPalette}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									handlePaletteChange(paletteTheme);
+								}
+							}}>
 							<Flex className="justify-between">
 								<Text size="2" weight="medium">
 									{paletteTheme}
