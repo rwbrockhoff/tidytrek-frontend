@@ -98,7 +98,7 @@ export const useUploadPackPhotoMutation = (): SimpleMutation<
 		packId: number;
 		formData: FormData;
 	},
-	void
+	{ packPhotoUrl: string }
 > => {
 	const queryClient = useQueryClient();
 	return useMutation({
@@ -108,7 +108,7 @@ export const useUploadPackPhotoMutation = (): SimpleMutation<
 				.post(`/packs/${packId}/pack-photo`, formData, {
 					headers: { 'Content-Type': 'multipart/form-data' },
 				})
-				.then(extractData<void>);
+				.then(extractData<{ packPhotoUrl: string }>);
 		},
 		onSuccess: (_response, variables) => {
 			const { packId } = variables;

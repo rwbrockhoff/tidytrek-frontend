@@ -41,11 +41,10 @@ export const SocialButton = (props: SocialButtonProps) => {
 	}, [socialLinkUrl, socialName]);
 
 	return (
-		<Badge 
-			radius="large" 
-			className={cn(styles.styledBadge, 'flex items-center py-1 px-2')} 
-			onClick={handleClick}
-		>
+		<Badge
+			radius="large"
+			className={cn(styles.styledBadge, 'flex items-center')}
+			onClick={handleClick}>
 			<ExternalLink href={socialLinkUrl || ''}>
 				{icon}
 				{displayLink || 'Link'}

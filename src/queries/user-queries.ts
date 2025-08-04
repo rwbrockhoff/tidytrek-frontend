@@ -57,17 +57,16 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async () => {
+			// Redirect immediately to avoid router state changes
+			window.location.replace('/login');
+
 			// Sign out from Supabase
 			await supabase.auth.signOut();
 			// Clear server-side cookies
 			return tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 		},
 		onSuccess: () => {
-			// Immediately set auth state to logged out
-			queryClient.setQueryData(userKeys.all, { isAuthenticated: false });
 			queryClient.clear();
-
-			window.location.href = '/login';
 		},
 	});
 };
@@ -81,12 +80,14 @@ export const useRefreshSupabaseMutation = (): SimpleMutation<void, void> => {
 export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: () => tidyTrekAPI.delete('/auth/account').then(extractData<void>),
+		mutationFn: async () => {
+			const result = await tidyTrekAPI.delete('/auth/account').then(extractData<void>);
+			// Redirect after successful deletion
+			window.location.replace('/login');
+			return result;
+		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: userKeys.all });
 			queryClient.clear();
-
-			window.location.href = '/login';
 		},
 	});
 };

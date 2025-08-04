@@ -117,6 +117,11 @@ div.rt-ScrollAreaViewport {
 	width: 100%;
 }
 
+.rt-PopoverContent button:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 2px var(--color-primary);
+}
+
 /* Override Radix selection styles */
 .radix-themes *::selection {
 	background-color: var(--sage-400);
