@@ -91,7 +91,7 @@ export const useEditProfileMutation = (): SimpleMutation<
 
 export const useUploadProfilePhotoMutation = (): SimpleMutation<
 	FormData,
-	{ profilePhotoUrl?: string }
+	{ profilePhotoUrl: string }
 > => {
 	const queryClient = useQueryClient();
 	return useMutation({
@@ -100,7 +100,7 @@ export const useUploadProfilePhotoMutation = (): SimpleMutation<
 				.post('/profile-settings/profile-photo', formData, {
 					headers: { 'Content-Type': 'multipart/form-data' },
 				})
-				.then(extractData<{ profilePhotoUrl?: string }>),
+				.then(extractData<{ profilePhotoUrl: string }>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileSettingsKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
@@ -124,7 +124,7 @@ export const useDeleteProfilePhotoMutation = (): SimpleMutation<void, void> => {
 
 export const useUploadBannerPhotoMutation = (): SimpleMutation<
 	FormData,
-	{ bannerPhotoUrl?: string }
+	{ bannerPhotoUrl: string }
 > => {
 	const queryClient = useQueryClient();
 	return useMutation({
@@ -133,7 +133,7 @@ export const useUploadBannerPhotoMutation = (): SimpleMutation<
 				.post('/profile-settings/banner-photo', formData, {
 					headers: { 'Content-Type': 'multipart/form-data' },
 				})
-				.then(extractData<{ bannerPhotoUrl?: string }>),
+				.then(extractData<{ bannerPhotoUrl: string }>),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},

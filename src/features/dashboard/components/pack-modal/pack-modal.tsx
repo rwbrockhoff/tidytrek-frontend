@@ -8,6 +8,7 @@ import { usePackForm } from '../../hooks/use-pack-form';
 import { PackForm } from '../pack-form/pack-form';
 import { PackDelete } from '../pack-delete/pack-delete';
 import { useState } from 'react';
+import { useGetPackQuery } from '@/queries/pack-queries';
 
 type PackModalProps = {
 	children: React.ReactNode;
@@ -17,6 +18,9 @@ type PackModalProps = {
 export const PackModal = (props: PackModalProps) => {
 	const { children, pack } = props;
 	const [isOpen, setIsOpen] = useState(false);
+
+	const { data: queryData } = useGetPackQuery(pack.packId);
+	const currentPack = queryData?.pack || pack;
 
 	const { modifiedPack, handleFormChange, handleCheckBox, handleSubmitPack, formErrors } =
 		usePackForm(pack);
@@ -54,7 +58,7 @@ export const PackModal = (props: PackModalProps) => {
 				</Dialog.Description>
 
 				<PackForm
-					pack={modifiedPack}
+					pack={{ ...modifiedPack, packPhotoUrl: currentPack.packPhotoUrl }}
 					handleFormChange={handleFormChange}
 					handleCheckBox={handleCheckBox}
 					formErrors={formErrors}
