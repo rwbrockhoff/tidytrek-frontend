@@ -49,9 +49,11 @@
 	border-color: var(--color-border-secondary);
 }
 
-.textareaDefault:focus {
+.textareaDefault:focus,
+.textareaDefault:focus-visible {
 	border-color: var(--color-primary);
 	box-shadow: 0 0 0 1px var(--color-primary);
+	outline: none;
 }
 
 .textareaDefault:disabled {
@@ -74,9 +76,11 @@
 	background-color: var(--color-error-bg);
 }
 
-.textareaError:focus {
+.textareaError:focus,
+.textareaError:focus-visible {
 	border-color: var(--color-error);
 	box-shadow: 0 0 0 1px var(--color-error);
+	outline: none;
 }
 
 .message {

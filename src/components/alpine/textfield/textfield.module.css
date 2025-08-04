@@ -46,9 +46,11 @@
 	border-color: var(--color-border-secondary);
 }
 
-.inputDefault:focus {
+.inputDefault:focus,
+.inputDefault:focus-visible {
 	border-color: var(--color-primary);
 	box-shadow: 0 0 0 1px var(--color-primary);
+	outline: none;
 }
 
 .inputDefault:disabled {
