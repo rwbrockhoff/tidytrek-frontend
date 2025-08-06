@@ -6,7 +6,6 @@ import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, decode } from '@/utils';
 import { SidebarButton } from './sidebar-button';
-import supabase from '@/api/supabase-client';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { MouseOver } from '@/contexts/mouse-over-context';
@@ -78,12 +77,16 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	}, [location.pathname]);
 
 	const handleLogout = async () => {
-		await supabase.auth.signOut();
+		// handle Google auth cleanup first
 		if (typeof google !== 'undefined') {
 			await google.accounts.id.disableAutoSelect();
 		}
-		logout();
-		navigate('/');
+
+		logout(undefined, {
+			onSuccess: () => {
+				navigate('/login', { replace: true });
+			},
+		});
 	};
 
 	return (

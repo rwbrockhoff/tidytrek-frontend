@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { useMemo } from 'react';
+import { useIsMutating } from '@tanstack/react-query';
 import { DashboardSkeleton, AuthSkeleton } from '@/components/ui';
 import { publicRoutes } from './public.tsx';
 import { protectedRoutes } from './protected.tsx';
@@ -10,13 +11,18 @@ import { useDelayedLoading } from '@/hooks/ui/use-delayed-loading';
 
 export const AppRouter = () => {
 	const { isLoading, isAuthenticated, settings } = useGetAuth();
+	// useIsMutating returns 1 if key is being mutated (isLoggingOut)
+	const isLoggingOut = useIsMutating({ mutationKey: ['logout'] }) > 0;
 	const showSkeleton = useDelayedLoading(isLoading, 200);
 	const { darkMode, palette } = settings || {};
 	const { currentMode, currentPalette } = useThemeSetter(darkMode, palette);
 
 	const appRouter = useMemo(
-		() => createBrowserRouter(isAuthenticated ? protectedRoutes : publicRoutes),
-		[isAuthenticated],
+		() =>
+			createBrowserRouter(
+				isAuthenticated || isLoggingOut ? protectedRoutes : publicRoutes,
+			),
+		[isAuthenticated, isLoggingOut],
 	);
 
 	if (isLoading) {

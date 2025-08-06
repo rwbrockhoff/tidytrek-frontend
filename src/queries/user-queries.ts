@@ -56,14 +56,10 @@ export const useRegisterMutation = (): SimpleMutation<
 export const useLogoutMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
+		mutationKey: ['logout'],
 		mutationFn: async () => {
-			// Redirect immediately to avoid router state changes
-			window.location.replace('/login');
-
-			// Sign out from Supabase
+			await tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 			await supabase.auth.signOut();
-			// Clear server-side cookies
-			return tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 		},
 		onSuccess: () => {
 			queryClient.clear();

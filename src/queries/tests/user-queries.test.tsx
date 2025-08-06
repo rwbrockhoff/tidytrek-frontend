@@ -97,7 +97,9 @@ describe('useLogoutMutation', () => {
 
 	it('should call both Supabase signOut and logout API', async () => {
 		vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null });
-		vi.mocked(tidyTrekAPI.post).mockResolvedValue({});
+		vi.mocked(tidyTrekAPI.post).mockResolvedValue({
+			data: { success: true, data: null }
+		});
 
 		const wrapper = createQueryWrapper();
 		const { result } = renderHook(() => useLogoutMutation(), { wrapper });
@@ -105,8 +107,10 @@ describe('useLogoutMutation', () => {
 		result.current.mutate();
 
 		await waitFor(() => {
-			expect(supabase.auth.signOut).toHaveBeenCalled();
-			expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/logout');
+			expect(result.current.isSuccess).toBe(true);
 		});
+
+		expect(tidyTrekAPI.post).toHaveBeenCalledWith('/auth/logout');
+		expect(supabase.auth.signOut).toHaveBeenCalled();
 	});
 });
