@@ -30,6 +30,7 @@ export const DescriptionCell = ({
 			{isCreator ? (
 				<TextField.Standalone
 					variant="minimal"
+					compact
 					value={packItemDescription || ''}
 					placeholder="Description"
 					name={'packItemDescription'}
@@ -38,9 +39,7 @@ export const DescriptionCell = ({
 					className={mx.textEllipsis}
 				/>
 			) : (
-				<span className={cn(mx.textEllipsis, 'px-2')}>
-					{packItemDescription || ''}
-				</span>
+				<span className={cn(mx.textEllipsis, 'px-2')}>{packItemDescription || ''}</span>
 			)}
 		</Table.Cell>
 	);

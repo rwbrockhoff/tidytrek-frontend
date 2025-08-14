@@ -61,6 +61,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 						name="packCategoryName"
 						placeholder="Category"
 						variant="minimal"
+						compact
 						onChange={handleInput}
 						onBlur={handleBlur}
 						disabled={disabled}

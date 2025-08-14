@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
-import { type PackItemProperty, type BaseTableRowItem, WeightUnit } from '@/types/pack-types';
+import {
+	type PackItemProperty,
+	type BaseTableRowItem,
+	WeightUnit,
+} from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import styles from './pack-weight-cell.module.css';
 import { Badge } from '@radix-ui/themes';
@@ -79,6 +83,7 @@ export const PackWeightCell = ({
 				<Flex className="inline-flex items-baseline gap-1">
 					<TextField.Standalone
 						variant="minimal"
+						compact
 						className={styles.input}
 						inputMode="decimal"
 						value={getInputValue()}
@@ -88,7 +93,10 @@ export const PackWeightCell = ({
 						data-invalid={formErrors?.packItemWeight.error}
 					/>
 
-					<WeightDropdown unit={packItemWeightUnit || defaultWeightUnit} onChange={handleWeightUnit} />
+					<WeightDropdown
+						unit={packItemWeightUnit || defaultWeightUnit}
+						onChange={handleWeightUnit}
+					/>
 				</Flex>
 			) : (
 				<Flex className="justify-center">

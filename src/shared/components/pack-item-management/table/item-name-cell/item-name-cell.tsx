@@ -37,11 +37,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 			onBlur={handleToggleOff}
 			style={{ width }}
 			className={styles.styledCell}>
-			<GripButton
-				testId="pack-item-grip"
-				disabled={!isCreator}
-				{...dragProps}
-			/>
+			<GripButton testId="pack-item-grip" disabled={!isCreator} {...dragProps} />
 
 			{isCreator ? (
 				<Flex className="inline-flex w-full">
@@ -50,6 +46,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						name={'packItemName'}
 						placeholder={'Name'}
 						variant="minimal"
+						compact
 						onChange={onChange}
 						disabled={!isCreator}
 						className={mx.textEllipsis}
@@ -62,9 +59,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 					{packItemName || packItemUrl || 'Pack Item'}
 				</ExternalLink>
 			) : (
-				<span className={cn(mx.textEllipsis, 'px-2')}>
-					{packItemName || 'Name'}
-				</span>
+				<span className={cn(mx.textEllipsis, 'px-2')}>{packItemName || 'Name'}</span>
 			)}
 		</Table.Cell>
 	);

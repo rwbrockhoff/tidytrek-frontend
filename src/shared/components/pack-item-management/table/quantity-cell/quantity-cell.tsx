@@ -38,6 +38,7 @@ export const QuantityCell = ({
 					step={1}
 					inputMode="numeric"
 					variant="minimal"
+					compact
 					disabled={!isCreator}
 					data-invalid={formErrors?.packItemQuantity.error}
 					onChange={onChange}

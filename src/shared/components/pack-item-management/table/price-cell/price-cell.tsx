@@ -73,6 +73,7 @@ export const PriceCell = ({
 					placeholder="0"
 					onChange={handleNumericChange}
 					data-invalid={formErrors?.packItemPrice.error}
+					compact
 				/>
 			) : (
 				<Text align="center">{formattedPrice}</Text>
