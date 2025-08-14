@@ -91,6 +91,10 @@
 	background-color: var(--color-bg-secondary);
 }
 
+.rt-PopoverContent:where(.rt-r-size-1) {
+	--popover-content-padding: var(--space-1);
+}
+
 .rt-PopoverContent:where(.rt-r-size-2) {
 	--popover-content-padding: var(--space-2);
 }
@@ -108,7 +112,7 @@ div.rt-ScrollAreaViewport {
 /* Other Components */
 .rt-Badge {
 	background-color: var(--color-bg-tertiary);
-	color: var(--color-text-secondary);
+	color: var(--color-text-primary);
 	margin: inherit 1rem;
 }
 

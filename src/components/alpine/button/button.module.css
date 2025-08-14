@@ -125,6 +125,15 @@
 }
 
 /* Button - Colors */
+.buttonCustomColor {
+	--btn-bg: var(--button-custom-color);
+	--btn-bg-hover: var(--button-custom-color);
+	--btn-border: var(--button-custom-color);
+	--btn-border-hover: var(--button-custom-color);
+	--btn-text: var(--color-constant-white);
+	--btn-text-outline: var(--button-custom-color);
+}
+
 .buttonColorPrimary {
 	--btn-bg: var(--color-primary);
 	--btn-bg-hover: var(--color-primary-hover);
@@ -141,6 +150,15 @@
 	--btn-border-hover: var(--color-border-secondary);
 	--btn-text: var(--color-text-primary);
 	--btn-text-outline: var(--color-text-primary);
+}
+
+.buttonColorTertiary {
+	--btn-bg: var(--color-bg-tertiary);
+	--btn-bg-hover: var(--color-hover);
+	--btn-border: var(--color-border-secondary);
+	--btn-border-hover: var(--color-border-primary);
+	--btn-text: var(--color-text-primary);
+	--btn-text-outline: var(--color-text-secondary);
 }
 
 .buttonColorInfo {
@@ -162,8 +180,10 @@
 }
 
 /* Apply color variables to default variant */
+.buttonDefault.buttonCustomColor,
 .buttonDefault.buttonColorPrimary,
 .buttonDefault.buttonColorSecondary,
+.buttonDefault.buttonColorTertiary,
 .buttonDefault.buttonColorInfo,
 .buttonDefault.buttonColorDanger {
 	background-color: var(--btn-bg);
@@ -171,8 +191,10 @@
 	border-color: var(--btn-border);
 }
 
+.buttonDefault.buttonCustomColor:hover,
 .buttonDefault.buttonColorPrimary:hover,
 .buttonDefault.buttonColorSecondary:hover,
+.buttonDefault.buttonColorTertiary:hover,
 .buttonDefault.buttonColorInfo:hover,
 .buttonDefault.buttonColorDanger:hover {
 	background-color: var(--btn-bg-hover);
@@ -180,8 +202,10 @@
 }
 
 /* Loading state overrides color */
+.buttonLoading.buttonDefault.buttonCustomColor,
 .buttonLoading.buttonDefault.buttonColorPrimary,
 .buttonLoading.buttonDefault.buttonColorSecondary,
+.buttonLoading.buttonDefault.buttonColorTertiary,
 .buttonLoading.buttonDefault.buttonColorInfo,
 .buttonLoading.buttonDefault.buttonColorDanger {
 	color: transparent;
@@ -234,6 +258,7 @@
 }
 
 /* Colors with white text get white svg color */
+.buttonDefault.buttonCustomColor svg,
 .buttonDefault.buttonColorPrimary svg,
 .buttonDefault.buttonColorInfo svg,
 .buttonDefault.buttonColorDanger svg {
@@ -251,6 +276,7 @@
 	animation: spin 1s linear infinite;
 }
 
+.buttonDefault.buttonCustomColor .spinner,
 .buttonDefault.buttonColorPrimary .spinner,
 .buttonDefault.buttonColorInfo .spinner,
 .buttonDefault.buttonColorDanger .spinner {

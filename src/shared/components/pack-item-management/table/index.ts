@@ -11,3 +11,5 @@ export { PackWeightCell } from './pack-weight-cell/pack-weight-cell';
 export { PropertiesCell } from './properties-cell/properties-cell';
 export { ActionButtons } from './action-buttons/action-buttons';
 export { GripButton } from './grip-button/grip-button';
+export { RowActionsMenu } from './row-actions-menu';
+export { CategoryActionsMenu } from './category-actions-menu';

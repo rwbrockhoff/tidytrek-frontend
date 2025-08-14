@@ -4,19 +4,112 @@
 	min-width: 100%;
 }
 
-/* Dynamically use palette color for top border for each category */
 .table :global(thead.withPrimaryBorder) {
 	border-top: 3px solid var(--palette-01, var(--color-primary, #338866));
 }
 
-@media (max-width: 768px) {
-	.table {
-		font-size: var(--font-size-2);
-	}
+/* Columns */
 
-	/* Reduce padding on mobile */
-	.table th,
-	.table td {
-		padding: var(--space-2);
-	}
+.table .priceColumn {
+	text-align: left;
+	padding-left: var(--space-4);
+}
+
+.table .priceColumn.priceColumnText {
+	padding-left: var(--space-5);
+}
+
+.table .priceColumn.priceColumnHeaderText {
+	padding-left: var(--space-6);
+}
+
+.table .weightColumn {
+	text-align: right;
+	padding-right: var(--space-6);
+}
+
+.table .weightColumn.weightColumnText {
+	padding-right: var(--space-7);
+}
+
+.table .weightColumn.weightColumnHeaderText {
+	padding-right: var(--space-7);
+}
+
+.table .quantityColumn {
+	text-align: center;
+	padding-right: var(--space-5);
+}
+
+.table .quantityColumnText {
+	padding-right: var(--space-6);
+}
+
+/* Guest View Overrides */
+
+.table .weightColumn.weightColumnGuestView {
+	text-align: left;
+	padding-left: 0;
+}
+
+.table .priceColumn.priceColumnGuestView {
+	text-align: left;
+	padding-left: 0;
+}
+
+.table .quantityColumn.quantityColumnGuestView {
+	text-align: left;
+	padding-left: 0;
+}
+
+.table.tableGuestView tr {
+	height: var(--space-10);
+}
+
+.table.tableGuestView td {
+	font-size: var(--font-size-3);
+}
+
+/* Header */
+
+.table thead {
+	height: var(--space-12);
+}
+
+/* Action Buttons */
+
+.table .actionButtons {
+	padding-right: var(--space-4);
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.actionMenuButtons {
+	justify-content: flex-start;
+}
+
+/* Footer */
+
+.table tfoot {
+	vertical-align: top;
+	height: var(--space-10);
+}
+
+.table tfoot td {
+	font-size: var(--font-size-2);
+	color: var(--color-text-tertiary);
+	box-shadow: none;
+	border-bottom: none;
+}
+
+.table tfoot .footerAddItemCell {
+	padding-left: var(--space-2);
+}
+
+.table tfoot .footerAddItemButton {
+	font-size: var(--font-size-1);
+	padding: var(--space-1);
+	gap: 0;
 }

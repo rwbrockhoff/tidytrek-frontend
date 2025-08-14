@@ -1,4 +1,6 @@
 import styles from './table-row.module.css';
+import tableStyles from '../table-main/table.module.css';
+import hoverStyles from '../hover-styles.module.css';
 import { Table } from '@/components/alpine';
 import {
 	ItemNameCell,
@@ -7,8 +9,8 @@ import {
 	QuantityCell,
 	PriceCell,
 	DescriptionCell,
+	RowActionsMenu,
 } from '@/shared/components/pack-item-management/table';
-import { ActionButtons } from '../action-buttons/action-buttons';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
@@ -26,6 +28,9 @@ type TableRowContentProps = {
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	onToggle: () => void;
 	onChangeProperty: (property: PackItemProperty) => void;
+	onMove: () => void;
+	onMoveToCloset: () => void;
+	onDelete: () => void;
 	children: React.ReactNode;
 };
 
@@ -38,7 +43,9 @@ export const TableRowContent = ({
 	formErrors,
 	onToggle,
 	onChangeProperty,
-	children,
+	onMove,
+	onMoveToCloset,
+	onDelete,
 }: TableRowContentProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const showPrices = usePackPricing();
@@ -55,7 +62,7 @@ export const TableRowContent = ({
 		<Table.Row
 			data-testid="pack-item-row"
 			ref={setRowRefs}
-			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
+			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''} group relative`}
 			{...provided.draggableProps}>
 			<ItemNameCell
 				dragProps={{ ...provided.dragHandleProps }}
@@ -111,7 +118,18 @@ export const TableRowContent = ({
 				/>
 			)}
 
-			{isCreator && <ActionButtons isDragging={isDragging}>{children}</ActionButtons>}
+			{isCreator && (
+				<Table.Cell className={tableStyles.actionButtons}>
+					<div className={hoverStyles.showOnHover}>
+						<RowActionsMenu
+							packItem={packItem}
+							onMove={onMove}
+							onMoveToCloset={onMoveToCloset}
+							onDelete={onDelete}
+						/>
+					</div>
+				</Table.Cell>
+			)}
 		</Table.Row>
 	);
 };

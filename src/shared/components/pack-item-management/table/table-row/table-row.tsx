@@ -77,7 +77,10 @@ export const TableRowComponent = (props: TableRowProps) => {
 						onChange={onChange}
 						formErrors={formErrors}
 						onToggle={handleToggle}
-						onChangeProperty={handleChangeProperty}>
+						onChangeProperty={handleChangeProperty}
+						onMove={handleToggleGearButtons}
+						onMoveToCloset={handleMoveItemToCloset}
+						onDelete={handleDeleteItem}>
 						<TableRowActions
 							packItem={packItem}
 							onToggleGearButtons={handleToggleGearButtons}

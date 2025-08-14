@@ -7,7 +7,7 @@ import {
 } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import styles from './pack-weight-cell.module.css';
-import { Badge } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
@@ -17,6 +17,8 @@ import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { type RefObject } from 'react';
+import { cn } from '@/styles/utils';
+import tableStyles from '../table-main/table.module.css';
 
 type PackWeightCellProps = {
 	onToggleOff: () => void;
@@ -83,9 +85,17 @@ export const PackWeightCell = ({
 	};
 
 	return (
-		<Table.Cell ref={ref} style={{ width }} onFocus={toggleToEdit} onBlur={toggleToCell}>
+		<Table.Cell
+			ref={ref}
+			className={cn(
+				tableStyles.weightColumn,
+				!isCreator && tableStyles.weightColumnGuestView,
+			)}
+			style={{ width }}
+			onFocus={toggleToEdit}
+			onBlur={toggleToCell}>
 			{isCreator ? (
-				<Flex className="inline-flex items-baseline gap-1">
+				<Flex className="inline-flex items-baseline gap-3">
 					<TextField.Standalone
 						variant="minimal"
 						compact
@@ -105,11 +115,9 @@ export const PackWeightCell = ({
 					/>
 				</Flex>
 			) : (
-				<Flex className="justify-center">
-					<Badge
-						radius="large"
-						color="gray"
-						highContrast>{`${getDisplayValue() || 0}  ${packItemWeightUnit}`}</Badge>
+				<Flex className="gap-1 items-baseline">
+					<Text>{getDisplayValue() || 0}</Text>
+					<span className={styles.weightUnitGuestView}>{packItemWeightUnit}</span>
 				</Flex>
 			)}
 		</Table.Cell>

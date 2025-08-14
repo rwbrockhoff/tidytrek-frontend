@@ -10,6 +10,8 @@ import { useConvertCurrency } from '@/utils';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
+import { cn } from '@/styles/utils';
+import tableStyles from '../table-main/table.module.css';
 
 type PriceCellProps = {
 	onToggleOff: () => void;
@@ -30,8 +32,9 @@ export const PriceCell = ({
 }: PriceCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const convertCurrency = useConvertCurrency();
-	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
+
+	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const rawPrice = packItem?.packItemPrice ?? 0;
@@ -74,10 +77,13 @@ export const PriceCell = ({
 	return (
 		<Table.Cell
 			ref={ref}
-			textAlign="center"
+			className={cn(
+				tableStyles.priceColumn,
+				isCreator ? tableStyles.priceColumnText : tableStyles.priceColumnGuestView
+			)}
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}
-			style={{ width, padding: '0 var(--space-4)' }}>
+			style={{ width }}>
 			{isCreator ? (
 				<TextField.Standalone
 					variant="minimal"

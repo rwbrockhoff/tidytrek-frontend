@@ -12,12 +12,22 @@ type WeightDropdownProps = {
 export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const { settings } = useGetAuth();
-	
+
 	const orderedOptions = useMemo(() => {
 		const isMetric = settings?.weightUnit === 'metric';
 		return isMetric
-			? [{ value: WeightUnit.g, label: 'g' }, { value: WeightUnit.kg, label: 'kg' }, { value: WeightUnit.oz, label: 'oz' }, { value: WeightUnit.lb, label: 'lb' }]
-			: [{ value: WeightUnit.oz, label: 'oz' }, { value: WeightUnit.lb, label: 'lb' }, { value: WeightUnit.g, label: 'g' }, { value: WeightUnit.kg, label: 'kg' }];
+			? [
+					{ value: WeightUnit.g, label: 'g' },
+					{ value: WeightUnit.kg, label: 'kg' },
+					{ value: WeightUnit.oz, label: 'oz' },
+					{ value: WeightUnit.lb, label: 'lb' },
+				]
+			: [
+					{ value: WeightUnit.oz, label: 'oz' },
+					{ value: WeightUnit.lb, label: 'lb' },
+					{ value: WeightUnit.g, label: 'g' },
+					{ value: WeightUnit.kg, label: 'kg' },
+				];
 	}, [settings?.weightUnit]);
 
 	if (isCreator) {
@@ -25,7 +35,7 @@ export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
 			<Select.Root size="2" value={unit} onValueChange={onChange}>
 				<Select.Trigger variant="ghost" />
 				<Select.Content>
-					{orderedOptions.map(option => (
+					{orderedOptions.map((option) => (
 						<Select.Item key={option.value} value={option.value}>
 							{option.label}
 						</Select.Item>

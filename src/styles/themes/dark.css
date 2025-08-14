@@ -1,7 +1,7 @@
 [data-theme='dark'] {
 	/* Primary colors */
-	--color-primary: var(--sage-500);
-	--color-primary-hover: var(--sage-400);
+	--color-primary: var(--sage-400);
+	--color-primary-hover: var(--sage-300);
 	--color-primary-subtle: var(--sage-900);
 	--color-primary-emphasis: var(--sage-200);
 

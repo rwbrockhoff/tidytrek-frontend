@@ -3,8 +3,9 @@ import { Badge } from '@radix-ui/themes';
 import { Button, Table } from '@/components/alpine';
 import { PlusIcon } from '@/components/icons';
 import { useTableColumnWidths } from '../hooks/use-table-column-widths';
-import styles from './table-footer.module.css';
+import tableStyles from '../table-main/table.module.css';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { cn } from '@/styles/utils';
 
 type TableFooterProps = {
 	handleAddItem: () => void;
@@ -33,15 +34,18 @@ export const TableFooter = ({
 	}, [hasItems, showPrices, isCreator, totalColumns]);
 
 	return (
-		<tfoot className={styles.footer}>
+		<tfoot>
 			<Table.Row>
-				<Table.Cell colSpan={addButtonColSpan}>
+				<Table.Cell colSpan={addButtonColSpan} className={tableStyles.footerAddItemCell}>
 					{isCreator && (
 						<Button
 							variant="outline"
+							color="tertiary"
 							size="sm"
+							className={tableStyles.footerAddItemButton}
 							onClick={handleAddItem}
 							iconLeft={<PlusIcon />}
+							override
 							aria-label="Add new item to list">
 							Add Item
 						</Button>
@@ -50,15 +54,27 @@ export const TableFooter = ({
 
 				{hasItems && (
 					<>
-						<Table.Cell className={styles.summaryCell}>
+						<Table.Cell className={cn(
+							tableStyles.quantityColumn,
+							!isCreator && tableStyles.quantityColumnGuestView
+						)}>
 							<Badge color="gray" highContrast>
 								x{itemQuantity}
 							</Badge>
 						</Table.Cell>
 						<Table.Cell
-							className={styles.summaryCell}>{`${weight} ${weightUnit}`}</Table.Cell>
+							className={cn(
+								tableStyles.weightColumn,
+								isCreator ? tableStyles.weightColumnText : tableStyles.weightColumnGuestView,
+							)}>{`${weight} ${weightUnit}`}</Table.Cell>
 						{showPrices && (
-							<Table.Cell className={styles.summaryCell}>{price}</Table.Cell>
+							<Table.Cell
+								className={cn(
+									tableStyles.priceColumn,
+									isCreator ? tableStyles.priceColumnText : tableStyles.priceColumnGuestView
+								)}>
+								{price}
+							</Table.Cell>
 						)}
 					</>
 				)}
