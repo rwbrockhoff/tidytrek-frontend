@@ -15,6 +15,7 @@ import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type DraggableProvided } from 'react-beautiful-dnd';
+import { useRef, type MutableRefObject } from 'react';
 
 type TableRowContentProps = {
 	isDragging: boolean;
@@ -41,11 +42,19 @@ export const TableRowContent = ({
 }: TableRowContentProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const showPrices = usePackPricing();
+	const navigationRowRef = useRef<HTMLTableRowElement | null>(
+		null,
+	) as MutableRefObject<HTMLTableRowElement | null>;
+
+	const setRowRefs = (element: HTMLTableRowElement | null) => {
+		navigationRowRef.current = element;
+		provided.innerRef(element);
+	};
 
 	return (
 		<Table.Row
 			data-testid="pack-item-row"
-			ref={provided.innerRef}
+			ref={setRowRefs}
 			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''}`}
 			{...provided.draggableProps}>
 			<ItemNameCell
@@ -54,6 +63,7 @@ export const TableRowContent = ({
 				packItem={packItem}
 				onChange={onChange}
 				isDragging={isDragging}
+				rowRef={navigationRowRef}
 			/>
 
 			<DescriptionCell
@@ -61,6 +71,7 @@ export const TableRowContent = ({
 				packItem={packItem}
 				onChange={onChange}
 				isDragging={isDragging}
+				rowRef={navigationRowRef}
 			/>
 
 			<PropertiesCell
@@ -76,6 +87,7 @@ export const TableRowContent = ({
 				onChange={onChange}
 				isDragging={isDragging}
 				formErrors={formErrors}
+				rowRef={navigationRowRef}
 			/>
 
 			<PackWeightCell
@@ -85,6 +97,7 @@ export const TableRowContent = ({
 				onChange={onChange}
 				isDragging={isDragging}
 				formErrors={formErrors}
+				rowRef={navigationRowRef}
 			/>
 
 			{showPrices && (
@@ -94,6 +107,7 @@ export const TableRowContent = ({
 					onChange={onChange}
 					isDragging={isDragging}
 					formErrors={formErrors}
+					rowRef={navigationRowRef}
 				/>
 			)}
 

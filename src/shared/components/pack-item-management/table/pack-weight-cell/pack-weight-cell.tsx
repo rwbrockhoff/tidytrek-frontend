@@ -14,7 +14,9 @@ import { WeightDropdown } from './weight-dropdown';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useCellWidth } from '../hooks/use-cell-width';
+import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { useToggle } from '@/hooks/ui/use-toggle';
+import { type RefObject } from 'react';
 
 type PackWeightCellProps = {
 	onToggleOff: () => void;
@@ -23,6 +25,7 @@ type PackWeightCellProps = {
 	onChange: (e: InputEvent) => void;
 	isDragging: boolean;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
+	rowRef: RefObject<HTMLElement>;
 };
 
 export const PackWeightCell = ({
@@ -32,6 +35,7 @@ export const PackWeightCell = ({
 	onChange,
 	isDragging,
 	formErrors,
+	rowRef,
 }: PackWeightCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
@@ -39,6 +43,7 @@ export const PackWeightCell = ({
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
 	const [hasDecimalInput, setHasDecimalInput] = useState(false);
+	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const toggleToEdit = () => !isToggled && toggle();
 
@@ -90,6 +95,7 @@ export const PackWeightCell = ({
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleWeightChange}
+						onKeyDown={(e) => handleKeyDown(e, 'packItemWeight')}
 						data-invalid={formErrors?.packItemWeight.error}
 					/>
 

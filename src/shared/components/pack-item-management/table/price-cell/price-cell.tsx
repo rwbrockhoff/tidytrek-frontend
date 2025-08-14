@@ -2,12 +2,14 @@ import { useMemo } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
+import { type RefObject } from 'react';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useConvertCurrency } from '@/utils';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
+import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 
 type PriceCellProps = {
 	onToggleOff: () => void;
@@ -15,6 +17,7 @@ type PriceCellProps = {
 	onChange: (e: InputEvent) => void;
 	isDragging: boolean;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
+	rowRef: RefObject<HTMLElement>;
 };
 
 export const PriceCell = ({
@@ -23,11 +26,13 @@ export const PriceCell = ({
 	onChange,
 	isDragging,
 	formErrors,
+	rowRef,
 }: PriceCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const convertCurrency = useConvertCurrency();
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
+	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const rawPrice = packItem?.packItemPrice ?? 0;
 	// Keep the raw value for input, but convert to number only for currency display
@@ -80,6 +85,7 @@ export const PriceCell = ({
 					name="packItemPrice"
 					placeholder="0"
 					onChange={handleNumericChange}
+					onKeyDown={(e) => handleKeyDown(e, 'packItemPrice')}
 					data-invalid={formErrors?.packItemPrice.error}
 					compact
 				/>

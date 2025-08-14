@@ -20,9 +20,6 @@
 	background-color: var(--color-bg-primary);
 	position: relative;
 	min-width: 0;
-	transition:
-		margin-left var(--transition-slow),
-		max-width var(--transition-slow);
 }
 
 .viewLayoutSidebarVisible {
