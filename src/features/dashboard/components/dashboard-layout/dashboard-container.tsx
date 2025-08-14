@@ -19,6 +19,7 @@ import { usePackDragHandler } from '../../hooks/use-pack-drag-handler';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
+import { PackNotAvailable } from '../pack-not-available/pack-not-available';
 
 type DashboardProps = {
 	isPending: boolean;
@@ -63,7 +64,11 @@ export const DashboardContainer = (props: DashboardProps) => {
 		packPricing = false,
 	} = pack || {};
 
-	if (!pack) return;
+	if (!isPending && !pack) {
+		return <PackNotAvailable />;
+	}
+
+	if (!pack) return null;
 
 	const showGuestBanners = isGuest;
 	const showPreviewMode = isAuthenticated && !isCreator;

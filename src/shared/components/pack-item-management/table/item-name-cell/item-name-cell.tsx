@@ -56,7 +56,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						disabled={!isCreator}
 						className={mx.textEllipsis}
 					/>
-					<LinkPopup packItem={packItem} isDragging={isDragging} />
+					<LinkPopup packItem={packItem} />
 				</Flex>
 			) : packItemUrl ? (
 				<ExternalLink href={packItemUrl}>
