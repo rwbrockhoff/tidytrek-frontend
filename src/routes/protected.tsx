@@ -22,15 +22,15 @@ const { PackItemEdit } = lazyImport(
 const { GearCloset } = lazyImport(() => import('@/features/gear-closet'), 'GearCloset');
 const { Profile } = lazyImport(() => import('@/features/profile'), 'Profile');
 const { AccountRoot } = lazyImport(
-	() => import('@/features/account/routes'),
+	() => import('@/features/account/routes/account-root'),
 	'AccountRoot',
 );
 const { AccountSettings } = lazyImport(
-	() => import('@/features/account/routes'),
+	() => import('@/features/account/routes/account-settings'),
 	'AccountSettings',
 );
 const { ProfileSettings } = lazyImport(
-	() => import('@/features/account/routes'),
+	() => import('@/features/account/routes/profile-settings'),
 	'ProfileSettings',
 );
 
