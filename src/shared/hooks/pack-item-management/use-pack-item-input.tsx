@@ -20,9 +20,12 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 	}, [item]);
 
 	const updateField = (name: string, value: string) => {
+		const numericFields = ['packItemQuantity', 'packItemWeight', 'packItemPrice'];
+		const processedValue = numericFields.includes(name) ? parseFloat(value) || 0 : value;
+		
 		setPackItem((prevFormData) => ({
 			...prevFormData,
-			[name]: value,
+			[name]: processedValue,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
 	};

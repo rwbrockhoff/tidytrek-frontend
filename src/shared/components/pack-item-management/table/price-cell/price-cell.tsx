@@ -26,7 +26,8 @@ export const PriceCell = ({
 }: PriceCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const convertCurrency = useConvertCurrency();
-	const { packItemPrice = 0 } = packItem || {};
+	const rawPrice = packItem?.packItemPrice ?? 0;
+	const packItemPrice = typeof rawPrice === 'string' ? parseFloat(rawPrice) || 0 : rawPrice;
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
 
@@ -39,9 +40,10 @@ export const PriceCell = ({
 		}
 	};
 
-	const handleOnChange = (e: InputEvent) => {
-		if (!e.target.value) e.target.value = '0';
-		e.target.value = e.target.value.replace(/[^0-9.-]+/g, '');
+	const handleNumericChange = (e: InputEvent) => {
+		const cleanValue = e.target.value.replace(/[^0-9.-]+/g, '');
+		
+		e.target.value = cleanValue;
 		onChange && onChange(e);
 	};
 
@@ -50,7 +52,12 @@ export const PriceCell = ({
 		[packItemPrice, convertCurrency],
 	);
 
-	const inputPrice = packItemPrice === 0 ? '' : packItemPrice.toString();
+	const inputPrice = useMemo(() => {
+		if (packItemPrice === 0) return '';
+		
+		const hasDecimals = packItemPrice % 1 !== 0;
+		return hasDecimals ? packItemPrice.toFixed(2) : packItemPrice.toString();
+	}, [packItemPrice]);
 	return (
 		<Table.Cell
 			ref={ref}
@@ -64,7 +71,7 @@ export const PriceCell = ({
 					value={isToggled ? inputPrice : formattedPrice}
 					name="packItemPrice"
 					placeholder="0"
-					onChange={handleOnChange}
+					onChange={handleNumericChange}
 					data-invalid={formErrors?.packItemPrice.error}
 				/>
 			) : (
