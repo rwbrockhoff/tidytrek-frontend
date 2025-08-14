@@ -76,7 +76,10 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 			return formData.packItemPrice?.toString() || '';
 		}
 
-		return convertCurrency(formData.packItemPrice || 0);
+		const price = typeof formData.packItemPrice === 'string' 
+			? parseFloat(formData.packItemPrice) || 0 
+			: formData.packItemPrice || 0;
+		return convertCurrency(price);
 	};
 
 	const handlePriceFocus = () => {

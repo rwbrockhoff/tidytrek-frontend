@@ -16,12 +16,22 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 		]);
 
 	useEffect(() => {
-		setPackItem({ ...item });
-	}, [item]);
+		// Only sync from parent if we haven't made local changes
+		if (!packItemChanged) {
+			setPackItem({ ...item });
+		}
+	}, [item, packItemChanged]);
 
 	const updateField = (name: string, value: string) => {
-		const numericFields = ['packItemQuantity', 'packItemWeight', 'packItemPrice'];
-		const processedValue = numericFields.includes(name) ? parseFloat(value) || 0 : value;
+		let processedValue: string | number;
+		if (name === 'packItemPrice') {
+			// Keep price as string during editing to preserve decimals
+			processedValue = value;
+		} else if (['packItemQuantity', 'packItemWeight'].includes(name)) {
+			processedValue = parseFloat(value) || 0;
+		} else {
+			processedValue = value;
+		}
 		
 		setPackItem((prevFormData) => ({
 			...prevFormData,

@@ -12,11 +12,12 @@ export const quantitySchema = z.coerce
 	.lte(100, { message: 'Please include a valid quantity for your pack item.' })
 	.safe();
 
-export const priceSchema = z.coerce
-	.number({ invalid_type_error: 'Please include a valid price.' })
-	.nonnegative({ message: 'Make sure your price is a positive number.' })
-	.lte(10000, { message: 'Please include a valid price for your pack item.' })
-	.safe();
+export const priceSchema = z.union([
+	z.string().regex(/^\d*\.?\d*$/, { message: 'Please include a valid price.' }),
+	z.number().nonnegative({ message: 'Make sure your price is a positive number.' })
+		.lte(10000, { message: 'Please include a valid price for your pack item.' })
+		.safe()
+]);
 
 export const basicInputSchema = (inputName: string, max?: number) => {
 	return z

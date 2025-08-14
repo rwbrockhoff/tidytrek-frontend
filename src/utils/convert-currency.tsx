@@ -8,6 +8,8 @@ const getCurrencyFormatter = (currency: string): Intl.NumberFormat => {
 		formatters[currency] = new Intl.NumberFormat('en-US', {
 			style: 'currency',
 			currency,
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 2,
 		});
 	}
 	return formatters[currency];

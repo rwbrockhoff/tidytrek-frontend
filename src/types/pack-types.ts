@@ -62,7 +62,7 @@ export type BaseTableRowItem = {
 	wornWeight: boolean;
 	consumable: boolean;
 	favorite: boolean;
-	packItemPrice: number;
+	packItemPrice: number | string;
 };
 
 export type PackItem = BaseTableRowItem & {

@@ -26,10 +26,13 @@ export const PriceCell = ({
 }: PriceCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const convertCurrency = useConvertCurrency();
-	const rawPrice = packItem?.packItemPrice ?? 0;
-	const packItemPrice = typeof rawPrice === 'string' ? parseFloat(rawPrice) || 0 : rawPrice;
 	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
+
+	const rawPrice = packItem?.packItemPrice ?? 0;
+	// Keep the raw value for input, but convert to number only for currency display
+	const packItemPrice =
+		typeof rawPrice === 'string' ? parseFloat(rawPrice) || 0 : rawPrice;
 
 	const toggleToEdit = () => !isToggled && toggle();
 
@@ -42,7 +45,6 @@ export const PriceCell = ({
 
 	const handleNumericChange = (e: InputEvent) => {
 		const cleanValue = e.target.value.replace(/[^0-9.-]+/g, '');
-		
 		e.target.value = cleanValue;
 		onChange && onChange(e);
 	};
@@ -53,11 +55,17 @@ export const PriceCell = ({
 	);
 
 	const inputPrice = useMemo(() => {
-		if (packItemPrice === 0) return '';
-		
-		const hasDecimals = packItemPrice % 1 !== 0;
-		return hasDecimals ? packItemPrice.toFixed(2) : packItemPrice.toString();
-	}, [packItemPrice]);
+		// If rawPrice is a string (during editing), use it directly
+		if (typeof rawPrice === 'string') {
+			return rawPrice;
+		}
+
+		// If it's a number, format it
+		if (rawPrice === 0) return '';
+		const hasDecimals = rawPrice % 1 !== 0;
+		return hasDecimals ? rawPrice.toFixed(2) : rawPrice.toString();
+	}, [rawPrice]);
+
 	return (
 		<Table.Cell
 			ref={ref}

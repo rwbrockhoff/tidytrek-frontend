@@ -50,7 +50,10 @@ export const convertWeight = (itemList: PackItem[], outputUnit: WeightUnit): Wei
 
 		// account for item quantities in weight & price
 		const itemWeight = packItemWeight * packItemQuantity;
-		totalPrice += packItemPrice * packItemQuantity;
+		const numericPrice = typeof packItemPrice === 'string' 
+			? parseFloat(packItemPrice) || 0 
+			: packItemPrice;
+		totalPrice += numericPrice * packItemQuantity;
 
 		// convert weight unit if needed
 		const convertedWeight =
