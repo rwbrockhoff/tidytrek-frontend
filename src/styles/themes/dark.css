@@ -5,6 +5,10 @@
 	--color-primary-subtle: var(--sage-900);
 	--color-primary-emphasis: var(--sage-200);
 
+	--color-primary-text: var(--sage-400);
+	--color-primary-surface: var(--sage-600);
+	--color-primary-surface-hover: var(--sage-500);
+
 	/* Dark theme shadows */
 	--shadow-classic: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.3),
 		0 2px 1px -1px rgba(0, 0, 0, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.4);

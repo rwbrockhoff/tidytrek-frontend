@@ -62,14 +62,14 @@
 
 /* Button - Variants */
 .buttonDefault {
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-surface);
 	color: var(--color-constant-white);
-	border-color: var(--color-primary);
+	border-color: var(--color-primary-surface);
 }
 
 .buttonDefault:hover {
-	background-color: var(--color-primary-hover);
-	border-color: var(--color-primary-hover);
+	background-color: var(--color-primary-surface-hover);
+	border-color: var(--color-primary-surface-hover);
 }
 
 .buttonOutline {
@@ -114,7 +114,7 @@
 
 .buttonLink {
 	background-color: transparent;
-	color: var(--color-primary);
+	color: var(--color-primary-text);
 	border-color: transparent;
 	text-decoration: underline;
 	text-underline-offset: 4px;
@@ -135,12 +135,12 @@
 }
 
 .buttonColorPrimary {
-	--btn-bg: var(--color-primary);
-	--btn-bg-hover: var(--color-primary-hover);
-	--btn-border: var(--color-primary);
-	--btn-border-hover: var(--color-primary-hover);
+	--btn-bg: var(--color-primary-surface);
+	--btn-bg-hover: var(--color-primary-surface-hover);
+	--btn-border: var(--color-primary-surface);
+	--btn-border-hover: var(--color-primary-surface-hover);
 	--btn-text: var(--color-constant-white);
-	--btn-text-outline: var(--color-primary);
+	--btn-text-outline: var(--color-primary-text);
 }
 
 .buttonColorSecondary {

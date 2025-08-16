@@ -22,7 +22,7 @@ export const UserLayout = () => {
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 
 	return (
-		<div className={styles.outerContainer}>
+		<div className={styles.outerContainer} data-mobile-sidebar-visible={isMobile && showSidebar}>
 			<ScrollRestoration />
 			<div className={styles.appViewContainer}>
 				<MobileNavbar onClick={handleToggleSidebar} />

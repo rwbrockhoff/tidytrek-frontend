@@ -1,7 +1,7 @@
 import { cn } from '@/styles/utils';
 import styles from './sidebar-button.module.css';
 import { Button } from '@/components/alpine';
-import { SidebarIcon, BackArrow } from '@/components/icons';
+import { SidebarIcon, CloseIcon } from '@/components/icons';
 
 type SidebarButtonProps = {
 	onClick: () => void;
@@ -15,7 +15,7 @@ export const SidebarButton = ({ onClick, isSidebar }: SidebarButtonProps) => {
 			onClick={onClick}
 			variant="ghost">
 			{isSidebar ? (
-				<BackArrow className="lucide-sm" />
+				<CloseIcon className="lucide-sm" />
 			) : (
 				<SidebarIcon className="lucide-sm" />
 			)}

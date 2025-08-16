@@ -67,6 +67,11 @@
 		overflow-y: auto;
 	}
 
+	.outerContainer[data-mobile-sidebar-visible="true"] {
+		overflow: hidden;
+		height: 100vh;
+	}
+
 	.appViewContainer {
 		/* Keep flex layout - sidebar overlays */
 		display: flex;
