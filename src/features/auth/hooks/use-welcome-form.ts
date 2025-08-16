@@ -5,7 +5,7 @@ import {
 	useUpdateUsernameMutation,
 	useGenerateUsernameQuery,
 } from '@/queries/profile-settings-queries';
-import { useMutationErrors } from '@/hooks/form/use-axios-error';
+import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import { setFormInput } from '@/utils';
 import { z, usernameSchema, trailNameSchema } from '@/schemas';
@@ -34,7 +34,7 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();
 	const { refetch: generateUsername } = useGenerateUsernameQuery();
 
-	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
+	const [serverError, setServerError] = useState({ error: false, message: '' });
 	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<ZodInputs>([
 		'username',
 		'trailName',
@@ -47,7 +47,7 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 
 	const handleClearErrors = (e: InputEvent) => {
 		clearZodErrors<ZodInputs>(e, formErrors, resetFormErrors);
-		if (serverError.error) resetAxiosError();
+		if (serverError.error) setServerError({ error: false, message: '' });
 	};
 
 	const handleGenerateUsername = async () => {
@@ -74,7 +74,8 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 			await saveUsername(formData);
 			navigate('/');
 		} catch (error: unknown) {
-			updateAxiosError(error);
+			const message = extractErrorMessage(error);
+			setServerError({ error: true, message });
 		}
 	};
 

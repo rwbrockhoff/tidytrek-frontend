@@ -1,17 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import { useMemo, useState, useCallback } from 'react';
+import { extractErrorMessage } from '@/utils/error-utils';
 
 // return nested axios error or a default error message
 export const useAxiosErrorMessage = (error: Error | unknown | null) => {
 	return useMemo(() => {
-		const defaultError = 'Oops! There was an error.';
-		if (axios.isAxiosError(error)) {
-			return error?.response
-				? error.response.data?.error?.message || error.response.data?.error
-				: defaultError;
-		} else {
-			return defaultError;
-		}
+		return extractErrorMessage(error);
 	}, [error]);
 };
 
@@ -26,21 +20,9 @@ export const useAxiosErrorStatus = (error: Error | null) => {
 export const isAxiosError = (error: unknown): error is AxiosError =>
 	axios.isAxiosError(error);
 
-// Helper function to extract error message
-const getAxiosErrorMessage = (error: unknown): string => {
-	const defaultError = 'Oops! There was an error.';
-	if (axios.isAxiosError(error)) {
-		return error?.response
-			? error.response.data?.error?.message || error.response.data?.error
-			: defaultError;
-	} else {
-		return defaultError;
-	}
-};
-
 export const useMutationError = (error: unknown, cb: (message: string) => void) => {
 	return useMemo(() => {
-		const errorMessage = getAxiosErrorMessage(error);
+		const errorMessage = extractErrorMessage(error);
 		return cb(errorMessage);
 	}, [error, cb]);
 };
@@ -49,7 +31,7 @@ export const useMutationErrors = () => {
 	const [serverError, setServerError] = useState(initialErrorState);
 
 	const updateAxiosError = useCallback((error: unknown) => {
-		const message = getAxiosErrorMessage(error);
+		const message = extractErrorMessage(error);
 		setServerError({ error: true, message });
 	}, []);
 
