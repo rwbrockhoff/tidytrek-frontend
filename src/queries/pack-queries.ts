@@ -3,9 +3,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
+import { updateItemIndex } from '@/utils/query-utils';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import {
 	type MovePackItemProps,
+	type MovePackItemResponse,
 	type MovePackCategoryProps,
 	type MovePackProps,
 	type PackQueryState,
@@ -28,7 +30,7 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 
 export const useGetPackQuery = (packId: number | null | undefined) => {
 	const { isAuthenticated } = useGetAuth();
-	
+
 	return useQuery<PackQueryState>({
 		queryKey: packKeys.packId(packId),
 		enabled: Boolean(packId) && isAuthenticated,
@@ -39,7 +41,7 @@ export const useGetPackQuery = (packId: number | null | undefined) => {
 
 export const useGetPackListQuery = () => {
 	const { isAuthenticated } = useGetAuth();
-	
+
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,
 		enabled: isAuthenticated,
@@ -132,7 +134,10 @@ export const useDeletePackPhotoMutation = (): SimpleMutation<number, void> => {
 	});
 };
 
-export const useMovePackMutation = (): SimpleMutation<MovePackProps, void> => {
+export const useMovePackMutation = (): SimpleMutation<
+	MovePackProps,
+	{ packId: string; newIndex: string; rebalanced: boolean }
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationKey: ['movePack'],
@@ -143,19 +148,22 @@ export const useMovePackMutation = (): SimpleMutation<MovePackProps, void> => {
 					prev_pack_index: prevPackIndex,
 					next_pack_index: nextPackIndex,
 				})
-				.then(extractData<void>);
+				.then(extractData<{ packId: string; newIndex: string; rebalanced: boolean }>);
 		},
 		onError: () => {
-			// Only invalidate on error to refetch correct data
 			queryClient.invalidateQueries({ queryKey: packListKeys.all });
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
-		onSuccess: () => {
-			// Only invalidate if no other move mutations are running
-			if (!queryClient.isMutating({ mutationKey: ['movePack'] })) {
-				queryClient.invalidateQueries({ queryKey: packListKeys.all });
-				queryClient.invalidateQueries({ queryKey: profileKeys.all });
-			}
+		onSuccess: (result) => {
+			queryClient.setQueryData(
+				packListKeys.all,
+				(old: { packList: PackListItem[] } | undefined) => {
+					if (!old) return old;
+					return {
+						packList: updateItemIndex(old.packList, result, 'packId'),
+					};
+				},
+			);
 		},
 	});
 };
@@ -237,23 +245,47 @@ export const useEditPackItemMutation = (): SimpleMutation<
 	});
 };
 
-export const useMovePackItemMutation = (): SimpleMutation<MovePackItemProps, void> => {
+export const useMovePackItemMutation = (): SimpleMutation<
+	MovePackItemProps,
+	MovePackItemResponse
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (packInfo: MovePackItemProps) => {
 			const { packItemId } = packInfo;
 			return tidyTrekAPI
 				.put(`/packs/pack-items/index/${packItemId}`, packInfo)
-				.then(extractData<void>);
+				.then(extractData<MovePackItemResponse>);
 		},
-		onError: (_err, packInfo) => {
-			// Only invalidate on error to refetch correct data
+		onSuccess: (response, packInfo) => {
+			// update moved item with new calculated fractional index
 			if (packInfo.packId) {
-				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+				queryClient.setQueryData<PackQueryState>(
+					packKeys.packId(packInfo.packId),
+					(old) => {
+						if (!old) return old;
+
+						const { categories } = old;
+						const { newIndex } = response;
+
+						const updatedCategories = categories.map((category) => ({
+							...category,
+							packItems: category.packItems.map((item) =>
+								item.packItemId.toString() === packInfo.packItemId
+									? { ...item, packItemIndex: newIndex }
+									: item,
+							),
+						}));
+
+						return {
+							...old,
+							categories: updatedCategories,
+						};
+					},
+				);
 			}
 		},
-		onSettled: (_response, _error, packInfo) => {
-			// Always refetch after mutation completes to ensure consistency
+		onError: (_err, packInfo) => {
 			if (packInfo.packId) {
 				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
 			}
@@ -406,7 +438,7 @@ export const useEditPackCategoryMutation = (): SimpleMutation<HeaderInfo, Catego
 
 export const useMovePackCategoryMutation = (): SimpleMutation<
 	MovePackCategoryProps,
-	void
+	{ packCategoryId: string; newIndex: string; rebalanced: boolean }
 > => {
 	const queryClient = useQueryClient();
 
@@ -418,15 +450,26 @@ export const useMovePackCategoryMutation = (): SimpleMutation<
 					prev_category_index: prevCategoryIndex,
 					next_category_index: nextCategoryIndex,
 				})
-				.then(extractData<void>);
+				.then(
+					extractData<{ packCategoryId: string; newIndex: string; rebalanced: boolean }>,
+				);
 		},
-		onError: (_err, categoryInfo) => {
-			// Only invalidate on error to refetch correct data
+		onSuccess: (result, categoryInfo) => {
 			if (categoryInfo.packId) {
-				queryClient.invalidateQueries({ queryKey: packKeys.packId(categoryInfo.packId) });
+				queryClient.setQueryData<PackQueryState>(
+					packKeys.packId(categoryInfo.packId),
+					(old) => {
+						if (!old) return old;
+
+						return {
+							...old,
+							categories: updateItemIndex(old.categories, result, 'packCategoryId'),
+						};
+					},
+				);
 			}
 		},
-		onSettled: (_response, _error, categoryInfo) => {
+		onError: (_err, categoryInfo) => {
 			if (categoryInfo.packId) {
 				queryClient.invalidateQueries({ queryKey: packKeys.packId(categoryInfo.packId) });
 			}

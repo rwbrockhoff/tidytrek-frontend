@@ -1,26 +1,42 @@
 .packListItemContainer {
 	padding: var(--space-1) 0;
-	cursor: pointer;
-}
-
-.packListItemContainer:hover svg {
-	opacity: var(--opacity-60);
-}
-
-.styledText {
 	position: relative;
-	font-size: var(--font-size-3);
+	cursor: pointer;
 }
 
 .gripContainer {
 	position: absolute;
-	left: calc(-1 * var(--space-6));
+	left: calc(-1 * var(--space-5));
 	cursor: grab;
 	display: flex;
 	align-items: center;
 	height: 100%;
 	top: 0;
-	padding-right: var(--space-2);
+	padding-right: var(--space-1);
+	opacity: 0;
+	transition: opacity var(--transition);
+}
+
+.packListItemContainer:hover .gripContainer {
+	opacity: var(--opacity-60);
+}
+
+.gripContainer:active {
+	cursor: grabbing;
+}
+
+.gripIcon {
+	color: var(--color-text-tertiary);
+}
+
+.styledText {
+	position: relative;
+	font-size: var(--font-size-3);
+	transition: color var(--transition);
+}
+
+.packListItemContainer:hover .styledText {
+	color: var(--color-text-secondary);
 }
 
 @media (max-width: 768px) {
