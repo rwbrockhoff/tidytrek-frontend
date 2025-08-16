@@ -2,6 +2,7 @@ import styles from './table-row.module.css';
 import tableStyles from '../table-main/table.module.css';
 import hoverStyles from '../hover-styles.module.css';
 import { Table } from '@/components/alpine';
+import { cn } from '@/styles/utils';
 import {
 	ItemNameCell,
 	PackWeightCell,
@@ -16,12 +17,20 @@ import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-con
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
-import { type DraggableProvided } from 'react-beautiful-dnd';
 import { useRef, type MutableRefObject } from 'react';
+import { type DraggableAttributes } from '@dnd-kit/core';
+
+type DragProvidedProps = {
+	innerRef: (node: HTMLElement | null) => void;
+	draggableProps: DraggableAttributes & {
+		style: React.CSSProperties;
+	};
+	dragHandleProps: Record<string, unknown> | undefined | null;
+};
 
 type TableRowContentProps = {
 	isDragging: boolean;
-	provided: DraggableProvided;
+	provided: DragProvidedProps;
 	disabled?: boolean;
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
@@ -32,6 +41,7 @@ type TableRowContentProps = {
 	onMoveToCloset: () => void;
 	onDelete: () => void;
 	children: React.ReactNode;
+	categoryId?: string;
 };
 
 export const TableRowContent = ({
@@ -46,6 +56,7 @@ export const TableRowContent = ({
 	onMove,
 	onMoveToCloset,
 	onDelete,
+	categoryId,
 }: TableRowContentProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const showPrices = usePackPricing();
@@ -62,7 +73,11 @@ export const TableRowContent = ({
 		<Table.Row
 			data-testid="pack-item-row"
 			ref={setRowRefs}
-			className={`${styles.tableRow} ${isDragging ? styles.tableRowDragging : ''} group relative`}
+			className={cn(
+				styles.tableRow,
+				isDragging && !categoryId && styles.tableRowDraggingActive,
+				'group relative',
+			)}
 			{...provided.draggableProps}>
 			<ItemNameCell
 				dragProps={{ ...provided.dragHandleProps }}

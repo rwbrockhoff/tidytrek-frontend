@@ -25,14 +25,16 @@ type AppProviderProps = {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
 	return (
-		<Sentry.ErrorBoundary>
-			<ErrorBoundary FallbackComponent={AppErrorFallback}>
-				<QueryClientProvider client={queryClient}>
-					<OfflineBanner />
-					{children}
-					<ReactQueryDevtools initialIsOpen={false} />
-				</QueryClientProvider>
-			</ErrorBoundary>
-		</Sentry.ErrorBoundary>
+		<React.StrictMode>
+			<Sentry.ErrorBoundary>
+				<ErrorBoundary FallbackComponent={AppErrorFallback}>
+					<QueryClientProvider client={queryClient}>
+						<OfflineBanner />
+						{children}
+						<ReactQueryDevtools initialIsOpen={false} />
+					</QueryClientProvider>
+				</ErrorBoundary>
+			</Sentry.ErrorBoundary>
+		</React.StrictMode>
 	);
 };

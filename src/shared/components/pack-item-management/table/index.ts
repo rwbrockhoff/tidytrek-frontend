@@ -2,6 +2,7 @@ export { Table } from './table-main/table';
 export { TableFooter } from './table-footer/table-footer';
 export { TableHeader, HeaderCell } from './table-header';
 export { TableRow } from './table-row/table-row';
+export { TableRowOverlay } from './table-row-overlay/table-row-overlay';
 export { TableErrorRow } from './table-error-row/table-error-row';
 export { ItemNameCell } from './item-name-cell/item-name-cell';
 export { DescriptionCell } from './description-cell/description-cell';

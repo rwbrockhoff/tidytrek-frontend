@@ -14,7 +14,7 @@ React frontend for managing backpacking gear with drag-and-drop pack organizatio
 ## Tech Stack
 
 **Core**: React, TypeScript (strict mode), TanStack Query, Vite  
-**UI**: Radix UI (migrating from Radix Themes), CSS Modules, React Beautiful DnD  
+**UI**: Radix UI (migrating from Radix Themes), CSS Modules, dnd-kit  
 **Data**: Chart.js for weight visualization  
 **Auth**: Supabase with Google OAuth  
 **Testing**: Vitest (unit) + Playwright (e2e)  

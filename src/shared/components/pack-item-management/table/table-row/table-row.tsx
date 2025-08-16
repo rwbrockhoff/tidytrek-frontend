@@ -1,8 +1,5 @@
 import { memo } from 'react';
-import {
-	type PackListItem,
-	type BaseTableRowItem,
-} from '@/types/pack-types';
+import { type PackListItem, type BaseTableRowItem } from '@/types/pack-types';
 
 import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
 import { MoveItemDropdown } from '@/shared/components/pack-item-management/move-item-dropdown';
@@ -17,22 +14,21 @@ import { TableRowActions } from './table-row-actions';
 import { shallowEqual } from '@/utils';
 
 type TableRowProps = {
-	index: number;
 	item: BaseTableRowItem;
 	packList: PackListItem[];
 	disabled?: boolean;
 	moveToCloset?: (packItemId: number) => void;
 	handleOnSave: (packItem: BaseTableRowItem) => void;
 	handleDelete: (packItemId: number) => void;
+	categoryId?: string;
 };
 
 // Table Row is used in PackCategory + GearCloset
-// Memoized exported component below
 
 export const TableRowComponent = (props: TableRowProps) => {
 	const { isCreator } = useUserPermissionsContext();
 
-	const { item, index, disabled } = props;
+	const { item, disabled, categoryId } = props;
 	const { moveToCloset, handleOnSave, handleDelete } = props;
 
 	const {
@@ -44,29 +40,25 @@ export const TableRowComponent = (props: TableRowProps) => {
 		primaryError,
 	} = usePackItemInput(item);
 
-	const {
-		handleToggle,
-		handleChangeProperty,
-		handleMoveItemToCloset,
-		handleDeleteItem,
-	} = useTableRowActions({
-		packItem,
-		packItemChanged,
-		handleOnSave,
-		handleDelete,
-		moveToCloset,
-		updateFormErrors,
-	});
+	const { handleToggle, handleChangeProperty, handleMoveItemToCloset, handleDeleteItem } =
+		useTableRowActions({
+			packItem,
+			packItemChanged,
+			handleOnSave,
+			handleDelete,
+			moveToCloset,
+			updateFormErrors,
+		});
 
-	const {
-		toggleGearButtons,
-		handleToggleGearButtons,
-	} = useTableRowModal();
+	const { toggleGearButtons, handleToggleGearButtons } = useTableRowModal();
 
 	const availablePacks = props?.packList || [];
 
 	return (
-		<DraggableTableRow index={index} packItemId={packItem.packItemId} disabled={disabled}>
+		<DraggableTableRow
+			packItemId={packItem.packItemId}
+			disabled={disabled}
+			categoryId={categoryId}>
 			{(provided, { isDragging }) => (
 				<>
 					<TableRowContent
@@ -80,7 +72,8 @@ export const TableRowComponent = (props: TableRowProps) => {
 						onChangeProperty={handleChangeProperty}
 						onMove={handleToggleGearButtons}
 						onMoveToCloset={handleMoveItemToCloset}
-						onDelete={handleDeleteItem}>
+						onDelete={handleDeleteItem}
+						categoryId={categoryId}>
 						<TableRowActions
 							packItem={packItem}
 							onToggleGearButtons={handleToggleGearButtons}
@@ -105,7 +98,6 @@ export const TableRow = memo(TableRowComponent, (prevProps, nextProps) => {
 	// Return true if props are equal (no re-render)
 	return (
 		shallowEqual(prevProps.item, nextProps.item) &&
-		prevProps.index === nextProps.index &&
 		prevProps.disabled === nextProps.disabled &&
 		prevProps.packList.length === nextProps.packList.length
 	);

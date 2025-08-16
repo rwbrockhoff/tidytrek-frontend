@@ -2,13 +2,20 @@ import { type PackListItem, type Category, type PackItem } from '@/types/pack-ty
 import styles from './pack-category.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Flex } from '@/components/layout';
-import { Draggable } from 'react-beautiful-dnd';
+import {
+	useSortable,
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 import { Table } from '@/shared/components/pack-item-management/table';
+import { EmptyDropZone } from '@/shared/components/pack-item-management/table/empty-drop-zone/empty-drop-zone';
 import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
 import { TableHeader } from '@/shared/components/pack-item-management/table/table-header/table-header';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-import { DropTableBody } from '@/components';
+import { Body as TableBody } from '@/components/alpine/table/table';
 import { usePackCategory } from '../../hooks/use-pack-category';
 import {
 	useAddNewPackItemMutation,
@@ -22,10 +29,14 @@ import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 type PackCategoryProps = {
 	category: Category;
 	packList: PackListItem[];
-	index: number;
+	isMinimized?: boolean;
 };
 
-export const PackCategory = ({ category, packList, index }: PackCategoryProps) => {
+export const PackCategory = ({
+	category,
+	packList,
+	isMinimized: forceMinimized,
+}: PackCategoryProps) => {
 	const { isCreator } = useUserPermissionsContext();
 
 	const {
@@ -39,7 +50,7 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 		convertedCategoryWeight,
 		formattedTotalPrice,
 		itemQuantity,
-	} = usePackCategory(category);
+	} = usePackCategory(category, forceMinimized);
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
 	const { mutate: moveItemToCloset } = useMoveItemToClosetMutation();
@@ -74,59 +85,90 @@ export const PackCategory = ({ category, packList, index }: PackCategoryProps) =
 
 	const showCategoryItems = !isMinimized;
 
+	const {
+		attributes,
+		listeners,
+		setNodeRef: setSortableNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({
+		id: category.packCategoryId,
+		disabled: !isCreator,
+	});
+
+	const { setNodeRef: setDroppableNodeRef } = useDroppable({
+		id: `category-${category.packCategoryId}`,
+	});
+
+	const setNodeRef = (node: HTMLElement | null) => {
+		setSortableNodeRef(node);
+		setDroppableNodeRef(node);
+	};
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+		opacity: isDragging ? 0 : 1,
+		height: isDragging ? 'var(--space-16)' : undefined,
+		overflow: isDragging ? 'hidden' : undefined,
+	};
+
+	// Use compound keys to be unique across category moves
+	const itemIds = packItems.map((item) => `${packCategoryId}-${item.packItemId}`);
+
 	return (
-		<Draggable
-			key={category.packCategoryId}
-			draggableId={`${category.packCategoryId}`}
-			isDragDisabled={!isCreator}
-			index={index}>
-			{(provided) => (
-				<Flex
-					ref={provided.innerRef}
-					{...provided.draggableProps}
-					className={cn(
-						styles.tableContainer,
-						isMinimized && styles.minimized,
-						'w-full',
-						mx.textCenter,
-					)}
-					data-testid="pack-category-row">
-					<Table>
-						<TableHeader
-							dragProps={{ ...provided.dragHandleProps }}
-							categoryHeaderInfo={categoryHeaderInfo}
-							isMinimized={isMinimized}
-							minimizeCategory={handleMinimizeCategory}
-						/>
-
-						<DropTableBody droppableId={packCategoryId} type="item">
-							{showCategoryItems &&
-								packItems.map((item: PackItem, index) => (
-									<TableRow
-										item={item}
-										key={item.packItemId}
-										index={index}
-										packList={packList}
-										disabled={!isCreator}
-										moveToCloset={handleMoveItemToCloset}
-										handleOnSave={handleEditPackItem}
-										handleDelete={handleDeleteItem}
-									/>
-								))}
-						</DropTableBody>
-
-						{!isMinimized && (
-							<TableFooter
-								handleAddItem={handleAddItem}
-								showTotals={true}
-								itemQuantity={itemQuantity}
-								weight={convertedCategoryWeight}
-								price={formattedTotalPrice}
-							/>
-						)}
-					</Table>
-				</Flex>
+		<Flex
+			ref={setNodeRef}
+			style={style}
+			className={cn(
+				styles.tableContainer,
+				isMinimized && styles.minimized,
+				'w-full',
+				mx.textCenter,
 			)}
-		</Draggable>
+			data-testid="pack-category-row">
+			<Table>
+				<TableHeader
+					dragProps={{ ...attributes, ...listeners }}
+					categoryHeaderInfo={categoryHeaderInfo}
+					isMinimized={isMinimized}
+					minimizeCategory={handleMinimizeCategory}
+				/>
+
+				<SortableContext
+					items={packItems.length > 0 ? itemIds : [`category-${packCategoryId}`]}
+					strategy={verticalListSortingStrategy}>
+					<TableBody style={{ minHeight: 10 }}>
+						{showCategoryItems && packItems.length > 0 ? (
+							packItems.map((item: PackItem) => (
+								<TableRow
+									key={`${packCategoryId}-${item.packItemId}`}
+									item={item}
+									packList={packList}
+									disabled={!isCreator}
+									moveToCloset={handleMoveItemToCloset}
+									handleOnSave={handleEditPackItem}
+									handleDelete={handleDeleteItem}
+									categoryId={packCategoryId.toString()}
+								/>
+							))
+						) : (
+							<EmptyDropZone categoryId={packCategoryId} />
+						)}
+					</TableBody>
+				</SortableContext>
+
+				{!isMinimized && (
+					<TableFooter
+						handleAddItem={handleAddItem}
+						showTotals={true}
+						itemQuantity={itemQuantity}
+						weight={convertedCategoryWeight}
+						price={formattedTotalPrice}
+					/>
+				)}
+			</Table>
+		</Flex>
 	);
 };

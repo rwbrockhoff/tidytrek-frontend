@@ -2,7 +2,7 @@ import { Card, Button } from '@/components/alpine';
 import { DashboardPackItemRow } from '../../dashboard-pack-item-row';
 import { PlusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
-import { type PackItem } from '@/types/pack-types';
+import { type PackItem, type PackListItem } from '@/types/pack-types';
 import styles from './pack-category-card.module.css';
 
 type PackCategoryItemsProps = {
@@ -10,6 +10,7 @@ type PackCategoryItemsProps = {
 	canEdit: boolean;
 	isMinimized: boolean;
 	onAddItem: () => void;
+	availablePacks: PackListItem[];
 };
 
 export const PackCategoryItems = ({
@@ -17,6 +18,7 @@ export const PackCategoryItems = ({
 	canEdit,
 	isMinimized,
 	onAddItem,
+	availablePacks,
 }: PackCategoryItemsProps) => {
 	const showCategoryItems = !isMinimized;
 
@@ -32,6 +34,7 @@ export const PackCategoryItems = ({
 						key={item.packItemId || index}
 						item={item}
 						canEdit={canEdit}
+						availablePacks={availablePacks}
 					/>
 				))}
 			</Card.Body>
