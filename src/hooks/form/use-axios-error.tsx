@@ -1,12 +1,14 @@
 import axios, { AxiosError } from 'axios';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
 // return nested axios error or a default error message
 export const useAxiosErrorMessage = (error: Error | unknown | null) => {
 	return useMemo(() => {
 		const defaultError = 'Oops! There was an error.';
 		if (axios.isAxiosError(error)) {
-			return error?.response ? error.response.data?.error?.message || error.response.data?.error : defaultError;
+			return error?.response
+				? error.response.data?.error?.message || error.response.data?.error
+				: defaultError;
 		} else {
 			return defaultError;
 		}
@@ -28,7 +30,9 @@ export const isAxiosError = (error: unknown): error is AxiosError =>
 const getAxiosErrorMessage = (error: unknown): string => {
 	const defaultError = 'Oops! There was an error.';
 	if (axios.isAxiosError(error)) {
-		return error?.response ? error.response.data?.error?.message || error.response.data?.error : defaultError;
+		return error?.response
+			? error.response.data?.error?.message || error.response.data?.error
+			: defaultError;
 	} else {
 		return defaultError;
 	}
@@ -44,14 +48,18 @@ export const useMutationError = (error: unknown, cb: (message: string) => void) 
 export const useMutationErrors = () => {
 	const [serverError, setServerError] = useState(initialErrorState);
 
-	const updateAxiosError = (error: unknown) => {
+	const updateAxiosError = useCallback((error: unknown) => {
 		const message = getAxiosErrorMessage(error);
 		setServerError({ error: true, message });
-	};
+	}, []);
 
-	const setAxiosError = (message: string) => setServerError({ error: true, message });
+	const setAxiosError = useCallback((message: string) => {
+		setServerError({ error: true, message });
+	}, []);
 
-	const resetAxiosError = () => setServerError(initialErrorState);
+	const resetAxiosError = useCallback(() => {
+		setServerError(initialErrorState);
+	}, []);
 
 	return { serverError, updateAxiosError, setAxiosError, resetAxiosError };
 };

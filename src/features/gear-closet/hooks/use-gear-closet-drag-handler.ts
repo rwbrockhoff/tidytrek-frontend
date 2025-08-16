@@ -1,49 +1,70 @@
-import { useCallback } from 'react';
-import { type DropResult } from 'react-beautiful-dnd';
-import { type GearClosetItem } from '@/types/pack-types';
-import { useMoveGearClosetItemMutation } from '@/queries/closet-queries';
-import { calculateAdjacentItems, applySynchronousDragUpdate } from '@/utils';
+import { useState, useEffect } from 'react';
+import { arrayMove } from '@dnd-kit/sortable';
 import { useQueryClient } from '@tanstack/react-query';
+import { type DragStartEvent, type DragEndEvent } from '@dnd-kit/core';
+import { type GearClosetItem } from '@/types/pack-types';
 import { closetKeys } from '@/queries/query-keys';
+import { useMoveGearClosetItemMutation } from '@/queries/closet-queries';
 
-export const useGearClosetDragHandler = () => {
-	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
+export const useGearClosetDragHandler = (gearClosetList: GearClosetItem[]) => {
 	const queryClient = useQueryClient();
+	const { mutate: moveGearClosetItem } = useMoveGearClosetItemMutation();
 
-	const handleOnDragEnd = useCallback(
-		(result: DropResult, gearClosetList: GearClosetItem[]) => {
-			const { draggableId, destination, source } = result;
-			if (!destination) return;
+	// manage gearList locally for responsive drag-drop
+	const [localItems, setLocalItems] = useState(gearClosetList);
+	const [activeId, setActiveId] = useState<string | null>(null);
 
-			const sameIndex = destination.index === source.index;
-			if (sameIndex) return;
+	useEffect(() => {
+		setLocalItems(gearClosetList);
+	}, [gearClosetList]);
 
-			applySynchronousDragUpdate<{ gearClosetList: GearClosetItem[] }>(
-				queryClient,
+	const handleDragStart = ({ active }: DragStartEvent) => {
+		setActiveId(active.id.toString());
+	};
+
+	const handleDragEnd = ({ active, over }: DragEndEvent) => {
+		setActiveId(null);
+		if (!over || active.id === over.id) return;
+
+		setLocalItems((items) => {
+			const oldIndex = items.findIndex(
+				(item) => item.packItemId.toString() === active.id,
+			);
+			const newIndex = items.findIndex((item) => item.packItemId.toString() === over.id);
+
+			if (oldIndex === -1 || newIndex === -1) return items;
+
+			const reordered = arrayMove(items, oldIndex, newIndex);
+
+			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
 				closetKeys.all,
-				source.index,
-				destination.index,
-				'gearClosetList',
+				(old) => {
+					if (!old) return old;
+					return {
+						...old,
+						gearClosetList: reordered,
+					};
+				},
 			);
 
-			// Calculate adjacent items for fractional indexing
-			const { prevItem, nextItem } = calculateAdjacentItems(
-				gearClosetList,
-				source.index,
-				destination.index,
-			);
+			const prevItem = newIndex > 0 ? reordered[newIndex - 1] : undefined;
+			const nextItem =
+				newIndex < reordered.length - 1 ? reordered[newIndex + 1] : undefined;
 
-			const dragId = draggableId.replace(/\D/g, '');
 			moveGearClosetItem({
-				packItemId: dragId,
-				prevItemIndex: prevItem?.packItemIndex,
-				nextItemIndex: nextItem?.packItemIndex,
+				packItemId: active.id.toString(),
+				prevItemIndex: prevItem?.packItemIndex?.toString(),
+				nextItemIndex: nextItem?.packItemIndex?.toString(),
 			});
-		},
-		[queryClient, moveGearClosetItem],
-	);
+
+			return reordered;
+		});
+	};
 
 	return {
-		onDragEnd: handleOnDragEnd,
+		localItems,
+		activeId,
+		handleDragStart,
+		handleDragEnd,
 	};
 };
