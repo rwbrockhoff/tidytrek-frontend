@@ -38,6 +38,8 @@ export {
 	Package as ClosetIcon,
 	MapPin as LocationIcon,
 	Sun as SeasonIcon,
+	Sun as SunIcon,
+	Moon as MoonIcon,
 	Clock as DurationIcon,
 	Mountain as HikingIcon,
 	Scale as WeightIcon,

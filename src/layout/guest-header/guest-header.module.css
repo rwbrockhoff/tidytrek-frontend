@@ -1,0 +1,21 @@
+.header {
+	height: var(--header-height);
+}
+
+.container {
+	padding: 0 var(--space-2);
+	height: 100%;
+}
+
+.contentContainer {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 0 var(--space-4);
+	height: 100%;
+}
+
+@media (min-width: 769px) {
+	.contentContainer {
+		padding: 0 var(--app-layout-padding-x);
+	}
+}

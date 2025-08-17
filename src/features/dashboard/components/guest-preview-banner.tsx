@@ -13,7 +13,7 @@ export const GuestPreviewBanner = () => {
 	};
 
 	return (
-		<Flex className="items-center gap-4">
+		<Flex className="items-center gap-4 mb-4">
 			<Button
 				size="sm"
 				variant="outline"
