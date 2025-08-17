@@ -14,8 +14,8 @@ import { DashboardFooter } from './dashboard-footer';
 import { DragDropWrapper } from '@/components/drag-drop/drag-drop-wrapper';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { GuestPreviewBanner } from '../guest-preview-banner';
-import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
@@ -36,8 +36,9 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const { pack, categories } = currentPack || {};
 	const packCategories = useMemo(() => categories || [], [categories]);
 	const packId = pack?.packId || null;
+	const location = useLocation();
 
-	const { isGuest, isAuthenticated, isCreator } = useUserPermissionsContext();
+	const { isAuthenticated, isCreator } = useUserPermissionsContext();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
 	const { localPackCategories, handleOnDragStart, handleOnDragOver, handleOnDragEnd } =
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
@@ -71,13 +72,11 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	if (!pack) return null;
 
-	const showGuestBanners = isGuest;
-	const showPreviewMode = isAuthenticated && !isCreator;
+	const isGuestRoute = location.pathname.startsWith('/pk/');
+	const showPreviewMode = isAuthenticated && isCreator && isGuestRoute;
 
 	return (
 		<PackPricingContext.Provider value={packPricing}>
-			{/* Show promotional banner for non-auth visitors */}
-			{showGuestBanners && <ProfileBanner />}
 			<PageLayout>
 				{/* Show preview banner if user is viewing their own pack in guest mode */}
 				{showPreviewMode && <GuestPreviewBanner />}
@@ -120,7 +119,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 				)}
 
 				{/* optional affiliate message footer for non-auth visitors */}
-				{showGuestBanners && (
+				{isGuestRoute && (
 					<DashboardFooter
 						affiliate={packAffiliate}
 						description={packAffiliateDescription}

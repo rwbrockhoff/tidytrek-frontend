@@ -99,6 +99,8 @@
 	--app-layout-padding-x: 4em;
 	--app-layout-padding-y: var(--space-12);
 	--mobile-nav-height: 4rem;
+	--header-height: 5rem;
+	--footer-height: 12rem;
 
 	/* Icons */
 	--icon-match: 1em; /* match text */
