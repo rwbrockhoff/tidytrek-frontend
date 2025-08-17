@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { AccountMenu } from '../components';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { AccountSkeleton } from '../components/account-skeleton';
+import { TransitionOutlet } from '@/components/layout';
 
 export const AccountRoot = () => {
 	return (
@@ -15,7 +16,9 @@ export const AccountRoot = () => {
 			<AccountMenu />
 
 			<Suspense fallback={<AccountSkeleton />}>
-				<Outlet />
+				<TransitionOutlet>
+					<Outlet />
+				</TransitionOutlet>
 			</Suspense>
 		</PageLayout>
 	);
