@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import { AccountMenu } from '../components';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
-import { AccountSkeleton } from '../components/account-skeleton';
+import { AccountFallback } from '../components/account-fallback';
 import { TransitionOutlet } from '@/components/layout';
 
 export const AccountRoot = () => {
@@ -15,7 +15,7 @@ export const AccountRoot = () => {
 
 			<AccountMenu />
 
-			<Suspense fallback={<AccountSkeleton />}>
+			<Suspense fallback={<AccountFallback />}>
 				<TransitionOutlet>
 					<Outlet />
 				</TransitionOutlet>

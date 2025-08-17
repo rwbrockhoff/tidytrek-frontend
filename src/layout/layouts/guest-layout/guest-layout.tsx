@@ -1,7 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense } from 'react';
 import styles from './guest-layout.module.css';
-import { Fallback, Footer, GuestHeader } from '@/layout';
+import { ContentFallback, Footer, GuestHeader } from '@/layout';
 import { LoadingProvider } from '@/contexts/loading-context';
 import { useLoading } from '@/hooks/ui/use-loading';
 import { TransitionOutlet } from '@/components/layout';
@@ -28,7 +28,7 @@ const GuestLayoutInner = ({
 					loading && styles.guestViewContainerLoading,
 				)}>
 				<div className={styles.guestViewLayoutContainer}>
-					<Suspense fallback={<Fallback />}>
+					<Suspense fallback={<ContentFallback />}>
 						<TransitionOutlet>
 							<Outlet />
 						</TransitionOutlet>

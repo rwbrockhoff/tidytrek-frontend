@@ -7,4 +7,4 @@ export { Sidebar } from './navigation/sidebar/sidebar';
 
 export { Footer } from './footer';
 export { GuestHeader } from './guest-header';
-export { Fallback } from './fallback';
+export { ContentFallback } from './content-fallback';
