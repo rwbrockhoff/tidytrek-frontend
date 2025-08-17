@@ -1,0 +1,10 @@
+.affiliateText {
+	color: var(--color-text-secondary);
+	font-size: var(--font-size-2);
+}
+
+.infoIcon {
+	color: var(--color-text-tertiary);
+	width: 0.8em;
+	height: 0.8em;
+}
