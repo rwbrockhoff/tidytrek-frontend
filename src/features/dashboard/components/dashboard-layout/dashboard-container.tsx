@@ -4,13 +4,13 @@ import { AddCategoryButton } from '../table';
 import { Flex, Stack } from '@/components/layout';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { PackPricingContext } from '@/contexts/pack-pricing-context';
+import { DashboardViewProvider } from '../../contexts/dashboard-view-context';
 import {
 	PackQueryState as UserState,
 	type Category,
 	PackListItem,
 } from '@/types/pack-types';
 import { GuestQueryState as GuestState } from '@/queries/guest-queries';
-import { DashboardFooter } from './dashboard-footer';
 import { DragDropWrapper } from '@/components/drag-drop/drag-drop-wrapper';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo } from 'react';
@@ -60,11 +60,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 		/>
 	);
 
-	const {
-		packAffiliate = false,
-		packAffiliateDescription = '',
-		packPricing = false,
-	} = pack || {};
+	const { packPricing = false } = pack || {};
 
 	if (!isPending && !pack) {
 		return <PackNotAvailable />;
@@ -74,12 +70,13 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	const isGuestRoute = location.pathname.startsWith('/pk/');
 	const showPreviewMode = isAuthenticated && isCreator && isGuestRoute;
+	const canEdit = isCreator && !showPreviewMode;
 
 	return (
 		<PackPricingContext.Provider value={packPricing}>
-			<PageLayout>
-				{/* Show preview banner if user is viewing their own pack in guest mode */}
-				{showPreviewMode && <GuestPreviewBanner />}
+			<DashboardViewProvider canEdit={canEdit} isPreviewMode={showPreviewMode}>
+				<PageLayout>
+					{showPreviewMode && <GuestPreviewBanner />}
 
 				<PackInfo
 					currentPack={pack}
@@ -112,20 +109,14 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</SortableContext>
 				</DragDropWrapper>
 
-				{isCreator && (
+				{canEdit && (
 					<Flex className="justify-center w-full mt-12">
 						<AddCategoryButton onClick={handleAddCategory} />
 					</Flex>
 				)}
 
-				{/* optional affiliate message footer for non-auth visitors */}
-				{isGuestRoute && (
-					<DashboardFooter
-						affiliate={packAffiliate}
-						description={packAffiliateDescription}
-					/>
-				)}
-			</PageLayout>
+				</PageLayout>
+			</DashboardViewProvider>
 		</PackPricingContext.Provider>
 	);
 };
