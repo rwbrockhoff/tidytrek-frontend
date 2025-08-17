@@ -96,10 +96,13 @@
 
 	/* Layout */
 	--max-width: 1280px;
+	--full-height: 100vh;
+
 	--app-layout-padding-x: 4em;
 	--app-layout-padding-y: var(--space-12);
-	--mobile-nav-height: 4rem;
+
 	--header-height: 5rem;
+	--mobile-nav-height: 4rem;
 	--footer-height: 12rem;
 
 	/* Icons */
@@ -141,4 +144,11 @@
 	--brightness-light-2: brightness(120%);
 
 	--color-border-focus: var(--sage-500);
+}
+
+/* Override if dynamic viewport is suported - mobile fix */
+@supports (height: 100dvh) {
+	:root {
+		--full-height: 100dvh;
+	}
 }

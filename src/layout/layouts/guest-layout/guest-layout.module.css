@@ -1,6 +1,6 @@
 .guestViewWrapper {
 	background-color: var(--color-bg-primary);
-	min-height: 100vh;
+	min-height: var(--full-height);
 	display: flex;
 	flex-direction: column;
 }
@@ -13,7 +13,7 @@
 	margin: 0 auto;
 	position: relative;
 	/* Stable min-height for all states - most reliable UX */
-	min-height: 100vh;
+	min-height: var(--full-height);
 }
 
 .guestViewContainerLoading {

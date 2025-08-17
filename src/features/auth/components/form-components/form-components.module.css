@@ -6,7 +6,7 @@
 
 .authContainer {
 	text-align: center;
-	min-height: 100vh;
+	min-height: var(--full-height);
 	width: 100%;
 	background-color: var(--color-bg-primary);
 	padding: 0 var(--space-4);

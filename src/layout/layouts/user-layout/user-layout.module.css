@@ -1,6 +1,6 @@
 .outerContainer {
 	width: 100%;
-	min-height: 100vh;
+	min-height: var(--full-height);
 	background-color: var(--color-bg-primary);
 }
 
@@ -69,7 +69,7 @@
 
 	.outerContainer[data-mobile-sidebar-visible="true"] {
 		overflow: hidden;
-		height: 100vh;
+		height: var(--full-height);
 	}
 
 	.appViewContainer {
