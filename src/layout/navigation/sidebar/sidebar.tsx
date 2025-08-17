@@ -101,7 +101,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 							tidytrek
 						</Heading>
 					</Link>
-					{showSidebar && <SidebarButton isSidebar onClick={onToggle} />}
+					{showSidebar && <SidebarButton isSidebar isMobile={isMobile} onClick={onToggle} />}
 				</div>
 
 				<div className={styles.avatarSection}>
