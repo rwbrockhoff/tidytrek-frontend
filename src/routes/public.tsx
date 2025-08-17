@@ -5,22 +5,19 @@ import { BubbleError } from '@/components';
 const { Dashboard } = lazyImport(() => import('../features/dashboard'), 'Dashboard');
 const { Profile } = lazyImport(() => import('../features/profile'), 'Profile');
 
+const guestRoute = (path: string, element: JSX.Element) => ({
+	path,
+	element: <GuestLayout showFooter={true} showHeader={true} />,
+	errorElement: <BubbleError />,
+	children: [{ index: true, element }],
+});
+
 export const publicRoutes = [
+	guestRoute('/user/:userId', <Profile isCreator={false} />),
+	guestRoute('/pk/:packId', <Dashboard isCreator={false} />),
 	{
 		path: '/*',
-		errorElement: <BubbleError />,
 		element: <AuthRoutes />,
-	},
-	{
-		path: '/user/:userId',
-		element: <GuestLayout />,
 		errorElement: <BubbleError />,
-		children: [{ path: '/user/:userId', element: <Profile isCreator={false} /> }],
-	},
-	{
-		path: '/pk/:packId',
-		element: <GuestLayout />,
-		errorElement: <BubbleError />,
-		children: [{ path: '/pk/:packId', element: <Dashboard isCreator={false} /> }],
 	},
 ];

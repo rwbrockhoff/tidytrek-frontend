@@ -1,24 +1,31 @@
 .guestViewWrapper {
 	background-color: var(--color-bg-primary);
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 .guestViewContainer {
 	background-color: var(--color-bg-primary);
-	min-height: 100%;
+	flex: 1;
 	max-width: var(--max-width);
 	width: 100%;
 	margin: 0 auto;
 	position: relative;
-	display: flex;
-	align-items: stretch;
+	/* Stable min-height for all states - most reliable UX */
+	min-height: 100vh;
+}
+
+.guestViewContainerLoading {
+	/* During loading: extend beyond viewport to push footer out of view */
+	min-height: 120vh;
 }
 
 .guestViewLayoutContainer {
 	background-color: var(--color-bg-primary);
 	position: relative;
 	min-width: 0;
-	flex: 1;
+	height: 100%;
 }
 
 @media (min-width: 769px) {
@@ -32,3 +39,4 @@
 		padding: var(--space-6) var(--space-4);
 	}
 }
+
