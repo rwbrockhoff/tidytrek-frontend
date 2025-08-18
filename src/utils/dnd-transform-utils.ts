@@ -8,7 +8,14 @@ export type DragResult = {
 	type: 'category' | 'item';
 };
 
-// Transforms dnd-kit drag event for API index handling
+/**
+ * Transforms dnd-kit drag events into format for API index handling.
+ * Determines drag type (category vs item) and calculates source/destination indices.
+ *
+ * @param event - DragEndEvent from dnd-kit with drag operation info
+ * @param categories - Array of pack categories for index calculations
+ * @returns Drag result with source/destination info (or null if invalid)
+ */
 export function transformDragEvent(
 	event: DragEndEvent,
 	categories: Category[],

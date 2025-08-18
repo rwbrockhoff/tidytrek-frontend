@@ -10,6 +10,15 @@ import { type Category, type Pack, type PackQueryState } from '@/types/pack-type
 import { packKeys } from '@/queries/query-keys';
 import { usePackDragHandler } from './use-pack-drag-handler';
 
+/**
+ * Handles drag-and-drop for pack categories and items.
+ * Supports reordering categories and moving items between them with optimistic updates.
+ *
+ * @param packCategories - Array of pack categories
+ * @param pack - Current pack data (for context)
+ * @param paramPackId - Pack ID from URL parameters
+ * @returns Local state, active drag ID, and drag event handlers
+ */
 export const useDashboardDragHandlers = (
 	packCategories: Category[],
 	pack: Pack | undefined,

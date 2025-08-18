@@ -19,6 +19,13 @@ const packFormSchema = z.object({
 
 type PackFormInputs = z.infer<typeof packFormSchema>;
 
+/**
+ * Handles pack form state, validation, and submission.
+ * Includes form changes, checkbox updates, and Zod validation with error handling.
+ *
+ * @param pack - Initial pack data for form
+ * @returns Form state, handlers, validation errors, and submission function
+ */
 export const usePackForm = (pack: Pack) => {
 	const { mutate: editPack } = useEditPackMutation();
 
