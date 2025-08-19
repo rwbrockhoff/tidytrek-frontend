@@ -1,13 +1,18 @@
 import { AuthContainer } from '../components/form-components/form-components';
 import { WelcomeForm } from '../components/welcome/welcome-form';
 import { useWelcomeAuth } from '../hooks/use-welcome-auth';
+import { AuthFlowType } from '../constants/auth-flow-types';
+import { AuthFallback } from '../components/auth-fallback';
 
 export const Welcome = () => {
 	const { isLoading, isAuthenticated, user, authFlowType } = useWelcomeAuth();
 
-	if (isLoading) return null;
+	if (isLoading) return <AuthFallback />;
 
-	if (!isAuthenticated || !user) return null;
+	// Handle email verification flow
+	if (authFlowType === AuthFlowType.EmailVerification && !isAuthenticated) {
+		return <AuthFallback />;
+	}
 
 	return (
 		<AuthContainer>

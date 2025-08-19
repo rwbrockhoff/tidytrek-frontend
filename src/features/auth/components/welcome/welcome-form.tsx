@@ -6,11 +6,12 @@ import { FormContainer } from '../form-components/form-components';
 import { ForwardArrowIcon } from '@/components/icons';
 import { WelcomeFormFields } from './welcome-form-fields';
 import { useWelcomeForm } from '../../hooks/use-welcome-form';
+import { AuthFlowType } from '../../constants/auth-flow-types';
 import styles from '../form-components/form-components.module.css';
 
 type WelcomeFormProps = {
 	defaultUsername: string | undefined;
-	authFlowType: string;
+	authFlowType: AuthFlowType;
 };
 
 export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
