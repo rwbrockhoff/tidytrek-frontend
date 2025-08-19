@@ -1,25 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { PopoverOptionsMenu } from '@/components/ui/popover-options-menu';
 import { Button } from '@/components/alpine';
-import { MenuIcon, SettingsIcon, LinkIcon, CheckIcon } from '@/components/icons';
+import { MenuIcon, EditPencilIcon, LinkIcon, CheckIcon } from '@/components/icons';
+import { PackModal } from '../../pack-modal/pack-modal';
+import type { Pack } from '@/types/pack-types';
 import { frontendURL } from '@/api/tidytrek-api';
 
-type ProfileOptionsMenuProps = {
-	username?: string;
+type PackOptionsMenuProps = {
+	pack: Pack;
+	packId: string | undefined;
 };
 
-export const ProfileOptionsMenu = ({ username }: ProfileOptionsMenuProps) => {
-	const navigate = useNavigate();
+export const PackOptionsMenu = ({ pack, packId }: PackOptionsMenuProps) => {
 	const [linkCopied, setLinkCopied] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	const handleEditProfile = () => {
-		navigate('/account/profile-settings');
-	};
-
-	const handleShareProfile = () => {
-		const profileUrl = `${frontendURL}/user/${username}`;
-		navigator.clipboard.writeText(profileUrl);
+	const handleCopyLink = () => {
+		const packUrl = `${frontendURL}/pk/${packId}`;
+		navigator.clipboard.writeText(packUrl);
 		setLinkCopied(true);
 	};
 
@@ -34,14 +32,18 @@ export const ProfileOptionsMenu = ({ username }: ProfileOptionsMenuProps) => {
 
 	const menuItems = [
 		{
-			icon: <SettingsIcon />,
-			label: 'Edit Profile',
-			onClick: handleEditProfile,
+			icon: <EditPencilIcon />,
+			label: 'Edit Pack',
+			wrapper: (children: React.ReactNode) => (
+				<PackModal pack={pack} onClose={() => setIsOpen(false)}>
+					{children}
+				</PackModal>
+			),
 		},
 		{
 			icon: linkCopied ? <CheckIcon /> : <LinkIcon />,
 			label: linkCopied ? 'Link Copied' : 'Copy Link',
-			onClick: handleShareProfile,
+			onClick: handleCopyLink,
 			variant: linkCopied ? ('primary' as const) : undefined,
 		},
 	];
@@ -53,13 +55,14 @@ export const ProfileOptionsMenu = ({ username }: ProfileOptionsMenuProps) => {
 					variant="ghost"
 					size="sm"
 					iconLeft={<MenuIcon />}
-					aria-label="Profile options"
+					aria-label="Pack options"
 				/>
 			}
 			items={menuItems}
 			side="bottom"
 			align="start"
-			buttonAlignment="left"
+			open={isOpen}
+			onOpenChange={setIsOpen}
 		/>
 	);
 };

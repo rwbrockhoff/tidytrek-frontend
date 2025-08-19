@@ -13,10 +13,11 @@ import { useGetPackQuery } from '@/queries/pack-queries';
 type PackModalProps = {
 	children: React.ReactNode;
 	pack: Pack;
+	onClose?: () => void;
 };
 
 export const PackModal = (props: PackModalProps) => {
-	const { children, pack } = props;
+	const { children, pack, onClose } = props;
 	const [isOpen, setIsOpen] = useState(false);
 
 	const { data: queryData } = useGetPackQuery(pack.packId);
@@ -35,10 +36,15 @@ export const PackModal = (props: PackModalProps) => {
 	};
 
 	return (
-		<Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-			<Dialog.Trigger>
-				<div>{children}</div>
-			</Dialog.Trigger>
+		<Dialog.Root
+			open={isOpen}
+			onOpenChange={(open) => {
+				setIsOpen(open);
+				if (!open && onClose) {
+					onClose();
+				}
+			}}>
+			<Dialog.Trigger>{children}</Dialog.Trigger>
 			<Dialog.Content className={styles.dialogContent}>
 				<Dialog.Close>
 					<Button

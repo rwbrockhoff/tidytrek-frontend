@@ -88,20 +88,20 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				<Stack
 					className={cn(
 						styles.profileTextContainer,
-						'justify-center mx-4 md:mx-0 gap-3',
+						'justify-center mx-4 md:mx-0 gap-3 max-w-3xl',
 					)}>
 					<Flex className="items-start justify-between">
 						<Heading as="h3" className={cn(styles.usernameHeader)}>
 							{username || firstName}
 							{trailName && <span className={styles.trailName}>({trailName})</span>}
 						</Heading>
-						<ProfileOptionsMenu isOwner={isCreator} username={username} />
+						{isCreator && <ProfileOptionsMenu username={username} />}
 					</Flex>
 
-					<Flex className="flex-wrap items-center gap-2">
+					<Flex className="flex-wrap items-center gap-4 md:gap-3">
 						{userLocation && (
-							<Text className={cn(styles.locationText, 'inline-flex items-center')}>
-								<LocationIcon className="mr-1" /> {userLocation}
+							<Text className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
+								<LocationIcon /> {userLocation}
 							</Text>
 						)}
 
