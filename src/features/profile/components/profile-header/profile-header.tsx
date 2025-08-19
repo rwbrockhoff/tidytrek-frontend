@@ -91,9 +91,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					)}>
 					<Heading as="h3" className={cn(styles.usernameHeader)}>
 						{username || firstName}
-						{trailName && (
-							<span className={cn(styles.trailName, 'ml-2')}>({trailName})</span>
-						)}
+						{trailName && <span className={styles.trailName}>({trailName})</span>}
 					</Heading>
 
 					<Flex className="flex-wrap items-center gap-2">

@@ -1,4 +1,4 @@
-import { type PackListItem, type Category } from '@/types/pack-types';
+import type { PackListItem, Category } from '@/types/pack-types';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/alpine';
@@ -11,10 +11,9 @@ import { PackCategoryItems } from './pack-category-items';
 type PackCategoryCardProps = {
 	category: Category;
 	packList: PackListItem[];
-	index: number;
 };
 
-export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
+export const PackCategoryCard = ({ category, packList }: PackCategoryCardProps) => {
 	const { isCreator } = useUserPermissionsContext();
 
 	const {
@@ -30,10 +29,10 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 		itemQuantity,
 	} = usePackCategory(category);
 
-	const {
-		handleChangeColor,
-		handleAddItem,
-	} = usePackCategoryActions({ packCategoryId, packId });
+	const { handleChangeColor, handleAddItem } = usePackCategoryActions({
+		packCategoryId,
+		packId,
+	});
 
 	return (
 		<Card.Root
@@ -60,6 +59,7 @@ export const PackCategoryCard = ({ category }: PackCategoryCardProps) => {
 				canEdit={isCreator}
 				isMinimized={isMinimized}
 				onAddItem={handleAddItem}
+				availablePacks={packList}
 			/>
 		</Card.Root>
 	);

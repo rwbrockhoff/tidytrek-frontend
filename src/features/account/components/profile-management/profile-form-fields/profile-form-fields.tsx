@@ -7,7 +7,7 @@ import { RefreshIcon, SaveIcon } from '@/components/icons';
 import { Message } from '@/components/ui';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
-import { useAxiosErrorMessage } from '@/hooks/form/use-axios-error';
+import { extractErrorMessage } from '@/utils/error-utils';
 import styles from '../profile-form/profile-form.module.css';
 
 type FormInputs = {
@@ -43,7 +43,7 @@ export const ProfileFormFields = ({
 	onGenerateUsername,
 }: ProfileFormFieldsProps) => {
 	const { userBio, userLocation, username, trailName } = userInfo;
-	const serverErrorMessage = useAxiosErrorMessage(error);
+	const serverErrorMessage = extractErrorMessage(error);
 
 	return (
 		<Segment>

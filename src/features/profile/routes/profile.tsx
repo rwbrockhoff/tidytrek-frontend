@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { ProfileBanner } from '@/features/auth/components/profile-banner';
 import { ProfileHeader } from '../components/profile-header/profile-header';
 import { PackCardList } from '../components/pack-card-list/pack-card-list';
 import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
 import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
+import { useLayoutLoading } from '@/hooks/ui/use-layout-loading';
 import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
@@ -13,7 +13,10 @@ export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 	const userProfileQuery = useGetProfileQuery();
 	const guestProfileQuery = useViewProfileQuery(isCreator ? undefined : paramUserId);
 
-	const { data } = isCreator ? userProfileQuery : guestProfileQuery;
+	const data = isCreator ? userProfileQuery.data : guestProfileQuery.data;
+	const isPending = isCreator ? userProfileQuery.isPending : guestProfileQuery.isPending;
+
+	useLayoutLoading(isPending);
 
 	const userProfile = data?.userProfile ?? null;
 	const packThumbnailList = data?.packThumbnailList ?? [];
@@ -24,12 +27,10 @@ export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 	const showSkeletonCards = notFound || isPrivate;
 
 	const permissions = useUserPermissions();
-	const showPromotion = permissions.isGuest;
 
 	return (
 		<UserPermissionsProvider value={permissions}>
 			<PageLayout>
-				{showPromotion && <ProfileBanner />}
 				<ProfileHeader
 					userProfile={userProfile}
 					notFound={notFound}

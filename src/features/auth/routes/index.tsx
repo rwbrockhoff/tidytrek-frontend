@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { Suspense } from 'react';
-import { AuthFallback } from '@/layout/fallback';
+import { AuthFallback } from '../components/auth-fallback';
 import { lazyImport } from '@/utils';
 const { Authentication } = lazyImport(() => import('./authentication'), 'Authentication');
 const { ResetPassword } = lazyImport(() => import('./reset-password'), 'ResetPassword');

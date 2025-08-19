@@ -1,9 +1,20 @@
 .tableRow {
 	position: relative;
 	background-color: var(--color-bg-secondary);
-	transition:
-		background-color,
-		box-shadow 200ms ease-in-out;
+	transition: transform 120ms ease-out;
+}
+
+.tableRowDragging {
+	opacity: 0 !important;
+	transform: none !important;
+	transition: none !important;
+}
+
+.tableRowDraggingActive {
+	background-color: var(--color-bg-primary);
+	transform: scale(1.02);
+	box-shadow: var(--shadow-classic);
+	border-radius: var(--radius);
 }
 
 .tableRow input {
@@ -19,14 +30,7 @@
 	overflow: visible;
 }
 
-.tableRowDragging {
-	box-shadow: var(--shadow-classic);
-}
 
-/* Apply to the parent table when any row is dragging */
-:global(table:has(.tableRowDragging)) {
-	table-layout: fixed;
-}
 
 :global(.aow).tableActionButton {
 	padding: 0 var(--space-2);

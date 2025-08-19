@@ -25,23 +25,23 @@ const mockIsAxiosError = vi.mocked(axios.isAxiosError);
 describe('useAxiosErrorMessage', () => {
 	it('should return default error message when error is null', () => {
 		const { result } = renderHook(() => useAxiosErrorMessage(null));
-		expect(result.current).toBe('Oops! There was an error.');
+		expect(result.current).toBe('An error occurred. Please try again.');
 	});
 
 	it('should return error message from axios when available', () => {
 		const axiosError = createMockAxiosError(400, 'Bad request error');
-		mockIsAxiosError.mockReturnValue(true);
+		axiosError.request = {};
 
 		const { result } = renderHook(() => useAxiosErrorMessage(axiosError));
 		expect(result.current).toBe('Bad request error');
 	});
 
-	it('should return default error for non-axios errors', () => {
+	it('should return error message for non-axios errors', () => {
 		const regularError = new Error('Regular error');
 		mockIsAxiosError.mockReturnValue(false);
 
 		const { result } = renderHook(() => useAxiosErrorMessage(regularError));
-		expect(result.current).toBe('Oops! There was an error.');
+		expect(result.current).toBe('Regular error');
 	});
 });
 
@@ -84,7 +84,7 @@ describe('useMutationErrors', () => {
 
 	it('should update error state with axios error', () => {
 		const axiosError = createMockAxiosError(422, 'Validation failed');
-		mockIsAxiosError.mockReturnValue(true);
+		axiosError.request = {};
 
 		const { result } = renderHook(() => useMutationErrors());
 

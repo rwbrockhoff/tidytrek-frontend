@@ -17,6 +17,7 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
 	iconIsButton?: boolean;
 	width?: string;
 	match?: RadixFormMatchType;
+	compact?: boolean;
 	override?: boolean;
 }
 
@@ -33,13 +34,7 @@ export interface TextFieldSlotProps {
 	iconIsButton?: boolean;
 }
 
-const Root = ({
-	children,
-	className,
-	name,
-	style,
-	...props
-}: TextFieldRootProps) => {
+const Root = ({ children, className, name, style, ...props }: TextFieldRootProps) => {
 	return (
 		<Form.Field
 			name={name}
@@ -69,11 +64,7 @@ const Label = forwardRef<
 
 Label.displayName = 'TextFieldLabel';
 
-const Slot = ({
-	children,
-	side = 'left',
-	iconIsButton = false,
-}: TextFieldSlotProps) => {
+const Slot = ({ children, side = 'left', iconIsButton = false }: TextFieldSlotProps) => {
 	return (
 		<div
 			className={cn(
@@ -126,6 +117,7 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 			width,
 			match,
 			override = false,
+			compact = false,
 			...props
 		},
 		ref,
@@ -140,12 +132,11 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 			variant === 'minimal' && styles.inputMinimal,
 			variant === 'icon' && styles.inputIcon,
 			hasError && styles.inputError,
+			compact && styles.inputCompact,
 			className,
 		);
 
-		if (!name) {
-			throw new Error('TextField requires a name prop');
-		}
+		if (!name) throw new Error('TextField requires a name prop');
 
 		const input = (
 			<Form.Control asChild>
@@ -161,7 +152,11 @@ const Input = forwardRef<HTMLInputElement, TextFieldProps>(
 		);
 
 		const rootStyle = width ? { width } : undefined;
-		const rootClassName = cn(styles.rootIcon, width && styles.fieldResponsive, override && 'aow');
+		const rootClassName = cn(
+			styles.rootIcon,
+			width && styles.fieldResponsive,
+			override && 'aow',
+		);
 
 		if (variant === 'icon' && icon) {
 			return (
@@ -223,6 +218,7 @@ const Standalone = forwardRef<
 			icon,
 			iconPosition = 'left',
 			width,
+			compact = false,
 			...props
 		},
 		ref,
@@ -235,6 +231,7 @@ const Standalone = forwardRef<
 			variant === 'minimal' && styles.inputMinimal,
 			variant === 'icon' && styles.inputIcon,
 			hasError && styles.inputError,
+			compact && styles.inputCompact,
 			className,
 		);
 
@@ -246,15 +243,14 @@ const Standalone = forwardRef<
 					className={cn(
 						styles.rootIcon,
 						styles.standalone,
+						compact && styles.fieldCompact,
 						width && styles.fieldResponsive,
 					)}
 					style={rootStyle}>
 					<div className={styles.inputContainer}>
 						{iconPosition === 'left' && <Slot side="left">{icon}</Slot>}
 						<input ref={ref} type={type} className={inputClasses} {...props} />
-						{iconPosition === 'right' && (
-							<Slot side="right">{icon}</Slot>
-						)}
+						{iconPosition === 'right' && <Slot side="right">{icon}</Slot>}
 					</div>
 				</div>
 			);
@@ -262,7 +258,11 @@ const Standalone = forwardRef<
 
 		return (
 			<div
-				className={cn(styles.standalone, width && styles.fieldResponsive)}
+				className={cn(
+					styles.standalone,
+					compact && styles.fieldCompact,
+					width && styles.fieldResponsive,
+				)}
 				style={rootStyle}>
 				<input ref={ref} type={type} className={inputClasses} {...props} />
 			</div>

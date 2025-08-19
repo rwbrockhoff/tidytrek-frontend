@@ -1,5 +1,5 @@
 .header {
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-surface);
 	height: var(--mobile-nav-height);
 	width: 100%;
 	position: fixed;

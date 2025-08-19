@@ -35,6 +35,10 @@
 	box-sizing: border-box;
 }
 
+.inputCompact {
+	padding: var(--space-1);
+}
+
 /* Default variant */
 .inputDefault {
 	background-color: var(--color-bg-primary);

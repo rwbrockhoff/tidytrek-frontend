@@ -4,6 +4,7 @@ import {
 	PackInfo,
 	type GearClosetItem,
 	type MoveGearClosetItemProps,
+	type MoveGearClosetItemResponse,
 } from '../types/pack-types';
 import { closetKeys, packKeys } from './query-keys';
 import { STALE_TIME } from './query-config';
@@ -62,7 +63,7 @@ export const useEditGearClosetItemMutation = (): SimpleMutation<
 
 export const useMoveGearClosetItemMutation = (): SimpleMutation<
 	MoveGearClosetItemProps,
-	void
+	MoveGearClosetItemResponse
 > => {
 	const queryClient = useQueryClient();
 	return useMutation({
@@ -74,17 +75,32 @@ export const useMoveGearClosetItemMutation = (): SimpleMutation<
 					prev_item_index: prevItemIndex,
 					next_item_index: nextItemIndex,
 				})
-				.then(extractData<void>);
+				.then(extractData<MoveGearClosetItemResponse>);
 		},
 		onError: () => {
-			// Only invalidate on error to refetch correct data
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
-		onSuccess: () => {
-			// Only invalidate if no other move mutations are running
-			if (!queryClient.isMutating({ mutationKey: ['moveGearClosetItem'] })) {
-				queryClient.invalidateQueries({ queryKey: closetKeys.all });
-			}
+		onSuccess: (response, moveInfo) => {
+			// update moved item to new fractional index from server
+			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
+				closetKeys.all,
+				(old) => {
+					if (!old) return old;
+
+					const { newIndex } = response;
+
+					const updatedList = old.gearClosetList.map((item) =>
+						item.packItemId.toString() === moveInfo.packItemId
+							? { ...item, packItemIndex: newIndex }
+							: item,
+					);
+
+					return {
+						...old,
+						gearClosetList: updatedList,
+					};
+				},
+			);
 		},
 	});
 };

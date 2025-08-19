@@ -41,14 +41,15 @@ export const Authentication = ({ isRegisterForm }: { isRegisterForm: boolean }) 
 
 	// Subscribe to query errors
 	useEffect(() => {
-		if (formError.error) {
+		if (formError.error && formError.message !== serverError.message) {
 			updateAxiosError(formError.message);
 		}
-	}, [formError.error, formError.message, updateAxiosError]);
+	}, [formError.error, formError.message, serverError.message, updateAxiosError]);
 
 	const handleRegister = (formData: RegisterUserFormData) =>
 		registerFlow.handleRegister(formData, setAxiosError);
-	const handleLogin = (formData: LoginUserFormData) => loginFlow.handleLogin(formData, setAxiosError);
+	const handleLogin = (formData: LoginUserFormData) =>
+		loginFlow.handleLogin(formData, setAxiosError);
 
 	if (isRegisterForm) {
 		return (

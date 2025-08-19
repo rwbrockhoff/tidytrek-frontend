@@ -62,7 +62,7 @@ export type BaseTableRowItem = {
 	wornWeight: boolean;
 	consumable: boolean;
 	favorite: boolean;
-	packItemPrice: number;
+	packItemPrice: number | string;
 };
 
 export type PackItem = BaseTableRowItem & {
@@ -118,6 +118,13 @@ export type MovePackItemProps = BaseMoveProps & {
 	nextItemIndex?: string;
 };
 
+export type MovePackItemResponse = {
+	packItemId: string;
+	newIndex: string;
+	rebalanced: boolean;
+	categoryChanged: boolean;
+};
+
 export type MovePackCategoryProps = BaseMoveProps & {
 	packId: number;
 	packCategoryId: string;
@@ -136,6 +143,11 @@ export type MoveGearClosetItemProps = BaseMoveProps & {
 	packItemId: string;
 	prevItemIndex?: string;
 	nextItemIndex?: string;
+};
+
+export type MoveGearClosetItemResponse = {
+	newIndex: string;
+	rebalanced: boolean;
 };
 
 export type HeaderInfo = {

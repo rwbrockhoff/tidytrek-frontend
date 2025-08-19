@@ -8,7 +8,7 @@ import { Dialog } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { FormEvent, useState } from 'react';
 import { packUrlSchema, z } from '@/schemas';
-import { useAxiosErrorMessage } from '@/hooks/form/use-axios-error';
+import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import styles from './import-pack-dialog.module.css';
 
@@ -71,7 +71,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 		}
 	};
 
-	const serverErrorMessage = useAxiosErrorMessage(importError);
+	const serverErrorMessage = extractErrorMessage(importError);
 
 	// Ensure valid link
 	const invalidLink = !packUrl.length || !packUrl.includes('lighterpack');

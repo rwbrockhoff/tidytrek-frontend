@@ -1,32 +1,38 @@
-import { GripIcon } from '@/components/icons';
 import { PackListItem as ListItem } from '@/types/pack-types';
 import { Text } from '@radix-ui/themes';
-import { type DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
 import styles from './pack-list-item.module.css';
-import { mx } from '@/styles/utils';
 
 type PackListItemProps = {
 	pack: ListItem;
 	onClick: (packId: number) => void;
-	dragProps?: DraggableProvidedDragHandleProps;
 };
 
-export const PackListItem = ({ pack, onClick, dragProps }: PackListItemProps) => {
+export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
+	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+		useSortable({
+			id: pack.packId.toString(),
+		});
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+		opacity: isDragging ? 0 : 1,
+	};
+
 	return (
 		<div
-			key={pack.packId}
+			ref={setNodeRef}
+			style={style}
 			onClick={() => onClick(pack.packId)}
 			className={styles.packListItemContainer}
 			data-testid="pack-list-row">
-			<Text className={styles.styledText}>
-				<span
-					className={styles.gripContainer}
-					{...dragProps}
-					data-testid="pack-list-grip">
-					<GripIcon className={mx.invisible} />
-				</span>
-				{pack.packName}
-			</Text>
+			<div className={styles.gripContainer} {...attributes} {...listeners}>
+				<GripVertical size={16} className={styles.gripIcon} />
+			</div>
+			<Text className={styles.styledText}>{pack.packName}</Text>
 		</div>
 	);
 };

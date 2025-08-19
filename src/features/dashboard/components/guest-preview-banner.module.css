@@ -1,0 +1,11 @@
+.banner {
+	width: 100%;
+	background-color: var(--color-bg-secondary);
+	border-bottom: 1px solid var(--color-border-secondary);
+	padding: var(--space-3) var(--space-4);
+	border-radius: var(--radius);
+}
+
+.message {
+	color: var(--color-text-secondary);
+}

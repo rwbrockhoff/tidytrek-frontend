@@ -9,9 +9,10 @@ import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
 import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useDashboardView } from '../../hooks/use-dashboard-view';
 import { useCategoryInfo } from '../../hooks/use-category-info';
+import { isUntouchedPack } from '../../utils/is-untouched-pack';
 import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
 import { PackModal } from '../pack-modal/pack-modal';
@@ -20,6 +21,7 @@ import { ShareSettings } from './share-settings/share-settings';
 import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info/profile-info';
 import { PackStarterCard } from './pack-starter-card/pack-starter-card';
+import { AffiliateMessage } from './affiliate-message';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -31,7 +33,7 @@ type PackInfoProps = {
 
 export const PackInfo = (props: PackInfoProps) => {
 	const navigate = useNavigate();
-	const { isCreator } = useUserPermissionsContext();
+	const { canEdit } = useDashboardView();
 	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
 
@@ -42,14 +44,22 @@ export const PackInfo = (props: PackInfoProps) => {
 
 	const handleTogglePackChart = () => setShowPackChart(!showPackChart);
 
-	const { packName, packDescription, packUrl, packUrlName, packPublic } = currentPack;
+	const {
+		packName,
+		packDescription,
+		packUrl,
+		packUrlName,
+		packPublic,
+		packAffiliate,
+		packAffiliateDescription,
+	} = currentPack;
 
 	const { publicProfile } = settings || {};
 
 	const { packHasWeight } = useCategoryInfo(packCategories);
 
-	const isDefaultUntouchedPack = isUntouchedDefaultPack(
-		isCreator,
+	const isUntouched = isUntouchedPack(
+		canEdit,
 		packCategories,
 		currentPack,
 		packDescription,
@@ -63,7 +73,7 @@ export const PackInfo = (props: PackInfoProps) => {
 				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12 md:gap-8',
 			)}>
 			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1')}>
-				{!isCreator && (
+				{!canEdit && (
 					<ProfileInfo
 						userInfo={profileInfo}
 						socialLinks={socialLinks}
@@ -76,7 +86,7 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 					</Heading>
 
-					{isMobile && isCreator ? (
+					{isMobile && canEdit ? (
 						<Button
 							variant="ghost"
 							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
@@ -86,7 +96,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							<EditPencilIcon />
 						</Button>
 					) : (
-						isCreator && (
+						canEdit && (
 							<PackModal pack={currentPack}>
 								<Button
 									variant="ghost"
@@ -99,18 +109,29 @@ export const PackInfo = (props: PackInfoProps) => {
 						)
 					)}
 				</Flex>
-				{isCreator && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
+
+				{canEdit && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
+
 				{packUrl && (
 					<ExternalLink href={packUrl}>
 						<LinkIcon />
 						{packUrlName || packUrl || 'Pack Link'}
 					</ExternalLink>
 				)}
+
 				<Text className={styles.descriptionText}>{packDescription}</Text>
+
 				<PackLabels pack={currentPack} />
 
+				{packAffiliate && !canEdit && (
+					<AffiliateMessage
+						description={packAffiliateDescription || ''}
+						username={profileInfo?.username}
+					/>
+				)}
+
 				{/* Show starter card for untouched default packs */}
-				{isDefaultUntouchedPack && <PackStarterCard />}
+				{isUntouched && <PackStarterCard />}
 
 				{/* mobile chart toggle button */}
 				{packHasWeight && isMobile && (
@@ -137,27 +158,3 @@ export const PackInfo = (props: PackInfoProps) => {
 	);
 };
 
-// checks if pack is default/untouched
-const isUntouchedDefaultPack = (
-	isCreator: boolean,
-	packCategories: Category[],
-	currentPack: Pack,
-	packDescription: string,
-	packUrl: string,
-): boolean => {
-	return (
-		isCreator &&
-		packCategories.length <= 1 &&
-		(packCategories.length === 0 || packCategories[0].packItems?.length <= 1) &&
-		(packCategories.length === 0 ||
-			!packCategories[0].packItems?.length ||
-			!packCategories[0].packItems[0].packItemName ||
-			packCategories[0].packItems[0].packItemName.trim() === '') &&
-		!packDescription &&
-		!packUrl &&
-		!currentPack.packLocationTag &&
-		!currentPack.packDurationTag &&
-		!currentPack.packSeasonTag &&
-		!currentPack.packDistanceTag
-	);
-};

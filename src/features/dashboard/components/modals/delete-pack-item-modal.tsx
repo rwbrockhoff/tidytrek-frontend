@@ -1,7 +1,7 @@
 import { Dialog } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { Button } from '@/components/alpine';
-import { ShareIcon, TrashIcon } from '@/components/icons';
+import { ClosetIcon, TrashIcon } from '@/components/icons';
 import React from 'react';
 
 type DeletePackItemModalProps = {
@@ -46,7 +46,7 @@ export const DeletePackItemModal = (props: DeletePackItemModalProps) => {
 								size="md"
 								onClick={onClickMove}
 								aria-label="Move pack item to gear closet">
-								<ShareIcon /> Move to Gear Closet
+								<ClosetIcon /> Move to Gear Closet
 							</Button>
 						</Dialog.Close>
 					)}

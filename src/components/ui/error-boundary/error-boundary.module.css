@@ -1,5 +1,5 @@
 .errorContainer {
-	height: 100vh;
+	height: var(--full-height);
 	max-width: 600px;
 	padding: var(--space-8);
 	margin: 0 auto;

@@ -33,7 +33,9 @@ export const PackItemDisplay = ({ item, className }: PackItemDisplayProps) => {
 					</div>
 					{item.packItemPrice && (
 						<span className={styles.itemPrice}>
-							{convertCurrency(item.packItemPrice)}
+							{convertCurrency(typeof item.packItemPrice === 'string' 
+							? parseFloat(item.packItemPrice) || 0 
+							: item.packItemPrice)}
 						</span>
 					)}
 				</div>

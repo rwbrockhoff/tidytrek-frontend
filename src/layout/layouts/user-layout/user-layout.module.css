@@ -1,6 +1,6 @@
 .outerContainer {
 	width: 100%;
-	min-height: 100vh;
+	min-height: var(--full-height);
 	background-color: var(--color-bg-primary);
 }
 
@@ -20,9 +20,6 @@
 	background-color: var(--color-bg-primary);
 	position: relative;
 	min-width: 0;
-	transition:
-		margin-left var(--transition-slow),
-		max-width var(--transition-slow);
 }
 
 .viewLayoutSidebarVisible {
@@ -68,6 +65,11 @@
 @media (max-width: 480px) {
 	.outerContainer {
 		overflow-y: auto;
+	}
+
+	.outerContainer[data-mobile-sidebar-visible="true"] {
+		overflow: hidden;
+		height: var(--full-height);
 	}
 
 	.appViewContainer {

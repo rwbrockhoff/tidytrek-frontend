@@ -10,7 +10,7 @@ body {
 }
 
 body > div#root {
-	min-height: 100vh;
+	min-height: var(--full-height);
 	margin: 0;
 }
 

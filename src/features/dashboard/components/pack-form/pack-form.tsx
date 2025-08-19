@@ -26,7 +26,7 @@ type PackFormProps = {
 };
 
 const affiliateMessage =
-	'You can include your own message. But by default we include the following affiliate message: Using the affiliate links in this pack helps support the creator of this pack at no extra cost to you!';
+	'Default affiliate disclosure: "Some links may be affiliate links. This means you may earn a commission if visitors buy through them."';
 
 export const PackForm = ({
 	pack,

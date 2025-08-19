@@ -4,7 +4,8 @@ import styles from './button.module.css';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link';
-	color?: 'primary' | 'secondary' | 'info' | 'danger';
+	color?: 'primary' | 'secondary' | 'tertiary' | 'info' | 'danger';
+	customColor?: string;
 	size?: 'sm' | 'md' | 'lg';
 	radius?: 'default' | 'circle';
 	loading?: boolean;
@@ -18,6 +19,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		{
 			variant = 'default',
 			color = 'primary',
+			customColor,
 			size = 'md',
 			radius = 'default',
 			loading = false,
@@ -27,6 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			className,
 			disabled,
 			children,
+			style,
 			...props
 		},
 		ref,
@@ -41,10 +44,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			variant === 'secondary' && styles.buttonSecondary,
 			variant === 'ghost' && styles.buttonGhost,
 			variant === 'link' && styles.buttonLink,
-			color === 'primary' && styles.buttonColorPrimary,
-			color === 'secondary' && styles.buttonColorSecondary,
-			color === 'info' && styles.buttonColorInfo,
-			color === 'danger' && styles.buttonColorDanger,
+			!customColor && color === 'primary' && styles.buttonColorPrimary,
+			!customColor && color === 'secondary' && styles.buttonColorSecondary,
+			!customColor && color === 'tertiary' && styles.buttonColorTertiary,
+			!customColor && color === 'info' && styles.buttonColorInfo,
+			!customColor && color === 'danger' && styles.buttonColorDanger,
+			customColor && styles.buttonCustomColor,
 			size === 'sm' && styles.buttonSm,
 			size === 'md' && styles.buttonMd,
 			size === 'lg' && styles.buttonLg,
@@ -56,10 +61,18 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			className,
 		);
 
+		const buttonStyle = customColor
+			? {
+					'--button-custom-color': customColor,
+					...style,
+				}
+			: style;
+
 		return (
 			<button
 				ref={ref}
 				className={buttonClasses}
+				style={buttonStyle}
 				disabled={disabled || loading}
 				{...props}>
 				{loading && <span className={styles.spinner} />}

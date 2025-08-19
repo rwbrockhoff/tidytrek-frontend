@@ -1,5 +1,5 @@
 import { Button } from '@/components/alpine';
-import { EditPencilIcon, ShareIcon, TrashIcon } from '@/components/icons';
+import { EditPencilIcon, MoveIcon, TrashIcon } from '@/components/icons';
 import styles from './pack-item-row.module.css';
 
 type PackItemActionsProps = {
@@ -29,7 +29,7 @@ export const PackItemActions = ({
 					size="sm" 
 					onClick={onMove} 
 					aria-label="Move item"
-					iconLeft={<ShareIcon />}
+					iconLeft={<MoveIcon />}
 				/>
 			)}
 

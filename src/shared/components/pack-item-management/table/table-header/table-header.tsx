@@ -1,19 +1,17 @@
 import { type HeaderInfo } from '@/types/pack-types';
-import { Flex } from '@/components/layout';
-import { Button, Table } from '@/components/alpine';
+import { Table } from '@/components/alpine';
 import { CategoryNameCell } from '@/features/dashboard/components/table';
-import { ActionButtons } from '../action-buttons/action-buttons';
 import { HeaderCell } from './header-cell';
+import { CategoryActionsMenu } from '../category-actions-menu';
 import {
 	useDeletePackCategoryMutation,
 	useDeletePackCategoryAndItemsMutation,
 } from '@/queries/pack-queries';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-import { DeleteModal } from '@/components/ui';
-import { MinusIcon, PlusIcon, ShareIcon, TrashIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
+import tableStyles from '../table-main/table.module.css';
 
 type TableHeaderProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -51,56 +49,51 @@ export const TableHeader = (props: TableHeaderProps) => {
 
 				{!isMinimized && (
 					<>
-						<HeaderCell textAlign="center">Qty</HeaderCell>
+						<HeaderCell
+							className={cn(
+								tableStyles.quantityColumn,
+								tableStyles.quantityColumnText,
+								!isCreator && tableStyles.quantityColumnGuestView,
+							)}>
+							Qty
+						</HeaderCell>
 
-						<HeaderCell textAlign="center">Weight</HeaderCell>
+						<HeaderCell
+							className={cn(
+								tableStyles.weightColumn,
+								isCreator
+									? tableStyles.weightColumnHeaderText
+									: tableStyles.weightColumnGuestView,
+							)}>
+							Weight
+						</HeaderCell>
 
-						{showPrices && <HeaderCell textAlign="center">Price</HeaderCell>}
+						{showPrices && (
+							<HeaderCell
+								className={cn(
+									tableStyles.priceColumn,
+									isCreator
+										? tableStyles.priceColumnHeaderText
+										: tableStyles.priceColumnGuestView,
+								)}>
+								Price
+							</HeaderCell>
+						)}
 					</>
 				)}
 				{isCreator && (
-					<ActionButtons header>
-						<Flex className="items-center">
-							<Button
-								onClick={minimizeCategory}
-								variant="ghost"
-								size="md"
-								override
-								className={styles.tableActionButton}
-								data-testid="minimize-category-button"
-								iconLeft={isMinimized ? <PlusIcon /> : <MinusIcon />}
-								aria-label={isMinimized ? 'Expand category' : 'Minimize category'}
-							/>
-						</Flex>
-						<DeleteModal
-							title="Are you sure?"
-							description={deleteCategoryMessage}
-							onDelete={() => deletePackCategoryAndItems(packCategoryId)}
-							secondaryAction={{
-								text: "Move to Gear Closet",
-								onClick: () => deletePackCategory(packCategoryId),
-								icon: <ShareIcon />
-							}}>
-							<Flex className="items-center" aria-label="Delete category">
-								<Button
-									variant="ghost"
-									size="md"
-									override
-									className={styles.tableActionButton}
-									data-testid="delete-category-button"
-									iconLeft={<TrashIcon />}
-									aria-label="Delete category"
-								/>
-							</Flex>
-						</DeleteModal>
-					</ActionButtons>
+					<Table.HeaderCell className={tableStyles.actionButtons}>
+						<CategoryActionsMenu
+							isMinimized={isMinimized}
+							onMinimizeCategory={minimizeCategory}
+							onDeletePackCategory={() => deletePackCategory(packCategoryId)}
+							onDeletePackCategoryAndItems={() =>
+								deletePackCategoryAndItems(packCategoryId)
+							}
+						/>
+					</Table.HeaderCell>
 				)}
 			</Table.Row>
 		</Table.Header>
 	);
 };
-
-// defaults
-const deleteCategoryMessage =
-	'You can permanently delete your category or move the items to your gear closet.';
-

@@ -13,7 +13,4 @@ if (dsn && environment === 'production') {
 		replaysOnErrorSampleRate: 0.05,
 		integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
 	});
-	console.log(`Sentry initialized for environment: ${environment}`);
-} else {
-	console.log('Sentry disabled for development environment');
 }

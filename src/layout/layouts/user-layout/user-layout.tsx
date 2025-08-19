@@ -1,5 +1,5 @@
 import styles from './user-layout.module.css';
-import { Sidebar, MobileNavbar, MobileBottomNav, Fallback } from '@/layout';
+import { Sidebar, MobileNavbar, MobileBottomNav, ContentFallback } from '@/layout';
 import { SidebarButton } from '@/layout/navigation/sidebar/sidebar-button';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense, useState, useEffect } from 'react';
@@ -22,7 +22,7 @@ export const UserLayout = () => {
 	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
 
 	return (
-		<div className={styles.outerContainer}>
+		<div className={styles.outerContainer} data-mobile-sidebar-visible={isMobile && showSidebar}>
 			<ScrollRestoration />
 			<div className={styles.appViewContainer}>
 				<MobileNavbar onClick={handleToggleSidebar} />
@@ -34,7 +34,7 @@ export const UserLayout = () => {
 							? styles.viewLayoutSidebarVisible
 							: styles.viewLayoutSidebarHidden,
 					)}>
-					<Suspense fallback={<Fallback />}>
+					<Suspense fallback={<ContentFallback />}>
 						{!showSidebar && (
 							<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
 						)}

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { DashboardContainer } from '../components/dashboard-layout/dashboard-container';
 import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
 import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
+import { useLayoutLoading } from '@/hooks/ui/use-layout-loading';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
 import { decode } from '@/utils';
@@ -21,6 +22,8 @@ export const Dashboard = ({ isCreator }: { isCreator: boolean }) => {
 	const packListData = isCreator ? userPackListQuery.data : { packList: [] };
 
 	const permissions = useUserPermissions({ pack: data?.pack });
+
+	useLayoutLoading(isPending);
 
 	return (
 		<UserPermissionsProvider value={permissions}>

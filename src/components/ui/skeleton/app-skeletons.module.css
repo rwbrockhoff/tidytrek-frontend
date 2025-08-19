@@ -84,7 +84,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
+	min-height: var(--full-height);
 	padding: var(--space-6);
 	background: var(--color-bg-primary);
 }

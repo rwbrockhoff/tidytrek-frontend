@@ -1,0 +1,3 @@
+.moveItemSelect :global(.rt-SelectTrigger:where(.rt-variant-surface)) {
+	width: 100%;
+}

@@ -1,0 +1,14 @@
+.overlayTable {
+	width: 100%;
+	transform: scale(1.02);
+	box-shadow: var(--shadow-spread);
+	border-radius: var(--radius);
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-border-secondary);
+}
+
+.overlayRow {
+	height: 45px;
+	font-size: var(--font-size-3);
+	background-color: var(--color-bg-primary);
+}

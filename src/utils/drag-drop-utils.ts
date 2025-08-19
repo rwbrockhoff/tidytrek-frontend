@@ -5,8 +5,15 @@ export type AdjacentItems<T> = {
 	nextItem?: T;
 };
 
-// Figures out what items will be before/after a dragged item in its new position
-// Needed for calculating the correct sort order when sending to the backend
+/**
+ * Calculates items adjacent to a dragged item in new position.
+ * Handles index logic for determining sort order for backend operations.
+ *
+ * @param allItems - Complete array of items being reordered
+ * @param sourceIndex - Original position of dragged item
+ * @param destinationIndex - Target position for dragged item
+ * @returns Previous and next items at destination position
+ */
 export function calculateAdjacentItems<T>(
 	allItems: T[],
 	sourceIndex: number,

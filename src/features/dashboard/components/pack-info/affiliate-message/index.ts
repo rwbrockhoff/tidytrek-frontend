@@ -1,0 +1,1 @@
+export { AffiliateMessage } from './affiliate-message';

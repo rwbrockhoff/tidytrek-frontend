@@ -13,10 +13,6 @@ const CONVERSIONS = {
 	KG_TO_G: 1000,
 } as const;
 
-// convertWeight sums the total weight of all pack items into one weight metric
-// it also returns the total price, consumable weight, and wornWeight
-// useCategoryInfo is the more complex hook used to summarize a pack (this hook is for a pack category);
-
 export type WeightConversionResult = {
 	totalWeight: number;
 	totalWornWeight: number;
@@ -24,7 +20,18 @@ export type WeightConversionResult = {
 	totalPrice: number;
 };
 
-export const convertWeight = (itemList: PackItem[], outputUnit: WeightUnit): WeightConversionResult => {
+/**
+ * Converts and sums pack item weights across different units.
+ * Handles unit conversions, quantities, and separates worn/consumable weights.
+ *
+ * @param itemList - Array of pack items to process
+ * @param outputUnit - Target weight unit for calculations (oz, lb, kg, g)
+ * @returns Total weight, worn weight, consumable weight, and total price
+ */
+export const convertWeight = (
+	itemList: PackItem[],
+	outputUnit: WeightUnit,
+): WeightConversionResult => {
 	if (!itemList.length) {
 		return {
 			totalWeight: 0,
@@ -50,7 +57,9 @@ export const convertWeight = (itemList: PackItem[], outputUnit: WeightUnit): Wei
 
 		// account for item quantities in weight & price
 		const itemWeight = packItemWeight * packItemQuantity;
-		totalPrice += packItemPrice * packItemQuantity;
+		const numericPrice =
+			typeof packItemPrice === 'string' ? parseFloat(packItemPrice) || 0 : packItemPrice;
+		totalPrice += numericPrice * packItemQuantity;
 
 		// convert weight unit if needed
 		const convertedWeight =
@@ -73,7 +82,11 @@ export const convertWeight = (itemList: PackItem[], outputUnit: WeightUnit): Wei
 	};
 };
 
-const convertToUnit = (weight: number, fromUnit: WeightUnit, toUnit: WeightUnit): number => {
+const convertToUnit = (
+	weight: number,
+	fromUnit: WeightUnit,
+	toUnit: WeightUnit,
+): number => {
 	switch (toUnit) {
 		case WeightUnit.oz:
 			return convertToOunces(weight, fromUnit);

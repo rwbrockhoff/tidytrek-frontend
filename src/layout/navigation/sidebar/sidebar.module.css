@@ -8,9 +8,6 @@
 	height: 100%;
 	background: var(--color-bg-secondary);
 	z-index: 200;
-	transition:
-		opacity var(--transition-slow),
-		visibility var(--transition-slow);
 }
 
 /* Extend sidebar background to fill all space to the left */
@@ -94,11 +91,10 @@
 		display: none; /* No extended background for overlay */
 	}
 
-	/* Tablet uses transform animation instead of display toggle */
+	/* Tablet uses instant toggle instead of animation */
 	.sidebar[data-visible='false'] {
 		display: flex; /* In DOM but positioned off-screen */
 		transform: translateX(-100%); /* Slide out to left */
-		transition: transform var(--transition);
 		opacity: 1; /* Override desktop opacity - visible but off-screen */
 		visibility: visible; /* Override desktop visibility */
 		pointer-events: none; /* Keep disabled when hidden */
@@ -107,7 +103,6 @@
 	.sidebar[data-visible='true'] {
 		display: flex;
 		transform: translateX(0); /* Slide in from left */
-		transition: transform var(--transition);
 		opacity: 1;
 		visibility: visible;
 		pointer-events: auto;

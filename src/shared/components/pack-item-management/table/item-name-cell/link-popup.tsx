@@ -15,19 +15,17 @@ import { isPackItem } from '@/types/pack-types';
 
 type LinkPopupProps = {
 	packItem: BaseTableRowItem;
-	isDragging?: boolean;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
 
-	const { packItem, isDragging = false } = props;
+	const { packItem } = props;
 	const { packItemUrl } = packItem || {};
 	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
 	const hasUrl = !!packItemUrl;
-	const hasLink = packItemUrl !== '' || undefined;
 
 	const handleOnChange = (e: InputEvent) => {
 		setPackUrl(e.target.value);
@@ -37,7 +35,6 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	const handleSaveLink = () => {
 		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
 			const cleanUrl = normalizeURL(newPackItemUrl);
-			// Only edit if this is a pack item
 			if (isPackItem(packItem)) {
 				editPackItem({
 					packItemId: packItem.packItemId,
@@ -68,11 +65,11 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						className={cn(
 							styles.linkButton,
 							mx.mobileHidden,
-							hasUrl || isDragging ? styles.linkButtonVisible : hoverStyles.showOnHover,
+							hasUrl ? styles.linkButtonVisible : hoverStyles.showOnHover,
 						)}
 						iconLeft={
 							<LinkIcon
-								className={cn(hasLink ? styles.linkIconActive : styles.linkIcon)}
+								className={cn(hasUrl ? styles.linkIconActive : styles.linkIcon)}
 							/>
 						}
 					/>
