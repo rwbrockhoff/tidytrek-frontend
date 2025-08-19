@@ -50,6 +50,7 @@ export {
 	Upload as UploadIcon,
 	AlertCircle as ErrorIcon,
 	MoveDown as MoveDownIcon,
+	SendToBack as MoveIcon,
 	TreePine as TreeIcon2,
 	Settings as SettingsIcon,
 	WifiOff as WifiOffIcon,

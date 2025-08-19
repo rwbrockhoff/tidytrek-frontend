@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { type PackListItem, type BaseTableRowItem } from '@/types/pack-types';
 
 import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
-import { MoveItemDropdown } from '@/shared/components/pack-item-management/move-item-dropdown';
+import { MoveItemModal } from '@/shared/components/pack-item-management/move-item-modal';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 
 import { TableErrorRow } from '../table-error-row/table-error-row';
@@ -81,8 +81,14 @@ export const TableRowComponent = (props: TableRowProps) => {
 							onDelete={handleDeleteItem}
 						/>
 					</TableRowContent>
-					{toggleGearButtons && isCreator && !isDragging && (
-						<MoveItemDropdown packItem={item} availablePacks={availablePacks} />
+					{isCreator && (
+						<MoveItemModal 
+							packItem={item} 
+							availablePacks={availablePacks}
+							open={toggleGearButtons && !isDragging}
+							onOpenChange={handleToggleGearButtons}
+							onMoveToCloset={moveToCloset ? handleMoveItemToCloset : undefined}
+						/>
 					)}
 
 					<TableErrorRow error={primaryError} />

@@ -3,7 +3,7 @@ import { Badge } from '@radix-ui/themes';
 import { type BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { PackItemDisplay } from './pack-item-display';
 import { PackItemActions } from './pack-item-actions';
-import { MoveItemDropdown } from '../move-item-dropdown';
+import { MoveItemModal } from '../move-item-modal';
 import { Stack } from '@/components/layout';
 import styles from './pack-item-row.module.css';
 
@@ -52,16 +52,16 @@ export const PackItemRow = ({
 						/>
 					)}
 				</div>
-				
-				{showMoveDropdown && canEdit && availablePacks.length > 0 && (
-					<div className={styles.moveDropdownContainer}>
-						<MoveItemDropdown 
-							packItem={item} 
-							availablePacks={availablePacks} 
-						/>
-					</div>
-				)}
 			</Stack>
+			
+			{canEdit && availablePacks.length > 0 && (
+				<MoveItemModal 
+					packItem={item} 
+					availablePacks={availablePacks}
+					open={showMoveDropdown}
+					onOpenChange={setShowMoveDropdown}
+				/>
+			)}
 		</div>
 	);
 };

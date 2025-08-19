@@ -1,28 +1,31 @@
 import { useState } from 'react';
-import styles from './move-item-dropdown.module.css';
 import { BaseTableRowItem, type PackListItem } from '@/types/pack-types';
 import { usePackDropdown } from './use-pack-dropdown';
-import { Table } from '@/components/alpine';
-import { Flex } from '@/components/layout';
-import { Select } from '@radix-ui/themes';
+import { Stack, Flex } from '@/components/layout';
+import { Select, Dialog } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
-import { MoveDownIcon } from '@/components/icons';
+import { cn } from '@/styles/utils';
+import { MoveIcon, ClosetIcon } from '@/components/icons';
 import { useMoveItemToPackMutation } from '@/queries/closet-queries';
+import styles from './move-item-modal.module.css';
 
-type MoveItemDropdownProps = {
+type MoveItemModalProps = {
 	packItem: BaseTableRowItem;
 	availablePacks: PackListItem[];
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+	onMoveToCloset?: () => void;
 };
 
-export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
-	const { packItem, availablePacks } = props;
+export const MoveItemModal = (props: MoveItemModalProps) => {
+	const { packItem, availablePacks, open, onOpenChange, onMoveToCloset } = props;
 
-	const { packItemId, packItemIndex } = packItem;
+	const { packItemId, packItemIndex, packItemName } = packItem;
 
 	const { mutate: moveItemToPack } = useMoveItemToPackMutation();
 
-	const [packId, setPackId] = useState<string | null>();
-	const [categoryId, setCategoryId] = useState<string | null>();
+	const [packId, setPackId] = useState<string>('');
+	const [categoryId, setCategoryId] = useState<string>('');
 
 	const [currentPack] = availablePacks.filter((item) => item.packId === Number(packId));
 
@@ -30,18 +33,16 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 
 	const { packList, categoryList } = usePackDropdown(availablePacks, availableCategories);
 
-	// Hide dropdown if no packs are available
+	// Hide modal if no packs are available
 	if (!availablePacks || availablePacks.length === 0) return null;
 
 	const handleSelectPack = (value: string) => {
-		if (value) {
-			setPackId(value);
-			setCategoryId(null);
-		}
+		setPackId(value);
+		setCategoryId('');
 	};
 
 	const handleSelectCategory = (value: string) => {
-		if (value) setCategoryId(value);
+		setCategoryId(value);
 	};
 
 	const handleMoveItemToPack = () => {
@@ -52,14 +53,35 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 				packCategoryId: categoryId,
 				packItemIndex,
 			});
+			setPackId('');
+			setCategoryId('');
+			onOpenChange(false);
+		}
+	};
+
+	const handleClose = () => {
+		setPackId('');
+		setCategoryId('');
+		onOpenChange(false);
+	};
+
+	const handleMoveToCloset = () => {
+		if (onMoveToCloset) {
+			onMoveToCloset();
+			onOpenChange(false);
 		}
 	};
 
 	return (
-		<Table.Row className={styles.tableRow}>
-			<Table.Cell colSpan={24} className="px-2">
-				<Flex className="flex justify-end items-center gap-2 ml-auto py-1 flex-col sm:flex-row">
-					<Select.Root onValueChange={handleSelectPack}>
+		<Dialog.Root open={open} onOpenChange={onOpenChange}>
+			<Dialog.Content style={{ maxWidth: 450 }}>
+				<Dialog.Title>Move {packItemName}</Dialog.Title>
+				<Dialog.Description>
+					Select a pack and category to move this item.
+				</Dialog.Description>
+
+				<Stack className={cn('gap-3 mt-4', styles.moveItemSelect)}>
+					<Select.Root onValueChange={handleSelectPack} value={packId}>
 						<Select.Trigger className="dropdown-primary" placeholder="Choose a pack..." />
 						<Select.Content>
 							<Select.Group>
@@ -73,7 +95,10 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 						</Select.Content>
 					</Select.Root>
 
-					<Select.Root onValueChange={handleSelectCategory} disabled={!packId}>
+					<Select.Root
+						onValueChange={handleSelectCategory}
+						value={categoryId}
+						disabled={!packId}>
 						<Select.Trigger
 							className="dropdown-secondary"
 							placeholder="Choose a category..."
@@ -89,15 +114,30 @@ export const MoveItemDropdown = (props: MoveItemDropdownProps) => {
 							</Select.Group>
 						</Select.Content>
 					</Select.Root>
+				</Stack>
+
+				<Flex className="gap-3 mt-6 justify-end">
+					<Dialog.Close>
+						<Button variant="secondary" onClick={handleClose}>
+							Cancel
+						</Button>
+					</Dialog.Close>
+					{onMoveToCloset && (
+						<Button
+							variant="outline"
+							onClick={handleMoveToCloset}
+							iconLeft={<ClosetIcon />}>
+							Move to Closet
+						</Button>
+					)}
 					<Button
-						size="sm"
 						disabled={!categoryId}
 						onClick={handleMoveItemToPack}
-						iconLeft={<MoveDownIcon />}>
+						iconLeft={<MoveIcon />}>
 						Move Item
 					</Button>
 				</Flex>
-			</Table.Cell>
-		</Table.Row>
+			</Dialog.Content>
+		</Dialog.Root>
 	);
 };

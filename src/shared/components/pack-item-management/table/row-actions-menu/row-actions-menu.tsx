@@ -1,6 +1,6 @@
 import { Button } from '@/components/alpine';
 import { PopoverMenu } from '@/components/ui/popover-menu';
-import { TrashIcon, ShareIcon, MenuIcon } from '@/components/icons';
+import { TrashIcon, MoveIcon, MenuIcon } from '@/components/icons';
 import { DeletePackItemModal } from '@/features/dashboard/components/modals';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { isPackItem } from '@/types/pack-types';
@@ -33,7 +33,7 @@ export const RowActionsMenu = ({
 					size="sm"
 					override
 					className={tableStyles.actionMenuButtons}
-					iconLeft={<ShareIcon />}
+					iconLeft={<MoveIcon />}
 					onClick={onMove}>
 					Move
 				</Button>
