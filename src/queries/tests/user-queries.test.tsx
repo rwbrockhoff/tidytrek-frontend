@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import {
 	useGetAuthStatusQuery,
-	useLoginMutation,
+	useOAuthLoginMutation,
 	useLogoutMutation,
 	type AuthStatusResponse,
 } from '@/queries/user-queries';
@@ -70,7 +70,7 @@ describe('useGetAuthStatusQuery', () => {
 	});
 });
 
-describe('useLoginMutation', () => {
+describe('useOAuthLoginMutation', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
@@ -80,7 +80,7 @@ describe('useLoginMutation', () => {
 		vi.mocked(tidyTrekAPI.post).mockResolvedValue({ data: {} });
 
 		const wrapper = createQueryWrapper();
-		const { result } = renderHook(() => useLoginMutation(), { wrapper });
+		const { result } = renderHook(() => useOAuthLoginMutation(), { wrapper });
 
 		result.current.mutate(loginData);
 

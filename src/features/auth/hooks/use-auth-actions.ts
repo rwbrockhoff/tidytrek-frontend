@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useLoginMutation, useRegisterMutation } from '@/queries/user-queries';
+import { useOAuthLoginMutation, useOAuthRegisterMutation } from '@/queries/user-queries';
 import { type LoginUser, type RegisterUser } from '@/types/user-types';
 
 // Hook to manage auth state changes and navigation
@@ -7,8 +7,8 @@ import { type LoginUser, type RegisterUser } from '@/types/user-types';
 export const useAuthActions = () => {
 	const navigate = useNavigate();
 
-	const { mutateAsync: loginUser } = useLoginMutation();
-	const { mutateAsync: registerUser } = useRegisterMutation();
+	const { mutateAsync: loginUser } = useOAuthLoginMutation();
+	const { mutateAsync: registerUser } = useOAuthRegisterMutation();
 
 	const login = async (userData: LoginUser) => {
 		await loginUser(userData);
