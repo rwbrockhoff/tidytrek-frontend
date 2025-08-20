@@ -1,6 +1,6 @@
 import { Badge } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
-import { LocationIcon, SeasonIcon, DurationIcon, HikingIcon } from '@/components/icons';
+import { LocationIcon, SeasonIcon, DurationIcon, MountainIcon } from '@/components/icons';
 import { Pack } from '@/types/pack-types';
 
 export const PackLabels = ({ pack }: { pack: Pack }) => {
@@ -21,7 +21,7 @@ export const PackLabels = ({ pack }: { pack: Pack }) => {
 			)}
 
 			{packDistanceTag && (
-				<PackLabel name={packDistanceTag} icon={<HikingIcon size={12} />} />
+				<PackLabel name={packDistanceTag} icon={<MountainIcon size={12} />} />
 			)}
 		</Flex>
 	);

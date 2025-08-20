@@ -41,7 +41,7 @@ export {
 	Sun as SunIcon,
 	Moon as MoonIcon,
 	Clock as DurationIcon,
-	Mountain as HikingIcon,
+	Mountain as MountainIcon,
 	Scale as WeightIcon,
 	DollarSign as MoneyIcon,
 	Backpack as BackpackIcon,

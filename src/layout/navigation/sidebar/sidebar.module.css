@@ -22,7 +22,12 @@
 	z-index: -1;
 }
 
-.sidebar * {
+.sidebar h1,
+.sidebar h2,
+.sidebar h3,
+.sidebar p,
+.sidebar span,
+.sidebar button {
 	color: var(--color-text-primary);
 }
 
