@@ -10,6 +10,7 @@ import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { MouseOver } from '@/contexts/mouse-over-context';
 import { ThemeToggle } from '@/components/ui';
+import { Logo } from '@/layout/logo';
 import { SidebarMenu } from './menus/sidebar-menu/sidebar-menu';
 import { PackList } from './pack-list/pack-list';
 import { PopoverMenu } from './menus/popover-menu';
@@ -97,9 +98,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			<div className={styles.sidebarContainer}>
 				<div className={styles.sidebarHeader}>
 					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle()}>
-						<Heading as="h1" mb="1">
-							tidytrek
-						</Heading>
+						<Logo size={isMobile ? 'base' : 'small'} className="mb-1" />
 					</Link>
 					{showSidebar && <SidebarButton isSidebar isMobile={isMobile} onClick={onToggle} />}
 				</div>

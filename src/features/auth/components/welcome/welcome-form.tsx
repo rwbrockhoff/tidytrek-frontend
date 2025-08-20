@@ -4,6 +4,7 @@ import { Link } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { FormContainer } from '../form-components/form-components';
 import { ForwardArrowIcon } from '@/components/icons';
+import { Logo } from '@/layout/logo';
 import { WelcomeFormFields } from './welcome-form-fields';
 import { useWelcomeForm } from '../../hooks/use-welcome-form';
 import { AuthFlowType } from '../../constants/auth-flow-types';
@@ -27,12 +28,12 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 	return (
 		<FormContainer>
-			<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
-				<Link to="/">tidytrek</Link>
+			<Heading as="h1" size="8" className={styles.brandHeading}>
+				<Link to="/"><Logo className="mx-auto mb-4" /></Link>
 			</Heading>
 			<Segment radius="2">
 				<Stack className="gap-2">
-					<Heading as="h3" size="7">
+					<Heading as="h3" size="7" className={styles.authTitle}>
 						Welcome!
 					</Heading>
 
