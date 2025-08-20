@@ -1,5 +1,6 @@
 import './instrument';
 import ReactDOM from 'react-dom/client';
+import '@fontsource-variable/inter';
 import '@radix-ui/themes/styles.css';
 import './styles/index.css';
 import './index.css';
