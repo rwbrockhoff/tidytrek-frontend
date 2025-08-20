@@ -1,0 +1,27 @@
+.primaryBrand {
+	color: var(--color-primary);
+}
+
+.black {
+	color: var(--color-constant-black);
+}
+
+.white {
+	color: var(--color-constant-white);
+}
+
+.primary {
+	color: var(--color-text-primary);
+}
+
+.secondary {
+	color: var(--color-text-secondary);
+}
+
+.base {
+	height: 2rem;
+}
+
+.small {
+	height: 1.5rem;
+}
