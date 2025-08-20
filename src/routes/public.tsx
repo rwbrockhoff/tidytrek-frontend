@@ -13,7 +13,7 @@ const guestRoute = (path: string, element: JSX.Element) => ({
 });
 
 export const publicRoutes = [
-	guestRoute('/user/:userId', <Profile isCreator={false} />),
+	guestRoute('/u/:userId', <Profile isCreator={false} />),
 	guestRoute('/pk/:packId', <Dashboard isCreator={false} />),
 	{
 		path: '/*',
