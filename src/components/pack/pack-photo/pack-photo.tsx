@@ -3,7 +3,7 @@ import { cn, mx } from '@/styles/utils';
 import styles from './pack-photo.module.css';
 import { Dimmer, Spinner } from '@/components/primitives';
 import { DeletePhotoButton } from '@/components/media';
-import { defaultPackPhoto } from '@/utils';
+import { TreeIcon2 } from '@/components/icons';
 import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
@@ -23,7 +23,6 @@ export const PackPhoto = (props: PackPhotoProps) => {
 		if (isPending) setShowButton(false);
 	}, [isPending]);
 
-	const photoSource = src || defaultPackPhoto;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
@@ -35,12 +34,18 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				<DeletePhotoButton disabled={isPending} onClick={onDelete} />
 			)}
 
-			<img
-				src={photoSource}
-				alt="upload custom pack photo"
-				className={styles.packPhoto}
-				loading="lazy"
-			/>
+			{src ? (
+				<img
+					src={src}
+					alt="upload custom pack photo"
+					className={styles.packPhoto}
+					loading="lazy"
+				/>
+			) : (
+				<div className={styles.defaultPack}>
+					<TreeIcon2 className={cn('lucide', styles.defaultIcon)} />
+				</div>
+			)}
 
 			<Spinner active={isPending} absoluteCenter size="3" />
 

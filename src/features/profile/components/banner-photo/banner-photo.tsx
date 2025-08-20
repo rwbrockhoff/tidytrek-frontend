@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { cn, mx } from '@/styles/utils';
 import { UploadFile } from '@/components';
 import { Dimmer, Spinner } from '@/components/primitives';
-import { defaultBannerPhoto } from '@/utils';
 
 type BannerPhotoProps = {
 	bannerPhotoUrl: string | undefined;
@@ -22,11 +21,15 @@ export const BannerPhoto = (props: BannerPhotoProps) => {
 			className={cn(styles.bannerContainer, mx.uploadHoverContainer)}
 			onMouseOver={() => setShowUploadMode(true)}
 			onMouseLeave={() => setShowUploadMode(false)}>
-			<img
-				className={styles.bannerImage}
-				src={bannerPhotoUrl || defaultBannerPhoto}
-				alt="landscape profile banner photo"
-			/>
+			{bannerPhotoUrl ? (
+				<img
+					className={styles.bannerImage}
+					src={bannerPhotoUrl}
+					alt="landscape profile banner photo"
+				/>
+			) : (
+				<div className={styles.bannerGradient} />
+			)}
 
 			<Spinner active={isPending} size="4" absoluteCenter />
 
