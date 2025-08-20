@@ -46,6 +46,11 @@ label {
 	height: var(--icon-lg);
 }
 
+.lucide.lucide-xl {
+	width: var(--icon-xl);
+	height: var(--icon-xl);
+}
+
 /* Override border color for outline buttons on secondary background */
 .aow.outline-button-dark {
 	border-color: var(--color-border-secondary);

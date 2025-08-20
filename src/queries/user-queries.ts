@@ -13,6 +13,7 @@ import { type Settings } from '../types/settings-types';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
 import { extractErrorMessage } from '../utils/error-utils';
+import { authHint } from '../utils/auth-hint';
 
 export type AuthStatusResponse = {
 	isAuthenticated: boolean;
@@ -28,7 +29,13 @@ type LoginResponse = {
 export const useGetAuthStatusQuery = () =>
 	useQuery<AuthStatusResponse>({
 		queryKey: userKeys.all,
-		queryFn: () => tidyTrekAPI.get('/auth/status').then(extractData<AuthStatusResponse>),
+		queryFn: async () => {
+			const response = await tidyTrekAPI.get('/auth/status').then(extractData<AuthStatusResponse>);
+			if (response.isAuthenticated) {
+				authHint.checkAndRefresh();
+			}
+			return response;
+		},
 	});
 
 export const useLoginMutation = (): SimpleMutation<LoginUserFormData, LoginResponse> => {
@@ -61,6 +68,7 @@ export const useLoginMutation = (): SimpleMutation<LoginUserFormData, LoginRespo
 		},
 		retry: false,
 		onSuccess: () => {
+			authHint.set();
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
@@ -73,6 +81,7 @@ export const useOAuthLoginMutation = (): SimpleMutation<LoginUser, LoginResponse
 			tidyTrekAPI.post('/auth/login', loginData).then(extractData<LoginResponse>),
 		retry: false,
 		onSuccess: () => {
+			authHint.set();
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
@@ -116,6 +125,7 @@ export const useRegisterMutation = (): SimpleMutation<
 		},
 		retry: false,
 		onSuccess: () => {
+			authHint.set();
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
@@ -133,6 +143,7 @@ export const useOAuthRegisterMutation = (): SimpleMutation<
 				.then(extractData<{ message?: string }>),
 		retry: false,
 		onSuccess: () => {
+			authHint.set();
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
 		},
 	});
@@ -147,6 +158,7 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 			await supabase.auth.signOut();
 		},
 		onSuccess: () => {
+			authHint.delete();
 			queryClient.clear();
 		},
 	});
@@ -157,11 +169,11 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 	return useMutation({
 		mutationFn: async () => {
 			const result = await tidyTrekAPI.delete('/auth/account').then(extractData<void>);
-			// Redirect after successful deletion
 			window.location.replace('/login');
 			return result;
 		},
 		onSuccess: () => {
+			authHint.delete();
 			queryClient.clear();
 		},
 	});
