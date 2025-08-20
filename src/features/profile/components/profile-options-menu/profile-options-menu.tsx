@@ -18,7 +18,7 @@ export const ProfileOptionsMenu = ({ username }: ProfileOptionsMenuProps) => {
 	};
 
 	const handleShareProfile = () => {
-		const profileUrl = `${frontendURL}/user/${username}`;
+		const profileUrl = `${frontendURL}/u/${username}`;
 		navigator.clipboard.writeText(profileUrl);
 		setLinkCopied(true);
 	};

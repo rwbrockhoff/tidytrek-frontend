@@ -13,10 +13,11 @@ type PackPhotoProps = {
 	isPending: boolean;
 	onUpload: (formData: FormData) => void;
 	onDelete?: () => void;
+	rounded?: boolean;
 };
 
 export const PackPhoto = (props: PackPhotoProps) => {
-	const { src, packId, uploadEnabled = false, isPending, onUpload, onDelete } = props;
+	const { src, packId, uploadEnabled = false, isPending, onUpload, onDelete, rounded = false } = props;
 	const [showButton, setShowButton] = useState(false);
 
 	useEffect(() => {
@@ -38,11 +39,11 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				<img
 					src={src}
 					alt="upload custom pack photo"
-					className={styles.packPhoto}
+					className={cn(styles.packPhoto, rounded && styles.rounded)}
 					loading="lazy"
 				/>
 			) : (
-				<div className={styles.defaultPack}>
+				<div className={cn(styles.defaultPack, rounded && styles.rounded)}>
 					<TreeIcon2 className={cn('lucide', styles.defaultIcon)} />
 				</div>
 			)}

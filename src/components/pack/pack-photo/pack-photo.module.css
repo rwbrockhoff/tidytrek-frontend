@@ -44,3 +44,7 @@
 .container:hover .defaultIcon {
 	fill: currentColor;
 }
+
+.rounded {
+	border-radius: var(--radius-lg);
+}

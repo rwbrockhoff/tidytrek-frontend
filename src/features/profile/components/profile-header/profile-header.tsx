@@ -85,18 +85,20 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				/>
 			</div>
 			<div className={cn(styles.profileInfoContainer, 'px-8 py-6')}>
+				{isCreator && (
+					<div className={cn(styles.optionsMenu)}>
+						<ProfileOptionsMenu username={username} />
+					</div>
+				)}
 				<Stack
 					className={cn(
 						styles.profileTextContainer,
 						'justify-center mx-4 md:mx-0 gap-3 max-w-3xl',
 					)}>
-					<Flex className="items-start justify-between">
-						<Heading as="h3" className={cn(styles.usernameHeader)}>
-							{username || firstName}
-							{trailName && <span className={styles.trailName}>({trailName})</span>}
-						</Heading>
-						{isCreator && <ProfileOptionsMenu username={username} />}
-					</Flex>
+					<Heading as="h3" className={cn(styles.usernameHeader)}>
+						{username || firstName}
+						{trailName && <span className={styles.trailName}>({trailName})</span>}
+					</Heading>
 
 					<Flex className="flex-wrap items-center gap-4 md:gap-3">
 						{userLocation && (
