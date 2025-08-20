@@ -8,7 +8,7 @@
 	white-space: nowrap;
 	border-radius: var(--radius);
 	font-size: var(--font-size-3);
-	font-weight: var(--font-weight-medium);
+	font-weight: var(--font-weight-semibold);
 	transition: var(--transition);
 	cursor: pointer;
 	border: 1px solid transparent;
@@ -106,6 +106,7 @@
 	background-color: transparent;
 	color: var(--color-text-primary);
 	border-color: transparent;
+	font-weight: var(--font-weight-medium);
 }
 
 .buttonGhost:hover {
@@ -201,20 +202,7 @@
 	border-color: var(--btn-border-hover);
 }
 
-/* Loading state overrides color */
-.buttonLoading.buttonDefault.buttonCustomColor,
-.buttonLoading.buttonDefault.buttonColorPrimary,
-.buttonLoading.buttonDefault.buttonColorSecondary,
-.buttonLoading.buttonDefault.buttonColorTertiary,
-.buttonLoading.buttonDefault.buttonColorInfo,
-.buttonLoading.buttonDefault.buttonColorDanger {
-	color: transparent;
-}
-
 /* Button - States */
-.buttonLoading {
-	color: transparent;
-}
 
 .buttonDisabled {
 	opacity: var(--opacity-80);
@@ -267,13 +255,15 @@
 
 /* Button - Loading */
 .spinner {
-	position: absolute;
+	display: inline-block;
 	width: var(--icon-match);
 	height: var(--icon-match);
+	margin-right: var(--space-2);
 	border: 2px solid transparent;
 	border-top: 2px solid currentColor;
 	border-radius: 50%;
-	animation: spin 1s linear infinite;
+	animation: var(--animation-spin);
+	flex-shrink: 0;
 }
 
 .buttonDefault.buttonCustomColor .spinner,
@@ -283,8 +273,3 @@
 	border-top-color: var(--color-constant-white);
 }
 
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
-}

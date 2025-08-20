@@ -42,6 +42,7 @@ export const PackPhotoPanel = ({ packPhotoUrl, packId }: PackPhotoPanel) => {
 				isPending={photoPending}
 				onUpload={handleUploadPhoto}
 				onDelete={handleDeletePhoto}
+				rounded
 			/>
 		</Stack>
 	);

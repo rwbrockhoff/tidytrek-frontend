@@ -1,15 +1,4 @@
 .mountainIcon {
 	color: var(--color-text-secondary);
-	animation: breathe 2s ease-in-out infinite;
-}
-
-@keyframes breathe {
-	0%, 100% {
-		transform: scale(1);
-		opacity: 0.7;
-	}
-	50% {
-		transform: scale(1.05);
-		opacity: 1;
-	}
+	animation: var(--animation-breathe);
 }
