@@ -30,7 +30,19 @@
 		height: fit-content;
 	}
 
-	.packOptionsMenu {
+	.userInfoPanel .packOptionsMenu,
+	.userInfoPanel .packOptionsMenu button {
 		opacity: 1;
+	}
+
+	.packOptionsMenu {
+		margin-left: auto;
+	}
+
+	.packOptionsMenu button {
+		padding: var(--space-3);
+		min-height: 44px;
+		min-width: 44px;
+		font-size: var(--font-size-4);
 	}
 }

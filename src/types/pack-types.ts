@@ -1,3 +1,5 @@
+import { PaletteColor, PaletteName } from '@/styles/palette/palette-constants';
+
 export enum WeightUnit {
 	oz = 'oz',
 	lb = 'lb',
@@ -35,6 +37,7 @@ export type Pack = {
 	packAffiliateDescription: string;
 	packViews: number;
 	packBookmarkCount: number;
+	palette?: PaletteName;
 	categories?: Category[];
 };
 
@@ -43,7 +46,7 @@ export type Category = {
 	packCategoryId: number;
 	packId: number;
 	packCategoryIndex: string;
-	packCategoryColor: string;
+	packCategoryColor: PaletteColor;
 	packItems: PackItem[];
 };
 
