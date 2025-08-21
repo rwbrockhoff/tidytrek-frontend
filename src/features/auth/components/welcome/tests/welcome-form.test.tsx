@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { WelcomeForm } from '../welcome-form';
+import { AuthFlowType } from '../../../constants/auth-flow-types';
 import { wrappedRender } from '@/tests/wrapper-utils';
 
 // Mock React Router (dependency, not used for test logic)
@@ -9,7 +10,9 @@ vi.mock('react-router-dom', async () => {
 	return {
 		...actual,
 		useNavigate: () => vi.fn(),
-		Link: ({ to, children }: { to: string; children: React.ReactNode }) => <a href={to}>{children}</a>,
+		Link: ({ to, children }: { to: string; children: React.ReactNode }) => (
+			<a href={to}>{children}</a>
+		),
 	};
 });
 
@@ -33,7 +36,12 @@ vi.mock('@/api/tidytrek-api', () => ({
 
 describe('WelcomeForm', () => {
 	const renderWelcomeForm = (defaultUsername?: string) => {
-		return wrappedRender(<WelcomeForm defaultUsername={defaultUsername} authFlowType="test" />);
+		return wrappedRender(
+			<WelcomeForm
+				defaultUsername={defaultUsername}
+				authFlowType={AuthFlowType.EmailVerification}
+			/>,
+		);
 	};
 
 	describe('Form UI', () => {

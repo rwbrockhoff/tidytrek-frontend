@@ -21,13 +21,13 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 
 	return (
 		<Flex className="items-center mb-8 md:mb-4">
-			<Link to={`/user/${username}`} enabled={publicProfile}>
+			<Link to={`/u/${username}`} enabled={publicProfile}>
 				<Avatar src={profilePhotoUrl} size="small" />
 			</Link>
 
 			<Stack className="justify-center gap-2 ml-4">
 				<Heading as="h4" size="4" className={styles.usernameHeader}>
-					<Link to={`/user/${username}`} enabled={publicProfile}>
+					<Link to={`/u/${username}`} enabled={publicProfile}>
 						{username || firstName || 'Tidy Hiker'}
 						{trailName && <span className={styles.trailName}>{trailName}</span>}
 					</Link>

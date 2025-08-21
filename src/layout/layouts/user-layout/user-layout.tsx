@@ -5,6 +5,7 @@ import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense, useState, useEffect } from 'react';
 import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { cn } from '@/styles/utils';
+import { TransitionOutlet } from '@/components/layout';
 
 export const UserLayout = () => {
 	const { isMobile, isMedium } = useCheckScreen();
@@ -38,7 +39,9 @@ export const UserLayout = () => {
 						{!showSidebar && (
 							<SidebarButton isSidebar={false} onClick={handleToggleSidebar} />
 						)}
-						<Outlet />
+						<TransitionOutlet>
+							<Outlet />
+						</TransitionOutlet>
 					</Suspense>
 				</div>
 			</div>

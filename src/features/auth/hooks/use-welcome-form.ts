@@ -52,8 +52,15 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 
 	const handleGenerateUsername = async () => {
 		const result = await generateUsername();
+		
 		if (result.data?.username) {
 			setFormData((prev) => ({ ...prev, username: result.data.username }));
+			return;
+		}
+		
+		if (result.error) {
+			const message = extractErrorMessage(result.error);
+			setServerError({ error: true, message });
 		}
 	};
 

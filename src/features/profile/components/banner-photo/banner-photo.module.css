@@ -8,21 +8,30 @@
 	width: 100%;
 	height: 250px;
 	object-fit: cover;
-	border-top-left-radius: 25px;
-	border-top-right-radius: 25px;
+	border-top-left-radius: var(--radius-xl);
+	border-top-right-radius: var(--radius-xl);
+	margin-bottom: -5px;
+}
+
+.bannerGradient {
+	width: 100%;
+	height: 250px;
+	background: linear-gradient(135deg, var(--color-primary-surface), var(--color-primary-surface-hover));
+	border-top-left-radius: var(--radius-xl);
+	border-top-right-radius: var(--radius-xl);
 	margin-bottom: -5px;
 }
 
 .uploadContainer {
 	position: absolute;
-	bottom: 0;
-	right: var(--space-8);
+	bottom: calc(-1 * var(--space-4));
+	right: var(--space-6);
 }
 
 .styledDimmer {
 	top: 0px;
 	width: 100%;
 	height: 250px;
-	border-top-left-radius: 25px;
-	border-top-right-radius: 25px;
+	border-top-left-radius: var(--radius-xl);
+	border-top-right-radius: var(--radius-xl);
 }

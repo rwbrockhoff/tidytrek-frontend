@@ -40,7 +40,7 @@ export const ProfilePalette = () => {
 					return (
 						<Stack
 							data-theme-palette={paletteTheme}
-							className={cn(styles.themeRow, 'gap-2')}
+							className={cn(styles.themeRow, 'hover-lift gap-2')}
 							style={{
 								borderColor: isCurrentPalette ? 'var(--color-primary)' : '',
 							}}

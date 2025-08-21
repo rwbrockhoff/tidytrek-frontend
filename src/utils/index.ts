@@ -6,4 +6,4 @@ export * from './convert-weight';
 export * from './drag-drop-utils';
 export * from './object-utils';
 export * from './link-utils';
-export * from './default-photos';
+export * from './format-number';

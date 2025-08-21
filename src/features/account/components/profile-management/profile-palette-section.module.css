@@ -5,7 +5,6 @@
 	width: fit-content;
 	padding: var(--space-3);
 	cursor: pointer;
-	transition: box-shadow, transform 0.3s ease;
 }
 
 .disabledThemeSelection {
@@ -16,11 +15,6 @@
 	color: var(--color-primary);
 }
 
-.themeRow:hover {
-	box-shadow: var(--shadow-paper);
-	translatey: 2px;
-	transform: translateY(-2px);
-}
 
 .themeSquare {
 	width: var(--icon-sm);

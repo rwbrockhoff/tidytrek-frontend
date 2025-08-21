@@ -3,7 +3,7 @@ import { cn, mx } from '@/styles/utils';
 import styles from './pack-photo.module.css';
 import { Dimmer, Spinner } from '@/components/primitives';
 import { DeletePhotoButton } from '@/components/media';
-import { defaultPackPhoto } from '@/utils';
+import { TreeIcon2 } from '@/components/icons';
 import { UploadFile } from '@/components';
 
 type PackPhotoProps = {
@@ -13,17 +13,17 @@ type PackPhotoProps = {
 	isPending: boolean;
 	onUpload: (formData: FormData) => void;
 	onDelete?: () => void;
+	rounded?: boolean;
 };
 
 export const PackPhoto = (props: PackPhotoProps) => {
-	const { src, packId, uploadEnabled = false, isPending, onUpload, onDelete } = props;
+	const { src, packId, uploadEnabled = false, isPending, onUpload, onDelete, rounded = false } = props;
 	const [showButton, setShowButton] = useState(false);
 
 	useEffect(() => {
 		if (isPending) setShowButton(false);
 	}, [isPending]);
 
-	const photoSource = src || defaultPackPhoto;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 	const displayDeleteButton = src && onDelete && showButton && !isPending;
 	return (
@@ -35,12 +35,18 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				<DeletePhotoButton disabled={isPending} onClick={onDelete} />
 			)}
 
-			<img
-				src={photoSource}
-				alt="upload custom pack photo"
-				className={styles.packPhoto}
-				loading="lazy"
-			/>
+			{src ? (
+				<img
+					src={src}
+					alt="upload custom pack photo"
+					className={cn(styles.packPhoto, rounded && styles.rounded)}
+					loading="lazy"
+				/>
+			) : (
+				<div className={cn(styles.defaultPack, rounded && styles.rounded)}>
+					<TreeIcon2 className={cn('lucide', styles.defaultIcon)} />
+				</div>
+			)}
 
 			<Spinner active={isPending} absoluteCenter size="3" />
 

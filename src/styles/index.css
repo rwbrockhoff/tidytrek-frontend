@@ -1,5 +1,4 @@
-/* Main stylesheet */
-
+@import './animations.css';
 @import './foundation/tokens.css';
 @import './foundation/reset.css';
 @import './foundation/global.css';

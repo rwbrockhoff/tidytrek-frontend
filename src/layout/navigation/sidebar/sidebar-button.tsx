@@ -17,7 +17,7 @@ export const SidebarButton = ({ onClick, isSidebar, isMobile }: SidebarButtonPro
 			variant="ghost">
 			{isSidebar ? (
 				isMobile ? (
-					<CloseIcon className="lucide-sm" />
+					<CloseIcon className="lucide-lg" />
 				) : (
 					<BackArrow className="lucide-sm" />
 				)

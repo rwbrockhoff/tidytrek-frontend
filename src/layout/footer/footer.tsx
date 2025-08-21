@@ -1,6 +1,7 @@
 import { LocationIcon } from '@/components/icons';
 import { Flex, Stack } from '@/components/layout';
 import { cn } from '@/styles/utils';
+import { Logo } from '@/layout/logo';
 import styles from './footer.module.css';
 
 export const Footer = () => {
@@ -9,8 +10,10 @@ export const Footer = () => {
 			<div className={styles.container}>
 				<Stack className={cn(styles.contentContainer, 'gap-4')}>
 					<Flex className="flex-col md:flex-row justify-between items-center gap-6">
-						<Stack className="gap-1 items-center md:items-start">
-							<a href="/" className={styles.brandTitle}>tidytrek</a>
+						<Stack className="gap-3 items-center md:items-start">
+							<a href="/" className={styles.brandTitle}>
+								<Logo color="white" size="small" />
+							</a>
 							<Flex className="items-center gap-2 justify-center md:justify-start">
 								<LocationIcon className={styles.locationIcon} />
 								<span className={styles.locationText}>Made in Colorado</span>

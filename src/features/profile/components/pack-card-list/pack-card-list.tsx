@@ -1,5 +1,5 @@
 import { type Pack } from '@/types/pack-types';
-import { Flex } from '@/components/layout';
+import { Grid } from '@/components/layout';
 import { PackCard } from './pack-card/pack-card';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { SkeletonCard } from '@/components/ui';
@@ -16,7 +16,7 @@ export const PackCardList = (props: PackCardListProps) => {
 	const packList = packThumbnailList || [];
 	const emptyList = !packList.length;
 	return (
-		<Flex className="flex-wrap gap-6 mt-8 items-stretch">
+		<Grid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 w-full">
 			{/* Show users packs */}
 			{packList.map((pack, index) => {
 				return <PackCard key={pack.packId || index} pack={pack} canEdit={isCreator} />;
@@ -27,6 +27,6 @@ export const PackCardList = (props: PackCardListProps) => {
 				Array(3)
 					.fill(null)
 					.map((_, index) => <SkeletonCard key={index} noAnimation />)}
-		</Flex>
+		</Grid>
 	);
 };

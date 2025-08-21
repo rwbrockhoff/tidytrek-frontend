@@ -25,4 +25,4 @@ declare global {
 
 export type AuthMethod = 'signup' | 'signin';
 
-export const GOOGLE_PUBLIC_ID = '778562703378-b8d69qdpjgvtcgmd0u7b3odot2gmsi6j.apps.googleusercontent.com';
+export const GOOGLE_PUBLIC_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;

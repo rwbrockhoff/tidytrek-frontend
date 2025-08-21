@@ -17,6 +17,10 @@
 	text-align: center;
 }
 
+.authTitle {
+	color: var(--color-primary-text);
+}
+
 .welcomeFormFields {
 	text-align: left;
 }

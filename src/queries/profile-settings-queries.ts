@@ -5,6 +5,7 @@ import { ProfileQueryState } from '../types/profile-types';
 import { type UserInfo } from '../types/profile-types';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
+import { getErrorStatus } from '../utils/error-utils';
 
 export const useGetProfileSettingsQuery = () =>
 	useQuery<ProfileQueryState>({
@@ -20,7 +21,14 @@ export const useGenerateUsernameQuery = () =>
 			tidyTrekAPI
 				.get('/profile-settings/random-username')
 				.then(extractData<{ username: string }>),
-		enabled: false, // Only run when manually triggered
+		enabled: false,
+		retry: (failureCount, error: unknown) => {
+			const status = getErrorStatus(error);
+			if (status === 401 || status === 403) {
+				return false;
+			}
+			return failureCount < 3;
+		},
 	});
 
 export const useUpdateUsernameMutation = (): SimpleMutation<

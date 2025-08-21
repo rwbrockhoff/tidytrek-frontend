@@ -3,7 +3,7 @@ import { Link } from '@/components/ui';
 import { DeletePhotoButton } from '../delete-photo-button/delete-photo-button';
 import { Dimmer, Spinner } from '@/components/primitives';
 import { UploadFile } from '@/components/upload-file/upload-file';
-import { defaultAvatarPhoto } from '@/utils';
+import { UserIcon } from '@/components/icons';
 import { cn, mx } from '@/styles/utils';
 import styles from './avatar.module.css';
 
@@ -33,7 +33,6 @@ export const Avatar = (props: AvatarProps) => {
 	const [showButton, setShowButton] = useState(false);
 
 	const hasLink = link ? true : false;
-	const photoSource = src ? src : defaultAvatarPhoto;
 	const displayDeleteButton = onDelete && src && showButton && !isPending;
 	const displayDimmer = uploadEnabled && (isPending || showButton);
 
@@ -68,7 +67,13 @@ export const Avatar = (props: AvatarProps) => {
 						</div>
 					)}
 
-					<img src={photoSource} className={styles.avatar} alt="user profile photo" />
+					{src ? (
+						<img src={src} className={styles.avatar} alt="user profile photo" />
+					) : (
+						<div className={styles.defaultAvatar}>
+							<UserIcon className={cn('lucide', styles.defaultIcon)} />
+						</div>
+					)}
 				</div>
 			</div>
 		</Link>

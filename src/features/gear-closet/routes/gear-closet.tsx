@@ -37,7 +37,6 @@ export const GearCloset = () => {
 	const hasItems = gearClosetList.length > 0;
 	const filteredList = isSearching ? filteredClosetList : gearClosetList;
 	const showResults = isSearching ? filteredClosetList.length > 0 : hasItems;
-	const showEmptyListDescription = !hasItems && !isLoading;
 
 	const permissions = useUserPermissions();
 
@@ -52,11 +51,9 @@ export const GearCloset = () => {
 						</Flex>
 					</Heading>
 
-					{showEmptyListDescription && (
-						<p className={styles.descriptionText}>
-							Keep track of other pack items that don't have a pack list yet!
-						</p>
-					)}
+					<p className={styles.descriptionText}>
+						Keep track of other pack items that don't have a pack list yet!
+					</p>
 
 					<Box className={cn(mx.responsiveContent, 'mx-auto mb-4')}>
 						<TextField.Standalone

@@ -4,8 +4,8 @@ import { type Settings } from '@/types/settings-types';
 import styles from './pack-info.module.css';
 import { cn, mx } from '@/styles/utils';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { EditPencilIcon, ChartIcon, LinkIcon } from '@/components/icons';
+import { useParams } from 'react-router-dom';
+import { ChartIcon, LinkIcon } from '@/components/icons';
 import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
@@ -13,15 +13,14 @@ import { useCheckScreen } from '@/hooks/ui/use-check-screen';
 import { useDashboardView } from '../../hooks/use-dashboard-view';
 import { useCategoryInfo } from '../../hooks/use-category-info';
 import { isUntouchedPack } from '../../utils/is-untouched-pack';
-import { encode } from '@/utils';
 import { PackGraphic } from './pack-chart/pack-graphic';
-import { PackModal } from '../pack-modal/pack-modal';
 import { ExternalLink } from '@/components/ui';
-import { ShareSettings } from './share-settings/share-settings';
 import { PackLabels } from '@/components';
 import { ProfileInfo } from './profile-info/profile-info';
 import { PackStarterCard } from './pack-starter-card/pack-starter-card';
 import { AffiliateMessage } from './affiliate-message';
+import { PackOptionsMenu } from './pack-options-menu';
+import { PackVisibilityStatus } from './pack-visibility-status';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -32,7 +31,6 @@ type PackInfoProps = {
 };
 
 export const PackInfo = (props: PackInfoProps) => {
-	const navigate = useNavigate();
 	const { canEdit } = useDashboardView();
 	const { isMobile } = useCheckScreen();
 	const { packId: paramPackId } = useParams();
@@ -72,7 +70,7 @@ export const PackInfo = (props: PackInfoProps) => {
 				mx.responsiveContent,
 				'flex-col items-center mb-4 gap-4 min-h-fit md:flex-row md:items-start md:justify-between md:mb-12 md:gap-8',
 			)}>
-			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1')}>
+			<Stack className={cn(mx.responsivePanel, styles.userInfoPanel, 'gap-1 max-w-lg')}>
 				{!canEdit && (
 					<ProfileInfo
 						userInfo={profileInfo}
@@ -81,36 +79,19 @@ export const PackInfo = (props: PackInfoProps) => {
 					/>
 				)}
 
-				<Flex className="items-center gap-2">
+				<Flex className="items-center gap-3">
 					<Heading as="h1" size="6" data-testid="pack-name-heading">
 						{packName}
 					</Heading>
 
-					{isMobile && canEdit ? (
-						<Button
-							variant="ghost"
-							className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
-							data-testid="pack-edit-button"
-							aria-label="Edit pack details"
-							onClick={() => navigate(`/pack/edit/${encode(currentPack.packId)}`)}>
-							<EditPencilIcon />
-						</Button>
-					) : (
-						canEdit && (
-							<PackModal pack={currentPack}>
-								<Button
-									variant="ghost"
-									className={cn(`editIcon ${styles.editIcon}`, 'my-auto')}
-									data-testid="pack-edit-button"
-									aria-label="Edit pack details">
-									<EditPencilIcon />
-								</Button>
-							</PackModal>
-						)
+					{canEdit && (
+						<div className={styles.packOptionsMenu}>
+							<PackOptionsMenu pack={currentPack} packId={paramPackId} />
+						</div>
 					)}
 				</Flex>
 
-				{canEdit && <ShareSettings packPublic={packPublic} packId={paramPackId} />}
+				{canEdit && <PackVisibilityStatus isPublic={packPublic} />}
 
 				{packUrl && (
 					<ExternalLink href={packUrl}>
@@ -157,4 +138,3 @@ export const PackInfo = (props: PackInfoProps) => {
 		</Flex>
 	);
 };
-

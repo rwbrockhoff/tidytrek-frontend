@@ -3,7 +3,12 @@
 	color: var(--color-text-primary);
 }
 
-.userInfoPanel:hover .editIcon {
+.userInfoPanel .packOptionsMenu {
+	opacity: 0;
+	transition: opacity var(--transition);
+}
+
+.userInfoPanel:hover .packOptionsMenu {
 	opacity: 1;
 }
 
@@ -11,10 +16,8 @@
 	max-width: 60ch;
 }
 
-.editIcon {
-	font-size: var(--font-size-3);
-	cursor: pointer;
-	opacity: 0;
+.lightText {
+	color: var(--color-text-secondary);
 }
 
 .toggleChartButton {
@@ -27,7 +30,7 @@
 		height: fit-content;
 	}
 
-	.editIcon {
+	.packOptionsMenu {
 		opacity: 1;
 	}
 }

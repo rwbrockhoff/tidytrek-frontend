@@ -1,0 +1,4 @@
+.mountainIcon {
+	color: var(--color-text-secondary);
+	animation: var(--animation-breathe);
+}

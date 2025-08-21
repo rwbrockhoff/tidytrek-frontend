@@ -5,6 +5,7 @@ import {
 	AuthContainer,
 	FormContainer,
 } from '../components/form-components/form-components';
+import { Logo } from '@/layout/logo';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const ResetSuccess = () => {
@@ -12,8 +13,8 @@ export const ResetSuccess = () => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Heading as="h1" mb="4">
-					<Link to="/">tidytrek</Link>
+				<Heading as="h1">
+					<Link to="/"><Logo className="mx-auto mb-4" /></Link>
 				</Heading>
 
 				<Segment radius="2">

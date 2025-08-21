@@ -75,7 +75,7 @@ export const protectedRoutes = [
 				element: <Profile isCreator={true} key="user-profile" />,
 			},
 			{
-				path: '/user/:userId',
+				path: '/u/:userId',
 				element: <Profile isCreator={false} key="guest-profile" />,
 			},
 			{

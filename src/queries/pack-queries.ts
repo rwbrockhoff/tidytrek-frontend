@@ -155,15 +155,22 @@ export const useMovePackMutation = (): SimpleMutation<
 			queryClient.invalidateQueries({ queryKey: profileKeys.all });
 		},
 		onSuccess: (result) => {
-			queryClient.setQueryData(
-				packListKeys.all,
-				(old: { packList: PackListItem[] } | undefined) => {
-					if (!old) return old;
-					return {
-						packList: updateItemIndex(old.packList, result, 'packId'),
-					};
-				},
-			);
+			// If API rebalanced, invalidate query
+			if (result.rebalanced) {
+				queryClient.invalidateQueries({ queryKey: packListKeys.all });
+				queryClient.invalidateQueries({ queryKey: profileKeys.all });
+			} else {
+				// update moved item to new fractional index from server
+				queryClient.setQueryData(
+					packListKeys.all,
+					(old: { packList: PackListItem[] } | undefined) => {
+						if (!old) return old;
+						return {
+							packList: updateItemIndex(old.packList, result, 'packId'),
+						};
+					},
+				);
+			}
 		},
 	});
 };
@@ -258,31 +265,36 @@ export const useMovePackItemMutation = (): SimpleMutation<
 				.then(extractData<MovePackItemResponse>);
 		},
 		onSuccess: (response, packInfo) => {
-			// update moved item with new calculated fractional index
 			if (packInfo.packId) {
-				queryClient.setQueryData<PackQueryState>(
-					packKeys.packId(packInfo.packId),
-					(old) => {
-						if (!old) return old;
+				// If API rebalanced, invalidate query
+				if (response.rebalanced) {
+					queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+				} else {
+					// update moved item with new calculated fractional index
+					queryClient.setQueryData<PackQueryState>(
+						packKeys.packId(packInfo.packId),
+						(old) => {
+							if (!old) return old;
 
-						const { categories } = old;
-						const { newIndex } = response;
+							const { categories } = old;
+							const { newIndex } = response;
 
-						const updatedCategories = categories.map((category) => ({
-							...category,
-							packItems: category.packItems.map((item) =>
-								item.packItemId.toString() === packInfo.packItemId
-									? { ...item, packItemIndex: newIndex }
-									: item,
-							),
-						}));
+							const updatedCategories = categories.map((category) => ({
+								...category,
+								packItems: category.packItems.map((item) =>
+									item.packItemId.toString() === packInfo.packItemId
+										? { ...item, packItemIndex: newIndex }
+										: item,
+								),
+							}));
 
-						return {
-							...old,
-							categories: updatedCategories,
-						};
-					},
-				);
+							return {
+								...old,
+								categories: updatedCategories,
+							};
+						},
+					);
+				}
 			}
 		},
 		onError: (_err, packInfo) => {
@@ -456,17 +468,25 @@ export const useMovePackCategoryMutation = (): SimpleMutation<
 		},
 		onSuccess: (result, categoryInfo) => {
 			if (categoryInfo.packId) {
-				queryClient.setQueryData<PackQueryState>(
-					packKeys.packId(categoryInfo.packId),
-					(old) => {
-						if (!old) return old;
+				// If API rebalanced, invalidate query
+				if (result.rebalanced) {
+					queryClient.invalidateQueries({
+						queryKey: packKeys.packId(categoryInfo.packId),
+					});
+				} else {
+					// update moved item to new fractional index from server
+					queryClient.setQueryData<PackQueryState>(
+						packKeys.packId(categoryInfo.packId),
+						(old) => {
+							if (!old) return old;
 
-						return {
-							...old,
-							categories: updateItemIndex(old.categories, result, 'packCategoryId'),
-						};
-					},
-				);
+							return {
+								...old,
+								categories: updateItemIndex(old.categories, result, 'packCategoryId'),
+							};
+						},
+					);
+				}
 			}
 		},
 		onError: (_err, categoryInfo) => {

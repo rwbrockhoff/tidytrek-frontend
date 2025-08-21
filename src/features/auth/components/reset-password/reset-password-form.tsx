@@ -7,6 +7,7 @@ import { Segment } from '@/components/primitives';
 import { Flex } from '@/components/layout';
 import { Text, Heading } from '@radix-ui/themes';
 import { Button, TextField } from '@/components/alpine';
+import { Logo } from '@/layout/logo';
 import { Link } from 'react-router-dom';
 import { FormContainer, AuthContainer } from '../form-components/form-components';
 import styles from '../form-components/form-components.module.css';
@@ -41,12 +42,12 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
-				<Heading as="h1" size="8" mb="6" className={styles.brandHeading}>
-					<Link to="/">tidytrek</Link>
+				<Heading as="h1" size="8" className={styles.brandHeading}>
+					<Link to="/"><Logo className="mx-auto mb-4" /></Link>
 				</Heading>
 
 				<Segment radius="2">
-					<Heading as="h3" size="6" mb="5">
+					<Heading as="h3" size="6" mb="5" className={styles.authTitle}>
 						Reset Password
 					</Heading>
 					<Form onSubmit={handleFormSubmit}>

@@ -75,6 +75,7 @@ export const PackForm = ({
 									label="Pack Description"
 									placeholder="Pack Description"
 									onChange={handleFormChange}
+									maxLength={250}
 								/>
 
 								<Flex className="items-center my-2">
@@ -215,6 +216,7 @@ export const PackForm = ({
 									onChange={handleFormChange}
 									placeholder={affiliateMessage}
 									label="Custom Affiliate Message"
+									maxLength={250}
 								/>
 							)}
 						</Stack>

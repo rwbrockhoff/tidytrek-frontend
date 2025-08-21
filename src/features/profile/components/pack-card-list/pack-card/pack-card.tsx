@@ -1,13 +1,13 @@
 import { type Pack } from '@/types/pack-types';
 import { Heading, Inset, Text } from '@radix-ui/themes';
-import { Flex } from '@/components/layout';
+import { Flex, Stack } from '@/components/layout';
 import { ViewsIcon, PublicIcon, PrivateIcon } from '@/components/icons';
 import { Card } from '@/components/alpine';
 import { Link } from '@/components/ui';
 import styles from './pack-card.module.css';
 import { cn, mx } from '@/styles/utils';
 import { PackLabels, PackPhoto } from '@/components';
-import { encode } from '@/utils';
+import { encode, formatNumber } from '@/utils';
 import { useUploadPackPhotoMutation } from '@/queries/pack-queries';
 
 type PackCardProps = {
@@ -30,9 +30,8 @@ export const PackCard = ({ pack, canEdit }: PackCardProps) => {
 		<Card.Root
 			variant="surface"
 			rounded="md"
-			shadow="paper"
 			override
-			className={cn(styles.styledCard, mx.responsiveContent)}>
+			className={cn(styles.styledCard, mx.responsiveContent, 'hover-lift')}>
 			<Link to={link} enabled={!canEdit} className="profilePackLink">
 				<Inset clip="padding-box" side="top" pb="current">
 					<PackPhoto
@@ -45,33 +44,37 @@ export const PackCard = ({ pack, canEdit }: PackCardProps) => {
 				</Inset>
 
 				<Card.Body className={styles.cardBody}>
-					<Heading size="4">
-						<Link to={link} enabled={canEdit}>
-							{packName}
-						</Link>
-					</Heading>
-					<Flex className="items-center gap-1 my-1">
-						{packPublic ? (
-							<>
-								<PublicIcon />
-								<Text size="2">Public</Text>
-							</>
-						) : (
-							<>
-								<PrivateIcon />
-								<Text size="2">Private</Text>
-							</>
-						)}
-					</Flex>
-					<Text my="2">{packDescription}</Text>
-					<PackLabels pack={pack} />
+					<Stack className="gap-2">
+						<Stack className="gap-1">
+							<Heading size="4">
+								<Link to={link} enabled={canEdit}>
+									{packName}
+								</Link>
+							</Heading>
+							<Flex className="items-center gap-1">
+								{packPublic ? (
+									<>
+										<PublicIcon />
+										<Text size="2">Public</Text>
+									</>
+								) : (
+									<>
+										<PrivateIcon />
+										<Text size="2">Private</Text>
+									</>
+								)}
+							</Flex>
+						</Stack>
+						<Text className={styles.packDescription}>{packDescription}</Text>
+						<PackLabels pack={pack} />
+					</Stack>
 				</Card.Body>
 
 				{canEdit && (
 					<Card.Footer className={styles.cardFooter}>
 						<Flex className={cn(styles.cardFooterText, 'items-center')}>
 							<ViewsIcon />
-							<Text>{packViews} Views</Text>
+							<Text>{formatNumber(packViews)} Views</Text>
 						</Flex>
 					</Card.Footer>
 				)}

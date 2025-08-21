@@ -13,6 +13,7 @@ import {
 } from '@/queries/profile-settings-queries';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { BannerPhoto } from '../banner-photo/banner-photo';
+import { ProfileOptionsMenu } from '../profile-options-menu';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
@@ -25,7 +26,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 	const { isCreator } = useUserPermissionsContext();
 	const { userProfile, notFound, isPrivate, hasError } = props;
 
-	// Show message for error within default UI
+	// Error message to display in Profile Header UI
 	const getStatusMessage = () => {
 		if (notFound)
 			return {
@@ -73,7 +74,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				onUpload={uploadBannerPhoto}
 			/>
 
-			<div className={cn(styles.avatarContainer, 'left-8')}>
+			<div className={cn(styles.avatarContainer, 'left-10')}>
 				<Avatar
 					withBorder
 					uploadEnabled={isCreator}
@@ -83,21 +84,26 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					onUpload={uploadProfilePhoto}
 				/>
 			</div>
-			<div className={cn(styles.profileInfoContainer, 'p-6')}>
+			<div className={cn(styles.profileInfoContainer, 'px-8 py-6')}>
+				{isCreator && (
+					<div className={cn(styles.optionsMenu)}>
+						<ProfileOptionsMenu username={username} />
+					</div>
+				)}
 				<Stack
 					className={cn(
 						styles.profileTextContainer,
-						'justify-center mx-4 md:mx-0 gap-3',
+						'justify-center mx-4 md:mx-0 gap-3 max-w-3xl',
 					)}>
 					<Heading as="h3" className={cn(styles.usernameHeader)}>
 						{username || firstName}
 						{trailName && <span className={styles.trailName}>({trailName})</span>}
 					</Heading>
 
-					<Flex className="flex-wrap items-center gap-2">
+					<Flex className="flex-wrap items-center gap-4 md:gap-3">
 						{userLocation && (
-							<Text className={cn(styles.locationText, 'inline-flex items-center')}>
-								<LocationIcon className="mr-1" /> {userLocation}
+							<Text className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
+								<LocationIcon /> {userLocation}
 							</Text>
 						)}
 

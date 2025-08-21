@@ -2,14 +2,16 @@
 	width: fit-content;
 	position: absolute;
 	top: 175px;
+	z-index: var(--z-above);
 }
 
 .profileInfoContainer {
+	position: relative;
 	min-height: 175px;
 	height: fit-content;
 	background-color: var(--color-bg-secondary);
-	border-bottom-left-radius: var(--space-6);
-	border-bottom-right-radius: var(--space-6);
+	border-bottom-left-radius: var(--radius-xl);
+	border-bottom-right-radius: var(--radius-xl);
 }
 
 .profileTextContainer {
@@ -37,6 +39,12 @@
 	font-size: var(--font-size-4);
 }
 
+.optionsMenu {
+	position: absolute;
+	top: var(--space-5);
+	right: var(--space-6);
+}
+
 @media (max-width: 768px) {
 	.avatarContainer {
 		top: 175px;
@@ -47,4 +55,5 @@
 		margin-left: 0;
 		margin-top: 75px;
 	}
+
 }

@@ -2,6 +2,7 @@
 	position: relative;
 	overflow: hidden;
 	border-radius: 50%;
+	background-color: var(--color-bg-tertiary);
 }
 
 .outerContainer {
@@ -53,4 +54,34 @@
 
 .withBorder {
 	border: 3px solid var(--color-bg-primary);
+}
+
+.defaultAvatar {
+	width: 100%;
+	height: 100%;
+	background-color: var(--color-bg-tertiary);
+	color: var(--color-text-tertiary);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.defaultIcon {
+	width: 100%;
+	height: 100%;
+	margin-bottom: -15%;
+	color: currentColor;
+	fill: currentColor;
+}
+
+.small .defaultIcon {
+	margin-bottom: -15%;
+}
+
+.medium .defaultIcon {
+	margin-bottom: -15%;
+}
+
+.large .defaultIcon {
+	margin-bottom: -15%;
 }

@@ -1,0 +1,30 @@
+.alignLeft :global(button) {
+	justify-content: flex-start;
+	width: 100%;
+}
+
+.alignCenter :global(button) {
+	justify-content: center;
+	width: 100%;
+}
+
+.alignRight :global(button) {
+	justify-content: flex-end;
+	width: 100%;
+}
+
+.primary :global(button) {
+	color: var(--color-primary-text);
+}
+
+.primary :global(button svg) {
+	color: var(--color-primary-text);
+}
+
+.danger :global(button) {
+	color: var(--color-error);
+}
+
+.danger :global(button svg) {
+	color: var(--color-error);
+}

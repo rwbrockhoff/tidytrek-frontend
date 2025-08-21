@@ -18,7 +18,7 @@ test.describe('Guest View Functionality', () => {
 
 	test('should view guest profile and navigate to public pack', async ({ page }) => {
 		// Navigate to the test user's profile page
-		await page.goto('/user/testUser123');
+		await page.goto('/u/testUser123');
 		await page.waitForLoadState('networkidle');
 
 		// Verify we're on the profile page
@@ -70,7 +70,7 @@ test.describe('Guest View Functionality', () => {
 
 	test('should handle private profile correctly', async ({ page }) => {
 		// go to non-existent user profile
-		await page.goto('/user/nonexistentuser');
+		await page.goto('/u/nonexistentuser');
 		await page.waitForLoadState('networkidle');
 
 		// Should show "User not found" message
@@ -85,7 +85,7 @@ test.describe('Guest View Functionality', () => {
 
 	test('should show profile banner for non-authenticated users', async ({ page }) => {
 		// Navigate to guest profile
-		await page.goto('/user/testUser123');
+		await page.goto('/u/testUser123');
 		await page.waitForLoadState('networkidle');
 
 		// Verify signup button is visible

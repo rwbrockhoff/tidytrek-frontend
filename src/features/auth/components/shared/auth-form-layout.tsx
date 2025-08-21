@@ -6,6 +6,7 @@ import { Message } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { AuthContainer, FormContainer } from '../form-components/form-components';
 import { GoogleAuth } from '../google-auth';
+import { Logo } from '@/layout/logo';
 import { LoginFooter, RegisterFooter } from './auth-footers';
 import styles from '../form-components/form-components.module.css';
 import { type FormError } from '@/types/form-types';
@@ -31,12 +32,12 @@ export const AuthFormLayout = ({
 		<AuthContainer>
 			<FormContainer>
 				<Stack className="gap-2">
-					<Heading as="h1" size="8" className={`${styles.brandHeading} mb-4`}>
-						<LandingLink>tidytrek</LandingLink>
+					<Heading as="h1" size="8" className={styles.brandHeading}>
+						<LandingLink><Logo className="mx-auto mb-4" /></LandingLink>
 					</Heading>
 					<Segment radius="2">
 						<Stack className="gap-2">
-							<Heading as="h3" size="7" mb="4">
+							<Heading as="h3" size="7" mb="4" className={styles.authTitle}>
 								{title}
 							</Heading>
 
