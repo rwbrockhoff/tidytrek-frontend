@@ -20,7 +20,7 @@ export const PopoverMenu = (props: PopoverMenuProps) => {
 			trigger={
 				<div>
 					<Link to="/profile" enabled={!isMobile}>
-						<Avatar src={profilePhotoUrl} size={isMobile ? 'medium' : 'small'} />
+						<Avatar src={profilePhotoUrl} size={isMobile ? 'md' : 'sm'} />
 					</Link>
 				</div>
 			}

@@ -21,7 +21,7 @@ type AvatarProps = {
 export const Avatar = (props: AvatarProps) => {
 	const {
 		src,
-		size = 'big',
+		size = 'md',
 		link,
 		withBorder = false,
 		uploadEnabled = false,
@@ -70,8 +70,8 @@ export const Avatar = (props: AvatarProps) => {
 					{src ? (
 						<img src={src} className={styles.avatar} alt="user profile photo" />
 					) : (
-						<div className={styles.defaultAvatar}>
-							<UserIcon className={cn('lucide', styles.defaultIcon)} />
+						<div className={cn(styles.defaultAvatar, styles[size])}>
+							<UserIcon className={cn('lucide', styles.defaultIcon, styles[size])} />
 						</div>
 					)}
 				</div>
@@ -80,4 +80,4 @@ export const Avatar = (props: AvatarProps) => {
 	);
 };
 
-type Size = 'small' | 'medium' | 'big' | 'large';
+type Size = 'sm' | 'md' | 'lg';

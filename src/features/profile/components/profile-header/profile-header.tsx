@@ -79,7 +79,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					withBorder
 					uploadEnabled={isCreator}
 					src={profilePhotoUrl}
-					size="large"
+					size="lg"
 					isPending={isPendingProfilePhoto}
 					onUpload={uploadProfilePhoto}
 				/>

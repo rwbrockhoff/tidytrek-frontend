@@ -29,7 +29,7 @@ export const AvatarSettings = ({
 			<Stack className="justify-center w-max">
 				<Avatar
 					src={profilePhotoUrl}
-					size="big"
+					size="md"
 					uploadEnabled
 					onDelete={deleteProfilePhoto}
 					isPending={isUploadingPhoto}
