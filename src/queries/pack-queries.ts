@@ -5,6 +5,7 @@ import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
 import { updateItemIndex } from '@/utils/query-utils';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import {
 	type MovePackItemProps,
 	type MovePackItemResponse,
@@ -28,12 +29,20 @@ export const getCategoryIndex = (categories: Category[], categoryId: number | st
 	);
 };
 
-export const useGetPackQuery = (packId: number | null | undefined) => {
+export const useGetPackQuery = (
+	packId: number | null | undefined,
+	options?: { enabled?: boolean },
+) => {
 	const { isAuthenticated } = useGetAuth();
+	const isGuestRoute = useGuestRoute();
+
+	// Disable on guest routes unless overridden
+	const shouldEnable =
+		options?.enabled ?? (Boolean(packId) && isAuthenticated && !isGuestRoute);
 
 	return useQuery<PackQueryState>({
 		queryKey: packKeys.packId(packId),
-		enabled: Boolean(packId) && isAuthenticated,
+		enabled: shouldEnable,
 		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get(`/packs/${packId}`).then(extractData<PackQueryState>),
 	});

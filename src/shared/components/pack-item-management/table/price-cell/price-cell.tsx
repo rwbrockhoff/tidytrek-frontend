@@ -7,6 +7,7 @@ import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { useConvertCurrency } from '@/utils';
+import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
@@ -31,7 +32,8 @@ export const PriceCell = ({
 	rowRef,
 }: PriceCellProps) => {
 	const { isCreator } = useUserPermissionsContext();
-	const convertCurrency = useConvertCurrency();
+	const { currency } = usePackContext();
+	const convertCurrency = useConvertCurrency(currency);
 	const { isToggled, toggle } = useToggle();
 
 	const { ref, width } = useCellWidth(isDragging);
