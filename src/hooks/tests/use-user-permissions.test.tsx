@@ -9,6 +9,7 @@ vi.mock('@/hooks/auth/use-get-auth', () => ({
 
 vi.mock('react-router-dom', () => ({
 	useParams: vi.fn(() => ({})),
+	useLocation: vi.fn(() => ({ pathname: '/' })),
 }));
 
 vi.mock('@/queries/pack-queries', () => ({
@@ -42,7 +43,7 @@ describe('useUserPermissions', () => {
 	it('returns creator permissions when user owns pack', () => {
 		const mockUser = createMockUser();
 		const mockPack = { userId: mockUser.userId };
-		
+
 		mockUseGetAuth.mockReturnValue({
 			isAuthenticated: true,
 			isLoading: false,
@@ -60,7 +61,7 @@ describe('useUserPermissions', () => {
 
 	it('returns creator permissions when viewing own profile', () => {
 		const mockUser = createMockUser();
-		
+
 		mockUseGetAuth.mockReturnValue({
 			isAuthenticated: true,
 			isLoading: false,
@@ -78,7 +79,7 @@ describe('useUserPermissions', () => {
 	it('returns authenticated permissions when user is not creator', () => {
 		const mockUser = createMockUser();
 		const otherUserPack = { userId: 'different-user' };
-		
+
 		mockUseGetAuth.mockReturnValue({
 			isAuthenticated: true,
 			isLoading: false,
@@ -110,7 +111,7 @@ describe('useUserPermissions', () => {
 
 	it('returns creator permissions on profile route with no userId param', () => {
 		const mockUser = createMockUser();
-		
+
 		mockUseGetAuth.mockReturnValue({
 			isAuthenticated: true,
 			isLoading: false,

@@ -42,6 +42,10 @@ vi.mock('@/hooks/auth/use-get-auth', () => ({
 	})),
 }));
 
+vi.mock('react-router-dom', () => ({
+	useLocation: vi.fn(() => ({ pathname: '/' })),
+}));
+
 vi.mock('@/utils', () => ({
 	extractData: vi.fn((res) => res.data),
 	decode: vi.fn((id) => parseInt(id)),
