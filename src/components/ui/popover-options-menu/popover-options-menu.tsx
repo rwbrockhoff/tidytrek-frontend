@@ -9,6 +9,7 @@ export type PopoverOptionItem = {
 	onClick?: () => void;
 	variant?: 'default' | 'primary' | 'danger';
 	wrapper?: (children: React.ReactNode) => React.ReactNode;
+	disabled?: boolean;
 };
 
 type PopoverOptionsMenuProps = {
@@ -59,6 +60,7 @@ export const PopoverOptionsMenu = ({
 								override
 								iconLeft={item.icon}
 								onClick={item.onClick}
+								disabled={item.disabled}
 								className="text-sm">
 								{item.label}
 							</Button>
