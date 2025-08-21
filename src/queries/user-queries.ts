@@ -70,6 +70,7 @@ export const useLoginMutation = (): SimpleMutation<LoginUserFormData, LoginRespo
 		onSuccess: () => {
 			authHint.set();
 			queryClient.invalidateQueries({ queryKey: userKeys.all });
+			queryClient.refetchQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -159,6 +160,8 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 		},
 		onSuccess: () => {
 			authHint.delete();
+		},
+		onSettled: () => {
 			queryClient.clear();
 		},
 	});

@@ -81,26 +81,31 @@ export const useMoveGearClosetItemMutation = (): SimpleMutation<
 			queryClient.invalidateQueries({ queryKey: closetKeys.all });
 		},
 		onSuccess: (response, moveInfo) => {
-			// update moved item to new fractional index from server
-			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
-				closetKeys.all,
-				(old) => {
-					if (!old) return old;
+			// If API rebalanced, invalidate query
+			if (response.rebalanced) {
+				queryClient.invalidateQueries({ queryKey: closetKeys.all });
+			} else {
+				// update moved item to new fractional index from server
+				queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
+					closetKeys.all,
+					(old) => {
+						if (!old) return old;
 
-					const { newIndex } = response;
+						const { newIndex } = response;
 
-					const updatedList = old.gearClosetList.map((item) =>
-						item.packItemId.toString() === moveInfo.packItemId
-							? { ...item, packItemIndex: newIndex }
-							: item,
-					);
+						const updatedList = old.gearClosetList.map((item) =>
+							item.packItemId.toString() === moveInfo.packItemId
+								? { ...item, packItemIndex: newIndex }
+								: item,
+						);
 
-					return {
-						...old,
-						gearClosetList: updatedList,
-					};
-				},
-			);
+						return {
+							...old,
+							gearClosetList: updatedList,
+						};
+					},
+				);
+			}
 		},
 	});
 };

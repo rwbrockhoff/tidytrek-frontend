@@ -37,21 +37,18 @@ export const useWelcomeAuth = () => {
 			hasAttemptedLogin.current = true;
 
 			try {
-				const {
-					data: { session },
-				} = await supabase.auth.setSession({
-					access_token: accessToken,
-					refresh_token: refreshToken,
-				});
+				// Validate access token and get user info without setting session
+				const { data: { user }, error } = await supabase.auth.getUser(accessToken);
 
-				if (!session?.user) {
+				if (!user || error) {
 					return navigate('/');
 				}
 
+				// Now login with backend using extracted info
 				await loginWithoutNavigation({
-					email: session.user.email!,
-					userId: session.user.id,
-					supabaseRefreshToken: session.refresh_token,
+					email: user.email!,
+					userId: user.id,
+					supabaseRefreshToken: refreshToken,
 				});
 			} catch {
 				navigate('/');

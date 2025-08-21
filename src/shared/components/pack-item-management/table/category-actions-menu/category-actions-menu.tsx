@@ -2,6 +2,7 @@ import { Button } from '@/components/alpine';
 import { PopoverMenu } from '@/components/ui/popover-menu';
 import { TrashIcon, ShareIcon, MinusIcon, PlusIcon, MenuIcon } from '@/components/icons';
 import { DeleteModal } from '@/components/ui';
+import { useToggle } from '@/hooks/ui/use-toggle';
 import tableStyles from '../table-main/table.module.css';
 
 type CategoryActionsMenuProps = {
@@ -17,12 +18,31 @@ export const CategoryActionsMenu = ({
 	onDeletePackCategory,
 	onDeletePackCategoryAndItems,
 }: CategoryActionsMenuProps) => {
+	const { isToggled: isOpen, toggleClose, toggle } = useToggle();
+
+	const handleMinimizeCategory = () => {
+		onMinimizeCategory();
+		toggleClose();
+	};
+
+	const handleDeletePackCategory = () => {
+		onDeletePackCategory();
+		toggleClose();
+	};
+
+	const handleDeletePackCategoryAndItems = () => {
+		onDeletePackCategoryAndItems();
+		toggleClose();
+	};
+
 	return (
 		<PopoverMenu
 			trigger={<Button variant="ghost" size="md" iconLeft={<MenuIcon />} />}
 			side="bottom"
 			size="1"
-			sideOffset={2}>
+			sideOffset={2}
+			open={isOpen}
+			onOpenChange={toggle}>
 			<div className="flex flex-col gap-1">
 				<Button
 					variant="ghost"
@@ -30,16 +50,16 @@ export const CategoryActionsMenu = ({
 					iconLeft={isMinimized ? <PlusIcon /> : <MinusIcon />}
 					override
 					className={tableStyles.actionMenuButtons}
-					onClick={onMinimizeCategory}>
+					onClick={handleMinimizeCategory}>
 					{isMinimized ? 'Expand' : 'Minimize'}
 				</Button>
 				<DeleteModal
 					title="Are you sure?"
 					description="You can permanently delete your category or move the items to your gear closet."
-					onDelete={onDeletePackCategoryAndItems}
+					onDelete={handleDeletePackCategoryAndItems}
 					secondaryAction={{
 						text: 'Move to Gear Closet',
-						onClick: onDeletePackCategory,
+						onClick: handleDeletePackCategory,
 						icon: <ShareIcon />,
 					}}>
 					<Button
