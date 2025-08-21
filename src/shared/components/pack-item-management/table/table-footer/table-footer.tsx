@@ -4,7 +4,7 @@ import { Button, Table } from '@/components/alpine';
 import { PlusIcon } from '@/components/icons';
 import { useTableColumnWidths } from '../hooks/use-table-column-widths';
 import tableStyles from '../table-main/table.module.css';
-import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
 import { cn } from '@/styles/utils';
 
 type TableFooterProps = {
@@ -23,7 +23,7 @@ export const TableFooter = ({
 	price = 0,
 }: TableFooterProps) => {
 	const { totalColumns, showPrices, isCreator } = useTableColumnWidths();
-	const weightUnit = useUserWeightUnit();
+	const { weightUnit } = usePackContext();
 	const hasItems = showTotals && itemQuantity > 0;
 
 	// Calculate colSpan using same logic as our table
@@ -66,7 +66,7 @@ export const TableFooter = ({
 							className={cn(
 								tableStyles.weightColumn,
 								isCreator ? tableStyles.weightColumnText : tableStyles.weightColumnGuestView,
-							)}>{`${weight} ${weightUnit}`}</Table.Cell>
+							)}>{`${weight} ${weightUnit.base}`}</Table.Cell>
 						{showPrices && (
 							<Table.Cell
 								className={cn(

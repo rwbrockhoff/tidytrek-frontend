@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useGetAuth } from './use-get-auth';
 import { useGetPackQuery } from '@/queries/pack-queries';
+import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { decode } from '@/utils';
 import { type User } from '@/types/user-types';
 
@@ -20,14 +21,24 @@ type UseUserPermissionsReturn = {
 	isLoading: boolean;
 };
 
+/**
+ * Determines user permission level for current route/resource.
+ * Handles pack ownership, profile access, and guest/auth states.
+ *
+ * @param options - Optional pack data to avoid extra query fetches
+ * @returns Permission level, user data, and loading state
+ */
+
 export const useUserPermissions = (
 	options: UseUserPermissionsOptions = {},
 ): UseUserPermissionsReturn => {
 	const { user, isAuthenticated, isLoading: authLoading } = useGetAuth();
 	const { packId: paramPackId, userId: paramUserId } = useParams();
+	const isGuestRoute = useGuestRoute();
 
-	// use packId or grab from URL
-	const targetPackId = options.packId ?? (paramPackId ? decode(paramPackId) : null);
+	// use packId or grab from URL - only decode for user routes
+	const targetPackId =
+		options.packId ?? (paramPackId && !isGuestRoute ? decode(paramPackId) : null);
 
 	// skip request if pack provided
 	const { data: fetchedPack, isLoading: packLoading } = useGetPackQuery(

@@ -14,12 +14,13 @@ import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 import { DragDropWrapper } from '@/components/drag-drop/drag-drop-wrapper';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { GuestPreviewBanner } from '../guest-preview-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
 import { useDashboardDragHandlers } from '../../hooks/use-dashboard-drag-handlers';
+import { usePackContext } from '../../hooks/use-pack-context';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { PackNotAvailable } from '../pack-not-available/pack-not-available';
 import { DashboardDragOverlay } from '../dashboard-drag-overlay/dashboard-drag-overlay';
@@ -36,7 +37,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const { pack, categories } = currentPack || {};
 	const packCategories = useMemo(() => categories || [], [categories]);
 	const packId = pack?.packId || null;
-	const location = useLocation();
+	const isGuestRoute = useGuestRoute();
 
 	const { isAuthenticated, isCreator } = useUserPermissionsContext();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
@@ -44,6 +45,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
 
 	const { userProfile, settings } = useGuestData(currentPack);
+	const { palette: packPalette } = usePackContext();
 
 	const handleAddCategory = () => {
 		if (packId) {
@@ -60,23 +62,23 @@ export const DashboardContainer = (props: DashboardProps) => {
 		/>
 	);
 
-	const { packPricing = false } = pack || {};
-
 	if (!isPending && !pack) {
 		return <PackNotAvailable />;
 	}
 
 	if (!pack) return null;
 
-	const isGuestRoute = location.pathname.startsWith('/pk/');
+	const { packPricing = false } = pack;
+
 	const showPreviewMode = isAuthenticated && isCreator && isGuestRoute;
 	const canEdit = isCreator && !showPreviewMode;
 
 	return (
 		<PackPricingContext.Provider value={packPricing}>
 			<DashboardViewProvider canEdit={canEdit} isPreviewMode={showPreviewMode}>
-				<PageLayout>
-					{showPreviewMode && <GuestPreviewBanner />}
+				<div data-theme-palette={packPalette}>
+					<PageLayout>
+						{showPreviewMode && <GuestPreviewBanner />}
 
 				<PackInfo
 					currentPack={pack}
@@ -115,7 +117,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 					</Flex>
 				)}
 
-				</PageLayout>
+					</PageLayout>
+				</div>
 			</DashboardViewProvider>
 		</PackPricingContext.Provider>
 	);

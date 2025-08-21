@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
+import { type PaletteName } from '@/styles/palette/palette-constants';
 import { normalizeURL } from '@/utils/link-utils';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
@@ -58,6 +59,14 @@ export const usePackForm = (pack: Pack) => {
 		if (!packChanged) setPackChanged(true);
 	};
 
+	const handlePaletteChange = (palette: PaletteName) => {
+		setModifiedPack((prev) => ({
+			...prev,
+			palette,
+		}));
+		if (!packChanged) setPackChanged(true);
+	};
+
 	const handleSubmitPack = () => {
 		if (packChanged) {
 			// Validate pack form before submitting
@@ -88,6 +97,7 @@ export const usePackForm = (pack: Pack) => {
 		packChanged,
 		handleFormChange,
 		handleCheckBox,
+		handlePaletteChange,
 		handleSubmitPack,
 		resetForm,
 		formErrors,

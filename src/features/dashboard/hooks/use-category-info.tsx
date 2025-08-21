@@ -1,15 +1,20 @@
 import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
 import { useConvertCurrency, convertWeight } from '@/utils';
-import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { usePackContext } from './use-pack-context';
 
-// useCategoryInfo summarizes the weight (and price) of the entire pack
-// it returns totalWeight, consumables, wornWeight, totalPackPrice
-// and returns data required for the Pack Chart
+/**
+ * Calculates weight and price totals for pack categories
+ * handles unit conversions and generating chart data.
+ * Breaks down weights into: base weight, consumable, and worn weight.
+ *
+ * @param packCategories - Array of pack categories with pack items
+ * @returns Object with weight totals, chart data, and formatted price info
+ */
 
 export const useCategoryInfo = (packCategories: Category[]) => {
-	const convertCurrency = useConvertCurrency();
-	const outputUnit = useUserWeightUnit();
+	const { weightUnit: outputUnit, currency } = usePackContext();
+	const convertCurrency = useConvertCurrency(currency);
 
 	return useMemo(() => {
 		let consumables = 0;
@@ -22,7 +27,7 @@ export const useCategoryInfo = (packCategories: Category[]) => {
 		const categoryWeights = categories.map((category) => {
 			const packItems = category?.packItems || [];
 			const { totalWeight, totalWornWeight, totalConsumableWeight, totalPrice } =
-				convertWeight(packItems, outputUnit);
+				convertWeight(packItems, outputUnit.base);
 			consumables += totalConsumableWeight;
 			wornWeight += totalWornWeight;
 			totalPackPrice += totalPrice;
@@ -46,9 +51,9 @@ export const useCategoryInfo = (packCategories: Category[]) => {
 		// Calculate and format descriptive weights (baseweight, consumabels, wornweight)
 		const baseWeight = totalWeight - (consumables + wornWeight);
 		const descriptivePackWeight = {
-			consumables: convertToDisplayWeight(consumables, outputUnit),
-			wornWeight: convertToDisplayWeight(wornWeight, outputUnit),
-			baseWeight: convertToDisplayWeight(baseWeight, outputUnit),
+			consumables: convertToDisplayWeight(consumables, outputUnit.base),
+			wornWeight: convertToDisplayWeight(wornWeight, outputUnit.base),
+			baseWeight: convertToDisplayWeight(baseWeight, outputUnit.base),
 		};
 
 		return {

@@ -4,9 +4,9 @@ import { ThemeButton } from '../../table';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
-import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import { type InputEvent } from '@/types/form-types';
+import { usePackContext } from '../../../hooks/use-pack-context';
 
 type EditableCategoryHeaderProps = {
 	packCategoryName: string;
@@ -33,7 +33,7 @@ export const EditableCategoryHeader = ({
 	onChangeColor,
 	onMinimizeCategory,
 }: EditableCategoryHeaderProps) => {
-	const weightUnit = useUserWeightUnit();
+	const { weightUnit } = usePackContext();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 	
 	const [packCategoryName, setPackCategoryName] = useState(initialName);
@@ -99,7 +99,7 @@ export const EditableCategoryHeader = ({
 					<span
 						className={
 							styles.totalWeight
-						}>{`${convertedCategoryWeight} ${weightUnit}`}</span>
+						}>{`${convertedCategoryWeight} ${weightUnit.base}`}</span>
 					<span className={styles.totalPrice}>{formattedTotalPrice}</span>
 				</div>
 			)}
