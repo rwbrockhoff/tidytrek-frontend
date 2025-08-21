@@ -4,6 +4,8 @@ import { Popover } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
 import { paletteList } from '@/styles/palette/palette-constants';
 import { cn, mx } from '@/styles/utils';
+import { getPaletteColor } from '@/styles/palette/palette-map';
+import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
 
 type ThemeButtonProps = {
 	paletteColor: string | undefined;
@@ -12,6 +14,7 @@ type ThemeButtonProps = {
 };
 
 export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProps) => {
+	const { palette: currentPalette } = usePackContext();
 	const handleOnClick = (newColor: string) => onClick(newColor);
 
 	const bgColorPalette = {
@@ -34,10 +37,7 @@ export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProp
 		<Popover.Root>
 			<Popover.Trigger>
 				<Flex className="items-center justify-center m-1">
-					<Button
-						className={styles.circleButton}
-						style={bgColorPalette}
-					/>
+					<Button className={styles.circleButton} style={bgColorPalette} />
 				</Flex>
 			</Popover.Trigger>
 
@@ -48,7 +48,7 @@ export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProp
 							<Button
 								className={styles.circleButton}
 								style={{
-									backgroundColor: `var(--${themeColor})`,
+									backgroundColor: getPaletteColor(currentPalette, themeColor),
 								}}
 								onClick={() => handleOnClick(themeColor)}
 							/>

@@ -2,8 +2,9 @@ import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { getPaletteColor } from '@/styles/palette/palette-map';
+import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
 
 type PackChartProps = {
 	categories: Category[];
@@ -15,19 +16,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.overrides.doughnut.plugins.legend.display = false;
 ChartJS.defaults.plugins.tooltip.displayColors = false;
 
-// New utility fn that converts variable -> computed value for chart
-const getPaletteColor = (colorName: string): string => {
-	const cssVariable = `--${colorName}`;
-	const paletteElement = document.querySelector('[data-theme-palette]');
-	const computedValue = paletteElement
-		? getComputedStyle(paletteElement).getPropertyValue(cssVariable).trim()
-		: getComputedStyle(document.documentElement).getPropertyValue(cssVariable).trim();
-
-	return computedValue || '#338866'; // Fallback color
-};
-
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
-	const weightUnit = useUserWeightUnit();
+	const { palette, weightUnit } = usePackContext();
 	const { settings } = useGetAuth();
 	const isDarkMode = settings?.darkMode || false;
 
@@ -38,8 +28,10 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 
 	const categoryColors = useMemo(
 		() =>
-			(categories || []).map((category) => getPaletteColor(category.packCategoryColor)),
-		[categories],
+			(categories || []).map((category) =>
+				getPaletteColor(palette, category.packCategoryColor),
+			),
+		[categories, palette],
 	);
 
 	const borderColor = isDarkMode ? '#111827' : '#ffffff';
@@ -60,7 +52,7 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 						},
 						label: (context: TooltipItem<'doughnut'>) => {
 							const label = context.formattedValue || '0';
-							return `${label} ${weightUnit}`;
+							return `${label} ${weightUnit.base}`;
 						},
 					},
 				},
