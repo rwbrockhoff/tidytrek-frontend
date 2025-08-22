@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { ZodError } from 'zod';
 
 type APIErrorResponse = {
 	success: boolean;
@@ -18,10 +19,26 @@ export function extractErrorMessage(error: unknown): string {
 	if (!error) return defaultMessage;
 
 	if (isAxiosError(error)) {
-		const data = error.response?.data as APIErrorResponse;
-		return data?.error?.message || defaultMessage;
+		const data = error.response?.data;
+
+		// Handle API validation errors
+		const validationErrors = extractValidationErrors(data);
+		if (validationErrors) {
+			return validationErrors[0]?.message || defaultMessage;
+		}
+
+		// Handle general API errors
+		const apiError = data as APIErrorResponse;
+		return apiError?.error?.message || defaultMessage;
 	}
 
+	// Handle frontend validation errors
+	const validationErrors = extractValidationErrors(error);
+	if (validationErrors) {
+		return validationErrors[0]?.message || defaultMessage;
+	}
+
+	// Handle other generic error types
 	if (error instanceof Error) {
 		return error.message;
 	}
@@ -40,4 +57,11 @@ export function isAxiosError(error: unknown): error is AxiosError {
 export function getErrorStatus(error: unknown): number | null {
 	if (!isAxiosError(error)) return null;
 	return error.response?.status || null;
+}
+
+export function extractValidationErrors(error: unknown) {
+	if (error instanceof ZodError) {
+		return error.issues;
+	}
+	return null;
 }
