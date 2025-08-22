@@ -107,6 +107,7 @@ export const PackWeightCell = ({
 						onChange={handleWeightChange}
 						onKeyDown={(e) => handleKeyDown(e, 'packItemWeight')}
 						data-invalid={formErrors?.packItemWeight.error}
+						collapsibleError
 					/>
 
 					<WeightDropdown

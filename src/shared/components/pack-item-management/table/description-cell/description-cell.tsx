@@ -42,6 +42,7 @@ export const DescriptionCell = ({
 					onKeyDown={(e) => handleKeyDown(e, 'packItemDescription')}
 					disabled={!isCreator}
 					className={mx.textEllipsis}
+					collapsibleError
 				/>
 			) : (
 				<span className={cn(mx.textEllipsis, 'px-2')}>{packItemDescription || ''}</span>

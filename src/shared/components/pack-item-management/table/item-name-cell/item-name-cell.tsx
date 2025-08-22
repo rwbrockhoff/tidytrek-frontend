@@ -55,6 +55,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						onKeyDown={(e) => handleKeyDown(e, 'packItemName')}
 						disabled={!isCreator}
 						className={mx.textEllipsis}
+						collapsibleError
 					/>
 					<LinkPopup packItem={packItem} />
 				</Flex>

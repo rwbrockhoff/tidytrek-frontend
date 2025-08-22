@@ -57,6 +57,7 @@ export const QuantityCell = ({
 					onChange={onChange}
 					onKeyDown={(e) => handleKeyDown(e, 'packItemQuantity')}
 					style={{ textAlign: 'center' }}
+					collapsibleError
 				/>
 			) : (
 				<Badge radius="large" color="gray" highContrast>

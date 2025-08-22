@@ -96,6 +96,7 @@ export const PriceCell = ({
 					onKeyDown={(e) => handleKeyDown(e, 'packItemPrice')}
 					data-invalid={formErrors?.packItemPrice.error}
 					compact
+					collapsibleError
 				/>
 			) : (
 				<Text align="center">{formattedPrice}</Text>

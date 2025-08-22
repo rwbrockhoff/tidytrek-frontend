@@ -65,6 +65,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 						onChange={handleInput}
 						onBlur={handleBlur}
 						disabled={disabled}
+						collapsibleError
 					/>
 				) : (
 					<span className={cn(styles.headerCellText, mx.textEllipsis)}>
