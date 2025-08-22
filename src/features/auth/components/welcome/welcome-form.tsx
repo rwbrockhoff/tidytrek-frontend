@@ -29,7 +29,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 	return (
 		<FormContainer>
 			<Heading as="h1" size="8" className={styles.brandHeading}>
-				<Link to="/"><Logo className="mx-auto mb-4" /></Link>
+				<Link to="/" viewTransition><Logo className="mx-auto mb-4" /></Link>
 			</Heading>
 			<Segment radius="2">
 				<Stack className="gap-2">
@@ -53,7 +53,7 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 					<Flex className="justify-center">
 						<Text size="3">
-							<Link to="/">
+							<Link to="/" viewTransition>
 								<ForwardArrowIcon /> Skip this step for now
 							</Link>
 						</Text>

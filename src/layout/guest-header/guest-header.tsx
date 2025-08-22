@@ -18,7 +18,7 @@ export const GuestHeader = () => {
 						<Logo size="small" />
 					</LandingLink>
 					<Flex className="ml-auto items-center gap-4">
-						<Button onClick={() => navigate('/register')} iconLeft={<UserIcon />}>
+						<Button onClick={() => navigate('/register', { viewTransition: true })} iconLeft={<UserIcon />}>
 							Sign Up
 						</Button>
 					</Flex>

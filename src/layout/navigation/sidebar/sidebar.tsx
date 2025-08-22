@@ -62,7 +62,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			isNotDisplayingPack
 		) {
 			const encodedId = encode(currentPackId);
-			return navigate(`/pack/${encodedId}`);
+			navigate(`/pack/${encodedId}`);
 			// query disabled until ID, so this does not fetch twice
 		}
 		// this dependency list is intentional to get our desired toggle behavior
@@ -97,7 +97,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 			aria-label="Main navigation">
 			<div className={styles.sidebarContainer}>
 				<div className={styles.sidebarHeader}>
-					<Link to={defaultPackUrl} onClick={() => isMobile && onToggle()}>
+					<Link to={defaultPackUrl} viewTransition onClick={() => isMobile && onToggle()}>
 						<Logo size={isMobile ? 'base' : 'small'} className="mb-1" />
 					</Link>
 					{showSidebar && <SidebarButton isSidebar isMobile={isMobile} onClick={onToggle} />}

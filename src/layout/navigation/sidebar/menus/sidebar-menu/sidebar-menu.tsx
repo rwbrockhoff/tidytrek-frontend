@@ -7,7 +7,7 @@ export const SidebarMenu = () => {
 	return (
 		<StyledMenu className="gap-1">
 			<li>
-				<Link to="/profile">
+				<Link to="/profile" viewTransition>
 					<Flex className="items-center gap-2 justify-start">
 						<UserIcon />
 						Profile
@@ -15,7 +15,7 @@ export const SidebarMenu = () => {
 				</Link>
 			</li>
 			<li>
-				<Link to="/gear-closet">
+				<Link to="/gear-closet" viewTransition>
 					<Flex className="items-center gap-2 justify-start">
 						<ClosetIcon />
 						Gear Closet

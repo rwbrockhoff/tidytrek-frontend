@@ -22,6 +22,18 @@ body {
 	outline-offset: 2px;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 50ms;
+	}
+}
+
 label {
 	color: var(--color-text-primary);
 }

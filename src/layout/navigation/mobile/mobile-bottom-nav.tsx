@@ -47,6 +47,7 @@ export const MobileBottomNav = () => {
 					<Link
 						key={path}
 						to={path}
+						viewTransition
 						className={cn(styles.navItem, isActive && styles.navItemActive)}>
 						<Icon className={styles.navIcon} />
 						<span className={styles.navLabel}>{label}</span>

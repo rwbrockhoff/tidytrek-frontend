@@ -43,7 +43,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 		<AuthContainer>
 			<FormContainer>
 				<Heading as="h1" size="8" className={styles.brandHeading}>
-					<Link to="/"><Logo className="mx-auto mb-4" /></Link>
+					<Link to="/" viewTransition><Logo className="mx-auto mb-4" /></Link>
 				</Heading>
 
 				<Segment radius="2">
@@ -107,7 +107,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 					)}
 					<Flex className="justify-center mt-4">
 						<Text size="3">
-							<Link to={'/'}>Log In</Link> | <Link to={'/register'}>Sign Up</Link>
+							<Link to={'/'} viewTransition>Log In</Link> | <Link to={'/register'} viewTransition>Sign Up</Link>
 						</Text>
 					</Flex>
 				</Segment>

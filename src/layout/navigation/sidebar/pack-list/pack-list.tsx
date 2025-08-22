@@ -31,10 +31,10 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	const handleGetPack = (packId: number) => {
 		const encodedId = encode(packId);
 
-		if (currentPackId === undefined) navigate('/');
+		if (currentPackId === undefined) navigate('/', { viewTransition: true });
 		// navigate to pack (if different pack or app path)
 		else if (packId !== currentPackId || location.pathname !== '/') {
-			navigate(`/pack/${encodedId}`);
+			navigate(`/pack/${encodedId}`, { viewTransition: true });
 		}
 	};
 

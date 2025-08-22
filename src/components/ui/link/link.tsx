@@ -7,15 +7,16 @@ type LinkProps = {
 	children: React.ReactNode;
 	enabled?: boolean;
 	className?: string;
+	viewTransition?: boolean;
 };
 
 export const Link = (props: LinkProps) => {
-	const { to, enabled = true, className = '', children } = props;
+	const { to, enabled = true, className = '', children, viewTransition = true } = props;
 
 	if (!enabled || !to) return children;
 
 	return (
-		<RouterLink to={to} className={cn(styles.link, className)}>
+		<RouterLink to={to} className={cn(styles.link, className)} viewTransition={viewTransition}>
 			{children}
 		</RouterLink>
 	);

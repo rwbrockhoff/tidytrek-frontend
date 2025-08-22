@@ -11,10 +11,10 @@ export const AccountMenu = () => {
 	return (
 		<Tabs.Root value={activeTab}>
 			<Tabs.List size="2">
-				<Tabs.Trigger value="profile" onClick={() => navigate('/account')}>
+				<Tabs.Trigger value="profile" onClick={() => navigate('/account', { viewTransition: true })}>
 					Profile Settings
 				</Tabs.Trigger>
-				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings')}>
+				<Tabs.Trigger value="account" onClick={() => navigate('/account/settings', { viewTransition: true })}>
 					Account Settings
 				</Tabs.Trigger>
 			</Tabs.List>
