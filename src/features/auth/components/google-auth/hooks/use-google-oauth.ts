@@ -19,7 +19,9 @@ export const useGoogleOAuth = ({ onGoogleAuth }: UseGoogleOAuthProps) => {
 			google.accounts.id.renderButton(google_button.current, {
 				text: 'continue_with',
 				logo_alignment: 'center',
-				size: 'large',
+				width: 240,
+				height: 40,
+				theme: 'outline',
 			});
 		}
 

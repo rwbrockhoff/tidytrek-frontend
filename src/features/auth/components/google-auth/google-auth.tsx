@@ -15,8 +15,8 @@ export const GoogleAuth = (props: GoogleAuthProps) => {
 	const { google_button } = useGoogleOAuth({ onGoogleAuth: handleGoogleAuth });
 
 	return (
-		<Flex className="justify-center w-full h-8 mb-2">
-			<div ref={google_button} />
+		<Flex className="justify-center w-full mb-2" style={{ height: '40px' }}>
+			<div ref={google_button} style={{ width: '240px', height: '40px' }} />
 		</Flex>
 	);
 };
