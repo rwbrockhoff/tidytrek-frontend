@@ -18,6 +18,7 @@ const createDefaultProps = (
 ) => ({
 	hasResetToken: false,
 	emailSent: false,
+	isLoading: false,
 	formErrors: createMockFormErrors(),
 	serverError: { error: false, message: '' },
 	onResetRequest: vi.fn(),

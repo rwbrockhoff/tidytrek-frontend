@@ -57,7 +57,7 @@ export const useWelcomeAuth = () => {
 
 		handleAuth();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, navigate]);
+	}, [isLoading]);
 
 	return {
 		isLoading,

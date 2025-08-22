@@ -5,13 +5,12 @@ import { extractErrorMessage } from '@/utils/error-utils';
 import { loginSchema } from '../../../schemas/auth-schemas';
 
 export const useLoginFlow = () => {
-	const loginData = useLoginMutation();
-	const { mutateAsync: loginUserAsync, reset: resetLogin } = loginData;
+	const loginMutation = useLoginMutation();
 
 	const { formErrors, updateFormErrors, resetFormErrors, resetAllFormErrors } =
 		useZodError<LoginUserFormData>(['email', 'password']);
 
-	const handleLogin = async (
+	const handleLogin = (
 		formData: LoginUserFormData,
 		setAxiosError: (error: string) => void,
 	) => {
@@ -23,18 +22,15 @@ export const useLoginFlow = () => {
 		}
 
 		// Login user
-		try {
-			await loginUserAsync(formData);
-		} catch (error) {
-			setAxiosError(extractErrorMessage(error));
-		}
+		loginMutation.mutate(formData, {
+			onError: (error) => setAxiosError(extractErrorMessage(error)),
+		});
 	};
 
 	return {
-		loginData,
+		loginMutation,
 		formErrors,
 		handleLogin,
-		resetLogin,
 		resetFormErrors,
 		resetAllFormErrors,
 	};

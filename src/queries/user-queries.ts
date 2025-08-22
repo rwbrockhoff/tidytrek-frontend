@@ -181,3 +181,25 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 		},
 	});
 };
+
+export const useResetPasswordRequestMutation = () => {
+	return useMutation({
+		mutationFn: async (email: string) => {
+			const { error } = await supabase.auth.resetPasswordForEmail(email, {
+				redirectTo: `${frontendURL}/reset-password/confirm`,
+			});
+			if (error) throw new Error(extractErrorMessage(error) || 'Failed to send reset email');
+		},
+		retry: false,
+	});
+};
+
+export const useResetPasswordConfirmMutation = () => {
+	return useMutation({
+		mutationFn: async (password: string) => {
+			const { error } = await supabase.auth.updateUser({ password });
+			if (error) throw new Error(extractErrorMessage(error) || 'Failed to update password');
+		},
+		retry: false,
+	});
+};

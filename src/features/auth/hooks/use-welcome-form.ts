@@ -8,7 +8,9 @@ import {
 import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import { setFormInput } from '@/utils';
-import { z, usernameSchema, trailNameSchema } from '@/schemas';
+import { z } from 'zod';
+import { usernameSchema } from '@/schemas/auth-schemas';
+import { trailNameSchema } from '@/schemas/user-schemas';
 
 const formSchema = z.object({
 	username: usernameSchema,

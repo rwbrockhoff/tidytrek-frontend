@@ -17,6 +17,7 @@ import { type ResetPasswordData } from '../../types/auth-types';
 type ResetPasswordFormProps = {
 	hasResetToken: boolean;
 	emailSent: boolean;
+	isLoading: boolean;
 	formErrors: ZodFormErrors<ResetPasswordData>;
 	serverError: FormError;
 	onResetRequest: (formData: ResetPasswordData) => void;
@@ -25,7 +26,7 @@ type ResetPasswordFormProps = {
 };
 
 export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
-	const { emailSent, hasResetToken, formErrors, serverError } = props;
+	const { emailSent, hasResetToken, isLoading, formErrors, serverError } = props;
 	const { onResetRequest, onResetConfirm, resetFormErrors } = props;
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +44,9 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 		<AuthContainer>
 			<FormContainer>
 				<Heading as="h1" size="8" className={styles.brandHeading}>
-					<Link to="/" viewTransition><Logo className="mx-auto mb-4" /></Link>
+					<Link to="/" viewTransition>
+						<Logo className="mx-auto mb-4" />
+					</Link>
 				</Heading>
 
 				<Segment radius="2">
@@ -93,7 +96,7 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 							/>
 						)}
 
-						<Button style={{ width: '100%' }} type="submit">
+						<Button style={{ width: '100%' }} type="submit" loading={isLoading}>
 							{hasResetToken ? 'Confirm New Password' : 'Reset Password'}
 						</Button>
 					</Form>
@@ -107,7 +110,13 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 					)}
 					<Flex className="justify-center mt-4">
 						<Text size="3">
-							<Link to={'/'} viewTransition>Log In</Link> | <Link to={'/register'} viewTransition>Sign Up</Link>
+							<Link to={'/'} viewTransition>
+								Log In
+							</Link>{' '}
+							|{' '}
+							<Link to={'/register'} viewTransition>
+								Sign Up
+							</Link>
 						</Text>
 					</Flex>
 				</Segment>
@@ -118,4 +127,4 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 
 // defaults
 const resetInstructionMessage =
-	'If you have an account on Tidytrek, you will receive an email with a link to reset your password. Be sure to check your spam folder too.';
+	'Check your email for a password reset link. Don\'t forget to check spam.';

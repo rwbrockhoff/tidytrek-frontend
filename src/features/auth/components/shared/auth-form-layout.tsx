@@ -17,6 +17,7 @@ type AuthFormLayoutProps = {
 	isRegister: boolean;
 	serverError: FormError;
 	children: ReactNode;
+	additionalContent?: ReactNode;
 	updateServerError: (message: string) => void;
 };
 
@@ -27,13 +28,16 @@ export const AuthFormLayout = ({
 	serverError,
 	children,
 	updateServerError,
+	additionalContent,
 }: AuthFormLayoutProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
 				<Stack className="gap-2">
 					<Heading as="h1" size="8" className={styles.brandHeading}>
-						<LandingLink><Logo className="mx-auto mb-4" /></LandingLink>
+						<LandingLink>
+							<Logo className="mx-auto mb-4" />
+						</LandingLink>
 					</Heading>
 					<Segment radius="2">
 						<Stack className="gap-2">
@@ -58,6 +62,7 @@ export const AuthFormLayout = ({
 							{isRegister ? <RegisterFooter /> : <LoginFooter />}
 						</Stack>
 					</Segment>
+					{additionalContent}
 				</Stack>
 			</FormContainer>
 		</AuthContainer>

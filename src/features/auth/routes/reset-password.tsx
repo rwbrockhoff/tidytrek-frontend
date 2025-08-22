@@ -1,72 +1,21 @@
-import { type ResetPasswordData } from '../types/auth-types';
-import { useEffect, useState } from 'react';
 import { ResetPasswordForm } from '../components/reset-password/reset-password-form';
-import supabase from '@/api/supabase-client';
-import { frontendURL } from '@/api/tidytrek-api';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
-import { useAuthActions } from '../hooks/use-auth-actions';
+import { useLocation } from 'react-router-dom';
 import { useMutationErrors } from '@/hooks/form/use-axios-error';
-import { useZodError } from '@/hooks/form/use-zod-error';
-import { z, emailSchema, passwordSchema } from '@/schemas';
+import { SplitAuthLayout } from '../components/shared/split-auth-layout';
+import { useResetPasswordFlow } from '../components/reset-password/hooks/use-reset-password-flow';
 
 export const ResetPassword = () => {
 	const location = useLocation();
-	const navigate = useNavigate();
+	const { serverError, setAxiosError, resetAxiosError } = useMutationErrors();
 
-	const { isAuthenticated } = useGetAuth();
-	const { loginWithoutNavigation } = useAuthActions();
-	const [emailSent, setEmailSent] = useState(false);
-
-	const { formErrors, updateFormErrors, resetFormErrors } =
-		useZodError<ResetPasswordData>(['email', 'password', 'confirmPassword']);
-
-	const { serverError, updateAxiosError, resetAxiosError } = useMutationErrors();
-
-	useEffect(() => {
-		// Check for existing session (user clicked password reset link)
-		if (isAuthenticated === false) {
-			supabase.auth.getSession().then(({ data: { session } }) => {
-				const user = session?.user;
-				const { id, email } = user || {};
-				if (id && email) {
-					loginWithoutNavigation({
-						email,
-						userId: id,
-						supabaseRefreshToken: session?.refresh_token,
-					});
-				}
-			});
-		}
-	}, [isAuthenticated, loginWithoutNavigation]);
-
-	const handleResetPasswordRequest = async (formData: ResetPasswordData) => {
-		const data = emailRequestSchema.safeParse(formData);
-		if (!data.success) {
-			const result = JSON.parse(data.error.message);
-			return updateFormErrors(result);
-		}
-		// send supabase request
-		const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
-			redirectTo: `${frontendURL}/reset-password/confirm`,
-		});
-		if (error) updateAxiosError(supabaseErrorMessage);
-		// show success message
-		else setEmailSent(true);
-	};
-
-	const handleConfirmPasswordReset = async (formData: ResetPasswordData) => {
-		const data = passwordConfirmSchema.safeParse(formData);
-		if (!data.success) {
-			const result = JSON.parse(data.error.message);
-			return updateFormErrors(result);
-		}
-		// call updateUser() with valid password
-		const { password } = formData;
-		const { error } = await supabase.auth.updateUser({ password });
-		if (error) updateAxiosError(supabaseErrorMessage);
-		else navigate('/reset-password/success');
-	};
+	const {
+		emailSent,
+		isLoading,
+		formErrors,
+		handleResetRequest,
+		handleResetConfirm,
+		resetFormErrors,
+	} = useResetPasswordFlow();
 
 	const handleClearErrors = (inputName?: string) => {
 		resetFormErrors(inputName);
@@ -76,31 +25,17 @@ export const ResetPassword = () => {
 	const showPasswordView = location.pathname === '/reset-password/confirm';
 
 	return (
-		<ResetPasswordForm
-			hasResetToken={showPasswordView}
-			emailSent={emailSent}
-			onResetRequest={handleResetPasswordRequest}
-			onResetConfirm={handleConfirmPasswordReset}
-			resetFormErrors={handleClearErrors}
-			formErrors={formErrors}
-			serverError={serverError}
-		/>
+		<SplitAuthLayout>
+			<ResetPasswordForm
+				hasResetToken={showPasswordView}
+				emailSent={emailSent}
+				isLoading={isLoading}
+				onResetRequest={(formData) => handleResetRequest(formData, setAxiosError)}
+				onResetConfirm={(formData) => handleResetConfirm(formData, setAxiosError)}
+				resetFormErrors={handleClearErrors}
+				formErrors={formErrors}
+				serverError={serverError}
+			/>
+		</SplitAuthLayout>
 	);
 };
-
-// Defaults
-const supabaseErrorMessage = 'There was an error handling your request at this time.';
-
-const emailRequestSchema = z.object({
-	email: emailSchema,
-});
-
-const passwordConfirmSchema = z
-	.object({
-		password: passwordSchema,
-		confirmPassword: passwordSchema,
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Passwords do not match.',
-		path: ['confirmPassword'],
-	});

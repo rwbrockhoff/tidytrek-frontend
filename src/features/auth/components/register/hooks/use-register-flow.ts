@@ -5,17 +5,12 @@ import { extractErrorMessage } from '@/utils/error-utils';
 import { registerSchema } from '../../../schemas/auth-schemas';
 
 export const useRegisterFlow = () => {
-	const registerData = useRegisterMutation();
-	const {
-		mutateAsync: registerUserAsync,
-		isSuccess: isRegisterSuccess,
-		reset: resetRegister,
-	} = registerData;
+	const registerMutation = useRegisterMutation();
 
 	const { formErrors, updateFormErrors, resetFormErrors, resetAllFormErrors } =
 		useZodError<RegisterUserFormData>(['firstName', 'lastName', 'email', 'password']);
 
-	const handleRegister = async (
+	const handleRegister = (
 		formData: RegisterUserFormData,
 		setAxiosError: (error: string) => void,
 	) => {
@@ -27,19 +22,15 @@ export const useRegisterFlow = () => {
 		}
 
 		// Register user
-		try {
-			await registerUserAsync(formData);
-		} catch (error) {
-			setAxiosError(extractErrorMessage(error));
-		}
+		registerMutation.mutate(formData, {
+			onError: (error) => setAxiosError(extractErrorMessage(error)),
+		});
 	};
 
 	return {
-		registerData,
-		isRegisterSuccess,
+		registerMutation,
 		formErrors,
 		handleRegister,
-		resetRegister,
 		resetFormErrors,
 		resetAllFormErrors,
 	};
