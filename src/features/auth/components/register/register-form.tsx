@@ -3,7 +3,6 @@ import { Form } from '@radix-ui/react-form';
 import { Box } from '@/components/layout';
 import { TextField, Button } from '@/components/alpine';
 import { Message } from '@/components/ui';
-import { AuthFormLayout } from '../shared/auth-form-layout';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { type RegisterUserFormData } from '@/types/user-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
@@ -26,7 +25,6 @@ export const RegisterForm = ({
 	serverError,
 	onSubmit,
 	resetFormErrors,
-	updateServerError,
 }: RegisterFormProps) => {
 	const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -47,7 +45,7 @@ export const RegisterForm = ({
 		}
 	}, [isRegisterSuccess]);
 
-	const formContent = (
+	return (
 		<>
 			<Form ref={formRef} onSubmit={handleFormSubmit}>
 				<TextField.Input
@@ -102,16 +100,5 @@ export const RegisterForm = ({
 				/>
 			)}
 		</>
-	);
-
-	return (
-		<AuthFormLayout
-			title="Create your account"
-			authMethod="signup"
-			isRegister={true}
-			serverError={serverError}
-			updateServerError={updateServerError}>
-			{formContent}
-		</AuthFormLayout>
 	);
 };
