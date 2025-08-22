@@ -1,52 +1,88 @@
-import { type InputEvent } from '@/types/form-types';
 import { Flex, Stack } from '@/components/layout';
-import { Button, TextField } from '@/components/alpine';
-import { useState } from 'react';
-import { PlusIcon } from '@/components/icons';
+import { Alert, Button, TextField } from '@/components/alpine';
+import { PlusIcon, LinkIcon } from '@/components/icons';
 import { useAddSocialLinkMutation } from '@/queries/profile-settings-queries';
 import { normalizeURL } from '@/utils';
-import { Message } from '@/components/ui';
+import { requiredUrlSchema } from '@/schemas/common-schemas';
+import { useFieldState } from '@/hooks/form/use-field-state';
+import styles from './add-link.module.css';
+import { cn } from '@/styles/utils';
 
-export const AddLink = () => {
+const validateSocialLink = (url: string) => {
+	if (!url.trim()) return false;
+	requiredUrlSchema.parse(url);
+	return true;
+};
+
+export const AddLink = ({ socialLinksCount }: { socialLinksCount: number }) => {
 	const { mutate: addSocialLink, isPending } = useAddSocialLinkMutation();
 
-	const [socialLink, setSocialLink] = useState('');
-	const [linkError, setLinkError] = useState(false);
+	const {
+		value: socialLink,
+		validationError: urlError,
+		apiError: linkError,
+		handleChange,
+		validate,
+		setApiErrorFromResponse,
+		reset,
+	} = useFieldState({
+		initialValue: '',
+		validator: validateSocialLink,
+	});
+
+	const hasMaxLinks = socialLinksCount >= 4;
 
 	const handleAddLink = () => {
-		const cleanURL = normalizeURL(socialLink);
-		addSocialLink(cleanURL, {
-			onSuccess: () => setSocialLink(''),
-			onError: () => setLinkError(true),
-		});
-	};
+		if (hasMaxLinks) return;
 
-	const handleInput = (e: InputEvent) => {
-		setSocialLink(e.target.value);
+		const isValid = validate(socialLink);
+
+		if (isValid) {
+			const cleanURL = normalizeURL(socialLink);
+			addSocialLink(cleanURL, {
+				onSuccess: () => {
+					reset();
+				},
+				onError: (error) => {
+					setApiErrorFromResponse(error);
+				},
+			});
+		}
 	};
 
 	return (
-		<Stack>
-			<Flex className="flex-col gap-4 md:flex-row md:items-center">
+		<Stack className="gap-4">
+			<Flex className="flex-col gap-4 mt-8 md:flex-row md:items-start">
 				<div className="w-full md:w-80">
 					<TextField.Standalone
 						placeholder="Paste your link..."
 						value={socialLink}
-						onChange={handleInput}
+						onChange={handleChange}
+						error={urlError}
 					/>
 				</div>
 				<div className="w-auto">
-					<Button disabled={!socialLink || isPending} onClick={handleAddLink}>
+					<Button
+						disabled={!socialLink || isPending || hasMaxLinks}
+						onClick={handleAddLink}>
 						<PlusIcon />
 						Add Link
 					</Button>
 				</div>
 			</Flex>
-			{linkError && (
-				<Message
-					messageType="error"
-					text="There was an error adding your link at this time."
-				/>
+
+			{hasMaxLinks && (
+				<Flex className={cn(styles.maxLinksMessage, 'items-center py-2 gap-1')}>
+					<LinkIcon />
+					You currently have the max of 4 links.
+				</Flex>
+			)}
+			{linkError && !hasMaxLinks && (
+				<div className="w-full md:max-w-md mt-2">
+					<Alert variant="error" size="sm">
+						{linkError.message}
+					</Alert>
+				</div>
 			)}
 		</Stack>
 	);

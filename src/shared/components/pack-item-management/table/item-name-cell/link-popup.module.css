@@ -22,3 +22,7 @@
 	padding: 0;
 	margin-left: var(--space-1);
 }
+
+.deleteButton {
+	height: 40px;
+}

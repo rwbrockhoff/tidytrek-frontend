@@ -13,13 +13,6 @@
 	font-weight: var(--font-weight-normal);
 }
 
-@media (max-width: 768px) {
-	.alert {
-		width: 100%;
-		margin: 0;
-	}
-}
-
 /* Alert - Sizes */
 .sm {
 	padding: var(--space-2);
