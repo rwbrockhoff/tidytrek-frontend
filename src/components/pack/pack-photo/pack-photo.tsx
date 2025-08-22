@@ -44,7 +44,10 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				/>
 			) : (
 				<div className={cn(styles.defaultPack, rounded && styles.rounded)}>
-					<TreeIcon2 className={cn('lucide', styles.defaultIcon)} />
+					<TreeIcon2 
+						className={cn('lucide', styles.defaultIcon)}
+						style={{ width: '48px', height: '48px' }}
+					/>
 				</div>
 			)}
 

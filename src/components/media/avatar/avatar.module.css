@@ -56,39 +56,35 @@
 	height: 100%;
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-tertiary);
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
+	position: relative;
 }
 
 .defaultIcon {
 	color: currentColor;
 	fill: currentColor;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
 }
 
-.lucide.defaultIcon.sm {
+.defaultIcon.sm {
 	width: 44px;
 	height: 44px;
+	bottom: -5px;
+	margin: 0;
 }
 
-.lucide.defaultIcon.md {
-	width: 60px;
-	height: 60px;
+.defaultIcon.md {
+	width: 90px;
+	height: 90px;
+	bottom: -12px;
+	margin: 0;
 }
 
-.lucide.defaultIcon.lg {
+.defaultIcon.lg {
 	width: 150px;
 	height: 150px;
-}
-
-.sm .defaultAvatar {
-	padding-top: 8px;
-}
-
-.md .defaultAvatar {
-	padding-top: 12px;
-}
-
-.lg .defaultAvatar {
-	padding-top: 20px;
+	bottom: -25px;
+	margin: 0;
 }
