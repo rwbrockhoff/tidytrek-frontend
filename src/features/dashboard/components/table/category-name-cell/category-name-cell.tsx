@@ -10,6 +10,8 @@ import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-con
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
 import { cn, mx } from '@/styles/utils';
+import { packCategoryNameSchema } from '@/schemas/pack-schemas';
+import { useFieldState } from '@/hooks/form/use-field-state';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -30,9 +32,23 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	} = categoryHeaderInfo;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
+	
+	const { validationError, validate, clearErrors } = useFieldState({
+		initialValue: categoryName || '',
+		validator: (value: string) => {
+			const result = packCategoryNameSchema.safeParse(value);
+			if (!result.success) {
+				throw new Error(result.error.errors[0]?.message || 'Invalid category name');
+			}
+			return result.success;
+		},
+	});
 
 	const handleBlur = () => {
 		if (categoryName !== packCategoryName) {
+			const isValid = validate(packCategoryName);
+			if (!isValid) return;
+			
 			editPackCategory({ packCategoryName, packCategoryId });
 		}
 	};
@@ -40,7 +56,10 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	const handleChangeColor = (packCategoryColor: string) =>
 		editPackCategory({ packCategoryColor, packCategoryId });
 
-	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
+	const handleInput = (e: InputEvent) => {
+		setPackCategoryName(e.target.value);
+		clearErrors();
+	};
 
 	return (
 		<Table.HeaderCell className={styles.headerCell}>
@@ -66,6 +85,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 						onBlur={handleBlur}
 						disabled={disabled}
 						collapsibleError
+						error={validationError}
 					/>
 				) : (
 					<span className={cn(styles.headerCellText, mx.textEllipsis)}>

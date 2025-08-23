@@ -7,14 +7,15 @@ import { Form } from '@radix-ui/react-form';
 import { Dialog } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { FormEvent, useState } from 'react';
-import { packUrlSchema, z } from '@/schemas';
+import { z } from 'zod';
+import { packImportUrlSchema } from '@/schemas/pack-schemas';
 import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import styles from './import-pack-dialog.module.css';
 
 const importPackUrlSchema = z
 	.object({
-		packUrl: packUrlSchema,
+		packUrl: packImportUrlSchema,
 	})
 	.required();
 
@@ -73,9 +74,6 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 	const serverErrorMessage = extractErrorMessage(importError);
 
-	// Ensure valid link
-	const invalidLink = !packUrl.length || !packUrl.includes('lighterpack');
-
 	return (
 		<Dialog.Root onOpenChange={handleClearDialog}>
 			<Dialog.Trigger>{children}</Dialog.Trigger>
@@ -110,7 +108,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 						<Button
 							type="submit"
-							disabled={isPendingImport || invalidLink}
+							disabled={isPendingImport}
 							loading={isPendingImport}
 							iconLeft={!isPendingImport ? <BackpackIcon /> : undefined}
 							className={styles.importButton}>

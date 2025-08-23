@@ -86,6 +86,7 @@ export const PackEdit = () => {
 						handleFormChange={handleFormChange}
 						handleCheckBox={handleCheckBox}
 						onPaletteChange={handlePaletteChange}
+						formErrors={formErrors}
 					/>
 				</Tabs.Content>
 			</Tabs.Root>

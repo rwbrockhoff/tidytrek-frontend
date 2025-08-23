@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import { Card, Button, TextField } from '@/components/alpine';
 import { ThemeButton } from '../../table';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
-import { type InputEvent } from '@/types/form-types';
 import { usePackContext } from '../../../hooks/use-pack-context';
+import { packCategoryNameSchema } from '@/schemas/pack-schemas';
+import { useFieldState } from '@/hooks/form/use-field-state';
 
 type EditableCategoryHeaderProps = {
 	packCategoryName: string;
@@ -35,8 +35,22 @@ export const EditableCategoryHeader = ({
 }: EditableCategoryHeaderProps) => {
 	const { weightUnit } = usePackContext();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
-	
-	const [packCategoryName, setPackCategoryName] = useState(initialName);
+
+	const {
+		value: packCategoryName,
+		validationError,
+		validate,
+		handleChange,
+	} = useFieldState({
+		initialValue: initialName,
+		validator: (value: string) => {
+			const result = packCategoryNameSchema.safeParse(value);
+			if (!result.success) {
+				throw new Error(result.error.errors[0]?.message || 'Invalid category name');
+			}
+			return result.success;
+		},
+	});
 
 	const bgColorCategory = {
 		backgroundColor: packCategoryColor ? `var(--${packCategoryColor})` : 'inherit',
@@ -46,6 +60,9 @@ export const EditableCategoryHeader = ({
 
 	const handleBlur = () => {
 		if (initialName !== packCategoryName) {
+			const isValid = validate();
+			if (!isValid) return;
+
 			editPackCategory({ packCategoryName, packCategoryId });
 		}
 	};
@@ -54,8 +71,6 @@ export const EditableCategoryHeader = ({
 		editPackCategory({ packCategoryColor: newColor, packCategoryId });
 		onChangeColor(newColor);
 	};
-
-	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
 
 	return (
 		<Card.Header className={cn('aow', styles.categoryHeader)}>
@@ -73,15 +88,15 @@ export const EditableCategoryHeader = ({
 						name="packCategoryName"
 						placeholder="Category"
 						variant="minimal"
-						onChange={handleInput}
+						onChange={handleChange}
 						onBlur={handleBlur}
+						error={validationError}
+						collapsibleError
 					/>
 				) : (
-					<span className={styles.categoryName}>
-						{packCategoryName || 'Category'}
-					</span>
+					<span className={styles.categoryName}>{packCategoryName || 'Category'}</span>
 				)}
-				
+
 				<Button
 					onClick={onMinimizeCategory}
 					variant="ghost"

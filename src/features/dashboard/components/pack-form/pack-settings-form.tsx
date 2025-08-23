@@ -1,4 +1,4 @@
-import { type Pack } from '@/types/pack-types';
+import { type Pack, type PackFormFields } from '@/types/pack-types';
 import { type TextAreaEvent } from '@/types/form-types';
 import { Switch, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
@@ -9,6 +9,7 @@ import { PalettePicker } from '@/shared/components/palette-picker';
 import { PaletteName } from '@/styles/palette/palette-constants';
 import styles from './pack-form.module.css';
 import { cn } from '@/styles/utils';
+import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 
 type Checkboxes = {
 	packAffiliate?: boolean;
@@ -21,6 +22,7 @@ type PackSettingsFormProps = {
 	handleCheckBox: (updatedCheckbox: Checkboxes) => void;
 	onPaletteChange: (palette: PaletteName) => void;
 	className?: string;
+	formErrors?: ZodFormErrors<PackFormFields>;
 };
 
 const affiliateMessage =
@@ -32,6 +34,7 @@ export const PackSettingsForm = ({
 	handleCheckBox,
 	onPaletteChange,
 	className,
+	formErrors,
 }: PackSettingsFormProps) => {
 	const { packAffiliate, packPricing, packAffiliateDescription, palette } = pack;
 
@@ -91,6 +94,7 @@ export const PackSettingsForm = ({
 							placeholder={affiliateMessage}
 							label="Custom Affiliate Message"
 							maxLength={250}
+							error={formErrors?.packAffiliateDescription}
 						/>
 					)}
 

@@ -7,7 +7,10 @@ import {
 } from '@/queries/profile-settings-queries';
 import { clearZodErrors, useZodError } from '@/hooks/form/use-zod-error';
 import { setFormInput } from '@/utils';
-import { z, usernameSchema, basicInputSchema } from '@/schemas';
+import { z } from 'zod';
+import { usernameSchema } from '@/schemas/auth-schemas';
+import { trailNameSchema } from '@/schemas/user-schemas';
+import { string50, string250 } from '@/schemas/common-schemas';
 
 type FormInputs = {
 	username: string;
@@ -16,17 +19,11 @@ type FormInputs = {
 	userLocation: string;
 };
 
-const maxLength = 250;
-
-const userBioSchema = z.string().trim().max(maxLength, {
-	message: `Woah there, partner. There's a 250 character limit to keep things tidy.`,
-});
-
 const formSchema = z.object({
 	username: usernameSchema,
-	userBio: userBioSchema,
-	trailName: basicInputSchema('Trail Name'),
-	userLocation: basicInputSchema('Location'),
+	userBio: string250,
+	trailName: trailNameSchema,
+	userLocation: string50,
 });
 
 type UseProfileFormProps = {

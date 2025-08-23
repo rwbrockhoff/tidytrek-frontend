@@ -3,7 +3,7 @@ import styles from './pack-modal.module.css';
 import { Dialog, Tabs } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { SaveIcon, CloseIcon, BackpackIcon, SettingsIcon } from '@/components/icons';
-import { Button } from '@/components/alpine';
+import { Button, Alert } from '@/components/alpine';
 import { usePackForm } from '../../hooks/use-pack-form';
 import { PackInfoForm } from '../pack-form/pack-info-form';
 import { PackSettingsForm } from '../pack-form/pack-settings-form';
@@ -25,13 +25,20 @@ export const PackModal = (props: PackModalProps) => {
 	const { data: queryData } = useGetPackQuery(pack.packId, { enabled: isOpen });
 	const currentPack = queryData?.pack || pack;
 
-	const { modifiedPack, handleFormChange, handleCheckBox, handlePaletteChange, handleSubmitPack, formErrors } =
-		usePackForm(pack);
+	const {
+		modifiedPack,
+		handleFormChange,
+		handleCheckBox,
+		handlePaletteChange,
+		handleSubmitPack,
+		formErrors,
+		serverError,
+	} = usePackForm(pack);
 
 	const { packName } = modifiedPack;
 
-	const handleSaveAndClose = () => {
-		const success = handleSubmitPack();
+	const handleSaveAndClose = async () => {
+		const success = await handleSubmitPack();
 		if (success) {
 			setIsOpen(false);
 		}
@@ -96,9 +103,16 @@ export const PackModal = (props: PackModalProps) => {
 							handleFormChange={handleFormChange}
 							handleCheckBox={handleCheckBox}
 							onPaletteChange={handlePaletteChange}
+							formErrors={formErrors}
 						/>
 					</Tabs.Content>
 				</Tabs.Root>
+
+				{serverError.error && (
+					<Alert variant="error" className="mt-4 mb-8">
+						{serverError.message}
+					</Alert>
+				)}
 
 				<Flex className="justify-end gap-3 mt-4 px-2">
 					<PackDelete pack={pack} />

@@ -1,4 +1,4 @@
-import { type Pack } from '@/types/pack-types';
+import { type Pack, type PackFormFields } from '@/types/pack-types';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { Switch, Text } from '@radix-ui/themes';
 import { Flex, Stack, Grid } from '@/components/layout';
@@ -19,7 +19,7 @@ type PackInfoFormProps = {
 	handleFormChange: (e: InputEvent | TextAreaEvent) => void;
 	handleCheckBox: (updatedCheckbox: Checkboxes) => void;
 	className?: string;
-	formErrors?: ZodFormErrors<{ packName: string }>;
+	formErrors?: ZodFormErrors<PackFormFields>;
 };
 
 export const PackInfoForm = ({
@@ -66,6 +66,7 @@ export const PackInfoForm = ({
 									placeholder="Pack Description"
 									onChange={handleFormChange}
 									maxLength={250}
+									error={formErrors?.packDescription}
 								/>
 
 								<Flex className="items-center my-2">
@@ -108,6 +109,7 @@ export const PackInfoForm = ({
 									onChange={handleFormChange}
 									label="Location"
 									placeholder="Location"
+									error={formErrors?.packLocationTag}
 								/>
 								<TextField.Input
 									name="packSeasonTag"
@@ -115,6 +117,7 @@ export const PackInfoForm = ({
 									onChange={handleFormChange}
 									label="Season"
 									placeholder="Season"
+									error={formErrors?.packSeasonTag}
 								/>
 								<TextField.Input
 									name="packDurationTag"
@@ -122,6 +125,7 @@ export const PackInfoForm = ({
 									onChange={handleFormChange}
 									label="Trip Duration"
 									placeholder="2-3 Nights"
+									error={formErrors?.packDurationTag}
 								/>
 								<TextField.Input
 									name="packDistanceTag"
@@ -129,6 +133,7 @@ export const PackInfoForm = ({
 									onChange={handleFormChange}
 									label="Distance with Pack"
 									placeholder="200 miles"
+									error={formErrors?.packDistanceTag}
 								/>
 							</Grid>
 
@@ -139,6 +144,7 @@ export const PackInfoForm = ({
 									onChange={handleFormChange}
 									label="Display Text"
 									placeholder="Gear Loadout Video"
+									error={formErrors?.packUrlName}
 								/>
 								<div className="md:col-span-2">
 									<TextField.Input
@@ -147,6 +153,7 @@ export const PackInfoForm = ({
 										onChange={handleFormChange}
 										label="Link"
 										placeholder="Blogpost, Youtube Video, etc."
+										error={formErrors?.packUrl}
 									/>
 								</div>
 							</Grid>

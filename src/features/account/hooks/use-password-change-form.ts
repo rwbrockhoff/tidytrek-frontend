@@ -4,7 +4,8 @@ import {
 	type TextAreaEvent,
 	type PasswordInfo,
 } from '@/types/form-types';
-import { z, passwordSchema } from '@/schemas';
+import { z } from 'zod';
+import { passwordSchema } from '@/schemas/auth-schemas';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 
 type ZodInputs = {
@@ -19,7 +20,7 @@ const changePasswordSchema = z
 		confirmPassword: passwordSchema,
 		emailCode: z.string().min(6, { message: 'Invalid confirmation code.' }),
 	})
-	.refine((data) => data.password === data.confirmPassword, {
+	.refine((data: ZodInputs) => data.password === data.confirmPassword, {
 		message: 'Passwords do not match.',
 		path: ['confirmPassword'],
 	});
