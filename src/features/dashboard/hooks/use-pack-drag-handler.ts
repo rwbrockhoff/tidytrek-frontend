@@ -8,6 +8,7 @@ import {
 
 import { useQueryClient } from '@tanstack/react-query';
 import { packKeys } from '@/queries/query-keys';
+import { updatePackCategoryIndexInCache } from '@/queries/cache/pack-cache';
 
 export const usePackDragHandler = () => {
 	const { mutate: movePackCategory } = useMovePackCategoryMutation();
@@ -23,7 +24,7 @@ export const usePackDragHandler = () => {
 				sourceInfo: { categoryId: string; category: Category; index: number };
 				destInfo: { categoryId: string; category: Category; index: number };
 			},
-			onSettled?: () => void,
+			onSettled?: (serverCategories?: Category[]) => void,
 		) => {
 			const { active, over } = event;
 
@@ -35,28 +36,19 @@ export const usePackDragHandler = () => {
 			const isCategoryDrag = !activeId.includes('-');
 
 			if (isCategoryDrag) {
-				// Handle category reordering
-				const currentIndex = pack.categories.findIndex(
+				// Handle category reordering - use reordered categories from pack param
+				const reorderedCategories = pack.categories; // contains finalCategories
+				const newIndex = reorderedCategories.findIndex(
 					(cat) => cat.packCategoryId.toString() === activeId,
 				);
 
-				if (currentIndex === -1) return;
+				if (newIndex === -1) return;
 
-				// Optimistic update for UI
-				queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
-					if (!old || !pack.categories) return old;
-					return {
-						...old,
-						categories: pack.categories,
-					};
-				});
-
-				// Calculate adjacent categories for fractional indexing
-				const prevCategory =
-					currentIndex > 0 ? pack.categories[currentIndex - 1] : undefined;
+				// Calculate adjacent categories
+				const prevCategory = newIndex > 0 ? reorderedCategories[newIndex - 1] : undefined;
 				const nextCategory =
-					currentIndex < pack.categories.length - 1
-						? pack.categories[currentIndex + 1]
+					newIndex < reorderedCategories.length - 1
+						? reorderedCategories[newIndex + 1]
 						: undefined;
 
 				movePackCategory(
@@ -68,13 +60,25 @@ export const usePackDragHandler = () => {
 						paramPackId,
 					},
 					{
-						onSettled: onSettled,
-					}
+						onSuccess: (data) => {
+							if (data.rebalanced) {
+								queryClient.invalidateQueries({ queryKey: packKeys.packId(pack.packId) });
+							} else {
+								queryClient.setQueryData<PackQueryState>(
+									packKeys.packId(pack.packId),
+									(old) => updatePackCategoryIndexInCache(old, activeId, data.newIndex),
+								);
+							}
+						},
+						onSettled: () => {
+							const freshCache = queryClient.getQueryData<PackQueryState>(
+								packKeys.packId(pack.packId),
+							);
+							onSettled?.(freshCache?.categories);
+						},
+					},
 				);
 			} else {
-				// Handle item movement between/within categories
-
-				// Extract item ID (category-123-item-456 -> "456")
 				const getItemId = (id: string) => {
 					const parts = id.split('-');
 					return parts.length > 1 ? parts[1] : id;
@@ -92,15 +96,6 @@ export const usePackDragHandler = () => {
 					sourceIndex: capturedInfo.sourceInfo.index,
 					destIndex: capturedInfo.destInfo.index,
 				};
-
-				// Optimistic update for UI
-				queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
-					if (!old || !pack.categories) return old;
-					return {
-						...old,
-						categories: pack.categories,
-					};
-				});
 
 				// Find destination category to calculate adjacent items
 				const destCategoryObj = pack.categories.find(
@@ -130,8 +125,14 @@ export const usePackDragHandler = () => {
 						nextItemIndex: nextItem?.packItemIndex,
 					},
 					{
-						onSettled: onSettled,
-					}
+						onSuccess: () => {
+							// Get the updated cache data (no refetch needed)
+							const freshCache = queryClient.getQueryData<PackQueryState>(
+								packKeys.packId(pack.packId),
+							);
+							onSettled?.(freshCache?.categories);
+						},
+					},
 				);
 			}
 		},

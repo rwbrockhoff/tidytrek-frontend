@@ -4,7 +4,13 @@ import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
 import { updateItemIndex } from '@/utils/query-utils';
-import { removePackItemFromCache, updatePackItemInCache } from './cache/pack-cache';
+import {
+	removePackItemFromCache,
+	updatePackItemInCache,
+	updatePackItemIndexInCache,
+	updatePackCategoryIndexInCache,
+	movePackItemBetweenCategoriesInCache,
+} from './cache/pack-cache';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import {
@@ -261,9 +267,34 @@ export const useMovePackItemMutation = (): SimpleMutation<
 				.put(`/packs/pack-items/index/${packItemId}`, packInfo)
 				.then(extractData<MovePackItemResponse>);
 		},
-		onSuccess: (_response, packInfo) => {
+		onSuccess: (response, packInfo) => {
 			if (packInfo.packId) {
-				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+				if (response.rebalanced) {
+					queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
+				} else {
+					const isCategoryChange = packInfo.packCategoryId !== packInfo.prevPackCategoryId;
+
+					// Cross-category move:
+					if (isCategoryChange) {
+						queryClient.setQueryData<PackQueryState>(
+							packKeys.packId(packInfo.packId),
+							(old) =>
+								movePackItemBetweenCategoriesInCache(
+									old,
+									packInfo.packItemId,
+									parseInt(packInfo.packCategoryId),
+									response.newIndex,
+								),
+						);
+						// Same-category move
+					} else {
+						queryClient.setQueryData<PackQueryState>(
+							packKeys.packId(packInfo.packId),
+							(old) =>
+								updatePackItemIndexInCache(old, packInfo.packItemId, response.newIndex),
+						);
+					}
+				}
 			}
 		},
 		onError: (_err, packInfo) => {
@@ -433,11 +464,18 @@ export const useMovePackCategoryMutation = (): SimpleMutation<
 					extractData<{ packCategoryId: string; newIndex: string; rebalanced: boolean }>,
 				);
 		},
-		onSuccess: (_result, categoryInfo) => {
+		onSuccess: (result, categoryInfo) => {
 			if (categoryInfo.packId) {
-				queryClient.invalidateQueries({
-					queryKey: packKeys.packId(categoryInfo.packId),
-				});
+				// Update only the fractional index in cache, no refetch
+				queryClient.setQueryData<PackQueryState>(
+					packKeys.packId(categoryInfo.packId),
+					(old) =>
+						updatePackCategoryIndexInCache(
+							old,
+							categoryInfo.packCategoryId.toString(),
+							result.newIndex,
+						),
+				);
 			}
 		},
 		onError: (_err, categoryInfo) => {

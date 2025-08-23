@@ -77,7 +77,7 @@ const PackCategoryComponent = ({
 		transition,
 		isDragging,
 	} = useSortable({
-		id: category.packCategoryId,
+		id: category.packCategoryId.toString(),
 		disabled: !isCreator,
 	});
 
@@ -94,12 +94,10 @@ const PackCategoryComponent = ({
 		transform: CSS.Transform.toString(transform),
 		transition,
 		opacity: isDragging ? 0 : 1,
-		height: isDragging ? 'var(--space-16)' : undefined,
-		overflow: isDragging ? 'hidden' : undefined,
+		userSelect: 'none' as const,
+		WebkitUserSelect: 'none' as const,
+		touchAction: 'none' as const,
 	};
-
-	// Use compound keys to be unique across category moves
-	const itemIds = packItems.map((item) => `${packCategoryId}-${item.packItemId}`);
 
 	return (
 		<Flex
@@ -120,12 +118,12 @@ const PackCategoryComponent = ({
 					minimizeCategory={handleMinimizeCategory}
 				/>
 
-				<SortableContext
-					items={packItems.length > 0 ? itemIds : [`category-${packCategoryId}`]}
-					strategy={verticalListSortingStrategy}>
-					<TableBody style={{ minHeight: 10 }}>
-						{showCategoryItems && packItems.length > 0 ? (
-							packItems.map((item: PackItem) => (
+				<TableBody style={{ minHeight: 10 }}>
+					{showCategoryItems && packItems.length > 0 ? (
+						<SortableContext
+							items={packItems.map((item) => `${packCategoryId}-${item.packItemId}`)}
+							strategy={verticalListSortingStrategy}>
+							{packItems.map((item: PackItem) => (
 								<TableRow
 									key={`${packCategoryId}-${item.packItemId}`}
 									item={item}
@@ -135,12 +133,12 @@ const PackCategoryComponent = ({
 									context={TableRowContext.PACK}
 									categoryId={packCategoryId.toString()}
 								/>
-							))
-						) : (
-							<EmptyDropZone categoryId={packCategoryId} />
-						)}
-					</TableBody>
-				</SortableContext>
+							))}
+						</SortableContext>
+					) : (
+						<EmptyDropZone categoryId={packCategoryId} />
+					)}
+				</TableBody>
 
 				{!isMinimized && (
 					<TableFooter

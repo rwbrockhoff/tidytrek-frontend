@@ -19,7 +19,7 @@ import { GuestPreviewBanner } from '../guest-preview-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
-import { useDashboardDragHandlers } from '../../hooks/use-dashboard-drag-handlers';
+import { useDashboardDragHandlers } from '../../drag-and-drop';
 import { usePackContext } from '../../hooks/use-pack-context';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { PackNotAvailable } from '../pack-not-available/pack-not-available';
@@ -95,7 +95,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 							onDragEnd={handleOnDragEnd}
 							renderDragOverlay={renderDragOverlay}>
 							<SortableContext
-								items={localPackCategories.map((cat) => cat.packCategoryId.toString())}
+								items={localPackCategories.map((cat: Category) => cat.packCategoryId.toString())}
 								strategy={verticalListSortingStrategy}>
 								<Stack className="gap-12">
 									{localPackCategories.length > 0 &&
