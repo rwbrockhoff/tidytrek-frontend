@@ -4,6 +4,11 @@ import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
 import { updateItemIndex } from '@/utils/query-utils';
+import { 
+	removePackItemFromCache, 
+	updatePackItemInCache,
+	updatePackItemIndexInCache 
+} from './cache/pack-cache';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import {
@@ -243,19 +248,7 @@ export const useEditPackItemMutation = (): SimpleMutation<
 			// only update changed item in cache
 			queryClient.setQueryData<PackQueryState>(
 				packKeys.packId(packItem.packId),
-				(old) => {
-					if (!old) return old;
-
-					return {
-						...old,
-						categories: old.categories.map((category) => ({
-							...category,
-							packItems: category.packItems.map((item) =>
-								item.packItemId === updatedItem.packItemId ? updatedItem : item,
-							),
-						})),
-					};
-				},
+				(old) => updatePackItemInCache(old, updatedItem)
 			);
 		},
 	});
@@ -282,26 +275,7 @@ export const useMovePackItemMutation = (): SimpleMutation<
 					// update moved item with new calculated fractional index
 					queryClient.setQueryData<PackQueryState>(
 						packKeys.packId(packInfo.packId),
-						(old) => {
-							if (!old) return old;
-
-							const { categories } = old;
-							const { newIndex } = response;
-
-							const updatedCategories = categories.map((category) => ({
-								...category,
-								packItems: category.packItems.map((item) =>
-									item.packItemId.toString() === packInfo.packItemId
-										? { ...item, packItemIndex: newIndex }
-										: item,
-								),
-							}));
-
-							return {
-								...old,
-								categories: updatedCategories,
-							};
-						},
+						(old) => updatePackItemIndexInCache(old, packInfo.packItemId, response.newIndex)
 					);
 				}
 			}
@@ -354,19 +328,10 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 			}>(closetKeys.all);
 
 			// Remove item from pack optimistically
-			queryClient.setQueryData<PackQueryState>(packKeys.packId(packIdWithItem), (old) => {
-				if (!old) return old;
-
-				const updatedCategories = old.categories.map((category) => ({
-					...category,
-					packItems: category.packItems.filter((item) => item.packItemId !== packItemId),
-				}));
-
-				return {
-					...old,
-					categories: updatedCategories,
-				};
-			});
+			queryClient.setQueryData<PackQueryState>(
+				packKeys.packId(packIdWithItem),
+				(old) => removePackItemFromCache(old, packItemId)
+			);
 
 			// Add item to closet optimistically
 			queryClient.setQueryData<{ gearClosetList: GearClosetItem[] }>(
@@ -410,13 +375,19 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 	});
 };
 
-export const useDeletePackItemMutation = (): SimpleMutation<number, void> => {
+export const useDeletePackItemMutation = (): SimpleMutation<{ packItemId: number; packId: number }, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (packItemId: number) =>
+		mutationFn: ({ packItemId }: { packItemId: number; packId: number }) =>
 			tidyTrekAPI.delete(`/packs/pack-items/${packItemId}`).then(extractData<void>),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: packKeys.all });
+		onSuccess: (_response, { packItemId, packId }) => {
+			queryClient.setQueryData<PackQueryState>(
+				packKeys.packId(packId),
+				(old) => removePackItemFromCache(old, packItemId)
+			);
+		},
+		onError: (_error, { packId }) => {
+			queryClient.invalidateQueries({ queryKey: packKeys.packId(packId) });
 		},
 	});
 };

@@ -47,7 +47,7 @@ export const usePackCategoryActions = ({
 	};
 
 	const handleDeleteItem = (packItemId: number) => {
-		deletePackItem(packItemId);
+		deletePackItem({ packItemId, packId });
 	};
 
 	return {

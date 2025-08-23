@@ -297,7 +297,7 @@ describe('useDeletePackItemMutation', () => {
 		const wrapper = createQueryWrapper();
 		const { result } = renderHook(() => useDeletePackItemMutation(), { wrapper });
 
-		result.current.mutate(packItemId);
+		result.current.mutate({ packItemId, packId: 1 });
 
 		await waitFor(() => {
 			expect(tidyTrekAPI.delete).toHaveBeenCalledWith('/packs/pack-items/1');
