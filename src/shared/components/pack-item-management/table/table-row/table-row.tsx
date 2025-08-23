@@ -4,7 +4,6 @@ import {
 	TableRowContext,
 } from '@/types/pack-types';
 import { memo } from 'react';
-import { shallowEqual } from '@/utils';
 import { MoveItemModal } from '@/shared/components/pack-item-management/move-item-modal';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { TableErrorRow } from '../table-error-row/table-error-row';
@@ -114,9 +113,37 @@ export const TableRowComponent = (props: TableRowProps) => {
 };
 
 export const TableRow = memo(TableRowComponent, (prevProps, nextProps) => {
-	return (
-		shallowEqual(prevProps.item, nextProps.item) &&
-		prevProps.disabled === nextProps.disabled &&
-		prevProps.packList.length === nextProps.packList.length
-	);
+	// Only re-render if essential properties changed
+	// This prevents re-renders during drag when only references change
+
+	const prevItem = prevProps.item;
+	const nextItem = nextProps.item;
+
+	// Always re-render if the item ID changed (different item)
+	if (prevItem.packItemId !== nextItem.packItemId) return false;
+
+	// Check if other props changed
+	if (
+		prevProps.disabled !== nextProps.disabled ||
+		prevProps.categoryId !== nextProps.categoryId ||
+		prevProps.context !== nextProps.context ||
+		prevProps.packList.length !== nextProps.packList.length
+	) {
+		return false;
+	}
+
+	// Check if essential item properties changed (what user can edit)
+	const essentialPropsChanged =
+		prevItem.packItemName !== nextItem.packItemName ||
+		prevItem.packItemDescription !== nextItem.packItemDescription ||
+		prevItem.packItemWeight !== nextItem.packItemWeight ||
+		prevItem.packItemPrice !== nextItem.packItemPrice ||
+		prevItem.packItemQuantity !== nextItem.packItemQuantity ||
+		prevItem.packItemUrl !== nextItem.packItemUrl ||
+		prevItem.wornWeight !== nextItem.wornWeight ||
+		prevItem.consumable !== nextItem.consumable ||
+		prevItem.favorite !== nextItem.favorite;
+
+	// Return true to prevent re-render, false to allow re-render
+	return !essentialPropsChanged;
 });

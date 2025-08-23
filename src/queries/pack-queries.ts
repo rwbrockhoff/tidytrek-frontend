@@ -4,11 +4,7 @@ import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { type SimpleMutation } from './mutation-types';
 import { extractData } from './extract-data';
 import { updateItemIndex } from '@/utils/query-utils';
-import { 
-	removePackItemFromCache, 
-	updatePackItemInCache,
-	updatePackItemIndexInCache 
-} from './cache/pack-cache';
+import { removePackItemFromCache, updatePackItemInCache } from './cache/pack-cache';
 import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import {
@@ -246,9 +242,8 @@ export const useEditPackItemMutation = (): SimpleMutation<
 		},
 		onSuccess: (updatedItem, { packItem }) => {
 			// only update changed item in cache
-			queryClient.setQueryData<PackQueryState>(
-				packKeys.packId(packItem.packId),
-				(old) => updatePackItemInCache(old, updatedItem)
+			queryClient.setQueryData<PackQueryState>(packKeys.packId(packItem.packId), (old) =>
+				updatePackItemInCache(old, updatedItem),
 			);
 		},
 	});
@@ -266,18 +261,9 @@ export const useMovePackItemMutation = (): SimpleMutation<
 				.put(`/packs/pack-items/index/${packItemId}`, packInfo)
 				.then(extractData<MovePackItemResponse>);
 		},
-		onSuccess: (response, packInfo) => {
+		onSuccess: (_response, packInfo) => {
 			if (packInfo.packId) {
-				// If API rebalanced, invalidate query
-				if (response.rebalanced) {
-					queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
-				} else {
-					// update moved item with new calculated fractional index
-					queryClient.setQueryData<PackQueryState>(
-						packKeys.packId(packInfo.packId),
-						(old) => updatePackItemIndexInCache(old, packInfo.packItemId, response.newIndex)
-					);
-				}
+				queryClient.invalidateQueries({ queryKey: packKeys.packId(packInfo.packId) });
 			}
 		},
 		onError: (_err, packInfo) => {
@@ -328,9 +314,8 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 			}>(closetKeys.all);
 
 			// Remove item from pack optimistically
-			queryClient.setQueryData<PackQueryState>(
-				packKeys.packId(packIdWithItem),
-				(old) => removePackItemFromCache(old, packItemId)
+			queryClient.setQueryData<PackQueryState>(packKeys.packId(packIdWithItem), (old) =>
+				removePackItemFromCache(old, packItemId),
 			);
 
 			// Add item to closet optimistically
@@ -375,15 +360,17 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 	});
 };
 
-export const useDeletePackItemMutation = (): SimpleMutation<{ packItemId: number; packId: number }, void> => {
+export const useDeletePackItemMutation = (): SimpleMutation<
+	{ packItemId: number; packId: number },
+	void
+> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: ({ packItemId }: { packItemId: number; packId: number }) =>
 			tidyTrekAPI.delete(`/packs/pack-items/${packItemId}`).then(extractData<void>),
 		onSuccess: (_response, { packItemId, packId }) => {
-			queryClient.setQueryData<PackQueryState>(
-				packKeys.packId(packId),
-				(old) => removePackItemFromCache(old, packItemId)
+			queryClient.setQueryData<PackQueryState>(packKeys.packId(packId), (old) =>
+				removePackItemFromCache(old, packItemId),
 			);
 		},
 		onError: (_error, { packId }) => {
@@ -446,27 +433,11 @@ export const useMovePackCategoryMutation = (): SimpleMutation<
 					extractData<{ packCategoryId: string; newIndex: string; rebalanced: boolean }>,
 				);
 		},
-		onSuccess: (result, categoryInfo) => {
+		onSuccess: (_result, categoryInfo) => {
 			if (categoryInfo.packId) {
-				// If API rebalanced, invalidate query
-				if (result.rebalanced) {
-					queryClient.invalidateQueries({
-						queryKey: packKeys.packId(categoryInfo.packId),
-					});
-				} else {
-					// update moved item to new fractional index from server
-					queryClient.setQueryData<PackQueryState>(
-						packKeys.packId(categoryInfo.packId),
-						(old) => {
-							if (!old) return old;
-
-							return {
-								...old,
-								categories: updateItemIndex(old.categories, result, 'packCategoryId'),
-							};
-						},
-					);
-				}
+				queryClient.invalidateQueries({
+					queryKey: packKeys.packId(categoryInfo.packId),
+				});
 			}
 		},
 		onError: (_err, categoryInfo) => {

@@ -16,11 +16,20 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 		]);
 
 	useEffect(() => {
-		// Only sync from parent if we haven't made local changes
-		if (!packItemChanged) {
+		// Sync packItem state when switching item (or on initial load)
+		if (
+			item.packItemId !== packItem.packItemId ||
+			(!packItemChanged && packItem.packItemId) ||
+			!packItem.packItemId
+		) {
 			setPackItem({ ...item });
+			if (item.packItemId !== packItem.packItemId) {
+				// Reset change flag when switching to a different item
+				setPackItemChanged(false);
+			}
 		}
-	}, [item, packItemChanged]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [item.packItemId]); // Only depend on ID - this prevents sync during drag
 
 	const updateField = (name: string, value: string) => {
 		let processedValue: string | number;

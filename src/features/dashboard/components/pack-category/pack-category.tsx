@@ -1,4 +1,10 @@
-import { type PackListItem, type Category, type PackItem, TableRowContext } from '@/types/pack-types';
+import { memo } from 'react';
+import {
+	type PackListItem,
+	type Category,
+	type PackItem,
+	TableRowContext,
+} from '@/types/pack-types';
 import styles from './pack-category.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Flex } from '@/components/layout';
@@ -28,7 +34,7 @@ type PackCategoryProps = {
 	isMinimized?: boolean;
 };
 
-export const PackCategory = ({
+const PackCategoryComponent = ({
 	category,
 	packList,
 	isMinimized: forceMinimized,
@@ -149,3 +155,44 @@ export const PackCategory = ({
 		</Flex>
 	);
 };
+
+export const PackCategory = memo(PackCategoryComponent, (prevProps, nextProps) => {
+	// Only re-render if essential props changed
+	const prevCategory = prevProps.category;
+	const nextCategory = nextProps.category;
+
+	// Always re-render if category ID changed (different category)
+	if (prevCategory.packCategoryId !== nextCategory.packCategoryId) {
+		return false;
+	}
+
+	// Check if other props changed
+	if (
+		prevProps.isMinimized !== nextProps.isMinimized ||
+		prevProps.packList.length !== nextProps.packList.length
+	) {
+		return false;
+	}
+
+	// Check if essential category props changed (non-drag related)
+	const essentialCategoryPropsChanged =
+		prevCategory.packCategoryName !== nextCategory.packCategoryName ||
+		prevCategory.packCategoryColor !== nextCategory.packCategoryColor ||
+		prevCategory.packItems.length !== nextCategory.packItems.length;
+
+	if (essentialCategoryPropsChanged) return false;
+
+	// For items, only care about the order of packItemIds - not individual item props
+	// Prevents re-renders when item props change but order stays the same
+	if (prevCategory.packItems.length === nextCategory.packItems.length) {
+		const prevItemIds = prevCategory.packItems.map((item) => item.packItemId);
+		const nextItemIds = nextCategory.packItems.map((item) => item.packItemId);
+
+		// Only re-render if the order of items changed
+		const orderChanged = prevItemIds.some((id, index) => id !== nextItemIds[index]);
+		if (orderChanged) return false;
+	}
+
+	// If we get here, nothing essential changed - prevent re-render
+	return true;
+});

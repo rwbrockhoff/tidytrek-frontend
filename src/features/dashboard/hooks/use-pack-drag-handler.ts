@@ -23,6 +23,7 @@ export const usePackDragHandler = () => {
 				sourceInfo: { categoryId: string; category: Category; index: number };
 				destInfo: { categoryId: string; category: Category; index: number };
 			},
+			onSettled?: () => void,
 		) => {
 			const { active, over } = event;
 
@@ -58,13 +59,18 @@ export const usePackDragHandler = () => {
 						? pack.categories[currentIndex + 1]
 						: undefined;
 
-				movePackCategory({
-					packId: pack.packId,
-					packCategoryId: activeId,
-					prevCategoryIndex: prevCategory?.packCategoryIndex,
-					nextCategoryIndex: nextCategory?.packCategoryIndex,
-					paramPackId,
-				});
+				movePackCategory(
+					{
+						packId: pack.packId,
+						packCategoryId: activeId,
+						prevCategoryIndex: prevCategory?.packCategoryIndex,
+						nextCategoryIndex: nextCategory?.packCategoryIndex,
+						paramPackId,
+					},
+					{
+						onSettled: onSettled,
+					}
+				);
 			} else {
 				// Handle item movement between/within categories
 
@@ -112,16 +118,21 @@ export const usePackDragHandler = () => {
 						? destCategoryObj.packItems[moveInfo.destIndex + 1]
 						: undefined;
 
-				movePackItem({
-					packId: paramPackId ? pack.packId : null,
-					packItemId: moveInfo.packItemId,
-					packCategoryId: moveInfo.destCategoryId,
-					prevPackCategoryId: moveInfo.sourceCategoryId,
-					sourceIndex: moveInfo.sourceIndex,
-					destinationIndex: moveInfo.destIndex,
-					prevItemIndex: prevItem?.packItemIndex,
-					nextItemIndex: nextItem?.packItemIndex,
-				});
+				movePackItem(
+					{
+						packId: paramPackId ? pack.packId : null,
+						packItemId: moveInfo.packItemId,
+						packCategoryId: moveInfo.destCategoryId,
+						prevPackCategoryId: moveInfo.sourceCategoryId,
+						sourceIndex: moveInfo.sourceIndex,
+						destinationIndex: moveInfo.destIndex,
+						prevItemIndex: prevItem?.packItemIndex,
+						nextItemIndex: nextItem?.packItemIndex,
+					},
+					{
+						onSettled: onSettled,
+					}
+				);
 			}
 		},
 		[queryClient, movePackCategory, movePackItem],

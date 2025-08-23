@@ -1,47 +1,54 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { useQueryClient } from '@tanstack/react-query';
 import {
 	type DragStartEvent,
 	type DragOverEvent,
 	type DragEndEvent,
 } from '@dnd-kit/core';
-import { type Category, type Pack, type PackQueryState } from '@/types/pack-types';
-import { packKeys } from '@/queries/query-keys';
+import { type Category, type Pack } from '@/types/pack-types';
 import { usePackDragHandler } from './use-pack-drag-handler';
+import { useDragState } from './use-drag-state';
 
 /**
  * Handles drag-and-drop for pack categories and items.
- * Supports reordering categories and moving items between them with optimistic updates.
+ * Uses temp local state during drag to prevent excessive re-renders,
+ * only updates cache & the server on drag end.
  *
- * @param packCategories - Array of pack categories
+ * @param packCategories - Array of pack categories from TanStack Query
  * @param pack - Current pack data (for context)
  * @param paramPackId - Pack ID from URL parameters
- * @returns Local state, active drag ID, and drag event handlers
+ * @returns Display categories, active drag ID, and drag event handlers
  */
 export const useDashboardDragHandlers = (
 	packCategories: Category[],
 	pack: Pack | undefined,
 	paramPackId: string | undefined,
 ) => {
-	const queryClient = useQueryClient();
-	const { onDragEnd } = usePackDragHandler();
+	const { onDragEnd: serverDragEnd } = usePackDragHandler();
+	const {
+		isDragging,
+		displayCategories,
+		startDrag,
+		updateDrag,
+		completeDrag,
+		endDrag,
+		resetDrag,
+	} = useDragState(packCategories);
 
 	const [activeId, setActiveId] = useState<string | null>(null);
+	const [lastDragPosition, setLastDragPosition] = useState<string>('');
 	const [dragStartData, setDragStartData] = useState<{
 		activeContainer: Category;
 		activeIndex: number;
 	} | null>(null);
-	const [localPackCategories, setLocalPackCategories] = useState(packCategories);
-
-	useEffect(() => {
-		setLocalPackCategories(packCategories);
-	}, [packCategories]);
 
 	const handleOnDragStart = (event: DragStartEvent) => {
-		setActiveId(event.active.id as string);
-
 		const activeId = event.active.id.toString();
+		setActiveId(activeId);
+
+		// Start drag state management
+		startDrag();
+
 		const isItemDrag = activeId.includes('-');
 		if (!isItemDrag) return;
 
@@ -52,7 +59,8 @@ export const useDashboardDragHandlers = (
 
 		const activeItemId = getItemId(activeId);
 
-		const activeContainer = packCategories.find((container) =>
+		// Use displayCategories for finding the container
+		const activeContainer = displayCategories.find((container) =>
 			container.packItems.some((item) => item.packItemId.toString() === activeItemId),
 		);
 
@@ -66,36 +74,32 @@ export const useDashboardDragHandlers = (
 
 	const handleOnDragOver = (event: DragOverEvent) => {
 		const { active, over } = event;
-		if (!over) return;
+		if (!over || !isDragging) return;
 
 		const activeId = active.id.toString();
 		const overId = over.id.toString();
 
+		const currentPosition = `${activeId}->${overId}`;
+		if (currentPosition === lastDragPosition) {
+			return;
+		}
+		setLastDragPosition(currentPosition);
+
+		// Handle category drag
 		if (!activeId.includes('-')) {
 			if (activeId === overId) return;
 
-			const oldIndex = localPackCategories.findIndex(
+			const oldIndex = displayCategories.findIndex(
 				(cat) => cat.packCategoryId.toString() === activeId,
 			);
-			const newIndex = localPackCategories.findIndex(
+			const newIndex = displayCategories.findIndex(
 				(cat) => cat.packCategoryId.toString() === overId,
 			);
 
 			if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return;
 
-			const reordered = arrayMove(localPackCategories, oldIndex, newIndex);
-
-			setLocalPackCategories(reordered);
-
-			if (!pack?.packId) return;
-
-			queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
-				if (!old) return old;
-				return {
-					...old,
-					categories: reordered,
-				};
-			});
+			const reordered = arrayMove(displayCategories, oldIndex, newIndex);
+			updateDrag(reordered);
 
 			return;
 		}
@@ -108,11 +112,12 @@ export const useDashboardDragHandlers = (
 		const activeItemId = getItemId(activeId);
 		const overItemId = getItemId(overId);
 
-		const activeContainer = packCategories.find((container) =>
+		// Use displayCategories instead of packCategories
+		const activeContainer = displayCategories.find((container) =>
 			container.packItems.some((item) => item.packItemId.toString() === activeItemId),
 		);
 
-		let overContainer = packCategories.find((container) =>
+		let overContainer = displayCategories.find((container) =>
 			container.packItems.some((item) => item.packItemId.toString() === overItemId),
 		);
 
@@ -120,7 +125,7 @@ export const useDashboardDragHandlers = (
 			const categoryId = overId.startsWith('category-')
 				? overId.replace('category-', '')
 				: overItemId;
-			overContainer = packCategories.find(
+			overContainer = displayCategories.find(
 				(container) => container.packCategoryId.toString() === categoryId,
 			);
 		}
@@ -158,113 +163,132 @@ export const useDashboardDragHandlers = (
 		const movingItem = activeContainer.packItems[activeIndex];
 		if (!movingItem) return;
 
-		if (!pack?.packId) return;
+		// Build new categories array with the move applied
+		const newCategories = [...displayCategories];
+		const sourceCategoryIndex = newCategories.findIndex(
+			(cat) => cat.packCategoryId === activeContainer.packCategoryId,
+		);
+		const destCategoryIndex = newCategories.findIndex(
+			(cat) => cat.packCategoryId === overContainer!.packCategoryId,
+		);
 
-		queryClient.setQueryData<PackQueryState>(packKeys.packId(pack.packId), (old) => {
-			if (!old) return old;
+		if (sourceCategoryIndex !== -1 && destCategoryIndex !== -1) {
+			// Same category: use arrayMove from @dnd-kit
+			if (activeContainer.packCategoryId === overContainer!.packCategoryId) {
+				const newItems = arrayMove(
+					newCategories[sourceCategoryIndex].packItems,
+					activeIndex,
+					newIndex,
+				);
+				newCategories[sourceCategoryIndex] = {
+					...newCategories[sourceCategoryIndex],
+					packItems: newItems,
+				};
+			} else {
+				// Cross-category: manual splice
+				const newSourceItems = [...newCategories[sourceCategoryIndex].packItems];
+				newSourceItems.splice(activeIndex, 1);
+				newCategories[sourceCategoryIndex] = {
+					...newCategories[sourceCategoryIndex],
+					packItems: newSourceItems,
+				};
 
-			const newCategories = [...old.categories];
-			const sourceCategoryIndex = newCategories.findIndex(
-				(cat) => cat.packCategoryId === activeContainer.packCategoryId,
-			);
-			const destCategoryIndex = newCategories.findIndex(
-				(cat) => cat.packCategoryId === overContainer!.packCategoryId,
-			);
-
-			if (sourceCategoryIndex !== -1 && destCategoryIndex !== -1) {
-				// Same category: use arrayMove from @dnd-kit
-				if (activeContainer.packCategoryId === overContainer!.packCategoryId) {
-					const newItems = arrayMove(
-						newCategories[sourceCategoryIndex].packItems,
-						activeIndex,
-						newIndex,
-					);
-					newCategories[sourceCategoryIndex] = {
-						...newCategories[sourceCategoryIndex],
-						packItems: newItems,
-					};
-				} else {
-					// Cross-category: manual splice
-					const newSourceItems = [...newCategories[sourceCategoryIndex].packItems];
-					newSourceItems.splice(activeIndex, 1);
-					newCategories[sourceCategoryIndex] = {
-						...newCategories[sourceCategoryIndex],
-						packItems: newSourceItems,
-					};
-
-					const updatedItem = {
-						...movingItem,
-						packCategoryId: overContainer!.packCategoryId,
-					};
-					const newDestItems = [...newCategories[destCategoryIndex].packItems];
-					newDestItems.splice(newIndex, 0, updatedItem);
-					newCategories[destCategoryIndex] = {
-						...newCategories[destCategoryIndex],
-						packItems: newDestItems,
-					};
-				}
+				const updatedItem = {
+					...movingItem,
+					packCategoryId: overContainer!.packCategoryId,
+				};
+				const newDestItems = [...newCategories[destCategoryIndex].packItems];
+				newDestItems.splice(newIndex, 0, updatedItem);
+				newCategories[destCategoryIndex] = {
+					...newCategories[destCategoryIndex],
+					packItems: newDestItems,
+				};
 			}
+		}
 
-			return {
-				...old,
-				categories: newCategories,
-			};
-		});
+		updateDrag(newCategories);
 	};
 
-	const handleOnDragEnd = (event: DragEndEvent) => {
+	const handleOnDragEnd = async (event: DragEndEvent) => {
 		const { active, over } = event;
 
 		setActiveId(null);
+		setLastDragPosition('');
+		setDragStartData(null);
 
 		if (!over) {
-			setDragStartData(null);
+			resetDrag();
 			return;
 		}
 
 		const activeId = active.id.toString();
 		const isCategoryDrag = !activeId.includes('-');
 
-		if (isCategoryDrag) {
-			if (!pack?.packId) return;
-			onDragEnd(event, { ...pack, categories: localPackCategories } as Pack, paramPackId);
-		} else if (dragStartData) {
-			const getItemId = (id: string) => {
-				const parts = id.split('-');
-				return parts.length > 1 ? parts[1] : id;
-			};
-			const activeItemId = getItemId(activeId);
+		completeDrag();
 
-			const currentContainer = packCategories.find((container) =>
-				container.packItems.some((item) => item.packItemId.toString() === activeItemId),
-			);
+		try {
+			if (isCategoryDrag) {
+				if (!pack?.packId) {
+					resetDrag();
+					return;
+				}
+				await serverDragEnd(
+					event,
+					{ ...pack, categories: displayCategories } as Pack,
+					paramPackId,
+					undefined,
+					endDrag,
+				);
+			} else if (dragStartData) {
+				const getItemId = (id: string) => {
+					const parts = id.split('-');
+					return parts.length > 1 ? parts[1] : id;
+				};
+				const activeItemId = getItemId(activeId);
 
-			if (currentContainer) {
-				const currentIndex = currentContainer.packItems.findIndex(
-					(item) => item.packItemId.toString() === activeItemId,
+				const currentContainer = displayCategories.find((container) =>
+					container.packItems.some((item) => item.packItemId.toString() === activeItemId),
 				);
 
-				if (!pack?.packId) return;
-				onDragEnd(event, { ...pack, categories: packCategories } as Pack, paramPackId, {
-					sourceInfo: {
-						categoryId: dragStartData.activeContainer.packCategoryId.toString(),
-						category: dragStartData.activeContainer,
-						index: dragStartData.activeIndex,
-					},
-					destInfo: {
-						categoryId: currentContainer.packCategoryId.toString(),
-						category: currentContainer,
-						index: currentIndex,
-					},
-				});
-			}
-		}
+				if (currentContainer) {
+					const currentIndex = currentContainer.packItems.findIndex(
+						(item) => item.packItemId.toString() === activeItemId,
+					);
 
-		setDragStartData(null);
+					if (!pack?.packId) {
+						resetDrag();
+						return;
+					}
+
+					// Send server update with final positions
+					// Pass endDrag as onSettled callback to prevent "flash" back to original position
+					await serverDragEnd(
+						event,
+						{ ...pack, categories: displayCategories } as Pack,
+						paramPackId,
+						{
+							sourceInfo: {
+								categoryId: dragStartData.activeContainer.packCategoryId.toString(),
+								category: dragStartData.activeContainer,
+								index: dragStartData.activeIndex,
+							},
+							destInfo: {
+								categoryId: currentContainer.packCategoryId.toString(),
+								category: currentContainer,
+								index: currentIndex,
+							},
+						},
+						endDrag, // onSettled callback
+					);
+				}
+			}
+		} catch (error) {
+			resetDrag();
+		}
 	};
 
 	return {
-		localPackCategories,
+		localPackCategories: displayCategories,
 		activeId,
 		handleOnDragStart,
 		handleOnDragOver,

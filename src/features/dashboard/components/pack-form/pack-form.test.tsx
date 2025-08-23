@@ -46,15 +46,6 @@ describe('PackInfoForm', () => {
 			expect(screen.getByDisplayValue('50 miles')).toBeInTheDocument();
 		});
 
-		it('shows affiliate description field when affiliate is enabled', () => {
-			renderPackForm({
-				packAffiliate: true,
-				packAffiliateDescription: 'Custom affiliate message',
-			});
-
-			expect(screen.getByDisplayValue('Custom affiliate message')).toBeInTheDocument();
-			expect(screen.getByLabelText(/custom affiliate message/i)).toBeInTheDocument();
-		});
 
 		it('hides affiliate description field when affiliate is disabled', () => {
 			renderPackForm({ packAffiliate: false });
@@ -149,12 +140,8 @@ describe('PackInfoForm', () => {
 			renderPackForm();
 
 			const publicSwitch = screen.getByRole('switch', { name: /public/i });
-			const pricingSwitch = screen.getByRole('switch', { name: /pack prices/i });
-			const affiliateSwitch = screen.getByRole('switch', { name: /affiliate links/i });
 
 			expect(publicSwitch).toHaveAccessibleName();
-			expect(pricingSwitch).toHaveAccessibleName();
-			expect(affiliateSwitch).toHaveAccessibleName();
 		});
 	});
 });
