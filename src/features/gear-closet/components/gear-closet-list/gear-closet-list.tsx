@@ -9,17 +9,13 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import type { PackListItem, GearClosetItem } from '@/types/pack-types';
 import { Table } from '@/shared/components/pack-item-management/table';
 import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
+import { TableRowContext } from '@/types/pack-types';
 import { Table as AlpineTable } from '@/components/alpine';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
 import { GearClosetHeader } from '../gear-closet-header/gear-closet-header';
 import { NotFoundMessage } from '../not-found-message';
 import { PackPricingContext } from '@/contexts/pack-pricing-context';
-import {
-	useAddGearClosetItemMutation,
-	useEditGearClosetItemMutation,
-	useDeleteGearClosetItemMutation,
-} from '@/queries/closet-queries';
-import { type BaseTableRowItem, isGearClosetItem } from '@/types/pack-types';
+import { useAddGearClosetItemMutation } from '@/queries/closet-queries';
 import { useGearClosetDragHandler } from '../../hooks/use-gear-closet-drag-handler';
 
 export type GearClosetListProps = {
@@ -37,23 +33,6 @@ export const GearClosetList = (props: GearClosetListProps) => {
 		useGearClosetDragHandler(gearClosetList);
 
 	const { mutate: addGearClosetItem } = useAddGearClosetItemMutation();
-	const { mutate: editGearClosetItem } = useEditGearClosetItemMutation();
-	const { mutate: deleteGearClosetItem } = useDeleteGearClosetItemMutation();
-
-	const handleOnSave = (formData: BaseTableRowItem) => {
-		if (isGearClosetItem(formData)) {
-			const gearClosetItem: GearClosetItem = {
-				...formData,
-				packId: null,
-				packCategoryId: null,
-			};
-			editGearClosetItem(gearClosetItem);
-		}
-	};
-
-	const handleDelete = (packItemId: number) => {
-		deleteGearClosetItem(packItemId);
-	};
 
 	const handleAddItem = () => {
 		addGearClosetItem();
@@ -81,8 +60,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 										item={item}
 										packList={packList}
 										disabled={dragDisabled}
-										handleOnSave={handleOnSave}
-										handleDelete={handleDelete}
+										context={TableRowContext.CLOSET}
 									/>
 								))
 							) : (

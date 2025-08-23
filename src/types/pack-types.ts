@@ -7,6 +7,11 @@ export enum WeightUnit {
 	g = 'g',
 }
 
+export enum TableRowContext {
+	PACK = 'pack',
+	CLOSET = 'closet',
+}
+
 export type PackQueryState = {
 	packList: PackListItem[];
 	pack: Pack;

@@ -1,26 +1,31 @@
+import {
+	type PackListItem,
+	type BaseTableRowItem,
+	TableRowContext,
+} from '@/types/pack-types';
 import { memo } from 'react';
-import { type PackListItem, type BaseTableRowItem } from '@/types/pack-types';
-
-import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
+import { shallowEqual } from '@/utils';
 import { MoveItemModal } from '@/shared/components/pack-item-management/move-item-modal';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-
 import { TableErrorRow } from '../table-error-row/table-error-row';
 import { useTableRowActions } from './hooks/use-table-row-actions';
 import { useTableRowModal } from './hooks/use-table-row-modal';
+import { usePackItemRow } from './hooks/use-pack-item-row';
+import { usePackItemMutations } from './hooks/use-pack-item-mutations';
+import { useClosetItemMutations } from './hooks/use-closet-item-mutations';
 import { DraggableTableRow } from './draggable-table-row';
 import { TableRowContent } from './table-row-content';
 import { TableRowActions } from './table-row-actions';
-import { shallowEqual } from '@/utils';
+
+type TableRowContextType = TableRowContext;
 
 type TableRowProps = {
 	item: BaseTableRowItem;
 	packList: PackListItem[];
 	disabled?: boolean;
 	moveToCloset?: (packItemId: number) => void;
-	handleOnSave: (packItem: BaseTableRowItem) => void;
-	handleDelete: (packItemId: number) => void;
 	categoryId?: string;
+	context: TableRowContextType;
 };
 
 // Table Row is used in PackCategory + GearCloset
@@ -28,27 +33,37 @@ type TableRowProps = {
 export const TableRowComponent = (props: TableRowProps) => {
 	const { isCreator } = useUserPermissionsContext();
 
-	const { item, disabled, categoryId } = props;
-	const { moveToCloset, handleOnSave, handleDelete } = props;
+	const { item, disabled, categoryId, moveToCloset, context } = props;
 
+	// Get pack/closet mutations - always call both hooks
+	const packMutations = usePackItemMutations();
+	const closetMutations = useClosetItemMutations();
+	const mutations = context === TableRowContext.PACK ? packMutations : closetMutations;
+
+	// Server logic (mutations, API errors)
+	const { apiError, handleSave, handleDelete, handleMoveItemToCloset } = usePackItemRow({
+		mutations,
+		moveToCloset,
+	});
+
+	// Local state & validation hook
 	const {
 		packItem,
 		onChange,
-		packItemChanged,
+		// packItemChanged,
 		formErrors,
-		updateFormErrors,
 		primaryError,
-	} = usePackItemInput(item);
-
-	const { handleToggle, handleChangeProperty, handleMoveItemToCloset, handleDeleteItem } =
-		useTableRowActions({
-			packItem,
-			packItemChanged,
-			handleOnSave,
-			handleDelete,
-			moveToCloset,
-			updateFormErrors,
-		});
+		handleToggle,
+		handleChangeProperty,
+		handleDeleteItem,
+		handleMoveToCloset,
+	} = useTableRowActions({
+		item,
+		apiError,
+		handleSave,
+		handleDelete,
+		handleMoveItemToCloset,
+	});
 
 	const { toggleGearButtons, handleToggleGearButtons } = useTableRowModal();
 
@@ -71,37 +86,34 @@ export const TableRowComponent = (props: TableRowProps) => {
 						onToggle={handleToggle}
 						onChangeProperty={handleChangeProperty}
 						onMove={handleToggleGearButtons}
-						onMoveToCloset={handleMoveItemToCloset}
+						onMoveToCloset={handleMoveToCloset}
 						onDelete={handleDeleteItem}
 						categoryId={categoryId}>
 						<TableRowActions
 							packItem={packItem}
 							onToggleGearButtons={handleToggleGearButtons}
-							onMoveToCloset={handleMoveItemToCloset}
+							onMoveToCloset={handleMoveToCloset}
 							onDelete={handleDeleteItem}
 						/>
 					</TableRowContent>
 					{isCreator && (
-						<MoveItemModal 
-							packItem={item} 
+						<MoveItemModal
+							packItem={item}
 							availablePacks={availablePacks}
 							open={toggleGearButtons && !isDragging}
 							onOpenChange={handleToggleGearButtons}
-							onMoveToCloset={moveToCloset ? handleMoveItemToCloset : undefined}
+							onMoveToCloset={handleMoveToCloset}
 						/>
 					)}
 
-					<TableErrorRow error={primaryError} />
+					{primaryError.error && <TableErrorRow error={primaryError} />}
 				</>
 			)}
 		</DraggableTableRow>
 	);
 };
 
-// Memoize TableRow to avoid re-renders
 export const TableRow = memo(TableRowComponent, (prevProps, nextProps) => {
-	// Shallow comparison
-	// Return true if props are equal (no re-render)
 	return (
 		shallowEqual(prevProps.item, nextProps.item) &&
 		prevProps.disabled === nextProps.disabled &&

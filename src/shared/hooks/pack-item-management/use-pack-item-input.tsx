@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { type InputEvent } from '@/types/form-types';
+import { type InputEvent, type FormError } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 
-export const usePackItemInput = (item: BaseTableRowItem) => {
+export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
 	const [packItem, setPackItem] = useState<BaseTableRowItem>(item);
 
@@ -32,18 +32,26 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 		} else {
 			processedValue = value;
 		}
-		
+
 		setPackItem((prevFormData) => ({
 			...prevFormData,
 			[name]: processedValue,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
 	};
+
 	const onChange = (e: InputEvent) => {
 		const { name, value } = e.target as HTMLInputElement;
 		updateField(name, value);
 		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
 	};
+
+	let combinedPrimaryError = { error: false, message: '' };
+	if (primaryError.error) {
+		combinedPrimaryError = primaryError;
+	} else if (apiError?.error) {
+		combinedPrimaryError = apiError;
+	}
 
 	return {
 		packItem,
@@ -51,6 +59,6 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
-		primaryError,
+		primaryError: combinedPrimaryError,
 	};
 };

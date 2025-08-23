@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { type BaseTableRowItem, type PackItem, type GearClosetItem } from '@/types/pack-types';
+import {
+	type BaseTableRowItem,
+	type PackItem,
+	type GearClosetItem,
+} from '@/types/pack-types';
 import {
 	useEditPackItemMutation,
 	useDeletePackItemMutation,
 } from '@/queries/pack-queries';
-import {
-	useEditGearClosetItemMutation,
-} from '@/queries/closet-queries';
+import { useEditGearClosetItemMutation } from '@/queries/closet-queries';
 import { encode } from '@/utils';
 
 type UsePackItemEditActionsProps = {
@@ -21,7 +23,7 @@ export const usePackItemEditActions = ({
 	gearCloset,
 }: UsePackItemEditActionsProps) => {
 	const navigate = useNavigate();
-	
+
 	const editItemMutation = useEditPackItemMutation();
 	const editGearClosetItemMutation = useEditGearClosetItemMutation();
 	const deleteItemMutation = useDeletePackItemMutation();
@@ -56,17 +58,20 @@ export const usePackItemEditActions = ({
 	};
 
 	const handleDelete = () => {
-		if (!packItemId) return;
+		if (!packItemId || !packId) return;
 
-		deleteItemMutation.mutate(packItemId, {
-			onSuccess: () => {
-				if (gearCloset) {
-					navigate('/gear-closet');
-				} else {
-					navigate(`/pack/${encodedPackId}`);
-				}
+		deleteItemMutation.mutate(
+			{ packItemId, packId },
+			{
+				onSuccess: () => {
+					if (gearCloset) {
+						navigate('/gear-closet');
+					} else {
+						navigate(`/pack/${encodedPackId}`);
+					}
+				},
 			},
-		});
+		);
 	};
 
 	const handleCancel = () => {

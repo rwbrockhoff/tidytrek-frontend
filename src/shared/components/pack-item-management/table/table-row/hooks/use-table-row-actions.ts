@@ -1,51 +1,68 @@
 import { type BaseTableRowItem, type PackItemProperty } from '@/types/pack-types';
-import { z } from 'zod';
+import { type FormError } from '@/types/form-types';
 import { useTableRowValidation } from './use-table-row-validation';
+import { usePackItemInput } from '@/shared/hooks/pack-item-management/use-pack-item-input';
 
 type UseTableRowActionsProps = {
-  packItem: BaseTableRowItem;
-  packItemChanged: boolean;
-  handleOnSave: (packItem: BaseTableRowItem) => void;
-  handleDelete: (packItemId: number) => void;
-  moveToCloset?: (packItemId: number) => void;
-  updateFormErrors: (errors: z.ZodIssue[]) => void;
+	item: BaseTableRowItem;
+	apiError: FormError;
+	handleSave: (packItem: BaseTableRowItem) => void;
+	handleDelete: (packItemId: number, packId: number) => void;
+	handleMoveItemToCloset: (packItemId: number) => void;
 };
 
 export const useTableRowActions = ({
-  packItem,
-  packItemChanged,
-  handleOnSave,
-  handleDelete,
-  moveToCloset,
-  updateFormErrors,
+	item,
+	apiError,
+	handleSave,
+	handleDelete,
+	handleMoveItemToCloset,
 }: UseTableRowActionsProps) => {
-  const { validatePackItem } = useTableRowValidation();
+	const { validatePackItem } = useTableRowValidation();
 
-  const handleToggle = () => {
-    if (packItemChanged) {
-      const { isValid, errors } = validatePackItem(packItem);
-      if (!isValid) {
-        return updateFormErrors(errors);
-      }
-      handleOnSave(packItem);
-    }
-  };
+	// Local state
+	const {
+		packItem,
+		onChange,
+		packItemChanged,
+		formErrors,
+		updateFormErrors,
+		primaryError,
+	} = usePackItemInput(item, apiError);
 
-  const handleChangeProperty = (property: PackItemProperty) =>
-    handleOnSave({ ...packItem, ...property });
+	const handleToggle = () => {
+		if (packItemChanged) {
+			const { isValid, errors } = validatePackItem(packItem);
+			if (!isValid && errors) {
+				return updateFormErrors(errors);
+			}
+			handleSave(packItem);
+		}
+	};
 
-  const handleMoveItemToCloset = () => {
-    moveToCloset && moveToCloset(packItem.packItemId);
-  };
+	const handleChangeProperty = (property: PackItemProperty) =>
+		handleSave({ ...packItem, ...property });
 
-  const handleDeleteItem = () => {
-    handleDelete(packItem.packItemId);
-  };
+	const handleDeleteItem = () => {
+		if (!packItem.packId) return;
+		handleDelete(packItem.packItemId, packItem.packId);
+	};
 
-  return {
-    handleToggle,
-    handleChangeProperty,
-    handleMoveItemToCloset,
-    handleDeleteItem,
-  };
+	const handleMoveToCloset = () => {
+		handleMoveItemToCloset(packItem.packItemId);
+	};
+
+	return {
+		// Local state
+		packItem,
+		onChange,
+		packItemChanged,
+		formErrors,
+		primaryError,
+		// Actions
+		handleToggle,
+		handleChangeProperty,
+		handleDeleteItem,
+		handleMoveToCloset,
+	};
 };

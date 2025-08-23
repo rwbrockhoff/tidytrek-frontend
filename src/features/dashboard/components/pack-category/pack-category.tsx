@@ -1,4 +1,4 @@
-import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
+import { type PackListItem, type Category, type PackItem, TableRowContext } from '@/types/pack-types';
 import styles from './pack-category.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Flex } from '@/components/layout';
@@ -20,11 +20,7 @@ import { usePackCategory } from '../../hooks/use-pack-category';
 import {
 	useAddNewPackItemMutation,
 	useMoveItemToClosetMutation,
-	useEditPackItemMutation,
-	useDeletePackItemMutation,
 } from '@/queries/pack-queries';
-import { normalizeURL } from '@/utils/link-utils';
-import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 
 type PackCategoryProps = {
 	category: Category;
@@ -54,31 +50,13 @@ export const PackCategory = ({
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
 	const { mutate: moveItemToCloset } = useMoveItemToClosetMutation();
-	const { mutate: editPackItem } = useEditPackItemMutation();
-	const { mutate: deletePackItem } = useDeletePackItemMutation();
 
 	const handleAddItem = () => {
 		addPackItem({ packId, packCategoryId });
 	};
 
-	const handleEditPackItem = (packItem: BaseTableRowItem) => {
-		const { packItemId, packItemUrl } = packItem;
-		const cleanUrl = normalizeURL(packItemUrl);
-
-		if (isPackItem(packItem)) {
-			editPackItem({
-				packItemId,
-				packItem: { ...packItem, packItemUrl: cleanUrl },
-			});
-		}
-	};
-
 	const handleMoveItemToCloset = (packItemId: number) => {
 		moveItemToCloset(packItemId);
-	};
-
-	const handleDeleteItem = (packItemId: number) => {
-		deletePackItem(packItemId);
 	};
 
 	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
@@ -148,8 +126,7 @@ export const PackCategory = ({
 									packList={packList}
 									disabled={!isCreator}
 									moveToCloset={handleMoveItemToCloset}
-									handleOnSave={handleEditPackItem}
-									handleDelete={handleDeleteItem}
+									context={TableRowContext.PACK}
 									categoryId={packCategoryId.toString()}
 								/>
 							))
