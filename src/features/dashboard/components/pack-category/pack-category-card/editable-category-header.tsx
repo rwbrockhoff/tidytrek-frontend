@@ -1,5 +1,6 @@
 import { Card, Button, TextField } from '@/components/alpine';
 import { ThemeButton } from '../../table';
+import { type PaletteColor } from '@/styles/palette/palette-constants';
 import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
@@ -10,14 +11,14 @@ import { useFieldState } from '@/hooks/form/use-field-state';
 
 type EditableCategoryHeaderProps = {
 	packCategoryName: string;
-	packCategoryColor: string;
+	packCategoryColor: PaletteColor;
 	packCategoryId: number;
 	isMinimized: boolean;
 	canEdit: boolean;
 	itemQuantity: number;
 	convertedCategoryWeight: number;
 	formattedTotalPrice: string | number;
-	onChangeColor: (color: string) => void;
+	onChangeColor: (color: PaletteColor) => void;
 	onMinimizeCategory: () => void;
 };
 
@@ -67,7 +68,7 @@ export const EditableCategoryHeader = ({
 		}
 	};
 
-	const handleChangeColor = (newColor: string) => {
+	const handleChangeColor = (newColor: PaletteColor) => {
 		editPackCategory({ packCategoryColor: newColor, packCategoryId });
 		onChangeColor(newColor);
 	};

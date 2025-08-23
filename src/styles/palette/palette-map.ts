@@ -65,7 +65,8 @@ export const PALETTE_COLOR_MAP: Record<PaletteName, Record<PaletteColor, string>
 
 export const getPaletteColor = (
 	paletteName: PaletteName,
-	colorName: PaletteColor,
+	colorName: PaletteColor | undefined,
 ): string => {
+	if (!colorName) return '#338866';
 	return PALETTE_COLOR_MAP[paletteName]?.[colorName] || '#338866';
 };

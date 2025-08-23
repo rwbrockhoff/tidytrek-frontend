@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
+import { type PaletteColor } from '@/styles/palette/palette-constants';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton } from '../theme-button/theme-button';
@@ -32,7 +33,7 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 	} = categoryHeaderInfo;
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
-	
+
 	const { validationError, validate, clearErrors } = useFieldState({
 		initialValue: categoryName || '',
 		validator: (value: string) => {
@@ -48,12 +49,12 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 		if (categoryName !== packCategoryName) {
 			const isValid = validate(packCategoryName);
 			if (!isValid) return;
-			
+
 			editPackCategory({ packCategoryName, packCategoryId });
 		}
 	};
 
-	const handleChangeColor = (packCategoryColor: string) =>
+	const handleChangeColor = (packCategoryColor: PaletteColor) =>
 		editPackCategory({ packCategoryColor, packCategoryId });
 
 	const handleInput = (e: InputEvent) => {

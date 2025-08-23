@@ -9,6 +9,8 @@ import {
 } from '@/queries/pack-queries';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
+import { getPaletteColor } from '@/styles/palette/palette-map';
 import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
 import tableStyles from '../table-main/table.module.css';
@@ -25,13 +27,13 @@ export const TableHeader = (props: TableHeaderProps) => {
 	const { mutate: deletePackCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
 	const { isCreator } = useUserPermissionsContext();
 	const showPrices = usePackPricing();
+	const { palette: currentPalette } = usePackContext();
 
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;
 
-	// Create inline style for dynamic border color
 	const dynamicHeaderStyle = {
-		borderTop: `3px solid var(--${packCategoryColor}, var(--color-primary))`,
+		borderTop: `3px solid ${getPaletteColor(currentPalette, packCategoryColor)}`,
 	};
 
 	return (

@@ -2,23 +2,23 @@ import styles from './theme-button.module.css';
 import { Flex } from '@/components/layout';
 import { Popover } from '@radix-ui/themes';
 import { Button } from '@/components/alpine';
-import { paletteList } from '@/styles/palette/palette-constants';
+import { paletteList, type PaletteColor } from '@/styles/palette/palette-constants';
 import { cn, mx } from '@/styles/utils';
 import { getPaletteColor } from '@/styles/palette/palette-map';
 import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
 
 type ThemeButtonProps = {
-	paletteColor: string | undefined;
+	paletteColor: PaletteColor | undefined;
 	disabled: boolean;
-	onClick: (categoryColor: string) => void;
+	onClick: (categoryColor: PaletteColor) => void;
 };
 
 export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProps) => {
 	const { palette: currentPalette } = usePackContext();
-	const handleOnClick = (newColor: string) => onClick(newColor);
+	const handleOnClick = (newColor: PaletteColor) => onClick(newColor);
 
 	const bgColorPalette = {
-		backgroundColor: paletteColor ? `var(--${paletteColor})` : 'inherit',
+		backgroundColor: paletteColor ? getPaletteColor(currentPalette, paletteColor) : 'inherit',
 	};
 
 	if (disabled) {

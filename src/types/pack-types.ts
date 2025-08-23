@@ -173,5 +173,5 @@ export type MoveGearClosetItemResponse = {
 export type HeaderInfo = {
 	packCategoryId: number;
 	packCategoryName?: string;
-	packCategoryColor?: string;
+	packCategoryColor?: PaletteColor;
 };
