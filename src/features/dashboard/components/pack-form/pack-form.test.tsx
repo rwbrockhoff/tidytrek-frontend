@@ -1,20 +1,20 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { PackForm } from './pack-form';
+import { PackInfoForm } from './pack-info-form';
 import { wrappedRender } from '@/tests/wrapper-utils';
 import { createMockPack } from '@/tests/mocks/pack-mocks';
 import type { Pack } from '@/types/pack-types';
 
 //todo: Test form validation errors
 
-describe('PackForm', () => {
+describe('PackInfoForm', () => {
 	const mockHandleFormChange = vi.fn();
 	const mockHandleCheckBox = vi.fn();
 
 	const renderPackForm = (pack: Partial<Pack> = {}) => {
 		const mockPack = createMockPack(pack);
 		return wrappedRender(
-			<PackForm
+			<PackInfoForm
 				pack={mockPack}
 				handleFormChange={mockHandleFormChange}
 				handleCheckBox={mockHandleCheckBox}

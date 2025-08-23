@@ -76,3 +76,50 @@ export const requiredUrlSchema = z
 			message: 'Please enter a valid https URL.',
 		},
 	);
+
+// Prices
+
+export const priceSchema = z
+	.union([z.string(), z.number()])
+	.refine(
+		(val) => {
+			if (!val && val !== 0) return true; // Allow empty string/null
+			const num = typeof val === 'string' ? parseFloat(val.trim()) : val;
+			return !isNaN(num);
+		},
+		{ message: 'Please enter a valid price.' },
+	)
+	.refine(
+		(val) => {
+			if (!val && val !== 0) return true;
+			const num = typeof val === 'string' ? parseFloat(val.trim()) : val;
+			return num >= 0;
+		},
+		{ message: 'Price cannot be negative.' },
+	)
+	.refine(
+		(val) => {
+			if (!val && val !== 0) return true;
+			const num = typeof val === 'string' ? parseFloat(val.trim()) : val;
+			return num <= 1000000;
+		},
+		{ message: 'Price cannot exceed 1,000,000.' },
+	);
+
+export const quantitySchema = z.union([z.string(), z.number()]).refine(
+	(val) => {
+		if (!val && val !== 0) return true; // Allow empty string/null
+		const num = typeof val === 'string' ? parseInt(val.trim(), 10) : val;
+		return !isNaN(num) && num >= 0 && num <= 999 && Number.isInteger(num);
+	},
+	{ message: 'Quantity must be a positive number up to 999.' },
+);
+
+export const weightSchema = z.union([z.string(), z.number()]).refine(
+	(val) => {
+		if (!val && val !== 0) return true; // Allow empty string/null
+		const num = typeof val === 'string' ? parseFloat(val.trim()) : val;
+		return !isNaN(num) && num >= 0;
+	},
+	{ message: 'Weight must be a positive number.' },
+);

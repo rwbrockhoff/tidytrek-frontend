@@ -1,38 +1,72 @@
 import { z } from 'zod';
+import {
+	string50,
+	string250,
+	requiredString50,
+	urlSchema,
+	priceSchema,
+	quantitySchema,
+	weightSchema,
+} from './common-schemas';
 
-export const packUrlSchema = z
+// Pack schemas
+export const packNameSchema = requiredString50;
+export const packUrlNameSchema = string50;
+export const packDescriptionSchema = string250;
+export const packUrlSchema = urlSchema;
+export const packAffiliateDescriptionSchema = string250;
+
+// Pack tag schemas
+export const packLocationTagSchema = string50;
+export const packDurationTagSchema = string50;
+export const packSeasonTagSchema = string50;
+export const packDistanceTagSchema = string50;
+
+// Pack category schemas
+export const packCategoryNameSchema = string50;
+
+// Pack item schemas
+export const packItemNameSchema = z
+	.string()
+	.trim()
+	.max(50, { message: 'Item name has a max of 50 characters.' })
+	.optional()
+	.or(z.literal(''));
+
+export const packItemDescriptionSchema = z
+	.string()
+	.trim()
+	.max(150, { message: 'Item description has a max of 150 characters.' })
+	.nullish()
+	.or(z.literal(''));
+export const packItemUrlSchema = urlSchema;
+
+// Import pack URL validation for LighterPack
+export const packImportUrlSchema = z
 	.string()
 	.trim()
 	.refine((val) => val.includes('https://lighterpack.com/r/'), {
 		message: 'Please include a valid pack URL we can import.',
 	});
 
-export const packNameSchema = z
-	.string()
-	.trim()
-	.min(1, { message: 'Pack name is required.' })
-	.max(100, { message: 'Pack name has a maximum of 100 characters.' });
+// Pack schema objects
 
-export const packUrlNameSchema = z
-	.string()
-	.trim()
-	.max(100, { message: 'Pack URL name has a maximum of 100 characters.' })
-	.or(z.literal(''));
+export const packFormSchema = z.object({
+	packName: packNameSchema,
+	packDescription: packDescriptionSchema,
+	packUrlName: packUrlNameSchema,
+	packUrl: packUrlSchema,
+	packAffiliateDescription: packAffiliateDescriptionSchema,
+	packLocationTag: packLocationTagSchema,
+	packDurationTag: packDurationTagSchema,
+	packSeasonTag: packSeasonTagSchema,
+	packDistanceTag: packDistanceTagSchema,
+});
 
-export const packTagSchema = z
-	.string()
-	.trim()
-	.max(50, { message: 'Tag has a maximum of 50 characters.' })
-	.or(z.literal(''));
-
-export const packCategoryNameSchema = z
-	.string()
-	.trim()
-	.max(100, { message: 'Category name has a maximum of 100 characters.' })
-	.or(z.literal(''));
-
-export const packItemNameSchema = z
-	.string()
-	.trim()
-	.min(1, { message: 'Item name is required.' })
-	.max(100, { message: 'Item name has a maximum of 100 characters.' });
+export const tablePackItemSchema = z.object({
+	packItemName: packItemNameSchema,
+	packItemDescription: packItemDescriptionSchema,
+	packItemWeight: weightSchema,
+	packItemQuantity: quantitySchema,
+	packItemPrice: priceSchema,
+});

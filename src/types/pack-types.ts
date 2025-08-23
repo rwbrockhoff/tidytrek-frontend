@@ -41,6 +41,18 @@ export type Pack = {
 	categories?: Category[];
 };
 
+export type PackFormFields = {
+	packName: string;
+	packDescription?: string | null;
+	packUrlName?: string | null;
+	packUrl?: string | null;
+	packAffiliateDescription?: string | null;
+	packLocationTag?: string | null;
+	packDurationTag?: string | null;
+	packSeasonTag?: string | null;
+	packDistanceTag?: string | null;
+};
+
 export type Category = {
 	packCategoryName: string;
 	packCategoryId: number;

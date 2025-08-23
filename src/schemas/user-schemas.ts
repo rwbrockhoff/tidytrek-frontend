@@ -21,8 +21,8 @@ export const userLocationSchema = z
 export const trailNameSchema = z
 	.string()
 	.trim()
-	.min(2, {
-		message: 'Trail name must be at least 2 characters.',
+	.min(4, {
+		message: 'Trail name must be at least 4 characters.',
 	})
-	.max(100, { message: 'Trail name has a maximum of 100 characters.' })
+	.max(40, { message: 'Trail name has a max of 40 characters.' })
 	.or(z.literal(''));
