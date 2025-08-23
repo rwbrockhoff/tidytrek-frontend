@@ -7,7 +7,7 @@ type UseTableRowActionsProps = {
 	item: BaseTableRowItem;
 	apiError: FormError;
 	handleSave: (packItem: BaseTableRowItem) => void;
-	handleDelete: (packItemId: number, packId: number) => void;
+	handleDelete: (packItemId: number, packId?: number) => void;
 	handleMoveItemToCloset: (packItemId: number) => void;
 };
 
@@ -44,8 +44,7 @@ export const useTableRowActions = ({
 		handleSave({ ...packItem, ...property });
 
 	const handleDeleteItem = () => {
-		if (!packItem.packId) return;
-		handleDelete(packItem.packItemId, packItem.packId);
+		handleDelete(packItem.packItemId, packItem.packId ?? undefined);
 	};
 
 	const handleMoveToCloset = () => {

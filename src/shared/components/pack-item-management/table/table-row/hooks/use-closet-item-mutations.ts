@@ -23,7 +23,7 @@ export const useClosetItemMutations = (): ItemMutations => {
       isError: editMutation.isError,
     },
     delete: {
-      mutate: ({ packItemId }: { packItemId: number; packId: number }) => 
+      mutate: ({ packItemId }: { packItemId: number; packId?: number }) => 
         deleteMutation.mutate(packItemId),
       error: deleteMutation.error,
       isError: deleteMutation.isError,

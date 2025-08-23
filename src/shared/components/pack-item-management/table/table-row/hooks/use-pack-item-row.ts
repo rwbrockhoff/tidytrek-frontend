@@ -9,7 +9,7 @@ export type ItemMutations = {
 		isError: boolean;
 	};
 	delete: {
-		mutate: (data: { packItemId: number; packId: number }) => void;
+		mutate: (data: { packItemId: number; packId?: number }) => void;
 		error: unknown;
 		isError: boolean;
 	};
@@ -33,7 +33,7 @@ export const usePackItemRow = ({ mutations, moveToCloset }: UsePackItemRowProps)
 		});
 	};
 
-	const handleDelete = (packItemId: number, packId: number) => {
+	const handleDelete = (packItemId: number, packId?: number) => {
 		deleteMutation.mutate({ packItemId, packId });
 	};
 

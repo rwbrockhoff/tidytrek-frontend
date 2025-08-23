@@ -22,8 +22,10 @@ export const usePackItemMutations = (): ItemMutations => {
 			isError: editMutation.isError,
 		},
 		delete: {
-			mutate: ({ packItemId, packId }: { packItemId: number; packId: number }) =>
-				deleteMutation.mutate({ packItemId, packId }),
+			mutate: ({ packItemId, packId }: { packItemId: number; packId?: number }) => {
+				if (!packId) return;
+				deleteMutation.mutate({ packItemId, packId });
+			},
 			error: deleteMutation.error,
 			isError: deleteMutation.isError,
 		},
