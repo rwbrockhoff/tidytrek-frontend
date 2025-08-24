@@ -5,7 +5,7 @@ import { PlusIcon, MinusIcon } from '@/components/icons';
 import { cn } from '@/styles/utils';
 import styles from './pack-category-card.module.css';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
-import { usePackContext } from '../../../hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { packCategoryNameSchema } from '@/schemas/pack-schemas';
 import { useFieldState } from '@/hooks/form/use-field-state';
 
@@ -34,7 +34,7 @@ export const EditableCategoryHeader = ({
 	onChangeColor,
 	onMinimizeCategory,
 }: EditableCategoryHeaderProps) => {
-	const { weightUnit } = usePackContext();
+	const { weightUnit } = usePackDetails();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const {

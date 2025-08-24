@@ -3,7 +3,7 @@ import { cn } from '@/styles/utils';
 import { Flex, Stack } from '@/components/layout';
 import { Badge, Separator, HoverCard } from '@radix-ui/themes';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
-import { usePackContext } from '../../../../../hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import {
 	ConsumableIcon,
 	WeightIcon,
@@ -22,7 +22,7 @@ export const PackSummaryPanel = (props: PackSummaryPanelProps) => {
 	const { totalWeight, descriptivePackWeight, totalPackPrice } = props;
 	const { baseWeight, consumables, wornWeight } = descriptivePackWeight;
 	const showPrices = usePackPricing();
-	const { weightUnit } = usePackContext();
+	const { weightUnit } = usePackDetails();
 
 	return (
 		<>

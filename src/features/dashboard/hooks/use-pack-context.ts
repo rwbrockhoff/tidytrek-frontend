@@ -1,7 +1,8 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { PaletteName, DEFAULT_PALETTE } from '@/styles/palette/palette-constants';
 import { decode } from '@/utils';
@@ -17,44 +18,80 @@ import { WeightUnit } from '@/types/pack-types';
  */
 export const usePackContext = () => {
 	const { packId: paramPackId } = useParams();
-	const { settings: viewerSettings } = useGetAuth();
+	const { settings: viewerSettings } = useAuth();
 	const isGuestRoute = useGuestRoute();
+
+	// Determine if this is a pack-related route
+	const isPackRoute = Boolean(paramPackId) || isGuestRoute;
 
 	// Decode packId for user routes (needs number)
 	const decodedPackId = paramPackId && !isGuestRoute ? decode(paramPackId) : null;
 
-	const { data: userPack } = useGetPackQuery(decodedPackId);
-	const { data: guestPack } = useViewPackQuery(isGuestRoute ? paramPackId : undefined);
+	// Only run queries for pack routes with valid IDs
+	const shouldFetchUserPack = !isGuestRoute && !!decodedPackId && isPackRoute;
+	const shouldFetchGuestPack = isGuestRoute && !!paramPackId && isPackRoute;
+
+	const { data: userPack } = useGetPackQuery(decodedPackId, {
+		enabled: shouldFetchUserPack,
+	});
+	const { data: guestPack } = useViewPackQuery(isGuestRoute ? paramPackId : undefined, {
+		enabled: shouldFetchGuestPack,
+	});
 
 	const currentPack = isGuestRoute ? guestPack : userPack;
 	const pack = currentPack?.pack;
 	const { settings: creatorSettings } = useGuestData(currentPack);
 
-	// For guest view -> use pack creator's settings
-	// for creator view -> use viewer's settings
-	const settings: Settings | null =
-		isGuestRoute && creatorSettings ? creatorSettings : viewerSettings;
+	// Extract only the values we need to avoid unnecessary re-renders
+	const packPalette = pack?.palette;
 
-	// Palette
-	const userDefaultPalette = settings?.palette || DEFAULT_PALETTE;
-	const palette: PaletteName = pack?.palette || userDefaultPalette;
+	// Memoize the result to prevent object recreation
+	return useMemo(() => {
+		// Early exit for non-pack routes
+		if (!isPackRoute) {
+			return {
+				palette: viewerSettings?.palette || DEFAULT_PALETTE,
+				weightUnit: {
+					base: (viewerSettings?.weightUnit === 'metric'
+						? WeightUnit.kg
+						: WeightUnit.lb) as WeightUnit,
+					detail: (viewerSettings?.weightUnit === 'metric'
+						? WeightUnit.g
+						: WeightUnit.oz) as WeightUnit,
+					isMetric: viewerSettings?.weightUnit === 'metric',
+				},
+				currency: viewerSettings?.currencyUnit || 'USD',
+				settings: viewerSettings,
+				isGuestView: false,
+			};
+		}
 
-	// Weight unit
-	const isMetric = settings?.weightUnit === 'metric';
-	const weightUnit = {
-		base: (isMetric ? WeightUnit.kg : WeightUnit.lb) as WeightUnit,
-		detail: (isMetric ? WeightUnit.g : WeightUnit.oz) as WeightUnit,
-		isMetric,
-	};
+		// For guest view -> use pack creator's settings
+		// for creator view -> use viewer's settings
+		const settings: Settings | null =
+			isGuestRoute && creatorSettings ? creatorSettings : viewerSettings;
 
-	// Currency
-	const currency = settings?.currencyUnit || 'USD';
+		// Palette
+		const userDefaultPalette = settings?.palette || DEFAULT_PALETTE;
+		const palette: PaletteName = packPalette || userDefaultPalette;
 
-	return {
-		palette,
-		weightUnit,
-		currency,
-		settings,
-		isGuestView: isGuestRoute,
-	};
+		// Weight unit
+		const isMetric = settings?.weightUnit === 'metric';
+		const weightUnit = {
+			base: (isMetric ? WeightUnit.kg : WeightUnit.lb) as WeightUnit,
+			detail: (isMetric ? WeightUnit.g : WeightUnit.oz) as WeightUnit,
+			isMetric,
+		};
+
+		// Currency
+		const currency = settings?.currencyUnit || 'USD';
+
+		return {
+			palette,
+			weightUnit,
+			currency,
+			settings,
+			isGuestView: isGuestRoute,
+		};
+	}, [isPackRoute, viewerSettings, isGuestRoute, packPalette, creatorSettings]);
 };

@@ -31,14 +31,17 @@ export const isGuestProfileData = (data: unknown): data is GuestProfileViewState
 	return !!data && typeof data === 'object' && hasGuestProfileProperties(data);
 };
 
-export const useViewPackQuery = (packId: string | undefined) => {
+export const useViewPackQuery = (
+	packId: string | undefined,
+	options?: { enabled?: boolean },
+) => {
 	const decodedId = packId ? decode(packId) : null;
 
 	return useQuery<GuestQueryState>({
 		queryKey: guestKeys.packId(decodedId),
 		queryFn: () =>
 			tidyTrekAPI.get(`/guests/pack/${decodedId}`).then(extractData<GuestQueryState>),
-		enabled: !!packId,
+		enabled: options?.enabled ?? !!packId,
 	});
 };
 

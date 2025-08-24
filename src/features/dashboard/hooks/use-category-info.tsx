@@ -1,7 +1,7 @@
 import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
 import { useConvertCurrency, convertWeight } from '@/utils';
-import { usePackContext } from './use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 
 /**
  * Calculates weight and price totals for pack categories
@@ -13,7 +13,7 @@ import { usePackContext } from './use-pack-context';
  */
 
 export const useCategoryInfo = (packCategories: Category[]) => {
-	const { weightUnit: outputUnit, currency } = usePackContext();
+	const { weightUnit: outputUnit, currency } = usePackDetails();
 	const convertCurrency = useConvertCurrency(currency);
 
 	return useMemo(() => {

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { DashboardContainer } from '../components/dashboard-layout/dashboard-container';
 import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
+import { PackProvider } from '@/contexts/pack-context';
 import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { useLayoutLoading } from '@/hooks/ui/use-layout-loading';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
@@ -28,12 +29,14 @@ export const Dashboard = ({ isCreator }: { isCreator: boolean }) => {
 
 	return (
 		<UserPermissionsProvider value={permissions}>
-			<DashboardContainer
-				isPending={isPending}
-				paramPackId={paramPackId}
-				currentPack={data}
-				packList={packListData?.packList || []}
-			/>
+			<PackProvider>
+				<DashboardContainer
+					isPending={isPending}
+					paramPackId={paramPackId}
+					currentPack={data}
+					packList={packListData?.packList || []}
+				/>
+			</PackProvider>
 		</UserPermissionsProvider>
 	);
 };

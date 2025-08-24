@@ -9,7 +9,7 @@ import {
 } from '@/queries/pack-queries';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { getPaletteColor } from '@/styles/palette/palette-map';
 import { cn } from '@/styles/utils';
 import styles from './table-header.module.css';
@@ -27,7 +27,7 @@ export const TableHeader = (props: TableHeaderProps) => {
 	const { mutate: deletePackCategoryAndItems } = useDeletePackCategoryAndItemsMutation();
 	const { isCreator } = useUserPermissionsContext();
 	const showPrices = usePackPricing();
-	const { palette: currentPalette } = usePackContext();
+	const { palette: currentPalette } = usePackDetails();
 
 	const { categoryHeaderInfo, isMinimized, dragProps, minimizeCategory } = props;
 	const { packCategoryId, packCategoryColor } = categoryHeaderInfo;

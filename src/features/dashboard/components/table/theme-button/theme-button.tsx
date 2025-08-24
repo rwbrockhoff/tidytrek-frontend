@@ -5,7 +5,7 @@ import { Button } from '@/components/alpine';
 import { paletteList, type PaletteColor } from '@/styles/palette/palette-constants';
 import { cn, mx } from '@/styles/utils';
 import { getPaletteColor } from '@/styles/palette/palette-map';
-import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 
 type ThemeButtonProps = {
 	paletteColor: PaletteColor | undefined;
@@ -14,7 +14,7 @@ type ThemeButtonProps = {
 };
 
 export const ThemeButton = ({ paletteColor, disabled, onClick }: ThemeButtonProps) => {
-	const { palette: currentPalette } = usePackContext();
+	const { palette: currentPalette } = usePackDetails();
 	const handleOnClick = (newColor: PaletteColor) => onClick(newColor);
 
 	const bgColorPalette = {

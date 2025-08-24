@@ -20,7 +20,7 @@ import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
 import { useDashboardDragHandlers } from '../../drag-and-drop';
-import { usePackContext } from '../../hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { PackNotAvailable } from '../pack-not-available/pack-not-available';
 import { DashboardDragOverlay } from '../dashboard-drag-overlay/dashboard-drag-overlay';
@@ -46,7 +46,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
 
 	const { userProfile, settings } = useGuestData(currentPack);
-	const { palette: packPalette } = usePackContext();
+	const { palette: packPalette } = usePackDetails();
 
 	const handleAddCategory = () => {
 		if (packId) {

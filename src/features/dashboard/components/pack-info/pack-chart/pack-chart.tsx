@@ -2,9 +2,9 @@ import { type Category } from '@/types/pack-types';
 import { useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { getPaletteColor } from '@/styles/palette/palette-map';
-import { usePackContext } from '@/features/dashboard/hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 
 type PackChartProps = {
 	categories: Category[];
@@ -17,8 +17,8 @@ ChartJS.overrides.doughnut.plugins.legend.display = false;
 ChartJS.defaults.plugins.tooltip.displayColors = false;
 
 export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
-	const { palette, weightUnit } = usePackContext();
-	const { settings } = useGetAuth();
+	const { palette, weightUnit } = usePackDetails();
+	const { settings } = useAuth();
 	const isDarkMode = settings?.darkMode || false;
 
 	const categoryLabels = useMemo(

@@ -4,14 +4,14 @@ import { CircleIcon } from '@/components/icons';
 import { CategoryInfo } from '../types';
 import styles from './category-list.module.css';
 import { cn } from '@/styles/utils';
-import { usePackContext } from '../../../../hooks/use-pack-context';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 
 type CategoryListProps = {
 	categories: CategoryInfo[];
 };
 
 export const CategoryList = ({ categories }: CategoryListProps) => {
-	const { weightUnit } = usePackContext();
+	const { weightUnit } = usePackDetails();
 
 	return (
 		<Stack role="list" className={styles.chartList}>
