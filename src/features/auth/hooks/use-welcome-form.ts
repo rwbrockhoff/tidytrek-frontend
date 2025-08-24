@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { type InputEvent } from '@/types/form-types';
 import {
@@ -31,6 +31,13 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 		username: defaultUsername || '',
 		trailName: '',
 	});
+
+	useEffect(() => {
+		if (defaultUsername && !formData.username) {
+			setFormData(prev => ({ ...prev, username: defaultUsername }));
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [defaultUsername]);
 
 	const navigate = useNavigate();
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();

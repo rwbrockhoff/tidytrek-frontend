@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SplitAuthLayout } from '../components/shared/split-auth-layout';
 import { AuthFormLayout } from '../components/shared/auth-form-layout';
-import { RegisterFooter } from '../components/shared/auth-footers';
+import { RegisterLegalFooter } from '../components/shared/auth-footers';
 
 export const Register = () => {
 	const { pathname } = useLocation();
@@ -35,7 +35,7 @@ export const Register = () => {
 				updateServerError={setAxiosError}
 				additionalContent={
 					<div className="mt-2">
-						<RegisterFooter />
+						<RegisterLegalFooter />
 					</div>
 				}>
 				<RegisterForm

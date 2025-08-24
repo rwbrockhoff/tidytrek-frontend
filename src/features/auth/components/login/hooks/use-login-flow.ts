@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { type LoginUserFormData } from '@/types/user-types';
 import { useLoginMutation } from '@/queries/user-queries';
 import { useZodError } from '@/hooks/form/use-zod-error';
@@ -5,6 +6,7 @@ import { extractErrorMessage } from '@/utils/error-utils';
 import { loginSchema } from '../../../schemas/auth-schemas';
 
 export const useLoginFlow = () => {
+	const navigate = useNavigate();
 	const loginMutation = useLoginMutation();
 
 	const { formErrors, updateFormErrors, resetFormErrors, resetAllFormErrors } =
@@ -23,6 +25,9 @@ export const useLoginFlow = () => {
 
 		// Login user
 		loginMutation.mutate(formData, {
+			onSuccess: () => {
+				navigate('/', { viewTransition: true });
+			},
 			onError: (error) => setAxiosError(extractErrorMessage(error)),
 		});
 	};

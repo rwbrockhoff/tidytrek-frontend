@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { performDragDrop } from './utils/drag-drop-helpers';
-import { warn } from 'console';
 
 test.describe.serial('Gear Closet Functionality', () => {
 	test.describe('Gear Closet CRUD Operations', () => {
@@ -170,8 +169,7 @@ test.describe.serial('Gear Closet Functionality', () => {
 					.inputValue();
 				expect(visibleItemDescription).toBe(firstItemDescriptionValue);
 
-				// Throw warning for missing description (but don't break test)
-			} else throw warn('Warning: Gear Closet Search Test: Item Description was empty');
+			}
 		});
 
 		test('should show "No Items Found" message when searching for non-existent item', async ({

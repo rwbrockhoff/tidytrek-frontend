@@ -85,8 +85,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 		logout(undefined, {
 			onSuccess: () => {
-				navigate('/', { replace: true });
-				navigate(0);
+				navigate('/login', { replace: true, viewTransition: true });
 			},
 		});
 	};

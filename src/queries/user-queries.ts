@@ -30,7 +30,9 @@ export const useGetAuthStatusQuery = () =>
 	useQuery<AuthStatusResponse>({
 		queryKey: userKeys.all,
 		queryFn: async () => {
-			const response = await tidyTrekAPI.get('/auth/status').then(extractData<AuthStatusResponse>);
+			const response = await tidyTrekAPI
+				.get('/auth/status')
+				.then(extractData<AuthStatusResponse>);
 			if (response.isAuthenticated) {
 				authHint.checkAndRefresh();
 			}
@@ -67,10 +69,9 @@ export const useLoginMutation = (): SimpleMutation<LoginUserFormData, LoginRespo
 				.then(extractData<LoginResponse>);
 		},
 		retry: false,
-		onSuccess: () => {
+		onSuccess: async () => {
 			authHint.set();
-			queryClient.invalidateQueries({ queryKey: userKeys.all });
-			queryClient.refetchQueries({ queryKey: userKeys.all });
+			await queryClient.refetchQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -81,9 +82,9 @@ export const useOAuthLoginMutation = (): SimpleMutation<LoginUser, LoginResponse
 		mutationFn: (loginData: LoginUser) =>
 			tidyTrekAPI.post('/auth/login', loginData).then(extractData<LoginResponse>),
 		retry: false,
-		onSuccess: () => {
+		onSuccess: async () => {
 			authHint.set();
-			queryClient.invalidateQueries({ queryKey: userKeys.all });
+			await queryClient.refetchQueries({ queryKey: userKeys.all });
 		},
 	});
 };
@@ -152,16 +153,16 @@ export const useOAuthRegisterMutation = (): SimpleMutation<
 
 export const useLogoutMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
+
 	return useMutation({
 		mutationKey: ['logout'],
 		mutationFn: async () => {
+			await queryClient.cancelQueries();
 			await tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 			await supabase.auth.signOut();
 		},
 		onSuccess: () => {
 			authHint.delete();
-		},
-		onSettled: () => {
 			queryClient.clear();
 		},
 	});
@@ -171,9 +172,7 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async () => {
-			const result = await tidyTrekAPI.delete('/auth/account').then(extractData<void>);
-			window.location.replace('/login');
-			return result;
+			return await tidyTrekAPI.delete('/auth/account').then(extractData<void>);
 		},
 		onSuccess: () => {
 			authHint.delete();
@@ -188,7 +187,8 @@ export const useResetPasswordRequestMutation = () => {
 			const { error } = await supabase.auth.resetPasswordForEmail(email, {
 				redirectTo: `${frontendURL}/reset-password/confirm`,
 			});
-			if (error) throw new Error(extractErrorMessage(error) || 'Failed to send reset email');
+			if (error)
+				throw new Error(extractErrorMessage(error) || 'Failed to send reset email.');
 		},
 		retry: false,
 	});
@@ -198,7 +198,8 @@ export const useResetPasswordConfirmMutation = () => {
 	return useMutation({
 		mutationFn: async (password: string) => {
 			const { error } = await supabase.auth.updateUser({ password });
-			if (error) throw new Error(extractErrorMessage(error) || 'Failed to update password');
+			if (error)
+				throw new Error(extractErrorMessage(error) || 'Failed to update password.');
 		},
 		retry: false,
 	});
