@@ -20,7 +20,7 @@ import { EmptyDropZone } from '@/shared/components/pack-item-management/table/em
 import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
 import { TableHeader } from '@/shared/components/pack-item-management/table/table-header/table-header';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { Body as TableBody } from '@/components/alpine/table/table';
 import { usePackCategory } from '../../hooks/use-pack-category';
 import {
@@ -39,7 +39,7 @@ const PackCategoryComponent = ({
 	packList,
 	isMinimized: forceMinimized,
 }: PackCategoryProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const {
 		packCategoryName,

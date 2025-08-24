@@ -5,7 +5,7 @@ import {
 } from '@/types/pack-types';
 import { memo } from 'react';
 import { MoveItemModal } from '@/shared/components/pack-item-management/move-item-modal';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { TableErrorRow } from '../table-error-row/table-error-row';
 import { useTableRowActions } from './hooks/use-table-row-actions';
 import { useTableRowModal } from './hooks/use-table-row-modal';
@@ -30,7 +30,7 @@ type TableRowProps = {
 // Table Row is used in PackCategory + GearCloset
 
 export const TableRowComponent = (props: TableRowProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const { item, disabled, categoryId, moveToCloset, context } = props;
 

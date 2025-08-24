@@ -1,5 +1,5 @@
 import { useSortable, defaultAnimateLayoutChanges } from '@dnd-kit/sortable';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useDndContext } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { type DraggableAttributes } from '@dnd-kit/core';
@@ -29,7 +29,7 @@ export const DraggableTableRow = ({
 	children,
 	categoryId,
 }: DraggableTableRowProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { active } = useDndContext();
 
 	// compound category/pack ID key

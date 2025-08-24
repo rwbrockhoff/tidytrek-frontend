@@ -7,7 +7,7 @@ import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton } from '../theme-button/theme-button';
 import { GripButton } from '@/shared/components/pack-item-management/table';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
 import { cn, mx } from '@/styles/utils';
@@ -21,7 +21,7 @@ type CategoryNameCellProps = {
 };
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const { disabled, categoryHeaderInfo, dragProps } = props;
