@@ -41,7 +41,18 @@ export const PropertyButtons = ({
 	const handleOnClick = (buttonToChange: ButtonTypes, e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
+
 		if (!isDisabled) onClick(buttonToChange);
+	};
+
+	const getButtonClassName = (isActive: boolean) => {
+		if (isActive) return '';
+		if (!isDisabled && !disableHoverBehavior) return hoverStyles.showOnHover;
+		return '';
+	};
+
+	const getVisibilityStyles = (isActive: boolean) => {
+		return isDisabled && !isActive ? 'invisible' : '';
 	};
 
 	const buttonElements = (
@@ -52,10 +63,7 @@ export const PropertyButtons = ({
 				override={true}
 				onClick={(e) => handleOnClick({ favorite: !favorite }, e)}
 				aria-label={`Toggle favorite ${favorite ? 'off' : 'on'}`}
-				className={cn(
-					favorite ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
-					isDisabled && !favorite && 'invisible'
-				)}
+				className={cn(getButtonClassName(favorite), getVisibilityStyles(favorite))}
 				iconLeft={
 					<FavoriteIcon
 						name="favorite"
@@ -75,10 +83,7 @@ export const PropertyButtons = ({
 					override={true}
 					onClick={(e) => handleOnClick({ consumable: !consumable }, e)}
 					aria-label={`Toggle consumables ${consumable ? 'off' : 'on'}`}
-					className={cn(
-						consumable ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
-						isDisabled && !consumable && 'invisible'
-					)}
+					className={cn(getButtonClassName(consumable), getVisibilityStyles(consumable))}
 					iconLeft={
 						<ConsumableIcon
 							name="food"
@@ -99,10 +104,7 @@ export const PropertyButtons = ({
 					override={true}
 					onClick={(e) => handleOnClick({ wornWeight: !wornWeight }, e)}
 					aria-label={`Toggle worn weight ${wornWeight ? 'off' : 'on'}`}
-					className={cn(
-						wornWeight ? '' : !isDisabled && !disableHoverBehavior ? hoverStyles.showOnHover : '',
-						isDisabled && !wornWeight && 'invisible'
-					)}
+					className={cn(getButtonClassName(wornWeight), getVisibilityStyles(wornWeight))}
 					iconLeft={
 						<WornIcon
 							name="wornWeight"
@@ -120,7 +122,10 @@ export const PropertyButtons = ({
 
 	if (disableInternalLayout) {
 		return (
-			<div role="group" aria-labelledby={ariaLabelledBy} className={cn(styles.propertyButtonsContainer, className)}>
+			<div
+				role="group"
+				aria-labelledby={ariaLabelledBy}
+				className={cn(styles.propertyButtonsContainer, className)}>
 				{buttonElements}
 			</div>
 		);

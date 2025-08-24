@@ -62,9 +62,15 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 		combinedPrimaryError = apiError;
 	}
 
+	const updatePackItem = (updates: Partial<BaseTableRowItem>) => {
+		setPackItem(prev => ({ ...prev, ...updates }));
+		if (!packItemChanged) setPackItemChanged(true);
+	};
+
 	return {
 		packItem,
 		onChange,
+		updatePackItem,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,

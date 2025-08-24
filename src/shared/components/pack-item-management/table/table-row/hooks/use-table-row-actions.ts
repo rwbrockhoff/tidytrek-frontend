@@ -24,6 +24,7 @@ export const useTableRowActions = ({
 	const {
 		packItem,
 		onChange,
+		updatePackItem,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
@@ -40,8 +41,11 @@ export const useTableRowActions = ({
 		}
 	};
 
-	const handleChangeProperty = (property: PackItemProperty) =>
-		handleSave({ ...packItem, ...property });
+	const handleChangeProperty = (property: PackItemProperty) => {
+		const updatedItem = { ...packItem, ...property };
+		updatePackItem(property); // update local state
+		handleSave(updatedItem);
+	};
 
 	const handleDeleteItem = () => {
 		handleDelete(packItem.packItemId, packItem.packId ?? undefined);

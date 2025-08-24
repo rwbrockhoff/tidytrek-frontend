@@ -15,9 +15,23 @@
 	padding-right: var(--space-1);
 	opacity: 0;
 	transition: opacity var(--transition);
+	background: none;
+	border: none;
 }
 
-.packListItemContainer:hover .gripContainer {
+.packButton {
+	background: none;
+	border: none;
+	width: 100%;
+	text-align: left;
+	padding: 0;
+	cursor: pointer;
+	color: inherit;
+}
+
+.packListItemContainer:hover .gripContainer,
+.packButton:focus-within ~ .gripContainer,
+.gripContainer:focus {
 	opacity: var(--opacity-60);
 }
 
@@ -35,8 +49,16 @@
 	transition: color var(--transition);
 }
 
-.packListItemContainer:hover .styledText {
+.packButton:hover .styledText,
+.packButton:focus .styledText {
 	color: var(--color-text-secondary);
+}
+
+/* Focus styles for accessibility */
+.packButton:focus-visible,
+.gripContainer:focus-visible {
+	outline: 2px solid var(--color-border-focus);
+	outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
