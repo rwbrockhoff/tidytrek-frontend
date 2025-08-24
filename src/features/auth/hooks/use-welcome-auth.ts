@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useAuthActions } from './use-auth-actions';
 import supabase from '@/api/supabase-client';
 import { AuthFlowType } from '../constants/auth-flow-types';
@@ -8,7 +8,7 @@ import { AuthFlowType } from '../constants/auth-flow-types';
 // Hook to handle Welcome page auth logic
 
 export const useWelcomeAuth = () => {
-	const { isAuthenticated, user, isLoading } = useGetAuth();
+	const { isAuthenticated, user, isLoading } = useAuth();
 	const { loginWithoutNavigation } = useAuthActions();
 	const navigate = useNavigate();
 	const hasAttemptedLogin = useRef(false);

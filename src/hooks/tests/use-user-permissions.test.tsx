@@ -3,8 +3,8 @@ import { renderHook } from '@testing-library/react';
 import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { createMockUser } from '@/tests/mocks/user-mocks';
 
-vi.mock('@/hooks/auth/use-get-auth', () => ({
-	useGetAuth: vi.fn(),
+vi.mock('@/hooks/auth/use-auth', () => ({
+	useAuth: vi.fn(),
 }));
 
 vi.mock('react-router-dom', () => ({
@@ -16,10 +16,10 @@ vi.mock('@/queries/pack-queries', () => ({
 	useGetPackQuery: vi.fn(() => ({ data: null, isLoading: false })),
 }));
 
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useParams } from 'react-router-dom';
 
-const mockUseGetAuth = vi.mocked(useGetAuth);
+const mockUseGetAuth = vi.mocked(useAuth);
 const mockUseParams = vi.mocked(useParams);
 
 describe('useUserPermissions', () => {

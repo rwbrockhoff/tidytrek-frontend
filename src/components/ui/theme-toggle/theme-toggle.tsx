@@ -1,7 +1,7 @@
 import { SunIcon, MoonIcon } from '@/components/icons';
 import styles from './theme-toggle.module.css';
 import { cn } from '@/styles/utils';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
 
 interface ThemeToggleProps {
@@ -9,7 +9,7 @@ interface ThemeToggleProps {
 }
 
 export const ThemeToggle = ({ className }: ThemeToggleProps) => {
-	const { settings } = useGetAuth();
+	const { settings } = useAuth();
 	const currentDarkMode = settings?.darkMode || false;
 	const { mutate: updateSettings } = useUpdateSettingsMutation();
 

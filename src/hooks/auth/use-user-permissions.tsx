@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useGetAuth } from './use-get-auth';
+import { useAuth } from './use-auth';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { decode } from '@/utils';
@@ -32,7 +32,7 @@ type UseUserPermissionsReturn = {
 export const useUserPermissions = (
 	options: UseUserPermissionsOptions = {},
 ): UseUserPermissionsReturn => {
-	const { user, isAuthenticated, isLoading: authLoading } = useGetAuth();
+	const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 	const { packId: paramPackId, userId: paramUserId } = useParams();
 	const isGuestRoute = useGuestRoute();
 

@@ -1,12 +1,12 @@
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { PaletteName } from '@/styles/palette/palette-constants';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
 import { Message } from '@/components/ui';
 import { PalettePicker } from '@/shared/components/palette-picker';
 
 export const ProfilePalette = () => {
-	const { settings, isLoading } = useGetAuth();
+	const { settings, isLoading } = useAuth();
 	const { mutate: updateSettings, isError } = useUpdateSettingsMutation();
 
 	const handlePaletteChange = (value: PaletteName) => {

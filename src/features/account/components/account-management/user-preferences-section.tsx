@@ -1,4 +1,4 @@
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
 import { Select } from '@radix-ui/themes';
 import { Segment, SegmentHeader } from '@/components/primitives';
@@ -22,7 +22,7 @@ const WEIGHT_UNIT_OPTIONS = [
 ];
 
 export const UserPreferencesSection = () => {
-	const { settings } = useGetAuth();
+	const { settings } = useAuth();
 	const { mutate: updateSettings, isError } = useUpdateSettingsMutation();
 
 	const handleWeightUnitChange = (value: string) => {

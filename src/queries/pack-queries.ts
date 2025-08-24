@@ -11,7 +11,7 @@ import {
 	updatePackCategoryIndexInCache,
 	movePackItemBetweenCategoriesInCache,
 } from './cache/pack-cache';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import {
 	type MovePackItemProps,
@@ -40,7 +40,7 @@ export const useGetPackQuery = (
 	packId: number | null | undefined,
 	options?: { enabled?: boolean },
 ) => {
-	const { isAuthenticated } = useGetAuth();
+	const { isAuthenticated } = useAuth();
 	const isGuestRoute = useGuestRoute();
 
 	// Disable on guest routes unless overridden
@@ -49,14 +49,14 @@ export const useGetPackQuery = (
 
 	return useQuery<PackQueryState>({
 		queryKey: packKeys.packId(packId),
-		enabled: shouldEnable,
+		enabled: shouldEnable && packId !== null,
 		staleTime: STALE_TIME,
 		queryFn: () => tidyTrekAPI.get(`/packs/${packId}`).then(extractData<PackQueryState>),
 	});
 };
 
 export const useGetPackListQuery = () => {
-	const { isAuthenticated } = useGetAuth();
+	const { isAuthenticated } = useAuth();
 
 	return useQuery<{ packList: PackListItem[] }>({
 		queryKey: packListKeys.all,

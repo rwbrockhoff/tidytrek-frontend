@@ -1,20 +1,30 @@
+import { createContext } from 'react';
 import { useGetAuthStatusQuery } from '@/queries/user-queries';
 import { type Settings } from '@/types/settings-types';
 import { type User } from '@/types/user-types';
 
-type UseGetAuthReturn = {
+export type AuthContextValue = {
 	isLoading: boolean;
 	isAuthenticated: boolean;
 	user: User | null;
 	settings: Settings | null;
 };
 
-export const useGetAuth = (): UseGetAuthReturn => {
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const { isLoading, data } = useGetAuthStatusQuery();
 
 	const user = data?.user || null;
 	const settings = data?.settings || null;
 	const isAuthenticated = data?.isAuthenticated || false;
 
-	return { isLoading, isAuthenticated, user, settings };
+	const value = {
+		isLoading,
+		isAuthenticated,
+		user,
+		settings,
+	};
+
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
