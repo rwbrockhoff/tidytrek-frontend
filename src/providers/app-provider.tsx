@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AppErrorFallback } from '@/components';
 import { OfflineBanner } from '@/components/ui/offline-banner';
+import { ScreenProvider } from '@/contexts/screen-context';
+import { AuthProvider } from '@/contexts/auth-context';
 import * as Sentry from '@sentry/react';
 import { RETRY_COUNT, RETRY_DELAY } from '@/queries/query-config';
 
@@ -29,9 +31,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 			<Sentry.ErrorBoundary>
 				<ErrorBoundary FallbackComponent={AppErrorFallback}>
 					<QueryClientProvider client={queryClient}>
-						<OfflineBanner />
-						{children}
-						<ReactQueryDevtools initialIsOpen={false} />
+						<AuthProvider>
+							<ScreenProvider>
+								<OfflineBanner />
+								{children}
+								<ReactQueryDevtools initialIsOpen={false} />
+							</ScreenProvider>
+						</AuthProvider>
 					</QueryClientProvider>
 				</ErrorBoundary>
 			</Sentry.ErrorBoundary>

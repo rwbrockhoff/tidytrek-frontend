@@ -7,7 +7,7 @@ import { PackModal } from '../../pack-modal/pack-modal';
 import type { Pack } from '@/types/pack-types';
 import { frontendURL } from '@/api/tidytrek-api';
 import { encode } from '@/utils';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useScreen } from '@/hooks/ui/use-screen';
 
 type PackOptionsMenuProps = {
 	pack: Pack;
@@ -18,7 +18,7 @@ export const PackOptionsMenu = ({ pack, packId }: PackOptionsMenuProps) => {
 	const [linkCopied, setLinkCopied] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate();
-	const { isMobile } = useCheckScreen();
+	const { isMobile } = useScreen();
 
 	const handleCopyLink = () => {
 		const packUrl = `${frontendURL}/pk/${packId}`;

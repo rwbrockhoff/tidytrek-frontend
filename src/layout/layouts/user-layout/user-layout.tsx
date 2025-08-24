@@ -2,24 +2,40 @@ import styles from './user-layout.module.css';
 import { Sidebar, MobileNavbar, MobileBottomNav, ContentFallback } from '@/layout';
 import { SidebarButton } from '@/layout/navigation/sidebar/sidebar-button';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
-import { Suspense, useState, useEffect } from 'react';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { Suspense, useState, useEffect, useRef, useCallback } from 'react';
+import { useScreen } from '@/hooks/ui/use-screen';
 import { cn } from '@/styles/utils';
 
 export const UserLayout = () => {
-	const { isMobile, isMedium } = useCheckScreen();
-	const [showSidebar, setShowSidebar] = useState(false);
+	const { isMobile, isMedium } = useScreen();
+	
+	const getInitialSidebarState = () => {
+		if (typeof window === 'undefined') return true;
+		const width = window.innerWidth;
+		return width > 1280;
+	};
+	
+	const [showSidebar, setShowSidebar] = useState(getInitialSidebarState);
+	const prevScreenState = useRef({ isMobile, isMedium });
 
 	// Default sidebar to hidden on tablet and mobile
 	useEffect(() => {
-		if (isMobile || isMedium) {
-			setShowSidebar(false);
-		} else {
-			setShowSidebar(true);
+		const hasScreenSizeChanged = 
+			prevScreenState.current.isMobile !== isMobile || 
+			prevScreenState.current.isMedium !== isMedium;
+		
+		if (hasScreenSizeChanged) {
+			prevScreenState.current = { isMobile, isMedium };
+			
+			if (isMobile || isMedium) {
+				setShowSidebar(false);
+			} else {
+				setShowSidebar(true);
+			}
 		}
 	}, [isMobile, isMedium]);
 
-	const handleToggleSidebar = () => setShowSidebar(!showSidebar);
+	const handleToggleSidebar = useCallback(() => setShowSidebar(prev => !prev), []);
 
 	return (
 		<div className={styles.outerContainer} data-mobile-sidebar-visible={isMobile && showSidebar}>

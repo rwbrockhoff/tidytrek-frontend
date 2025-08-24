@@ -6,8 +6,8 @@ import { useLogoutMutation } from '@/queries/user-queries';
 import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { encode, decode } from '@/utils';
 import { SidebarButton } from './sidebar-button';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useAuth } from '@/hooks/auth/use-auth';
+import { useScreen } from '@/hooks/ui/use-screen';
 import { MouseOver } from '@/contexts/mouse-over-context';
 import { ThemeToggle } from '@/components/ui';
 import { Logo } from '@/layout/logo';
@@ -17,11 +17,11 @@ import { PopoverMenu } from './menus/popover-menu';
 
 declare const google:
 	| {
-			accounts: {
-				id: {
-					disableAutoSelect: () => Promise<void>;
-				};
+		accounts: {
+			id: {
+				disableAutoSelect: () => Promise<void>;
 			};
+		};
 	}
 	| undefined;
 
@@ -34,7 +34,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { packId: paramPackId } = useParams();
-	const { user } = useGetAuth();
+	const { user } = useAuth();
 
 	const { data: packListData } = useGetPackListQuery();
 
@@ -50,7 +50,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const defaultPackUrl = `/pack/${encodedId}`;
 	const currentPackId = packData?.pack?.packId;
 
-	const { isMobile, isMedium } = useCheckScreen();
+	const { isMobile, isMedium } = useScreen();
 
 	useEffect(() => {
 		const { pathname } = location;
@@ -85,7 +85,8 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 		logout(undefined, {
 			onSuccess: () => {
-				navigate('/login', { replace: true });
+				navigate('/', { replace: true });
+				navigate(0);
 			},
 		});
 	};
@@ -100,7 +101,9 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					<Link to={defaultPackUrl} viewTransition onClick={() => isMobile && onToggle()}>
 						<Logo size={isMobile ? 'base' : 'small'} className="mb-1" />
 					</Link>
-					{showSidebar && <SidebarButton isSidebar isMobile={isMobile} onClick={onToggle} />}
+					{showSidebar && (
+						<SidebarButton isSidebar isMobile={isMobile} onClick={onToggle} />
+					)}
 				</div>
 
 				<div className={styles.avatarSection}>

@@ -9,7 +9,7 @@ import { ChartIcon, LinkIcon } from '@/components/icons';
 import { Heading, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useScreen } from '@/hooks/ui/use-screen';
 import { useDashboardView } from '../../hooks/use-dashboard-view';
 import { useCategoryInfo } from '../../hooks/use-category-info';
 import { isUntouchedPack } from '../../utils/is-untouched-pack';
@@ -32,7 +32,7 @@ type PackInfoProps = {
 
 export const PackInfo = (props: PackInfoProps) => {
 	const { canEdit } = useDashboardView();
-	const { isMobile } = useCheckScreen();
+	const { isMobile } = useScreen();
 	const { packId: paramPackId } = useParams();
 
 	const { fetching, currentPack, packCategories, userProfile, settings } = props;

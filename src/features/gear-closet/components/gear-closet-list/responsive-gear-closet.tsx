@@ -1,5 +1,5 @@
 import { type GearClosetItem, type PackListItem } from '@/types/pack-types';
-import { useCheckScreen } from '@/hooks/ui/use-check-screen';
+import { useScreen } from '@/hooks/ui/use-screen';
 import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { GearClosetList } from './gear-closet-list';
 import { GearClosetCard } from '../gear-closet-card/gear-closet-card';
@@ -18,7 +18,7 @@ export const ResponsiveGearCloset = ({
 	listHasItems,
 	dragDisabled,
 }: ResponsiveGearClosetProps) => {
-	const { isMobile } = useCheckScreen();
+	const { isMobile } = useScreen();
 	const { isAuthenticated } = useUserPermissionsContext();
 	const { mutate: addGearClosetItem } = useAddGearClosetItemMutation();
 
