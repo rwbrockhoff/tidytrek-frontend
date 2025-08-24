@@ -4,7 +4,6 @@ export { Link } from './link/link';
 export { ExternalLink } from './link/external-link';
 export { LandingLink } from './link/landing-link';
 export { DeleteModal } from './modals/delete-modal';
-export { Text } from './text/text';
 export { ThemeToggle } from './theme-toggle/theme-toggle';
 export {
 	DashboardSkeleton,

@@ -1,4 +1,5 @@
 import { ReactNode, forwardRef } from 'react';
+import { cn } from '@/styles/utils';
 
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	children: ReactNode;
@@ -8,7 +9,7 @@ interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
 	({ children, className, ...props }, ref) => {
 		return (
-			<div ref={ref} className={className} {...props}>
+			<div ref={ref} className={cn(className)} {...props}>
 				{children}
 			</div>
 		);

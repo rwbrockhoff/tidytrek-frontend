@@ -44,11 +44,13 @@ export const PackOptionsMenu = ({ pack, packId }: PackOptionsMenuProps) => {
 
 	const editPackItem = isMobile
 		? {
+				id: 'edit-pack',
 				icon: <EditPencilIcon />,
 				label: 'Edit Pack',
 				onClick: handleEditPack,
 			}
 		: {
+				id: 'edit-pack',
 				icon: <EditPencilIcon />,
 				label: 'Edit Pack',
 				wrapper: (children: React.ReactNode) => (
@@ -59,6 +61,7 @@ export const PackOptionsMenu = ({ pack, packId }: PackOptionsMenuProps) => {
 			};
 
 	const copyLinkItem = {
+		id: 'copy-link',
 		icon: linkCopied ? <CheckIcon /> : <LinkIcon />,
 		label: linkCopied ? 'Link Copied' : 'Copy Link',
 		onClick: handleCopyLink,

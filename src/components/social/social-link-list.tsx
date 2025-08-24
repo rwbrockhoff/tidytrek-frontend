@@ -15,12 +15,11 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 	const { socialLinks, deleteEnabled = false } = props;
 
 	const socialButtonsData = useMemo(() => {
-		return socialLinks.map(({ socialLinkUrl, socialLinkId }, index) => {
+		return socialLinks.map(({ socialLinkUrl, socialLinkId }) => {
 			const platform = detectPlatform(socialLinkUrl);
 			const { socialName, icon } = socialMediaUI[platform] || socialMediaUI.custom;
 
 			return {
-				key: index,
 				socialLinkId,
 				socialName,
 				icon,
@@ -31,9 +30,9 @@ export const SocialLinkList = (props: SocialLinkListProps) => {
 
 	return (
 		<Flex className="flex-wrap gap-2">
-			{socialButtonsData.map(({ key, socialLinkId, socialName, icon, socialLinkUrl }) => (
+			{socialButtonsData.map(({ socialLinkId, socialName, icon, socialLinkUrl }) => (
 				<SocialButton
-					key={key}
+					key={socialLinkId}
 					socialLinkId={socialLinkId}
 					socialName={socialName}
 					icon={icon}

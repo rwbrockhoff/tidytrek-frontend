@@ -7,6 +7,8 @@ import { UserIcon } from '@/components/icons';
 import { cn, mx } from '@/styles/utils';
 import styles from './avatar.module.css';
 
+type Size = 'sm' | 'md' | 'lg';
+
 type AvatarProps = {
 	src: string | undefined;
 	size?: Size;
@@ -96,5 +98,3 @@ export const Avatar = (props: AvatarProps) => {
 		</Link>
 	);
 };
-
-type Size = 'sm' | 'md' | 'lg';
