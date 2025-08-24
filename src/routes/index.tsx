@@ -7,10 +7,12 @@ import { AuthLoading } from './auth-loading';
 import { OfflineBanner } from '@/components/ui/offline-banner';
 import { useAuth } from '@/hooks/auth/use-auth';
 import { useDelayedLoading } from '@/hooks/ui/use-delayed-loading';
+import { BubbleError } from '@/components';
 
 const appRouter = createBrowserRouter([
 	{
 		path: '/',
+		errorElement: <BubbleError />,
 		children: [
 			...publicRoutes,
 			{

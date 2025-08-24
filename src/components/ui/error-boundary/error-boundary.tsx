@@ -28,9 +28,8 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 					Oops! There was an error.
 				</Stack>
 			</Heading>
-			<Text align="center" size="3">
-				Your error has been sent to our engineers who might be trail running or fly
-				fishing right now. But rest assured, they'll fix this up as soon as they can.
+			<Text align="center" size="3" mb="4">
+				Our team has been notified and we are working to fix it as soon as possible.
 			</Text>
 			{hasResetFunction && (
 				<Button
@@ -41,7 +40,7 @@ export const AppErrorFallback = (props: ErrorBoundaryProps) => {
 				</Button>
 			)}
 			<Text align="center">
-				If you're feeling social, you can reach out to our support team anyway:
+				Need assistance? Contact our support:
 				<a href="mailto: info@tidytrek.co"> info@tidytrek.co</a>
 			</Text>
 		</Stack>

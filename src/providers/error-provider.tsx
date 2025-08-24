@@ -7,12 +7,17 @@ type ErrorProviderProps = {
 	children: React.ReactNode;
 };
 
+const handleError = (error: Error) => {
+	Sentry.captureException(error);
+};
+
 export const ErrorProvider = ({ children }: ErrorProviderProps) => {
 	return (
-		<Sentry.ErrorBoundary>
-			<ErrorBoundary FallbackComponent={AppErrorFallback}>
-				{children}
-			</ErrorBoundary>
-		</Sentry.ErrorBoundary>
+		<ErrorBoundary
+			FallbackComponent={AppErrorFallback}
+			onError={handleError}
+		>
+			{children}
+		</ErrorBoundary>
 	);
 };
