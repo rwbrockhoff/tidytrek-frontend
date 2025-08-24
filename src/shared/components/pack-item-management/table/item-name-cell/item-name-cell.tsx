@@ -8,7 +8,6 @@ import { usePermissions } from '@/hooks/auth/use-permissions';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
-import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { mx, cn } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
@@ -26,9 +25,8 @@ type ItemNameCellProps = {
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
 	const { isCreator } = usePermissions();
-	const { packItem, onChange, isDragging, dragProps, onToggleOff, rowRef } = props;
+	const { packItem, onChange, dragProps, onToggleOff, rowRef } = props;
 	const { packItemName, packItemUrl } = packItem || {};
-	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const handleToggleOff = () => {
@@ -36,11 +34,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<Table.Cell
-			ref={ref}
-			onBlur={handleToggleOff}
-			style={{ width }}
-			className={styles.styledCell}>
+		<Table.Cell onBlur={handleToggleOff} className={styles.styledCell}>
 			<GripButton testId="pack-item-grip" disabled={!isCreator} {...dragProps} />
 
 			{isCreator ? (
