@@ -8,7 +8,7 @@ import styles from './link-popup.module.css';
 import hoverStyles from '../hover-styles.module.css';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { isPackItem } from '@/types/pack-types';
 import { requiredUrlSchema } from '@/schemas/common-schemas';
 import { useFieldState } from '@/hooks/form/use-field-state';
@@ -24,7 +24,7 @@ type LinkPopupProps = {
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const { mutate: editPackItem, isSuccess, isPending, reset } = useEditPackItemMutation();
 

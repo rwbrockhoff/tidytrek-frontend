@@ -5,7 +5,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type RefObject } from 'react';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useConvertCurrency } from '@/utils';
 import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { useCellWidth } from '../hooks/use-cell-width';
@@ -31,7 +31,7 @@ export const PriceCell = ({
 	formErrors,
 	rowRef,
 }: PriceCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { currency } = usePackDetails();
 	const convertCurrency = useConvertCurrency(currency);
 	const { isToggled, toggle } = useToggle();

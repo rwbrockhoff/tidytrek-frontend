@@ -4,7 +4,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type RefObject } from 'react';
 import { Badge, Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { cn } from '@/styles/utils';
@@ -27,7 +27,7 @@ export const QuantityCell = ({
 	formErrors,
 	rowRef,
 }: QuantityCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { packItemQuantity } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });

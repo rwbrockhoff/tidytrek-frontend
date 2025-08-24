@@ -4,7 +4,7 @@ import { type RefObject } from 'react';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../grip-button/grip-button';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
@@ -25,7 +25,7 @@ type ItemNameCellProps = {
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { packItem, onChange, isDragging, dragProps, onToggleOff, rowRef } = props;
 	const { packItemName, packItemUrl } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);

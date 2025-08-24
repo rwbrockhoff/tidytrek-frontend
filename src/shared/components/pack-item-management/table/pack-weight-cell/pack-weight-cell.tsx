@@ -11,7 +11,7 @@ import { Text } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
 import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
@@ -39,7 +39,7 @@ export const PackWeightCell = ({
 	formErrors,
 	rowRef,
 }: PackWeightCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
 	const { packItemWeight, packItemWeightUnit } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);

@@ -1,7 +1,7 @@
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { Table } from '@/components/alpine';
 import { PropertyButtons } from '../../property-buttons';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useCellWidth } from '../hooks/use-cell-width';
 
 type PropertiesCellProps = {
@@ -14,7 +14,7 @@ type PropertiesCellProps = {
 export const PropertiesCell = (props: PropertiesCellProps) => {
 	const { isDisabled, onClick, packItem, isDragging } = props;
 
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { wornWeight, consumable, favorite } = packItem || {};
 	const { ref, width } = useCellWidth(isDragging);
 
