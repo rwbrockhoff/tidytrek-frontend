@@ -36,7 +36,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 	const { packId: paramPackId } = useParams();
 	const { user } = useAuth();
 
-	const { data: packListData } = useGetPackListQuery();
+	const { data: packListData, isLoading: isPackListLoading } = useGetPackListQuery();
 
 	const { mutate: logout } = useLogoutMutation();
 
@@ -49,6 +49,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 
 	const defaultPackUrl = `/pack/${encodedId}`;
 	const currentPackId = packData?.pack?.packId;
+
 
 	const { isMobile, isMedium } = useScreen();
 
@@ -123,7 +124,7 @@ export const Sidebar = ({ showSidebar, onToggle }: SidebarProps) => {
 					Packs
 				</Heading>
 
-				<PackList currentPackId={currentPackId} packList={packList} />
+				<PackList currentPackId={currentPackId} packList={packList} isLoading={isPackListLoading} />
 
 				<div className={styles.sidebarFooter}>{showSidebar && <ThemeToggle />}</div>
 			</div>

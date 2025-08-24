@@ -17,13 +17,15 @@ import { PackListItem } from './pack-list-item';
 import { CreatePackMenu } from './create-pack-menu/create-pack-menu';
 import { encode } from '@/utils';
 import { usePackListDragHandler } from './use-pack-list-drag-handler';
+import { PackListSkeleton } from './pack-list-skeleton';
 
 type PackListProps = {
 	currentPackId: number | undefined;
 	packList: PackListItemType[];
+	isLoading?: boolean;
 };
 
-export const PackList = ({ currentPackId, packList }: PackListProps) => {
+export const PackList = ({ currentPackId, packList, isLoading }: PackListProps) => {
 	const navigate = useNavigate();
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -31,6 +33,10 @@ export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	);
 	const { localPackList, activeId, handleDragStart, handleDragEnd } =
 		usePackListDragHandler(packList);
+
+	if (isLoading) {
+		return <PackListSkeleton />;
+	}
 
 	const handleGetPack = (packId: number) => {
 		const encodedId = encode(packId);
