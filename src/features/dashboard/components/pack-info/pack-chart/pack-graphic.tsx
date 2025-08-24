@@ -1,6 +1,6 @@
 import { Category } from '@/types/pack-types';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { PackChartView } from './pack-chart-view';
 import { PackEmptyGraphic } from './pack-empty-graphic/pack-empty-graphic';
 
@@ -11,7 +11,7 @@ type PackGraphicProps = {
 };
 
 export const PackGraphic = (props: PackGraphicProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const { packCategories, fetching, display } = props;
 	const {

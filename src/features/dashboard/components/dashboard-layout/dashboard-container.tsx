@@ -2,7 +2,7 @@ import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '../table';
 import { Flex, Stack } from '@/components/layout';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { PackPricingContext } from '@/contexts/pack-pricing-context';
 import { DashboardViewProvider } from '../../contexts/dashboard-view-context';
 import {
@@ -40,7 +40,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 	const packId = pack?.packId || null;
 	const isGuestRoute = useGuestRoute();
 
-	const { isAuthenticated, isCreator } = useUserPermissionsContext();
+	const { isAuthenticated, isCreator } = usePermissions();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
 	const { localPackCategories, handleOnDragStart, handleOnDragOver, handleOnDragEnd } =
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
