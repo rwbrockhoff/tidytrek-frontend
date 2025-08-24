@@ -7,6 +7,10 @@ import {
 	DndContextProps,
 	CollisionDetection,
 	MeasuringStrategy,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
 } from '@dnd-kit/core';
 import { createPortal } from 'react-dom';
 
@@ -22,6 +26,11 @@ export function DragDropWrapper({
 }: DragDropWrapperProps) {
 	const [activeId, setActiveId] = useState<string | null>(null);
 
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor)
+	);
+
 	// Collision detection: center for larger categories, corners for smaller items
 	const collisionDetection = useMemo<CollisionDetection>(() => {
 		const activeIdStr = activeId?.toString() || '';
@@ -32,6 +41,7 @@ export function DragDropWrapper({
 	return (
 		<DndContext
 			{...dndProps}
+			sensors={sensors}
 			collisionDetection={collisionDetection}
 			measuring={{
 				droppable: {

@@ -6,10 +6,30 @@
 	opacity: 0;
 }
 
-/* Show all hover elements when hovering anywhere in the row or header */
+/* Show hover elements when hovering anywhere in row/header -- or when focused */
 tr:hover .showOnHover,
 tr:hover .showOnHoverAbsolute,
 th:hover .showOnHover,
-th:hover .showOnHoverAbsolute {
+th:hover .showOnHoverAbsolute,
+tr:focus-within .showOnHover,
+tr:focus-within .showOnHoverAbsolute,
+th:focus-within .showOnHover,
+th:focus-within .showOnHoverAbsolute,
+.showOnHover:focus,
+.showOnHoverAbsolute:focus {
 	opacity: 1;
+}
+
+/* Show header buttons and icons */
+th:focus-within button,
+th:focus-within button svg {
+	opacity: 1;
+}
+
+/* Hide focus on table row elements if header is focused */
+tr:focus-within tr .showOnHover,
+tr:focus-within tr .showOnHoverAbsolute,
+th:focus-within tr .showOnHover,
+th:focus-within tr .showOnHoverAbsolute {
+	opacity: 0;
 }

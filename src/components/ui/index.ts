@@ -1,3 +1,4 @@
+export { AccessibleButton } from './accessible-button';
 export { Link } from './link/link';
 export { ExternalLink } from './link/external-link';
 export { LandingLink } from './link/landing-link';

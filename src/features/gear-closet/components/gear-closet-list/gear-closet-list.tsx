@@ -2,6 +2,7 @@ import {
 	DndContext,
 	closestCenter,
 	PointerSensor,
+	KeyboardSensor,
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
@@ -28,7 +29,10 @@ export type GearClosetListProps = {
 export const GearClosetList = (props: GearClosetListProps) => {
 	const { gearClosetList, packList, dragDisabled, listHasItems } = props;
 
-	const sensors = useSensors(useSensor(PointerSensor));
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor)
+	);
 	const { localItems, handleDragStart, handleDragEnd } =
 		useGearClosetDragHandler(gearClosetList);
 

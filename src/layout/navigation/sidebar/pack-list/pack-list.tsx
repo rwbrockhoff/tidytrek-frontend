@@ -4,6 +4,7 @@ import {
 	DndContext,
 	closestCenter,
 	PointerSensor,
+	KeyboardSensor,
 	useSensor,
 	useSensors,
 	DragOverlay,
@@ -24,7 +25,10 @@ type PackListProps = {
 
 export const PackList = ({ currentPackId, packList }: PackListProps) => {
 	const navigate = useNavigate();
-	const sensors = useSensors(useSensor(PointerSensor));
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor)
+	);
 	const { localPackList, activeId, handleDragStart, handleDragEnd } =
 		usePackListDragHandler(packList);
 
