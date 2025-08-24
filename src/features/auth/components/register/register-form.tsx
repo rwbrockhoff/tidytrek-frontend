@@ -2,7 +2,7 @@ import { useRef, useEffect, type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
 import { Box } from '@/components/layout';
 import { TextField, Button } from '@/components/alpine';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { type FormError, type InputEvent } from '@/types/form-types';
 import { type RegisterUserFormData } from '@/types/user-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
@@ -93,11 +93,13 @@ export const RegisterForm = ({
 			</Form>
 
 			{isRegisterSuccess && (
-				<Message
-					messageType="success"
-					text="Check your email for a link to sign in."
-					id="auth-message"
-				/>
+				<Alert
+					variant="success"
+					className="mt-4"
+					data-testid="auth-message-success"
+				>
+					Check your email for a link to sign in.
+				</Alert>
 			)}
 		</>
 	);

@@ -1,4 +1,4 @@
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { SendIcon } from '@/components/icons';
 import { Stack } from '@/components/layout';
 import { Heading, Text } from '@radix-ui/themes';
@@ -22,7 +22,7 @@ export const ConfirmationForm = ({
 				<Text>Let's send a code to your email to get started.</Text>
 			</Stack>
 
-			{isError && errorMessage && <Message messageType="error" text={errorMessage} />}
+			{isError && errorMessage && <Alert variant="error" className="my-4">{errorMessage}</Alert>}
 
 			<Button
 				variant="outline"

@@ -2,7 +2,7 @@ import { Segment, SegmentHeader } from '@/components/primitives';
 import { PaletteName } from '@/styles/palette/palette-constants';
 import { useAuth } from '@/hooks/auth/use-auth';
 import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { PalettePicker } from '@/shared/components/palette-picker';
 
 export const ProfilePalette = () => {
@@ -27,10 +27,12 @@ export const ProfilePalette = () => {
 				className="md:mr-12"
 			/>
 			{isError && (
-				<Message
-					messageType="error"
-					text="There was an error updating your palette at this time."
-				/>
+				<Alert
+					variant="error"
+					className="my-4"
+				>
+					There was an error updating your palette at this time.
+				</Alert>
 			)}
 		</Segment>
 	);

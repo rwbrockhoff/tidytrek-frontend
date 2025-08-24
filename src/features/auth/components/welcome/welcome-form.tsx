@@ -28,11 +28,12 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 
 	return (
 		<FormContainer>
-			<Heading as="h1" size="8" className={styles.brandHeading}>
-				<Link to="/" viewTransition><Logo className="mx-auto mb-4" /></Link>
-			</Heading>
-			<Segment radius="2">
-				<Stack className="gap-2">
+			<Stack className="gap-2">
+				<Heading as="h1" size="8" className={styles.brandHeading}>
+					<Link to="/" viewTransition><Logo className="mx-auto mb-4" /></Link>
+				</Heading>
+				<Segment radius="2">
+					<Stack className="gap-2">
 					<Heading as="h3" size="7" className={styles.authTitle}>
 						Welcome!
 					</Heading>
@@ -58,8 +59,9 @@ export const WelcomeForm = ({ defaultUsername }: WelcomeFormProps) => {
 							</Link>
 						</Text>
 					</Flex>
-				</Stack>
-			</Segment>
+					</Stack>
+				</Segment>
+			</Stack>
 		</FormContainer>
 	);
 };

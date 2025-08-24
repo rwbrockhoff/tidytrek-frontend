@@ -4,7 +4,7 @@ import { Flex } from '@/components/layout';
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { Button, TextField, TextArea } from '@/components/alpine';
 import { RefreshIcon, SaveIcon } from '@/components/icons';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { extractErrorMessage } from '@/utils/error-utils';
@@ -101,11 +101,11 @@ export const ProfileFormFields = ({
 					error={formErrors.userBio}
 				/>
 
-				{isError && <Message messageType="error" text={serverErrorMessage} />}
+				{isError && <Alert variant="error" className="my-4">{serverErrorMessage}</Alert>}
 
-				{isSuccess && <Message messageType="success" text="Profile updated!" />}
+				{isSuccess && <Alert variant="success" className="my-4">Profile updated!</Alert>}
 
-				<Flex className="justify-start mt-2">
+				<Flex className="justify-start mt-4">
 					<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
 						Save Profile
 					</Button>

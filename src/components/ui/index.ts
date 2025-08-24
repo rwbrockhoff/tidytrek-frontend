@@ -1,8 +1,8 @@
 export { AccessibleButton } from './accessible-button';
+export { Alert } from './alert';
 export { Link } from './link/link';
 export { ExternalLink } from './link/external-link';
 export { LandingLink } from './link/landing-link';
-export { Message, WarningMessage } from './message/message';
 export { DeleteModal } from './modals/delete-modal';
 export { Text } from './text/text';
 export { ThemeToggle } from './theme-toggle/theme-toggle';

@@ -1,4 +1,4 @@
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { TextField, Button } from '@/components/alpine';
 import { BackpackIcon } from '@/components/icons';
 import { useImportPackMutation } from '@/queries/pack-queries';
@@ -79,7 +79,12 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 			<Dialog.Trigger>{children}</Dialog.Trigger>
 
 			<Dialog.Content style={{ maxWidth: 450 }}>
-				<Dialog.Title>Import Pack</Dialog.Title>
+				<Dialog.Title>
+					<Flex className="items-center gap-2">
+						<BackpackIcon />
+						Import Pack
+					</Flex>
+				</Dialog.Title>
 				<Dialog.Description size="2" mb="4">
 					You can import a shareable pack link from Lighterpack below:
 				</Dialog.Description>
@@ -96,10 +101,12 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 					</Stack>
 
 					{isSuccessImport && (
-						<Message messageType="success" text="Your pack was imported successfully." />
+						<Alert variant="success" className="my-4" iconLeft={<BackpackIcon />}>
+							Your pack was imported successfully.
+						</Alert>
 					)}
 
-					{isImportError && <Message messageType="error" text={serverErrorMessage} />}
+					{isImportError && <Alert variant="error" className="my-4">{serverErrorMessage}</Alert>}
 
 					<Flex className="gap-2 mt-6 justify-end">
 						<Dialog.Close>

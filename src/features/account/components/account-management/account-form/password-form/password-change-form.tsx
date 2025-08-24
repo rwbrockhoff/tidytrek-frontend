@@ -2,7 +2,7 @@ import { type FormEvent } from 'react';
 import { Flex, Stack } from '@/components/layout';
 import { Button } from '@/components/alpine';
 import { Form } from '@radix-ui/react-form';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { usePasswordChangeForm } from '@/features/account/hooks/use-password-change-form';
 import { usePasswordChangeMutation } from '@/features/account/hooks/use-password-change-mutation';
 import { PasswordChangeFormFields } from './password-change-form-fields';
@@ -49,9 +49,9 @@ export const PasswordChangeForm = ({
 					onClearErrors={handleClearErrors}
 				/>
 
-				{isError && <Message messageType="error" text={supabaseErrorMessage} />}
+				{isError && <Alert variant="error" className="my-4">{supabaseErrorMessage}</Alert>}
 
-				{isFormSuccess && <Message messageType="success" text={successMessage} />}
+				{isFormSuccess && <Alert variant="success" className="my-4">{successMessage}</Alert>}
 
 				<Flex className="justify-end gap-2">
 					<Button

@@ -1,6 +1,6 @@
 import { Stack } from '@/components/layout';
 import { Avatar } from '@/components/media';
-import { WarningMessage } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { Segment, SegmentHeader } from '@/components/primitives';
 import {
 	useUploadProfilePhotoMutation,
@@ -37,11 +37,12 @@ export const AvatarSettings = ({
 				/>
 
 				{isUploadError && (
-					<WarningMessage
-						message="We had an error uploading your photo. Oops!"
-						mt="4"
-						mr="auto"
-					/>
+					<Alert
+						variant="error"
+						className="mt-4 mr-auto"
+					>
+						There was an error uploading your photo.
+					</Alert>
 				)}
 			</Stack>
 		</Segment>

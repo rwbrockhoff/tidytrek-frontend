@@ -2,7 +2,7 @@ import { type FormError, type InputEvent } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { Form } from '@radix-ui/react-form';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { Flex } from '@/components/layout';
 import { Text, Heading } from '@radix-ui/themes';
@@ -89,11 +89,13 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 						)}
 
 						{serverError.error && (
-							<Message
-								messageType="error"
-								id="reset-password-message"
-								text={serverError.message}
-							/>
+							<Alert
+								variant="error"
+								className="my-4"
+								data-testid="reset-password-message-error"
+							>
+								{serverError.message}
+							</Alert>
 						)}
 
 						<Button style={{ width: '100%' }} type="submit" loading={isLoading}>
@@ -102,11 +104,13 @@ export const ResetPasswordForm = (props: ResetPasswordFormProps) => {
 					</Form>
 
 					{emailSent && (
-						<Message
-							messageType="success"
-							text={resetInstructionMessage}
-							id="reset-password-message"
-						/>
+						<Alert
+							variant="success"
+							className="my-4 text-left"
+							data-testid="reset-password-message-success"
+						>
+							{resetInstructionMessage}
+						</Alert>
 					)}
 					<Flex className="justify-center mt-4">
 						<Text size="3">

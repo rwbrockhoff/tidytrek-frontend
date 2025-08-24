@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { Heading, Text } from '@radix-ui/themes';
 import { Stack } from '@/components/layout';
 import { LandingLink } from '@/components/ui';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { AuthContainer, FormContainer } from '../form-components/form-components';
 import { GoogleAuth } from '../google-auth';
@@ -52,11 +52,13 @@ export const AuthFormLayout = ({
 							<div className="px-4">{children}</div>
 
 							{serverError.error && (
-								<Message
-									messageType="error"
-									text={serverError.message || 'Oops! There was an error.'}
-									id="auth-message"
-								/>
+								<Alert
+									variant="error"
+									className="my-4"
+									data-testid="auth-message-error"
+								>
+									{serverError.message || 'There was an error.'}
+								</Alert>
 							)}
 
 							{isRegister ? <RegisterFooter /> : <LoginFooter />}
