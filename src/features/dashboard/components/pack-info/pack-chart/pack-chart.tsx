@@ -1,5 +1,5 @@
 import { type Category } from '@/types/pack-types';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useAuth } from '@/hooks/auth/use-auth';
@@ -16,7 +16,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.overrides.doughnut.plugins.legend.display = false;
 ChartJS.defaults.plugins.tooltip.displayColors = false;
 
-export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
+export const PackChart = memo(({ categories, categoryWeights }: PackChartProps) => {
 	const { palette, weightUnit } = usePackDetails();
 	const { settings } = useAuth();
 	const isDarkMode = settings?.darkMode || false;
@@ -77,8 +77,8 @@ export const PackChart = ({ categories, categoryWeights }: PackChartProps) => {
 	);
 
 	return (
-		<div className="w-full md:w-fit h-full relative">
+		<div className="w-full h-full relative md:w-[225px] md:h-[225px]">
 			<Doughnut data={chartData} options={chartOptions} />
 		</div>
 	);
-};
+});

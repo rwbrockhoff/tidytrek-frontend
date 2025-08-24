@@ -1,5 +1,6 @@
 .overlayTable {
 	width: 100%;
+	table-layout: fixed;
 	transform: scale(1.02);
 	box-shadow: var(--shadow-spread);
 	border-radius: var(--radius);
@@ -11,4 +12,14 @@
 	height: 45px;
 	font-size: var(--font-size-3);
 	background-color: var(--color-bg-primary);
+}
+
+.nameCell {
+	max-width: 25ch;
+	overflow: hidden;
+}
+
+.descriptionCell {
+	max-width: 20ch;
+	overflow: hidden;
 }

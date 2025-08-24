@@ -25,6 +25,12 @@ export const PackGraphic = (props: PackGraphicProps) => {
 
 	if (fetching || !packCategories) return null;
 
+	// Wait for calculations before showing chart UI
+	const isCalculating =
+		packCategories.length > 0 && (!chartCategoryInfo || chartCategoryInfo.length === 0);
+
+	if (isCalculating) return null;
+
 	if (packHasWeight) {
 		return (
 			<PackChartView
@@ -39,10 +45,6 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		);
 	}
 
-	// only show empty pack for users with pack categories (without weight)
-	if (isCreator && !packHasWeight) {
-		return <PackEmptyGraphic />;
-	}
-
-	return null;
+	// No weight - show empty graphic (and null for viewers)
+	return isCreator ? <PackEmptyGraphic /> : null;
 };

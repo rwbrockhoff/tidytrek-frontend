@@ -92,7 +92,6 @@ export const TableRowContent = ({
 				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				rowRef={navigationRowRef}
 			/>
 
@@ -100,14 +99,12 @@ export const TableRowContent = ({
 				onClick={onChangeProperty}
 				isDisabled={!!disabled}
 				packItem={packItem}
-				isDragging={isDragging}
 			/>
 
 			<QuantityCell
 				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				formErrors={formErrors}
 				rowRef={navigationRowRef}
 			/>
@@ -117,7 +114,6 @@ export const TableRowContent = ({
 				onSelect={onChangeProperty}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				formErrors={formErrors}
 				rowRef={navigationRowRef}
 			/>
@@ -127,7 +123,6 @@ export const TableRowContent = ({
 					onToggleOff={onToggle}
 					packItem={packItem}
 					onChange={onChange}
-					isDragging={isDragging}
 					formErrors={formErrors}
 					rowRef={navigationRowRef}
 				/>

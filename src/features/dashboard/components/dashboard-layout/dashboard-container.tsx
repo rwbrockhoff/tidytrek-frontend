@@ -83,7 +83,7 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 						<PackInfo
 							currentPack={pack}
-							packCategories={localPackCategories}
+							packCategories={packCategories}
 							userProfile={userProfile}
 							settings={settings}
 							fetching={isPending}
