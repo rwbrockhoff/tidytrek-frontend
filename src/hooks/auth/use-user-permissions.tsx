@@ -51,7 +51,7 @@ export const useUserPermissions = (
 
 	// determine permission level
 	let permissionLevel: UserPermissionLevel = 'guest';
-	if (isAuthenticated && user?.userId) {
+	if (isAuthenticated && user?.userId && !isGuestRoute) {
 		// dashboard/pack: check if user is pack creator
 		if (packCreatorId && user.userId === packCreatorId) {
 			permissionLevel = 'creator';

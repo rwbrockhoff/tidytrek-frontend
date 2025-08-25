@@ -20,7 +20,8 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 		if (
 			item.packItemId !== packItem.packItemId ||
 			(!packItemChanged && packItem.packItemId) ||
-			!packItem.packItemId
+			!packItem.packItemId ||
+			item.packItemIndex !== packItem.packItemIndex
 		) {
 			setPackItem({ ...item });
 			if (item.packItemId !== packItem.packItemId) {
@@ -29,7 +30,7 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [item.packItemId]); // Only depend on ID - this prevents sync during drag
+	}, [item.packItemId, item.packItemIndex]);
 
 	const updateField = (name: string, value: string) => {
 		let processedValue: string | number;
@@ -63,7 +64,7 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 	}
 
 	const updatePackItem = (updates: Partial<BaseTableRowItem>) => {
-		setPackItem(prev => ({ ...prev, ...updates }));
+		setPackItem((prev) => ({ ...prev, ...updates }));
 		if (!packItemChanged) setPackItemChanged(true);
 	};
 

@@ -180,15 +180,25 @@ export const PackCategory = memo(PackCategoryComponent, (prevProps, nextProps) =
 
 	if (essentialCategoryPropsChanged) return false;
 
-	// For items, only care about the order of packItemIds - not individual item props
-	// Prevents re-renders when item props change but order stays the same
+	// Check if items changed (order or properties affecting totals)
 	if (prevCategory.packItems.length === nextCategory.packItems.length) {
 		const prevItemIds = prevCategory.packItems.map((item) => item.packItemId);
 		const nextItemIds = nextCategory.packItems.map((item) => item.packItemId);
 
-		// Only re-render if the order of items changed
+		// Re-render if the order of items changed
 		const orderChanged = prevItemIds.some((id, index) => id !== nextItemIds[index]);
 		if (orderChanged) return false;
+
+		// Re-render if any item properties affecting totals changed
+		const totalsChanged = prevCategory.packItems.some((prevItem, index) => {
+			const nextItem = nextCategory.packItems[index];
+			return (
+				prevItem.packItemPrice !== nextItem.packItemPrice ||
+				prevItem.packItemWeight !== nextItem.packItemWeight ||
+				prevItem.packItemQuantity !== nextItem.packItemQuantity
+			);
+		});
+		if (totalsChanged) return false;
 	}
 
 	// If we get here, nothing essential changed - prevent re-render
