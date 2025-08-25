@@ -9,7 +9,7 @@ import {
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import type { PackListItem, GearClosetItem } from '@/types/pack-types';
 import { Table } from '@/shared/components/pack-item-management/table';
-import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
+import { TableRowMemo } from '@/shared/components/pack-item-management/table/table-row/table-row-memo';
 import { TableRowContext } from '@/types/pack-types';
 import { Table as AlpineTable } from '@/components/alpine';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
@@ -59,7 +59,7 @@ export const GearClosetList = (props: GearClosetListProps) => {
 							strategy={verticalListSortingStrategy}>
 							{listHasItems ? (
 								localItems.map((item) => (
-									<TableRow
+									<TableRowMemo
 										key={item.packItemId}
 										item={item}
 										packList={packList}

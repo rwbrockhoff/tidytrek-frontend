@@ -23,11 +23,12 @@ type DraggableTableRowProps = {
 	categoryId?: string;
 };
 
+// Component handles drag logic and activeId
 export const DraggableTableRow = ({
 	packItemId,
 	disabled,
-	children,
 	categoryId,
+	children,
 }: DraggableTableRowProps) => {
 	const { isCreator } = usePermissions();
 	const { active } = useDndContext();
@@ -96,5 +97,6 @@ export const DraggableTableRow = ({
 		dragHandleProps: listeners,
 	};
 
-	return children(provided, { isDragging: false }); // false since we are managing it with state
+	return children(provided, { isDragging: isDragging || sortableIsDragging });
 };
+

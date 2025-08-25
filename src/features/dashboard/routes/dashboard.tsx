@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import { type PackListItem } from '@/types/pack-types';
 import { DashboardContainer } from '../components/dashboard-layout/dashboard-container';
 import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
 import { PackProvider } from '@/contexts/pack-context';
@@ -8,6 +10,9 @@ import { useGetPackListQuery, useGetPackQuery } from '@/queries/pack-queries';
 import { useViewPackQuery } from '@/queries/guest-queries';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { decode } from '@/utils';
+
+const EMPTY_PACK_LIST = { packList: [] as PackListItem[] };
+const EMPTY_ARRAY: PackListItem[] = [];
 
 export const Dashboard = ({ isCreator }: { isCreator: boolean }) => {
 	const { packId: paramPackId } = useParams();
@@ -21,7 +26,16 @@ export const Dashboard = ({ isCreator }: { isCreator: boolean }) => {
 	const { data, isPending } = isGuestRoute ? guestPackQuery : userPackQuery;
 
 	const userPackListQuery = useGetPackListQuery();
-	const packListData = isCreator ? userPackListQuery.data : { packList: [] };
+
+	const packListData = useMemo(
+		() => (isCreator ? userPackListQuery.data : EMPTY_PACK_LIST),
+		[isCreator, userPackListQuery.data],
+	);
+
+	const packList = useMemo(
+		() => packListData?.packList || EMPTY_ARRAY,
+		[packListData?.packList],
+	);
 
 	const permissions = useUserPermissions({ pack: data?.pack });
 
@@ -34,7 +48,7 @@ export const Dashboard = ({ isCreator }: { isCreator: boolean }) => {
 					isPending={isPending}
 					paramPackId={paramPackId}
 					currentPack={data}
-					packList={packListData?.packList || []}
+					packList={packList}
 				/>
 			</PackProvider>
 		</UserPermissionsProvider>

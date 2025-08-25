@@ -17,7 +17,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { Table } from '@/shared/components/pack-item-management/table';
 import { EmptyDropZone } from '@/shared/components/pack-item-management/table/empty-drop-zone/empty-drop-zone';
-import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
+import { TableRowMemo } from '@/shared/components/pack-item-management/table/table-row/table-row-memo';
 import { TableHeader } from '@/shared/components/pack-item-management/table/table-header/table-header';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
 import { usePermissions } from '@/hooks/auth/use-permissions';
@@ -124,7 +124,7 @@ const PackCategoryComponent = ({
 							items={packItems.map((item) => `${packCategoryId}-${item.packItemId}`)}
 							strategy={verticalListSortingStrategy}>
 							{packItems.map((item: PackItem) => (
-								<TableRow
+								<TableRowMemo
 									key={`${packCategoryId}-${item.packItemId}`}
 									item={item}
 									packList={packList}

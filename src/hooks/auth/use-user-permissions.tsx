@@ -4,6 +4,7 @@ import { useGetPackQuery } from '@/queries/pack-queries';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { decode } from '@/utils';
 import { type User } from '@/types/user-types';
+import { useMemo } from 'react';
 
 export type UserPermissionLevel = 'guest' | 'authenticated' | 'creator';
 
@@ -73,12 +74,15 @@ export const useUserPermissions = (
 
 	const isLoading = authLoading || (!options.pack && packLoading);
 
-	return {
-		permissionLevel,
-		isGuest,
-		isAuthenticated: isAuth,
-		isCreator,
-		user,
-		isLoading,
-	};
+	return useMemo(
+		() => ({
+			permissionLevel,
+			isGuest,
+			isAuthenticated: isAuth,
+			isCreator,
+			user,
+			isLoading,
+		}),
+		[permissionLevel, isGuest, isAuth, isCreator, user, isLoading],
+	);
 };
