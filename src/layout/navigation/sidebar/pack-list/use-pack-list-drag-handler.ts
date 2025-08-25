@@ -4,7 +4,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { useQueryClient } from '@tanstack/react-query';
 import { type PackListItem } from '@/types/pack-types';
 import { useMovePackMutation } from '@/queries/pack-queries';
-import { packListKeys } from '@/queries/query-keys';
+import { packKeys } from '@/queries/query-keys';
 
 export const usePackListDragHandler = (packList: PackListItem[]) => {
 	const [localPackList, setLocalPackList] = useState<PackListItem[]>(packList);
@@ -40,7 +40,7 @@ export const usePackListDragHandler = (packList: PackListItem[]) => {
 
 			// Update cache immediately with reordered array
 			queryClient.setQueryData(
-				packListKeys.all,
+				packKeys.lists(),
 				(old: { packList: PackListItem[] } | undefined) => {
 					if (!old) return old;
 					return {

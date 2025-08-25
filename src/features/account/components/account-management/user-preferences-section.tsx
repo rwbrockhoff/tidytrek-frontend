@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/auth/use-auth';
-import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
+import { useUpdateSettingsMutation } from '../../queries/user-settings-queries';
 import { Select } from '@radix-ui/themes';
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { Stack } from '@/components/layout';

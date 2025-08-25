@@ -1,7 +1,7 @@
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { PaletteName } from '@/styles/palette/palette-constants';
 import { useAuth } from '@/hooks/auth/use-auth';
-import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
+import { useUpdateSettingsMutation } from '../../queries/user-settings-queries';
 import { Alert } from '@/components/ui';
 import { PalettePicker } from '@/shared/components/palette-picker';
 

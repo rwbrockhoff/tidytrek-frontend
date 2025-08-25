@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
+import { useUpdateSettingsMutation } from './user-settings-queries';
 import { tidyTrekAPI } from '@/api/tidytrek-api';
 import { createQueryWrapper } from '@/tests/wrapper-utils';
 

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { userKeys } from './query-keys';
-import { tidyTrekAPI } from '../api/tidytrek-api';
-import { type Settings } from '../types/settings-types';
-import { type SimpleMutation } from './mutation-types';
-import { extractData } from './extract-data';
+import { userKeys } from '../../../queries/query-keys';
+import { tidyTrekAPI } from '../../../api/tidytrek-api';
+import { type Settings } from '../../../types/settings-types';
+import { type SimpleMutation } from '../../../queries/mutation-types';
+import { extractData } from '../../../queries/extract-data';
 
 export const useUpdateSettingsMutation = (): SimpleMutation<
 	Partial<Settings>,

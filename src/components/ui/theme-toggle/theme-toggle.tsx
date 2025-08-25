@@ -2,7 +2,7 @@ import { SunIcon, MoonIcon } from '@/components/icons';
 import styles from './theme-toggle.module.css';
 import { cn } from '@/styles/utils';
 import { useAuth } from '@/hooks/auth/use-auth';
-import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
+import { useUpdateSettingsMutation } from '@/features/account/queries/user-settings-queries';
 
 interface ThemeToggleProps {
 	className?: string;

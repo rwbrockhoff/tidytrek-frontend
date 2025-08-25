@@ -62,17 +62,17 @@ export const usePackDragHandler = () => {
 					{
 						onSuccess: (data) => {
 							if (data.rebalanced) {
-								queryClient.invalidateQueries({ queryKey: packKeys.packId(pack.packId) });
+								queryClient.invalidateQueries({ queryKey: packKeys.pack(pack.packId) });
 							} else {
 								queryClient.setQueryData<PackQueryState>(
-									packKeys.packId(pack.packId),
+									packKeys.pack(pack.packId),
 									(old) => updatePackCategoryIndexInCache(old, activeId, data.newIndex),
 								);
 							}
 						},
 						onSettled: () => {
 							const freshCache = queryClient.getQueryData<PackQueryState>(
-								packKeys.packId(pack.packId),
+								packKeys.pack(pack.packId),
 							);
 							onSettled?.(freshCache?.categories);
 						},
@@ -128,7 +128,7 @@ export const usePackDragHandler = () => {
 						onSuccess: () => {
 							// Get the updated cache data (no refetch needed)
 							const freshCache = queryClient.getQueryData<PackQueryState>(
-								packKeys.packId(pack.packId),
+								packKeys.pack(pack.packId),
 							);
 							onSettled?.(freshCache?.categories);
 						},
