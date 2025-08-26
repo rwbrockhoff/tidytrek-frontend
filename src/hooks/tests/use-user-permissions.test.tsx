@@ -10,6 +10,7 @@ vi.mock('@/hooks/auth/use-auth', () => ({
 vi.mock('react-router-dom', () => ({
 	useParams: vi.fn(() => ({})),
 	useLocation: vi.fn(() => ({ pathname: '/' })),
+	useSearchParams: vi.fn(() => [new URLSearchParams(), vi.fn()]),
 }));
 
 vi.mock('@/queries/pack-queries', () => ({

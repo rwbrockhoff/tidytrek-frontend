@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useAuth } from './use-auth';
 import { useGetPackQuery } from '@/queries/pack-queries';
 import { useGuestRoute } from '@/hooks/routing/use-route-context';
@@ -20,6 +20,7 @@ type UseUserPermissionsReturn = {
 	isCreator: boolean;
 	user: User | null;
 	isLoading: boolean;
+	isPreviewMode: boolean;
 };
 
 /**
@@ -35,11 +36,13 @@ export const useUserPermissions = (
 ): UseUserPermissionsReturn => {
 	const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 	const { packId: paramPackId, userId: paramUserId } = useParams();
+	const [searchParams] = useSearchParams();
 	const isGuestRoute = useGuestRoute();
+	const isPreviewMode = searchParams.get('preview') === 'true';
 
-	// use packId or grab from URL - only decode for user routes
+	// use packId or grab from URL - decode for user routes or preview mode
 	const targetPackId =
-		options.packId ?? (paramPackId && !isGuestRoute ? decode(paramPackId) : null);
+		options.packId ?? (paramPackId && (!isGuestRoute || isPreviewMode) ? decode(paramPackId) : null);
 
 	// skip request if pack provided
 	const { data: fetchedPack, isLoading: packLoading } = useGetPackQuery(
@@ -51,20 +54,35 @@ export const useUserPermissions = (
 
 	// determine permission level
 	let permissionLevel: UserPermissionLevel = 'guest';
-	if (isAuthenticated && user?.userId && !isGuestRoute) {
-		// dashboard/pack: check if user is pack creator
-		if (packCreatorId && user.userId === packCreatorId) {
-			permissionLevel = 'creator';
-		}
-		// profile: check if viewing own profile
-		else if (paramUserId && user.userId === paramUserId) {
-			permissionLevel = 'creator';
-		}
-		// profile route (/profile with no userId param)
-		else if (!paramUserId && !packCreatorId) {
-			permissionLevel = 'creator';
-		} else {
+	if (isAuthenticated && user?.userId) {
+		// preview mode: always authenticated (never creator for editing)
+		if (isPreviewMode) {
 			permissionLevel = 'authenticated';
+		}
+		// not on guest route - check for creator status
+		else if (!isGuestRoute) {
+			// dashboard/pack: check if user is pack creator
+			if (packCreatorId && user.userId === packCreatorId) {
+				permissionLevel = 'creator';
+			}
+			// profile: check if viewing own profile
+			else if (paramUserId && user.userId === paramUserId) {
+				permissionLevel = 'creator';
+			}
+			// profile route (/profile with no userId param)
+			else if (!paramUserId && !packCreatorId) {
+				permissionLevel = 'creator';
+			} else {
+				permissionLevel = 'authenticated';
+			}
+		}
+		// on guest route (not preview): check if viewing own pack
+		else {
+			if (packCreatorId && user.userId === packCreatorId) {
+				permissionLevel = 'creator';
+			} else {
+				permissionLevel = 'authenticated';
+			}
 		}
 	}
 
@@ -82,7 +100,8 @@ export const useUserPermissions = (
 			isCreator,
 			user,
 			isLoading,
+			isPreviewMode,
 		}),
-		[permissionLevel, isGuest, isAuth, isCreator, user, isLoading],
+		[permissionLevel, isGuest, isAuth, isCreator, user, isLoading, isPreviewMode],
 	);
 };

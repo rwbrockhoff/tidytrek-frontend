@@ -26,6 +26,7 @@ export const withUserPermissions = (
 		isCreator: canEdit,
 		user: canEdit ? createMockUser() : null,
 		isLoading: false,
+		isPreviewMode: false,
 	};
 
 	return (
