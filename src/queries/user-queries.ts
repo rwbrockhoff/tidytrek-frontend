@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userKeys } from './query-keys';
-import { tidyTrekAPI, frontendURL } from '../api/tidytrek-api';
+import { tidyTrekAPI, baseAppURL } from '../api/tidytrek-api';
 import supabase from '../api/supabase-client';
 import {
 	LoginUser,
@@ -103,7 +103,7 @@ export const useRegisterMutation = (): SimpleMutation<
 				email,
 				password,
 				options: {
-					emailRedirectTo: `${frontendURL}/welcome`,
+					emailRedirectTo: `${baseAppURL}/welcome`,
 				},
 			});
 
@@ -192,7 +192,7 @@ export const useResetPasswordRequestMutation = () => {
 	return useMutation({
 		mutationFn: async (email: string) => {
 			const { error } = await supabase.auth.resetPasswordForEmail(email, {
-				redirectTo: `${frontendURL}/reset-password/confirm`,
+				redirectTo: `${baseAppURL}/reset-password/confirm`,
 			});
 			if (error)
 				throw new Error(extractErrorMessage(error) || 'Failed to send reset email.');

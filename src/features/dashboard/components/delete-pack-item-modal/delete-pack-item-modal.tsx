@@ -17,13 +17,11 @@ export const DeletePackItemModal = ({
 	const { deleteItem, moveToCloset, isDeleting, isMoving } = useDeletePackItem();
 
 	const handleDelete = () => {
-		deleteItem(item);
-		onCancel();
+		deleteItem(item, onCancel);
 	};
 
 	const handleMoveToCloset = () => {
-		moveToCloset(item);
-		onCancel();
+		moveToCloset(item, onCancel);
 	};
 	return (
 		<Dialog.Root open={isOpen} onOpenChange={onCancel}>
