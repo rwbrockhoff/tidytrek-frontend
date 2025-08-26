@@ -1,5 +1,5 @@
 import { lazyImport } from '@/utils/lazy-imports';
-import { GuestLayout } from '@/layout';
+import { AdaptiveLayout } from '@/layout';
 import { BubbleError } from '@/components';
 
 const { Dashboard } = lazyImport(() => import('../features/dashboard'), 'Dashboard');
@@ -24,7 +24,7 @@ const { Welcome } = lazyImport(
 
 const guestRoute = (path: string, element: React.ReactNode) => ({
 	path,
-	element: <GuestLayout showHeader={true} showFooter={true} />,
+	element: <AdaptiveLayout showHeader={true} showFooter={true} />,
 	errorElement: <BubbleError />,
 	children: [{ index: true, element }],
 });
