@@ -1,0 +1,60 @@
+.styledCard {
+	width: 100%;
+	transition: transform 0.2s ease-in-out;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.styledCard :global(.savedPackLink) {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 100%;
+	height: 100%;
+}
+
+.imageContainer {
+	height: 150px;
+	position: relative;
+}
+
+:global(.aow).bookmarkButton {
+	border: none;
+	padding: var(--space-0);
+	flex-shrink: 0;
+}
+
+:global(.aow).bookmarkButton svg {
+	fill: var(--color-text-tertiary);
+	stroke: var(--color-text-tertiary);
+}
+
+.cardBody {
+	padding: var(--space-4);
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	min-height: 120px;
+}
+
+.contentStack {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.username {
+	font-weight: 600;
+}
+
+.packDescription {
+	color: var(--color-text-secondary);
+	font-size: var(--font-size-2);
+	line-height: var(--line-height-2);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}

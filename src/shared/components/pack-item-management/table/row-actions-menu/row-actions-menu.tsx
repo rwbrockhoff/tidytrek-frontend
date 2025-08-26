@@ -58,9 +58,11 @@ export const RowActionsMenu = ({
 				</Button>
 				<DeletePackItemModal
 					id={packItem.packItemId}
+					itemName={packItem.packItemName}
 					hasPackId={hasPackId}
 					onClickMove={handleMoveToCloset}
-					onClickDelete={handleDelete}>
+					onClickDelete={handleDelete}
+					onClose={toggleClose}>
 					<Button
 						variant="ghost"
 						size="sm"

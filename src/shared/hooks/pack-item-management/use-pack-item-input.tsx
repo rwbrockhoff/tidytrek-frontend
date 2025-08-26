@@ -17,27 +17,22 @@ export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) =
 
 	useEffect(() => {
 		// Sync packItem state when switching item (or on initial load)
-		if (
-			item.packItemId !== packItem.packItemId ||
-			(!packItemChanged && packItem.packItemId) ||
-			!packItem.packItemId ||
-			item.packItemIndex !== packItem.packItemIndex
-		) {
+		if (item.packItemId !== packItem.packItemId || !packItem.packItemId) {
 			setPackItem({ ...item });
-			if (item.packItemId !== packItem.packItemId) {
-				// Reset change flag when switching to a different item
-				setPackItemChanged(false);
-			}
+			setPackItemChanged(false);
+		} else if (item.packItemIndex !== packItem.packItemIndex && !packItemChanged) {
+			// Index changed (reordering) - only sync if no local changes
+			setPackItem({ ...item });
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [item.packItemId, item.packItemIndex]);
 
 	const updateField = (name: string, value: string) => {
 		let processedValue: string | number;
-		if (name === 'packItemPrice') {
-			// Keep price as string during editing to preserve decimals
+		if (name === 'packItemPrice' || name === 'packItemWeight') {
+			// Keep as strings to maintain decimals
 			processedValue = value;
-		} else if (['packItemQuantity', 'packItemWeight'].includes(name)) {
+		} else if (name === 'packItemQuantity') {
 			processedValue = parseFloat(value) || 0;
 		} else {
 			processedValue = value;

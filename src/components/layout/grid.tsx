@@ -9,7 +9,7 @@ interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Grid = forwardRef<HTMLDivElement, GridProps>(
 	({ children, className, ...props }, ref) => {
 		return (
-			<div ref={ref} className={cn('grid', className)} {...props}>
+			<div ref={ref} role="grid" className={cn('grid', className)} {...props}>
 				{children}
 			</div>
 		);

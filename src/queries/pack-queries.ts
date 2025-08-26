@@ -272,7 +272,8 @@ export const useMovePackItemMutation = (): SimpleMutation<
 				if (response.rebalanced) {
 					queryClient.invalidateQueries({ queryKey: packKeys.pack(packInfo.packId) });
 				} else {
-					const isCategoryChange = packInfo.packCategoryId !== packInfo.prevPackCategoryId;
+					const isCategoryChange =
+						packInfo.packCategoryId !== packInfo.prevPackCategoryId;
 
 					// Cross-category move:
 					if (isCategoryChange) {
@@ -324,7 +325,7 @@ export const useMoveItemToClosetMutation = (): SimpleMutation<number, void> => {
 			let movedItem: PackItem | undefined;
 
 			for (const [, queryData] of packQueries) {
-				if (queryData) {
+				if (queryData && queryData.categories) {
 					const foundItem = queryData.categories
 						.flatMap((cat) => cat.packItems)
 						.find((item) => item.packItemId === packItemId);

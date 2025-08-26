@@ -69,6 +69,10 @@
 .table.tableGuestView td,
 .table.tableGuestView td a {
 	font-size: var(--font-size-3);
+	max-width: 25ch;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* Header */

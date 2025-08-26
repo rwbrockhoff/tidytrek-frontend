@@ -7,7 +7,7 @@ import { UserIcon } from '@/components/icons';
 import { cn, mx } from '@/styles/utils';
 import styles from './avatar.module.css';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'xs' | 'sm' | 'md' | 'lg';
 
 type AvatarProps = {
 	src: string | undefined;
@@ -21,12 +21,14 @@ type AvatarProps = {
 };
 
 const sizeStyles = {
+	xs: { width: '24px', height: '24px' },
 	sm: { width: '50px', height: '50px' },
 	md: { width: '100px', height: '100px' },
 	lg: { width: '150px', height: '150px' },
 };
 
 const iconSizeStyles = {
+	xs: { width: '20px', height: '20px' },
 	sm: { width: '44px', height: '44px' },
 	md: { width: '90px', height: '90px' },
 	lg: { width: '150px', height: '150px' },

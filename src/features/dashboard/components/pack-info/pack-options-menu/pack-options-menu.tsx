@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { PopoverOptionsMenu } from '@/components/ui/popover-options-menu';
 import { Button } from '@/components/alpine';
-import { MenuIcon, EditPencilIcon, LinkIcon, CheckIcon } from '@/components/icons';
+import {
+	MenuIcon,
+	EditPencilIcon,
+	LinkIcon,
+	CheckIcon,
+	PublicIcon,
+} from '@/components/icons';
 import { PackModal } from '../../pack-modal/pack-modal';
 import type { Pack } from '@/types/pack-types';
 import { frontendURL } from '@/api/tidytrek-api';
@@ -68,7 +74,21 @@ export const PackOptionsMenu = ({ pack, packId }: PackOptionsMenuProps) => {
 		variant: linkCopied ? ('primary' as const) : undefined,
 	};
 
-	const menuItems = [editPackItem, ...(pack.packPublic ? [copyLinkItem] : [])];
+	const previewItem = {
+		id: 'preview-pack',
+		icon: <PublicIcon />,
+		label: 'Preview',
+		wrapper: (children: React.ReactNode) => (
+			<Link to={`/pk/${packId}?preview=true`} viewTransition>
+				{children}
+			</Link>
+		),
+	};
+
+	const menuItems = [
+		editPackItem,
+		...(pack.packPublic ? [copyLinkItem, previewItem] : []),
+	];
 
 	return (
 		<PopoverOptionsMenu

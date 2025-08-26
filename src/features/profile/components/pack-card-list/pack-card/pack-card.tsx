@@ -1,7 +1,7 @@
 import { type Pack } from '@/types/pack-types';
 import { Heading, Inset, Text } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
-import { ViewsIcon, PublicIcon, PrivateIcon } from '@/components/icons';
+import { ViewsIcon, PublicIcon, PrivateIcon, BookmarkIcon } from '@/components/icons';
 import { Card } from '@/components/alpine';
 import { Link } from '@/components/ui';
 import styles from './pack-card.module.css';
@@ -17,7 +17,7 @@ type PackCardProps = {
 
 export const PackCard = ({ pack, canEdit }: PackCardProps) => {
 	const { mutate: uploadPackPhoto, isPending } = useUploadPackPhotoMutation();
-	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl } =
+	const { packId, packName, packDescription, packPublic, packViews, packPhotoUrl, packBookmarkCount } =
 		pack || {};
 
 	const handlePhotoUpload = (formData: FormData) => uploadPackPhoto({ packId, formData });
@@ -72,9 +72,15 @@ export const PackCard = ({ pack, canEdit }: PackCardProps) => {
 
 				{canEdit && (
 					<Card.Footer className={styles.cardFooter}>
-						<Flex className={cn(styles.cardFooterText, 'items-center')}>
-							<ViewsIcon />
-							<Text>{formatNumber(packViews)} Views</Text>
+						<Flex className={cn(styles.cardFooterText, 'items-center gap-4')}>
+							<Flex className="items-center">
+								<ViewsIcon />
+								<Text>{formatNumber(packViews)} Views</Text>
+							</Flex>
+							<Flex className="items-center">
+								<BookmarkIcon />
+								<Text>{formatNumber(packBookmarkCount || 0)} Saves</Text>
+							</Flex>
 						</Flex>
 					</Card.Footer>
 				)}

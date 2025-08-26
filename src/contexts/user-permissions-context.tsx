@@ -9,6 +9,7 @@ export type UserPermissionsContextValue = {
 	isCreator: boolean;
 	user: User | null;
 	isLoading: boolean;
+	isPreviewMode: boolean;
 };
 
 export const UserPermissionsContext = createContext<UserPermissionsContextValue | null>(null);

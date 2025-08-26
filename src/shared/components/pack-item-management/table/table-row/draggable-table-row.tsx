@@ -58,10 +58,6 @@ export const DraggableTableRow = ({
 	const isDashboard = !!categoryId;
 
 	const canDrag = isCreator && !disabled;
-	const dashboardCursor = canDrag 
-		? (isDragging || sortableIsDragging ? 'grabbing' : 'grab')
-		: 'default';
-	const gearClosetCursor = sortableIsDragging ? 'grabbing' : 'grab';
 
 	const dashboardStyles: React.CSSProperties = {
 		position: 'relative',
@@ -71,7 +67,6 @@ export const DraggableTableRow = ({
 		userSelect: canDrag ? 'none' : 'text',
 		WebkitUserSelect: canDrag ? 'none' : 'text',
 		touchAction: 'none',
-		cursor: dashboardCursor,
 	};
 
 	const gearClosetStyles: React.CSSProperties = {
@@ -85,11 +80,9 @@ export const DraggableTableRow = ({
 		backgroundColor: sortableIsDragging ? 'var(--color-bg-primary)' : 'transparent',
 		boxShadow: sortableIsDragging ? 'var(--shadow-spread)' : 'none',
 		borderRadius: sortableIsDragging ? 'var(--radius)' : '0',
-		border: sortableIsDragging ? '1px solid var(--color-border-secondary)' : 'none',
 		userSelect: 'none',
 		WebkitUserSelect: 'none',
 		touchAction: 'none',
-		cursor: gearClosetCursor,
 	};
 
 	const style = isDashboard ? dashboardStyles : gearClosetStyles;
@@ -105,4 +98,3 @@ export const DraggableTableRow = ({
 
 	return children(provided, { isDragging: isDragging || sortableIsDragging });
 };
-

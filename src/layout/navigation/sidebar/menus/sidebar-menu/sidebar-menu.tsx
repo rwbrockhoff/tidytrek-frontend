@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Flex } from '@/components/layout';
-import { UserIcon, ClosetIcon } from '@/components/icons';
+import { UserIcon, ClosetIcon, BookmarkIcon } from '@/components/icons';
 import { StyledMenu } from '../styled-menu/styled-menu';
 
 export const SidebarMenu = () => {
@@ -19,6 +19,14 @@ export const SidebarMenu = () => {
 					<Flex className="items-center gap-2 justify-start">
 						<ClosetIcon />
 						Gear Closet
+					</Flex>
+				</Link>
+			</li>
+			<li>
+				<Link to="/saved" viewTransition>
+					<Flex className="items-center gap-2 justify-start">
+						<BookmarkIcon />
+						Saved
 					</Flex>
 				</Link>
 			</li>

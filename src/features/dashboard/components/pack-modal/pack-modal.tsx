@@ -41,6 +41,7 @@ export const PackModal = (props: PackModalProps) => {
 		const success = await handleSubmitPack();
 		if (success) {
 			setIsOpen(false);
+			if (onClose) onClose();
 		}
 	};
 

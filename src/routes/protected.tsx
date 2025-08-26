@@ -23,6 +23,7 @@ const { ProfileSettings } = lazyImport(
 	() => import('@/features/account/routes/profile-settings'),
 	'ProfileSettings',
 );
+const { SavedPacks } = lazyImport(() => import('@/features/saved-packs'), 'SavedPacks');
 
 export const protectedRoutes = [
 	{
@@ -50,6 +51,10 @@ export const protectedRoutes = [
 			{
 				path: '/gear-closet',
 				element: <GearCloset />,
+			},
+			{
+				path: '/saved',
+				element: <SavedPacks />,
 			},
 			{
 				path: '/closet-item/edit/:packItemId',

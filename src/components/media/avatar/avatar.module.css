@@ -32,6 +32,11 @@
 	z-index: 5;
 }
 
+.xs {
+	width: 24px;
+	height: 24px;
+}
+
 .sm {
 	width: 50px;
 	height: 50px;
@@ -65,6 +70,13 @@
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
+	margin: 0;
+}
+
+.defaultIcon.xs {
+	width: 20px;
+	height: 20px;
+	bottom: -2px;
 	margin: 0;
 }
 

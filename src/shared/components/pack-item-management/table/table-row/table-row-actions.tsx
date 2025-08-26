@@ -38,6 +38,7 @@ export const TableRowActions = ({
 
       <DeletePackItemModal
         id={packItem.packItemId}
+        itemName={packItem.packItemName}
         hasPackId={hasPackId}
         onClickMove={onMoveToCloset}
         onClickDelete={onDelete}>

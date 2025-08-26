@@ -74,6 +74,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				className={buttonClasses}
 				style={buttonStyle}
 				disabled={disabled || loading}
+				aria-disabled={disabled || loading}
 				{...props}>
 				{loading && <span className={styles.spinner} />}
 				{iconLeft && !loading && <span className={styles.iconLeft}>{iconLeft}</span>}
