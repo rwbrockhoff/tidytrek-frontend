@@ -95,16 +95,16 @@ export const DashboardContainer = (props: DashboardProps) => {
 							onDragEnd={handleOnDragEnd}
 							renderDragOverlay={renderDragOverlay}>
 							<SortableContext
-								items={localPackCategories.map((cat: Category) => cat.packCategoryId.toString())}
+								items={localPackCategories.map((cat: Category) => cat?.packCategoryId?.toString() ?? '')}
 								strategy={verticalListSortingStrategy}>
 								<Stack className="gap-12">
 									{localPackCategories.length > 0 &&
-										localPackCategories.map((category: Category) => {
+										localPackCategories.map((category: Category, index) => {
 											return (
 												<ResponsivePackCategory
 													category={category}
 													packList={packList}
-													key={category.packCategoryId}
+													key={category?.packCategoryId ?? `category-${index}`}
 												/>
 											);
 										})}

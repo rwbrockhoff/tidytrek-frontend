@@ -157,6 +157,13 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 	return useMutation({
 		mutationKey: ['logout'],
 		mutationFn: async () => {
+			// clear auth status first to prevent unauthorized requests
+			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
+				isAuthenticated: false,
+				user: null,
+				settings: null,
+			});
+
 			await queryClient.cancelQueries();
 			await tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 			await supabase.auth.signOut();

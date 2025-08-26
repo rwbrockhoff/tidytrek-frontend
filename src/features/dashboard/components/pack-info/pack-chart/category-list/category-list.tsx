@@ -15,8 +15,8 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
 
 	return (
 		<Stack role="list" className={styles.chartList}>
-			{categories.map((category) => (
-				<Flex key={category.categoryId} className={cn(styles.chartItem, 'items-center')}>
+			{categories.map((category, index) => (
+				<Flex key={category?.categoryId ?? `category-${index}`} className={cn(styles.chartItem, 'items-center')}>
 					<Flex className="items-center gap-2 flex-nowrap">
 						<CircleIcon
 							className="lucide-sm"

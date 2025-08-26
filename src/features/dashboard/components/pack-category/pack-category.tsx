@@ -77,12 +77,12 @@ const PackCategoryComponent = ({
 		transition,
 		isDragging,
 	} = useSortable({
-		id: category.packCategoryId.toString(),
+		id: category?.packCategoryId?.toString() ?? '',
 		disabled: !isCreator,
 	});
 
 	const { setNodeRef: setDroppableNodeRef } = useDroppable({
-		id: `category-${category.packCategoryId}`,
+		id: `category-${category?.packCategoryId ?? ''}`,
 	});
 
 	const setNodeRef = (node: HTMLElement | null) => {
@@ -131,7 +131,7 @@ const PackCategoryComponent = ({
 									disabled={!isCreator}
 									moveToCloset={handleMoveItemToCloset}
 									context={TableRowContext.PACK}
-									categoryId={packCategoryId.toString()}
+									categoryId={packCategoryId?.toString() ?? ''}
 								/>
 							))}
 						</SortableContext>

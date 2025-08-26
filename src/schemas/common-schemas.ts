@@ -57,7 +57,7 @@ export const urlSchema = z
 			return isValidUrl(normalized);
 		},
 		{
-			message: 'Please enter a valid https URL.',
+			message: 'Please enter a valid URL.',
 		},
 	);
 
@@ -73,7 +73,7 @@ export const requiredUrlSchema = z
 			return isValidUrl(normalized);
 		},
 		{
-			message: 'Please enter a valid https URL.',
+			message: 'Please enter a valid URL.',
 		},
 	);
 
