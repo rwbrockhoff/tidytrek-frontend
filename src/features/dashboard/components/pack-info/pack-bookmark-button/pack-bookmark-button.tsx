@@ -9,6 +9,7 @@ import {
 import type { Pack } from '@/types/pack-types';
 import { cn } from '@/styles/utils';
 import styles from './pack-bookmark-button.module.css';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 
 type PackBookmarkButtonProps = {
 	pack: Pack;
@@ -18,11 +19,14 @@ export const PackBookmarkButton = ({ pack }: PackBookmarkButtonProps) => {
 	const { packId } = pack;
 	const [isBookmarked, setIsBookmarked] = useState(false);
 
+	const permissions = usePermissions();
+	const { isAuthenticated, isPreviewMode } = permissions;
 	const { data: savedPacksData } = useGetSavedPacksQuery();
 	const { mutate: addBookmark, isPending: isAdding } = useAddBookmarkMutation();
 	const { mutate: removeBookmark, isPending: isRemoving } = useRemoveBookmarkMutation();
 
 	const isPending = isAdding || isRemoving;
+	const isDisabled = !isAuthenticated || isPreviewMode || isPending;
 
 	useEffect(() => {
 		if (savedPacksData?.savedPacks) {
@@ -34,6 +38,8 @@ export const PackBookmarkButton = ({ pack }: PackBookmarkButtonProps) => {
 	}, [savedPacksData, packId]);
 
 	const handleToggleBookmark = () => {
+		if (!isAuthenticated || isPreviewMode) return;
+
 		setIsBookmarked(!isBookmarked);
 
 		if (isBookmarked) {
@@ -57,7 +63,7 @@ export const PackBookmarkButton = ({ pack }: PackBookmarkButtonProps) => {
 	return (
 		<Button
 			onClick={handleToggleBookmark}
-			disabled={isPending}
+			disabled={isDisabled}
 			variant="ghost"
 			size="sm"
 			iconLeft={<BookmarkIcon />}

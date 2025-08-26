@@ -14,7 +14,6 @@ import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 import { DragDropWrapper } from '@/components/drag-drop/drag-drop-wrapper';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo } from 'react';
-import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { GuestPreviewBanner } from '../guest-preview-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
@@ -38,9 +37,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	const packCategories = useMemo(() => categories || [], [categories]);
 	const packId = pack?.packId || null;
-	const isGuestRoute = useGuestRoute();
 
-	const { isAuthenticated, isCreator } = usePermissions();
+	const { isCreator, isPreviewMode } = usePermissions();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
 	const { localPackCategories, handleOnDragStart, handleOnDragOver, handleOnDragEnd } =
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
@@ -71,8 +69,8 @@ export const DashboardContainer = (props: DashboardProps) => {
 
 	const { packPricing = false } = pack;
 
-	const showPreviewMode = isAuthenticated && isCreator && isGuestRoute;
-	const canEdit = isCreator && !showPreviewMode;
+	const showPreviewMode = isPreviewMode;
+	const canEdit = isCreator;
 
 	return (
 		<PackPricingContext.Provider value={packPricing}>
@@ -95,7 +93,9 @@ export const DashboardContainer = (props: DashboardProps) => {
 							onDragEnd={handleOnDragEnd}
 							renderDragOverlay={renderDragOverlay}>
 							<SortableContext
-								items={localPackCategories.map((cat: Category) => cat?.packCategoryId?.toString() ?? '')}
+								items={localPackCategories.map(
+									(cat: Category) => cat?.packCategoryId?.toString() ?? '',
+								)}
 								strategy={verticalListSortingStrategy}>
 								<Stack className="gap-12">
 									{localPackCategories.length > 0 &&
