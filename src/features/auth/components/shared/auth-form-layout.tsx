@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { Heading, Text } from '@radix-ui/themes';
 import { Stack } from '@/components/layout';
 import { LandingLink } from '@/components/ui';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { Segment } from '@/components/primitives';
 import { AuthContainer, FormContainer } from '../form-components/form-components';
 import { GoogleAuth } from '../google-auth';
@@ -17,6 +17,7 @@ type AuthFormLayoutProps = {
 	isRegister: boolean;
 	serverError: FormError;
 	children: ReactNode;
+	additionalContent?: ReactNode;
 	updateServerError: (message: string) => void;
 };
 
@@ -27,13 +28,16 @@ export const AuthFormLayout = ({
 	serverError,
 	children,
 	updateServerError,
+	additionalContent,
 }: AuthFormLayoutProps) => {
 	return (
 		<AuthContainer>
 			<FormContainer>
 				<Stack className="gap-2">
 					<Heading as="h1" size="8" className={styles.brandHeading}>
-						<LandingLink><Logo className="mx-auto mb-4" /></LandingLink>
+						<LandingLink>
+							<Logo className="mx-auto mb-4" />
+						</LandingLink>
 					</Heading>
 					<Segment radius="2">
 						<Stack className="gap-2">
@@ -48,16 +52,19 @@ export const AuthFormLayout = ({
 							<div className="px-4">{children}</div>
 
 							{serverError.error && (
-								<Message
-									messageType="error"
-									text={serverError.message || 'Oops! There was an error.'}
-									id="auth-message"
-								/>
+								<Alert
+									variant="error"
+									className="my-4"
+									data-testid="auth-message-error"
+								>
+									{serverError.message || 'There was an error.'}
+								</Alert>
 							)}
 
 							{isRegister ? <RegisterFooter /> : <LoginFooter />}
 						</Stack>
 					</Segment>
+					{additionalContent}
 				</Stack>
 			</FormContainer>
 		</AuthContainer>

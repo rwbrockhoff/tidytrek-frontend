@@ -1,20 +1,20 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { PackForm } from './pack-form';
+import { PackInfoForm } from './pack-info-form';
 import { wrappedRender } from '@/tests/wrapper-utils';
 import { createMockPack } from '@/tests/mocks/pack-mocks';
 import type { Pack } from '@/types/pack-types';
 
 //todo: Test form validation errors
 
-describe('PackForm', () => {
+describe('PackInfoForm', () => {
 	const mockHandleFormChange = vi.fn();
 	const mockHandleCheckBox = vi.fn();
 
 	const renderPackForm = (pack: Partial<Pack> = {}) => {
 		const mockPack = createMockPack(pack);
 		return wrappedRender(
-			<PackForm
+			<PackInfoForm
 				pack={mockPack}
 				handleFormChange={mockHandleFormChange}
 				handleCheckBox={mockHandleCheckBox}
@@ -46,15 +46,6 @@ describe('PackForm', () => {
 			expect(screen.getByDisplayValue('50 miles')).toBeInTheDocument();
 		});
 
-		it('shows affiliate description field when affiliate is enabled', () => {
-			renderPackForm({
-				packAffiliate: true,
-				packAffiliateDescription: 'Custom affiliate message',
-			});
-
-			expect(screen.getByDisplayValue('Custom affiliate message')).toBeInTheDocument();
-			expect(screen.getByLabelText(/custom affiliate message/i)).toBeInTheDocument();
-		});
 
 		it('hides affiliate description field when affiliate is disabled', () => {
 			renderPackForm({ packAffiliate: false });
@@ -149,12 +140,8 @@ describe('PackForm', () => {
 			renderPackForm();
 
 			const publicSwitch = screen.getByRole('switch', { name: /public/i });
-			const pricingSwitch = screen.getByRole('switch', { name: /pack prices/i });
-			const affiliateSwitch = screen.getByRole('switch', { name: /affiliate links/i });
 
 			expect(publicSwitch).toHaveAccessibleName();
-			expect(pricingSwitch).toHaveAccessibleName();
-			expect(affiliateSwitch).toHaveAccessibleName();
 		});
 	});
 });

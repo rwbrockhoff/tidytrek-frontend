@@ -4,11 +4,10 @@ import { type RefObject } from 'react';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../grip-button/grip-button';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { ExternalLink } from '@/components/ui';
 import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
-import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { mx, cn } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
@@ -25,10 +24,9 @@ type ItemNameCellProps = {
 };
 
 export const ItemNameCell = (props: ItemNameCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
-	const { packItem, onChange, isDragging, dragProps, onToggleOff, rowRef } = props;
+	const { isCreator } = usePermissions();
+	const { packItem, onChange, dragProps, onToggleOff, rowRef } = props;
 	const { packItemName, packItemUrl } = packItem || {};
-	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const handleToggleOff = () => {
@@ -36,11 +34,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 	};
 
 	return (
-		<Table.Cell
-			ref={ref}
-			onBlur={handleToggleOff}
-			style={{ width }}
-			className={styles.styledCell}>
+		<Table.Cell onBlur={handleToggleOff} className={styles.styledCell}>
 			<GripButton testId="pack-item-grip" disabled={!isCreator} {...dragProps} />
 
 			{isCreator ? (
@@ -55,6 +49,7 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						onKeyDown={(e) => handleKeyDown(e, 'packItemName')}
 						disabled={!isCreator}
 						className={mx.textEllipsis}
+						collapsibleError
 					/>
 					<LinkPopup packItem={packItem} />
 				</Flex>

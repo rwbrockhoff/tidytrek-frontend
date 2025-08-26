@@ -4,6 +4,10 @@
 	transition: transform 120ms ease-out;
 }
 
+.tableRow:focus-within {
+	z-index: 10;
+}
+
 .tableRowDragging {
 	opacity: 0 !important;
 	transform: none !important;

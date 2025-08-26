@@ -4,7 +4,7 @@ import styles from './pack-photo.module.css';
 import { Dimmer, Spinner } from '@/components/primitives';
 import { DeletePhotoButton } from '@/components/media';
 import { TreeIcon2 } from '@/components/icons';
-import { UploadFile } from '@/components';
+import { UploadFile } from '@/components/upload-file/upload-file';
 
 type PackPhotoProps = {
 	src: string;
@@ -44,7 +44,10 @@ export const PackPhoto = (props: PackPhotoProps) => {
 				/>
 			) : (
 				<div className={cn(styles.defaultPack, rounded && styles.rounded)}>
-					<TreeIcon2 className={cn('lucide', styles.defaultIcon)} />
+					<TreeIcon2 
+						className={cn('lucide', styles.defaultIcon)}
+						style={{ width: '48px', height: '48px' }}
+					/>
 				</div>
 			)}
 

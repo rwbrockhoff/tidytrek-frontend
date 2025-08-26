@@ -8,7 +8,7 @@ import styles from './textfield.module.css';
 
 export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	variant?: 'default' | 'minimal' | 'icon';
-	error?: boolean | FormError;
+	error?: boolean | FormError | null;
 	type?: RadixInputType;
 	label?: string;
 	message?: string;
@@ -19,6 +19,7 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
 	match?: RadixFormMatchType;
 	compact?: boolean;
 	override?: boolean;
+	collapsibleError?: boolean;
 }
 
 export interface TextFieldRootProps {
@@ -219,11 +220,14 @@ const Standalone = forwardRef<
 			iconPosition = 'left',
 			width,
 			compact = false,
+			collapsibleError = false,
+			message,
 			...props
 		},
 		ref,
 	) => {
 		const hasError = getErrorState(error);
+		const errorMessage = getErrorMessage(error, message);
 
 		const inputClasses = cn(
 			styles.input,
@@ -236,35 +240,53 @@ const Standalone = forwardRef<
 		);
 
 		const rootStyle = width ? { width } : undefined;
+		const containerClass = cn(
+			styles.standalone,
+			compact && styles.fieldCompact,
+			width && styles.fieldResponsive,
+		);
 
 		if (variant === 'icon' && icon) {
 			return (
-				<div
-					className={cn(
-						styles.rootIcon,
-						styles.standalone,
-						compact && styles.fieldCompact,
-						width && styles.fieldResponsive,
-					)}
-					style={rootStyle}>
+				<div className={cn(styles.rootIcon, containerClass)} style={rootStyle}>
 					<div className={styles.inputContainer}>
 						{iconPosition === 'left' && <Slot side="left">{icon}</Slot>}
 						<input ref={ref} type={type} className={inputClasses} {...props} />
 						{iconPosition === 'right' && <Slot side="right">{icon}</Slot>}
 					</div>
+					{errorMessage &&
+						(collapsibleError ? (
+							<div
+								className={cn(
+									styles.message,
+									styles.standaloneMessageCollapsible,
+									!hasError && styles.standaloneMessageCollapsibleHidden,
+								)}>
+								{errorMessage}
+							</div>
+						) : (
+							<div className={styles.message}>{errorMessage}</div>
+						))}
 				</div>
 			);
 		}
 
 		return (
-			<div
-				className={cn(
-					styles.standalone,
-					compact && styles.fieldCompact,
-					width && styles.fieldResponsive,
-				)}
-				style={rootStyle}>
+			<div className={containerClass} style={rootStyle}>
 				<input ref={ref} type={type} className={inputClasses} {...props} />
+				{errorMessage &&
+					(collapsibleError ? (
+						<div
+							className={cn(
+								styles.message,
+								styles.standaloneMessageCollapsible,
+								!hasError && styles.standaloneMessageCollapsibleHidden,
+							)}>
+							{errorMessage}
+						</div>
+					) : (
+						<div className={styles.message}>{errorMessage}</div>
+					))}
 			</div>
 		);
 	},

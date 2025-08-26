@@ -1,4 +1,3 @@
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
 import { useMemo } from 'react';
 
 const formatters: Record<string, Intl.NumberFormat> = {};
@@ -15,17 +14,15 @@ const getCurrencyFormatter = (currency: string): Intl.NumberFormat => {
 	return formatters[currency];
 };
 
-export const useConvertCurrency = () => {
-	const { settings } = useGetAuth();
-	const userCurrency = settings?.currencyUnit || 'USD';
-
+export const useConvertCurrency = (currency: string) => {
 	return useMemo(
 		() => (price: number) => {
 			const validPrice = !Number.isFinite(price) || price < 0 ? 0 : price;
+			const validCurrency = currency || 'USD';
 
-			const formatter = getCurrencyFormatter(userCurrency);
+			const formatter = getCurrencyFormatter(validCurrency);
 			return formatter.format(validPrice);
 		},
-		[userCurrency]
+		[currency],
 	);
 };

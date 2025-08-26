@@ -4,11 +4,13 @@ import { cn } from '@/styles/utils';
 import styles from './popover-options-menu.module.css';
 
 export type PopoverOptionItem = {
+	id: string | number;
 	icon?: React.ReactNode;
 	label: string;
 	onClick?: () => void;
 	variant?: 'default' | 'primary' | 'danger';
 	wrapper?: (children: React.ReactNode) => React.ReactNode;
+	disabled?: boolean;
 };
 
 type PopoverOptionsMenuProps = {
@@ -44,7 +46,7 @@ export const PopoverOptionsMenu = ({
 			<Popover.Trigger>{trigger}</Popover.Trigger>
 			<Popover.Content side={side} align={align} size="1" sideOffset={sideOffset}>
 				<div className={cn('flex flex-col gap-1', alignmentClass)}>
-					{items.map((item, index) => {
+					{items.map((item) => {
 						const variantClass =
 							item.variant === 'primary'
 								? styles.primary
@@ -59,6 +61,7 @@ export const PopoverOptionsMenu = ({
 								override
 								iconLeft={item.icon}
 								onClick={item.onClick}
+								disabled={item.disabled}
 								className="text-sm">
 								{item.label}
 							</Button>
@@ -68,7 +71,7 @@ export const PopoverOptionsMenu = ({
 
 						const wrappedItem = item.wrapper ? item.wrapper(menuItem) : menuItem;
 
-						return <div key={index}>{wrappedItem}</div>;
+						return <div key={item.id}>{wrappedItem}</div>;
 					})}
 				</div>
 			</Popover.Content>

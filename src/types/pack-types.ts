@@ -1,8 +1,15 @@
+import { PaletteColor, PaletteName } from '@/styles/palette/palette-constants';
+
 export enum WeightUnit {
 	oz = 'oz',
 	lb = 'lb',
 	kg = 'kg',
 	g = 'g',
+}
+
+export enum TableRowContext {
+	PACK = 'pack',
+	CLOSET = 'closet',
 }
 
 export type PackQueryState = {
@@ -35,7 +42,20 @@ export type Pack = {
 	packAffiliateDescription: string;
 	packViews: number;
 	packBookmarkCount: number;
+	palette?: PaletteName;
 	categories?: Category[];
+};
+
+export type PackFormFields = {
+	packName: string;
+	packDescription?: string | null;
+	packUrlName?: string | null;
+	packUrl?: string | null;
+	packAffiliateDescription?: string | null;
+	packLocationTag?: string | null;
+	packDurationTag?: string | null;
+	packSeasonTag?: string | null;
+	packDistanceTag?: string | null;
 };
 
 export type Category = {
@@ -43,7 +63,7 @@ export type Category = {
 	packCategoryId: number;
 	packId: number;
 	packCategoryIndex: string;
-	packCategoryColor: string;
+	packCategoryColor: PaletteColor;
 	packItems: PackItem[];
 };
 
@@ -153,5 +173,5 @@ export type MoveGearClosetItemResponse = {
 export type HeaderInfo = {
 	packCategoryId: number;
 	packCategoryName?: string;
-	packCategoryColor?: string;
+	packCategoryColor?: PaletteColor;
 };

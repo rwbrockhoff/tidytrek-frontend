@@ -34,7 +34,7 @@
 
 	/* State colors */
 	--color-success: var(--sage-500);
-	--color-success-bg: var(--sage-50);
+	--color-success-bg: var(--sage-100);
 
 	--color-error: var(--red-500);
 	--color-error-hover: var(--red-600);

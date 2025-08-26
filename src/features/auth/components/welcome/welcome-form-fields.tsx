@@ -2,7 +2,7 @@ import { type FormEvent } from 'react';
 import { Form } from '@radix-ui/react-form';
 import { Button, TextField } from '@/components/alpine';
 import { RefreshIcon } from '@/components/icons';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type FormError } from '@/types/form-types';
@@ -64,10 +64,12 @@ export const WelcomeFormFields = ({
 			/>
 
 			{serverError.error && (
-				<Message
-					messageType="error"
-					text={serverError.message || 'Oops! There was an error.'}
-				/>
+				<Alert
+					variant="error"
+					className="my-4"
+				>
+					{serverError.message || 'There was an error.'}
+				</Alert>
 			)}
 
 			<Button className="w-full my-2" type="submit" loading={isPending}>

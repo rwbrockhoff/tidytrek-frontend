@@ -6,40 +6,63 @@ import { normalizeURL } from '@/utils/link-utils';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import hoverStyles from '../hover-styles.module.css';
-import { useState } from 'react';
-import { type InputEvent } from '@/types/form-types';
 import { type BaseTableRowItem } from '@/types/pack-types';
 import { useEditPackItemMutation } from '@/queries/pack-queries';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { isPackItem } from '@/types/pack-types';
+import { requiredUrlSchema } from '@/schemas/common-schemas';
+import { useFieldState } from '@/hooks/form/use-field-state';
+
+const validatePackItemUrl = (url: string) => {
+	if (!url.trim()) return false;
+	requiredUrlSchema.parse(url);
+	return true;
+};
 
 type LinkPopupProps = {
 	packItem: BaseTableRowItem;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
-	const { isCreator } = useUserPermissionsContext();
-	const { mutate: editPackItem, isSuccess, reset } = useEditPackItemMutation();
+	const { isCreator } = usePermissions();
+
+	const { mutate: editPackItem, isSuccess, isPending, reset } = useEditPackItemMutation();
 
 	const { packItem } = props;
 	const { packItemUrl } = packItem || {};
-	const [newPackItemUrl, setPackUrl] = useState(packItemUrl || '');
 
-	const hasUrl = !!packItemUrl;
-
-	const handleOnChange = (e: InputEvent) => {
-		setPackUrl(e.target.value);
-		if (isSuccess) reset();
-	};
+	const {
+		value: newPackItemUrl,
+		validationError,
+		apiError,
+		handleChange,
+		validate,
+		setApiErrorFromResponse,
+		setValue,
+		clearErrors,
+	} = useFieldState({
+		initialValue: packItemUrl || '',
+		validator: validatePackItemUrl,
+		resetOnSuccess: reset,
+	});
 
 	const handleSaveLink = () => {
-		if (newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
+		const isValid = validate(newPackItemUrl);
+
+		if (isValid && newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
 			const cleanUrl = normalizeURL(newPackItemUrl);
 			if (isPackItem(packItem)) {
-				editPackItem({
-					packItemId: packItem.packItemId,
-					packItem: { ...packItem, packItemUrl: cleanUrl },
-				});
+				editPackItem(
+					{
+						packItemId: packItem.packItemId,
+						packItem: { ...packItem, packItemUrl: cleanUrl },
+					},
+					{
+						onError: (error) => {
+							setApiErrorFromResponse(error);
+						},
+					},
+				);
 			}
 		}
 	};
@@ -50,58 +73,66 @@ export const LinkPopup = (props: LinkPopupProps) => {
 				packItemId: packItem.packItemId,
 				packItem: { ...packItem, packItemUrl: '' },
 			});
-			setPackUrl('');
+			setValue('');
+			clearErrors();
+			reset();
 		}
 	};
 
-	if (isCreator) {
-		return (
-			<Popover.Root>
-				<Popover.Trigger>
-					<Button
-						variant="ghost"
-						size="lg"
-						override
-						className={cn(
-							styles.linkButton,
-							mx.mobileHidden,
-							hasUrl ? styles.linkButtonVisible : hoverStyles.showOnHover,
-						)}
-						iconLeft={
-							<LinkIcon
-								className={cn(hasUrl ? styles.linkIconActive : styles.linkIcon)}
-							/>
-						}
-					/>
-				</Popover.Trigger>
-				<Popover.Content side="top" style={{ minWidth: 400 }}>
-					<Flex className="items-center gap-2 p-1">
-						<div className="w-full">
-							<TextField.Standalone
-								name="packItemUrl"
-								value={newPackItemUrl}
-								onChange={handleOnChange}
-								placeholder="Item link"
-							/>
-						</div>
+	if (!isCreator) return null;
 
+	// Show validation/API error in TextField error (keeps UI minimal for popup)
+	const displayError = validationError || apiError;
+
+	const hasUrl = !!(packItemUrl || (isSuccess && newPackItemUrl.trim()));
+
+	return (
+		<Popover.Root>
+			<Popover.Trigger>
+				<Button
+					variant="ghost"
+					size="lg"
+					override
+					className={cn(
+						styles.linkButton,
+						mx.mobileHidden,
+						hasUrl ? styles.linkButtonVisible : hoverStyles.showOnHover,
+					)}
+					iconLeft={
+						<LinkIcon className={cn(hasUrl ? styles.linkIconActive : styles.linkIcon)} />
+					}
+				/>
+			</Popover.Trigger>
+			<Popover.Content side="top" style={{ minWidth: 400 }}>
+				<Flex className="items-start gap-2 p-1">
+					<div className="w-full">
+						<TextField.Standalone
+							name="packItemUrl"
+							value={newPackItemUrl}
+							onChange={handleChange}
+							placeholder="Item link"
+							error={displayError}
+							collapsibleError
+						/>
+					</div>
+
+					<Button
+						onClick={handleSaveLink}
+						disabled={!newPackItemUrl.trim() || isPending}
+						iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
+						{isSuccess ? 'Saved' : 'Save'}
+					</Button>
+					{hasUrl && (
 						<Button
-							onClick={handleSaveLink}
-							disabled={!newPackItemUrl.trim()}
-							iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
-							{isSuccess ? 'Saved' : 'Save'}
-						</Button>
-						{packItemUrl && (
-							<Button
-								color="danger"
-								onClick={handleDeleteLink}
-								disabled={!newPackItemUrl.trim()}
-								iconLeft={<TrashIcon />}
-							/>
-						)}
-					</Flex>
-				</Popover.Content>
-			</Popover.Root>
-		);
-	} else return null;
+							color="danger"
+							onClick={handleDeleteLink}
+							disabled={isPending}
+							iconLeft={<TrashIcon />}
+							className={styles.deleteButton}
+						/>
+					)}
+				</Flex>
+			</Popover.Content>
+		</Popover.Root>
+	);
 };

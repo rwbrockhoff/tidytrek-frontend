@@ -7,7 +7,7 @@ import { Stack } from '@/components/layout';
 export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 	return (
 		<Segment>
-			<Stack className="gap-4">
+			<Stack>
 				<SegmentHeader
 					title="Profile Links"
 					description="Add links that others can see on your profile. 4 link maximum to keep things tidy."
@@ -15,7 +15,7 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 
 				<SocialLinkList socialLinks={socialLinks} deleteEnabled />
 
-				<AddLink />
+				<AddLink socialLinksCount={socialLinks.length} />
 			</Stack>
 		</Segment>
 	);

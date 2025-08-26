@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { type BaseTableRowItem } from '@/types/pack-types';
-import { type InputEvent } from '@/types/form-types';
+import { type InputEvent, type FormError } from '@/types/form-types';
 import { clearZodErrors } from '@/hooks/form/use-zod-error';
 import { useZodError } from '@/hooks/form/use-zod-error';
 
-export const usePackItemInput = (item: BaseTableRowItem) => {
+export const usePackItemInput = (item: BaseTableRowItem, apiError?: FormError) => {
 	const [packItemChanged, setPackItemChanged] = useState(false);
 	const [packItem, setPackItem] = useState<BaseTableRowItem>(item);
 
@@ -16,11 +16,21 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 		]);
 
 	useEffect(() => {
-		// Only sync from parent if we haven't made local changes
-		if (!packItemChanged) {
+		// Sync packItem state when switching item (or on initial load)
+		if (
+			item.packItemId !== packItem.packItemId ||
+			(!packItemChanged && packItem.packItemId) ||
+			!packItem.packItemId ||
+			item.packItemIndex !== packItem.packItemIndex
+		) {
 			setPackItem({ ...item });
+			if (item.packItemId !== packItem.packItemId) {
+				// Reset change flag when switching to a different item
+				setPackItemChanged(false);
+			}
 		}
-	}, [item, packItemChanged]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [item.packItemId, item.packItemIndex]);
 
 	const updateField = (name: string, value: string) => {
 		let processedValue: string | number;
@@ -32,25 +42,39 @@ export const usePackItemInput = (item: BaseTableRowItem) => {
 		} else {
 			processedValue = value;
 		}
-		
+
 		setPackItem((prevFormData) => ({
 			...prevFormData,
 			[name]: processedValue,
 		}));
 		if (!packItemChanged) setPackItemChanged(true);
 	};
+
 	const onChange = (e: InputEvent) => {
 		const { name, value } = e.target as HTMLInputElement;
 		updateField(name, value);
 		clearZodErrors<BaseTableRowItem>(e, formErrors, resetFormErrors);
 	};
 
+	let combinedPrimaryError = { error: false, message: '' };
+	if (primaryError.error) {
+		combinedPrimaryError = primaryError;
+	} else if (apiError?.error) {
+		combinedPrimaryError = apiError;
+	}
+
+	const updatePackItem = (updates: Partial<BaseTableRowItem>) => {
+		setPackItem((prev) => ({ ...prev, ...updates }));
+		if (!packItemChanged) setPackItemChanged(true);
+	};
+
 	return {
 		packItem,
 		onChange,
+		updatePackItem,
 		packItemChanged,
 		formErrors,
 		updateFormErrors,
-		primaryError,
+		primaryError: combinedPrimaryError,
 	};
 };

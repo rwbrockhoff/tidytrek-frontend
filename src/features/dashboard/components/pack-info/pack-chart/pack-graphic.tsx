@@ -1,6 +1,6 @@
 import { Category } from '@/types/pack-types';
 import { useCategoryInfo } from '../../../hooks/use-category-info';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { PackChartView } from './pack-chart-view';
 import { PackEmptyGraphic } from './pack-empty-graphic/pack-empty-graphic';
 
@@ -11,7 +11,7 @@ type PackGraphicProps = {
 };
 
 export const PackGraphic = (props: PackGraphicProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const { packCategories, fetching, display } = props;
 	const {
@@ -24,6 +24,12 @@ export const PackGraphic = (props: PackGraphicProps) => {
 	} = useCategoryInfo(packCategories);
 
 	if (fetching || !packCategories) return null;
+
+	// Wait for calculations before showing chart UI
+	const isCalculating =
+		packCategories.length > 0 && (!chartCategoryInfo || chartCategoryInfo.length === 0);
+
+	if (isCalculating) return null;
 
 	if (packHasWeight) {
 		return (
@@ -39,10 +45,6 @@ export const PackGraphic = (props: PackGraphicProps) => {
 		);
 	}
 
-	// only show empty pack for users with pack categories (without weight)
-	if (isCreator && !packHasWeight) {
-		return <PackEmptyGraphic />;
-	}
-
-	return null;
+	// No weight - show empty graphic (and null for viewers)
+	return isCreator ? <PackEmptyGraphic /> : null;
 };

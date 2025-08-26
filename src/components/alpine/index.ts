@@ -4,3 +4,4 @@ export * as Table from './table/table';
 export * as Card from './card/card';
 export * as Modal from './modal/modal';
 export { Button } from './button/button';
+export { Alert } from './alert/alert';

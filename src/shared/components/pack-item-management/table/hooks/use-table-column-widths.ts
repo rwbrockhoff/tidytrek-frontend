@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 
 export const useTableColumnWidths = () => {
 	const showPrices = usePackPricing() || false;
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	return useMemo(() => {
 		// Column widths - adjust based on pricing and user type

@@ -13,7 +13,7 @@ import {
 	RowActionsMenu,
 } from '@/shared/components/pack-item-management/table';
 import { usePackPricing } from '@/hooks/pack/use-pack-pricing';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { type PackItemProperty, type BaseTableRowItem } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
@@ -58,7 +58,7 @@ export const TableRowContent = ({
 	onDelete,
 	categoryId,
 }: TableRowContentProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const showPrices = usePackPricing();
 	const navigationRowRef = useRef<HTMLTableRowElement | null>(
 		null,
@@ -92,7 +92,6 @@ export const TableRowContent = ({
 				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				rowRef={navigationRowRef}
 			/>
 
@@ -100,14 +99,12 @@ export const TableRowContent = ({
 				onClick={onChangeProperty}
 				isDisabled={!!disabled}
 				packItem={packItem}
-				isDragging={isDragging}
 			/>
 
 			<QuantityCell
 				onToggleOff={onToggle}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				formErrors={formErrors}
 				rowRef={navigationRowRef}
 			/>
@@ -117,7 +114,6 @@ export const TableRowContent = ({
 				onSelect={onChangeProperty}
 				packItem={packItem}
 				onChange={onChange}
-				isDragging={isDragging}
 				formErrors={formErrors}
 				rowRef={navigationRowRef}
 			/>
@@ -127,7 +123,6 @@ export const TableRowContent = ({
 					onToggleOff={onToggle}
 					packItem={packItem}
 					onChange={onChange}
-					isDragging={isDragging}
 					formErrors={formErrors}
 					rowRef={navigationRowRef}
 				/>

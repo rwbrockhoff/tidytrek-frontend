@@ -11,7 +11,7 @@ import {
 	useUploadProfilePhotoMutation,
 	useUploadBannerPhotoMutation,
 } from '@/queries/profile-settings-queries';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { ProfileOptionsMenu } from '../profile-options-menu';
 
@@ -23,7 +23,7 @@ type ProfileHeaderProps = {
 };
 
 export const ProfileHeader = (props: ProfileHeaderProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { userProfile, notFound, isPrivate, hasError } = props;
 
 	// Error message to display in Profile Header UI
@@ -79,7 +79,7 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					withBorder
 					uploadEnabled={isCreator}
 					src={profilePhotoUrl}
-					size="large"
+					size="lg"
 					isPending={isPendingProfilePhoto}
 					onUpload={uploadProfilePhoto}
 				/>

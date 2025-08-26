@@ -6,7 +6,7 @@ export const useDeletePackItem = () => {
 	const moveToClosetMutation = useMoveItemToClosetMutation();
 
 	const deleteItem = (item: PackItem) => {
-		deleteItemMutation.mutate(item.packItemId);
+		deleteItemMutation.mutate({ packItemId: item.packItemId, packId: item.packId });
 	};
 
 	const moveToCloset = (item: PackItem) => {

@@ -1,6 +1,5 @@
 const User = 'User';
 const Pack = 'Pack';
-const Packlist = 'Packlist';
 const Closet = 'Closet';
 const Guest = 'Guest';
 const Profile = 'Profile';
@@ -12,11 +11,8 @@ export const userKeys = {
 
 export const packKeys = {
 	all: [Pack] as const,
-	packId: (packId: number | null | undefined) => [Pack, packId] as const,
-};
-
-export const packListKeys = {
-	all: [Packlist] as const,
+	lists: () => [Pack, 'list'] as const,
+	pack: (packId: number | null | undefined) => [Pack, packId] as const,
 };
 
 export const closetKeys = {
@@ -24,8 +20,8 @@ export const closetKeys = {
 };
 
 export const guestKeys = {
-	packId: (packId: number | null) => [Guest, 'pack', packId] as const,
-	username: (username: string | undefined) => [Guest, 'user', username] as const,
+	pack: (packId: number | null) => [Guest, 'pack', packId] as const,
+	user: (username: string | undefined) => [Guest, 'user', username] as const,
 };
 
 export const profileKeys = {

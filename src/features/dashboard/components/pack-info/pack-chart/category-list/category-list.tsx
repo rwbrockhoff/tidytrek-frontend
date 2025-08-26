@@ -4,19 +4,19 @@ import { CircleIcon } from '@/components/icons';
 import { CategoryInfo } from '../types';
 import styles from './category-list.module.css';
 import { cn } from '@/styles/utils';
-import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 
 type CategoryListProps = {
 	categories: CategoryInfo[];
 };
 
 export const CategoryList = ({ categories }: CategoryListProps) => {
-	const weightUnit = useUserWeightUnit();
+	const { weightUnit } = usePackDetails();
 
 	return (
 		<Stack role="list" className={styles.chartList}>
-			{categories.map((category) => (
-				<Flex key={category.categoryId} className={cn(styles.chartItem, 'items-center')}>
+			{categories.map((category, index) => (
+				<Flex key={category?.categoryId ?? `category-${index}`} className={cn(styles.chartItem, 'items-center')}>
 					<Flex className="items-center gap-2 flex-nowrap">
 						<CircleIcon
 							className="lucide-sm"
@@ -30,7 +30,7 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
 						</Text>
 					</Flex>
 					<Badge color="gray" ml="auto">
-						{category.totalWeight} {weightUnit}
+						{category.totalWeight} {weightUnit.base}
 					</Badge>
 				</Flex>
 			))}

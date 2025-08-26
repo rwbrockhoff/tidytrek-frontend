@@ -1,6 +1,13 @@
 .styledMenu a {
 	color: inherit;
 	text-decoration: none;
+	display: block;
+	border-radius: var(--radius);
+}
+
+.styledMenu a:focus-visible {
+	outline: 2px solid var(--color-border-focus);
+	outline-offset: 2px;
 }
 
 .styledMenu li {
@@ -8,7 +15,8 @@
 	cursor: pointer;
 }
 
-.styledMenu li:hover {
+.styledMenu li:hover,
+.styledMenu a:focus {
 	opacity: var(--opacity-60);
 }
 

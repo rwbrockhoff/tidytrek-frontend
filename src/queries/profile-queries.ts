@@ -4,7 +4,7 @@ import { tidyTrekAPI } from '../api/tidytrek-api';
 import { type BaseProfileState } from '../types/profile-types';
 import { STALE_TIME } from './query-config';
 import { extractData } from './extract-data';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 
 export type ProfileQueryState = BaseProfileState & {
 	hasError?: boolean;
@@ -17,7 +17,7 @@ const defaultProfileState: ProfileQueryState = {
 };
 
 export const useGetProfileQuery = () => {
-	const { isAuthenticated } = useGetAuth();
+	const { isAuthenticated } = useAuth();
 	
 	return useQuery<ProfileQueryState>({
 		queryKey: profileKeys.all,

@@ -22,7 +22,7 @@ import {
 } from '@/tests/mocks/pack-mocks';
 import { createMockApiResponse } from '@/tests/mocks/api-mocks';
 import { createMockUser } from '@/tests/mocks/user-mocks';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 
 vi.mock('@/api/tidytrek-api', () => ({
 	tidyTrekAPI: {
@@ -33,13 +33,17 @@ vi.mock('@/api/tidytrek-api', () => ({
 	},
 }));
 
-vi.mock('@/hooks/auth/use-get-auth', () => ({
-	useGetAuth: vi.fn(() => ({
+vi.mock('@/hooks/auth/use-auth', () => ({
+	useAuth: vi.fn(() => ({
 		user: createMockUser(),
 		isLoading: false,
 		isAuthenticated: true,
 		settings: null,
 	})),
+}));
+
+vi.mock('react-router-dom', () => ({
+	useLocation: vi.fn(() => ({ pathname: '/' })),
 }));
 
 vi.mock('@/utils', () => ({
@@ -72,7 +76,7 @@ describe('useGetPackQuery', () => {
 
 	it('should be disabled when user is not authenticated', () => {
 		// Mock unauthenticated state
-		vi.mocked(useGetAuth).mockReturnValueOnce({
+		vi.mocked(useAuth).mockReturnValueOnce({
 			user: null,
 			isLoading: false,
 			isAuthenticated: false,
@@ -118,7 +122,7 @@ describe('useGetPackListQuery', () => {
 
 	it('should be disabled when user is not authenticated', () => {
 		// Mock unauthenticated state
-		vi.mocked(useGetAuth).mockReturnValueOnce({
+		vi.mocked(useAuth).mockReturnValueOnce({
 			user: null,
 			isLoading: false,
 			isAuthenticated: false,
@@ -293,7 +297,7 @@ describe('useDeletePackItemMutation', () => {
 		const wrapper = createQueryWrapper();
 		const { result } = renderHook(() => useDeletePackItemMutation(), { wrapper });
 
-		result.current.mutate(packItemId);
+		result.current.mutate({ packItemId, packId: 1 });
 
 		await waitFor(() => {
 			expect(tidyTrekAPI.delete).toHaveBeenCalledWith('/packs/pack-items/1');

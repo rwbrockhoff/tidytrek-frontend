@@ -2,7 +2,7 @@ import { PackInfo } from '../pack-info/pack-info';
 import { ResponsivePackCategory } from '../pack-category/responsive-pack-category';
 import { AddCategoryButton } from '../table';
 import { Flex, Stack } from '@/components/layout';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { PackPricingContext } from '@/contexts/pack-pricing-context';
 import { DashboardViewProvider } from '../../contexts/dashboard-view-context';
 import {
@@ -14,12 +14,13 @@ import { GuestQueryState as GuestState } from '@/queries/guest-queries';
 import { DragDropWrapper } from '@/components/drag-drop/drag-drop-wrapper';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { GuestPreviewBanner } from '../guest-preview-banner';
 import { useGuestData } from '../../hooks/use-guest-data';
 import { useAddPackCategoryMutation } from '@/queries/pack-queries';
 import { getNextCategoryColor } from '../../utils/get-next-category-color';
-import { useDashboardDragHandlers } from '../../hooks/use-dashboard-drag-handlers';
+import { useDashboardDragHandlers } from '../../drag-and-drop';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { PackNotAvailable } from '../pack-not-available/pack-not-available';
 import { DashboardDragOverlay } from '../dashboard-drag-overlay/dashboard-drag-overlay';
@@ -34,16 +35,18 @@ type DashboardProps = {
 export const DashboardContainer = (props: DashboardProps) => {
 	const { isPending, paramPackId, currentPack, packList } = props;
 	const { pack, categories } = currentPack || {};
+
 	const packCategories = useMemo(() => categories || [], [categories]);
 	const packId = pack?.packId || null;
-	const location = useLocation();
+	const isGuestRoute = useGuestRoute();
 
-	const { isAuthenticated, isCreator } = useUserPermissionsContext();
+	const { isAuthenticated, isCreator } = usePermissions();
 	const { mutate: addPackCategory } = useAddPackCategoryMutation();
 	const { localPackCategories, handleOnDragStart, handleOnDragOver, handleOnDragEnd } =
 		useDashboardDragHandlers(packCategories, pack, paramPackId);
 
 	const { userProfile, settings } = useGuestData(currentPack);
+	const { palette: packPalette } = usePackDetails();
 
 	const handleAddCategory = () => {
 		if (packId) {
@@ -60,62 +63,62 @@ export const DashboardContainer = (props: DashboardProps) => {
 		/>
 	);
 
-	const { packPricing = false } = pack || {};
-
 	if (!isPending && !pack) {
 		return <PackNotAvailable />;
 	}
 
 	if (!pack) return null;
 
-	const isGuestRoute = location.pathname.startsWith('/pk/');
+	const { packPricing = false } = pack;
+
 	const showPreviewMode = isAuthenticated && isCreator && isGuestRoute;
 	const canEdit = isCreator && !showPreviewMode;
 
 	return (
 		<PackPricingContext.Provider value={packPricing}>
 			<DashboardViewProvider canEdit={canEdit} isPreviewMode={showPreviewMode}>
-				<PageLayout>
-					{showPreviewMode && <GuestPreviewBanner />}
+				<div data-theme-palette={packPalette}>
+					<PageLayout>
+						{showPreviewMode && <GuestPreviewBanner />}
 
-				<PackInfo
-					currentPack={pack}
-					packCategories={localPackCategories}
-					userProfile={userProfile}
-					settings={settings}
-					fetching={isPending}
-				/>
+						<PackInfo
+							currentPack={pack}
+							packCategories={packCategories}
+							userProfile={userProfile}
+							settings={settings}
+							fetching={isPending}
+						/>
 
-				<DragDropWrapper
-					onDragStart={handleOnDragStart}
-					onDragOver={handleOnDragOver}
-					onDragEnd={handleOnDragEnd}
-					renderDragOverlay={renderDragOverlay}>
-					<SortableContext
-						items={localPackCategories.map((cat) => cat.packCategoryId.toString())}
-						strategy={verticalListSortingStrategy}>
-						<Stack className="gap-12">
-							{localPackCategories.length > 0 &&
-								localPackCategories.map((category: Category) => {
-									return (
-										<ResponsivePackCategory
-											category={category}
-											packList={packList}
-											key={category.packCategoryId}
-										/>
-									);
-								})}
-						</Stack>
-					</SortableContext>
-				</DragDropWrapper>
+						<DragDropWrapper
+							onDragStart={handleOnDragStart}
+							onDragOver={handleOnDragOver}
+							onDragEnd={handleOnDragEnd}
+							renderDragOverlay={renderDragOverlay}>
+							<SortableContext
+								items={localPackCategories.map((cat: Category) => cat?.packCategoryId?.toString() ?? '')}
+								strategy={verticalListSortingStrategy}>
+								<Stack className="gap-12">
+									{localPackCategories.length > 0 &&
+										localPackCategories.map((category: Category, index) => {
+											return (
+												<ResponsivePackCategory
+													category={category}
+													packList={packList}
+													key={category?.packCategoryId ?? `category-${index}`}
+												/>
+											);
+										})}
+								</Stack>
+							</SortableContext>
+						</DragDropWrapper>
 
-				{canEdit && (
-					<Flex className="justify-center w-full mt-12">
-						<AddCategoryButton onClick={handleAddCategory} />
-					</Flex>
-				)}
-
-				</PageLayout>
+						{canEdit && (
+							<Flex className="justify-center w-full mt-12">
+								<AddCategoryButton onClick={handleAddCategory} />
+							</Flex>
+						)}
+					</PageLayout>
+				</div>
 			</DashboardViewProvider>
 		</PackPricingContext.Provider>
 	);

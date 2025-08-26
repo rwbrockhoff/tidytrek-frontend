@@ -1,5 +1,6 @@
 import { PackListItem as ListItem } from '@/types/pack-types';
 import { Text } from '@radix-ui/themes';
+import { AccessibleButton } from '@/components/ui';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
@@ -23,16 +24,21 @@ export const PackListItem = ({ pack, onClick }: PackListItemProps) => {
 	};
 
 	return (
-		<div
-			ref={setNodeRef}
-			style={style}
-			onClick={() => onClick(pack.packId)}
-			className={styles.packListItemContainer}
-			data-testid="pack-list-row">
-			<div className={styles.gripContainer} {...attributes} {...listeners}>
+		<div ref={setNodeRef} style={style} className={styles.packListItemContainer}>
+			<AccessibleButton
+				{...attributes}
+				{...listeners}
+				className={styles.gripContainer}
+				aria-label={`Drag to reorder ${pack.packName}`}>
 				<GripVertical size={16} className={styles.gripIcon} />
-			</div>
-			<Text className={styles.styledText}>{pack.packName}</Text>
+			</AccessibleButton>
+			<AccessibleButton
+				onClick={() => onClick(pack.packId)}
+				className={styles.packButton}
+				data-testid="pack-list-row"
+				aria-label={`Open ${pack.packName} pack`}>
+				<Text className={styles.styledText}>{pack.packName}</Text>
+			</AccessibleButton>
 		</div>
 	);
 };

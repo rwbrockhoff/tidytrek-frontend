@@ -1,7 +1,7 @@
 import { type Pack } from '@/types/pack-types';
 import { Grid } from '@/components/layout';
 import { PackCard } from './pack-card/pack-card';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { SkeletonCard } from '@/components/ui';
 
 type PackCardListProps = {
@@ -10,7 +10,7 @@ type PackCardListProps = {
 };
 
 export const PackCardList = (props: PackCardListProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { packThumbnailList, showSkeletonCards } = props;
 
 	const packList = packThumbnailList || [];

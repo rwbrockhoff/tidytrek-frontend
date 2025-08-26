@@ -54,4 +54,5 @@ export {
 	TreePine as TreeIcon2,
 	Settings as SettingsIcon,
 	WifiOff as WifiOffIcon,
+	Palette as PaletteIcon,
 } from 'lucide-react';

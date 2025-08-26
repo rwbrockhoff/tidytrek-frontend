@@ -1,6 +1,7 @@
-import { useSortable } from '@dnd-kit/sortable';
+import { useSortable, defaultAnimateLayoutChanges } from '@dnd-kit/sortable';
+import { usePermissions } from '@/hooks/auth/use-permissions';
+import { useDndContext } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
 import { type DraggableAttributes } from '@dnd-kit/core';
 
 type DragProvidedProps = {
@@ -22,31 +23,76 @@ type DraggableTableRowProps = {
 	categoryId?: string;
 };
 
+// Component handles drag logic and activeId
 export const DraggableTableRow = ({
 	packItemId,
 	disabled,
-	children,
 	categoryId,
+	children,
 }: DraggableTableRowProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
+	const { active } = useDndContext();
 
-	// Compound key for Dashboard, simple for Gear Closet
-	const sortableId = categoryId ? `${categoryId}-${packItemId}` : packItemId.toString();
+	// compound category/pack ID key
+	const draggableId = categoryId ? `${categoryId}-${packItemId}` : packItemId.toString();
 
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-		useSortable({
-			id: sortableId,
-			disabled: !isCreator || disabled,
-			// Single-list animations enabled, multi-category disabled
-			animateLayoutChanges: categoryId ? () => false : undefined,
-		});
+	const isDragging =
+		active?.id &&
+		(active.id.toString() === packItemId.toString() ||
+			(active.id.toString().includes('-') &&
+				active.id.toString().split('-')[1] === packItemId.toString()));
 
-	const style: React.CSSProperties = {
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging: sortableIsDragging,
+	} = useSortable({
+		id: draggableId,
+		disabled: !isCreator || disabled,
+		animateLayoutChanges: categoryId ? defaultAnimateLayoutChanges : undefined,
+	});
+
+	const isDashboard = !!categoryId;
+
+	const canDrag = isCreator && !disabled;
+	const dashboardCursor = canDrag 
+		? (isDragging || sortableIsDragging ? 'grabbing' : 'grab')
+		: 'default';
+	const gearClosetCursor = sortableIsDragging ? 'grabbing' : 'grab';
+
+	const dashboardStyles: React.CSSProperties = {
+		position: 'relative',
 		transform: CSS.Transform.toString(transform),
 		transition,
-		zIndex: isDragging ? 10 : undefined,
-		position: 'relative' as const,
+		opacity: isDragging || sortableIsDragging ? 0 : 1,
+		userSelect: canDrag ? 'none' : 'text',
+		WebkitUserSelect: canDrag ? 'none' : 'text',
+		touchAction: 'none',
+		cursor: dashboardCursor,
 	};
+
+	const gearClosetStyles: React.CSSProperties = {
+		position: 'relative',
+		transform: sortableIsDragging
+			? `${CSS.Transform.toString(transform)} scale(1.02)`
+			: CSS.Transform.toString(transform),
+		transition,
+		opacity: 1,
+		zIndex: sortableIsDragging ? 10 : 'auto',
+		backgroundColor: sortableIsDragging ? 'var(--color-bg-primary)' : 'transparent',
+		boxShadow: sortableIsDragging ? 'var(--shadow-spread)' : 'none',
+		borderRadius: sortableIsDragging ? 'var(--radius)' : '0',
+		border: sortableIsDragging ? '1px solid var(--color-border-secondary)' : 'none',
+		userSelect: 'none',
+		WebkitUserSelect: 'none',
+		touchAction: 'none',
+		cursor: gearClosetCursor,
+	};
+
+	const style = isDashboard ? dashboardStyles : gearClosetStyles;
 
 	const provided: DragProvidedProps = {
 		innerRef: setNodeRef,
@@ -57,5 +103,6 @@ export const DraggableTableRow = ({
 		dragHandleProps: listeners,
 	};
 
-	return children(provided, { isDragging });
+	return children(provided, { isDragging: isDragging || sortableIsDragging });
 };
+

@@ -1,21 +1,19 @@
 import { useState } from 'react';
-import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
+import { type InputEvent, type TextAreaEvent, type FormError } from '@/types/form-types';
 import { type Pack } from '@/types/pack-types';
+import { type PaletteName } from '@/styles/palette/palette-constants';
 import { normalizeURL } from '@/utils/link-utils';
 import { useEditPackMutation } from '@/queries/pack-queries';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
-import { packNameSchema } from '@/schemas/zod-schemas';
 import { z } from 'zod';
+import { packFormSchema } from '@/schemas/pack-schemas';
+import { extractErrorMessage } from '@/utils/error-utils';
 
 type Checkboxes = {
 	packAffiliate?: boolean;
 	packPublic?: boolean;
 	packPricing?: boolean;
 };
-
-const packFormSchema = z.object({
-	packName: packNameSchema,
-});
 
 type PackFormInputs = z.infer<typeof packFormSchema>;
 
@@ -26,18 +24,29 @@ type PackFormInputs = z.infer<typeof packFormSchema>;
  * @param pack - Initial pack data for form
  * @returns Form state, handlers, validation errors, and submission function
  */
+
 export const usePackForm = (pack: Pack) => {
-	const { mutate: editPack } = useEditPackMutation();
+	const { mutateAsync: editPack } = useEditPackMutation();
 
 	const [packChanged, setPackChanged] = useState(false);
 	const [modifiedPack, setModifiedPack] = useState<Pack>(pack);
+	const [serverError, setServerError] = useState<FormError>({ error: false, message: '' });
 
 	const { formErrors, updateFormErrors, resetFormErrors } = useZodError<PackFormInputs>([
 		'packName',
+		'packDescription',
+		'packUrlName',
+		'packUrl',
+		'packAffiliateDescription',
+		'packLocationTag',
+		'packDurationTag',
+		'packSeasonTag',
+		'packDistanceTag',
 	]);
 
 	const handleClearErrors = (e: InputEvent | TextAreaEvent) => {
-		clearZodErrors<PackFormInputs>(e, formErrors, resetFormErrors);
+		clearZodErrors<PackFormInputs>(e, formErrors as Record<keyof PackFormInputs, FormError>, resetFormErrors);
+		setServerError({ error: false, message: '' });
 	};
 
 	const handleFormChange = (e: InputEvent | TextAreaEvent) => {
@@ -58,29 +67,44 @@ export const usePackForm = (pack: Pack) => {
 		if (!packChanged) setPackChanged(true);
 	};
 
-	const handleSubmitPack = () => {
+	const handlePaletteChange = (palette: PaletteName) => {
+		setModifiedPack((prev) => ({
+			...prev,
+			palette,
+		}));
+		if (!packChanged) setPackChanged(true);
+	};
+
+	const handleSubmitPack = async () => {
 		if (packChanged) {
-			// Validate pack form before submitting
 			const result = packFormSchema.safeParse(modifiedPack);
 			if (!result.success) {
 				const errors = JSON.parse(result.error.message);
 				updateFormErrors(errors);
-				return false; // Validation failed
+				return false;
 			}
 
-			const { packId } = pack;
-			const { packUrl } = modifiedPack;
-			const cleanUrl = normalizeURL(packUrl);
-			editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
-			return true; // Success
+			try {
+				const { packId } = pack;
+				const { packUrl } = modifiedPack;
+				const cleanUrl = normalizeURL(packUrl);
+				await editPack({ packId, modifiedPack: { ...modifiedPack, packUrl: cleanUrl } });
+				setServerError({ error: false, message: '' });
+				return true;
+			} catch (error) {
+				const errorMessage = extractErrorMessage(error) || 'Failed to save pack';
+				setServerError({ error: true, message: errorMessage });
+				return false;
+			}
 		}
-		return true; // No changes, can close
+		return true;
 	};
 
 	const resetForm = () => {
 		setModifiedPack(pack);
 		setPackChanged(false);
 		resetFormErrors();
+		setServerError({ error: false, message: '' });
 	};
 
 	return {
@@ -88,8 +112,10 @@ export const usePackForm = (pack: Pack) => {
 		packChanged,
 		handleFormChange,
 		handleCheckBox,
+		handlePaletteChange,
 		handleSubmitPack,
 		resetForm,
 		formErrors,
+		serverError,
 	};
 };

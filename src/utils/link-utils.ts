@@ -5,6 +5,11 @@ export const normalizeURL = (link: string): string => {
 	const trimmed = link.trim();
 	if (!trimmed) return '';
 
+	// Only allow http/https
+	if (trimmed.includes('://') && !trimmed.startsWith('http')) {
+		return '';
+	}
+
 	if (trimmed.startsWith('https://')) return trimmed;
 
 	if (trimmed.startsWith('http://')) {

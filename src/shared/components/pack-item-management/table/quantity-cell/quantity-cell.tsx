@@ -4,8 +4,7 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type RefObject } from 'react';
 import { Badge, Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-import { useCellWidth } from '../hooks/use-cell-width';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { cn } from '@/styles/utils';
 import tableStyles from '../table-main/table.module.css';
@@ -14,7 +13,6 @@ type QuantityCellProps = {
 	onToggleOff: () => void;
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
-	isDragging: boolean;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	rowRef: RefObject<HTMLElement>;
 };
@@ -23,25 +21,21 @@ export const QuantityCell = ({
 	onToggleOff,
 	packItem,
 	onChange,
-	isDragging,
 	formErrors,
 	rowRef,
 }: QuantityCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { packItemQuantity } = packItem || {};
-	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const handleToggleOff = () => isCreator && onToggleOff();
 
 	return (
 		<Table.Cell
-			ref={ref}
 			className={cn(
 				tableStyles.quantityColumn,
 				!isCreator && tableStyles.quantityColumnGuestView,
 			)}
-			style={{ width }}
 			onBlur={handleToggleOff}>
 			{isCreator ? (
 				<TextField.Standalone
@@ -57,6 +51,7 @@ export const QuantityCell = ({
 					onChange={onChange}
 					onKeyDown={(e) => handleKeyDown(e, 'packItemQuantity')}
 					style={{ textAlign: 'center' }}
+					collapsibleError
 				/>
 			) : (
 				<Badge radius="large" color="gray" highContrast>

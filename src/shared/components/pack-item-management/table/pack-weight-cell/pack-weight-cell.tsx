@@ -11,9 +11,8 @@ import { Text } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { WeightDropdown } from './weight-dropdown';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useUserWeightUnit } from '@/hooks/ui/use-user-weight-unit';
-import { useCellWidth } from '../hooks/use-cell-width';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { type RefObject } from 'react';
@@ -25,7 +24,6 @@ type PackWeightCellProps = {
 	onSelect: (property: PackItemProperty) => void;
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
-	isDragging: boolean;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	rowRef: RefObject<HTMLElement>;
 };
@@ -35,14 +33,12 @@ export const PackWeightCell = ({
 	onSelect,
 	packItem,
 	onChange,
-	isDragging,
 	formErrors,
 	rowRef,
 }: PackWeightCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
 	const { packItemWeight, packItemWeightUnit } = packItem || {};
-	const { ref, width } = useCellWidth(isDragging);
 	const { isToggled, toggle } = useToggle();
 	const [hasDecimalInput, setHasDecimalInput] = useState(false);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
@@ -86,12 +82,10 @@ export const PackWeightCell = ({
 
 	return (
 		<Table.Cell
-			ref={ref}
 			className={cn(
 				tableStyles.weightColumn,
 				!isCreator && tableStyles.weightColumnGuestView,
 			)}
-			style={{ width }}
 			onFocus={toggleToEdit}
 			onBlur={toggleToCell}>
 			{isCreator ? (
@@ -107,6 +101,7 @@ export const PackWeightCell = ({
 						onChange={handleWeightChange}
 						onKeyDown={(e) => handleKeyDown(e, 'packItemWeight')}
 						data-invalid={formErrors?.packItemWeight.error}
+						collapsibleError
 					/>
 
 					<WeightDropdown

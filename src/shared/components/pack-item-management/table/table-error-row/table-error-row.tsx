@@ -7,18 +7,19 @@ import { cn } from '@/styles/utils';
 import styles from './table-error-row.module.css';
 
 export const TableErrorRow = ({ error }: { error: FormError }) => {
-	const hasError = error.error;
+	if (!error.error) {
+		return null;
+	}
 
 	return (
-		<Table.Row
-			className={cn(styles.errorRow, hasError ? styles.hasError : styles.noError)}>
+		<Table.Row>
 			<Table.Cell
-				className={cn(styles.errorCell, hasError ? styles.hasError : styles.noError)}
+				className={cn(styles.errorCell, 'py-4')}
 				colSpan={24}
 				verticalAlign="middle">
-				<Flex className="justify-center items-center h-full">
+				<Flex className="justify-center items-center gap-2">
 					<WarningIcon />
-					<Text trim="both" ml="2" weight="light">
+					<Text trim="both" size="2">
 						{error.message}
 					</Text>
 				</Flex>

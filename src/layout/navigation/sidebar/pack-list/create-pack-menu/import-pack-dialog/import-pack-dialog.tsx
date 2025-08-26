@@ -1,4 +1,4 @@
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { TextField, Button } from '@/components/alpine';
 import { BackpackIcon } from '@/components/icons';
 import { useImportPackMutation } from '@/queries/pack-queries';
@@ -7,14 +7,15 @@ import { Form } from '@radix-ui/react-form';
 import { Dialog } from '@radix-ui/themes';
 import { Flex, Stack } from '@/components/layout';
 import { FormEvent, useState } from 'react';
-import { packUrlSchema, z } from '@/schemas';
+import { z } from 'zod';
+import { packImportUrlSchema } from '@/schemas/pack-schemas';
 import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import styles from './import-pack-dialog.module.css';
 
 const importPackUrlSchema = z
 	.object({
-		packUrl: packUrlSchema,
+		packUrl: packImportUrlSchema,
 	})
 	.required();
 
@@ -73,15 +74,17 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 	const serverErrorMessage = extractErrorMessage(importError);
 
-	// Ensure valid link
-	const invalidLink = !packUrl.length || !packUrl.includes('lighterpack');
-
 	return (
 		<Dialog.Root onOpenChange={handleClearDialog}>
 			<Dialog.Trigger>{children}</Dialog.Trigger>
 
 			<Dialog.Content style={{ maxWidth: 450 }}>
-				<Dialog.Title>Import Pack</Dialog.Title>
+				<Dialog.Title>
+					<Flex className="items-center gap-2">
+						<BackpackIcon />
+						Import Pack
+					</Flex>
+				</Dialog.Title>
 				<Dialog.Description size="2" mb="4">
 					You can import a shareable pack link from Lighterpack below:
 				</Dialog.Description>
@@ -98,10 +101,12 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 					</Stack>
 
 					{isSuccessImport && (
-						<Message messageType="success" text="Your pack was imported successfully." />
+						<Alert variant="success" className="my-4" iconLeft={<BackpackIcon />}>
+							Your pack was imported successfully.
+						</Alert>
 					)}
 
-					{isImportError && <Message messageType="error" text={serverErrorMessage} />}
+					{isImportError && <Alert variant="error" className="my-4">{serverErrorMessage}</Alert>}
 
 					<Flex className="gap-2 mt-6 justify-end">
 						<Dialog.Close>
@@ -110,7 +115,7 @@ export const ImportPackDialog = (props: ImportPackDialogProps) => {
 
 						<Button
 							type="submit"
-							disabled={isPendingImport || invalidLink}
+							disabled={isPendingImport}
 							loading={isPendingImport}
 							iconLeft={!isPendingImport ? <BackpackIcon /> : undefined}
 							className={styles.importButton}>

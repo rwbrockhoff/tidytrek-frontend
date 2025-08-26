@@ -1,4 +1,4 @@
-import { ReactNode, useState, useMemo } from 'react';
+import { ReactNode, useState, useMemo, useCallback } from 'react';
 import {
 	DndContext,
 	closestCorners,
@@ -7,6 +7,13 @@ import {
 	DndContextProps,
 	CollisionDetection,
 	MeasuringStrategy,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	DragEndEvent,
+	DragOverEvent,
+	DragStartEvent,
 } from '@dnd-kit/core';
 import { createPortal } from 'react-dom';
 
@@ -22,6 +29,8 @@ export function DragDropWrapper({
 }: DragDropWrapperProps) {
 	const [activeId, setActiveId] = useState<string | null>(null);
 
+	const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
+
 	// Collision detection: center for larger categories, corners for smaller items
 	const collisionDetection = useMemo<CollisionDetection>(() => {
 		const activeIdStr = activeId?.toString() || '';
@@ -29,27 +38,47 @@ export function DragDropWrapper({
 		return closestCorners;
 	}, [activeId]);
 
+	const handleDragStart = useCallback(
+		(event: DragStartEvent) => {
+			setActiveId(event.active.id as string);
+			dndProps.onDragStart?.(event);
+		},
+		[dndProps],
+	);
+
+	const handleDragEnd = useCallback(
+		(event: DragEndEvent) => {
+			setActiveId(null);
+			dndProps.onDragEnd?.(event);
+		},
+		[dndProps],
+	);
+
+	const handleDragOver = useCallback(
+		(event: DragOverEvent) => {
+			dndProps.onDragOver?.(event);
+		},
+		[dndProps],
+	);
+
+	const handleDragCancel = useCallback(() => {
+		setActiveId(null);
+	}, []);
+
 	return (
 		<DndContext
 			{...dndProps}
+			sensors={sensors}
 			collisionDetection={collisionDetection}
 			measuring={{
 				droppable: {
 					strategy: MeasuringStrategy.WhileDragging,
 				},
 			}}
-			onDragStart={(event) => {
-				setActiveId(event.active.id as string);
-				dndProps.onDragStart?.(event);
-			}}
-			onDragEnd={(event) => {
-				setActiveId(null);
-				dndProps.onDragEnd?.(event);
-			}}
-			onDragOver={(event) => {
-				dndProps.onDragOver?.(event);
-			}}
-			onDragCancel={() => setActiveId(null)}>
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+			onDragOver={handleDragOver}
+			onDragCancel={handleDragCancel}>
 			{children}
 
 			{createPortal(

@@ -1,4 +1,9 @@
-import { type PackItem, type Category, type PackListItem, WeightUnit } from '../types/pack-types';
+import {
+	type PackItem,
+	type Category,
+	type PackListItem,
+	WeightUnit,
+} from '../types/pack-types';
 
 export const mockPackItems: PackItem[] = [
 	{
@@ -14,7 +19,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "0",
+		packItemIndex: '0',
 		packItemPrice: 0,
 	},
 	{
@@ -30,7 +35,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "1",
+		packItemIndex: '1',
 		packItemPrice: 0,
 	},
 	{
@@ -46,7 +51,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "2",
+		packItemIndex: '2',
 		packItemPrice: 0,
 	},
 	{
@@ -62,7 +67,7 @@ export const mockPackItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "3",
+		packItemIndex: '3',
 		packItemPrice: 0,
 	},
 ];
@@ -81,7 +86,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "0",
+		packItemIndex: '0',
 		packItemPrice: 0,
 	},
 	{
@@ -97,7 +102,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "1",
+		packItemIndex: '1',
 		packItemPrice: 0,
 	},
 	{
@@ -113,7 +118,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "2",
+		packItemIndex: '2',
 		packItemPrice: 0,
 	},
 	{
@@ -129,7 +134,7 @@ export const mockPackItemsWithMultipleItems: PackItem[] = [
 		wornWeight: false,
 		consumable: false,
 		favorite: false,
-		packItemIndex: "3",
+		packItemIndex: '3',
 		packItemPrice: 0,
 	},
 ];
@@ -139,7 +144,7 @@ export const mockPackCategory: Category = {
 	packId: 1,
 	packCategoryName: 'Essentials',
 	packCategoryIndex: '0',
-	packCategoryColor: 'blue',
+	packCategoryColor: 'palette-01',
 	packItems: [
 		{
 			packId: 1,
@@ -154,7 +159,7 @@ export const mockPackCategory: Category = {
 			wornWeight: false,
 			consumable: false,
 			favorite: false,
-			packItemIndex: "0",
+			packItemIndex: '0',
 			packItemPrice: 199.99,
 		},
 		{
@@ -170,7 +175,7 @@ export const mockPackCategory: Category = {
 			wornWeight: false,
 			consumable: false,
 			favorite: true,
-			packItemIndex: "1",
+			packItemIndex: '1',
 			packItemPrice: 299.99,
 		},
 	],

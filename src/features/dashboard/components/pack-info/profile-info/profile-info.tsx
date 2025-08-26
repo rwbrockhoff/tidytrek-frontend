@@ -22,7 +22,7 @@ export const ProfileInfo = (props: ProfileInfoProps) => {
 	return (
 		<Flex className="items-center mb-8 md:mb-4">
 			<Link to={`/u/${username}`} enabled={publicProfile}>
-				<Avatar src={profilePhotoUrl} size="small" />
+				<Avatar src={profilePhotoUrl} size="sm" />
 			</Link>
 
 			<Stack className="justify-center gap-2 ml-4">

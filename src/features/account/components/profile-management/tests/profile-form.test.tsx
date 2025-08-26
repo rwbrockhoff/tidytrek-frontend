@@ -1,50 +1,39 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { ProfileForm } from '../profile-form/profile-form';
+import { ProfileFormFields } from '../profile-form-fields';
 import { wrappedRender } from '@/tests/wrapper-utils';
-import { type ProfileInfo, type SocialLink } from '@/types/profile-types';
-import {
-	createMockProfileInfo,
-	createMockSocialLinks,
-} from '@/tests/mocks/profile-mocks';
 
-// Mock profile actions hook (dependency, not used for test logic)
-vi.mock('../../hooks/use-profile-actions', () => ({
-	useProfileActions: () => ({
-		mutations: {
-			editProfile: {
-				mutate: vi.fn(),
-				// Mutation states required
-				isSuccess: false,
-				isError: false,
-				error: null,
-				reset: vi.fn(),
-			},
-		},
-	}),
-}));
-
-// Mock API (dependency, not used for test logic)
-vi.mock('@/api/tidytrek-api', () => ({
-	tidyTrekAPI: {
-		get: vi.fn(),
+// props for basic rendering tests
+const mockProps = {
+	userInfo: {
+		username: 'jim_halpert',
+		trailName: 'Paper Salesman',
+		userLocation: 'Scranton, Pennsylvania',
+		userBio: 'Love hiking and exploring the great outdoors',
 	},
-}));
+	isProfileChanged: false,
+	isSuccess: false,
+	isError: false,
+	error: null,
+	formErrors: {
+		username: { error: false, message: '' },
+		trailName: { error: false, message: '' },
+		userBio: { error: false, message: '' },
+		userLocation: { error: false, message: '' },
+	},
+	onInput: vi.fn(),
+	onSubmit: vi.fn(),
+	onGenerateUsername: vi.fn(),
+};
 
-describe('ProfileForm', () => {
-	const renderProfileForm = (
-		profileInfo?: ProfileInfo,
-		socialLinks: SocialLink[] = createMockSocialLinks(),
-	) => {
-		return wrappedRender(
-			<ProfileForm profileInfo={profileInfo} socialLinks={socialLinks} />,
-		);
+describe('ProfileFormFields', () => {
+	const renderProfileFormFields = () => {
+		return wrappedRender(<ProfileFormFields {...mockProps} />);
 	};
 
 	describe('Form Rendering', () => {
 		it('renders profile form with existing profile data', () => {
-			const profileInfo = createMockProfileInfo();
-			renderProfileForm(profileInfo);
+			renderProfileFormFields();
 
 			expect(screen.getByDisplayValue('jim_halpert')).toBeInTheDocument();
 			expect(screen.getByDisplayValue('Paper Salesman')).toBeInTheDocument();
@@ -55,7 +44,17 @@ describe('ProfileForm', () => {
 		});
 
 		it('renders profile form with empty fields when no profile data', () => {
-			renderProfileForm();
+			const emptyProps = {
+				...mockProps,
+				userInfo: {
+					username: '',
+					trailName: '',
+					userLocation: '',
+					userBio: '',
+				},
+			};
+
+			wrappedRender(<ProfileFormFields {...emptyProps} />);
 
 			expect(screen.getByPlaceholderText('Username')).toHaveValue('');
 			expect(screen.getByPlaceholderText('Trail Name')).toHaveValue('');
@@ -64,7 +63,7 @@ describe('ProfileForm', () => {
 		});
 
 		it('renders form fields with proper labels', () => {
-			renderProfileForm();
+			renderProfileFormFields();
 
 			expect(screen.getByLabelText('Username')).toBeInTheDocument();
 			expect(screen.getByLabelText('Trail Name')).toBeInTheDocument();
@@ -73,7 +72,7 @@ describe('ProfileForm', () => {
 		});
 
 		it('renders username generation button with accessibility', () => {
-			renderProfileForm();
+			renderProfileFormFields();
 
 			// The refresh button should be present (and be accessible)
 			const refreshButton = screen.getByRole('button', {
@@ -84,135 +83,62 @@ describe('ProfileForm', () => {
 		});
 
 		it('renders save button initially disabled', () => {
-			renderProfileForm();
+			renderProfileFormFields();
 
 			const saveButton = screen.getByRole('button', { name: /save profile/i });
 			expect(saveButton).toBeDisabled();
 		});
 	});
 
-	describe('Form Interactions', () => {
-		it('allows typing in username field', async () => {
-			const { user } = renderProfileForm();
-
-			const usernameInput = screen.getByPlaceholderText('Username');
-			await user.type(usernameInput, 'dwight_schrute');
-
-			expect(usernameInput).toHaveValue('dwight_schrute');
-		});
-
-		it('allows typing in trail name field', async () => {
-			const { user } = renderProfileForm();
-
-			const trailNameInput = screen.getByPlaceholderText('Trail Name');
-			await user.type(trailNameInput, 'Beet Farmer');
-
-			expect(trailNameInput).toHaveValue('Beet Farmer');
-		});
-
-		it('allows typing in location field', async () => {
-			const { user } = renderProfileForm();
-
-			const locationInput = screen.getByPlaceholderText('Denver, Colorado');
-			await user.type(locationInput, 'Scranton, PA');
-
-			expect(locationInput).toHaveValue('Scranton, PA');
-		});
-
-		it('allows typing in bio textarea', async () => {
-			const { user } = renderProfileForm();
-
-			const bioTextarea = screen.getByPlaceholderText('Bio for your profile');
-			await user.type(bioTextarea, 'Assistant to the Regional Manager');
-
-			expect(bioTextarea).toHaveValue('Assistant to the Regional Manager');
-		});
-
-		it('enables save button when form data changes', async () => {
-			const profileInfo = createMockProfileInfo();
-			const { user } = renderProfileForm(profileInfo);
+	describe('Callbacks', () => {
+		it('calls onSubmit when form is submitted', async () => {
+			const mockOnSubmit = vi.fn();
+			const props = { ...mockProps, onSubmit: mockOnSubmit, isProfileChanged: true };
+			const { user } = wrappedRender(<ProfileFormFields {...props} />);
 
 			const saveButton = screen.getByRole('button', { name: /save profile/i });
-			expect(saveButton).toBeDisabled();
+			await user.click(saveButton);
 
-			// Make a change to enable the button
-			const usernameInput = screen.getByDisplayValue('jim_halpert');
-			await user.type(usernameInput, '_updated');
+			expect(mockOnSubmit).toHaveBeenCalled();
+		});
 
-			expect(saveButton).toBeEnabled();
+		it('calls onGenerateUsername when generate button is clicked', async () => {
+			const mockOnGenerateUsername = vi.fn();
+			const props = { ...mockProps, onGenerateUsername: mockOnGenerateUsername };
+			const { user } = wrappedRender(<ProfileFormFields {...props} />);
+
+			const generateButton = screen.getByRole('button', {
+				name: /generate random username/i,
+			});
+			await user.click(generateButton);
+
+			expect(mockOnGenerateUsername).toHaveBeenCalled();
 		});
 	});
 
 	describe('Form Validation', () => {
-		it('shows validation error for invalid username', async () => {
-			const profileInfo = createMockProfileInfo();
-			const { user } = renderProfileForm(profileInfo);
+		it('shows validation error for invalid username', () => {
+			const props = {
+				...mockProps,
+				formErrors: {
+					username: { error: true, message: 'Username must be at least 3 characters' },
+					trailName: { error: false, message: '' },
+					userBio: { error: false, message: '' },
+					userLocation: { error: false, message: '' },
+				},
+			};
 
-			// Clear username and enter invalid characters
+			wrappedRender(<ProfileFormFields {...props} />);
+
 			const usernameInput = screen.getByDisplayValue('jim_halpert');
-			await user.clear(usernameInput);
-			await user.type(usernameInput, '!!');
 
-			// Submit the form
-			await user.click(screen.getByRole('button', { name: /save profile/i }));
+			// Should show accessible error
+			expect(usernameInput).toHaveAccessibleName();
+			expect(usernameInput).toHaveAttribute('aria-describedby', 'username-error');
 
-			// Should show validation error (and be accessible)
-			await vi.waitFor(() => {
-				// accessible input
-				expect(usernameInput).toHaveAccessibleName();
-				expect(usernameInput).toHaveAttribute('aria-describedby', 'username-error');
-
-				// visible error message
-				const errorMessage = document.getElementById('username-error');
-				expect(errorMessage).toBeInTheDocument();
-				expect(errorMessage).toHaveTextContent('Username must be at least');
-			});
-		});
-
-		it.skip('shows validation error for bio exceeding character limit', async () => {
-			//todo: add character counter to textarea field to provide user feedback
-			// and then test that feature here
-
-			const profileInfo = createMockProfileInfo(); // Start with valid profile data
-			const longBio = '';
-			const { user } = renderProfileForm(profileInfo);
-
-			const bioTextarea = screen.getByPlaceholderText('Bio for your profile');
-			await user.type(bioTextarea, longBio);
-
-			// Submit the form
-			await user.click(screen.getByRole('button', { name: /save profile/i }));
-
-			// Should show validation error (and be accessible)
-			await vi.waitFor(() => {
-				const errorMessage = document.getElementById('userBio-error');
-				expect(errorMessage).toBeInTheDocument();
-			});
-		});
-	});
-
-	describe('Form State Management', () => {
-		it('updates form values when profile info changes', () => {
-			const initialProfile = createMockProfileInfo();
-			const { rerender } = renderProfileForm(initialProfile);
-
-			expect(screen.getByDisplayValue('jim_halpert')).toBeInTheDocument();
-
-			// Update profile info
-			const updatedProfile = createMockProfileInfo({
-				username: 'dwight_schrute',
-				trailName: 'Beet Farmer',
-			});
-
-			rerender(
-				<ProfileForm
-					profileInfo={updatedProfile}
-					socialLinks={createMockSocialLinks()}
-				/>,
-			);
-
-			expect(screen.getByDisplayValue('dwight_schrute')).toBeInTheDocument();
-			expect(screen.getByDisplayValue('Beet Farmer')).toBeInTheDocument();
+			const errorMessage = document.getElementById('username-error');
+			expect(errorMessage).toBeInTheDocument();
+			expect(errorMessage).toHaveTextContent('Username must be at least 3 characters');
 		});
 	});
 });

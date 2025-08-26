@@ -1,11 +1,11 @@
 import { Stack } from '@/components/layout';
-import { MountainIcon } from '@/components/icons/icons';
+import { SimpleLogo } from '@/layout/logo/simple-logo';
 import styles from './auth-loading.module.css';
 
 export const AuthLoading = () => {
 	return (
 		<Stack className="h-screen items-center justify-center">
-			<MountainIcon className={`${styles.mountainIcon} lucide-xl`} />
+			<SimpleLogo className={styles.mountainIcon} size="base" />
 		</Stack>
 	);
 };

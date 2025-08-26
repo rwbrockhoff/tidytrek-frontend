@@ -1,8 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useGetAuth } from './use-get-auth';
+import { useAuth } from './use-auth';
 import { useGetPackQuery } from '@/queries/pack-queries';
+import { useGuestRoute } from '@/hooks/routing/use-route-context';
 import { decode } from '@/utils';
 import { type User } from '@/types/user-types';
+import { useMemo } from 'react';
 
 export type UserPermissionLevel = 'guest' | 'authenticated' | 'creator';
 
@@ -20,14 +22,24 @@ type UseUserPermissionsReturn = {
 	isLoading: boolean;
 };
 
+/**
+ * Determines user permission level for current route/resource.
+ * Handles pack ownership, profile access, and guest/auth states.
+ *
+ * @param options - Optional pack data to avoid extra query fetches
+ * @returns Permission level, user data, and loading state
+ */
+
 export const useUserPermissions = (
 	options: UseUserPermissionsOptions = {},
 ): UseUserPermissionsReturn => {
-	const { user, isAuthenticated, isLoading: authLoading } = useGetAuth();
+	const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 	const { packId: paramPackId, userId: paramUserId } = useParams();
+	const isGuestRoute = useGuestRoute();
 
-	// use packId or grab from URL
-	const targetPackId = options.packId ?? (paramPackId ? decode(paramPackId) : null);
+	// use packId or grab from URL - only decode for user routes
+	const targetPackId =
+		options.packId ?? (paramPackId && !isGuestRoute ? decode(paramPackId) : null);
 
 	// skip request if pack provided
 	const { data: fetchedPack, isLoading: packLoading } = useGetPackQuery(
@@ -39,7 +51,7 @@ export const useUserPermissions = (
 
 	// determine permission level
 	let permissionLevel: UserPermissionLevel = 'guest';
-	if (isAuthenticated && user?.userId) {
+	if (isAuthenticated && user?.userId && !isGuestRoute) {
 		// dashboard/pack: check if user is pack creator
 		if (packCreatorId && user.userId === packCreatorId) {
 			permissionLevel = 'creator';
@@ -62,12 +74,15 @@ export const useUserPermissions = (
 
 	const isLoading = authLoading || (!options.pack && packLoading);
 
-	return {
-		permissionLevel,
-		isGuest,
-		isAuthenticated: isAuth,
-		isCreator,
-		user,
-		isLoading,
-	};
+	return useMemo(
+		() => ({
+			permissionLevel,
+			isGuest,
+			isAuthenticated: isAuth,
+			isCreator,
+			user,
+			isLoading,
+		}),
+		[permissionLevel, isGuest, isAuth, isCreator, user, isLoading],
+	);
 };

@@ -11,7 +11,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
 	{
-		path: '/dashboard',
+		path: '/',
 		label: 'Pack',
 		icon: BackpackIcon,
 	},
@@ -40,13 +40,14 @@ export const MobileBottomNav = () => {
 			{navItems.map(({ path, label, icon: Icon }) => {
 				const isActive =
 					location.pathname === path ||
-					(path === '/dashboard' &&
+					(path === '/' &&
 						(location.pathname === '/' || location.pathname.startsWith('/pack')));
 
 				return (
 					<Link
 						key={path}
 						to={path}
+						viewTransition
 						className={cn(styles.navItem, isActive && styles.navItemActive)}>
 						<Icon className={styles.navIcon} />
 						<span className={styles.navLabel}>{label}</span>

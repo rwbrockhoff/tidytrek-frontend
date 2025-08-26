@@ -7,6 +7,7 @@ import { PackSummaryPanel } from './pack-summary-panel/pack-summary-panel';
 import { CategoryList } from '../category-list';
 import { CategoryInfo } from '../types';
 import styles from './pack-chart-view.module.css';
+import { memo } from 'react';
 
 type PackChartViewProps = {
 	packCategories: Category[];
@@ -18,7 +19,7 @@ type PackChartViewProps = {
 	display: boolean;
 };
 
-export const PackChartView = ({
+export const PackChartView = memo(({
 	packCategories,
 	chartCategoryInfo,
 	categoryWeights,
@@ -44,4 +45,4 @@ export const PackChartView = ({
 			</div>
 		</Flex>
 	);
-};
+});

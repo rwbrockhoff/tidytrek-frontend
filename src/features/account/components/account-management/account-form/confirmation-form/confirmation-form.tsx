@@ -1,4 +1,4 @@
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { SendIcon } from '@/components/icons';
 import { Stack } from '@/components/layout';
 import { Heading, Text } from '@radix-ui/themes';
@@ -8,12 +8,14 @@ type ConfirmationFormProps = {
 	sendConfirmation: () => void;
 	isError?: boolean;
 	errorMessage?: string;
+	isPending?: boolean;
 };
 
 export const ConfirmationForm = ({
 	sendConfirmation,
 	isError,
 	errorMessage,
+	isPending,
 }: ConfirmationFormProps) => {
 	return (
 		<Stack className="gap-4 max-w-md my-8" stretch={false}>
@@ -22,12 +24,13 @@ export const ConfirmationForm = ({
 				<Text>Let's send a code to your email to get started.</Text>
 			</Stack>
 
-			{isError && errorMessage && <Message messageType="error" text={errorMessage} />}
+			{isError && errorMessage && <Alert variant="error" className="my-4">{errorMessage}</Alert>}
 
 			<Button
 				variant="outline"
 				onClick={sendConfirmation}
 				iconLeft={<SendIcon />}
+				loading={isPending}
 				override
 				className="outline-button-dark">
 				Send Email

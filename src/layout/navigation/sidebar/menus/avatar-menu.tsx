@@ -6,7 +6,7 @@ export const AvatarMenu = ({ logout }: { logout: () => void }) => {
 	const navigate = useNavigate();
 
 	const handleAccountClick = () => {
-		navigate('/account');
+		navigate('/account', { viewTransition: true });
 	};
 
 	return (

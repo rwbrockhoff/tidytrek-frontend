@@ -1,11 +1,12 @@
 import { type Pack } from '@/types/pack-types';
 import styles from './pack-modal.module.css';
-import { Dialog } from '@radix-ui/themes';
+import { Dialog, Tabs } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
-import { SaveIcon, CloseIcon } from '@/components/icons';
-import { Button } from '@/components/alpine';
+import { SaveIcon, CloseIcon, BackpackIcon, SettingsIcon } from '@/components/icons';
+import { Button, Alert } from '@/components/alpine';
 import { usePackForm } from '../../hooks/use-pack-form';
-import { PackForm } from '../pack-form/pack-form';
+import { PackInfoForm } from '../pack-form/pack-info-form';
+import { PackSettingsForm } from '../pack-form/pack-settings-form';
 import { PackDelete } from '../pack-delete/pack-delete';
 import { useState } from 'react';
 import { useGetPackQuery } from '@/queries/pack-queries';
@@ -19,17 +20,25 @@ type PackModalProps = {
 export const PackModal = (props: PackModalProps) => {
 	const { children, pack, onClose } = props;
 	const [isOpen, setIsOpen] = useState(false);
+	const [activeTab, setActiveTab] = useState('info');
 
-	const { data: queryData } = useGetPackQuery(pack.packId);
+	const { data: queryData } = useGetPackQuery(pack.packId, { enabled: isOpen });
 	const currentPack = queryData?.pack || pack;
 
-	const { modifiedPack, handleFormChange, handleCheckBox, handleSubmitPack, formErrors } =
-		usePackForm(pack);
+	const {
+		modifiedPack,
+		handleFormChange,
+		handleCheckBox,
+		handlePaletteChange,
+		handleSubmitPack,
+		formErrors,
+		serverError,
+	} = usePackForm(pack);
 
 	const { packName } = modifiedPack;
 
-	const handleSaveAndClose = () => {
-		const success = handleSubmitPack();
+	const handleSaveAndClose = async () => {
+		const success = await handleSubmitPack();
 		if (success) {
 			setIsOpen(false);
 		}
@@ -56,21 +65,56 @@ export const PackModal = (props: PackModalProps) => {
 					/>
 				</Dialog.Close>
 
-				<Dialog.Title mt="2" mb="1" ml="4">
+				<Dialog.Title mt="2" mb="1" ml="2">
 					{packName ?? pack.packName ?? 'Pack'}
 				</Dialog.Title>
-				<Dialog.Description size="2" color="gray" mb="4" ml="4">
+				<Dialog.Description size="2" color="gray" mb="4" ml="2">
 					Edit pack details, settings, and photo
 				</Dialog.Description>
 
-				<PackForm
-					pack={{ ...modifiedPack, packPhotoUrl: currentPack.packPhotoUrl }}
-					handleFormChange={handleFormChange}
-					handleCheckBox={handleCheckBox}
-					formErrors={formErrors}
-				/>
+				<Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+					<Tabs.List size="2" className="m-2">
+						<Tabs.Trigger value="info">
+							<Flex className="items-center gap-2">
+								<BackpackIcon />
+								Pack Info
+							</Flex>
+						</Tabs.Trigger>
+						<Tabs.Trigger value="settings">
+							<Flex className="items-center gap-2">
+								<SettingsIcon />
+								Pack Settings
+							</Flex>
+						</Tabs.Trigger>
+					</Tabs.List>
 
-				<Flex className="justify-end gap-3 my-2">
+					<Tabs.Content value="info">
+						<PackInfoForm
+							pack={{ ...modifiedPack, packPhotoUrl: currentPack.packPhotoUrl }}
+							handleFormChange={handleFormChange}
+							handleCheckBox={handleCheckBox}
+							formErrors={formErrors}
+						/>
+					</Tabs.Content>
+
+					<Tabs.Content value="settings">
+						<PackSettingsForm
+							pack={modifiedPack}
+							handleFormChange={handleFormChange}
+							handleCheckBox={handleCheckBox}
+							onPaletteChange={handlePaletteChange}
+							formErrors={formErrors}
+						/>
+					</Tabs.Content>
+				</Tabs.Root>
+
+				{serverError.error && (
+					<Alert variant="error" className="mt-4 mb-8">
+						{serverError.message}
+					</Alert>
+				)}
+
+				<Flex className="justify-end gap-3 mt-4 px-2">
 					<PackDelete pack={pack} />
 
 					<Button onClick={handleSaveAndClose} iconLeft={<SaveIcon />}>

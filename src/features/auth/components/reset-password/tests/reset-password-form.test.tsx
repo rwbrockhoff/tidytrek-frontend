@@ -18,6 +18,7 @@ const createDefaultProps = (
 ) => ({
 	hasResetToken: false,
 	emailSent: false,
+	isLoading: false,
 	formErrors: createMockFormErrors(),
 	serverError: { error: false, message: '' },
 	onResetRequest: vi.fn(),
@@ -157,7 +158,7 @@ describe('ResetPasswordForm - Form States', () => {
 
 		wrappedRender(<ResetPasswordForm {...props} />);
 
-		expect(screen.getByText(/if you have an account on tidytrek/i)).toBeInTheDocument();
+		expect(screen.getByText(/check your email for a password reset link/i)).toBeInTheDocument();
 	});
 
 	it('shows server error when present', () => {

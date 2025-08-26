@@ -2,7 +2,7 @@ import type { PackListItem, Category } from '@/types/pack-types';
 import styles from './pack-category-card.module.css';
 import { cn } from '@/styles/utils';
 import { Card } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { usePackCategory } from '@/features/dashboard/hooks/use-pack-category';
 import { usePackCategoryActions } from '@/features/dashboard/hooks/use-pack-category-actions';
 import { EditableCategoryHeader } from './editable-category-header';
@@ -14,7 +14,7 @@ type PackCategoryCardProps = {
 };
 
 export const PackCategoryCard = ({ category, packList }: PackCategoryCardProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const {
 		packCategoryName,

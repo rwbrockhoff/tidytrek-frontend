@@ -34,11 +34,13 @@ export const ProfileOptionsMenu = ({ username }: ProfileOptionsMenuProps) => {
 
 	const menuItems = [
 		{
+			id: 'edit-profile',
 			icon: <SettingsIcon />,
 			label: 'Edit Profile',
 			onClick: handleEditProfile,
 		},
 		{
+			id: 'copy-link',
 			icon: linkCopied ? <CheckIcon /> : <LinkIcon />,
 			label: linkCopied ? 'Link Copied' : 'Copy Link',
 			onClick: handleShareProfile,

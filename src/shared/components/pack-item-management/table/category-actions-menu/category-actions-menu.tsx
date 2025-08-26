@@ -4,6 +4,7 @@ import { TrashIcon, ShareIcon, MinusIcon, PlusIcon, MenuIcon } from '@/component
 import { DeleteModal } from '@/components/ui';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import tableStyles from '../table-main/table.module.css';
+import hoverStyles from '../hover-styles.module.css';
 
 type CategoryActionsMenuProps = {
 	isMinimized: boolean;
@@ -37,7 +38,15 @@ export const CategoryActionsMenu = ({
 
 	return (
 		<PopoverMenu
-			trigger={<Button variant="ghost" size="md" iconLeft={<MenuIcon />} />}
+			trigger={
+				<Button
+					variant="ghost"
+					size="md"
+					iconLeft={<MenuIcon />}
+					className={hoverStyles.showOnHover}
+					aria-label="Open category actions menu"
+				/>
+			}
 			side="bottom"
 			size="1"
 			sideOffset={2}

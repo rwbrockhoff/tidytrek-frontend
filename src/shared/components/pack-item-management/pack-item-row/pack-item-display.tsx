@@ -1,4 +1,5 @@
 import { useConvertCurrency } from '@/utils';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { LinkIcon } from '@/components/icons';
 import { Stack } from '@/components/layout';
 import { type BaseTableRowItem } from '@/types/pack-types';
@@ -10,7 +11,8 @@ type PackItemDisplayProps = {
 };
 
 export const PackItemDisplay = ({ item, className }: PackItemDisplayProps) => {
-	const convertCurrency = useConvertCurrency();
+	const { currency } = usePackDetails();
+	const convertCurrency = useConvertCurrency(currency);
 
 	return (
 		<div className={className}>

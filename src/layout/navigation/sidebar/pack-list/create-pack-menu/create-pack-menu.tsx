@@ -24,7 +24,7 @@ export const CreatePackMenu = () => {
 			// Only navigate if we're not already on this pack's page
 			if (paramPackId !== encodedId) {
 				addNewPackData.reset();
-				navigate(`/pack/${encodedId}`);
+				navigate(`/pack/${encodedId}`, { viewTransition: true });
 			}
 		}
 	}, [addNewPackData, paramPackId, navigate]);

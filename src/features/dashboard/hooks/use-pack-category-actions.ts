@@ -7,6 +7,7 @@ import {
 } from '@/queries/pack-queries';
 import { normalizeURL } from '@/utils/link-utils';
 import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
+import { type PaletteColor } from '@/styles/palette/palette-constants';
 
 type UsePackCategoryActionsProps = {
 	packCategoryId: number;
@@ -23,7 +24,7 @@ export const usePackCategoryActions = ({
 	const { mutate: editPackItem } = useEditPackItemMutation();
 	const { mutate: deletePackItem } = useDeletePackItemMutation();
 
-	const handleChangeColor = (packCategoryColor: string) =>
+	const handleChangeColor = (packCategoryColor: PaletteColor) =>
 		editPackCategory({ packCategoryColor, packCategoryId });
 
 	const handleAddItem = () => {
@@ -47,7 +48,7 @@ export const usePackCategoryActions = ({
 	};
 
 	const handleDeleteItem = (packItemId: number) => {
-		deletePackItem(packItemId);
+		deletePackItem({ packItemId, packId });
 	};
 
 	return {

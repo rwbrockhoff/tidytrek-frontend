@@ -1,21 +1,16 @@
-import { z, quantitySchema, weightSchema, priceSchema } from '@/schemas';
+import { tablePackItemSchema } from '@/schemas/pack-schemas';
 import { type BaseTableRowItem } from '@/types/pack-types';
-
-const packItemSchema = z.object({
-	packItemWeight: weightSchema,
-	packItemQuantity: quantitySchema,
-	packItemPrice: priceSchema,
-});
+import { extractValidationErrors } from '@/utils/error-utils';
 
 export const useTableRowValidation = () => {
 	const validatePackItem = (packItem: BaseTableRowItem) => {
-		const data = packItemSchema.safeParse(packItem);
-		
+		const data = tablePackItemSchema.safeParse(packItem);
+
 		if (!data.success) {
-			const result = JSON.parse(data.error.message);
-			return { isValid: false, errors: result };
+			const errors = extractValidationErrors(data.error);
+			return { isValid: false, errors };
 		}
-		
+
 		return { isValid: true, errors: null };
 	};
 

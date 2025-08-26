@@ -1,5 +1,5 @@
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { usePermissions } from '@/hooks/auth/use-permissions';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { Select, Text } from '@radix-ui/themes';
 import { useMemo } from 'react';
 import { WeightUnit } from '@/types/pack-types';
@@ -10,8 +10,8 @@ type WeightDropdownProps = {
 };
 
 export const WeightDropdown = ({ unit, onChange }: WeightDropdownProps) => {
-	const { isCreator } = useUserPermissionsContext();
-	const { settings } = useGetAuth();
+	const { isCreator } = usePermissions();
+	const { settings } = useAuth();
 
 	const orderedOptions = useMemo(() => {
 		const isMetric = settings?.weightUnit === 'metric';

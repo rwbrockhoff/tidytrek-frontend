@@ -1,0 +1,119 @@
+/* Alpine - Alert Component */
+
+/* Alert - Root */
+.alert {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	width: 100%;
+	border-radius: var(--radius);
+	border: 1px solid;
+	position: relative;
+	font-size: var(--font-size-3);
+	font-weight: var(--font-weight-normal);
+}
+
+/* Alert - Sizes */
+.sm {
+	padding: var(--space-2);
+	font-size: var(--font-size-2);
+}
+
+.md {
+	padding: var(--space-3);
+	font-size: var(--font-size-3);
+}
+
+.lg {
+	padding: var(--space-4);
+	font-size: var(--font-size-4);
+}
+
+/* Alert - Variants */
+.default {
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-primary);
+	border-color: var(--color-border-primary);
+}
+
+.success {
+	background-color: var(--color-success-bg);
+	color: var(--color-success);
+	border-color: var(--color-success);
+}
+
+.error {
+	background-color: var(--color-error-bg);
+	color: var(--color-error);
+	border-color: var(--color-error);
+}
+
+/* Dark mode changes */
+[data-theme='dark'] .success {
+	color: var(--sage-300);
+	border-color: var(--sage-500);
+}
+
+[data-theme='dark'] .error {
+	color: var(--red-400);
+	border-color: var(--red-500);
+}
+
+/* Alert - Icons */
+.iconLeft,
+.iconRight {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.iconLeft svg,
+.iconRight svg {
+	width: var(--icon-sm);
+	height: var(--icon-sm);
+}
+
+.success .iconLeft svg,
+.success .iconRight svg {
+	color: var(--color-success);
+}
+
+.error .iconLeft svg,
+.error .iconRight svg {
+	color: var(--color-error);
+}
+
+.default .iconLeft svg,
+.default .iconRight svg {
+	color: var(--color-text-primary);
+}
+
+.iconLeft,
+.iconRight {
+	width: var(--icon-sm);
+	height: var(--icon-sm);
+}
+
+/* Alert - Content */
+.content {
+	flex: 1;
+	min-width: 0;
+}
+
+/* Alert - Modifiers */
+.alertShadowClassic {
+	box-shadow: var(--shadow-classic);
+}
+
+.alertShadowSpread {
+	box-shadow: var(--shadow-spread);
+}
+
+.alertShadowPaper {
+	box-shadow: var(--shadow-paper);
+}
+
+.alertRounded {
+	border-radius: var(--radius-lg);
+}

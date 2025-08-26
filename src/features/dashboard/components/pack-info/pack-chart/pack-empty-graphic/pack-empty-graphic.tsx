@@ -2,13 +2,13 @@ import { Flex, Stack } from '@/components/layout';
 import { Text } from '@radix-ui/themes';
 import { cn, mx } from '@/styles/utils';
 import { DownArrowIcon } from '@/components/icons';
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import campGraphicDay from '@/assets/defaults/camping-graphic-day.svg';
 import campGraphicNight from '@/assets/defaults/camping-graphic-night.svg';
 import styles from './pack-empty-graphic.module.css';
 
 export const PackEmptyGraphic = () => {
-	const { settings } = useGetAuth();
+	const { settings } = useAuth();
 	const isDarkMode = settings?.darkMode || false;
 	const campGraphic = isDarkMode ? campGraphicNight : campGraphicDay;
 

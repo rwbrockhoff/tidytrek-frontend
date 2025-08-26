@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { type InputEvent } from '@/types/form-types';
 import {
@@ -8,7 +8,9 @@ import {
 import { extractErrorMessage } from '@/utils/error-utils';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 import { setFormInput } from '@/utils';
-import { z, usernameSchema, trailNameSchema } from '@/schemas';
+import { z } from 'zod';
+import { usernameSchema } from '@/schemas/auth-schemas';
+import { trailNameSchema } from '@/schemas/user-schemas';
 
 const formSchema = z.object({
 	username: usernameSchema,
@@ -29,6 +31,13 @@ export const useWelcomeForm = ({ defaultUsername }: UseWelcomeFormProps) => {
 		username: defaultUsername || '',
 		trailName: '',
 	});
+
+	useEffect(() => {
+		if (defaultUsername && !formData.username) {
+			setFormData(prev => ({ ...prev, username: defaultUsername }));
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [defaultUsername]);
 
 	const navigate = useNavigate();
 	const { mutateAsync: saveUsername, isPending } = useUpdateUsernameMutation();

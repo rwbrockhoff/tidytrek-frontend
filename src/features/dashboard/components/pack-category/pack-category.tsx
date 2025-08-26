@@ -1,4 +1,10 @@
-import { type PackListItem, type Category, type PackItem } from '@/types/pack-types';
+import { memo } from 'react';
+import {
+	type PackListItem,
+	type Category,
+	type PackItem,
+	TableRowContext,
+} from '@/types/pack-types';
 import styles from './pack-category.module.css';
 import { cn, mx } from '@/styles/utils';
 import { Flex } from '@/components/layout';
@@ -11,20 +17,16 @@ import { useDroppable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { Table } from '@/shared/components/pack-item-management/table';
 import { EmptyDropZone } from '@/shared/components/pack-item-management/table/empty-drop-zone/empty-drop-zone';
-import { TableRow } from '@/shared/components/pack-item-management/table/table-row/table-row';
+import { TableRowMemo } from '@/shared/components/pack-item-management/table/table-row/table-row-memo';
 import { TableHeader } from '@/shared/components/pack-item-management/table/table-header/table-header';
 import { TableFooter } from '@/shared/components/pack-item-management/table/table-footer/table-footer';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { Body as TableBody } from '@/components/alpine/table/table';
 import { usePackCategory } from '../../hooks/use-pack-category';
 import {
 	useAddNewPackItemMutation,
 	useMoveItemToClosetMutation,
-	useEditPackItemMutation,
-	useDeletePackItemMutation,
 } from '@/queries/pack-queries';
-import { normalizeURL } from '@/utils/link-utils';
-import { type BaseTableRowItem, isPackItem } from '@/types/pack-types';
 
 type PackCategoryProps = {
 	category: Category;
@@ -32,12 +34,12 @@ type PackCategoryProps = {
 	isMinimized?: boolean;
 };
 
-export const PackCategory = ({
+const PackCategoryComponent = ({
 	category,
 	packList,
 	isMinimized: forceMinimized,
 }: PackCategoryProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 
 	const {
 		packCategoryName,
@@ -54,31 +56,13 @@ export const PackCategory = ({
 
 	const { mutate: addPackItem } = useAddNewPackItemMutation();
 	const { mutate: moveItemToCloset } = useMoveItemToClosetMutation();
-	const { mutate: editPackItem } = useEditPackItemMutation();
-	const { mutate: deletePackItem } = useDeletePackItemMutation();
 
 	const handleAddItem = () => {
 		addPackItem({ packId, packCategoryId });
 	};
 
-	const handleEditPackItem = (packItem: BaseTableRowItem) => {
-		const { packItemId, packItemUrl } = packItem;
-		const cleanUrl = normalizeURL(packItemUrl);
-
-		if (isPackItem(packItem)) {
-			editPackItem({
-				packItemId,
-				packItem: { ...packItem, packItemUrl: cleanUrl },
-			});
-		}
-	};
-
 	const handleMoveItemToCloset = (packItemId: number) => {
 		moveItemToCloset(packItemId);
-	};
-
-	const handleDeleteItem = (packItemId: number) => {
-		deletePackItem(packItemId);
 	};
 
 	const categoryHeaderInfo = { packCategoryId, packCategoryName, packCategoryColor };
@@ -93,12 +77,12 @@ export const PackCategory = ({
 		transition,
 		isDragging,
 	} = useSortable({
-		id: category.packCategoryId,
+		id: category?.packCategoryId?.toString() ?? '',
 		disabled: !isCreator,
 	});
 
 	const { setNodeRef: setDroppableNodeRef } = useDroppable({
-		id: `category-${category.packCategoryId}`,
+		id: `category-${category?.packCategoryId ?? ''}`,
 	});
 
 	const setNodeRef = (node: HTMLElement | null) => {
@@ -110,12 +94,10 @@ export const PackCategory = ({
 		transform: CSS.Transform.toString(transform),
 		transition,
 		opacity: isDragging ? 0 : 1,
-		height: isDragging ? 'var(--space-16)' : undefined,
-		overflow: isDragging ? 'hidden' : undefined,
+		userSelect: 'none' as const,
+		WebkitUserSelect: 'none' as const,
+		touchAction: 'none' as const,
 	};
-
-	// Use compound keys to be unique across category moves
-	const itemIds = packItems.map((item) => `${packCategoryId}-${item.packItemId}`);
 
 	return (
 		<Flex
@@ -136,28 +118,27 @@ export const PackCategory = ({
 					minimizeCategory={handleMinimizeCategory}
 				/>
 
-				<SortableContext
-					items={packItems.length > 0 ? itemIds : [`category-${packCategoryId}`]}
-					strategy={verticalListSortingStrategy}>
-					<TableBody style={{ minHeight: 10 }}>
-						{showCategoryItems && packItems.length > 0 ? (
-							packItems.map((item: PackItem) => (
-								<TableRow
+				<TableBody style={{ minHeight: 10 }}>
+					{showCategoryItems && packItems.length > 0 ? (
+						<SortableContext
+							items={packItems.map((item) => `${packCategoryId}-${item.packItemId}`)}
+							strategy={verticalListSortingStrategy}>
+							{packItems.map((item: PackItem) => (
+								<TableRowMemo
 									key={`${packCategoryId}-${item.packItemId}`}
 									item={item}
 									packList={packList}
 									disabled={!isCreator}
 									moveToCloset={handleMoveItemToCloset}
-									handleOnSave={handleEditPackItem}
-									handleDelete={handleDeleteItem}
-									categoryId={packCategoryId.toString()}
+									context={TableRowContext.PACK}
+									categoryId={packCategoryId?.toString() ?? ''}
 								/>
-							))
-						) : (
-							<EmptyDropZone categoryId={packCategoryId} />
-						)}
-					</TableBody>
-				</SortableContext>
+							))}
+						</SortableContext>
+					) : (
+						<EmptyDropZone categoryId={packCategoryId} />
+					)}
+				</TableBody>
 
 				{!isMinimized && (
 					<TableFooter
@@ -172,3 +153,54 @@ export const PackCategory = ({
 		</Flex>
 	);
 };
+
+export const PackCategory = memo(PackCategoryComponent, (prevProps, nextProps) => {
+	// Only re-render if essential props changed
+	const prevCategory = prevProps.category;
+	const nextCategory = nextProps.category;
+
+	// Always re-render if category ID changed (different category)
+	if (prevCategory.packCategoryId !== nextCategory.packCategoryId) {
+		return false;
+	}
+
+	// Check if other props changed
+	if (
+		prevProps.isMinimized !== nextProps.isMinimized ||
+		prevProps.packList.length !== nextProps.packList.length
+	) {
+		return false;
+	}
+
+	// Check if essential category props changed (non-drag related)
+	const essentialCategoryPropsChanged =
+		prevCategory.packCategoryName !== nextCategory.packCategoryName ||
+		prevCategory.packCategoryColor !== nextCategory.packCategoryColor ||
+		prevCategory.packItems.length !== nextCategory.packItems.length;
+
+	if (essentialCategoryPropsChanged) return false;
+
+	// Check if items changed (order or properties affecting totals)
+	if (prevCategory.packItems.length === nextCategory.packItems.length) {
+		const prevItemIds = prevCategory.packItems.map((item) => item.packItemId);
+		const nextItemIds = nextCategory.packItems.map((item) => item.packItemId);
+
+		// Re-render if the order of items changed
+		const orderChanged = prevItemIds.some((id, index) => id !== nextItemIds[index]);
+		if (orderChanged) return false;
+
+		// Re-render if any item properties affecting totals changed
+		const totalsChanged = prevCategory.packItems.some((prevItem, index) => {
+			const nextItem = nextCategory.packItems[index];
+			return (
+				prevItem.packItemPrice !== nextItem.packItemPrice ||
+				prevItem.packItemWeight !== nextItem.packItemWeight ||
+				prevItem.packItemQuantity !== nextItem.packItemQuantity
+			);
+		});
+		if (totalsChanged) return false;
+	}
+
+	// If we get here, nothing essential changed - prevent re-render
+	return true;
+});

@@ -32,22 +32,17 @@
 	z-index: 5;
 }
 
-.small {
+.sm {
 	width: 50px;
 	height: 50px;
 }
 
-.medium {
-	width: 75px;
-	height: 75px;
-}
-
-.big {
+.md {
 	width: 100px;
 	height: 100px;
 }
 
-.large {
+.lg {
 	width: 150px;
 	height: 150px;
 }
@@ -61,27 +56,35 @@
 	height: 100%;
 	background-color: var(--color-bg-tertiary);
 	color: var(--color-text-tertiary);
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
+	position: relative;
 }
 
 .defaultIcon {
-	width: 100%;
-	height: 100%;
-	margin-bottom: -15%;
 	color: currentColor;
 	fill: currentColor;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0;
 }
 
-.small .defaultIcon {
-	margin-bottom: -15%;
+.defaultIcon.sm {
+	width: 44px;
+	height: 44px;
+	bottom: -5px;
+	margin: 0;
 }
 
-.medium .defaultIcon {
-	margin-bottom: -15%;
+.defaultIcon.md {
+	width: 90px;
+	height: 90px;
+	bottom: -12px;
+	margin: 0;
 }
 
-.large .defaultIcon {
-	margin-bottom: -15%;
+.defaultIcon.lg {
+	width: 150px;
+	height: 150px;
+	bottom: -25px;
+	margin: 0;
 }

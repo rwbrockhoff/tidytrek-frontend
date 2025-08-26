@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { type BaseTableRowItem, type PackItemProperty, WeightUnit } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
 import { useConvertCurrency } from '@/utils';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { useZodError, clearZodErrors } from '@/hooks/form/use-zod-error';
 
@@ -13,7 +14,8 @@ export const usePackItemEditForm = ({ initialItem }: UsePackItemEditFormProps) =
 	const [formData, setFormData] = useState<BaseTableRowItem | null>(initialItem);
 	const [itemChanged, setItemChanged] = useState(false);
 	const { isToggled: isPriceEditing, toggle: togglePriceEdit } = useToggle();
-	const convertCurrency = useConvertCurrency();
+	const { currency } = usePackDetails();
+	const convertCurrency = useConvertCurrency(currency);
 
 	const { formErrors, resetFormErrors } = useZodError<BaseTableRowItem>([
 		'packItemName',

@@ -20,8 +20,12 @@ export const PopoverMenu = ({
 	open,
 	onOpenChange,
 }: PopoverMenuProps) => {
+	const popoverProps = open !== undefined && onOpenChange !== undefined 
+		? { open, onOpenChange }
+		: {};
+
 	return (
-		<Popover.Root open={open} onOpenChange={onOpenChange}>
+		<Popover.Root {...popoverProps}>
 			<Popover.Trigger>{trigger}</Popover.Trigger>
 			<Popover.Content side={side} size={size} sideOffset={sideOffset}>
 				<Stack className="gap-1">

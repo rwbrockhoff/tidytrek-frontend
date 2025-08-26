@@ -22,9 +22,9 @@ React frontend for managing backpacking gear with drag-and-drop pack organizatio
 
 ## Key Features
 
-### Drag & Drop with Optimistic Updates
+### Drag & Drop with Cache Updates
 
-Drag-and-drop reordering for pack items and categories with immediate UI feedback. Uses TanStack Query's optimistic updates to show changes instantly, then syncs with the database. Includes rollback on failure.
+Drag-and-drop reordering for pack items and categories. Updates cache with fractional indexing, and falls back to full refetch when API rebalances indexes.
 
 ### Custom Component Library
 

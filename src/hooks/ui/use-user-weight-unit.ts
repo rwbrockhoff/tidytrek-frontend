@@ -1,4 +1,4 @@
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
+import { useAuth } from '@/hooks/auth/use-auth';
 import { WeightUnit } from '@/types/pack-types';
 
 type UnitMode = 'base' | 'small';
@@ -8,7 +8,7 @@ type UseUserWeightUnitOptions = {
 };
 
 export const useUserWeightUnit = ({ unitMode = 'base' }: UseUserWeightUnitOptions = {}): WeightUnit => {
-	const { settings } = useGetAuth();
+	const { settings } = useAuth();
 	const isMetric = settings?.weightUnit === 'metric';
 	
 	if (unitMode === 'small') {

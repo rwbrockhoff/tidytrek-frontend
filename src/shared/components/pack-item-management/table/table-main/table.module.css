@@ -98,6 +98,7 @@
 	height: var(--space-10);
 }
 
+.table.tableGuestView tfoot td,
 .table tfoot td {
 	font-size: var(--font-size-2);
 	color: var(--color-text-tertiary);

@@ -5,9 +5,9 @@ import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { type RefObject } from 'react';
 import { Text } from '@radix-ui/themes';
 import { Table, TextField } from '@/components/alpine';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useConvertCurrency } from '@/utils';
-import { useCellWidth } from '../hooks/use-cell-width';
+import { usePackDetails } from '@/hooks/pack/use-pack-details';
 import { useToggle } from '@/hooks/ui/use-toggle';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
 import { cn } from '@/styles/utils';
@@ -17,7 +17,6 @@ type PriceCellProps = {
 	onToggleOff: () => void;
 	packItem: BaseTableRowItem;
 	onChange: (e: InputEvent) => void;
-	isDragging: boolean;
 	formErrors: ZodFormErrors<BaseTableRowItem> | null;
 	rowRef: RefObject<HTMLElement>;
 };
@@ -26,15 +25,14 @@ export const PriceCell = ({
 	onToggleOff,
 	packItem,
 	onChange,
-	isDragging,
 	formErrors,
 	rowRef,
 }: PriceCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
-	const convertCurrency = useConvertCurrency();
+	const { isCreator } = usePermissions();
+	const { currency } = usePackDetails();
+	const convertCurrency = useConvertCurrency(currency);
 	const { isToggled, toggle } = useToggle();
 
-	const { ref, width } = useCellWidth(isDragging);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const rawPrice = packItem?.packItemPrice ?? 0;
@@ -76,14 +74,12 @@ export const PriceCell = ({
 
 	return (
 		<Table.Cell
-			ref={ref}
 			className={cn(
 				tableStyles.priceColumn,
-				isCreator ? tableStyles.priceColumnText : tableStyles.priceColumnGuestView
+				isCreator ? tableStyles.priceColumnText : tableStyles.priceColumnGuestView,
 			)}
 			onFocus={toggleToEdit}
-			onBlur={toggleToCell}
-			style={{ width }}>
+			onBlur={toggleToCell}>
 			{isCreator ? (
 				<TextField.Standalone
 					variant="minimal"
@@ -94,6 +90,7 @@ export const PriceCell = ({
 					onKeyDown={(e) => handleKeyDown(e, 'packItemPrice')}
 					data-invalid={formErrors?.packItemPrice.error}
 					compact
+					collapsibleError
 				/>
 			) : (
 				<Text align="center">{formattedPrice}</Text>

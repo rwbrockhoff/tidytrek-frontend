@@ -1,9 +1,9 @@
-import { useGetAuth } from '@/hooks/auth/use-get-auth';
-import { useUpdateSettingsMutation } from '@/queries/user-settings-queries';
+import { useAuth } from '@/hooks/auth/use-auth';
+import { useUpdateSettingsMutation } from '../../queries/user-settings-queries';
 import { Select } from '@radix-ui/themes';
 import { Segment, SegmentHeader } from '@/components/primitives';
 import { Stack } from '@/components/layout';
-import { Message } from '@/components/ui';
+import { Alert } from '@/components/ui';
 import { cn } from '@/styles/utils';
 import styles from './user-preferences-section.module.css';
 
@@ -22,7 +22,7 @@ const WEIGHT_UNIT_OPTIONS = [
 ];
 
 export const UserPreferencesSection = () => {
-	const { settings } = useGetAuth();
+	const { settings } = useAuth();
 	const { mutate: updateSettings, isError } = useUpdateSettingsMutation();
 
 	const handleWeightUnitChange = (value: string) => {
@@ -71,10 +71,12 @@ export const UserPreferencesSection = () => {
 				</Stack>
 			</Stack>
 			{isError && (
-				<Message
-					messageType="error"
-					text="There was an error updating your preferences at this time."
-				/>
+				<Alert
+					variant="error"
+					className="my-4"
+				>
+					There was an error updating your preferences at this time.
+				</Alert>
 			)}
 		</Segment>
 	);

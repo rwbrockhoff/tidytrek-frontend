@@ -1,29 +1,34 @@
-import { useLayoutEffect, useState } from 'react';
-import { useDebounce } from '../utils/use-debounce';
+import { useState, useEffect } from "react";
 
 const MOBILE_BREAKPOINT = 768;
 const MEDIUM_BREAKPOINT = 1280;
 
-export const useCheckScreen = () => {
-	const [width, setWidth] = useState(window.innerWidth);
-	const debouncedWidth = useDebounce(width, 100);
+export function useCheckScreen() {
+  const [screenState, setScreenState] = useState(() => {
+    if (typeof window === "undefined") {
+      return { isMobile: false, isMedium: false };
+    }
+    const width = window.innerWidth;
+    return {
+      isMobile: width <= MOBILE_BREAKPOINT,
+      isMedium: width <= MEDIUM_BREAKPOINT,
+    };
+  });
 
-	const handleWindowSizeChange = () => {
-		setWidth(window.innerWidth);
-	};
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setScreenState({
+        isMobile: width <= MOBILE_BREAKPOINT,
+        isMedium: width <= MEDIUM_BREAKPOINT,
+      });
+    };
+    
+    window.addEventListener("resize", handleResize);
+    handleResize();
 
-	//synchronous, before first paint
-	useLayoutEffect(() => {
-		window.addEventListener('resize', handleWindowSizeChange);
-		return () => {
-			window.removeEventListener('resize', handleWindowSizeChange);
-		};
-	}, []);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-	// hook still fires/updates for resizing
-	// values for components use debounced width to avoid excess re-renders
-	return {
-		isMobile: debouncedWidth <= MOBILE_BREAKPOINT,
-		isMedium: debouncedWidth <= MEDIUM_BREAKPOINT,
-	};
-};
+  return screenState;
+}

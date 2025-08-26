@@ -17,6 +17,9 @@ export type GoogleButtonConfig = {
 	text?: 'continue_with' | 'signin_with' | 'signup_with';
 	logo_alignment?: 'left' | 'center';
 	size?: 'large' | 'medium' | 'small';
+	width: string | number;
+	height: string | number;
+	theme: string;
 };
 
 declare global {

@@ -2,14 +2,17 @@ import { useState } from 'react';
 import styles from './category-name-cell.module.css';
 import { type HeaderInfo } from '@/types/pack-types';
 import { type InputEvent } from '@/types/form-types';
+import { type PaletteColor } from '@/styles/palette/palette-constants';
 import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { ThemeButton } from '../theme-button/theme-button';
 import { GripButton } from '@/shared/components/pack-item-management/table';
-import { useUserPermissionsContext } from '@/hooks/auth/use-user-permissions-context';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 import { useEditPackCategoryMutation } from '@/queries/pack-queries';
 import hoverStyles from '@/shared/components/pack-item-management/table/hover-styles.module.css';
 import { cn, mx } from '@/styles/utils';
+import { packCategoryNameSchema } from '@/schemas/pack-schemas';
+import { useFieldState } from '@/hooks/form/use-field-state';
 
 type CategoryNameCellProps = {
 	categoryHeaderInfo: HeaderInfo;
@@ -18,7 +21,7 @@ type CategoryNameCellProps = {
 };
 
 export const CategoryNameCell = (props: CategoryNameCellProps) => {
-	const { isCreator } = useUserPermissionsContext();
+	const { isCreator } = usePermissions();
 	const { mutate: editPackCategory } = useEditPackCategoryMutation();
 
 	const { disabled, categoryHeaderInfo, dragProps } = props;
@@ -31,16 +34,33 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 
 	const [packCategoryName, setPackCategoryName] = useState(categoryName);
 
+	const { validationError, validate, clearErrors } = useFieldState({
+		initialValue: categoryName || '',
+		validator: (value: string) => {
+			const result = packCategoryNameSchema.safeParse(value);
+			if (!result.success) {
+				throw new Error(result.error.errors[0]?.message || 'Invalid category name');
+			}
+			return result.success;
+		},
+	});
+
 	const handleBlur = () => {
 		if (categoryName !== packCategoryName) {
+			const isValid = validate(packCategoryName);
+			if (!isValid) return;
+
 			editPackCategory({ packCategoryName, packCategoryId });
 		}
 	};
 
-	const handleChangeColor = (packCategoryColor: string) =>
+	const handleChangeColor = (packCategoryColor: PaletteColor) =>
 		editPackCategory({ packCategoryColor, packCategoryId });
 
-	const handleInput = (e: InputEvent) => setPackCategoryName(e.target.value);
+	const handleInput = (e: InputEvent) => {
+		setPackCategoryName(e.target.value);
+		clearErrors();
+	};
 
 	return (
 		<Table.HeaderCell className={styles.headerCell}>
@@ -65,6 +85,8 @@ export const CategoryNameCell = (props: CategoryNameCellProps) => {
 						onChange={handleInput}
 						onBlur={handleBlur}
 						disabled={disabled}
+						collapsibleError
+						error={validationError}
 					/>
 				) : (
 					<span className={cn(styles.headerCellText, mx.textEllipsis)}>
