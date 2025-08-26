@@ -1,0 +1,11 @@
+.descriptionText {
+	font-size: var(--font-size-3);
+	color: var(--color-text-secondary);
+	text-align: center;
+}
+
+.placeholderText {
+	color: var(--color-text-tertiary);
+	text-align: center;
+	font-style: italic;
+}

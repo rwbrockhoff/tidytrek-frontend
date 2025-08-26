@@ -1,0 +1,7 @@
+.bookmarkButton {
+	font-weight: normal;
+}
+
+:global(.bookmark-filled) svg {
+	fill: currentColor;
+}
