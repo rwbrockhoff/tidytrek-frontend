@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FormSection } from '@/features/account/types';
-import { Heading, Text, Callout } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
 import { Segment } from '@/components/primitives';
-import { Stack, Flex } from '@/components/layout';
-import { CheckIcon } from '@/components/icons';
+import { Stack } from '@/components/layout';
+import { Alert } from '@/components/ui';
 import { PasswordChangeButton } from './password-change-button';
 import { PasswordChangeForm } from './password-change-form';
 import { ConfirmationForm } from '../confirmation-form/confirmation-form';
@@ -54,18 +54,15 @@ export const PasswordForm = ({
 				sendConfirmation={handleSendConfirmation}
 				isError={reauthenticate.isError}
 				errorMessage={confirmationErrorMessage}
+				isPending={reauthenticate.isPending}
 			/>
 		),
 		[FormSection.PASSWORD]: () => (
 			<Stack className="gap-4">
-				{confirmationSent && (
-					<Callout.Root color="grass" variant="surface" className="max-w-sm">
-						<Flex className="items-center gap-2">
-							<CheckIcon />
-							<Heading size="4">Email Sent!</Heading>
-						</Flex>
-						<Text>Check your email for your code to use below.</Text>
-					</Callout.Root>
+				{confirmationSent && !formSuccess && (
+					<Alert variant="success">
+						Email sent! Check your inbox for the code.
+					</Alert>
 				)}
 				<PasswordChangeForm
 					onFormSuccess={handleFormSuccess}

@@ -6,6 +6,7 @@ import {
 	AuthContainer,
 	FormContainer,
 } from '../components/form-components/form-components';
+import styles from '../components/form-components/form-components.module.css';
 import { Logo } from '@/layout/logo';
 import { useNavigate, Link } from 'react-router-dom';
 import { SplitAuthLayout } from '../components/shared/split-auth-layout';
@@ -42,7 +43,7 @@ export const ResetSuccess = () => {
 
 					<Segment radius="2">
 						<Stack className="gap-4">
-							<Heading as="h2" size="6" color="jade">
+							<Heading as="h2" size="6" className={styles.authTitle}>
 								Success!
 							</Heading>
 							<Text>

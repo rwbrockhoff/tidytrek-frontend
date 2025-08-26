@@ -8,12 +8,14 @@ type ConfirmationFormProps = {
 	sendConfirmation: () => void;
 	isError?: boolean;
 	errorMessage?: string;
+	isPending?: boolean;
 };
 
 export const ConfirmationForm = ({
 	sendConfirmation,
 	isError,
 	errorMessage,
+	isPending,
 }: ConfirmationFormProps) => {
 	return (
 		<Stack className="gap-4 max-w-md my-8" stretch={false}>
@@ -28,6 +30,7 @@ export const ConfirmationForm = ({
 				variant="outline"
 				onClick={sendConfirmation}
 				iconLeft={<SendIcon />}
+				loading={isPending}
 				override
 				className="outline-button-dark">
 				Send Email

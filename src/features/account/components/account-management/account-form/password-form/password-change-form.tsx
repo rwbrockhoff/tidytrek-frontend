@@ -49,9 +49,9 @@ export const PasswordChangeForm = ({
 					onClearErrors={handleClearErrors}
 				/>
 
-				{isError && <Alert variant="error" className="my-4">{supabaseErrorMessage}</Alert>}
+				{isError && <Alert variant="error" className="my-2">{supabaseErrorMessage}</Alert>}
 
-				{isFormSuccess && <Alert variant="success" className="my-4">{successMessage}</Alert>}
+				{isFormSuccess && <Alert variant="success" className="mb-2">{successMessage}</Alert>}
 
 				<Flex className="justify-end gap-2">
 					<Button

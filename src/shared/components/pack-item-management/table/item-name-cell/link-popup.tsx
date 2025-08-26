@@ -84,7 +84,7 @@ export const LinkPopup = (props: LinkPopupProps) => {
 	// Show validation/API error in TextField error (keeps UI minimal for popup)
 	const displayError = validationError || apiError;
 
-	const hasUrl = !!packItemUrl;
+	const hasUrl = !!(packItemUrl || (isSuccess && newPackItemUrl.trim()));
 
 	return (
 		<Popover.Root>
@@ -122,11 +122,11 @@ export const LinkPopup = (props: LinkPopupProps) => {
 						iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
 						{isSuccess ? 'Saved' : 'Save'}
 					</Button>
-					{packItemUrl && (
+					{hasUrl && (
 						<Button
 							color="danger"
 							onClick={handleDeleteLink}
-							disabled={!newPackItemUrl.trim()}
+							disabled={isPending}
 							iconLeft={<TrashIcon />}
 							className={styles.deleteButton}
 						/>
