@@ -9,21 +9,19 @@ import { PasswordChangeForm } from './password-change-form';
 import { ConfirmationForm } from '../confirmation-form/confirmation-form';
 import { usePasswordActions } from '@/features/account/hooks';
 
-type PasswordFormProps = {
-	displayFormSection: FormSection;
-	changeFormSection: (section: FormSection) => void;
-};
-
 const confirmationErrorMessage =
 	'There was an error sending a confirmation code. Please try again later.';
 
-export const PasswordForm = ({
-	displayFormSection,
-	changeFormSection,
-}: PasswordFormProps) => {
+export const PasswordForm = () => {
+	const [displayFormSection, setDisplayFormSection] = useState<FormSection>(
+		FormSection.INITIAL,
+	);
 	const [confirmationSent, setConfirmationSent] = useState(false);
 	const [formSuccess, setFormSuccess] = useState(false);
 	const { reauthenticate } = usePasswordActions();
+
+	const changeFormSection = (section: FormSection) =>
+		setDisplayFormSection(section);
 
 	const handleSendConfirmation = () => {
 		reauthenticate.mutate(undefined, {

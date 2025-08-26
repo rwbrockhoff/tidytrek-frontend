@@ -1,23 +1,22 @@
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/auth/use-auth';
-import { AccountForm } from '../components';
-import { useDeleteAccountMutation } from '@/queries/user-queries';
+import { SegmentGroup } from '@/components/primitives';
+import { PasswordForm } from '../components/account-management/account-form/password-form/password-form';
+import { AccountInfoDisplay } from '../components/account-management/account-info-display';
+import { DeleteAccountSection } from '../components/account-management/delete-account-section';
+import { UserPreferencesSection } from '../components/account-management/user-preferences-section';
 import { AccountSkeleton } from '../components/account-skeleton';
 
 export const AccountSettings = () => {
-	const navigate = useNavigate();
 	const { user, isLoading } = useAuth();
-	const { mutate: deleteAccount } = useDeleteAccountMutation();
-
-	const handleDeleteAccount = () => {
-		deleteAccount(undefined, {
-			onSuccess: () => {
-				navigate('/login', { replace: true, viewTransition: true });
-			}
-		});
-	};
 
 	if (isLoading || !user) return <AccountSkeleton />;
 
-	return <AccountForm user={user} deleteAccount={handleDeleteAccount} />;
+	return (
+		<SegmentGroup>
+			<AccountInfoDisplay user={user} />
+			<UserPreferencesSection />
+			<PasswordForm />
+			<DeleteAccountSection />
+		</SegmentGroup>
+	);
 };

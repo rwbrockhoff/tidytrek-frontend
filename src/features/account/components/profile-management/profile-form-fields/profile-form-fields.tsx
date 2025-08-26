@@ -8,7 +8,6 @@ import { Alert } from '@/components/ui';
 import { type InputEvent, type TextAreaEvent } from '@/types/form-types';
 import { type ZodFormErrors } from '@/hooks/form/use-zod-error';
 import { extractErrorMessage } from '@/utils/error-utils';
-import styles from '../profile-form/profile-form.module.css';
 
 type FormInputs = {
 	username: string;
@@ -51,7 +50,7 @@ export const ProfileFormFields = ({
 				title="Profile Info"
 				description="Update your username, trail name, and profile details."
 			/>
-			<Form className={styles.form} onSubmit={onSubmit}>
+			<Form className="w-full md:w-md" onSubmit={onSubmit}>
 				<TextField.Input
 					name="username"
 					label="Username"
@@ -101,9 +100,17 @@ export const ProfileFormFields = ({
 					error={formErrors.userBio}
 				/>
 
-				{isError && <Alert variant="error" className="my-4">{serverErrorMessage}</Alert>}
+				{isError && (
+					<Alert variant="error" className="my-4">
+						{serverErrorMessage}
+					</Alert>
+				)}
 
-				{isSuccess && <Alert variant="success" className="my-4">Profile updated!</Alert>}
+				{isSuccess && (
+					<Alert variant="success" className="my-4">
+						Profile updated!
+					</Alert>
+				)}
 
 				<Flex className="justify-start mt-4">
 					<Button type="submit" disabled={!isProfileChanged} iconLeft={<SaveIcon />}>
