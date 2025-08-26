@@ -48,6 +48,7 @@ export {
 	LogOut as LogoutIcon,
 	Menu as HamburgerMenuIcon,
 	Upload as UploadIcon,
+	Bookmark as BookmarkIcon,
 	AlertCircle as ErrorIcon,
 	MoveDown as MoveDownIcon,
 	SendToBack as MoveIcon,
