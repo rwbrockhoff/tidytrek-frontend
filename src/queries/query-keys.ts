@@ -4,6 +4,7 @@ const Closet = 'Closet';
 const Guest = 'Guest';
 const Profile = 'Profile';
 const ProfileSettings = 'ProfileSettings';
+const SavedPacks = 'SavedPacks';
 
 export const userKeys = {
 	all: [User] as const,
@@ -31,4 +32,8 @@ export const profileKeys = {
 export const profileSettingsKeys = {
 	all: [ProfileSettings] as const,
 	username: [ProfileSettings, 'username'] as const,
+};
+
+export const savedPacksKeys = {
+	all: [SavedPacks] as const,
 };
