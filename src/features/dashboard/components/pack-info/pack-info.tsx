@@ -21,6 +21,7 @@ import { PackStarterCard } from './pack-starter-card/pack-starter-card';
 import { AffiliateMessage } from './affiliate-message';
 import { PackOptionsMenu } from './pack-options-menu';
 import { PackVisibilityStatus } from './pack-visibility-status';
+import { PackBookmarkButton } from './pack-bookmark-button/pack-bookmark-button';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -84,10 +85,12 @@ export const PackInfo = (props: PackInfoProps) => {
 						{packName}
 					</Heading>
 
-					{canEdit && (
+					{canEdit ? (
 						<div className={styles.packOptionsMenu}>
 							<PackOptionsMenu pack={currentPack} packId={paramPackId} />
 						</div>
+					) : (
+						<PackBookmarkButton pack={currentPack} />
 					)}
 				</Flex>
 
