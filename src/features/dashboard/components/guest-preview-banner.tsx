@@ -19,9 +19,7 @@ export const GuestPreviewBanner = () => {
 			<Flex className="items-center justify-between max-w-6xl mx-auto">
 				<Flex className="items-center gap-2">
 					<ViewsIcon />
-					<Text size="2" className={styles.message}>
-						Preview mode - this is how others see your pack
-					</Text>
+					<Text size="2">Preview mode - this is how others see your pack</Text>
 				</Flex>
 				<Button
 					size="sm"

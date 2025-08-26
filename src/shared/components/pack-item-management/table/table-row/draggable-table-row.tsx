@@ -80,7 +80,6 @@ export const DraggableTableRow = ({
 		backgroundColor: sortableIsDragging ? 'var(--color-bg-primary)' : 'transparent',
 		boxShadow: sortableIsDragging ? 'var(--shadow-spread)' : 'none',
 		borderRadius: sortableIsDragging ? 'var(--radius)' : '0',
-		border: sortableIsDragging ? '1px solid var(--color-border-secondary)' : 'none',
 		userSelect: 'none',
 		WebkitUserSelect: 'none',
 		touchAction: 'none',
@@ -99,4 +98,3 @@ export const DraggableTableRow = ({
 
 	return children(provided, { isDragging: isDragging || sortableIsDragging });
 };
-
