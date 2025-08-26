@@ -46,6 +46,7 @@ export const TableRowContentMemo = memo(
 			prevItem.packItemName !== nextItem.packItemName ||
 			prevItem.packItemDescription !== nextItem.packItemDescription ||
 			prevItem.packItemWeight !== nextItem.packItemWeight ||
+			prevItem.packItemWeightUnit !== nextItem.packItemWeightUnit ||
 			prevItem.packItemPrice !== nextItem.packItemPrice ||
 			prevItem.packItemQuantity !== nextItem.packItemQuantity ||
 			prevItem.packItemUrl !== nextItem.packItemUrl ||

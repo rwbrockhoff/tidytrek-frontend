@@ -42,8 +42,18 @@ export const useTableRowActions = ({
 	};
 
 	const handleChangeProperty = (property: PackItemProperty) => {
+		// Update local state
+		updatePackItem(property);
+		// Create updated item with the new property
 		const updatedItem = { ...packItem, ...property };
-		updatePackItem(property); // update local state
+
+		// Validate before saving
+		const { isValid, errors } = validatePackItem(updatedItem);
+		if (!isValid && errors) {
+			updateFormErrors(errors);
+			return;
+		}
+
 		handleSave(updatedItem);
 	};
 

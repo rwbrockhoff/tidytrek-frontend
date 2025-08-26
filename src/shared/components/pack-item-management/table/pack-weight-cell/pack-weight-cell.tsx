@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { type InputEvent } from '@/types/form-types';
 import {
 	type PackItemProperty,
@@ -40,7 +39,6 @@ export const PackWeightCell = ({
 	const defaultWeightUnit = useUserWeightUnit({ unitMode: 'small' });
 	const { packItemWeight, packItemWeightUnit } = packItem || {};
 	const { isToggled, toggle } = useToggle();
-	const [hasDecimalInput, setHasDecimalInput] = useState(false);
 	const { handleKeyDown } = useTableNavigation({ onSave: onToggleOff, rowRef });
 
 	const toggleToEdit = () => !isToggled && toggle();
@@ -48,32 +46,42 @@ export const PackWeightCell = ({
 	const toggleToCell = () => {
 		if (isToggled) {
 			toggle();
-			setHasDecimalInput(false);
 			isCreator && onToggleOff();
 		}
 	};
 
 	const handleWeightChange = (e: InputEvent) => {
-		// set decimal flag based on input change
-		const value = e.target.value;
-		if (value.includes('.') || hasDecimalInput) {
-			setHasDecimalInput(true);
+		let cleanValue = e.target.value.replace(/[^0-9.]+/g, '');
+		// Ensure only one decimal point
+		const parts = cleanValue.split('.');
+		if (parts.length > 2) {
+			cleanValue = parts[0] + '.' + parts.slice(1).join('');
 		}
+		e.target.value = cleanValue;
 		onChange(e);
 	};
 
+	const rawWeight = packItemWeight ?? 0;
+	const numericalWeight =
+		typeof rawWeight === 'string' ? parseFloat(rawWeight) || 0 : rawWeight;
+
 	const getDisplayValue = () => {
-		// example: shows 3 or 3.5 for pack item weight
-		if (packItemWeight === undefined || packItemWeight === null) return '';
-		const numericalWeight = Number(packItemWeight);
-		if (isNaN(numericalWeight)) return '';
+		// Keep string as-is during editing
+		if (typeof rawWeight === 'string' && rawWeight !== '') {
+			return rawWeight;
+		}
+
+		if (numericalWeight === 0) return '';
+
+		// Keeps decimals: 12.5 stays "12.5", not "12.50"
 		return numericalWeight.toString();
 	};
 
 	const getInputValue = () => {
-		if (!isToggled) return getDisplayValue();
-		if (hasDecimalInput) return packItemWeight?.toString() || '';
-		return getDisplayValue();
+		if (typeof rawWeight === 'string') return rawWeight;
+
+		if (numericalWeight === 0) return '';
+		return numericalWeight.toString();
 	};
 
 	const handleWeightUnit = (unit: WeightUnit) => {
@@ -94,8 +102,7 @@ export const PackWeightCell = ({
 						variant="minimal"
 						compact
 						className={styles.input}
-						inputMode="decimal"
-						value={getInputValue()}
+						value={isToggled ? getInputValue() : getDisplayValue()}
 						name={'packItemWeight'}
 						placeholder={`0`}
 						onChange={handleWeightChange}
