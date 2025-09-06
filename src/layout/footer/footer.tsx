@@ -1,4 +1,3 @@
-import { LocationIcon } from '@/components/icons';
 import { Flex, Stack } from '@/components/layout';
 import { cn } from '@/styles/utils';
 import { Logo } from '@/layout/logo';
@@ -15,16 +14,23 @@ export const Footer = () => {
 								<Logo color="white" size="small" />
 							</a>
 							<Flex className="items-center gap-2 justify-center md:justify-start">
-								<LocationIcon className={styles.locationIcon} />
-								<span className={styles.locationText}>Made in Colorado</span>
+								<span className={styles.locationText}>pack smart. hike light.</span>
 							</Flex>
 						</Stack>
 
 						<Flex className="md:ml-auto gap-8">
-							<a href="https://tidytrek.co/privacy-policy" className={styles.link} target="_blank" rel="noopener noreferrer">
+							<a
+								href="https://tidytrek.co/privacy-policy"
+								className={styles.link}
+								target="_blank"
+								rel="noopener noreferrer">
 								Privacy
 							</a>
-							<a href="https://tidytrek.co/terms-of-service" className={styles.link} target="_blank" rel="noopener noreferrer">
+							<a
+								href="https://tidytrek.co/terms-of-service"
+								className={styles.link}
+								target="_blank"
+								rel="noopener noreferrer">
 								Terms of Service
 							</a>
 							<a href="mailto:info@tidytrek.co" className={styles.link}>
