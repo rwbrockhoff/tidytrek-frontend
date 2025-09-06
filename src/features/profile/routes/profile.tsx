@@ -5,7 +5,8 @@ import { useGetProfileQuery } from '@/queries/profile-queries';
 import { UserPermissionsProvider } from '@/contexts/user-permissions-context';
 import { useUserPermissions } from '@/hooks/auth/use-user-permissions';
 import { useLayoutLoading } from '@/hooks/ui/use-layout-loading';
-import { useViewProfileQuery, isGuestProfileData } from '@/queries/guest-queries';
+import { useViewProfileQuery } from '@/queries/guest-queries';
+import { useGuestProfileData } from '@/hooks/profile/use-guest-profile-data';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 
 export const Profile = ({ isCreator }: { isCreator: boolean }) => {
@@ -21,10 +22,9 @@ export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 	const userProfile = data?.userProfile ?? null;
 	const packThumbnailList = data?.packThumbnailList ?? [];
 
-	// Type-safe access to guest properties
-	const notFound = isGuestProfileData(data) ? data.notFound ?? false : false;
-	const isPrivate = isGuestProfileData(data) ? data.isPrivate ?? false : false;
-	const showSkeletonCards = notFound || isPrivate;
+	// Get guest profile properties
+	const { notFound, isPrivate, isFollowing, showSkeletonCards } =
+		useGuestProfileData(data);
 
 	const permissions = useUserPermissions();
 
@@ -33,9 +33,11 @@ export const Profile = ({ isCreator }: { isCreator: boolean }) => {
 			<PageLayout>
 				<ProfileHeader
 					userProfile={userProfile}
+					userId={paramUserId}
 					notFound={notFound}
 					isPrivate={isPrivate}
 					hasError={data?.hasError}
+					isFollowing={isFollowing}
 				/>
 				<PackCardList
 					packThumbnailList={packThumbnailList}
