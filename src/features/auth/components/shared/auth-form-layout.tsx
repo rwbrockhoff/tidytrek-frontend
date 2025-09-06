@@ -23,7 +23,6 @@ type AuthFormLayoutProps = {
 
 export const AuthFormLayout = ({
 	title,
-	authMethod,
 	isRegister,
 	serverError,
 	children,
@@ -45,18 +44,14 @@ export const AuthFormLayout = ({
 								{title}
 							</Heading>
 
-							<GoogleAuth authMethod={authMethod} updateServerError={updateServerError} />
+							<GoogleAuth updateServerError={updateServerError} />
 
 							<Text align="center">or</Text>
 
 							<div className="px-4">{children}</div>
 
 							{serverError.error && (
-								<Alert
-									variant="error"
-									className="my-4"
-									data-testid="auth-message-error"
-								>
+								<Alert variant="error" className="my-4" data-testid="auth-message-error">
 									{serverError.message || 'There was an error.'}
 								</Alert>
 							)}

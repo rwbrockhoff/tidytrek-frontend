@@ -1,20 +1,16 @@
 import { type Session, type User } from '@supabase/supabase-js';
 import supabase from '@/api/supabase-client';
-import { type GoogleCredentialResponse, type AuthMethod } from '../google-types';
+import { type GoogleCredentialResponse } from '../google-types';
 import { useAuthActions } from '../../../hooks/use-auth-actions';
 
 const googleErrorMessage = 'There was an error connecting with Google at this time.';
 const generalErrorMessage = 'There was an unexpected error. Contact support if needed.';
 
 type UseGoogleAuthFlowProps = {
-	authMethod: AuthMethod;
 	updateServerError: (message: string) => void;
 };
 
-export const useGoogleAuthFlow = ({
-	authMethod,
-	updateServerError,
-}: UseGoogleAuthFlowProps) => {
+export const useGoogleAuthFlow = ({ updateServerError }: UseGoogleAuthFlowProps) => {
 	const { login, register } = useAuthActions();
 
 	const createUserInfo = (data: { user: User; session: Session }) => {
@@ -44,16 +40,19 @@ export const useGoogleAuthFlow = ({
 		// handle supabase error
 		if (supaError || !data.session) return updateServerError(generalErrorMessage);
 
-		// continue register/sign in process
+		// try login first, fallback to register if user doesn't exist
 		const user = createUserInfo(data);
 		try {
-			if (authMethod === 'signup') {
+			// Always try login first
+			await login(user);
+		} catch (loginError) {
+			// If login fails (user doesn't exist), try to register
+			try {
 				await register(user);
-			} else {
-				await login(user);
+			} catch (registerError) {
+				// If both fail, show error
+				updateServerError(generalErrorMessage);
 			}
-		} catch (error) {
-			updateServerError(generalErrorMessage);
 		}
 	};
 
