@@ -15,6 +15,7 @@ import { usePermissions } from '@/hooks/auth/use-permissions';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { ProfileOptionsMenu } from '../profile-options-menu';
 import { FollowButton } from '../follow-button/follow-button';
+import { FollowStats } from '../follow-stats/follow-stats';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
@@ -84,8 +85,8 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 					</div>
 				)}
 
-				<Flex className="gap-8">
-					{/* Left Panel - Avatar & Follow Button */}
+				<Flex className="gap-8 flex-col md:flex-row">
+					{/* Left Panel - Avatar & Follow Button (Desktop only) */}
 					<div className={styles.leftPanel}>
 						<div className={styles.avatarContainer}>
 							<Avatar
@@ -98,35 +99,48 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 							/>
 						</div>
 						{!isCreator && isAuthenticated && userId && (
-							<div className={styles.followButtonContainer}>
+							<div className={cn(styles.followButtonContainer, 'hidden md:flex')}>
 								<FollowButton username={userId} isFollowing={isFollowing ?? false} />
 							</div>
 						)}
 					</div>
 
 					{/* Right Panel - Profile Content */}
-					<Stack className={cn(styles.rightPanel, 'justify-center gap-3 max-w-3xl')}>
-						<Heading as="h3" className={cn(styles.usernameHeader)}>
-							{username || firstName}
-							{trailName && <span className={styles.trailName}>({trailName})</span>}
-						</Heading>
+					<Stack className={cn(styles.rightPanel, 'justify-center gap-2 max-w-3xl')}>
+						{/* Profile Header Section */}
+						<Stack className="gap-1">
+							<Heading as="h3" className={cn(styles.usernameHeader)}>
+								{username || firstName}
+								{trailName && <span className={styles.trailName}>({trailName})</span>}
+							</Heading>
 
-						<Flex className="flex-wrap items-center gap-4 md:gap-3">
-							{userLocation && (
-								<Text
-									className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
-									<LocationIcon /> {userLocation}
-								</Text>
+							{/* Follow Button (Mobile only) */}
+							{!isCreator && isAuthenticated && userId && (
+								<div className="flex md:hidden justify-start my-4">
+									<FollowButton username={userId} isFollowing={isFollowing ?? false} />
+								</div>
 							)}
 
-							{hasSocialLinks && (
-								<SocialLinkList
-									socialLinks={socialLinks || []}
-									deleteEnabled={false}
-									colorButton={true}
-								/>
-							)}
-						</Flex>
+							{/* Follow Stats */}
+							{isCreator && <FollowStats />}
+
+							<Flex className="flex-wrap items-center gap-4 md:gap-3">
+								{userLocation && (
+									<Text
+										className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
+										<LocationIcon /> {userLocation}
+									</Text>
+								)}
+
+								{hasSocialLinks && (
+									<SocialLinkList
+										socialLinks={socialLinks || []}
+										deleteEnabled={false}
+										colorButton={true}
+									/>
+								)}
+							</Flex>
+						</Stack>
 
 						{statusMessage ? (
 							<Box className={cn(mx.textCenter)}>
@@ -134,7 +148,9 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 								<Text color="gray">{statusMessage.subtitle}</Text>
 							</Box>
 						) : (
-							<Text size="2">{userBio}</Text>
+							<Text size="2" className={styles.userBio}>
+								{userBio}
+							</Text>
 						)}
 					</Stack>
 				</Flex>

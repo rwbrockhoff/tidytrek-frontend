@@ -57,29 +57,44 @@
 	right: var(--space-6);
 }
 
+.userBio {
+	max-width: calc(100% - var(--space-12));
+	margin-top: var(--space-1);
+}
+
 @media (max-width: 768px) {
 	.leftPanel {
 		width: 100%;
 		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-4);
 	}
-	
+
 	.avatarContainer {
 		position: relative;
 		top: 0;
 		left: 0;
-		display: inline-block;
-		margin-top: -75px;
+		transform: none;
+		margin-top: -100px;
 	}
-	
+
 	.followButtonContainer {
-		margin-top: var(--space-3);
-		display: flex;
-		justify-content: center;
+		display: none;
 	}
-	
+
 	.rightPanel {
 		padding-left: 0;
-		padding-top: var(--space-4);
 		text-align: center;
+	}
+
+	.userBio {
+		max-width: 100%;
+		text-align: left;
+	}
+
+	.optionsMenu {
+		z-index: var(--z-dropdown);
 	}
 }
