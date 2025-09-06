@@ -5,11 +5,10 @@ import { Flex } from '@/components/layout';
 import { TextField, Table } from '@/components/alpine';
 import { GripButton } from '../grip-button/grip-button';
 import { usePermissions } from '@/hooks/auth/use-permissions';
-import { ExternalLink } from '@/components/ui';
-import { LinkIcon } from '@/components/icons';
 import { LinkPopup } from './link-popup';
+import { ReadOnlyItemName } from './read-only-item-name';
 import { useTableNavigation } from '@/shared/hooks/pack-item-management/use-table-navigation';
-import { mx, cn } from '@/styles/utils';
+import { mx } from '@/styles/utils';
 import styles from './item-name-cell.module.css';
 
 export type OnChange = (e: InputEvent | SelectEvent) => void;
@@ -51,15 +50,10 @@ export const ItemNameCell = (props: ItemNameCellProps) => {
 						className={mx.textEllipsis}
 						collapsibleError
 					/>
-					<LinkPopup packItem={packItem} />
+					<LinkPopup packItemUrl={packItemUrl} onChange={onChange} />
 				</Flex>
-			) : packItemUrl ? (
-				<ExternalLink href={packItemUrl}>
-					<LinkIcon />
-					{packItemName || packItemUrl || 'Pack Item'}
-				</ExternalLink>
 			) : (
-				<span className={cn(mx.textEllipsis, 'px-2')}>{packItemName || 'Name'}</span>
+				<ReadOnlyItemName packItemName={packItemName} packItemUrl={packItemUrl} />
 			)}
 		</Table.Cell>
 	);
