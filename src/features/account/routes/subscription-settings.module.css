@@ -7,3 +7,8 @@
 .checkIcon {
 	color: var(--color-primary);
 }
+
+.planCard {
+	border: 1px solid var(--color-border-secondary);
+	color: var(--color-text-primary);
+}

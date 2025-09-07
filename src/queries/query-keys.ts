@@ -5,6 +5,7 @@ const Guest = 'Guest';
 const Profile = 'Profile';
 const ProfileSettings = 'ProfileSettings';
 const SavedPacks = 'SavedPacks';
+const Stripe = 'Stripe';
 
 export const userKeys = {
 	all: [User] as const,
@@ -36,4 +37,8 @@ export const profileSettingsKeys = {
 
 export const savedPacksKeys = {
 	all: [SavedPacks] as const,
+};
+
+export const stripeKeys = {
+	all: [Stripe] as const,
 };

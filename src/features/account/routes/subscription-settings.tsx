@@ -5,7 +5,9 @@ import { SegmentGroup, Segment, SegmentHeader } from '@/components/primitives';
 import { Stack } from '@/components/layout';
 import { AccountSkeleton } from '../components/account-skeleton';
 import { BackpackIcon } from '@/components/icons';
+import { SubscriptionPaymentModal } from '../components/subscription-payment-modal';
 import { cn } from '@/styles/utils';
+import { useState } from 'react';
 import styles from './subscription-settings.module.css';
 
 export const SubscriptionSettings = () => {
@@ -13,6 +15,7 @@ export const SubscriptionSettings = () => {
 	const isSubscribed = false;
 	const currentPlan = isSubscribed ? 'Pro' : 'Free';
 	const isLoading = false; // todo: Add loading state from query
+	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
 	if (isLoading) return <AccountSkeleton />;
 
@@ -74,7 +77,7 @@ export const SubscriptionSettings = () => {
 				<Stack className="gap-3 max-w-md">
 					{!isSubscribed ? (
 						<>
-							<Flex justify="between" align="center" className="p-4 border rounded-lg">
+							<Flex justify="between" align="center" className={cn(styles.planCard, "p-4 rounded-lg")}>
 								<Stack className="gap-1">
 									<Flex align="center" gap="2">
 										<BackpackIcon />
@@ -91,7 +94,12 @@ export const SubscriptionSettings = () => {
 								</Text>
 							</Flex>
 
-							<Button size="md" className="w-full" iconLeft={<CreditCard size={16} />}>
+							<Button 
+								size="md" 
+								className="w-full" 
+								iconLeft={<CreditCard />}
+								onClick={() => setIsPaymentModalOpen(true)}
+							>
 								Upgrade to Pro
 							</Button>
 						</>
@@ -122,6 +130,11 @@ export const SubscriptionSettings = () => {
 					</Flex>
 				</Segment>
 			)}
+
+			<SubscriptionPaymentModal 
+				isOpen={isPaymentModalOpen}
+				onClose={() => setIsPaymentModalOpen(false)}
+			/>
 		</SegmentGroup>
 	);
 };
