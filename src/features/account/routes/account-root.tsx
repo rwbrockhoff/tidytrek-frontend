@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { AccountMenu } from '../components';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
 import { AccountFallback } from '../components/account-fallback';
+import { StripeProvider } from '@/providers/stripe-provider';
 
 export const AccountRoot = () => {
 	return (
@@ -14,9 +15,11 @@ export const AccountRoot = () => {
 
 			<AccountMenu />
 
-			<Suspense fallback={<AccountFallback />}>
-				<Outlet />
-			</Suspense>
+			<StripeProvider>
+				<Suspense fallback={<AccountFallback />}>
+					<Outlet />
+				</Suspense>
+			</StripeProvider>
 		</PageLayout>
 	);
 };
