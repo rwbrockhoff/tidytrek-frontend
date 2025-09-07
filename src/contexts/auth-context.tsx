@@ -6,6 +6,7 @@ import { type User } from '@/types/user-types';
 export type AuthContextValue = {
 	isLoading: boolean;
 	isAuthenticated: boolean;
+	subscriptionStatus: boolean;
 	user: User | null;
 	settings: Settings | null;
 };
@@ -18,10 +19,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	const user = data?.user || null;
 	const settings = data?.settings || null;
 	const isAuthenticated = data?.isAuthenticated || false;
+	const subscriptionStatus = data?.subscriptionStatus || false;
 
 	const value = {
 		isLoading,
 		isAuthenticated,
+		subscriptionStatus,
 		user,
 		settings,
 	};

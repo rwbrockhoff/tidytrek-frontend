@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 export const STRIPE_CONFIG = {
 	publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
 	priceIds: {
-		pro: import.meta.env.VITE_STRIPE_PRO_PRICE_ID,
+		pro: import.meta.env.VITE_STRIPE_PRICE_PRO_MONTHLY_ID,
 	},
 } as const;
 
