@@ -23,6 +23,10 @@ const { ProfileSettings } = lazyImport(
 	() => import('@/features/account/routes/profile-settings'),
 	'ProfileSettings',
 );
+const { SubscriptionSettings } = lazyImport(
+	() => import('@/features/account/routes/subscription-settings'),
+	'SubscriptionSettings',
+);
 const { SavedPacks } = lazyImport(() => import('@/features/saved-packs'), 'SavedPacks');
 
 export const protectedRoutes = [
@@ -77,6 +81,7 @@ export const protectedRoutes = [
 						element: <ProfileSettings />,
 					},
 					{ path: '/account/settings', element: <AccountSettings /> },
+					{ path: '/account/subscription', element: <SubscriptionSettings /> },
 					{
 						path: '/account/*',
 						index: true,

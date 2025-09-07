@@ -1,0 +1,9 @@
+.proBadge {
+	background: linear-gradient(135deg, var(--color-primary-surface), var(--color-primary-surface-hover));
+	color: white;
+	font-weight: 600;
+}
+
+.checkIcon {
+	color: var(--color-primary);
+}
