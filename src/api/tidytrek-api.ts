@@ -21,3 +21,19 @@ export const tidyTrekAPI = axios.create({
 	baseURL,
 	withCredentials: true,
 });
+
+// Handle 401 errors globally
+tidyTrekAPI.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		// Redirect to login on 401 Unauthorized
+		if (error.response?.status === 401) {
+			// Avoid redirect loops if already on login page
+			if (!window.location.pathname.includes('/login')) {
+				window.location.href = '/login';
+			}
+		}
+		// Pass on other error types
+		return Promise.reject(error);
+	},
+);
