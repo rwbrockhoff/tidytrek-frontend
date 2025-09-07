@@ -40,6 +40,7 @@ const mockAuthResponse: AuthStatusResponse = {
 	isAuthenticated: true,
 	user: createMockUser(),
 	settings: createMockSettings(),
+	subscriptionStatus: false,
 };
 
 describe('useGetAuthStatusQuery', () => {

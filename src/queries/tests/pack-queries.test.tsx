@@ -81,6 +81,7 @@ describe('useGetPackQuery', () => {
 			isLoading: false,
 			isAuthenticated: false,
 			settings: null,
+			subscriptionStatus: false,
 		});
 
 		renderHook(() => useGetPackQuery(123), {
@@ -127,6 +128,7 @@ describe('useGetPackListQuery', () => {
 			isLoading: false,
 			isAuthenticated: false,
 			settings: null,
+			subscriptionStatus: false,
 		});
 
 		renderHook(() => useGetPackListQuery(), {

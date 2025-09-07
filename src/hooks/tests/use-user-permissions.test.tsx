@@ -30,6 +30,7 @@ describe('useUserPermissions', () => {
 			isLoading: false,
 			user: null,
 			settings: null,
+			subscriptionStatus: false,
 		});
 		mockUseParams.mockReturnValue({});
 
@@ -50,6 +51,7 @@ describe('useUserPermissions', () => {
 			isLoading: false,
 			user: mockUser,
 			settings: null,
+			subscriptionStatus: false,
 		});
 		mockUseParams.mockReturnValue({});
 
@@ -68,6 +70,7 @@ describe('useUserPermissions', () => {
 			isLoading: false,
 			user: mockUser,
 			settings: null,
+			subscriptionStatus: false,
 		});
 		mockUseParams.mockReturnValue({ userId: mockUser.userId });
 
@@ -86,6 +89,7 @@ describe('useUserPermissions', () => {
 			isLoading: false,
 			user: mockUser,
 			settings: null,
+			subscriptionStatus: false,
 		});
 		mockUseParams.mockReturnValue({});
 
@@ -99,6 +103,7 @@ describe('useUserPermissions', () => {
 	it('handles loading state', () => {
 		mockUseGetAuth.mockReturnValue({
 			isAuthenticated: false,
+			subscriptionStatus: false,
 			isLoading: true,
 			user: null,
 			settings: null,
@@ -118,6 +123,7 @@ describe('useUserPermissions', () => {
 			isLoading: false,
 			user: mockUser,
 			settings: null,
+			subscriptionStatus: false,
 		});
 		mockUseParams.mockReturnValue({});
 
