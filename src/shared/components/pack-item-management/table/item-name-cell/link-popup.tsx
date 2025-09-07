@@ -1,17 +1,15 @@
 import { Popover } from '@radix-ui/themes';
 import { Flex } from '@/components/layout';
 import { Button, TextField } from '@/components/alpine';
-import { CheckIcon, SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
-import { normalizeURL } from '@/utils/link-utils';
+import { SaveIcon, TrashIcon, LinkIcon } from '@/components/icons';
 import { cn, mx } from '@/styles/utils';
 import styles from './link-popup.module.css';
 import hoverStyles from '../hover-styles.module.css';
-import { type BaseTableRowItem } from '@/types/pack-types';
-import { useEditPackItemMutation } from '@/queries/pack-queries';
+import { type InputEvent } from '@/types/form-types';
 import { usePermissions } from '@/hooks/auth/use-permissions';
-import { isPackItem } from '@/types/pack-types';
-import { requiredUrlSchema } from '@/schemas/common-schemas';
+import { normalizeURL } from '@/utils/link-utils';
 import { useFieldState } from '@/hooks/form/use-field-state';
+import { requiredUrlSchema } from '@/schemas/common-schemas';
 
 const validatePackItemUrl = (url: string) => {
 	if (!url.trim()) return false;
@@ -20,71 +18,48 @@ const validatePackItemUrl = (url: string) => {
 };
 
 type LinkPopupProps = {
-	packItem: BaseTableRowItem;
+	packItemUrl?: string;
+	onChange: (e: InputEvent) => void;
 };
 
 export const LinkPopup = (props: LinkPopupProps) => {
 	const { isCreator } = usePermissions();
-
-	const { mutate: editPackItem, isSuccess, isPending, reset } = useEditPackItemMutation();
-
-	const { packItem } = props;
-	const { packItemUrl } = packItem || {};
+	const { packItemUrl, onChange } = props;
 
 	const {
 		value: newPackItemUrl,
 		validationError,
-		apiError,
 		handleChange,
 		validate,
-		setApiErrorFromResponse,
 		setValue,
-		clearErrors,
 	} = useFieldState({
 		initialValue: packItemUrl || '',
 		validator: validatePackItemUrl,
-		resetOnSuccess: reset,
 	});
+
 
 	const handleSaveLink = () => {
 		const isValid = validate(newPackItemUrl);
-
-		if (isValid && newPackItemUrl !== packItemUrl && packItem && packItem.packItemId) {
+		if (isValid && newPackItemUrl !== packItemUrl) {
 			const cleanUrl = normalizeURL(newPackItemUrl);
-			if (isPackItem(packItem)) {
-				editPackItem(
-					{
-						packItemId: packItem.packItemId,
-						packItem: { ...packItem, packItemUrl: cleanUrl },
-					},
-					{
-						onError: (error) => {
-							setApiErrorFromResponse(error);
-						},
-					},
-				);
-			}
+			const event = {
+				target: { name: 'packItemUrl', value: cleanUrl },
+			} as InputEvent;
+			onChange(event);
 		}
 	};
 
 	const handleDeleteLink = () => {
-		if (packItem && isPackItem(packItem)) {
-			editPackItem({
-				packItemId: packItem.packItemId,
-				packItem: { ...packItem, packItemUrl: '' },
-			});
-			setValue('');
-			clearErrors();
-			reset();
-		}
+		const event = {
+			target: { name: 'packItemUrl', value: '' },
+		} as InputEvent;
+		onChange(event);
+		setValue('');
 	};
 
+	const hasUrl = !!(packItemUrl && packItemUrl.trim() && packItemUrl !== 'null');
+
 	if (!isCreator) return null;
-
-	// Show validation/API error in TextField error (keeps UI minimal for popup)
-	const displayError = validationError || apiError;
-
-	const hasUrl = !!(packItemUrl || (isSuccess && newPackItemUrl.trim()));
 
 	return (
 		<Popover.Root>
@@ -111,22 +86,22 @@ export const LinkPopup = (props: LinkPopupProps) => {
 							value={newPackItemUrl}
 							onChange={handleChange}
 							placeholder="Item link"
-							error={displayError}
+							error={validationError}
 							collapsibleError
 						/>
 					</div>
 
 					<Button
 						onClick={handleSaveLink}
-						disabled={!newPackItemUrl.trim() || isPending}
-						iconLeft={isSuccess ? <CheckIcon /> : <SaveIcon />}>
-						{isSuccess ? 'Saved' : 'Save'}
+						disabled={!newPackItemUrl.trim()}
+						iconLeft={<SaveIcon />}>
+						Save
 					</Button>
 					{hasUrl && (
 						<Button
 							color="danger"
 							onClick={handleDeleteLink}
-							disabled={isPending}
+							disabled={!packItemUrl?.trim()}
 							iconLeft={<TrashIcon />}
 							className={styles.deleteButton}
 						/>

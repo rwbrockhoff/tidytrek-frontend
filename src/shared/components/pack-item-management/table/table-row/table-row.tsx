@@ -65,6 +65,7 @@ export const TableRow = (props: TableRowProps) => {
 	const { toggleGearButtons, handleToggleGearButtons } = useTableRowModal();
 
 	const availablePacks = props?.packList || [];
+	const canMoveToCloset = context === TableRowContext.PACK;
 
 	return (
 		<DraggableTableRow
@@ -99,7 +100,7 @@ export const TableRow = (props: TableRowProps) => {
 							availablePacks={availablePacks}
 							open={toggleGearButtons && !isDragging}
 							onOpenChange={handleToggleGearButtons}
-							onMoveToCloset={handleMoveToCloset}
+							onMoveToCloset={canMoveToCloset ? handleMoveToCloset : undefined}
 						/>
 					)}
 

@@ -56,4 +56,6 @@ export {
 	Settings as SettingsIcon,
 	WifiOff as WifiOffIcon,
 	Palette as PaletteIcon,
+	UserPlus as UserFollowIcon,
+	UserCheck as UserFollowingIcon,
 } from 'lucide-react';

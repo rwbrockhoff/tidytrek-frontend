@@ -71,7 +71,10 @@ export const useLoginMutation = (): SimpleMutation<LoginUserFormData, LoginRespo
 		retry: false,
 		onSuccess: async () => {
 			authHint.set();
-			await queryClient.refetchQueries({ queryKey: userKeys.all });
+			const authResponse = await tidyTrekAPI
+				.get('/auth/status')
+				.then(extractData<AuthStatusResponse>);
+			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, authResponse);
 		},
 	});
 };
@@ -84,7 +87,10 @@ export const useOAuthLoginMutation = (): SimpleMutation<LoginUser, LoginResponse
 		retry: false,
 		onSuccess: async () => {
 			authHint.set();
-			await queryClient.refetchQueries({ queryKey: userKeys.all });
+			const authResponse = await tidyTrekAPI
+				.get('/auth/status')
+				.then(extractData<AuthStatusResponse>);
+			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, authResponse);
 		},
 	});
 };
@@ -157,20 +163,25 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 	return useMutation({
 		mutationKey: ['logout'],
 		mutationFn: async () => {
-			// clear auth status first to prevent unauthorized requests
-			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
-				isAuthenticated: false,
-				user: null,
-				settings: null,
-			});
-
-			await queryClient.cancelQueries();
 			await tidyTrekAPI.post('/auth/logout').then(extractData<void>);
 			await supabase.auth.signOut();
 		},
 		onSuccess: () => {
 			authHint.delete();
-			queryClient.clear();
+			// Set user data to null (logout state)
+			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
+				isAuthenticated: false,
+				user: null,
+				settings: null,
+			});
+			// Clear user-based cached data
+			queryClient.removeQueries({
+				predicate: (query) => {
+					const queryKey = query.queryKey[0];
+					// Keep only guest and auth queries, clear all user-specific data
+					return queryKey !== 'User' && queryKey !== 'Guest';
+				},
+			});
 		},
 	});
 };
@@ -183,7 +194,12 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 		},
 		onSuccess: () => {
 			authHint.delete();
-			queryClient.clear();
+			// Set user data to null (logged out state)
+			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
+				isAuthenticated: false,
+				user: null,
+				settings: null,
+			});
 		},
 	});
 };

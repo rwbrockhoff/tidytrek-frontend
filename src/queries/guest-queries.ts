@@ -20,11 +20,12 @@ export type GuestProfileViewState = BaseProfileState & {
 	notFound?: boolean;
 	isPrivate?: boolean;
 	hasError?: boolean;
+	isFollowing?: boolean;
 };
 
 // Type check util if data is from guest profile query
 const hasGuestProfileProperties = (obj: object): obj is GuestProfileViewState => {
-	return 'notFound' in obj || 'isPrivate' in obj || 'hasError' in obj;
+	return 'notFound' in obj || 'isPrivate' in obj || 'hasError' in obj || 'isFollowing' in obj;
 };
 
 export const isGuestProfileData = (data: unknown): data is GuestProfileViewState => {

@@ -2,6 +2,8 @@ import React, { forwardRef } from 'react';
 import { Dialog } from 'radix-ui';
 import { cn } from '@/styles/utils';
 import styles from './modal.module.css';
+import { Button } from '../button/button';
+import { CloseIcon } from '@/components/icons';
 
 export interface ModalProps {
 	open: boolean;
@@ -13,6 +15,7 @@ export interface ModalOverlayProps extends React.ComponentProps<typeof Dialog.Ov
 
 export interface ModalContentProps extends React.ComponentProps<typeof Dialog.Content> {
 	size?: 'sm' | 'md' | 'lg' | 'xl';
+	showCloseButton?: boolean;
 }
 
 export interface ModalTitleProps extends React.ComponentProps<typeof Dialog.Title> {
@@ -25,6 +28,7 @@ export interface ModalDescriptionProps extends React.ComponentProps<typeof Dialo
 
 export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
+	showCloseButton?: boolean;
 }
 
 export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -37,7 +41,7 @@ export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Root: React.FC<ModalProps> = ({ open, onOpenChange, children }) => {
 	return (
-		<Dialog.Root open={open} onOpenChange={onOpenChange}>
+		<Dialog.Root open={open} onOpenChange={onOpenChange} modal={true}>
 			{children}
 		</Dialog.Root>
 	);
@@ -59,21 +63,20 @@ const Content = forwardRef<React.ElementRef<typeof Dialog.Content>, ModalContent
 	({ className, size = 'md', children, ...props }, ref) => {
 		return (
 			<Dialog.Portal>
-				<Overlay />
+				<Dialog.Overlay className={styles.overlay} />
 				<Dialog.Content
 					ref={ref}
 					className={cn(
-						styles.modal,
+						styles.content,
 						size === 'sm' && styles.modalSm,
 						size === 'md' && styles.modalMd,
 						size === 'lg' && styles.modalLg,
 						size === 'xl' && styles.modalXl,
+						className
 					)}
 					{...props}
 				>
-					<div className={cn(styles.content, className)}>
-						{children}
-					</div>
+					{children}
 				</Dialog.Content>
 			</Dialog.Portal>
 		);
@@ -107,9 +110,21 @@ const Description = forwardRef<React.ElementRef<typeof Dialog.Description>, Moda
 Description.displayName = 'ModalDescription';
 
 const Header = forwardRef<HTMLDivElement, ModalHeaderProps>(
-	({ className, children, ...props }, ref) => {
+	({ className, children, showCloseButton = true, ...props }, ref) => {
 		return (
 			<div ref={ref} className={cn(styles.header, className)} {...props}>
+				{showCloseButton && (
+					<Dialog.Close asChild>
+						<Button
+							variant="ghost"
+							color="tertiary"
+							size="sm"
+							className={styles.closeButton}
+							aria-label="Close modal">
+							<CloseIcon />
+						</Button>
+					</Dialog.Close>
+				)}
 				{children}
 			</div>
 		);

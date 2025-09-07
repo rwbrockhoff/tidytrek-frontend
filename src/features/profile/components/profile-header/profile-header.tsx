@@ -14,17 +14,21 @@ import {
 import { usePermissions } from '@/hooks/auth/use-permissions';
 import { BannerPhoto } from '../banner-photo/banner-photo';
 import { ProfileOptionsMenu } from '../profile-options-menu';
+import { FollowButton } from '../follow-button/follow-button';
+import { FollowStats } from '../follow-stats/follow-stats';
 
 type ProfileHeaderProps = {
 	userProfile: UserProfile | null;
+	userId?: string;
 	notFound?: boolean;
 	isPrivate?: boolean;
 	hasError?: boolean;
+	isFollowing?: boolean;
 };
 
 export const ProfileHeader = (props: ProfileHeaderProps) => {
-	const { isCreator } = usePermissions();
-	const { userProfile, notFound, isPrivate, hasError } = props;
+	const { isCreator, isAuthenticated } = usePermissions();
+	const { userProfile, userId, notFound, isPrivate, hasError, isFollowing } = props;
 
 	// Error message to display in Profile Header UI
 	const getStatusMessage = () => {
@@ -74,57 +78,82 @@ export const ProfileHeader = (props: ProfileHeaderProps) => {
 				onUpload={uploadBannerPhoto}
 			/>
 
-			<div className={cn(styles.avatarContainer, 'left-10')}>
-				<Avatar
-					withBorder
-					uploadEnabled={isCreator}
-					src={profilePhotoUrl}
-					size="lg"
-					isPending={isPendingProfilePhoto}
-					onUpload={uploadProfilePhoto}
-				/>
-			</div>
 			<div className={cn(styles.profileInfoContainer, 'px-8 py-6')}>
 				{isCreator && (
 					<div className={cn(styles.optionsMenu)}>
 						<ProfileOptionsMenu username={username} />
 					</div>
 				)}
-				<Stack
-					className={cn(
-						styles.profileTextContainer,
-						'justify-center mx-4 md:mx-0 gap-3 max-w-3xl',
-					)}>
-					<Heading as="h3" className={cn(styles.usernameHeader)}>
-						{username || firstName}
-						{trailName && <span className={styles.trailName}>({trailName})</span>}
-					</Heading>
 
-					<Flex className="flex-wrap items-center gap-4 md:gap-3">
-						{userLocation && (
-							<Text className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
-								<LocationIcon /> {userLocation}
+				<Flex className="gap-8 flex-col md:flex-row">
+					{/* Left Panel - Avatar & Follow Button (Desktop only) */}
+					<div className={styles.leftPanel}>
+						<div className={styles.avatarContainer}>
+							<Avatar
+								withBorder
+								uploadEnabled={isCreator}
+								src={profilePhotoUrl}
+								size="lg"
+								isPending={isPendingProfilePhoto}
+								onUpload={uploadProfilePhoto}
+							/>
+						</div>
+						{!isCreator && isAuthenticated && userId && (
+							<div className={cn(styles.followButtonContainer, 'hidden md:flex')}>
+								<FollowButton username={userId} isFollowing={isFollowing ?? false} />
+							</div>
+						)}
+					</div>
+
+					{/* Right Panel - Profile Content */}
+					<Stack className={cn(styles.rightPanel, 'justify-center gap-2 max-w-3xl')}>
+						{/* Profile Header Section */}
+						<Stack className="gap-1">
+							<Heading as="h3" className={cn(styles.usernameHeader)}>
+								{username || firstName}
+								{trailName && <span className={styles.trailName}>({trailName})</span>}
+							</Heading>
+
+							{/* Follow Button (Mobile only) */}
+							{!isCreator && isAuthenticated && userId && (
+								<div className="flex md:hidden justify-start my-4">
+									<FollowButton username={userId} isFollowing={isFollowing ?? false} />
+								</div>
+							)}
+
+							{/* Follow Stats */}
+							{isCreator && <FollowStats />}
+
+							<Flex className="flex-wrap items-center gap-4 md:gap-3">
+								{userLocation && (
+									<Text
+										className={cn(styles.locationText, 'inline-flex items-center gap-1')}>
+										<LocationIcon /> {userLocation}
+									</Text>
+								)}
+
+								{hasSocialLinks && (
+									<SocialLinkList
+										socialLinks={socialLinks || []}
+										deleteEnabled={false}
+										colorButton={true}
+									/>
+								)}
+							</Flex>
+						</Stack>
+
+						{statusMessage ? (
+							<Box className={cn(mx.textCenter)}>
+								<Heading size="4">{statusMessage.title}</Heading>
+								<Text color="gray">{statusMessage.subtitle}</Text>
+							</Box>
+						) : (
+							<Text size="2" className={styles.userBio}>
+								{userBio}
 							</Text>
 						)}
-
-						{hasSocialLinks && (
-							<SocialLinkList
-								socialLinks={socialLinks || []}
-								deleteEnabled={false}
-								colorButton={true}
-							/>
-						)}
-					</Flex>
-
-					{statusMessage ? (
-						<Box className={cn(mx.textCenter)}>
-							<Heading size="4">{statusMessage.title}</Heading>
-							<Text color="gray">{statusMessage.subtitle}</Text>
-						</Box>
-					) : (
-						<Text size="2">{userBio}</Text>
-					)}
-				</Stack>
+					</Stack>
+				</Flex>
 			</div>
 		</Box>
 	);

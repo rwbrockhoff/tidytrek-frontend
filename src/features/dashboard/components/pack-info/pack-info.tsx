@@ -22,6 +22,7 @@ import { AffiliateMessage } from './affiliate-message';
 import { PackOptionsMenu } from './pack-options-menu';
 import { PackVisibilityStatus } from './pack-visibility-status';
 import { PackBookmarkButton } from './pack-bookmark-button/pack-bookmark-button';
+import { usePermissions } from '@/hooks/auth/use-permissions';
 
 type PackInfoProps = {
 	currentPack: Pack;
@@ -35,6 +36,7 @@ export const PackInfo = (props: PackInfoProps) => {
 	const { canEdit } = useDashboardView();
 	const { isMobile } = useScreen();
 	const { packId: paramPackId } = useParams();
+	const { isAuthenticated } = usePermissions();
 
 	const { fetching, currentPack, packCategories, userProfile, settings } = props;
 	const { profileInfo, socialLinks } = userProfile || {};
@@ -90,7 +92,7 @@ export const PackInfo = (props: PackInfoProps) => {
 							<PackOptionsMenu pack={currentPack} packId={paramPackId} />
 						</div>
 					) : (
-						<PackBookmarkButton pack={currentPack} />
+						isAuthenticated && <PackBookmarkButton pack={currentPack} />
 					)}
 				</Flex>
 
