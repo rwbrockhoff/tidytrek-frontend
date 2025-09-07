@@ -25,17 +25,19 @@ export const SubscriptionPaymentModal = ({
 	const handlePaymentMethodReady = (paymentMethodId: string) => {
 		createSubscription(
 			{
-				priceId: 'price_1234', // TODO: Get actual price ID
-				paymentMethodId,
+				stripePriceId: import.meta.env.VITE_STRIPE_PRICE_PRO_MONTHLY_ID!,
+				stripePaymentMethodId: paymentMethodId,
 			},
 			{
-				onSuccess: () => onClose(),
+				onSuccess: () => {
+					setIsProcessingPayment(false);
+					onClose();
+				},
 				onError: () => {
 					setIsProcessingPayment(false);
 				},
 			},
 		);
-		setIsProcessingPayment(false);
 	};
 
 	const handleUpgrade = () => {
@@ -56,6 +58,7 @@ export const SubscriptionPaymentModal = ({
 					<Stack className="gap-4">
 						<StripePaymentForm
 							onPaymentMethodReady={handlePaymentMethodReady}
+							onError={() => setIsProcessingPayment(false)}
 							isProcessing={isProcessingPayment}
 						/>
 

@@ -1,11 +1,12 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Stack } from '@/components/layout';
 import { Alert } from '@/components/alpine';
 import styles from './stripe-payment-form.module.css';
 
 type StripePaymentFormProps = {
 	onPaymentMethodReady: (paymentMethodId: string) => void;
+	onError?: () => void;
 	isProcessing: boolean;
 };
 
@@ -26,6 +27,7 @@ const cardElementOptions = {
 
 export const StripePaymentForm = ({
 	onPaymentMethodReady,
+	onError,
 	isProcessing,
 }: StripePaymentFormProps) => {
 	const stripe = useStripe();
@@ -35,12 +37,14 @@ export const StripePaymentForm = ({
 	const handleSubmit = async () => {
 		if (!stripe || !elements) {
 			setError('Payment system not ready');
+			onError?.();
 			return;
 		}
 
 		const cardElement = elements.getElement(CardElement);
 		if (!cardElement) {
 			setError('Card element not found');
+			onError?.();
 			return;
 		}
 
@@ -53,6 +57,7 @@ export const StripePaymentForm = ({
 
 		if (stripeError) {
 			setError(stripeError.message || 'Payment method creation failed');
+			onError?.();
 			return;
 		}
 
@@ -62,9 +67,13 @@ export const StripePaymentForm = ({
 	};
 
 	// Submit payment when user clicks upgrade button
-	if (isProcessing && !error) {
-		handleSubmit();
-	}
+	useEffect(() => {
+		if (isProcessing) {
+			setError(null);
+			handleSubmit();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isProcessing]);
 
 	return (
 		<Stack className="gap-4">
