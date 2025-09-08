@@ -61,9 +61,7 @@ export const useCancelSubscriptionMutation = () => {
 
 	return useMutation({
 		mutationFn: async (data: CancelSubscriptionRequest) => {
-			const response = await tidyTrekAPI
-				.delete('/subscription', { data })
-				.then(extractData);
+			const response = await tidyTrekAPI.put('/subscription', { data }).then(extractData);
 			return response;
 		},
 		onSuccess: () => {
