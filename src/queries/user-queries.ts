@@ -17,6 +17,7 @@ import { authHint } from '../utils/auth-hint';
 
 export type AuthStatusResponse = {
 	isAuthenticated: boolean;
+	subscriptionStatus: boolean;
 	user: User | null;
 	settings: Settings | null;
 };
@@ -171,6 +172,7 @@ export const useLogoutMutation = (): SimpleMutation<void, void> => {
 			// Set user data to null (logout state)
 			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
 				isAuthenticated: false,
+				subscriptionStatus: false,
 				user: null,
 				settings: null,
 			});
@@ -197,6 +199,7 @@ export const useDeleteAccountMutation = (): SimpleMutation<void, void> => {
 			// Set user data to null (logged out state)
 			queryClient.setQueryData<AuthStatusResponse>(userKeys.all, {
 				isAuthenticated: false,
+				subscriptionStatus: false,
 				user: null,
 				settings: null,
 			});

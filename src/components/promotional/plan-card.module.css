@@ -1,0 +1,5 @@
+.planCard {
+	border: 1px solid var(--color-border-secondary);
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-secondary);
+}

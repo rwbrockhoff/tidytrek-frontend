@@ -42,6 +42,7 @@ export const createMockAuthResponse = (
 	overrides?: Partial<AuthStatusResponse>,
 ): AuthStatusResponse => ({
 	isAuthenticated: true,
+	subscriptionStatus: false,
 	user: createMockUser(),
 	settings: createMockSettings(),
 	...overrides,

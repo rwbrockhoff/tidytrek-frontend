@@ -27,6 +27,7 @@ export const wrapper = ({ children }: PropsWithChildren) => {
 const mockAuthValue: AuthContextValue = {
 	isLoading: false,
 	isAuthenticated: true,
+	subscriptionStatus: false,
 	user: createMockUser(),
 	settings: createMockSettings(),
 };

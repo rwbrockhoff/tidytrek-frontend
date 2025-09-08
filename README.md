@@ -17,6 +17,7 @@ React frontend for managing backpacking gear with drag-and-drop pack organizatio
 **UI**: Radix UI (migrating from Radix Themes), CSS Modules, dnd-kit  
 **Data**: Chart.js for weight visualization  
 **Auth**: Supabase with Google OAuth  
+**Payments**: Stripe subscription management (Pro/Free tiers)  
 **Testing**: Vitest (unit) + Playwright (e2e)  
 **Deployment**: AWS S3 + CloudFront, GitHub Actions CI/CD
 
