@@ -4,8 +4,8 @@ import { Stack } from '@/components/layout';
 import { useSubscriptionDetails } from '@/hooks/auth/use-subscription-details';
 import { useSubscriptionActions } from '../hooks/use-subscription-actions';
 import { formatDate } from '@/utils/format-date';
-import { SubscriptionStatusDisplay } from '../components/subscription-status-display';
-import { SubscriptionActions } from '../components/subscription-actions';
+import { SubscriptionStatusDisplay } from '../subscription-states/subscription-status-display';
+import { SubscriptionActions } from '../subscription-states/subscription-actions';
 
 type ManageSubscriptionModalProps = {
 	isOpen: boolean;
