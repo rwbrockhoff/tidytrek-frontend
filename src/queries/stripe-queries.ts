@@ -72,3 +72,21 @@ export const useCancelSubscriptionMutation = () => {
 		},
 	});
 };
+
+export const useReactivateSubscriptionMutation = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (data: { subscriptionId: number }) => {
+			const response = await tidyTrekAPI
+				.put('/subscription/reactivate', { subscription_id: data.subscriptionId })
+				.then(extractData);
+			return response;
+		},
+
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['subscription'] });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
+		},
+	});
+};
