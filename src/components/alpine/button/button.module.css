@@ -274,3 +274,20 @@
 	border-top-color: var(--color-constant-white);
 }
 
+/* Outline button spinner colors */
+.buttonOutline.buttonColorDanger .spinner {
+	border-top-color: var(--color-error);
+}
+
+.buttonOutline.buttonColorInfo .spinner {
+	border-top-color: var(--color-info);
+}
+
+.buttonOutline.buttonColorPrimary .spinner {
+	border-top-color: var(--color-primary-text);
+}
+
+.buttonOutline.buttonCustomColor .spinner {
+	border-top-color: var(--button-custom-color);
+}
+

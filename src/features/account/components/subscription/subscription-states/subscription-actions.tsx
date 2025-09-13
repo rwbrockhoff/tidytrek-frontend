@@ -17,9 +17,7 @@ export const SubscriptionActions = ({
 	onSuccess,
 }: SubscriptionActionsProps) => {
 	const {
-		handleCancel,
 		handleReactivate,
-		isCancelPending,
 		isReactivatePending,
 		isLoading,
 	} = useSubscriptionActions(subscriptionId, onSuccess);
@@ -29,17 +27,6 @@ export const SubscriptionActions = ({
 			<Button variant="outline" color="tertiary" onClick={onClose} disabled={isLoading}>
 				Close
 			</Button>
-
-			{isPaidSubscription && !cancelAtPeriodEnd && (
-				<Button
-					variant="outline"
-					color="danger"
-					onClick={handleCancel}
-					loading={isCancelPending}
-					disabled={isLoading}>
-					Cancel Subscription
-				</Button>
-			)}
 
 			{isPaidSubscription && cancelAtPeriodEnd && (
 				<Button
