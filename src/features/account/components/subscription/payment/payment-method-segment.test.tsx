@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PaymentMethodSegment } from '../payment-method-segment';
+import { PaymentMethodSegment } from './payment-method-segment';
 import { useSubscriptionDetails } from '@/hooks/auth/use-subscription-details';
 import { wrappedRender } from '@/tests/wrapper-utils';
 
@@ -11,7 +11,7 @@ vi.mock('@/hooks/auth/use-subscription-details', () => ({
 }));
 
 // Mock bare bones modal for testing interactions
-vi.mock('../edit-payment-method-modal', () => ({
+vi.mock('./edit-payment-method-modal', () => ({
 	EditPaymentMethodModal: ({ isOpen, onClose, onSuccess }: any) => (
 		<div data-testid="edit-payment-modal">
 			{isOpen && (
