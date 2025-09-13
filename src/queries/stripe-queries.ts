@@ -90,3 +90,20 @@ export const useReactivateSubscriptionMutation = () => {
 		},
 	});
 };
+
+export const useRestartSubscriptionMutation = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (
+			data: CreateSubscriptionRequest,
+		): Promise<CreateSubscriptionResponse> => {
+			const response = await tidyTrekAPI.post('/subscription/restart', data);
+			return response.data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['subscription'] });
+			queryClient.invalidateQueries({ queryKey: userKeys.all });
+		},
+	});
+};
