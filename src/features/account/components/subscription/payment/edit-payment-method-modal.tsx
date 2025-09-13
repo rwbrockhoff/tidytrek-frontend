@@ -56,20 +56,26 @@ export const EditPaymentMethodModal = ({
 			<Modal.Content size="md">
 				<Modal.Header>
 					<Modal.Title>Update Payment Method</Modal.Title>
-					<Modal.Description>
-						Update your payment information for your Pro subscription
-					</Modal.Description>
+					<Modal.Description>Update your payment information</Modal.Description>
 				</Modal.Header>
 
 				<Modal.Body>
-					<Stack className="gap-4">
+					<Stack className="gap-8">
 						{isPaidSubscription && subscription && !subscription.cancelAtPeriodEnd && (
-							<Flex className={`gap-2 items-center ${styles.billingDate} mb-4`}>
-								<CreditCard />
-								<span className={styles.billingDate}>
-									Next billing date: {formatDate(subscription.currentPeriodEnd!)}
-								</span>
-							</Flex>
+							<Stack className="gap-3">
+								<Flex className={`gap-2 items-center ${styles.billingDate}`}>
+									<CreditCard />
+									<span className={styles.billingDate}>
+										Next billing date: {formatDate(subscription.currentPeriodEnd!)}
+									</span>
+								</Flex>
+								{subscription.paymentMethod?.last4 && (
+									<p>
+										Current Payment Method: •••• •••• ••••{' '}
+										{subscription.paymentMethod.last4}
+									</p>
+								)}
+							</Stack>
 						)}
 
 						<StripePaymentForm

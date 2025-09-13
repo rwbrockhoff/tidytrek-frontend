@@ -9,6 +9,11 @@ export type CreateSubscriptionResponse = {
 	status: 'succeeded' | 'requires_payment_method' | 'requires_action';
 };
 
+export type PaymentMethod = {
+	brand?: string;
+	last4?: string;
+};
+
 export type SubscriptionDetails = {
 	status: 'active' | 'canceled' | 'past_due' | 'unpaid' | 'incomplete' | 'none';
 	subscriptionId?: number;
@@ -17,6 +22,7 @@ export type SubscriptionDetails = {
 	currentPeriodEnd?: Date;
 	cancelAtPeriodEnd?: boolean;
 	canceledAt?: Date | null;
+	paymentMethod?: PaymentMethod | null;
 };
 
 export type SubscriptionResponse = {

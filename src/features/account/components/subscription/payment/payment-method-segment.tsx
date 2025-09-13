@@ -9,11 +9,16 @@ import { useState } from 'react';
 import { useSubscriptionDetails } from '@/hooks/auth/use-subscription-details';
 
 export const PaymentMethodSegment = () => {
-	const { isPaidSubscription } = useSubscriptionDetails();
+	const { isPaidSubscription, subscription } = useSubscriptionDetails();
 	const [isEditPaymentModalOpen, setIsEditPaymentModalOpen] = useState(false);
 	const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
 	if (!isPaidSubscription) return null;
+
+	const paymentMethod = subscription?.paymentMethod;
+	const subscriptionCardInfo = paymentMethod?.last4
+		? `•••• •••• •••• ${paymentMethod.last4}`
+		: '•••• •••• •••• ••••';
 
 	return (
 		<Segment>
@@ -24,7 +29,7 @@ export const PaymentMethodSegment = () => {
 			<Stack className="gap-3">
 				<Flex align="center" gap="4">
 					<CreditCard size={20} />
-					<Text size="2">•••• •••• •••• ••••</Text>
+					<Text size="2">{subscriptionCardInfo}</Text>
 					<Button
 						variant="ghost"
 						size="sm"

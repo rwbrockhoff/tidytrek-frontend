@@ -35,6 +35,10 @@ const mockSubscription = {
 	currentPeriodEnd: new Date('2025-02-01'),
 	cancelAtPeriodEnd: false,
 	canceledAt: null,
+	paymentMethod: {
+		brand: 'visa',
+		last4: '1234',
+	},
 };
 
 describe('PaymentMethodSegment', () => {
@@ -111,4 +115,36 @@ describe('PaymentMethodSegment', () => {
 		expect(screen.getByText('Payment method updated successfully.')).toBeInTheDocument();
 	});
 
+	it('displays actual payment method when available', () => {
+		mockUseSubscriptionDetails.mockReturnValue({
+			isPaidSubscription: true,
+			isSubscribed: true,
+			isComplimentary: false,
+			subscription: mockSubscription,
+			isLoading: false,
+		});
+
+		wrappedRender(<PaymentMethodSegment />);
+
+		expect(screen.getByText('•••• •••• •••• 1234')).toBeInTheDocument();
+	});
+
+	it('displays placeholder dots when no payment method available', () => {
+		const subscriptionWithoutPaymentMethod = {
+			...mockSubscription,
+			paymentMethod: null,
+		};
+
+		mockUseSubscriptionDetails.mockReturnValue({
+			isPaidSubscription: true,
+			isSubscribed: true,
+			isComplimentary: false,
+			subscription: subscriptionWithoutPaymentMethod,
+			isLoading: false,
+		});
+
+		wrappedRender(<PaymentMethodSegment />);
+
+		expect(screen.getByText('•••• •••• •••• ••••')).toBeInTheDocument();
+	});
 });
