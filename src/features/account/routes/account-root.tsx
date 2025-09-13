@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import { AccountMenu } from '../components';
 import { PageLayout } from '@/layout/layouts/page-layout/page-layout';
-import { AccountFallback } from '../components/account-fallback';
+import { AccountFallback } from '../components/shared/account-fallback';
 import { StripeProvider } from '@/providers/stripe-provider';
 
 export const AccountRoot = () => {

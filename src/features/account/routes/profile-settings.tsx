@@ -6,7 +6,7 @@ import { ProfileFormFields } from '../components/profile-management/profile-form
 import { ProfilePalette } from '../components/profile-management/profile-palette-section';
 import { useGetProfileSettingsQuery } from '@/queries/profile-settings-queries';
 import { useProfileForm } from '../hooks/use-profile-form';
-import { AccountSkeleton } from '../components/account-skeleton';
+import { AccountSkeleton } from '../components/shared/account-skeleton';
 
 export const ProfileSettings = () => {
 	const { data, isLoading } = useGetProfileSettingsQuery();

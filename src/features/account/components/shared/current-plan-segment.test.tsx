@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { CurrentPlanSegment } from '../current-plan-segment';
+import { CurrentPlanSegment } from './current-plan-segment';
 import { useSubscriptionDetails } from '@/hooks/auth/use-subscription-details';
 
 vi.mock('@/hooks/auth/use-subscription-details', () => ({
@@ -69,12 +69,16 @@ describe('CurrentPlanSegment', () => {
 			isSubscribed: true,
 			isComplimentary: false,
 			isPaidSubscription: true,
-			subscription: {} as any,
+			subscription: {
+				currentPeriodEnd: new Date('2025-02-01'),
+				status: 'active',
+				cancelAtPeriodEnd: false,
+			} as any,
 			isLoading: false,
 		});
 
 		render(<CurrentPlanSegment />);
 
-		expect(screen.getByTestId('subscription-date-display')).toBeInTheDocument();
+		expect(screen.getByText(/Next billing date:/)).toBeInTheDocument();
 	});
 });
